@@ -10,9 +10,9 @@
 	};
 	07B370680D6840600035E87D /* YLImagePreviewer.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {776, 5928}}";
-			sepNavSelRange = "{272, 31}";
-			sepNavVisRange = "{143, 231}";
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 5920}}";
+			sepNavSelRange = "{281, 6}";
+			sepNavVisRange = "{0, 432}";
 			sepNavWindowFrame = "{{203, 75}, {750, 703}}";
 		};
 	};
@@ -216,14 +216,22 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 237145289;
-			PBXWorkspaceStateSaveDate = 237145289;
+			PBXPerProjectTemplateStateSaveDate = 237147530;
+			PBXWorkspaceStateSaveDate = 237147530;
 		};
 		perUserProjectItems = {
-			5A35CCFD0E228CC100917A38 /* PBXTextBookmark */ = 5A35CCFD0E228CC100917A38 /* PBXTextBookmark */;
-			5A7C521A0E228FB500F65AB0 /* PBXTextBookmark */ = 5A7C521A0E228FB500F65AB0 /* PBXTextBookmark */;
-			5A7C52280E22905A00F65AB0 /* PBXTextBookmark */ = 5A7C52280E22905A00F65AB0 /* PBXTextBookmark */;
-			5A7C52290E22905A00F65AB0 /* PBXTextBookmark */ = 5A7C52290E22905A00F65AB0 /* PBXTextBookmark */;
+			5A35CCFD0E228CC100917A38 = 5A35CCFD0E228CC100917A38 /* PBXTextBookmark */;
+			5A7B3F4C0E22973E006C1466 /* PBXTextBookmark */ = 5A7B3F4C0E22973E006C1466 /* PBXTextBookmark */;
+			5A7B40120E22989D006C1466 /* PBXTextBookmark */ = 5A7B40120E22989D006C1466 /* PBXTextBookmark */;
+			5A7B40130E22989D006C1466 /* PBXTextBookmark */ = 5A7B40130E22989D006C1466 /* PBXTextBookmark */;
+			5A7B40140E22989D006C1466 /* PBXTextBookmark */ = 5A7B40140E22989D006C1466 /* PBXTextBookmark */;
+			5A7B40150E22989D006C1466 /* PBXTextBookmark */ = 5A7B40150E22989D006C1466 /* PBXTextBookmark */;
+			5A7B40270E2298AB006C1466 /* PBXTextBookmark */ = 5A7B40270E2298AB006C1466 /* PBXTextBookmark */;
+			5A7B40280E2298AB006C1466 /* PBXTextBookmark */ = 5A7B40280E2298AB006C1466 /* PBXTextBookmark */;
+			5A7B40290E2298AB006C1466 /* PBXTextBookmark */ = 5A7B40290E2298AB006C1466 /* PBXTextBookmark */;
+			5A7C521A0E228FB500F65AB0 = 5A7C521A0E228FB500F65AB0 /* PBXTextBookmark */;
+			5A7C52280E22905A00F65AB0 = 5A7C52280E22905A00F65AB0 /* PBXTextBookmark */;
+			5A7C52290E22905A00F65AB0 = 5A7C52290E22905A00F65AB0 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 5A8A748B0D9A6DFF007BEC5C /* Source Control */;
 		userBuildSettings = {
@@ -237,7 +245,7 @@
 			sepNavWindowFrame = "{{268, 42}, {750, 708}}";
 		};
 	};
-	32CA4F630368D1EE00C91783 /* MacBlueTelnet_Prefix.pch */ = {
+	32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {792, 591}}";
 			sepNavSelRange = "{0, 0}";
@@ -379,7 +387,7 @@
 	};
 	5A09016C0DBCDD1600AC08F4 /* YLController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1464, 24776}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1464, 24909}}";
 			sepNavSelRange = "{20289, 0}";
 			sepNavVisRange = "{19313, 1620}";
 			sepNavWindowFrame = "{{389, 81}, {750, 697}}";
@@ -468,9 +476,9 @@
 	};
 	5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {952, 2280}}";
-			sepNavSelRange = "{2467, 0}";
-			sepNavVisRange = "{0, 549}";
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 2481}}";
+			sepNavSelRange = "{121, 6}";
+			sepNavVisRange = "{0, 399}";
 			sepNavWindowFrame = "{{15, 75}, {750, 703}}";
 		};
 	};
@@ -573,6 +581,82 @@
 		modificationTime = 236949180.57392;
 		state = 0;
 	};
+	5A7B3F4C0E22973E006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: PDFKit/PDFDocument.h: No such file or directory";
+		fRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */;
+		rLen = 1;
+		rLoc = 13;
+		rType = 1;
+	};
+	5A7B40120E22989D006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */;
+		name = "YLImagePreviewer.m: 127";
+		rLen = 59;
+		rLoc = 3818;
+		rType = 0;
+		vrLen = 277;
+		vrLoc = 3600;
+	};
+	5A7B40130E22989D006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: PDFKit/PDFView.h: No such file or directory";
+		fRef = 5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */;
+		rLen = 1;
+		rLoc = 8;
+		rType = 1;
+	};
+	5A7B40140E22989D006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */;
+		name = "YLImagePreviewer.m: 127";
+		rLen = 59;
+		rLoc = 3818;
+		rType = 0;
+		vrLen = 277;
+		vrLoc = 3600;
+	};
+	5A7B40150E22989D006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */;
+		name = "GTShowImageFacade.m: 9";
+		rLen = 27;
+		rLoc = 112;
+		rType = 0;
+		vrLen = 130;
+		vrLoc = 45;
+	};
+	5A7B40270E2298AB006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */;
+		name = "YLImagePreviewer.m: 15";
+		rLen = 0;
+		rLoc = 303;
+		rType = 0;
+		vrLen = 855;
+		vrLoc = 0;
+	};
+	5A7B40280E2298AB006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */;
+		name = "YLController.mm: 483";
+		rLen = 0;
+		rLoc = 20289;
+		rType = 0;
+		vrLen = 1620;
+		vrLoc = 19313;
+	};
+	5A7B40290E2298AB006C1466 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		name = "Info.plist: 42";
+		rLen = 4;
+		rLoc = 1086;
+		rType = 0;
+		vrLen = 737;
+		vrLoc = 759;
+	};
 	5A7C521A0E228FB500F65AB0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */;
@@ -660,9 +744,9 @@
 	};
 	5AB1BFE70E18F3260094C370 /* HIDRemoteControlDevice.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1432, 9690}}";
-			sepNavSelRange = "{6826, 0}";
-			sepNavVisRange = "{6488, 689}";
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 9918}}";
+			sepNavSelRange = "{1521, 5}";
+			sepNavVisRange = "{1419, 717}";
 			sepNavWindowFrame = "{{15, 81}, {750, 697}}";
 		};
 	};
@@ -775,14 +859,6 @@
 	6B3128A50DB36757005D6C32 /* Welly.icns */ = {
 		uiCtxt = {
 			sepNavWindowFrame = "{{15, 65}, {750, 708}}";
-		};
-	};
-	81B480D00DB3AF5B001DE87F /* Welly-Info.plist */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {824, 589}}";
-			sepNavSelRange = "{717, 0}";
-			sepNavVisRange = "{0, 727}";
-			sepNavWindowFrame = "{{299, 77}, {750, 701}}";
 		};
 	};
 	85137B320D02192800833909 /* Credits.rtf */ = {

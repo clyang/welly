@@ -21,6 +21,8 @@
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A5A02210DA5FB54000409A2 /* GTShowImageFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */; };
+		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
+		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
 		5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1BDBE0E18F26C0094C370 /* System.framework */; };
 		5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */; };
@@ -33,7 +35,6 @@
 		5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
-		81813EE30E1BFDE900F1A677 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81813EE20E1BFDE900F1A677 /* Quartz.framework */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AA10AB40053009FC710 /* YLTelnet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85145AA00AB40053009FC710 /* YLTelnet.mm */; };
@@ -101,7 +102,7 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		32CA4F630368D1EE00C91783 /* MacBlueTelnet_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacBlueTelnet_Prefix.pch; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Welly_Prefix.pch; sourceTree = "<group>"; };
 		5A09016C0DBCDD1600AC08F4 /* YLController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLController.mm; sourceTree = "<group>"; };
 		5A1969CD0E1D495F00ED377C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -111,6 +112,8 @@
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		5A5A021F0DA5FB54000409A2 /* GTShowImageFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTShowImageFacade.h; sourceTree = "<group>"; };
 		5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTShowImageFacade.m; sourceTree = "<group>"; };
+		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
+		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
 		5AB1BDBE0E18F26C0094C370 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
 		5AB1BFE10E18F3260094C370 /* MultiClickRemoteBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiClickRemoteBehavior.h; sourceTree = "<group>"; };
@@ -132,8 +135,6 @@
 		5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAutoReplyDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		81813EE20E1BFDE900F1A677 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quartz.framework; sourceTree = "<group>"; };
-		81B480D00DB3AF5B001DE87F /* Welly-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Welly-Info.plist"; sourceTree = "<group>"; };
 		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145A9F0AB40053009FC710 /* YLTelnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTelnet.h; sourceTree = "<group>"; };
@@ -199,11 +200,12 @@
 				07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
 				5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */,
-				81813EE30E1BFDE900F1A677 /* Quartz.framework in Frameworks */,
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				5A1969CE0E1D495F00ED377C /* Sparkle.framework in Frameworks */,
 				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
+				5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */,
+				5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +251,8 @@
 		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				81813EE20E1BFDE900F1A677 /* Quartz.framework */,
+				5A7B419A0E229955006C1466 /* PDFKit.framework */,
+				5A7B3F770E2297CD006C1466 /* Quartz.framework */,
 				5AB1C0030E18F3870094C370 /* CoreData.framework */,
 				5AB1BDBE0E18F26C0094C370 /* System.framework */,
 				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
@@ -273,7 +276,6 @@
 		29B97314FDCFA39411CA2CEA /* MacBlueTelnet */ = {
 			isa = PBXGroup;
 			children = (
-				81B480D00DB3AF5B001DE87F /* Welly-Info.plist */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -286,7 +288,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				32CA4F630368D1EE00C91783 /* MacBlueTelnet_Prefix.pch */,
+				32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -598,6 +600,8 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
+					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
+					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -625,6 +629,8 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
+					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
+					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
