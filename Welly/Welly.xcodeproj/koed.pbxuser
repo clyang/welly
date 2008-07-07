@@ -216,12 +216,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 237128530;
-			PBXWorkspaceStateSaveDate = 237128530;
+			PBXPerProjectTemplateStateSaveDate = 237145069;
+			PBXWorkspaceStateSaveDate = 237145069;
 		};
 		perUserProjectItems = {
-			5A0E7DC30E224BD800CD5BE0 /* PBXTextBookmark */ = 5A0E7DC30E224BD800CD5BE0 /* PBXTextBookmark */;
-			5A0E7DC40E224BD800CD5BE0 /* PBXTextBookmark */ = 5A0E7DC40E224BD800CD5BE0 /* PBXTextBookmark */;
+			5A0E7DC30E224BD800CD5BE0 = 5A0E7DC30E224BD800CD5BE0 /* PBXTextBookmark */;
+			5A0E7DC40E224BD800CD5BE0 = 5A0E7DC40E224BD800CD5BE0 /* PBXTextBookmark */;
+			5A35CCFB0E228C1F00917A38 /* PBXTextBookmark */ = 5A35CCFB0E228C1F00917A38 /* PBXTextBookmark */;
+			5A35CCFC0E228C1F00917A38 /* PBXTextBookmark */ = 5A35CCFC0E228C1F00917A38 /* PBXTextBookmark */;
 			5A7AD8A50E224B3E00F539A4 = 5A7AD8A50E224B3E00F539A4 /* PBXTextBookmark */;
 			5A7AD8A60E224B3E00F539A4 = 5A7AD8A60E224B3E00F539A4 /* PBXTextBookmark */;
 			5A940D820E22487100E77E82 = 5A940D820E22487100E77E82 /* PBXTextBookmark */;
@@ -381,7 +383,7 @@
 	};
 	5A09016C0DBCDD1600AC08F4 /* YLController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1464, 24795}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1464, 24928}}";
 			sepNavSelRange = "{19729, 0}";
 			sepNavVisRange = "{19313, 1576}";
 			sepNavWindowFrame = "{{389, 81}, {750, 697}}";
@@ -453,6 +455,26 @@
 		lineNumber = 156;
 		modificationTime = 236949181.871813;
 		state = 0;
+	};
+	5A35CCFB0E228C1F00917A38 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8D1107310486CEB800E47090 /* Info.plist */;
+		name = "Info.plist: 42";
+		rLen = 4;
+		rLoc = 1086;
+		rType = 0;
+		vrLen = 737;
+		vrLoc = 759;
+	};
+	5A35CCFC0E228C1F00917A38 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */;
+		name = "YLController.mm: 469";
+		rLen = 0;
+		rLoc = 19729;
+		rType = 0;
+		vrLen = 1576;
+		vrLoc = 19313;
 	};
 	5A3882130E1D45530098FA04 /* YLApplication.mm:18 */ = {
 		isa = PBXFileBreakpoint;
@@ -638,7 +660,7 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
-			repositoryName = "";
+			repositoryName = "Welly@googlecode.com";
 		};
 	};
 	5A8A748C0D9A6DFF007BEC5C /* Code sense */ = {
