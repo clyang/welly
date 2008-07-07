@@ -471,14 +471,17 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void) confirmReconnect:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
-		[[[(id)contextInfo identifier] terminal] resetMessageCount];
+		[[_telnetView frontMostTerminal] resetMessageCount];
 		[[_telnetView frontMostConnection] reconnect];
     }
 }
 
 - (IBAction) reconnect: (id) sender {
-	if (![[_telnetView frontMostConnection] connected]) return;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return;
+	if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
+		[[_telnetView frontMostTerminal] resetMessageCount];
+		[[_telnetView frontMostConnection] reconnect];
+		return;
+	}
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
                       NSLocalizedString(@"Confirm", @"Default Button"), 
                       NSLocalizedString(@"Cancel", @"Cancel Button"), 
