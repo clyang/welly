@@ -1,0 +1,684 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07B370690D6840600035E87D /* YLImagePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */; };
+		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
+		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
+		18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* YLGrowlDelegate.m */; };
+		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
+		18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.mm */; };
+		5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */; };
+		5A1969CE0E1D495F00ED377C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
+		5A1969FD0E1D496800ED377C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
+		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
+		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
+		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
+		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
+		5A5A02210DA5FB54000409A2 /* GTShowImageFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */; };
+		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
+		5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1BDBE0E18F26C0094C370 /* System.framework */; };
+		5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */; };
+		5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE50E18F3260094C370 /* RemoteControl.m */; };
+		5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE70E18F3260094C370 /* HIDRemoteControlDevice.m */; };
+		5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEA0E18F3260094C370 /* AppleRemote.m */; };
+		5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */; };
+		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
+		5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1C0030E18F3870094C370 /* CoreData.framework */; };
+		5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */; };
+		5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */; };
+		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
+		81813EE30E1BFDE900F1A677 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81813EE20E1BFDE900F1A677 /* Quartz.framework */; };
+		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
+		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
+		85145AA10AB40053009FC710 /* YLTelnet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85145AA00AB40053009FC710 /* YLTelnet.mm */; };
+		85145AAE0AB40192009FC710 /* YLTerminal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* YLTerminal.mm */; };
+		8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
+		8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
+		856CDB260C9650550025C754 /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 856CDB250C9650550025C754 /* encoding.c */; };
+		8570AD5F0A3923A900838442 /* YLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8570AD5E0A3923A900838442 /* YLView.mm */; };
+		8579CA2A0CF21D3D005A8353 /* YLSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8579CA290CF21D3D005A8353 /* YLSite.m */; };
+		857EAE2A0CF1D62900777C15 /* connect.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE290CF1D62900777C15 /* connect.pdf */; };
+		857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE4E0CF1D89300777C15 /* offline.pdf */; };
+		85834AC30CFE7F530015E348 /* message.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85834AC20CFE7F530015E348 /* message.pdf */; };
+		85834C100CFEC3F30015E348 /* Whit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 85834C0F0CFEC3F30015E348 /* Whit.aiff */; };
+		85899C7B0CEED4E40031907F /* YLApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85899C7A0CEED4E40031907F /* YLApplication.mm */; };
+		858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */; };
+		859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */; };
+		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
+		85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A0E73B0D06B72900ACA26F /* Localizable.strings */; };
+		85AD6FE70D227F1D00992A1C /* DragonBall.icns in Resources */ = {isa = PBXBuildFile; fileRef = 85B247E60CEA1B840090046C /* DragonBall.icns */; };
+		85AE9DA70CB1597A0045317F /* reload.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DA60CB1597A0045317F /* reload.pdf */; };
+		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
+		85CE53390D0D687800F55B7B /* YLSSH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85CE53380D0D687800F55B7B /* YLSSH.mm */; };
+		85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259390D20FD48002BD294 /* libcrypto.dylib */; };
+		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
+		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
+		85EA93230D0791180098C94B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85EA93210D0791180098C94B /* Preferences.nib */; };
+		85ED52290D0920E6003296D4 /* CommonType.c in Sources */ = {isa = PBXBuildFile; fileRef = 85ED52280D0920E6003296D4 /* CommonType.c */; };
+		85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85ED53210D092B5F003296D4 /* YLConnection.mm */; };
+		85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F702660D033FF90035F600 /* DBPrefsWindowController.m */; };
+		85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */; };
+		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8540F7350CEB4435003B17D1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */,
+				5A1969FD0E1D496800ED377C /* Sparkle.framework in CopyFiles */,
+				07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */,
+				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		07B370670D6840600035E87D /* YLImagePreviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImagePreviewer.h; sourceTree = "<group>"; };
+		07B370680D6840600035E87D /* YLImagePreviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLImagePreviewer.m; sourceTree = "<group>"; };
+		07B370790D6840B20035E87D /* HMBlkAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HMBlkAppKit.framework; sourceTree = "<group>"; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		18A685A60D9414D900CA423A /* YLGrowlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGrowlDelegate.h; sourceTree = "<group>"; };
+		18A685A70D9414D900CA423A /* YLGrowlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGrowlDelegate.m; sourceTree = "<group>"; };
+		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
+		18BB9B850D98ECE500387145 /* IPSeeker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSeeker.h; sourceTree = "<group>"; };
+		18BB9B860D98ECE500387145 /* IPSeeker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IPSeeker.mm; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* MacBlueTelnet_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacBlueTelnet_Prefix.pch; sourceTree = "<group>"; };
+		5A09016C0DBCDD1600AC08F4 /* YLController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLController.mm; sourceTree = "<group>"; };
+		5A1969CD0E1D495F00ED377C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5A309A7A0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5A309A7B0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		5A309A7C0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/Preferences.nib; sourceTree = "<group>"; };
+		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
+		5A5A021F0DA5FB54000409A2 /* GTShowImageFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTShowImageFacade.h; sourceTree = "<group>"; };
+		5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTShowImageFacade.m; sourceTree = "<group>"; };
+		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
+		5AB1BDBE0E18F26C0094C370 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
+		5AB1BFE10E18F3260094C370 /* MultiClickRemoteBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiClickRemoteBehavior.h; sourceTree = "<group>"; };
+		5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiClickRemoteBehavior.m; sourceTree = "<group>"; };
+		5AB1BFE40E18F3260094C370 /* RemoteControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControl.h; sourceTree = "<group>"; };
+		5AB1BFE50E18F3260094C370 /* RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControl.m; sourceTree = "<group>"; };
+		5AB1BFE60E18F3260094C370 /* HIDRemoteControlDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDRemoteControlDevice.h; sourceTree = "<group>"; };
+		5AB1BFE70E18F3260094C370 /* HIDRemoteControlDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIDRemoteControlDevice.m; sourceTree = "<group>"; };
+		5AB1BFE90E18F3260094C370 /* AppleRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleRemote.h; sourceTree = "<group>"; };
+		5AB1BFEA0E18F3260094C370 /* AppleRemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleRemote.m; sourceTree = "<group>"; };
+		5AB1BFEB0E18F3260094C370 /* KeyspanFrontRowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyspanFrontRowControl.h; sourceTree = "<group>"; };
+		5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyspanFrontRowControl.m; sourceTree = "<group>"; };
+		5AB1BFEF0E18F3260094C370 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlContainer.h; sourceTree = "<group>"; };
+		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
+		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOAutoReplyRule.h; sourceTree = "<group>"; };
+		5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAutoReplyRule.m; sourceTree = "<group>"; };
+		5AF8CA5B0D9CDB0000DFB5AB /* KOAutoReplyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOAutoReplyDelegate.h; sourceTree = "<group>"; };
+		5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAutoReplyDelegate.m; sourceTree = "<group>"; };
+		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
+		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81813EE20E1BFDE900F1A677 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quartz.framework; sourceTree = "<group>"; };
+		81B480D00DB3AF5B001DE87F /* Welly-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Welly-Info.plist"; sourceTree = "<group>"; };
+		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		85145A9F0AB40053009FC710 /* YLTelnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTelnet.h; sourceTree = "<group>"; };
+		85145AA00AB40053009FC710 /* YLTelnet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLTelnet.mm; sourceTree = "<group>"; };
+		85145AAC0AB40192009FC710 /* YLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTerminal.h; sourceTree = "<group>"; };
+		85145AAD0AB40192009FC710 /* YLTerminal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLTerminal.mm; sourceTree = "<group>"; };
+		852E798A0C96E7A90027751F /* CommonType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonType.h; sourceTree = "<group>"; };
+		8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = "<group>"; };
+		856CDB240C9650550025C754 /* encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
+		856CDB250C9650550025C754 /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = encoding.c; sourceTree = "<group>"; };
+		8570AD5D0A3923A900838442 /* YLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLView.h; sourceTree = "<group>"; };
+		8570AD5E0A3923A900838442 /* YLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLView.mm; sourceTree = "<group>"; };
+		8579CA280CF21D3D005A8353 /* YLSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLSite.h; sourceTree = "<group>"; };
+		8579CA290CF21D3D005A8353 /* YLSite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLSite.m; sourceTree = "<group>"; };
+		857ACC7D0D1CE1DC00C422E7 /* Xmas.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Xmas.icns; sourceTree = "<group>"; };
+		857EAE290CF1D62900777C15 /* connect.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = connect.pdf; sourceTree = "<group>"; };
+		857EAE4E0CF1D89300777C15 /* offline.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = offline.pdf; sourceTree = "<group>"; };
+		85834AC20CFE7F530015E348 /* message.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = message.pdf; sourceTree = "<group>"; };
+		85834C0F0CFEC3F30015E348 /* Whit.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Whit.aiff; sourceTree = "<group>"; };
+		85899C790CEED4E40031907F /* YLApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLApplication.h; sourceTree = "<group>"; };
+		85899C7A0CEED4E40031907F /* YLApplication.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLApplication.mm; sourceTree = "<group>"; };
+		858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMarkedTextView.h; sourceTree = "<group>"; };
+		858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLMarkedTextView.m; sourceTree = "<group>"; };
+		859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLContextualMenuManager.h; sourceTree = "<group>"; };
+		859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLContextualMenuManager.m; sourceTree = "<group>"; };
+		85957EAE0CFF1176006E5E08 /* sleep.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sleep.pdf; sourceTree = "<group>"; };
+		85A0E73C0D06B72900ACA26F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		85ABEB7F0C966FEF008227D6 /* YLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLController.h; sourceTree = "<group>"; };
+		85AE9DA60CB1597A0045317F /* reload.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = reload.pdf; sourceTree = "<group>"; };
+		85AE9DAD0CB15D220045317F /* bookmark.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = bookmark.pdf; sourceTree = "<group>"; };
+		85B247E60CEA1B840090046C /* DragonBall.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DragonBall.icns; sourceTree = "<group>"; };
+		85CE53370D0D687800F55B7B /* YLSSH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLSSH.h; sourceTree = "<group>"; };
+		85CE53380D0D687800F55B7B /* YLSSH.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLSSH.mm; sourceTree = "<group>"; };
+		85D258B00D1CE575002BD294 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/Preferences.nib; sourceTree = "<group>"; };
+		85D259390D20FD48002BD294 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		85D259460D21039D002BD294 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		85E7825A0D057E8400BDA3FB /* YLEmoticon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLEmoticon.h; sourceTree = "<group>"; };
+		85E7825B0D057E8400BDA3FB /* YLEmoticon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLEmoticon.m; sourceTree = "<group>"; };
+		85EA93220D0791180098C94B /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		85EA93240D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		85EA93250D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
+		85EA93270D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		85ED52280D0920E6003296D4 /* CommonType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CommonType.c; sourceTree = "<group>"; };
+		85ED53200D092B5F003296D4 /* YLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLConnection.h; sourceTree = "<group>"; };
+		85ED53210D092B5F003296D4 /* YLConnection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLConnection.mm; sourceTree = "<group>"; };
+		85F702660D033FF90035F600 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
+		85F702670D033FF90035F600 /* DBPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsWindowController.h; sourceTree = "<group>"; };
+		85F7F2070B06EE36000C4CDF /* YLLGlobalConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLGlobalConfig.h; sourceTree = "<group>"; };
+		85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLLGlobalConfig.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */,
+				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
+				85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */,
+				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
+				07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */,
+				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
+				5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */,
+				81813EE30E1BFDE900F1A677 /* Quartz.framework in Frameworks */,
+				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
+				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
+				5A1969CE0E1D495F00ED377C /* Sparkle.framework in Frameworks */,
+				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
+				5AC33B7B0DA477AB0006AA09 /* Nally9only */,
+				07B370670D6840600035E87D /* YLImagePreviewer.h */,
+				07B370680D6840600035E87D /* YLImagePreviewer.m */,
+				85ED53BA0D0934DC003296D4 /* Constant & Utilities */,
+				859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */,
+				859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */,
+				85899C790CEED4E40031907F /* YLApplication.h */,
+				85899C7A0CEED4E40031907F /* YLApplication.mm */,
+				85ABEB7F0C966FEF008227D6 /* YLController.h */,
+				5A09016C0DBCDD1600AC08F4 /* YLController.mm */,
+				85F7F2070B06EE36000C4CDF /* YLLGlobalConfig.h */,
+				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
+				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
+				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
+				85D9B9D20C97DF7B006C5E0F /* Views */,
+				85ED53B90D09349C003296D4 /* Abstract Interface */,
+				85F701440C895C8600E27A1E /* Model */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */,
+				5A1969CD0E1D495F00ED377C /* Sparkle.framework */,
+				850711AA0CA7A347005F4734 /* ApplicationServices.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				81813EE20E1BFDE900F1A677 /* Quartz.framework */,
+				5AB1C0030E18F3870094C370 /* CoreData.framework */,
+				5AB1BDBE0E18F26C0094C370 /* System.framework */,
+				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
+				85D259460D21039D002BD294 /* IOKit.framework */,
+				85D259390D20FD48002BD294 /* libcrypto.dylib */,
+				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B44E8480DB5E96500314664 /* Welly.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* MacBlueTelnet */ = {
+			isa = PBXGroup;
+			children = (
+				81B480D00DB3AF5B001DE87F /* Welly-Info.plist */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = MacBlueTelnet;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* MacBlueTelnet_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5A91BAED0E1E1E6A007538E5 /* WellyHelp */,
+				6B3128A50DB36757005D6C32 /* Welly.icns */,
+				18BB9B830D98ECC900387145 /* QQWry.dat */,
+				85EA93210D0791180098C94B /* Preferences.nib */,
+				85137B320D02192800833909 /* Credits.rtf */,
+				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
+				85957EAE0CFF1176006E5E08 /* sleep.pdf */,
+				85834AC20CFE7F530015E348 /* message.pdf */,
+				857EAE290CF1D62900777C15 /* connect.pdf */,
+				857EAE4E0CF1D89300777C15 /* offline.pdf */,
+				85B247E60CEA1B840090046C /* DragonBall.icns */,
+				857ACC7D0D1CE1DC00C422E7 /* Xmas.icns */,
+				85AE9DAD0CB15D220045317F /* bookmark.pdf */,
+				85AE9DA60CB1597A0045317F /* reload.pdf */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5AB1BFDF0E18F3120094C370 /* RemoteControl */ = {
+			isa = PBXGroup;
+			children = (
+				5AB1BFE80E18F3260094C370 /* Devices */,
+				5AB1BFE30E18F3260094C370 /* Base Classes */,
+				5AB1BFE00E18F3250094C370 /* Behaviors */,
+			);
+			name = RemoteControl;
+			sourceTree = "<group>";
+		};
+		5AB1BFE00E18F3250094C370 /* Behaviors */ = {
+			isa = PBXGroup;
+			children = (
+				5AB1BFE10E18F3260094C370 /* MultiClickRemoteBehavior.h */,
+				5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */,
+			);
+			name = Behaviors;
+			sourceTree = "<group>";
+		};
+		5AB1BFE30E18F3260094C370 /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5AB1BFE40E18F3260094C370 /* RemoteControl.h */,
+				5AB1BFE50E18F3260094C370 /* RemoteControl.m */,
+				5AB1BFE60E18F3260094C370 /* HIDRemoteControlDevice.h */,
+				5AB1BFE70E18F3260094C370 /* HIDRemoteControlDevice.m */,
+			);
+			name = "Base Classes";
+			sourceTree = "<group>";
+		};
+		5AB1BFE80E18F3260094C370 /* Devices */ = {
+			isa = PBXGroup;
+			children = (
+				5AB1BFE90E18F3260094C370 /* AppleRemote.h */,
+				5AB1BFEA0E18F3260094C370 /* AppleRemote.m */,
+				5AB1BFEB0E18F3260094C370 /* KeyspanFrontRowControl.h */,
+				5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */,
+				5AB1BFEF0E18F3260094C370 /* RemoteControlContainer.h */,
+				5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */,
+			);
+			name = Devices;
+			sourceTree = "<group>";
+		};
+		5AC33B7B0DA477AB0006AA09 /* Nally9only */ = {
+			isa = PBXGroup;
+			children = (
+				5A5A021F0DA5FB54000409A2 /* GTShowImageFacade.h */,
+				5A5A02200DA5FB54000409A2 /* GTShowImageFacade.m */,
+				18BB9B850D98ECE500387145 /* IPSeeker.h */,
+				5AF8CA5B0D9CDB0000DFB5AB /* KOAutoReplyDelegate.h */,
+				5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */,
+				18BB9B860D98ECE500387145 /* IPSeeker.mm */,
+				18A685A60D9414D900CA423A /* YLGrowlDelegate.h */,
+				18A685A70D9414D900CA423A /* YLGrowlDelegate.m */,
+				5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */,
+				5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */,
+			);
+			name = Nally9only;
+			sourceTree = "<group>";
+		};
+		85D9B9D20C97DF7B006C5E0F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */,
+				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
+				8570AD5D0A3923A900838442 /* YLView.h */,
+				8570AD5E0A3923A900838442 /* YLView.mm */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		85ED53B90D09349C003296D4 /* Abstract Interface */ = {
+			isa = PBXGroup;
+			children = (
+				85ED53200D092B5F003296D4 /* YLConnection.h */,
+				85ED53210D092B5F003296D4 /* YLConnection.mm */,
+			);
+			name = "Abstract Interface";
+			sourceTree = "<group>";
+		};
+		85ED53BA0D0934DC003296D4 /* Constant & Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				856CDB240C9650550025C754 /* encoding.h */,
+				856CDB250C9650550025C754 /* encoding.c */,
+				852E798A0C96E7A90027751F /* CommonType.h */,
+				85ED52280D0920E6003296D4 /* CommonType.c */,
+			);
+			name = "Constant & Utilities";
+			sourceTree = "<group>";
+		};
+		85F701440C895C8600E27A1E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				85145AAC0AB40192009FC710 /* YLTerminal.h */,
+				85145AAD0AB40192009FC710 /* YLTerminal.mm */,
+				85145A9F0AB40053009FC710 /* YLTelnet.h */,
+				85145AA00AB40053009FC710 /* YLTelnet.mm */,
+				85CE53370D0D687800F55B7B /* YLSSH.h */,
+				85CE53380D0D687800F55B7B /* YLSSH.mm */,
+				8579CA280CF21D3D005A8353 /* YLSite.h */,
+				8579CA290CF21D3D005A8353 /* YLSite.m */,
+				85E7825A0D057E8400BDA3FB /* YLEmoticon.h */,
+				85E7825B0D057E8400BDA3FB /* YLEmoticon.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* Welly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Welly" */;
+			buildPhases = (
+				8540F7350CEB4435003B17D1 /* CopyFiles */,
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Welly;
+			productInstallPath = "$(HOME)/Applications";
+			productName = MacBlueTelnet;
+			productReference = 6B44E8480DB5E96500314664 /* Welly.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Welly" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				zh_TW,
+				zh_CN,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* MacBlueTelnet */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* Welly */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				85AE9DA70CB1597A0045317F /* reload.pdf in Resources */,
+				85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */,
+				857EAE2A0CF1D62900777C15 /* connect.pdf in Resources */,
+				857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */,
+				85834AC30CFE7F530015E348 /* message.pdf in Resources */,
+				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
+				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
+				85137B330D02192800833909 /* Credits.rtf in Resources */,
+				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
+				85EA93230D0791180098C94B /* Preferences.nib in Resources */,
+				85AD6FE70D227F1D00992A1C /* DragonBall.icns in Resources */,
+				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
+				6B3128A60DB36757005D6C32 /* Welly.icns in Resources */,
+				5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				8570AD5F0A3923A900838442 /* YLView.mm in Sources */,
+				85145AA10AB40053009FC710 /* YLTelnet.mm in Sources */,
+				85145AAE0AB40192009FC710 /* YLTerminal.mm in Sources */,
+				85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */,
+				856CDB260C9650550025C754 /* encoding.c in Sources */,
+				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
+				85899C7B0CEED4E40031907F /* YLApplication.mm in Sources */,
+				8579CA2A0CF21D3D005A8353 /* YLSite.m in Sources */,
+				859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */,
+				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
+				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
+				85ED52290D0920E6003296D4 /* CommonType.c in Sources */,
+				85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */,
+				85CE53390D0D687800F55B7B /* YLSSH.mm in Sources */,
+				07B370690D6840600035E87D /* YLImagePreviewer.m in Sources */,
+				18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */,
+				18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */,
+				5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */,
+				5A5A02210DA5FB54000409A2 /* GTShowImageFacade.m in Sources */,
+				5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */,
+				5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */,
+				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
+				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
+				5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */,
+				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
+				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
+				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+				85EA93240D0791240098C94B /* zh_TW */,
+				5A309A790D9A252B00970494 /* zh_CN */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		29B97318FDCFA39411CA2CEA /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				29B97319FDCFA39411CA2CEA /* English */,
+				85EA93270D0791240098C94B /* zh_TW */,
+				5A309A7B0D9A252B00970494 /* zh_CN */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		85A0E73B0D06B72900ACA26F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85A0E73C0D06B72900ACA26F /* English */,
+				85EA93250D0791240098C94B /* zh_TW */,
+				5A309A7A0D9A252B00970494 /* zh_CN */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		85EA93210D0791180098C94B /* Preferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85EA93220D0791180098C94B /* English */,
+				85D258B00D1CE575002BD294 /* zh_TW */,
+				5A309A7C0D9A252B00970494 /* zh_CN */,
+			);
+			name = Preferences.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
+					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = /Applications;
+				OTHER_CFLAGS = "-D__DUMPPACKET__";
+				PRODUCT_NAME = MacBlueTelnet;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
+					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = Welly;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Welly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Welly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

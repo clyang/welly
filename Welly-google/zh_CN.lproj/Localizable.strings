@@ -1,0 +1,60 @@
+﻿/* Sheet Title */
+"Are you sure you want to quit Welly?" = "您确定要退出 Welly 吗？";
+
+/* Sheet Title */
+"Are you sure you want to close this tab?" = "您确定要关闭这个标签吗？";
+
+/* Sheet Title */
+"Are you sure you want to reconnect?" = "您确定要重新连接吗？";
+
+/* Default Button */
+"Close" = "关闭";
+
+/* Default Button */
+"Confirm" = "确定";
+
+/* Cancel Button */
+"Cancel" = "取消";
+
+/* Menu */
+"Lookup in Dictionary" = "查字典";
+
+/* Menu */
+"IP Seeker" = "IP查询";
+
+/* Default Button */
+"Quit" = "退出";
+
+/* Sheet Message */
+"There are %d tabs open in Welly. Do you want to quit anyway?" = "还有 %d 个标签正在连接中，您确定要退出 Welly？";
+
+/* Sheet Message */
+"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?" = "此连接未断开。若您关闭这个标签会强制断开连接。您确定要关闭这个标签吗？";
+
+/* Sheet Message */
+"The connection is still alive. If you reconnect, the current connection will be lost. Do you want to reconnect anyway?" = "此连接未断开。若您重新连接，当前的连接将会强行断开。您确定要重新连接吗？";
+
+/* Preferences */
+"General" = "一般";
+
+/* Preferences */
+"Colors" = "颜色";
+
+/* Preferences */
+"Fonts" = "字体";
+
+/* Preferences */
+"Connection" = "连接";
+
+/* Preferences */
+"AutoReply" = "自动应答";
+
+/* IP Seeker */
+"LQIPBadFile" = "无法打开IP数据库文件";
+"LQCountryUnknown" = "未知国家";
+"LQAreaUnknown" = "未知区域";
+"LQIPLocation" = "IP地址: %@    所在位置: %@";
+
+/* Auto Reply */
+"DefaultAutoReplyString" = "[Welly] 我现在不在，请稍后再联系";
+"MessageWindowTitle" = "您有 %d 条未读消息，请查收";
