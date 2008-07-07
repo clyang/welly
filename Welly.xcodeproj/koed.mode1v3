@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>5A0E7DC30E224BD800CD5BE0</string>
+						<string>5A35CCFB0E228C1F00917A38</string>
 						<key>history</key>
 						<array>
-							<string>5A7AD8A50E224B3E00F539A4</string>
+							<string>5A0E7DC30E224BD800CD5BE0</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -256,10 +256,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>5A0E7DC40E224BD800CD5BE0</string>
+						<string>5A35CCFC0E228C1F00917A38</string>
 						<key>history</key>
 						<array>
-							<string>5A7AD8A60E224B3E00F539A4</string>
+							<string>5A0E7DC40E224BD800CD5BE0</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -312,6 +312,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -441,8 +443,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -479,9 +479,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>5A0E7DC10E224BD800CD5BE0</string>
+				<string>5A35CCF90E228C1F00917A38</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>5A0E7DC20E224BD800CD5BE0</string>
+				<string>5A35CCFA0E228C1F00917A38</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -615,12 +615,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>5A8A74C90D9A7656007BEC5C</string>
 		<string>5A940D190E2233CD00E77E82</string>
 		<string>5A940D330E223D9A00E77E82</string>
-		<string>/Users/koed/Welly-google/Welly.xcodeproj</string>
+		<string>/Users/koed/welly-google/trunk/Welly/Welly.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>-6 136 1280 642 0 0 1280 778 </string>
