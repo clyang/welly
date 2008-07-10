@@ -669,9 +669,13 @@ BOOL isSpecialSymbol(unichar ch) {
                                                           column: (index % gColumn)];
         if (url)
         {
-			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask)
-			{
-				// click while holding shift key: open the URL with browser
+			// Modified by boost @ 9#
+			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask
+                || [url hasSuffix: @".htm"] || [url hasSuffix: @".html"]
+                || [url hasSuffix: @"/"])
+            {
+                // click while holding shift key or navigate web pages
+                // open the URL with browser
 				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]];
 				return;
 			}

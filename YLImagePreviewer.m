@@ -197,24 +197,23 @@ NSStringEncoding encodingFromYLEncoding(YLEncoding ylenc)
     NSStringEncoding enc = encodingFromYLEncoding(YLGBKEncoding);
     _currentFileDownloading = [[NSString alloc] initWithCString: nbytes
                                                        encoding: enc];
+    free(nbytes);
+
 	// Try to dectect the file type
 	// Avoid useless download
 	// By gtCarrera @ 9#
+	// Modified by boost @ 9#
 	fileType = [_currentFileDownloading substringFromIndex: [_currentFileDownloading length] - 3];
 	fileType = [fileType lowercaseString];
-	//NSArray * allowedTypes[5] = {@"jpg", @"bmp", @"png", @"gif", @"tiff"};
-	Boolean canView = [fileType isEqual : @"jpg"] || [fileType isEqual : @"bmp"] 
-					 || [fileType isEqual : @"png"] || [fileType isEqual : @"gif"]  
-					 || [fileType isEqual : @"tiff"] || [fileType isEqual : @"pdf"] ;
+	NSArray *allowedTypes = [NSArray arrayWithObjects: @"jpg", @"bmp", @"png", @"gif", @"tiff", @"pdf", nil];
+	Boolean canView = [allowedTypes containsObject: fileType];
 	if(!canView)
 	{
 		[[NSWorkspace sharedWorkspace] openURL: _currentURL];
 		[_window close];
-		free(nbytes);
+        return;
 	}
 	// End
-	
-    free(nbytes);
     
     _totalLength = [response expectedContentLength];
 
