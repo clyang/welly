@@ -72,7 +72,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self loadEmoticons];
 
     //[_mainWindow setHasShadow: YES];
-    //[_mainWindow setOpaque: YES];
+    [_mainWindow setOpaque: NO];
 
     [_mainWindow setFrameAutosaveName: @"wellyMainWindowFrame"];
 
