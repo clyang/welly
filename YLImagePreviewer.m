@@ -4,14 +4,15 @@
 //
 //  Created by Jjgod Jiang on 2/17/08.
 //  Copyright 2008 Jjgod Jiang. All rights reserved.
-//
+
+//  Modified by gtCarrera @ 9# & boost @ 9#
+//  bug fixes and Quick Look support.
+//  July 2008.
 
 #import "CommonType.h"
 #import "YLSite.h"
 #import "YLImagePreviewer.h"
-#import "YLGrowlDelegate.h"
-#import "GTShowImageFacade.h"
-#import <PDFKit/PDFDocument.h>
+#import "XIQuickLookDelegate.h"
 
 @implementation YLImagePreviewer
 
@@ -22,24 +23,18 @@
         // create the request
 		_currentURL = url;
         NSURLRequest *request = [NSURLRequest requestWithURL: url
-                                                 cachePolicy: NSURLRequestUseProtocolCachePolicy
+                                                 cachePolicy: NSURLRequestReturnCacheDataElseLoad
                                              timeoutInterval: 60.0];
         
-        // create the connection with the request
-        // and start loading the data
-        _connection = [[NSURLConnection alloc] initWithRequest: request 
-                                                      delegate: self];
-        if (_connection)
-        {
-            // Create the NSMutableData that will hold
-            // the received data
-            // receivedData is declared as a method instance elsewhere
-            _receivedData = [[NSMutableData data] retain];
-            
+        // download the data
+        _download = [[NSURLDownload alloc] initWithRequest: request 
+                                           delegate: self];
+        if (_download) {
             [self showLoadingWindow];
         } else {
             // inform the user that the download could not be made
             NSLog(@"inform the user that the download could not be made");
+            [self showBrowser];
         }        
     }
     
@@ -52,13 +47,21 @@
     
     // if we are still connecting, should cancel now and release
     // related resource.
-    if (_connection)
-    {
-        [_connection cancel];
-        [self releaseConnection];
+    if (_download) {
+        [_download cancel];
+        [_download release];
+        _download = nil;
     }
 
-    [_window release];
+    if (_window) {
+        [_window release];
+        _window = nil;
+    }
+    
+    if (_currentFileDownloading) {
+        [_currentFileDownloading release];
+        _currentFileDownloading = nil;
+    }
 
     [super dealloc];
 }
@@ -91,69 +94,10 @@
     
     _indicator = [[HMBlkProgressIndicator alloc] initWithFrame: NSMakeRect(10, 10, 380, 10)];
     [[_window contentView] addSubview: _indicator];
-    // [_indicator release];
 
     [_indicator startAnimation: self];
-}
-
-- (void) showImage: (NSImage *) image withTitle: (NSString *) title
-{
-	NSImageRep *rep = [[image representations] objectAtIndex: 0];
-	NSSize size = NSMakeSize([rep pixelsWide], [rep pixelsHigh]);
-    NSSize visibleSize = [[NSScreen mainScreen] visibleFrame].size;
-	NSPoint origin = [[NSScreen mainScreen] visibleFrame].origin;
-    visibleSize.width -= 20;
-    visibleSize.height -= 20;
-    
-    double aspect = size.height / size.width;
-    // Do some auto resizing in case the image size is too large
-    if (size.width > visibleSize.width)
-    {
-        size.width = visibleSize.width;
-        size.height = aspect * size.width;
-    }
-
-    if (size.height > visibleSize.height)
-    {
-        size.height = visibleSize.height;
-        size.width = size.height / aspect;
-    }
-	[image setSize: size];
-	NSObject * data = [[NSObject alloc] init];
-	
-	if([fileType isEqual: @"pdf"]) 
-	{
-		//rep = [[NSPDFImageRep alloc] initWithData: _receivedData];
-		data = [[PDFDocument alloc] initWithData:_receivedData];
-		size.width *= 2;
-	}
-	else
-	{
-		data = image;
-	}
-	    
-    origin.x += ([[NSScreen mainScreen] visibleFrame].size.width - size.width) / 2;
-    
-    // use Golden Ratio to place the window vertically
-    origin.y += ([[NSScreen mainScreen] visibleFrame].size.height - size.height) / 1.61803399;
-    // NSLog(@"image size: %g %g", size.width, size.height);
-    
-	//[_window setBackgroundColor: (NSColor *)whiteColor];
-	 
-    //view = [[NSImageView alloc] initWithFrame: viewRect];
-    
-    [_indicator removeFromSuperview];
-    [_indicator release];
-	
-	GTShowImageFacade * myFacade = [[GTShowImageFacade alloc] initWithInfo:_window
-																type:fileType
-																image:data
-																size : size
-															   origin:origin
-															   preTitle: title];
-	[myFacade drawImage];
-	//[myFacade release];
-	[_window setTitle: title];
+    [_indicator setIndeterminate: NO];
+    [_indicator setDoubleValue: 0];
 }
 
 NSStringEncoding encodingFromYLEncoding(YLEncoding ylenc)
@@ -174,30 +118,43 @@ NSStringEncoding encodingFromYLEncoding(YLEncoding ylenc)
     return CFStringConvertEncodingToNSStringEncoding(cfenc);
 }
 
-- (void) connection: (NSURLConnection *) connection 
- didReceiveResponse: (NSURLResponse *) response
-{
-    // this method is called when the server has determined that it
-    // has enough information to create the NSURLResponse
-    // NSLog(@"didReceiveResponse");
-    NSString *fileName = [response suggestedFilename];
+- (void) download: (NSURLDownload *) download 
+         didReceiveResponse: (NSURLResponse *) response
+{ 
+    _totalLength = [response expectedContentLength];
+    [_indicator setMaxValue: (double) _totalLength];
+}
 
-    // Decode incorrectly encoded NSString
-    int max = [fileName length];
+- (void) download: (NSURLDownload *) download 
+         didReceiveDataOfLength: (unsigned) length
+{ 
+    [_indicator incrementBy: (double) length];
+}
+
+- (void) download: (NSURLDownload *) download
+         decideDestinationWithSuggestedFilename: (NSString *) filename
+{
+    // this method is called when download has determined a suggested filename
+
+    // fix incorrectly encoded filename
+    int max = [filename length];
     char *nbytes = (char *) malloc(max + 1);
-    
-    int i;
-    for (i = 0; i < max; i++)
-    {
-        unichar ch = [fileName characterAtIndex: i];
+    for (int i = 0; i < max; i++) {
+        unichar ch = [filename characterAtIndex: i];
         nbytes[i] = (char) ch;
     }
-    
-    nbytes[i] = '\0';
+    nbytes[max] = '\0';
     NSStringEncoding enc = encodingFromYLEncoding(YLGBKEncoding);
-    _currentFileDownloading = [[NSString alloc] initWithCString: nbytes
-                                                       encoding: enc];
+    _currentFileDownloading = [NSString stringWithCString: nbytes encoding: enc];
     free(nbytes);
+    
+    // prepare for downloading
+    [_window setTitle: [NSString stringWithFormat: @"Loading %@...", _currentFileDownloading]];
+
+    NSString *cacheDir = [NSHomeDirectory() stringByAppendingPathComponent: @"Library/Caches/Welly"];
+    [[NSFileManager defaultManager] createDirectoryAtPath: cacheDir attributes: nil];
+    _currentFileDownloading = [[cacheDir stringByAppendingPathComponent: _currentFileDownloading] retain];
+    [download setDestination: _currentFileDownloading allowOverwrite: YES];
 
 	// Try to dectect the file type
 	// Avoid useless download
@@ -207,94 +164,37 @@ NSStringEncoding encodingFromYLEncoding(YLEncoding ylenc)
 	fileType = [fileType lowercaseString];
 	NSArray *allowedTypes = [NSArray arrayWithObjects: @"jpg", @"bmp", @"png", @"gif", @"tiff", @"pdf", nil];
 	Boolean canView = [allowedTypes containsObject: fileType];
-	if(!canView)
-	{
-		[[NSWorkspace sharedWorkspace] openURL: _currentURL];
-		[_window close];
-        return;
+	if (!canView) {
+        [download cancel];
+        [self showBrowser];
 	}
-	// End
-    
-    _totalLength = [response expectedContentLength];
-
-    [_window setTitle: [NSString stringWithFormat: @"Loading %@...", _currentFileDownloading]];
-    [_indicator setIndeterminate: NO];
-    [_indicator setMaxValue: (double) _totalLength];
-    [_indicator setDoubleValue: 0];
-
-    [_receivedData setLength: 0];
 }
 
-- (void) connection: (NSURLConnection *) connection 
-     didReceiveData: (NSData *) data
+- (void) download: (NSURLDownload *) download
+         didFailWithError: (NSError *) error
 {
-    // NSLog(@"didReceiveData: %d bytes", [data length]);
-    // append the new data to the receivedData
-    // receivedData is declared as a method instance elsewhere
-    [_receivedData appendData: data]; 
-    [_indicator incrementBy: (double) [data length]];
-}
-
-- (void)connection: (NSURLConnection *) connection
-  didFailWithError: (NSError *) error
-{
-    [self releaseConnection];
-
     // inform the user
-    NSLog(@"Connection failed! Error - %@ %@",
+    NSLog(@"Download failed! Error - %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey: NSErrorFailingURLStringKey]);
+
+    [self showBrowser];
 }
 
-- (void) connectionDidFinishLoading: (NSURLConnection *) connection
+- (void) downloadDidFinish: (NSURLDownload *) download
 {
-    // do something with the data
-    // receivedData is declared as a method instance elsewhere
-    // NSLog(@"Succeeded! Received %d bytes of data", [_receivedData length]);
-    
-    [_indicator setDoubleValue: (double) [_receivedData length]];
-
-    NSImage *image = [[NSImage alloc] initWithData: _receivedData];
-	// Oringinal code
-	/*
-	if(image == nil || [[image representations] count] == 0)
-	{
-		NSString *text = [NSString stringWithFormat: @"Failed to download file %@", _currentFileDownloading];
-		NSAlert *alert = [NSAlert alertWithMessageText: @"Failed to download image." 
-                                         defaultButton: @"OK" 
-                                       alternateButton: nil 
-                                           otherButton: nil 
-                             informativeTextWithFormat: text];
-        [alert runModal];
-	}*/
-	
-	// Modified by gtCarrera
-	//NSString * fileType;
-	fileType = [_currentFileDownloading substringFromIndex: [_currentFileDownloading length] - 3];
-    if (image == nil || [[image representations] count] == 0)
-    {
-		// It's a piece of shit... 
-		//[[NSWorkspace sharedWorkspace] openURL: _currentURL];
-		[_window close];
-	}
-    else
-	{
-        [self showImage: image withTitle: _currentFileDownloading];
-	}
-	// End
-    [self releaseConnection];
+    // update URLs for quick look
+    NSURL *URL = [NSURL fileURLWithPath:_currentFileDownloading];
+    [[XIQuickLookDelegate sharedPanel] add:URL];
+    // end
+    [_window close];
 }
 
-- (void) releaseConnection
+- (void) showBrowser
 {
-    [_connection release];
-    _connection = nil;
-
-    [_receivedData release];
-    _receivedData = nil;
-    
-    [_currentFileDownloading release];
-    _currentFileDownloading = nil;
+    [[NSWorkspace sharedWorkspace] openURL: _currentURL];
+    if (_window)
+        [_window close];
 }
 
 @end

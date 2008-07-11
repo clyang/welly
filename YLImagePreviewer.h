@@ -12,8 +12,7 @@
 
 @interface YLImagePreviewer : NSObject {
     NSString        *_currentFileDownloading;
-    NSMutableData   *_receivedData;
-    NSURLConnection *_connection;
+    NSURLDownload   *_download;
     HMBlkProgressIndicator *_indicator;
     long long        _totalLength;
 	NSPanel         *_window;
@@ -24,6 +23,6 @@
 }
 
 - (void) showLoadingWindow;
-- (void) releaseConnection;
+- (void) showBrowser;
 
 @end

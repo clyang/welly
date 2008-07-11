@@ -677,7 +677,6 @@ BOOL isSpecialSymbol(unichar ch) {
                 // click while holding shift key or navigate web pages
                 // open the URL with browser
 				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]];
-				return;
 			}
 			else
 			{
