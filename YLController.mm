@@ -4,7 +4,9 @@
 //
 //  Created by Yung-Luen Lan on 9/11/07.
 //  Copyright 2007 yllan.org. All rights reserved.
-//
+
+//  Modified by boost @ 9# on 7/12/2008.
+//  Add support for ordering sites via drag & drop.
 
 #import "YLController.h"
 #import "YLTelnet.h"
@@ -22,6 +24,7 @@
 #import "MultiClickRemoteBehavior.h"
 
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
+#define SiteTableViewDataType @"SiteTableViewDataType"
 
 @interface YLController (Private)
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem ;
@@ -111,6 +114,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	[container startListening: self];
 	
 	remoteControl = container;
+    
+    // drag & drop in site view
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
 }
 
 - (void) updateSitesMenu {
@@ -1348,6 +1354,38 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	}
 }
 
+#pragma mark -
+#pragma mark Site View Drag & Drop
+- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
+    // copy to the pasteboard.
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
+    [pboard declareTypes:[NSArray arrayWithObject:SiteTableViewDataType] owner:self];
+    [pboard setData:data forType:SiteTableViewDataType];
+    return YES;
+}
 
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info
+                   proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
+    // don't hover
+    if (op == NSTableViewDropOn)
+        return NSDragOperationNone;
+    return NSDragOperationEvery;
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info
+        row:(int)row dropOperation:(NSTableViewDropOperation)op {
+    NSPasteboard* pboard = [info draggingPasteboard];
+    NSData* rowData = [pboard dataForType:SiteTableViewDataType];
+    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
+    int dragRow = [rowIndexes firstIndex];
+    // move
+    NSObject *obj = [_sites objectAtIndex:dragRow];
+    [_sitesController insertObject:obj atArrangedObjectIndex:row];
+    if (row < dragRow)
+        ++dragRow;
+    [_sitesController removeObjectAtArrangedObjectIndex:dragRow];
+    // done
+    return YES;
+}
 
 @end

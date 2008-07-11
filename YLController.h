@@ -48,6 +48,7 @@
     NSMutableArray *_emoticons;
     IBOutlet NSArrayController *_sitesController;
     IBOutlet NSArrayController *_emoticonsController;
+    IBOutlet NSTableView *_tableView;
     IBOutlet NSMenuItem *_sitesMenu;
     IBOutlet NSTextField *_siteNameField;
 	IBOutlet NSTextField *_autoReplyStringField;
