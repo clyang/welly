@@ -8,6 +8,9 @@
 
 /* Code from iTerm : PTYTask.m */
 
+//  Modified by boost @ 9#
+//  fix status indication: "in-processing" and "connected"
+
 #import "YLSSH.h"
 #import "YLLGlobalConfig.h"
 #include <util.h>
@@ -130,12 +133,16 @@
         ioctl(_fileDescriptor, TIOCPKT, &one);
         [NSThread detachNewThreadSelector: @selector(readLoop:) toTarget:[self class] withObject: self];
     }
-    
-    [self setConnected: YES];
+
+    [self setIsProcessing: YES];
     return YES;
 }
 
 - (void) receiveData: (NSData *) d {
+    if ([self isProcessing]) {
+        [self setIsProcessing:NO];
+        [self setConnected:YES];
+    }
     [self receiveBytes: (unsigned char *)[d bytes] length: [d length]];
 }
 
