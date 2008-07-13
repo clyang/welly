@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "YLView.h"
-#import <PSMTabBarControl/PSMTabBarControl.h>
+#import "XITabBarControl.h"
 #import "YLSite.h"
 #import "KOAutoReplyDelegate.h"
 #define defaultAutoReplyString @"[Welly] Sorry, I am not around."
@@ -39,7 +39,7 @@
     IBOutlet id _detectDoubleByteButton;
 	IBOutlet id _autoReplyButton;
     
-    IBOutlet PSMTabBarControl *_tab;
+    IBOutlet XITabBarControl *_tab;
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
     IBOutlet NSMenuItem *_closeWindowMenuItem;
     IBOutlet NSMenuItem *_closeTabMenuItem;

@@ -12,6 +12,7 @@
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
+		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
 		18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* YLGrowlDelegate.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.mm */; };
@@ -97,6 +98,8 @@
 		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
 		16C0C90E0E294C2700B576C5 /* XIPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPTY.m; sourceTree = "<group>"; };
+		16FEC31F0E2A80B50035DADD /* XITabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XITabBarControl.h; sourceTree = "<group>"; };
+		16FEC3200E2A80B50035DADD /* XITabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XITabBarControl.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* YLGrowlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGrowlDelegate.h; sourceTree = "<group>"; };
 		18A685A70D9414D900CA423A /* YLGrowlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGrowlDelegate.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
@@ -215,9 +218,11 @@
 			children = (
 				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
 				5AC33B7B0DA477AB0006AA09 /* Nally9only */,
+				85D9B9D20C97DF7B006C5E0F /* Views */,
+				85F701440C895C8600E27A1E /* Model */,
+				85ED53BA0D0934DC003296D4 /* Constant & Utilities */,
 				07B370670D6840600035E87D /* YLImagePreviewer.h */,
 				07B370680D6840600035E87D /* YLImagePreviewer.m */,
-				85ED53BA0D0934DC003296D4 /* Constant & Utilities */,
 				859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */,
 				859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */,
 				85899C790CEED4E40031907F /* YLApplication.h */,
@@ -228,8 +233,6 @@
 				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
-				85D9B9D20C97DF7B006C5E0F /* Views */,
-				85F701440C895C8600E27A1E /* Model */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -371,16 +374,18 @@
 		5AC33B7B0DA477AB0006AA09 /* Nally9only */ = {
 			isa = PBXGroup;
 			children = (
-				169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */,
-				1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */,
 				18BB9B850D98ECE500387145 /* IPSeeker.h */,
-				5AF8CA5B0D9CDB0000DFB5AB /* KOAutoReplyDelegate.h */,
-				5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */,
 				18BB9B860D98ECE500387145 /* IPSeeker.mm */,
 				18A685A60D9414D900CA423A /* YLGrowlDelegate.h */,
 				18A685A70D9414D900CA423A /* YLGrowlDelegate.m */,
+				5AF8CA5B0D9CDB0000DFB5AB /* KOAutoReplyDelegate.h */,
+				5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */,
 				5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */,
 				5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */,
+				169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */,
+				1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */,
+				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
+				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
 			);
 			name = Nally9only;
 			sourceTree = "<group>";
@@ -530,6 +535,7 @@
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
 				1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */,
 				16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */,
+				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -69,10 +69,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_tab setCanCloseOnlyTab:YES];
     [_tab setDelegate:self];
     /*// show a new-tab button
-    [_tab setShowAddTabButton:YES];
+    [_tab setShowAddTabButton:YES];*/
     [[_tab addTabButton] setTarget:self];
     [[_tab addTabButton] setAction:@selector(newTab:)];
-    */
+
     /* Trigger the KVO to update the information properly. */
     [[YLLGlobalConfig sharedInstance] setShowHiddenText: [[YLLGlobalConfig sharedInstance] showHiddenText]];
     [[YLLGlobalConfig sharedInstance] setCellWidth: [[YLLGlobalConfig sharedInstance] cellWidth]];
