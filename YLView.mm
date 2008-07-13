@@ -1352,12 +1352,12 @@ BOOL isSpecialSymbol(unichar ch) {
 - (BOOL)canBecomeKeyView {
     return YES;
 }
-
+/* commented out by boost @ 9#: why not using the delegate...
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
     [[tabViewItem identifier] close];
-    [super removeTabViewItem: tabViewItem];
+    [super removeTabViewItem:tabViewItem];
 }
-
+*/
 + (NSMenu *) defaultMenu {
     return [[[NSMenu alloc] init] autorelease];
 }

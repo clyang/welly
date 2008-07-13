@@ -716,15 +716,15 @@ if (_cursorX <= _column - 1) { \
 - (BOOL)hasMessage {
     return _hasMessage;
 }
-
+/* commented out by boost @ 9#: no one is using it.
 - (void)setHasMessage:(BOOL)value {
     if (_hasMessage != value) {
         _hasMessage = value;
         YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
         if (_hasMessage) {
             [NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
-            if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
-                [_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
+            if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) {
+//                [_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
                 [config setMessageCount: [config messageCount] + 1];
             } else {
                 _hasMessage = NO;
@@ -735,10 +735,11 @@ if (_cursorX <= _column - 1) { \
                 [_connection setIcon: [NSImage imageNamed: @"connect.pdf"]];
             else
                 [_connection setIcon: [NSImage imageNamed: @"offline.pdf"]];
+
         }        
     }
 }
-
+*/
 - (int)messageCount {
 	return _messageCount;
 }
@@ -753,9 +754,10 @@ if (_cursorX <= _column - 1) { \
 	// we should let the icon on the deck bounce
 	[NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
 	//if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
-	[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
+	//[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
 	[config setMessageCount: [config messageCount] + value];
 	_messageCount += value;
+    [_connection setObjectCount:_messageCount];
 	//} else {
 	//	_hasMessage = NO;
 	//}
@@ -768,12 +770,14 @@ if (_cursorX <= _column - 1) { \
 	
 	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
 	[config setMessageCount: [config messageCount] - _messageCount];
+/* commented out by boost @ 9#
 	if ([_connection connected])
 		[_connection setIcon: [NSImage imageNamed: @"connect.pdf"]];
 	else
 		[_connection setIcon: [NSImage imageNamed: @"offline.pdf"]];
-
+*/
 	_messageCount = 0;
+    [_connection setObjectCount:_messageCount];
 }
 
 - (YLConnection *)connection {

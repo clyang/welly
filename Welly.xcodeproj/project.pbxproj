@@ -11,6 +11,7 @@
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */; };
+		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* YLGrowlDelegate.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.mm */; };
@@ -37,7 +38,6 @@
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
-		85145AA10AB40053009FC710 /* YLTelnet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85145AA00AB40053009FC710 /* YLTelnet.mm */; };
 		85145AAE0AB40192009FC710 /* YLTerminal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* YLTerminal.mm */; };
 		8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
 		8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
@@ -56,7 +56,6 @@
 		85AD6FE70D227F1D00992A1C /* DragonBall.icns in Resources */ = {isa = PBXBuildFile; fileRef = 85B247E60CEA1B840090046C /* DragonBall.icns */; };
 		85AE9DA70CB1597A0045317F /* reload.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DA60CB1597A0045317F /* reload.pdf */; };
 		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
-		85CE53390D0D687800F55B7B /* YLSSH.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85CE53380D0D687800F55B7B /* YLSSH.mm */; };
 		85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259390D20FD48002BD294 /* libcrypto.dylib */; };
 		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
 		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
@@ -95,6 +94,9 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookDelegate.h; sourceTree = "<group>"; };
 		1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookDelegate.m; sourceTree = "<group>"; };
+		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
+		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
+		16C0C90E0E294C2700B576C5 /* XIPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPTY.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* YLGrowlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGrowlDelegate.h; sourceTree = "<group>"; };
 		18A685A70D9414D900CA423A /* YLGrowlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGrowlDelegate.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
@@ -137,8 +139,6 @@
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		85145A9F0AB40053009FC710 /* YLTelnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTelnet.h; sourceTree = "<group>"; };
-		85145AA00AB40053009FC710 /* YLTelnet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLTelnet.mm; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* YLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTerminal.h; sourceTree = "<group>"; };
 		85145AAD0AB40192009FC710 /* YLTerminal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLTerminal.mm; sourceTree = "<group>"; };
 		852E798A0C96E7A90027751F /* CommonType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonType.h; sourceTree = "<group>"; };
@@ -166,8 +166,6 @@
 		85AE9DA60CB1597A0045317F /* reload.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = reload.pdf; sourceTree = "<group>"; };
 		85AE9DAD0CB15D220045317F /* bookmark.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = bookmark.pdf; sourceTree = "<group>"; };
 		85B247E60CEA1B840090046C /* DragonBall.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DragonBall.icns; sourceTree = "<group>"; };
-		85CE53370D0D687800F55B7B /* YLSSH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLSSH.h; sourceTree = "<group>"; };
-		85CE53380D0D687800F55B7B /* YLSSH.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLSSH.mm; sourceTree = "<group>"; };
 		85D258B00D1CE575002BD294 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/Preferences.nib; sourceTree = "<group>"; };
 		85D259390D20FD48002BD294 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		85D259460D21039D002BD294 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
@@ -231,7 +229,6 @@
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
 				85D9B9D20C97DF7B006C5E0F /* Views */,
-				85ED53B90D09349C003296D4 /* Abstract Interface */,
 				85F701440C895C8600E27A1E /* Model */,
 			);
 			name = Classes;
@@ -399,15 +396,6 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
-		85ED53B90D09349C003296D4 /* Abstract Interface */ = {
-			isa = PBXGroup;
-			children = (
-				85ED53200D092B5F003296D4 /* YLConnection.h */,
-				85ED53210D092B5F003296D4 /* YLConnection.mm */,
-			);
-			name = "Abstract Interface";
-			sourceTree = "<group>";
-		};
 		85ED53BA0D0934DC003296D4 /* Constant & Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,12 +410,13 @@
 		85F701440C895C8600E27A1E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				85ED53200D092B5F003296D4 /* YLConnection.h */,
+				85ED53210D092B5F003296D4 /* YLConnection.mm */,
+				16C0C90A0E294BAA00B576C5 /* XIProtocol.h */,
+				16C0C90D0E294C2700B576C5 /* XIPTY.h */,
+				16C0C90E0E294C2700B576C5 /* XIPTY.m */,
 				85145AAC0AB40192009FC710 /* YLTerminal.h */,
 				85145AAD0AB40192009FC710 /* YLTerminal.mm */,
-				85145A9F0AB40053009FC710 /* YLTelnet.h */,
-				85145AA00AB40053009FC710 /* YLTelnet.mm */,
-				85CE53370D0D687800F55B7B /* YLSSH.h */,
-				85CE53380D0D687800F55B7B /* YLSSH.mm */,
 				8579CA280CF21D3D005A8353 /* YLSite.h */,
 				8579CA290CF21D3D005A8353 /* YLSite.m */,
 				85E7825A0D057E8400BDA3FB /* YLEmoticon.h */,
@@ -516,7 +505,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8570AD5F0A3923A900838442 /* YLView.mm in Sources */,
-				85145AA10AB40053009FC710 /* YLTelnet.mm in Sources */,
 				85145AAE0AB40192009FC710 /* YLTerminal.mm in Sources */,
 				85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */,
 				856CDB260C9650550025C754 /* encoding.c in Sources */,
@@ -528,7 +516,6 @@
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.c in Sources */,
 				85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */,
-				85CE53390D0D687800F55B7B /* YLSSH.mm in Sources */,
 				07B370690D6840600035E87D /* YLImagePreviewer.m in Sources */,
 				18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */,
@@ -542,6 +529,7 @@
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
 				1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */,
+				16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

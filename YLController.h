@@ -123,9 +123,9 @@
 - (void)insertObject:(id)obj inSitesAtIndex:(unsigned)theIndex;
 - (void)removeObjectFromSitesAtIndex:(unsigned)theIndex;
 - (void)replaceObjectInSitesAtIndex:(unsigned)theIndex withObject:(id)obj;
-
+/* commented by boost @ 9#
 - (void) refreshTabLabelNumber: (NSTabView *) tabView ;
-
+*/
 - (NSArray *)emoticons;
 - (unsigned)countOfEmoticons;
 - (id)objectInEmoticonsAtIndex:(unsigned)theIndex;
@@ -135,7 +135,6 @@
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
 
 - (void) forceFront;
-
 
 // for bindings access
 - (RemoteControl*) remoteControl;

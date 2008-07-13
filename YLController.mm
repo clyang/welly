@@ -9,8 +9,8 @@
 //  Add support for ordering sites via drag & drop.
 
 #import "YLController.h"
-#import "YLTelnet.h"
 #import "YLTerminal.h"
+#import "XIPTY.h"
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
@@ -65,7 +65,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                                               options: (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
                                               context: NULL];
 
-    [_tab setCanCloseOnlyTab: YES];
+    // tab control style
+    [_tab setCanCloseOnlyTab:YES];
+    [_tab setDelegate:self];
+    /*// show a new-tab button
+    [_tab setShowAddTabButton:YES];
+    [[_tab addTabButton] setTarget:self];
+    [[_tab addTabButton] setAction:@selector(newTab:)];
+    */
     /* Trigger the KVO to update the information properly. */
     [[YLLGlobalConfig sharedInstance] setShowHiddenText: [[YLLGlobalConfig sharedInstance] showHiddenText]];
     [[YLLGlobalConfig sharedInstance] setCellWidth: [[YLLGlobalConfig sharedInstance] cellWidth]];
@@ -177,40 +184,46 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 }
 
-- (void) newConnectionWithSite: (YLSite *) s {
+- (void) newConnectionWithSite:(YLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    
-	id terminal = [YLTerminal new];
-    YLConnection *connection = [YLConnection connectionWithAddress: [s address]];
-    
-    BOOL emptyTab = [_telnetView frontMostConnection] && ([_telnetView frontMostTerminal] == nil);
-    
-    [terminal setEncoding: [s encoding]];
-	[connection setTerminal: terminal];
-    [connection setConnectionName: [s name]];
-    [connection setConnectionAddress: [s address]];
-	[terminal setDelegate: _telnetView];
-    
-    NSTabViewItem *tabItem;
-    
-    if (emptyTab) {
-		// reuse empty tab.
-        tabItem = [_telnetView selectedTabViewItem];
-        [tabItem setIdentifier: connection];
-    } else {
-		// no empty tab available, open a new one.
-        tabItem = [[[NSTabViewItem alloc] initWithIdentifier: connection] autorelease];
-        [_telnetView addTabViewItem: tabItem];
-    }
-	// Set the view to be focused.
-	[_mainWindow makeFirstResponder: _telnetView];
-    // Set tab's label as site's name.
-    [tabItem setLabel: [s name]];
 
-	[connection connectToSite: s];
-    [_telnetView selectTabViewItem: tabItem];
-    [terminal release];
+	// Set the view to be focused.
+	[_mainWindow makeFirstResponder:_telnetView];
+
+    YLConnection *connection;
+    NSTabViewItem *tabViewItem;
+    BOOL emptyTab = [_telnetView frontMostConnection] && ([_telnetView frontMostTerminal] == nil);
+    if (emptyTab) {
+		// reuse the empty tab
+        tabViewItem = [_telnetView selectedTabViewItem];
+        connection = [tabViewItem identifier];
+        [connection setSite:site];
+    } else {
+        connection = [[[YLConnection alloc] initWithSite:site] autorelease];
+        tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
+        // this will invoke tabView:didSelectTabViewItem
+        [_telnetView addTabViewItem:tabViewItem];
+    }
+
+    // new terminal
+    YLTerminal *terminal = [[YLTerminal new] autorelease];
+    [connection setTerminal:terminal];
+    [terminal setDelegate:_telnetView];
+
+    // XIPTY as the default protocol (a proxy)
+    XIPTY *protocol = [[XIPTY new] autorelease];
+    [connection setProtocol:protocol];
+    [protocol setDelegate:connection];
+    [protocol connect:[site address]];
+
+    // set the tab label as the site name.
+    [tabViewItem setLabel:[site name]];
+    // select the item
+    [_telnetView selectTabViewItem:tabViewItem];
+
+    /* commented by boost @ 9#
     [self refreshTabLabelNumber: _telnetView];
+    */
     [self updateEncodingMenu];
     [_detectDoubleByteButton setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
     [_detectDoubleByteMenuItem setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
@@ -376,22 +389,27 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction) newTab: (id) sender {
-    YLConnection *connection = [YLConnection new];
-    [connection setConnectionAddress: @""];
-    [connection setConnectionName: @""];
-    NSTabViewItem *tabItem = [[[NSTabViewItem alloc] initWithIdentifier: connection] autorelease];
-    [_telnetView addTabViewItem: tabItem];
-    [_telnetView selectTabViewItem: tabItem];
-    YLSite *s = [YLSite site];
-    [s setEncoding: [[YLLGlobalConfig sharedInstance] defaultEncoding]];
-    [s setDetectDoubleByte: [[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-	[s setAutoReply: NO];
-	[s setAutoReplyString: defaultAutoReplyString];
-    
-    [_mainWindow makeKeyAndOrderFront: self];
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+
+    YLSite *site = [YLSite site];
+    [site setEncoding: [[YLLGlobalConfig sharedInstance] defaultEncoding]];
+    [site setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
+	[site setAutoReply:NO];
+	[site setAutoReplyString:defaultAutoReplyString];
+
+    YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
+
+    NSTabViewItem *tabItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
+    [tabItem setLabel:@"Untitled"];
+    [_telnetView addTabViewItem:tabItem];
+    [_telnetView selectTabViewItem:tabItem];
+
+    [_mainWindow makeKeyAndOrderFront:self];
+    // let user input
 	[_telnetView resignFirstResponder];
 	[_addressBar becomeFirstResponder];
-    [connection release];
+    
+    [pool release];
 }
 
 - (IBAction) connect: (id) sender {
@@ -523,13 +541,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction) closeTab: (id) sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
     
-    NSTabViewItem *tabItem = [_telnetView selectedTabViewItem];
-    if ([self tabView: _telnetView shouldCloseTabViewItem: tabItem]) {
-        [self tabView: _telnetView willCloseTabViewItem: tabItem];
-        //[[[tabItem identifier] terminal] setHasMessage: NO];
-		[[[tabItem identifier] terminal] resetMessageCount];
-        [_telnetView removeTabViewItem: tabItem];
-        [self tabView: _telnetView didCloseTabViewItem: tabItem];
+    NSTabViewItem *sel = [_telnetView selectedTabViewItem];
+    if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
+        [self tabView:_telnetView willCloseTabViewItem:sel];
+        [_telnetView removeTabViewItem:sel];
     }
 }
 
@@ -566,7 +581,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction) addSites: (id) sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
-    NSString *address = [[_telnetView frontMostConnection] connectionAddress];
+    NSString *address = [[[_telnetView frontMostConnection] site] address];
     
     for (YLSite *s in _sites) 
         if ([[s address] isEqualToString: address]) 
@@ -824,15 +839,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 #pragma mark -
-#pragma mark Tab Delegation
-
-- (void) confirmTabSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
-    if (returnCode == NSAlertDefaultReturn) {
-        //[[[(id)contextInfo identifier] terminal] setHasMessage: NO];
-		[[[(id)contextInfo identifier] terminal] resetMessageCount];
-        [_telnetView removeTabViewItem: (id)contextInfo];
-    }
-}
+#pragma mark TabView delegation
 
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
 	// Restore from full screen firstly
@@ -840,41 +847,58 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		isFullScreen = false;
 		[self restoreFont:screenRatio];
 		[testFSWindow close];
-		[orinSuperView addSubview:_telnetView];
+		[orinSuperView addSubview:tabView];
 	}
     if (![[tabViewItem identifier] connected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
+    /* commented out by boost @ 9#: modal makes more sense
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title"), 
                       NSLocalizedString(@"Close", @"Default Button"), 
                       NSLocalizedString(@"Cancel", @"Cancel Button"), 
                       nil, 
                       _mainWindow, self, 
-                      @selector(confirmTabSheetDidEnd:returnCode:contextInfo:), 
+                      @selector(didShouldCloseTabViewItem:returnCode:contextInfo:), 
                       NULL, 
                       tabViewItem, 
                       NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message"));
+    */
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
+                              defaultButton:NSLocalizedString(@"Close", @"Default Button")
+                              alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+                              otherButton:nil
+                              informativeTextWithFormat:NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message")];
+    if ([alert runModal] == NSAlertDefaultReturn)
+        return YES;
     return NO;
 }
 
 - (void)tabView:(NSTabView *)tabView willCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+    // close the connection
+    [[tabViewItem identifier] close];
 }
 
 - (void)tabView:(NSTabView *)tabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem {
+    // pass
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    id identifier = [tabViewItem identifier];
+    YLConnection *connection = [tabViewItem identifier];
     [_telnetView updateBackedImage];
-    [_addressBar setStringValue: [identifier connectionAddress]];
+    [_addressBar setStringValue: [[connection site] address]];
     [_telnetView setNeedsDisplay: YES];
-    [_mainWindow makeFirstResponder: _telnetView];
-    //[[[tabViewItem identifier] terminal] setHasMessage: NO];
+    [_mainWindow makeFirstResponder: tabView];
 	[[[tabViewItem identifier] terminal] resetMessageCount];
+    // empty tab
+    if (![[[connection site] address] length]) {
+        [_telnetView resignFirstResponder];
+        [_addressBar becomeFirstResponder];
+    }
 
     [self updateEncodingMenu];
-    [_detectDoubleByteButton setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
-    [_detectDoubleByteMenuItem setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
-    [_autoReplyButton setState: [[[_telnetView frontMostConnection] site] autoReply] ? NSOnState : NSOffState];
+    YLSite *site = [connection site];
+    [_detectDoubleByteButton setState: [site detectDoubleByte] ? NSOnState : NSOffState];
+    [_detectDoubleByteMenuItem setState: [site detectDoubleByte] ? NSOnState : NSOffState];
+    [_autoReplyButton setState: [site autoReply] ? NSOnState : NSOffState];
 }
 
 - (BOOL)tabView:(NSTabView *)tabView shouldSelectTabViewItem:(NSTabViewItem *)tabViewItem {
@@ -886,6 +910,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [[identifier terminal] setAllDirty];
     [_telnetView clearSelection];
 }
+
+/* commented out by boost @ 9#: what the hell are these delegates...
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl {
 	return NO;
@@ -903,6 +929,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return nil;
 }
 
+*/
+/* commented out by boost @ 9#: well, not necessary to number sites (is safari doing that)? 
+
 - (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
     [self refreshTabLabelNumber: tabView];
 }
@@ -916,6 +945,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
 }
+*/
 
 #pragma mark -
 #pragma mark Compose

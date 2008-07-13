@@ -90,7 +90,7 @@
 - (YLEncoding) encoding;
 - (void) setEncoding: (YLEncoding) encoding;
 - (BOOL)hasMessage;
-- (void)setHasMessage:(BOOL)value;
+//- (void)setHasMessage:(BOOL)value;
 - (int)messageCount;
 - (void)increaseMessageCount: (int)value;
 - (void)resetMessageCount;

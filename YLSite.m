@@ -13,7 +13,7 @@
 - (id) init {
     if ([super init]) {
         [self setName: @"Site Name"];
-        [self setAddress: @"ssh://id@your.site.org"];
+        [self setAddress: @""];
         [self setEncoding: YLGBKEncoding];
 		[self setAnsiColorKey: YLEscEscEscANSIColorKey];
 		[self setAutoReply: NO];
@@ -28,7 +28,7 @@
 
 
 + (YLSite *) siteWithDictionary: (NSDictionary *) d {
-    YLSite *s = [[[YLSite alloc] init] autorelease];
+    YLSite *s = [YLSite site];
     [s setName: [d valueForKey: @"name"] ?: @""];
     [s setAddress: [d valueForKey: @"address"] ?: @""];
     [s setEncoding: (YLEncoding)[[d valueForKey: @"encoding"] unsignedShortValue]];

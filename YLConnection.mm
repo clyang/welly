@@ -11,7 +11,7 @@
 
 
 @implementation YLConnection
-
+/*
 + (YLConnection *) connectionWithAddress: (NSString *) addr {
     Class c; 
     if ([addr hasPrefix: @"ssh://"])
@@ -21,26 +21,62 @@
 //    NSLog(@"CONNECTION wih addr: %@ %@", addr, c);
     return (YLConnection *)[[[c alloc] init] autorelease];
 }
+*/
+- (id)init {
+    if (self == [super initWithContent:self]) {
+    }
+    return self;
+}
 
-- (void) dealloc {
+- (id)initWithSite:(YLSite *)site {
+    if (self == [super initWithContent:self]) {
+        [self setSite:site];
+    }
+    return self;
+}
+
+- (void)dealloc {
     [_lastTouchDate release];
     [_icon release];
-    [_connectionName release];
-    [_connectionAddress release];
+    //[_connectionName release];
+    //[_connectionAddress release];
     [_terminal release];
+    [_protocol release];
     [super dealloc];
 }
 
-- (YLTerminal *) terminal {
+- (YLSite *)site {
+    return _site;
+}
+
+- (void)setSite:(YLSite *)value {
+    if (_site != value) {
+        [_site release];
+        _site = [value retain];
+    }
+}
+
+- (YLTerminal *)terminal {
 	return _terminal;
 }
 
-- (void) setTerminal: (YLTerminal *) term {
-	if (term != _terminal) {
+- (void) setTerminal:(YLTerminal *)value {
+	if (_terminal != value) {
 		[_terminal release];
-		_terminal = [term retain];
+		_terminal = [value retain];
         [_terminal setConnection: self];
 	}
+}
+
+- (NSObject <XIProtocol> *)protocol {
+    return _protocol;
+}
+
+- (void)setProtocol:(NSObject <XIProtocol> *)value {
+    if (_protocol != value) {
+        [_protocol release];
+        _protocol = [value retain];
+    }
 }
 
 - (BOOL)connected {
@@ -57,7 +93,7 @@
         [self setIcon: [NSImage imageNamed: @"offline.pdf"]];
     }
 }
-
+/*
 - (NSString *)connectionName {
     return _connectionName;
 }
@@ -68,7 +104,7 @@
         _connectionName = [value retain];
     }
 }
-
+*/
 - (NSImage *)icon {
     return _icon;
 }
@@ -80,54 +116,92 @@
     }
 }
 
-- (NSString *)connectionAddress {
-    return _connectionAddress;
-}
-
-- (void)setConnectionAddress:(NSString *)value {
-    if (_connectionAddress != value) {
-        [_connectionAddress release];
-        _connectionAddress = [value retain];
-    }
-}
-
 - (BOOL)isProcessing {
     return _processing;
 }
 
 - (void)setIsProcessing:(BOOL)value {
+    if (_processing != value)
     _processing = value;
+}
+
+- (int)objectCount {
+    return _objectCount;
+}
+
+- (void)setObjectCount:(int)value {
+    _objectCount = value;
 }
 
 - (NSDate *) lastTouchDate {
     return _lastTouchDate;
 }
 
-- (YLSite *) site {
-    return _site;
+- (void)setLastTouchDate {
+    [_lastTouchDate release];
+    _lastTouchDate = [[NSDate date] retain];
 }
 
-- (void)setSite:(YLSite *)value {
-    if (_site != value) {
-        [_site release];
-        _site = [value retain];
-    }
+#pragma mark -
+#pragma mark XIProtocol delegate methods
+
+- (void)protocolWillConnect:(id)protocol {
+    [self setIsProcessing:YES];
+    [self setConnected:NO];
 }
 
-- (void) sendText: (id) aString {
-	[self sendText: aString withDelay: 0];
+- (void)protocolDidConnect:(id)protocol {
+    [self setIsProcessing:NO];
+    [self setConnected:YES];
 }
 
-- (void) sendText: (id) aString withDelay: (int) microsecond{
+- (void)protocolDidRecv:(id)protocol data:(NSData*)data {
+    [_terminal feedBytes:(const unsigned char *)[data bytes] length:[data length] connection:self];
+}
+
+- (void)protocolWillSend:(id)protocol data:(NSData*)data {
+    [self setLastTouchDate];
+}
+
+- (void)protocolDidClose:(id)protocol {
+    [self setIsProcessing:NO];
+    [self setConnected:NO];
+}
+
+#pragma mark -
+#pragma mark network
+
+- (void)close {
+    [_protocol close];
+}
+
+- (void)reconnect {
+    [_protocol close];
+    [_protocol connect:[_site address]];
+}
+
+- (void)sendMessage:(NSData *)msg {
+    [_protocol send:msg];
+}
+
+- (void)sendBytes:(unsigned char *)msg length:(NSInteger)length {
+    [_protocol send:[NSData dataWithBytes:msg length:length]];
+}
+
+- (void)sendText:(NSString *)s {
+	[self sendText:s withDelay:0];
+}
+
+- (void)sendText:(NSString *)text withDelay:(int)microsecond {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	// Send text 'aString' to this connection    
-	NSMutableString *mStr = [NSMutableString stringWithString: aString];
+	NSMutableString *mStr = [NSMutableString stringWithString:text];
 
 	// replace all '\n' with '\r'
     [mStr replaceOccurrencesOfString: @"\n"
                           withString: @"\r"
                              options: NSLiteralSearch
-                               range: NSMakeRange(0, [aString length])];
+                               range: NSMakeRange(0, [text length])];
     
 	// translate into proper encoding of the site
 	int i;
@@ -163,21 +237,5 @@
 	
 	[pool release];
 }
-
-/* Empty */
-- (void) close {}
-- (void) reconnect {}
-
-- (BOOL) connectToSite: (YLSite *) s { 
-    [self setSite: s];
-    return [self connectToAddress: [s address]];
-}
-
-- (BOOL) connectToAddress: (NSString *) addr { return YES; }
-- (BOOL) connectToAddress: (NSString *) addr port: (unsigned int) port { return YES;}
-
-- (void) receiveBytes: (unsigned char *) bytes length: (NSUInteger) length { }
-- (void) sendBytes: (unsigned char *) msg length: (NSInteger) length { }
-- (void) sendMessage: (NSData *) msg { }
 
 @end
