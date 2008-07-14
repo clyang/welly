@@ -9,7 +9,7 @@
 #import "YLTerminal.h"
 #import "YLLGlobalConfig.h"
 #import "encoding.h"
-#import "YLGrowlDelegate.h"
+#import "TYGrowlBridge.h"
 #import "KOAutoReplyDelegate.h"
 
 #define CURSOR_MOVETO(x, y)		do {\
@@ -45,7 +45,18 @@ ASCII_CODE asciiCodeFamily(unsigned char c) {
 
 static unsigned short gEmptyAttr;
 
+@interface YLTerminal ()
+- (void) setDelegate: (id) d;
+- (id) delegate;
+@end;
+
 @implementation YLTerminal
+
++ (YLTerminal *)terminalWithView:(YLView *)view {
+    YLTerminal *terminal = [[YLTerminal alloc] init];
+    [terminal setDelegate:view];
+    return [terminal autorelease];
+}
 
 - (id) init {
 	if (self = [super init]) {
@@ -436,17 +447,19 @@ if (_cursorX <= _column - 1) { \
 						         message: messageString];
 								  
 		if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) {
-			// not in focus, should invoke growl notification
-			NSDictionary* context = [NSDictionary dictionaryWithObjectsAndKeys:_connection, kContextTabID,
-					_delegate, kContextYLView, 
-					gNotificationMessage, kContextNotificationName,
-					nil];
-
-			[[GrowlApplicationBridge growlDelegate]  newMessage: callerName
-														message: messageString
-														context: context];
-			
-			[self increaseMessageCount: 1];
+			// not in focus
+            [self increaseMessageCount: 1];
+            // should invoke growl notification
+            // TODO: should bring the window to front or animate the icon?
+			[TYGrowlBridge notifyWithTitle:callerName
+                               description:messageString
+                          notificationName:@"New Message Received"
+                                  iconData:[NSData data]
+                                  priority:0
+                                  isSticky:NO
+                              clickContext:_delegate
+                             clickSelector:@selector(selectTabViewItemWithIdentifier:)
+                                withObject:_connection];
 		}
 	}
 

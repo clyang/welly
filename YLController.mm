@@ -14,7 +14,6 @@
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
-#import "YLGrowlDelegate.h"
 #import "YLImagePreviewer.h"
 
 // for remote control
@@ -91,11 +90,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     
     [NSTimer scheduledTimerWithTimeInterval: 120 target: self selector: @selector(antiIdle:) userInfo: nil repeats: YES];
     [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(updateBlinkTicker:) userInfo: nil repeats: YES];
-
-	// set growl delegate
-	YLGrowlDelegate* delegate = [[[YLGrowlDelegate alloc] init] autorelease];
-	[delegate setController: self];
-	[delegate setup];
 
 	// set remote control
 	//remoteControl = [[AppleRemote alloc] initWithDelegate: self];
@@ -206,9 +200,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 
     // new terminal
-    YLTerminal *terminal = [[YLTerminal new] autorelease];
+    YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
     [connection setTerminal:terminal];
-    [terminal setDelegate:_telnetView];
 
     // XIPTY as the default protocol (a proxy)
     XIPTY *protocol = [[XIPTY new] autorelease];

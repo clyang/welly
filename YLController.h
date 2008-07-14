@@ -16,7 +16,6 @@
 #define floatWindowLevel kCGStatusWindowLevel+1
 
 @class YLTerminal;
-@class YLGrowlDelegate;
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
 
@@ -150,9 +149,4 @@
 - (void) doScrollDown:(NSTimer*) timer;
 - (void) disableTimer;
 
-@end
-
-@interface NSObject (YLGrowlDelegate)
-	- (void) setController: (YLController *)controller;
-	- (void) setup;
 @end

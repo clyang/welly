@@ -53,6 +53,8 @@
 	KOAutoReplyDelegate *_autoReplyDelegate;
 }
 
++ (YLTerminal *)terminalWithView:(YLView *)view;
+
 /* Input Interface */
 - (void) feedData: (NSData *) data connection: (id) connection;
 - (void) feedBytes: (const unsigned char *) bytes length: (int) len connection: (id) connection;
@@ -83,8 +85,6 @@
 - (NSString *) urlStringAtRow: (int) r column: (int) c ;
 
 /* Accessor */
-- (void) setDelegate: (id) d;
-- (id) delegate;
 - (int) cursorRow;
 - (int) cursorColumn;
 - (YLEncoding) encoding;

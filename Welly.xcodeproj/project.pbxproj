@@ -11,9 +11,10 @@
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */; };
+		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
-		18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* YLGrowlDelegate.m */; };
+		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.mm */; };
 		5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */; };
@@ -95,13 +96,14 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookDelegate.h; sourceTree = "<group>"; };
 		1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookDelegate.m; sourceTree = "<group>"; };
+		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
 		16C0C90E0E294C2700B576C5 /* XIPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPTY.m; sourceTree = "<group>"; };
 		16FEC31F0E2A80B50035DADD /* XITabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XITabBarControl.h; sourceTree = "<group>"; };
 		16FEC3200E2A80B50035DADD /* XITabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XITabBarControl.m; sourceTree = "<group>"; };
-		18A685A60D9414D900CA423A /* YLGrowlDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGrowlDelegate.h; sourceTree = "<group>"; };
-		18A685A70D9414D900CA423A /* YLGrowlDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGrowlDelegate.m; sourceTree = "<group>"; };
+		18A685A60D9414D900CA423A /* TYGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYGrowlBridge.h; sourceTree = "<group>"; };
+		18A685A70D9414D900CA423A /* TYGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYGrowlBridge.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
 		18BB9B850D98ECE500387145 /* IPSeeker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSeeker.h; sourceTree = "<group>"; };
 		18BB9B860D98ECE500387145 /* IPSeeker.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IPSeeker.mm; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */,
 				5A91BAED0E1E1E6A007538E5 /* WellyHelp */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
@@ -376,8 +379,8 @@
 			children = (
 				18BB9B850D98ECE500387145 /* IPSeeker.h */,
 				18BB9B860D98ECE500387145 /* IPSeeker.mm */,
-				18A685A60D9414D900CA423A /* YLGrowlDelegate.h */,
-				18A685A70D9414D900CA423A /* YLGrowlDelegate.m */,
+				18A685A60D9414D900CA423A /* TYGrowlBridge.h */,
+				18A685A70D9414D900CA423A /* TYGrowlBridge.m */,
 				5AF8CA5B0D9CDB0000DFB5AB /* KOAutoReplyDelegate.h */,
 				5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */,
 				5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */,
@@ -498,6 +501,7 @@
 				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
 				6B3128A60DB36757005D6C32 /* Welly.icns in Resources */,
 				5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */,
+				16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,7 +526,7 @@
 				85ED52290D0920E6003296D4 /* CommonType.c in Sources */,
 				85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */,
 				07B370690D6840600035E87D /* YLImagePreviewer.m in Sources */,
-				18A685A80D9414D900CA423A /* YLGrowlDelegate.m in Sources */,
+				18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */,

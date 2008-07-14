@@ -7,7 +7,7 @@
 //
 
 #import "YLContextualMenuManager.h"
-#import "YLGrowlDelegate.h"
+#import "TYGrowlBridge.h"
 #import "IPSeeker.h"
 
 static YLContextualMenuManager *gSharedInstance;
@@ -144,13 +144,10 @@ static YLContextualMenuManager *gSharedInstance;
 		if(value > 255 || value < 0)
 			return;
 		ip[3] = value & 0xFF;
-		[GrowlApplicationBridge notifyWithTitle: u
-									description: [[IPSeeker shared] getLocation: ip]
-							   notificationName: @"YLNotificationIPSeeker"
-									   iconData: nil
-									   priority: 0
-									   isSticky: NO
-								   clickContext: nil];
+        NSString *loc = [[IPSeeker shared] getLocation:ip];
+		[TYGrowlBridge notifyWithTitle:u
+                           description:loc
+                      notificationName:@"IP Address Location"];
 	}
 }
 
