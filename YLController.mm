@@ -887,7 +887,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_addressBar setStringValue: [[connection site] address]];
     [_telnetView setNeedsDisplay: YES];
     [_mainWindow makeFirstResponder: tabView];
-	[[[tabViewItem identifier] terminal] resetMessageCount];
+	[[connection terminal] resetMessageCount];
     // empty tab
     if (![[[connection site] address] length]) {
         [_telnetView resignFirstResponder];
