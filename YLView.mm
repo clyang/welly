@@ -726,8 +726,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	}
 	
-	if (![self hasMarkedText] && (c == 0x7F)) {
-		buf[0] = buf[1] = 0x08;
+	if (![self hasMarkedText] && (c == NSDeleteCharacter)) {
+		//buf[0] = buf[1] = NSBackspaceCharacter;
+		// Modified by K.O.ed: using 0x7F instead of 0x08
+		buf[0] = buf[1] = NSDeleteCharacter;
         if ([[[self frontMostConnection] site] detectDoubleByte] &&
             [ds cursorColumn] > 0 && [ds attrAtRow: [ds cursorRow] column: [ds cursorColumn] - 1].f.doubleByte == 2)
             [[self frontMostConnection] sendBytes: buf length: 2];
