@@ -1354,7 +1354,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 											backing:NSBackingStoreBuffered
 											defer:NO
 											screen:[NSScreen mainScreen]];
-		[testFSWindow setBackgroundColor:[NSColor blackColor]];
+		[testFSWindow setOpaque: NO];
+		[testFSWindow setBackgroundColor: [[YLLGlobalConfig sharedInstance] colorBG]];
 		[testFSWindow makeKeyAndOrderFront:nil];
 		[testFSWindow setLevel:windowLevel];
 		// Record superview

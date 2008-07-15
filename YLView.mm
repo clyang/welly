@@ -798,6 +798,7 @@ BOOL isSpecialSymbol(unichar ch) {
         NSRect retangle = [self bounds];
 		NSRectFill(retangle);
         /* Draw the backed image */
+		
 		NSRect imgRect = rect;
 		imgRect.origin.y = (_fontHeight * gRow) - rect.origin.y - rect.size.height;
 		[_backedImage compositeToPoint: rect.origin
