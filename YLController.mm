@@ -496,7 +496,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction) reconnect: (id) sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
         [[_telnetView frontMostTerminal] resetMessageCount];
-        [[_telnetView frontMostTerminal] clearAll];
         [[_telnetView frontMostConnection] reconnect];
         return;
     }

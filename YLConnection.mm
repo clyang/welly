@@ -166,6 +166,7 @@
 - (void)protocolDidClose:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:NO];
+    [_terminal clearAll];
 }
 
 #pragma mark -
