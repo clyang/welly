@@ -202,6 +202,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // new terminal
     YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
     [connection setTerminal:terminal];
+	
+	// Clear out the terminal
+	[terminal clearAll];
 
     // XIPTY as the default protocol (a proxy)
     XIPTY *protocol = [[XIPTY new] autorelease];

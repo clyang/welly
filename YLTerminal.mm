@@ -387,6 +387,9 @@ if (_cursorX <= _column - 1) { \
 								_fgColor = p - 30;
 							} else if (40 <= p && p <= 49) {
 								_bgColor = p - 40;
+								// added by K.O.ed, *[40m should use background color but not black color
+								if (p == 40)
+									_bgColor = 9;
 							} else if (p == 1) {
 								_bold = YES;
 							} else if (p == 4) {
