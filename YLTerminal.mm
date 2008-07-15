@@ -487,6 +487,7 @@ if (_cursorX <= _column - 1) { \
 
 - (void) clearAll {
     _cursorX = _cursorY = 0;
+	
     attribute t;
     t.f.fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
     t.f.bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
@@ -497,6 +498,16 @@ if (_cursorX <= _column - 1) { \
     t.f.url = 0;
     t.f.nothing = 0;
     gEmptyAttr = t.v;
+	
+    _fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
+    _bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
+    _csTemp = 0;
+    _state = TP_NORMAL;
+    _bold = NO;
+	_underline = NO;
+	_blink = NO;
+	_reverse = NO;
+	
     int i;
     for (i = 0; i < _row; i++) 
         [self clearRow: i];
@@ -509,14 +520,6 @@ if (_cursorX <= _column - 1) { \
         _csArg->clear();
     else
         _csArg = new std::deque<int>();
-    _fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
-    _bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
-    _csTemp = 0;
-    _state = TP_NORMAL;
-    _bold = NO;
-	_underline = NO;
-	_blink = NO;
-	_reverse = NO;
 }
 
 - (void) clearRow: (int) r {
