@@ -10,7 +10,7 @@
 		07B370690D6840600035E87D /* YLImagePreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B370680D6840600035E87D /* YLImagePreviewer.m */; };
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
-		1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */; };
+		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
 		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
@@ -94,8 +94,8 @@
 		07B370790D6840B20035E87D /* HMBlkAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HMBlkAppKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookDelegate.h; sourceTree = "<group>"; };
-		1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookDelegate.m; sourceTree = "<group>"; };
+		1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookBridge.m; sourceTree = "<group>"; };
+		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
 		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
@@ -385,8 +385,8 @@
 				5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */,
 				5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */,
 				5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */,
-				169021990E277C4700BC90A4 /* XIQuickLookDelegate.h */,
-				1690219A0E277C4700BC90A4 /* XIQuickLookDelegate.m */,
+				1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */,
+				1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */,
 				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
 				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
 			);
@@ -537,9 +537,9 @@
 				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
-				1690219B0E277C4700BC90A4 /* XIQuickLookDelegate.m in Sources */,
 				16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */,
 				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
+				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

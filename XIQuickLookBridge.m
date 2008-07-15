@@ -1,15 +1,15 @@
 //
-//  QuickLookDelegate.m
+//  XIQuickLookBridge.m
 //  Preview via Quick Look
 //
 //  Created by boost @ 9# on 7/11/08.
 //  Copyright 2008 Xi Wang. All rights reserved.
 //
 
-#import "XIQuickLookDelegate.h"
+#import "XIQuickLookBridge.h"
 
 // suppress warnings
-@interface QLPreviewPanel: NSPanel
+@interface QLPreviewPanel : NSPanel
 + (id)sharedPreviewPanel;
 - (void)close;
 - (BOOL)isOpen;
@@ -17,9 +17,9 @@
 - (void)setURLs:(NSArray *)URLs currentIndex:(unsigned)index preservingDisplayState:(BOOL)flag;
 @end
 
-@implementation XIQuickLookDelegate
+@implementation XIQuickLookBridge
 
-static XIQuickLookDelegate *sSharedPanel = nil;
+static XIQuickLookBridge *sSharedPanel = nil;
 static QLPreviewPanel *sPreview;
 // Quick Look
 #define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
@@ -29,7 +29,7 @@ static QLPreviewPanel *sPreview;
         // Leopard: "/System/Library/PrivateFrameworks/QuickLookUI.framework"
         [[NSBundle bundleWithPath:@"/System/…/QuickLookUI.framework"] load];
         sPreview = [QLPreviewPanel sharedPreviewPanel];
-        sSharedPanel = [[XIQuickLookDelegate alloc] init];
+        sSharedPanel = [[XIQuickLookBridge alloc] init];
     }
     return sSharedPanel;
 }
@@ -48,26 +48,6 @@ static QLPreviewPanel *sPreview;
     [super dealloc];
 }
 
-- (void)add:(NSURL *)URL {
-    // check if the url is already under preview
-    unsigned index = [_URLs indexOfObject:URL];
-    if (index == NSNotFound) {
-        [_URLs insertObject:URL atIndex:0];
-        index = 0;
-    }
-    // update
-    [sPreview setURLs:_URLs currentIndex:index preservingDisplayState:YES];
-    if (![sPreview isOpen])
-        [sPreview makeKeyAndOrderFrontWithEffect:2]; // 2 for zoom effect
-}
-
-- (void)removeAll {
-    [_URLs removeAllObjects];
-    if ([sPreview isOpen])
-        [sPreview close];
-    // we don't call setURLs here
-}
-
 // delegate for QLPreviewPanel
 // zoom effect from the current mouse coordinates
 - (NSRect)previewPanel:(NSPanel*)panel frameForURL:(NSURL*)URL {
@@ -78,5 +58,29 @@ static QLPreviewPanel *sPreview;
     return frame;
 }
 
++ (NSMutableArray *)URLs {
+    return ((XIQuickLookBridge *)[XIQuickLookBridge sharedPanel])->_URLs;
+}
+
++ (void)add:(NSURL *)URL {
+    NSMutableArray *URLs = [self URLs];
+    // check if the url is already under preview
+    unsigned index = [URLs indexOfObject:URL];
+    if (index == NSNotFound) {
+        [URLs insertObject:URL atIndex:0];
+        index = 0;
+    }
+    // update
+    [sPreview setURLs:URLs currentIndex:index preservingDisplayState:YES];
+    if (![sPreview isOpen])
+        [sPreview makeKeyAndOrderFrontWithEffect:2]; // 2 for zoom effect
+}
+
++ (void)removeAll {
+    [[self URLs] removeAllObjects];
+    if ([sPreview isOpen])
+        [sPreview close];
+    // we don't call setURLs here
+}
 
 @end

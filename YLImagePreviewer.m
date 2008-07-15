@@ -12,7 +12,7 @@
 #import "CommonType.h"
 #import "YLSite.h"
 #import "YLImagePreviewer.h"
-#import "XIQuickLookDelegate.h"
+#import "XIQuickLookBridge.h"
 
 @implementation YLImagePreviewer
 
@@ -185,7 +185,7 @@ NSStringEncoding encodingFromYLEncoding(YLEncoding ylenc)
 {
     // update URLs for quick look
     NSURL *URL = [NSURL fileURLWithPath:_currentFileDownloading];
-    [[XIQuickLookDelegate sharedPanel] add:URL];
+    [XIQuickLookBridge add:URL];
     // end
     [_window close];
 }
