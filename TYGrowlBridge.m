@@ -34,7 +34,24 @@ typedef struct TYClickContext {
                                    iconData:nil
                                    priority:0
                                    isSticky:NO
-                                   clickContext:nil];
+                               clickContext:nil];
+}
+
++ (void)notifyWithTitle:(NSString *)title
+            description:(NSString *)description
+       notificationName:(NSString *)notifName
+               isSticky:(BOOL)isSticky
+             identifier:(id)identifier {
+    // hack identifier that must be a string
+    NSString *s = [[NSNumber numberWithLong:(long)identifier] stringValue];
+    [GrowlApplicationBridge notifyWithTitle:title
+                                description:description
+                           notificationName:notifName
+                                   iconData:nil
+                                   priority:0
+                                   isSticky:isSticky
+                               clickContext:nil
+                                 identifier:s];
 }
 
 + (void)notifyWithTitle:(NSString *)title

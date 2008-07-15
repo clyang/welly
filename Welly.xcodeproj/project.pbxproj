@@ -11,6 +11,7 @@
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
+		1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */; };
 		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
@@ -96,6 +97,8 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookBridge.m; sourceTree = "<group>"; };
 		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
+		1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPreviewController.h; sourceTree = "<group>"; };
+		1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPreviewController.m; sourceTree = "<group>"; };
 		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
@@ -235,6 +238,8 @@
 				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
+				1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */,
+				1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -267,6 +272,17 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
+		16CABD730E2C9DC100AB8252 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,6 +296,7 @@
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				16CABD730E2C9DC100AB8252 /* Configurations */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -299,7 +316,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */,
 				5A91BAED0E1E1E6A007538E5 /* WellyHelp */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
@@ -314,9 +330,6 @@
 				857ACC7D0D1CE1DC00C422E7 /* Xmas.icns */,
 				85AE9DAD0CB15D220045317F /* bookmark.pdf */,
 				85AE9DA60CB1597A0045317F /* reload.pdf */,
-				8D1107310486CEB800E47090 /* Info.plist */,
-				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
 			);
 			name = Resources;
@@ -540,6 +553,7 @@
 				16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */,
 				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
+				1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

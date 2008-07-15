@@ -10,10 +10,11 @@
 
 
 @interface XIQuickLookBridge : NSObject {
-    NSMutableArray *_URLs; 
+    NSMutableArray *_URLs;
 }
 
 + (id)sharedPanel;
++ (void)orderFront;
 + (void)add:(NSURL *)URL;
 + (void)removeAll;
 

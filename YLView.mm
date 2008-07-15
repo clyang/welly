@@ -13,7 +13,8 @@
 #import "YLLGLobalConfig.h"
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
-#import "YLImagePreviewer.h"
+#import "XIPreviewController.h"
+//#import "YLImagePreviewer.h"
 
 #include <deque>
 #include "encoding.h"
@@ -669,19 +670,20 @@ BOOL isSpecialSymbol(unichar ch) {
                                                           column: (index % gColumn)];
         if (url)
         {
-			// Modified by boost @ 9#
+			// modified by boost @ 9#
 			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask
                 || [url hasSuffix: @".htm"] || [url hasSuffix: @".html"]
                 || [url hasSuffix: @"/"])
             {
                 // click while holding shift key or navigate web pages
                 // open the URL with browser
-				[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]];
+				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 			}
 			else
 			{
-				// open with YLImagePreviewer
-				[[YLImagePreviewer alloc] initWithURL: [NSURL URLWithString: url]];
+                // open with previewer
+                [XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+				// [[YLImagePreviewer alloc] initWithURL: [NSURL URLWithString: url]];
 			}
         }
     }

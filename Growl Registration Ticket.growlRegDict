@@ -6,11 +6,13 @@
 	<array>
 		<string>New Message Received</string>
 		<string>IP Address Location</string>
+		<string>File Transfer</string>
 	</array>
 	<key>DefaultNotifications</key>
 	<array>
 		<string>New Message Received</string>
 		<string>IP Address Location</string>
+		<string>File Transfer</string>
 	</array>
 	<key>TicketVersion</key>
 	<integer>1</integer>

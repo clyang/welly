@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl-WithInstaller/GrowlApplicationBridge.h>
 
-@protocol GrowlApplicationBridgeDelegate;
 @interface TYGrowlBridge : NSObject <GrowlApplicationBridgeDelegate>
 
 + (void)setup;
@@ -18,6 +17,14 @@
 + (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
        notificationName:(NSString *)notifName;
+
+// iconData:nil priority:0
+// identifier can be any object, not restricted to NSString
++ (void)notifyWithTitle:(NSString *)title
+            description:(NSString *)description
+       notificationName:(NSString *)notifName
+               isSticky:(BOOL)isSticky
+             identifier:(id)identifier;
 
 // clickContext can be any object, not restricted to plist-encodable
 + (void)notifyWithTitle:(NSString *)title

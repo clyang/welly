@@ -12,32 +12,30 @@
 @interface QLPreviewPanel : NSPanel
 + (id)sharedPreviewPanel;
 - (void)close;
-- (BOOL)isOpen;
 - (void)makeKeyAndOrderFrontWithEffect:(int)flag;
 - (void)setURLs:(NSArray *)URLs currentIndex:(unsigned)index preservingDisplayState:(BOOL)flag;
 @end
 
 @implementation XIQuickLookBridge
 
-static XIQuickLookBridge *sSharedPanel = nil;
-static QLPreviewPanel *sPreview;
-// Quick Look
-#define QLPreviewPanel NSClassFromString(@"QLPreviewPanel")
-
 + (id)sharedPanel {
+    static QLPreviewPanel *sSharedPanel = nil;
     if (sSharedPanel == nil) {
         // Leopard: "/System/Library/PrivateFrameworks/QuickLookUI.framework"
         [[NSBundle bundleWithPath:@"/System/…/QuickLookUI.framework"] load];
-        sPreview = [QLPreviewPanel sharedPreviewPanel];
-        sSharedPanel = [[XIQuickLookBridge alloc] init];
+        sSharedPanel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
+        // for zoom effect
+        [[sSharedPanel windowController] setDelegate:[[XIQuickLookBridge alloc] init]];
     }
     return sSharedPanel;
 }
 
++ (XIQuickLookBridge *)sharedInstance {
+    return [[[self sharedPanel] windowController] delegate];
+}
+
 - (id)init {
-    self = [super init];
-    if (self != nil) {
-        [[sPreview windowController] setDelegate:self]; // for zoom effect
+    if (self == [super init]) {
         _URLs = [[NSMutableArray arrayWithCapacity: 1] retain];
     }
     return self;
@@ -58,8 +56,12 @@ static QLPreviewPanel *sPreview;
     return frame;
 }
 
++ (void)orderFront {
+    [[XIQuickLookBridge sharedPanel] makeKeyAndOrderFrontWithEffect:2]; // 2 for zoom effect
+}
+
 + (NSMutableArray *)URLs {
-    return ((XIQuickLookBridge *)[XIQuickLookBridge sharedPanel])->_URLs;
+    return [self sharedInstance]->_URLs;
 }
 
 + (void)add:(NSURL *)URL {
@@ -71,15 +73,13 @@ static QLPreviewPanel *sPreview;
         index = 0;
     }
     // update
-    [sPreview setURLs:URLs currentIndex:index preservingDisplayState:YES];
-    if (![sPreview isOpen])
-        [sPreview makeKeyAndOrderFrontWithEffect:2]; // 2 for zoom effect
+    [[self sharedPanel] setURLs:URLs currentIndex:index preservingDisplayState:YES];
+    [self orderFront];
 }
 
 + (void)removeAll {
     [[self URLs] removeAllObjects];
-    if ([sPreview isOpen])
-        [sPreview close];
+    [[self sharedPanel] close];
     // we don't call setURLs here
 }
 
