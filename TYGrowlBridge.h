@@ -26,6 +26,14 @@
                isSticky:(BOOL)isSticky
              identifier:(id)identifier;
 
++ (void)notifyWithTitle:(NSString *)title
+            description:(NSString *)description
+       notificationName:(NSString *)notifName
+               isSticky:(BOOL)isSticky
+           clickContext:(id)clickContext
+          clickSelector:(SEL)clickSelector
+             identifier:(id)identifier;
+
 // clickContext can be any object, not restricted to plist-encodable
 + (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
@@ -35,6 +43,6 @@
                isSticky:(BOOL)isSticky
            clickContext:(id)clickContext
           clickSelector:(SEL)clickSelector
-             withObject:(id)object;
+             identifier:(id)identifier;
 
 @end

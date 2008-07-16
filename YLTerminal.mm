@@ -462,7 +462,7 @@ if (_cursorX <= _column - 1) { \
                                   isSticky:NO
                               clickContext:_delegate
                              clickSelector:@selector(selectTabViewItemWithIdentifier:)
-                                withObject:_connection];
+                                identifier:_connection];
 		}
 	}
 

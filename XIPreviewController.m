@@ -18,19 +18,6 @@
 
 @implementation XIPreviewController
 
-static XIPreviewController *sPreviewController = nil;
-+ (id)sharedInstance {
-    NSAssert(sPreviewController, @"created from .NIB");
-    return sPreviewController;
-}
-
-- (id)init {
-    if (self == [super init]) {
-        sPreviewController = self;
-    }
-    return self;
-}
-
 - (IBAction)openPreview:(id)sender {
     [XIQuickLookBridge orderFront];
 }
@@ -39,7 +26,8 @@ static XIPreviewController *sPreviewController = nil;
     NSURLRequest *request = [NSURLRequest requestWithURL:URL
                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                          timeoutInterval:30.0];
-    NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:[XIDownloadDelegate new]];
+    XIDownloadDelegate *delegate = [[XIDownloadDelegate new] autorelease];
+    NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
     if (download == nil)
         [[NSWorkspace sharedWorkspace] openURL:URL];
     return download;
@@ -150,7 +138,7 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-    [download release];
+    [download autorelease];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
@@ -160,7 +148,7 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-    [download release];
+    [download autorelease];
 }
 
 @end

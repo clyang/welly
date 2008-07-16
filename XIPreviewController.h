@@ -12,7 +12,6 @@
 
 }
 
-+ (id)sharedInstance;
 - (IBAction)openPreview:(id)sender;
 + (NSURLDownload *)dowloadWithURL:(NSURL *)URL;
 
