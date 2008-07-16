@@ -11,4 +11,14 @@
 
 @implementation KOAutoReplyRule
 
+- (bool) matches : (Message) message {
+    // TODO
+    return NO;
+}
+
+- (NSString *) getReply : (Message) message {
+    // TODO
+    return nil;
+}
+
 @end
