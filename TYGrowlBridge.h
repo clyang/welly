@@ -11,8 +11,6 @@
 
 @interface TYGrowlBridge : NSObject <GrowlApplicationBridgeDelegate>
 
-+ (void)setup;
-
 // iconData:nil priority:0 isSticky:NO
 + (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description

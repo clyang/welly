@@ -17,7 +17,7 @@ typedef struct TYClickContext {
 
 @implementation TYGrowlBridge
 
-+ (void)setup {
++ (void)initialize {
     static TYGrowlBridge *sTYGrowlBridge = nil;
     if (sTYGrowlBridge == nil) {
         sTYGrowlBridge = [[TYGrowlBridge alloc] init];
