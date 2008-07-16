@@ -93,16 +93,19 @@
 
 	CGContextRestoreGState(context);
 
-	CGContextTranslateCTM(context, 4.0,  3.0);
-	[_string drawAtPoint: NSZeroPoint];
-	
-	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef) _string);
-	CGFloat offset = CTLineGetOffsetForStringIndex(line, _selectedRange.location, NULL);
-	[[NSColor whiteColor] set];
-	[NSBezierPath strokeLineFromPoint: NSMakePoint(offset, 0) toPoint: NSMakePoint(offset, _lineHeight)];
+    // fixed by boost @ 9#
+    // _string/line may be nil, and CFRelease(line) may crash 
+    if (_string != nil) {
+        CGContextTranslateCTM(context, 4.0, 3.0);
+        [_string drawAtPoint: NSZeroPoint];
+        CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)_string);
+        CGFloat offset = CTLineGetOffsetForStringIndex(line, _selectedRange.location, NULL);
+        [[NSColor whiteColor] set];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(offset, 0) toPoint:NSMakePoint(offset, _lineHeight)];
+        CFRelease(line);
+    }
+    
 	CGContextRestoreGState(context);
-	
-	CFRelease(line);
 }
 
 
