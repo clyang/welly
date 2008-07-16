@@ -1302,6 +1302,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark For full screen
+- (IBAction) fullScreenMode: (id) sender {
+	[self fullScreenHandle];
+}
+
 - (void) restoreFont:(CGFloat) ratio {
 	if(ratio != 0.0f) {
 		[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
