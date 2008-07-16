@@ -1265,7 +1265,13 @@ BOOL isSpecialSymbol(unichar ch) {
 			/* Draw Background */
 			NSRect rect = NSMakeRect((c - length) * _fontWidth, (gRow - 1 - r) * _fontHeight,
 								  _fontWidth * length, _fontHeight);
-			[[gConfig colorAtIndex: lastBackgroundColor hilite: lastBold] set];
+			
+			// Modified by K.O.ed: All background color use same alpha setting.
+			NSColor *bgColor = [gConfig colorAtIndex: lastBackgroundColor hilite: lastBold];
+			bgColor = [bgColor colorWithAlphaComponent: [[gConfig colorBG] alphaComponent]];
+			[bgColor set];
+			
+			//[[gConfig colorAtIndex: lastBackgroundColor hilite: lastBold] set];
 			// [NSBezierPath fillRect: rect];
             NSRectFill(rect);
 			
