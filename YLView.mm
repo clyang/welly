@@ -671,9 +671,7 @@ BOOL isSpecialSymbol(unichar ch) {
         if (url)
         {
 			// modified by boost @ 9#
-			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask
-                || [url hasSuffix: @".htm"] || [url hasSuffix: @".html"]
-                || [url hasSuffix: @"/"])
+			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask)
             {
                 // click while holding shift key or navigate web pages
                 // open the URL with browser

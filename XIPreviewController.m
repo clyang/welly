@@ -23,11 +23,19 @@
 }
 
 + (NSURLDownload *)dowloadWithURL:(NSURL *)URL {
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL
-                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                         timeoutInterval:30.0];
-    XIDownloadDelegate *delegate = [[XIDownloadDelegate new] autorelease];
-    NSURLDownload *download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
+    NSURLDownload *download;
+    NSString *s = [URL absoluteString];
+    NSString *suffix = [[s componentsSeparatedByString:@"."] lastObject];
+    NSArray *suffixes = [NSArray arrayWithObjects:@"htm", @"html", @"shtml", @"com", @"net", @"org", nil];
+    if ([s hasSuffix:@"/"] || [suffixes containsObject:suffix])
+        download = nil;
+    else {
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL
+                                                 cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                             timeoutInterval:30.0];
+        XIDownloadDelegate *delegate = [[XIDownloadDelegate new] autorelease];
+        download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
+    }
     if (download == nil)
         [[NSWorkspace sharedWorkspace] openURL:URL];
     return download;
@@ -43,8 +51,12 @@
 static NSString * stringFromFileSize(long long size) {
     NSString *fmt;
     float fsize = size;
-	if (size < 1023)
-		fmt = @"%i bytes";
+	if (size < 1023) {
+        if (size > 1)
+            fmt = @"%i bytes";
+        else
+            fmt = @"%i byte";
+    }
     else {
         fsize /= 1024;
         if (fsize < 1023)
@@ -76,8 +88,8 @@ static NSString * stringFromFileSize(long long size) {
 }
 
 - (void)downloadDidBegin:(NSURLDownload *)download {
-    [TYGrowlBridge notifyWithTitle:[[[download request] URL] host]
-                       description:@"Connecting"
+    [TYGrowlBridge notifyWithTitle:[[[download request] URL] absoluteString]
+                       description:NSLocalizedString(@"Connecting", @"Download begin")
                   notificationName:@"File Transfer"
                           isSticky:YES
                         identifier:download];
@@ -114,7 +126,7 @@ static NSString * stringFromFileSize(long long size) {
 	// dectect file type to avoid useless download
 	// by gtCarrera @ 9#
 	NSString *fileType = [[_filename pathExtension] lowercaseString];
-	NSArray *allowedTypes = [NSArray arrayWithObjects: @"jpg", @"bmp", @"png", @"gif", @"tiff", @"pdf", nil];
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"bmp", @"png", @"gif", @"tiff", @"pdf", nil];
 	Boolean canView = [allowedTypes containsObject: fileType];
 	if (!canView) {
         [download cancel];
@@ -134,7 +146,7 @@ static NSString * stringFromFileSize(long long size) {
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [XIQuickLookBridge add:[NSURL fileURLWithPath:_path]];
     [TYGrowlBridge notifyWithTitle:_filename
-                       description:@"Completed"
+                       description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
@@ -142,9 +154,10 @@ static NSString * stringFromFileSize(long long size) {
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
-    [[NSWorkspace sharedWorkspace] openURL:[[download request] URL]];
-    [TYGrowlBridge notifyWithTitle:_filename
-                       description:@"Failed"
+    NSURL *URL = [[download request] URL];
+    [[NSWorkspace sharedWorkspace] openURL:URL];
+    [TYGrowlBridge notifyWithTitle:[URL absoluteString]
+                       description:NSLocalizedString(@"Opening browser", "Download failed or unsupported formats")
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];

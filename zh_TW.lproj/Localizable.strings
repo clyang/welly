@@ -47,7 +47,7 @@
 "Connection" = "連線";
 
 /* IP Seeker */
-"LQIPBadFile" = "無法打開IP數據庫文件";
+"LQIPBadFile" = "無法打開IP數據庫";
 "LQCountryUnknown" = "未知國家";
 "LQAreaUnknown" = "未知區域";
 "LQIPLocation" = "IP地址: %@    所在位置: %@";
@@ -55,3 +55,8 @@
 /* Auto Reply */
 "DefaultAutoReplyString" = "[Welly] 我現在不在，請稍後再聯絡";
 "MessageWindowTitle" = "您有 %d 條未讀訊息，請查收";
+
+/* Preview */
+"Connecting" = "連線中";
+"Completed" = "已完成";
+"Opening browser" = "正在打開瀏覽器";
