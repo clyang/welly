@@ -42,19 +42,13 @@ ASCII_CODE asciiCodeFamily(unsigned char c) {
 	return ERROR;
 }
 
-
 static unsigned short gEmptyAttr;
-
-@interface YLTerminal ()
-- (void) setDelegate: (id) d;
-- (id) delegate;
-@end;
 
 @implementation YLTerminal
 
 + (YLTerminal *)terminalWithView:(YLView *)view {
     YLTerminal *terminal = [[YLTerminal alloc] init];
-    [terminal setDelegate:view];
+    terminal->_view = view;
     return [terminal autorelease];
 }
 
@@ -140,8 +134,8 @@ if (_cursorX <= _column - 1) { \
 				if (_cursorY == _scrollEndRow) {
                     //if ((i != len - 1 && bytes[i + 1] != 0x0A) || 
 //                        (i != 0 && bytes[i - 1] != 0x0A)) {
-//                        [_delegate updateBackedImage];
-//                        [_delegate extendBottomFrom: _scrollBeginRow to: _scrollEndRow];
+//                        [_view updateBackedImage];
+//                        [_view extendBottomFrom: _scrollBeginRow to: _scrollEndRow];
 //                    }
                     cell *emptyLine = _grid[_scrollBeginRow];
                     [self clearRow: _scrollBeginRow];
@@ -177,8 +171,8 @@ if (_cursorX <= _column - 1) { \
 				_state = TP_CONTROL;
 			} else if (c == 'M') { // scroll down (cursor up)
 				if (_cursorY == _scrollBeginRow) {
-					[_delegate updateBackedImage];
-					[_delegate extendTopFrom: _scrollBeginRow to: _scrollEndRow];
+					[_view updateBackedImage];
+					[_view extendTopFrom: _scrollBeginRow to: _scrollEndRow];
                     cell *emptyLine = _grid[_scrollEndRow];
                     [self clearRow: _scrollEndRow];
                     
@@ -193,8 +187,8 @@ if (_cursorX <= _column - 1) { \
 				_state = TP_NORMAL;
             } else if (c == 'D') { // scroll up (cursor down)
                 if (_cursorY == _scrollEndRow) {
-					[_delegate updateBackedImage];
-					[_delegate extendBottomFrom: _scrollBeginRow to: _scrollEndRow];
+					[_view updateBackedImage];
+					[_view extendBottomFrom: _scrollBeginRow to: _scrollEndRow];
                     cell *emptyLine = _grid[_scrollBeginRow];
                     [self clearRow: _scrollBeginRow];
                     
@@ -435,7 +429,7 @@ if (_cursorX <= _column - 1) { \
         [self updateDoubleByteStateForRow: i];
         [self updateURLStateForRow: i];
     }
-    [_delegate performSelector: @selector(tick:)
+    [_view performSelector: @selector(tick:)
 					withObject: nil
 					afterDelay: 0.07];
     
@@ -449,18 +443,20 @@ if (_cursorX <= _column - 1) { \
 		[_autoReplyDelegate messageComes: callerName
 						         message: messageString];
 								  
-		if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) {
+		if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) {
 			// not in focus
             [self increaseMessageCount: 1];
+            // bring the window to front
+            [NSApp activateIgnoringOtherApps:YES];
+            [[_view window] makeKeyAndOrderFront:nil];
             // should invoke growl notification
-            // TODO: should bring the window to front or animate the icon?
 			[TYGrowlBridge notifyWithTitle:callerName
                                description:messageString
                           notificationName:@"New Message Received"
                                   iconData:[NSData data]
                                   priority:0
                                   isSticky:NO
-                              clickContext:_delegate
+                              clickContext:_view
                              clickSelector:@selector(selectTabViewItemWithIdentifier:)
                                 identifier:_connection];
 		}
@@ -474,12 +470,12 @@ if (_cursorX <= _column - 1) { \
 
 - (void) startConnection {
     [self clearAll];
-    [_delegate updateBackedImage];
-	[_delegate setNeedsDisplay: YES];
+    [_view updateBackedImage];
+	[_view setNeedsDisplay: YES];
 }
 
 - (void) closeConnection {
-	[_delegate setNeedsDisplay: YES];
+	[_view setNeedsDisplay: YES];
 }
 
 # pragma mark -
@@ -666,7 +662,7 @@ if (_cursorX <= _column - 1) { \
         if (currRow[i].attr.f.url != urlState) {
             currRow[i].attr.f.url = urlState;
             [self setDirty: YES atRow: r column: i];
-            //            [_delegate displayCellAtRow: r column: i];
+            //            [_view displayCellAtRow: r column: i];
             /* TODO: Do not regenerate the region. Draw the url line instead. */
         }
 	}
@@ -708,14 +704,6 @@ if (_cursorX <= _column - 1) { \
 # pragma mark -
 # pragma mark Accessor
 
-- (void) setDelegate: (id) d {
-	_delegate = d; // Yes, this is delegation. We shouldn't own the delegation object.
-}
-
-- (id) delegate {
-	return _delegate;
-}
-
 - (int) cursorRow {
     return _cursorY;
 }
@@ -735,30 +723,7 @@ if (_cursorX <= _column - 1) { \
 - (BOOL)hasMessage {
     return _hasMessage;
 }
-/* commented out by boost @ 9#: no one is using it.
-- (void)setHasMessage:(BOOL)value {
-    if (_hasMessage != value) {
-        _hasMessage = value;
-        YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
-        if (_hasMessage) {
-            [NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
-            if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) {
-//                [_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
-                [config setMessageCount: [config messageCount] + 1];
-            } else {
-                _hasMessage = NO;
-            }
-        } else {
-            [config setMessageCount: [config messageCount] - 1];
-            if ([_connection connected])
-                [_connection setIcon: [NSImage imageNamed: @"connect.pdf"]];
-            else
-                [_connection setIcon: [NSImage imageNamed: @"offline.pdf"]];
 
-        }        
-    }
-}
-*/
 - (int)messageCount {
 	return _messageCount;
 }
@@ -772,7 +737,7 @@ if (_cursorX <= _column - 1) { \
 	
 	// we should let the icon on the deck bounce
 	[NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
-	//if (_connection != [[_delegate selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
+	//if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
 	//[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
 	[config setMessageCount: [config messageCount] + value];
 	_messageCount += value;

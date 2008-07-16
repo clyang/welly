@@ -8,7 +8,6 @@
 
 #import "YLApplication.h"
 #import "YLController.h"
-#import "TYGrowlBridge.h"
 
 static NSString *gLeftString, *gRightString;
 
