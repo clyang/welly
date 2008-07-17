@@ -39,7 +39,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>WellyHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -51,6 +51,6 @@
 	<key>NSPrincipalClass</key>
 	<string>YLApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://welly.yuxuan.org/WellyUpdate.xml</string>
+	<string>http://welly.googlecode.com/files/WellyUpdate.xml</string>
 </dict>
 </plist>
