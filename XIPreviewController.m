@@ -18,11 +18,22 @@
 
 @implementation XIPreviewController
 
+// current downloading URLs
+static NSMutableSet *sURLs;
+
++ (void)initialize {
+    sURLs = [[NSMutableSet alloc] initWithCapacity:10];
+}
+
 - (IBAction)openPreview:(id)sender {
     [XIQuickLookBridge orderFront];
 }
 
 + (NSURLDownload *)dowloadWithURL:(NSURL *)URL {
+    // already downloading
+    if ([sURLs containsObject:URL])
+        return nil;
+    // check validity
     NSURLDownload *download;
     NSString *s = [URL absoluteString];
     NSString *suffix = [[s componentsSeparatedByString:@"."] lastObject];
@@ -30,6 +41,7 @@
     if ([s hasSuffix:@"/"] || [suffixes containsObject:suffix])
         download = nil;
     else {
+        [sURLs addObject:URL];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL
                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                              timeoutInterval:30.0];
@@ -144,6 +156,7 @@ static NSString * stringFromFileSize(long long size) {
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
+    [sURLs removeObject:[[download request] URL]];
     [XIQuickLookBridge add:[NSURL fileURLWithPath:_path]];
     [TYGrowlBridge notifyWithTitle:_filename
                        description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
@@ -155,6 +168,7 @@ static NSString * stringFromFileSize(long long size) {
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
     NSURL *URL = [[download request] URL];
+    [sURLs removeObject:URL];
     [[NSWorkspace sharedWorkspace] openURL:URL];
     [TYGrowlBridge notifyWithTitle:[URL absoluteString]
                        description:NSLocalizedString(@"Opening browser", "Download failed or unsupported formats")
