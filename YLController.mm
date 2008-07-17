@@ -1355,7 +1355,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		}
 				
 		// Init the window and show
-		int windowLevel = kCGStatusWindowLevel;
+		// int windowLevel = kCGMainMenuWindowLevel;
+		// Change UI mode by carbon
+		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar 
+						| kUIOptionDisableProcessSwitch);
 		testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
 											styleMask:NSBorderlessWindowMask
 											backing:NSBackingStoreBuffered
@@ -1364,7 +1367,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[testFSWindow setOpaque: NO];
 		[testFSWindow setBackgroundColor: [[YLLGlobalConfig sharedInstance] colorBG]];
 		[testFSWindow makeKeyAndOrderFront:nil];
-		[testFSWindow setLevel:windowLevel];
+		//[testFSWindow setLevel:windowLevel];
 		// Record superview
 		orinSuperView = [_telnetView superview];
 		[testFSWindow setContentView: [_telnetView retain]];
@@ -1379,6 +1382,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[self restoreFont:screenRatio];
 		// Close
 		[testFSWindow close];
+		// Change UI mode by carbon
+		SetSystemUIMode(kUIModeNormal, nil);
 		// Set the super view back!!!
 		// Important!
 		[orinSuperView addSubview:_telnetView];

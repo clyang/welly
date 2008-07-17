@@ -26,7 +26,7 @@
         sSharedPanel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
 		// To deal with full screen window level
 		// Modified by gtCarrera
-		[sSharedPanel setLevel:kCGStatusWindowLevel+1];
+		//[sSharedPanel setLevel:kCGStatusWindowLevel+1];
 		// End
         // for zoom effect
         [[sSharedPanel windowController] setDelegate:[[XIQuickLookBridge alloc] init]];

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Carbon/Carbon.h>
 #import "YLView.h"
 #import "XITabBarControl.h"
 #import "YLSite.h"
