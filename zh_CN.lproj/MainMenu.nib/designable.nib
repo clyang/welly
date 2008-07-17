@@ -3068,7 +3068,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="105967013">
+																	<object class="NSParagraphStyle" id="998857868">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3279,7 +3279,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="105967013"/>
+																	<reference ref="998857868"/>
 																</object>
 															</object>
 														</object>
