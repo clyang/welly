@@ -135,8 +135,6 @@
 - (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex;
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
 
-- (void) forceFront;
-
 // for bindings access
 - (RemoteControl*) remoteControl;
 - (MultiClickRemoteBehavior*) remoteBehavior;

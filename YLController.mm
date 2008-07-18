@@ -32,12 +32,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 @end
 
 @implementation YLController
-- (void) forceFront {
-	// force the main window to the front.
-	[NSApp activateIgnoringOtherApps:YES];
-	[_mainWindow orderFront:self];
-	[_mainWindow makeKeyWindow];
-}
 
 - (id) init {
 	self = [super init];
