@@ -7,46 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "YLTerminal.h"
 #import "XIProtocol.h"
 
-@class YLSite;
-/*
-@protocol YLConnectionProtocol 
-- (void) close ;
-- (void) reconnect ;
-
-- (BOOL) connectToAddress: (NSString *) addr port: (unsigned int) port ;
-- (BOOL) connectToAddress: (NSString *) addr;
-
-- (void) receiveBytes: (unsigned char *) bytes length: (NSUInteger) length ;
-- (void) sendBytes: (unsigned char *) msg length: (NSInteger) length ;
-*/
-/* commented out by boost @ 9# : what the hell...
-- (BOOL) connectToAddress: (NSString *) addr port: (unsigned int) port ;
-- (void) sendMessage: (NSData *) msg;
-- (BOOL) connectToSite: (YLSite *) s;
-
-- (YLTerminal *) terminal ;
-- (void) setTerminal: (YLTerminal *) term;
-
-- (BOOL)connected;
-- (void)setConnected:(BOOL)value;
-- (NSString *)connectionName;
-- (void)setConnectionName:(NSString *)value;
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)value;
-- (NSString *)connectionAddress;
-- (void)setConnectionAddress:(NSString *)value;
-- (BOOL)isProcessing;
-- (void)setIsProcessing:(BOOL)value;
-
-- (NSDate *) lastTouchDate;
-
-- (YLSite *)site;
-- (void)setSite:(YLSite *)value;
-*/
-//@end
+@class YLSite, YLTerminal;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl

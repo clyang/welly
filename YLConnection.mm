@@ -7,21 +7,12 @@
 //
 
 #import "YLConnection.h"
+#import "YLTerminal.h"
 #import "encoding.h"
 
 
 @implementation YLConnection
-/*
-+ (YLConnection *) connectionWithAddress: (NSString *) addr {
-    Class c; 
-    if ([addr hasPrefix: @"ssh://"])
-        c = NSClassFromString(@"YLSSH");
-    else
-        c = NSClassFromString(@"YLTelnet");
-//    NSLog(@"CONNECTION wih addr: %@ %@", addr, c);
-    return (YLConnection *)[[[c alloc] init] autorelease];
-}
-*/
+
 - (id)init {
     if (self == [super initWithContent:self]) {
     }
@@ -38,8 +29,6 @@
 - (void)dealloc {
     [_lastTouchDate release];
     [_icon release];
-    //[_connectionName release];
-    //[_connectionAddress release];
     [_terminal release];
     [_protocol release];
     [super dealloc];
@@ -93,18 +82,7 @@
         [self setIcon: [NSImage imageNamed: @"offline.pdf"]];
     }
 }
-/*
-- (NSString *)connectionName {
-    return _connectionName;
-}
 
-- (void)setConnectionName:(NSString *)value {
-    if (_connectionName != value) {
-        [_connectionName release];
-        _connectionName = [value retain];
-    }
-}
-*/
 - (NSImage *)icon {
     return _icon;
 }
