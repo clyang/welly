@@ -14,7 +14,6 @@
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
-#import "YLImagePreviewer.h"
 
 // for remote control
 #import "AppleRemote.h"
