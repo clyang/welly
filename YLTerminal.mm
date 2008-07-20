@@ -754,12 +754,6 @@ if (_cursorX <= _column - 1) { \
 	
 	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
 	[config setMessageCount: [config messageCount] - _messageCount];
-/* commented out by boost @ 9#
-	if ([_connection connected])
-		[_connection setIcon: [NSImage imageNamed: @"connect.pdf"]];
-	else
-		[_connection setIcon: [NSImage imageNamed: @"offline.pdf"]];
-*/
 	_messageCount = 0;
     [_connection setObjectCount:_messageCount];
 }

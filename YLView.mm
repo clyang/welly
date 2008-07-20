@@ -840,19 +840,6 @@ BOOL isSpecialSymbol(unichar ch) {
         
         NSRect r = [self bounds];
 		NSRectFill(r);
-//        NSImage *img = [NSImage imageNamed: @"Xmas.icns"];
-//        NSSize sz = NSMakeSize(512, 512);
-//        if (r.size.width < 512 || r.size.height < 512) {
-//            CGFloat small = r.size.height > r.size.width ? r.size.width : r.size.height;
-//            sz = NSMakeSize(small, small);
-//        }
-//        
-//        NSPoint p = NSZeroPoint;
-//        
-//        p.x = (r.size.width - sz.width) / 2;
-//        p.y = (r.size.height - sz.height) / 2;
-//        [img setSize: sz];
-//        [img compositeToPoint: p operation: NSCompositeSourceOver];
 	}
 	
     [pool release];

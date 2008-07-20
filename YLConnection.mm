@@ -75,11 +75,11 @@
 - (void)setConnected:(BOOL)value {
     _connected = value;
     if (_connected) 
-        [self setIcon: [NSImage imageNamed: @"connect.pdf"]];
+        [self setIcon: [NSImage imageNamed:@"online.pdf"]];
     else {
         //[[self terminal] setHasMessage: NO];
 		[[self terminal] resetMessageCount];
-        [self setIcon: [NSImage imageNamed: @"offline.pdf"]];
+        [self setIcon: [NSImage imageNamed:@"offline.pdf"]];
     }
 }
 

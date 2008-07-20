@@ -227,7 +227,6 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
     [self addView: _connectionPrefView label: NSLocalizedString(@"Connection", @"Preferences") image: [NSImage imageNamed: @"NSApplicationIcon"]];
     [self addView: _fontsPrefView label: NSLocalizedString(@"Fonts", @"Preferences") image: [NSImage imageNamed: @"NSFontPanel"]];
     [self addView: _colorsPrefView label: NSLocalizedString(@"Colors", @"Preferences") image: [NSImage imageNamed: @"NSColorPanel"]];
-	//[self addView: _autoReplyPrefView label: NSLocalizedString(@"AutoReply", @"Preferences") image: [NSImage imageNamed: @"DragonBall.icns"]];
 }
 
 
