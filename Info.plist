@@ -51,6 +51,6 @@
 	<key>NSPrincipalClass</key>
 	<string>YLApplication</string>
 	<key>SUFeedURL</key>
-	<string>http://welly.googlecode.com/files/WellyUpdate.xml</string>
+	<string>http://welly.googlecode.com/svn/wiki/WellyUpdate.xml</string>
 </dict>
 </plist>
