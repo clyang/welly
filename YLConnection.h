@@ -35,8 +35,8 @@
 - (YLTerminal *)terminal;
 - (void)setTerminal:(YLTerminal *)term;
 
-- (NSObject <XIProtocol> *)protocol;
-- (void)setProtocol:(NSObject <XIProtocol> *)proto;
+- (id)protocol;
+- (void)setProtocol:(id)proto;
 
 - (BOOL)connected;
 - (void)setConnected:(BOOL)value;
@@ -55,7 +55,7 @@
 - (void)close;
 - (void)reconnect;
 - (void)sendMessage:(NSData *)msg;
-- (void)sendBytes:(unsigned char *)msg length:(NSInteger)length;
+- (void)sendBytes:(const void *)msg length:(NSInteger)length;
 - (void)sendText:(NSString *)text;
 - (void)sendText:(NSString *)text withDelay:(int)microsecond;
 

@@ -1454,18 +1454,19 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark NSTextInput Protocol
 /* NSTextInput protocol */
 // instead of keyDown: aString can be NSString or NSAttributedString
-- (void) insertText: (id) aString {
-    [self insertText: aString withDelay: 0];
+- (void)insertText:(id)aString {
+    [self insertText:aString withDelay:0];
 }
 
-- (void) insertText: (id) aString withDelay: (int) microsecond {
+- (void)insertText:(id)aString withDelay:(int)microsecond {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     
-	[_textField setHidden: YES];
-	[_markedText release];
-	_markedText = nil;	
+    [_textField setHidden: YES];
+    [_markedText release];
+    _markedText = nil;	
 	
-	[[self frontMostConnection] sendText: aString withDelay: microsecond];
+    [[self frontMostConnection] sendText:aString withDelay:microsecond];
+
     [pool release];
 }
 

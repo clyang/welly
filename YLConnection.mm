@@ -53,15 +53,15 @@
 	if (_terminal != value) {
 		[_terminal release];
 		_terminal = [value retain];
-        [_terminal setConnection: self];
+        [_terminal setConnection:self];
 	}
 }
 
-- (NSObject <XIProtocol> *)protocol {
+- (id)protocol {
     return _protocol;
 }
 
-- (void)setProtocol:(NSObject <XIProtocol> *)value {
+- (void)setProtocol:(id)value {
     if (_protocol != value) {
         [_protocol release];
         _protocol = [value retain];
@@ -75,10 +75,10 @@
 - (void)setConnected:(BOOL)value {
     _connected = value;
     if (_connected) 
-        [self setIcon: [NSImage imageNamed:@"online.pdf"]];
+        [self setIcon:[NSImage imageNamed:@"online.pdf"]];
     else {
         [[self terminal] resetMessageCount];
-        [self setIcon: [NSImage imageNamed:@"offline.pdf"]];
+        [self setIcon:[NSImage imageNamed:@"offline.pdf"]];
     }
 }
 
@@ -162,58 +162,51 @@
     [_protocol send:msg];
 }
 
-- (void)sendBytes:(unsigned char *)msg length:(NSInteger)length {
+- (void)sendBytes:(const void *)msg length:(NSInteger)length {
     [_protocol send:[NSData dataWithBytes:msg length:length]];
 }
 
 - (void)sendText:(NSString *)s {
-	[self sendText:s withDelay:0];
+    [self sendText:s withDelay:0];
 }
 
 - (void)sendText:(NSString *)text withDelay:(int)microsecond {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	// Send text 'aString' to this connection    
-	NSMutableString *mStr = [NSMutableString stringWithString:text];
 
-	// replace all '\n' with '\r'
-    [mStr replaceOccurrencesOfString: @"\n"
-                          withString: @"\r"
-                             options: NSLiteralSearch
-                               range: NSMakeRange(0, [text length])];
-    
-	// translate into proper encoding of the site
-	int i;
-	NSMutableData *data = [NSMutableData data];
-	for (i = 0; i < [mStr length]; i++) {
-		unichar ch = [mStr characterAtIndex: i];
-		unsigned char buf[2];
-		if (ch < 0x007F) {
-			buf[0] = ch;
-			[data appendBytes: buf length: 1];
-		} else {
+    // replace all '\n' with '\r' 
+    NSString *s = [text stringByReplacingOccurrencesOfString:@"\n" withString:@"\r"];
+
+    // translate into proper encoding of the site
+    NSMutableData *data = [NSMutableData data];
+    for (int i = 0; i < [s length]; i++) {
+        unichar ch = [s characterAtIndex:i];
+        char buf[2];
+        if (ch < 0x007F) {
+            buf[0] = ch;
+            [data appendBytes:buf length:1];
+        } else {
             YLEncoding encoding = [_site encoding];
             unichar code = (encoding == YLBig5Encoding ? U2B[ch] : U2G[ch]);
-			buf[0] = code >> 8;
-			buf[1] = code & 0xFF;
-			[data appendBytes: buf length: 2];
-		}
-	}
-	
-	// Now send the message
-	if (microsecond == 0) {
-		// send immediately
-        [self sendMessage: data];
+            buf[0] = code >> 8;
+            buf[1] = code & 0xFF;
+            [data appendBytes:buf length:2];
+        }
+    }
+
+    // Now send the message
+    if (microsecond == 0) {
+        // send immediately
+        [self sendMessage:data];
     } else {
-		// send with delay
-        int i;
-        unsigned char *buf = (unsigned char *) [data bytes];
-        for (i = 0; i < [data length]; i++) {
-            [self sendBytes: buf + i length: 1];
+        // send with delay
+        const char *buf = (const char *)[data bytes];
+        for (int i = 0; i < [data length]; i++) {
+            [self sendBytes:buf+i length:1];
             usleep(microsecond);
         }
     }
-	
-	[pool release];
+
+    [pool release];
 }
 
 @end
