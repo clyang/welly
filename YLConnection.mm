@@ -77,8 +77,7 @@
     if (_connected) 
         [self setIcon: [NSImage imageNamed:@"online.pdf"]];
     else {
-        //[[self terminal] setHasMessage: NO];
-		[[self terminal] resetMessageCount];
+        [[self terminal] resetMessageCount];
         [self setIcon: [NSImage imageNamed:@"offline.pdf"]];
     }
 }
@@ -111,7 +110,7 @@
     _objectCount = value;
 }
 
-- (NSDate *) lastTouchDate {
+- (NSDate *)lastTouchDate {
     return _lastTouchDate;
 }
 

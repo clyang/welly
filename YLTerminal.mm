@@ -720,15 +720,11 @@ if (_cursorX <= _column - 1) { \
     [[[self connection] site] setEncoding: encoding];
 }
 
-- (BOOL)hasMessage {
-    return _hasMessage;
-}
-
 - (int)messageCount {
 	return _messageCount;
 }
 
-- (void)increaseMessageCount : (int)value {
+- (void)increaseMessageCount:(int)value {
 	// increase the '_messageCount' by 'value'
 	if (value <= 0)
 		return;

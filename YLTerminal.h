@@ -44,7 +44,6 @@
     int _scrollBeginRow;
     int _scrollEndRow;
 
-    BOOL _hasMessage;
     int _messageCount;
     YLConnection *_connection;
 
@@ -87,7 +86,6 @@
 - (int)cursorColumn;
 - (YLEncoding)encoding;
 - (void)setEncoding:(YLEncoding) encoding;
-- (BOOL)hasMessage;
 - (int)messageCount;
 - (void)increaseMessageCount:(int)value;
 - (void)resetMessageCount;
