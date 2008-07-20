@@ -55,7 +55,6 @@
 		859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */; };
 		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
 		85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A0E73B0D06B72900ACA26F /* Localizable.strings */; };
-		85AE9DA70CB1597A0045317F /* reload.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DA60CB1597A0045317F /* reload.pdf */; };
 		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
 		85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259390D20FD48002BD294 /* libcrypto.dylib */; };
 		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
@@ -166,7 +165,6 @@
 		85957EAE0CFF1176006E5E08 /* sleep.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sleep.pdf; sourceTree = "<group>"; };
 		85A0E73C0D06B72900ACA26F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		85ABEB7F0C966FEF008227D6 /* YLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLController.h; sourceTree = "<group>"; };
-		85AE9DA60CB1597A0045317F /* reload.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = reload.pdf; sourceTree = "<group>"; };
 		85AE9DAD0CB15D220045317F /* bookmark.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = bookmark.pdf; sourceTree = "<group>"; };
 		85D258B00D1CE575002BD294 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/Preferences.nib; sourceTree = "<group>"; };
 		85D259390D20FD48002BD294 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
@@ -315,7 +313,6 @@
 				857EAE4E0CF1D89300777C15 /* offline.pdf */,
 				16DC3D080E3338B70060E8F0 /* online.pdf */,
 				85AE9DAD0CB15D220045317F /* bookmark.pdf */,
-				85AE9DA60CB1597A0045317F /* reload.pdf */,
 				85137B320D02192800833909 /* Credits.rtf */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
@@ -491,7 +488,6 @@
 			files = (
 				8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */,
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
-				85AE9DA70CB1597A0045317F /* reload.pdf in Resources */,
 				85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */,
 				857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */,
 				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
