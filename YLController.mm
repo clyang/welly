@@ -1250,6 +1250,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		orinSuperView = [_telnetView superview];
 		[testFSWindow setContentView: [_telnetView retain]];
 		[[testFSWindow contentView] setFrameOrigin:newOP];
+		// Hide the main window
+		[_mainWindow setAlphaValue:0.0f];
 		//NSLog(@"New OP x = %f, y = %f \n", newOP.x, newOP.y);
 	}
 	else {
@@ -1265,6 +1267,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// Set the super view back!!!
 		// Important!
 		[orinSuperView addSubview:_telnetView];
+		// Show the main window
+		[_mainWindow setAlphaValue:100.0f];
 	}
 }
 
