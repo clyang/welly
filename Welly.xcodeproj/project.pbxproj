@@ -25,6 +25,7 @@
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
+		5A56C3820E342CFF00082312 /* KOPostDownloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.mm */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
@@ -118,6 +119,8 @@
 		5A309A7B0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		5A309A7C0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/Preferences.nib; sourceTree = "<group>"; };
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
+		5A56C3800E342CFF00082312 /* KOPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOPostDownloader.h; sourceTree = "<group>"; };
+		5A56C3810E342CFF00082312 /* KOPostDownloader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KOPostDownloader.mm; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
@@ -390,6 +393,8 @@
 				1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */,
 				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
 				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
+				5A56C3800E342CFF00082312 /* KOPostDownloader.h */,
+				5A56C3810E342CFF00082312 /* KOPostDownloader.mm */,
 			);
 			name = Nally9only;
 			sourceTree = "<group>";
@@ -538,6 +543,7 @@
 				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */,
+				5A56C3820E342CFF00082312 /* KOPostDownloader.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

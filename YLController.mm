@@ -14,6 +14,7 @@
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
+#import "KOPostDownloader.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -1059,91 +1060,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (void) preparePostDownload: (id) param {
 	const int sleepTime = 10000;
 	const int maxRounds = 3000;
-	const int linesPerPage = [[YLLGlobalConfig sharedInstance] row] - 1;
-	BOOL isFinished = NO;
 	[_postText setString: @""];
 	[_postText setFont: [NSFont fontWithName: @"Monaco" size: 12]];
-	NSString *lastPage[linesPerPage];
-	NSString *newPage[linesPerPage];
 	
-	NSString *bottomLine = [[_telnetView frontMostTerminal] stringFromIndex: linesPerPage * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
-	NSString *newBottomLine = bottomLine;
+	[_postText setString: [KOPostDownloader downloadPostFromTerminal:[_telnetView frontMostTerminal] sleepTime:sleepTime maxAttempt:maxRounds]];
 	
-	NSMutableString *buf = [[NSMutableString alloc] initWithCString: ""];
-	
-	for (int i = 0; i < maxRounds && !isFinished; ++i) {
-		int j = 0, k = 0, lastline = linesPerPage;
-		// read in the whole page, and store in 'newPage' array
-		for (j = 0; j < linesPerPage; ++j) {
-			// read one line
-			newPage[j] = [[_telnetView frontMostTerminal] stringFromIndex: j * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
-			if ([newPage[j] hasPrefix: @"※"]) {	// has post ending symbol
-				isFinished = YES;
-				lastline = j;
-				break;
-			}
-		}
-		if (![bottomLine hasPrefix: @"下面还有喔"]) {
-			// bottom line should have this prefix if the post has not ended.
-			isFinished = YES;
-		}
-		
-		k = linesPerPage - 1;
-		// if it is the last page, we should check if there are duplicated pages
-		if (isFinished && i != 0) {
-			int jj = j;
-			//BOOL stopFlag = false;
-			while (j > 0 && jj >= 0) {
-				// first, we should locate the last line of last page in the new page.
-				// i.e. find a newPage[j] that equals the last line of last page.
-				while (j > 0) {
-					--j;
-					if ([newPage[j] isEqualToString: lastPage[k]])
-						break;
-				}
-				assert(j == 0 || [newPage[j] isEqualToString: lastPage[k]]);
-				
-				// now check if it is really duplicated
-				for (jj = j - 1; jj >= 0; --jj) {
-					--k;
-					if (![newPage[jj] isEqualToString: lastPage[k]]) {
-						// it is not really duplicated by last page effect, but only duplicated by the author of the post
-						j = jj;
-						k = linesPerPage - 1;
-						break;
-					}
-				}
-			}
-		} else {
-			j = (i == 0) ? -1 : 0; // except the first page, every time page down would lead to the first line duplicated
-		}
-		
-		// Now copy the content into the buffer
-		//[buf setString: @""];	// clear out
-		for (j = j + 1; j < lastline; ++j) {
-			assert(newPage[j]);
-			[buf appendFormat: @"%@\r", newPage[j]];
-			lastPage[j] = newPage[j];
-		}
-		
-		// copy the buf into the text view.
-		[_postText setString: buf];
-		if (isFinished)
-			break;
-		
-		// invoke a "page down" command
-		[[_telnetView frontMostConnection] sendText:@" "];
-		while ([newBottomLine isEqualToString: bottomLine] && i < maxRounds) {
-			// wait for the screen to refresh
-			usleep(sleepTime);
-			newBottomLine = [[_telnetView frontMostTerminal] stringFromIndex: linesPerPage * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
-			++i;
-		}
-		bottomLine = newBottomLine;
-	}
-	//[_postText setString: buf];
-	//}
-	//[_postText setSelectedRange: NSMakeRange(0, 0)];
 	[NSThread exit];
 }
 
