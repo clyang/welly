@@ -443,14 +443,14 @@ if (_cursorX <= _column - 1) { \
 		[_autoReplyDelegate messageComes: callerName
 						         message: messageString];
 								  
-		if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) {
+        if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) {
 			// not in focus
             [self increaseMessageCount: 1];
             // bring the window to front
-            [NSApp activateIgnoringOtherApps:YES];
-            [[_view window] makeKeyAndOrderFront:nil];
+            //[NSApp activateIgnoringOtherApps:YES];
+            //[[_view window] makeKeyAndOrderFront:nil];
             // should invoke growl notification
-			[TYGrowlBridge notifyWithTitle:callerName
+            [TYGrowlBridge notifyWithTitle:callerName
                                description:messageString
                           notificationName:@"New Message Received"
                                   iconData:[NSData data]
@@ -459,8 +459,8 @@ if (_cursorX <= _column - 1) { \
                               clickContext:_view
                              clickSelector:@selector(selectTabViewItemWithIdentifier:)
                                 identifier:_connection];
-		}
-	}
+        }
+    }
 
     [pool release];
 }
