@@ -60,13 +60,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // tab control style
     [_tab setCanCloseOnlyTab:YES];
-    [_tab setDelegate:self];
-    /*// show a new-tab button
-    [_tab setShowAddTabButton:YES];*/
+    NSAssert([_tab delegate] == self, @"set in .nib");
+    //show a new-tab button
+    //[_tab setShowAddTabButton:YES];
     [[_tab addTabButton] setTarget:self];
     [[_tab addTabButton] setAction:@selector(newTab:)];
+    _telnetView = (YLView *)[_tab tabView];
 
-    /* Trigger the KVO to update the information properly. */
+    // Trigger the KVO to update the information properly.
     [[YLLGlobalConfig sharedInstance] setShowHiddenText: [[YLLGlobalConfig sharedInstance] showHiddenText]];
     [[YLLGlobalConfig sharedInstance] setCellWidth: [[YLLGlobalConfig sharedInstance] cellWidth]];
     
@@ -508,27 +509,21 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return;	
 }
 
-- (IBAction) selectNextTab: (id) sender {
-    if ([_telnetView indexOfTabViewItem: [_telnetView selectedTabViewItem]] == [_telnetView numberOfTabViewItems] - 1)
-        [_telnetView selectFirstTabViewItem: self];
-    else
-        [_telnetView selectNextTabViewItem: self];
+- (IBAction)selectNextTab:(id)sender {
+    [_tab selectNextTabViewItem:sender];
 }
 
-- (IBAction) selectPrevTab: (id) sender {
-    if ([_telnetView indexOfTabViewItem: [_telnetView selectedTabViewItem]] == 0)
-        [_telnetView selectLastTabViewItem: self];
-    else
-        [_telnetView selectPreviousTabViewItem: self];
+- (IBAction)selectPrevTab:(id)sender {
+    [_tab selectPreviousTabViewItem:sender];
 }
 
-- (IBAction) selectTabNumber: (int) index {
+- (void)selectTabNumber:(int)index {
     if (index <= [_telnetView numberOfTabViewItems]) {
-        [_telnetView selectTabViewItemAtIndex: index - 1];
+        [_tab selectTabViewItemAtIndex:index-1];
     }
 }
 
-- (IBAction) closeTab: (id) sender {
+- (IBAction)closeTab:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
     
     NSTabViewItem *sel = [_telnetView selectedTabViewItem];

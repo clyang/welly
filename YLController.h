@@ -34,11 +34,11 @@
     IBOutlet NSPanel *_emoticonsWindow;
     IBOutlet NSWindow *_mainWindow;
 	IBOutlet NSPanel *_messageWindow;
-	IBOutlet id _telnetView;
 	IBOutlet id _addressBar;
     IBOutlet id _detectDoubleByteButton;
 	IBOutlet id _autoReplyButton;
-    
+
+    YLView *_telnetView;
     IBOutlet XITabBarControl *_tab;
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
     IBOutlet NSMenuItem *_closeWindowMenuItem;
@@ -81,21 +81,21 @@
 - (IBAction) setDetectDoubleByteAction: (id) sender ;
 - (IBAction) setAutoReplyAction: (id) sender ;
 
-- (IBAction) newTab: (id) sender ;
-- (IBAction) connect: (id) sender;
-- (IBAction) openLocation: (id) sender;
-- (IBAction) selectNextTab: (id) sender;
-- (IBAction) selectPrevTab: (id) sender;
-- (void) selectTabNumber: (int) index ;
-- (IBAction) closeTab: (id) sender;
-- (IBAction) reconnect: (id) sender;
-- (IBAction) openSites: (id) sender;
-- (IBAction) editSites: (id) sender;
-- (IBAction) closeSites: (id) sender;
-- (IBAction) addSites: (id) sender;
-- (IBAction) showHiddenText: (id) sender;
-- (IBAction) openPreferencesWindow: (id) sender ;
-- (void) newConnectionWithSite: (YLSite *) s ;
+- (IBAction)newTab:(id)sender;
+- (IBAction)connect:(id)sender;
+- (IBAction)openLocation:(id)sender;
+- (IBAction)selectNextTab:(id)sender;
+- (IBAction)selectPrevTab:(id)sender;
+- (void)selectTabNumber:(int)index;
+- (IBAction)closeTab:(id)sender;
+- (IBAction)reconnect:(id)sender;
+- (IBAction)openSites:(id)sender;
+- (IBAction)editSites:(id)sender;
+- (IBAction)closeSites:(id)sender;
+- (IBAction)addSites:(id)sender;
+- (IBAction)showHiddenText:(id)sender;
+- (IBAction)openPreferencesWindow:(id)sender;
+- (void)newConnectionWithSite:(YLSite *)site;
 
 /* emoticon actions */
 - (IBAction) closeEmoticons: (id) sender;
