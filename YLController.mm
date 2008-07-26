@@ -112,15 +112,17 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)updateSitesMenu {
-    int total = [[_sitesMenu submenu] numberOfItems] ;
+    int total = [[_sitesMenu submenu] numberOfItems];
+    int i = total - 1;
     // search the last seperator from the bottom
-    for (int i = total - 1; i > 0; i--)
-        if ([[[_sitesMenu submenu] itemAtIndex: i] isSeparatorItem])
+    for (; i > 0; i--)
+        if ([[[_sitesMenu submenu] itemAtIndex:i] isSeparatorItem])
             break;
-			
+
     // then remove all menuitems below it, since we need to refresh the site menus
-    for (int j = i + 1; j < total; j++) {
-        [[_sitesMenu submenu] removeItemAtIndex: i + 1];
+    ++i;
+    for (int j = i; j < total; j++) {
+        [[_sitesMenu submenu] removeItemAtIndex:i];
     }
     
 	// Now add items of site one by one
