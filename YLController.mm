@@ -53,10 +53,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                             @"colorYellow", @"colorYellowHilite", @"colorBlue", @"colorBlueHilite", @"colorMagenta", @"colorMagentaHilite", 
                             @"colorCyan", @"colorCyanHilite", @"colorWhite", @"colorWhiteHilite", @"colorBG", @"colorBGHilite", nil];
     for (NSString *key in observeKeys)
-        [[YLLGlobalConfig sharedInstance] addObserver: self
-                                           forKeyPath: key
-                                              options: (NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
-                                              context: NULL];
+        [[YLLGlobalConfig sharedInstance] addObserver:self
+                                           forKeyPath:key
+                                              options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
+                                              context:nil];
 
     // tab control style
     [_tab setCanCloseOnlyTab:YES];
@@ -68,74 +68,66 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     _telnetView = (YLView *)[_tab tabView];
 
     // Trigger the KVO to update the information properly.
-    [[YLLGlobalConfig sharedInstance] setShowHiddenText: [[YLLGlobalConfig sharedInstance] showHiddenText]];
-    [[YLLGlobalConfig sharedInstance] setCellWidth: [[YLLGlobalConfig sharedInstance] cellWidth]];
+    [[YLLGlobalConfig sharedInstance] setShowHiddenText:[[YLLGlobalConfig sharedInstance] showHiddenText]];
+    [[YLLGlobalConfig sharedInstance] setCellWidth:[[YLLGlobalConfig sharedInstance] cellWidth]];
     
     [self loadSites];
     [self updateSitesMenu];
     [self loadEmoticons];
 
-    //[_mainWindow setHasShadow: YES];
-    [_mainWindow setOpaque: NO];
+    //[_mainWindow setHasShadow:YES];
+    [_mainWindow setOpaque:NO];
 
-    [_mainWindow setFrameAutosaveName: @"wellyMainWindowFrame"];
+    [_mainWindow setFrameAutosaveName:@"wellyMainWindowFrame"];
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"RestoreConnection"]) 
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
         [self loadLastConnections];
     
-    [NSTimer scheduledTimerWithTimeInterval: 120 target: self selector: @selector(antiIdle:) userInfo: nil repeats: YES];
-    [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(updateBlinkTicker:) userInfo: nil repeats: YES];
+    [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateBlinkTicker:) userInfo:nil repeats:YES];
 
     // post download
     [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
 
-	// set remote control
-	//remoteControl = [[AppleRemote alloc] initWithDelegate: self];
-	//[remoteControl startListening: self];
-	// 1. instantiate the desired behavior for the remote control device
-	remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
-	
-	// 2. configure the behavior
-	[remoteControlBehavior setDelegate: self];
-	[remoteControlBehavior setClickCountingEnabled: YES];
-	[remoteControlBehavior setSimulateHoldEvent: YES];
-	[remoteControlBehavior setMaximumClickCountTimeDifference: DEFAULT_CLICK_TIME_DIFFERENCE];
-		
-	// 3. a Remote Control Container manages a number of devices and conforms to the RemoteControl interface
-	//    Therefore you can enable or disable all the devices of the container with a single "startListening:" call.
-	RemoteControlContainer* container = [[RemoteControlContainer alloc] initWithDelegate: remoteControlBehavior];
-	[container instantiateAndAddRemoteControlDeviceWithClass: [AppleRemote class]];	
-	[container instantiateAndAddRemoteControlDeviceWithClass: [KeyspanFrontRowControl class]];
-	
-	// to give the binding mechanism a chance to see the change of the attribute
-	[self setValue: container forKey: @"remoteControl"];
-	
-	[container startListening: self];
-	
-	remoteControl = container;
-    
+    // set remote control
+    // 1. instantiate the desired behavior for the remote control device
+    remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
+    // 2. configure the behavior
+    [remoteControlBehavior setDelegate:self];
+    [remoteControlBehavior setClickCountingEnabled:YES];
+    [remoteControlBehavior setSimulateHoldEvent:YES];
+    [remoteControlBehavior setMaximumClickCountTimeDifference:DEFAULT_CLICK_TIME_DIFFERENCE];
+    // 3. a Remote Control Container manages a number of devices and conforms to the RemoteControl interface
+    //    Therefore you can enable or disable all the devices of the container with a single "startListening:" call.
+    RemoteControlContainer *container = [[RemoteControlContainer alloc] initWithDelegate: remoteControlBehavior];
+    [container instantiateAndAddRemoteControlDeviceWithClass:[AppleRemote class]];	
+    [container instantiateAndAddRemoteControlDeviceWithClass:[KeyspanFrontRowControl class]];
+    // to give the binding mechanism a chance to see the change of the attribute
+    [self setValue:container forKey:@"remoteControl"];
+    [container startListening:self];
+    remoteControl = container;
+
     // drag & drop in site view
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
 }
 
-- (void) updateSitesMenu {
+- (void)updateSitesMenu {
     int total = [[_sitesMenu submenu] numberOfItems] ;
-    int i, j;
-	// search the last seperator from the bottom
-	for (i = total - 1; i > 0; i--)
-		if ([[[_sitesMenu submenu] itemAtIndex: i] isSeparatorItem])
-			break;
+    // search the last seperator from the bottom
+    for (int i = total - 1; i > 0; i--)
+        if ([[[_sitesMenu submenu] itemAtIndex: i] isSeparatorItem])
+            break;
 			
-	// then remove all menuitems below it, since we need to refresh the site menus
-    for (j = i + 1; j < total; j++) {
+    // then remove all menuitems below it, since we need to refresh the site menus
+    for (int j = i + 1; j < total; j++) {
         [[_sitesMenu submenu] removeItemAtIndex: i + 1];
     }
     
 	// Now add items of site one by one
     for (YLSite *s in _sites) {
-        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle: [s name] ?: @"" action: @selector(openSiteMenu:) keyEquivalent: @""];
-        [menuItem setRepresentedObject: s];
-        [[_sitesMenu submenu] addItem: menuItem];
+        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
+        [menuItem setRepresentedObject:s];
+        [[_sitesMenu submenu] addItem:menuItem];
         [menuItem release];
     }
 }
