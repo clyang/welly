@@ -182,7 +182,7 @@
         if (result == 0) {
             NSLog(@"timeout!");
             break;
-        } else if (result < 0) { /* error */
+        } else if (result < 0) { // error
             [self close];    
             break;
         }

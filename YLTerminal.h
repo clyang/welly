@@ -54,7 +54,7 @@
 
 /* Input Interface */
 - (void)feedData:(NSData *)data connection:(id)connection;
-- (void)feedBytes:(const unsigned char *)bytes length:(int)len connection:(id)connection;
+- (void)feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection;
 
 /* Start / Stop */
 - (void)startConnection;

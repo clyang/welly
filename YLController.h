@@ -113,9 +113,8 @@
 - (void) prepareCompose: (id) param;
 
 /* post download actions */
-- (IBAction) openPostDownload: (id) sender;
-- (IBAction) cancelPostDownload: (id) sender;
-- (void) preparePostDownload: (id) param;
+- (IBAction)openPostDownload:(id)sender;
+- (IBAction)cancelPostDownload:(id)sender;
 
 - (NSArray *)sites;
 - (unsigned)countOfSites;

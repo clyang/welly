@@ -86,6 +86,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [NSTimer scheduledTimerWithTimeInterval: 120 target: self selector: @selector(antiIdle:) userInfo: nil repeats: YES];
     [NSTimer scheduledTimerWithTimeInterval: 1 target: self selector: @selector(updateBlinkTicker:) userInfo: nil repeats: YES];
 
+    // post download
+    [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
+
 	// set remote control
 	//remoteControl = [[AppleRemote alloc] initWithDelegate: self];
 	//[remoteControl startListening: self];
@@ -1035,32 +1038,23 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark Post Download
-/* Post Download */
-- (IBAction) openPostDownload: (id) sender {
-	[NSThread detachNewThreadSelector: @selector(preparePostDownload:) toTarget: self withObject: self];
-	[NSApp beginSheet: _postWindow
-       modalForWindow: _mainWindow
-        modalDelegate: nil
-       didEndSelector: NULL
-          contextInfo: nil];
+
+- (void)preparePostDownload:(id)param {
+    NSString *s = [KOPostDownloader downloadPostFromConnection:[_telnetView frontMostConnection]];
+    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:NO];
 }
 
-- (IBAction) cancelPostDownload: (id) sender {
-    [_postWindow endEditingFor: nil];
-    [NSApp endSheet: _postWindow];
-    [_postWindow orderOut: self];
-
+- (IBAction)openPostDownload:(id)sender {
+    [_postText setString:@""];
+    [NSThread detachNewThreadSelector:@selector(preparePostDownload:) toTarget:self withObject:self];
+    [NSApp beginSheet:_postWindow modalForWindow:_mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
 }
 
-- (void) preparePostDownload: (id) param {
-	const int sleepTime = 10000;
-	const int maxRounds = 3000;
-	[_postText setString: @""];
-	[_postText setFont: [NSFont fontWithName: @"Monaco" size: 12]];
-	
-	[_postText setString: [KOPostDownloader downloadPostFromTerminal:[_telnetView frontMostTerminal] sleepTime:sleepTime maxAttempt:maxRounds]];
-	
-	[NSThread exit];
+- (IBAction)cancelPostDownload:(id)sender {
+    [_postWindow endEditingFor:nil];
+    [NSApp endSheet:_postWindow];
+    [_postWindow orderOut:self];
+
 }
 
 #pragma mark -

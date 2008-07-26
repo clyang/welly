@@ -8,43 +8,46 @@
 
 #import "KOPostDownloader.h"
 #import "YLLGlobalConfig.h"
+#import "YLConnection.h"
 #import "YLTerminal.h"
 
 
 @implementation KOPostDownloader
 
-+ (NSString *) downloadPostFromTerminal: (YLTerminal *) terminal
-							  sleepTime: (int) sleepTime
-							 maxAttempt: (int) maxAttempt {
++ (NSString *)downloadPostFromConnection:(YLConnection *)connection {
+    const int sleepTime = 10000, maxAttempt = 3000;
+
+    YLTerminal *terminal = [connection terminal];
+
 	const int linesPerPage = [[YLLGlobalConfig sharedInstance] row] - 1;
 	NSString *lastPage[linesPerPage];
 	NSString *newPage[linesPerPage];
 	
-	NSString *bottomLine = [terminal stringFromIndex: linesPerPage * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
+	NSString *bottomLine = [terminal stringFromIndex:linesPerPage * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
 	NSString *newBottomLine = bottomLine;
 	
-	NSMutableString *buf = [[NSMutableString alloc] initWithCString: ""];
+	NSMutableString *buf = [[NSMutableString alloc] initWithCString:""];
 	
 	BOOL isFinished = NO;
 	
 	for (int i = 0; i < maxAttempt && !isFinished; ++i) {
-		int j = 0, k = 0, lastline = linesPerPage;
+		int j = 0, lastline = linesPerPage;
 		// read in the whole page, and store in 'newPage' array
-		for (j = 0; j < linesPerPage; ++j) {
+        for (; j < linesPerPage; ++j) {
 			// read one line
-			newPage[j] = [terminal stringFromIndex: j * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
-			if ([newPage[j] hasPrefix: @"※"]) {	// has post ending symbol
+			newPage[j] = [terminal stringFromIndex:j * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
+			if ([newPage[j] hasPrefix:@"※"]) {	// has post ending symbol
 				isFinished = YES;
 				lastline = j;
 				break;
 			}
 		}
-		if (![bottomLine hasPrefix: @"下面还有喔"]) {
+		if (![bottomLine hasPrefix:@"下面还有喔"]) {
 			// bottom line should have this prefix if the post has not ended.
 			isFinished = YES;
 		}
 		
-		k = linesPerPage - 1;
+        int k = linesPerPage - 1;
 		// if it is the last page, we should check if there are duplicated pages
 		if (isFinished && i != 0) {
 			int jj = j;
@@ -54,15 +57,15 @@
 				// i.e. find a newPage[j] that equals the last line of last page.
 				while (j > 0) {
 					--j;
-					if ([newPage[j] isEqualToString: lastPage[k]])
+					if ([newPage[j] isEqualToString:lastPage[k]])
 						break;
 				}
-				assert(j == 0 || [newPage[j] isEqualToString: lastPage[k]]);
+				NSAssert(j == 0 || [newPage[j] isEqualToString:lastPage[k]], @"bbs post layout tradition");
 				
 				// now check if it is really duplicated
 				for (jj = j - 1; jj >= 0; --jj) {
 					--k;
-					if (![newPage[jj] isEqualToString: lastPage[k]]) {
+					if (![newPage[jj] isEqualToString:lastPage[k]]) {
 						// it is not really duplicated by last page effect, but only duplicated by the author of the post
 						j = jj;
 						k = linesPerPage - 1;
@@ -75,10 +78,10 @@
 		}
 		
 		// Now copy the content into the buffer
-		//[buf setString: @""];	// clear out
+		//[buf setString:@""];	// clear out
 		for (j = j + 1; j < lastline; ++j) {
 			assert(newPage[j]);
-			[buf appendFormat: @"%@\r", newPage[j]];
+			[buf appendFormat:@"%@\r", newPage[j]];
 			lastPage[j] = newPage[j];
 		}
 		
@@ -86,11 +89,11 @@
 			break;
 		
 		// invoke a "page down" command
-		[terminal sendText:@" "];
-		while ([newBottomLine isEqualToString: bottomLine] && i < maxAttempt) {
+        [connection sendBytes:" " length:1];
+        while ([newBottomLine isEqualToString:bottomLine] && i < maxAttempt) {
 			// wait for the screen to refresh
 			usleep(sleepTime);
-			newBottomLine = [terminal stringFromIndex: linesPerPage * [[YLLGlobalConfig sharedInstance] column] length: [[YLLGlobalConfig sharedInstance] column]] ?: @"";
+			newBottomLine = [terminal stringFromIndex:linesPerPage * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
 			++i;
 		}
 		bottomLine = newBottomLine;

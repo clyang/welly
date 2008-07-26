@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class YLTerminal;
+@class YLConnection;
 
 @interface KOPostDownloader : NSObject {
 
 }
 
-+ (NSString *) downloadPostFromTerminal: (YLTerminal *) terminal
-							  sleepTime: (int) sleepTime
-							 maxAttempt: (int) maxAttempt;
++ (NSString *)downloadPostFromConnection:(YLConnection *)connection;
 
 @end

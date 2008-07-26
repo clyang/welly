@@ -87,8 +87,8 @@ static unsigned short gEmptyAttr;
 
 # pragma mark -
 # pragma mark Input Interface
-- (void) feedData: (NSData *) data connection: (id) connection{
-	[self feedBytes: (const unsigned char *)[data bytes] length: [data length] connection: connection];
+- (void) feedData:(NSData *)data connection:(id)connection {
+	[self feedBytes:[data bytes] length:[data length] connection:connection];
 }
 
 #define SET_GRID_BYTE(c) \
@@ -105,7 +105,7 @@ if (_cursorX <= _column - 1) { \
     _cursorX++; \
 }
 
-- (void) feedBytes: (const unsigned char *) bytes length: (int) len connection: (id) connection {
+- (void)feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
 	int i, x;
@@ -114,7 +114,7 @@ if (_cursorX <= _column - 1) { \
 
 //    NSLog(@"length: %d", len);
 	for (i = 0; i < len; i++) {
-		c = bytes[i];
+		c = ((const char *)bytes)[i];
 //        if (c == 0x00) continue;
         
 		switch (_state)

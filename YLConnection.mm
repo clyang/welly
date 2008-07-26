@@ -133,7 +133,7 @@
 }
 
 - (void)protocolDidRecv:(id)protocol data:(NSData*)data {
-    [_terminal feedBytes:(const unsigned char *)[data bytes] length:[data length] connection:self];
+    [_terminal feedData:data connection:self];
 }
 
 - (void)protocolWillSend:(id)protocol data:(NSData*)data {
