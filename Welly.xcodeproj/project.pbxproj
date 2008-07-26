@@ -18,14 +18,14 @@
 		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.mm */; };
-		5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.mm */; };
+		5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.m */; };
 		5A1969CE0E1D495F00ED377C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
 		5A1969FD0E1D496800ED377C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
 		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
-		5A56C3820E342CFF00082312 /* KOPostDownloader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.mm */; };
+		5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
@@ -51,7 +51,7 @@
 		8579CA2A0CF21D3D005A8353 /* YLSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8579CA290CF21D3D005A8353 /* YLSite.m */; };
 		857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE4E0CF1D89300777C15 /* offline.pdf */; };
 		85834C100CFEC3F30015E348 /* Whit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 85834C0F0CFEC3F30015E348 /* Whit.aiff */; };
-		85899C7B0CEED4E40031907F /* YLApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85899C7A0CEED4E40031907F /* YLApplication.mm */; };
+		85899C7B0CEED4E40031907F /* YLApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 85899C7A0CEED4E40031907F /* YLApplication.m */; };
 		858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */; };
 		859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */; };
 		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
@@ -62,7 +62,7 @@
 		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
 		85EA93230D0791180098C94B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85EA93210D0791180098C94B /* Preferences.nib */; };
 		85ED52290D0920E6003296D4 /* CommonType.c in Sources */ = {isa = PBXBuildFile; fileRef = 85ED52280D0920E6003296D4 /* CommonType.c */; };
-		85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 85ED53210D092B5F003296D4 /* YLConnection.mm */; };
+		85ED53220D092B5F003296D4 /* YLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ED53210D092B5F003296D4 /* YLConnection.m */; };
 		85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F702660D033FF90035F600 /* DBPrefsWindowController.m */; };
 		85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
@@ -112,7 +112,7 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Welly_Prefix.pch; sourceTree = "<group>"; };
-		5A09016C0DBCDD1600AC08F4 /* YLController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLController.mm; sourceTree = "<group>"; };
+		5A09016C0DBCDD1600AC08F4 /* YLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLController.m; sourceTree = "<group>"; };
 		5A1969CD0E1D495F00ED377C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A309A7A0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		5A309A7C0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/Preferences.nib; sourceTree = "<group>"; };
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		5A56C3800E342CFF00082312 /* KOPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOPostDownloader.h; sourceTree = "<group>"; };
-		5A56C3810E342CFF00082312 /* KOPostDownloader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = KOPostDownloader.mm; sourceTree = "<group>"; };
+		5A56C3810E342CFF00082312 /* KOPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOPostDownloader.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
@@ -160,7 +160,7 @@
 		857EAE4E0CF1D89300777C15 /* offline.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = offline.pdf; sourceTree = "<group>"; };
 		85834C0F0CFEC3F30015E348 /* Whit.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Whit.aiff; sourceTree = "<group>"; };
 		85899C790CEED4E40031907F /* YLApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLApplication.h; sourceTree = "<group>"; };
-		85899C7A0CEED4E40031907F /* YLApplication.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLApplication.mm; sourceTree = "<group>"; };
+		85899C7A0CEED4E40031907F /* YLApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLApplication.m; sourceTree = "<group>"; };
 		858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMarkedTextView.h; sourceTree = "<group>"; };
 		858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLMarkedTextView.m; sourceTree = "<group>"; };
 		859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLContextualMenuManager.h; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 		85EA93270D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		85ED52280D0920E6003296D4 /* CommonType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CommonType.c; sourceTree = "<group>"; };
 		85ED53200D092B5F003296D4 /* YLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLConnection.h; sourceTree = "<group>"; };
-		85ED53210D092B5F003296D4 /* YLConnection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = YLConnection.mm; sourceTree = "<group>"; };
+		85ED53210D092B5F003296D4 /* YLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLConnection.m; sourceTree = "<group>"; };
 		85F702660D033FF90035F600 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
 		85F702670D033FF90035F600 /* DBPrefsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBPrefsWindowController.h; sourceTree = "<group>"; };
 		85F7F2070B06EE36000C4CDF /* YLLGlobalConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLLGlobalConfig.h; sourceTree = "<group>"; };
@@ -225,9 +225,9 @@
 				859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */,
 				859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */,
 				85899C790CEED4E40031907F /* YLApplication.h */,
-				85899C7A0CEED4E40031907F /* YLApplication.mm */,
+				85899C7A0CEED4E40031907F /* YLApplication.m */,
 				85ABEB7F0C966FEF008227D6 /* YLController.h */,
-				5A09016C0DBCDD1600AC08F4 /* YLController.mm */,
+				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
 				85F7F2070B06EE36000C4CDF /* YLLGlobalConfig.h */,
 				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
@@ -394,7 +394,7 @@
 				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
 				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
 				5A56C3800E342CFF00082312 /* KOPostDownloader.h */,
-				5A56C3810E342CFF00082312 /* KOPostDownloader.mm */,
+				5A56C3810E342CFF00082312 /* KOPostDownloader.m */,
 			);
 			name = Nally9only;
 			sourceTree = "<group>";
@@ -425,7 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				85ED53200D092B5F003296D4 /* YLConnection.h */,
-				85ED53210D092B5F003296D4 /* YLConnection.mm */,
+				85ED53210D092B5F003296D4 /* YLConnection.m */,
 				16C0C90A0E294BAA00B576C5 /* XIProtocol.h */,
 				16C0C90D0E294C2700B576C5 /* XIPTY.h */,
 				16C0C90E0E294C2700B576C5 /* XIPTY.m */,
@@ -521,17 +521,17 @@
 				85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */,
 				856CDB260C9650550025C754 /* encoding.c in Sources */,
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
-				85899C7B0CEED4E40031907F /* YLApplication.mm in Sources */,
+				85899C7B0CEED4E40031907F /* YLApplication.m in Sources */,
 				8579CA2A0CF21D3D005A8353 /* YLSite.m in Sources */,
 				859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */,
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.c in Sources */,
-				85ED53220D092B5F003296D4 /* YLConnection.mm in Sources */,
+				85ED53220D092B5F003296D4 /* YLConnection.m in Sources */,
 				18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.mm in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */,
-				5A09016D0DBCDD1600AC08F4 /* YLController.mm in Sources */,
+				5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */,
 				5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
@@ -543,7 +543,7 @@
 				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */,
-				5A56C3820E342CFF00082312 /* KOPostDownloader.mm in Sources */,
+				5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

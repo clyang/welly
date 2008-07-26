@@ -39,12 +39,18 @@ typedef enum YLANSIColorKey {
     YLEscEscEscANSIColorKey = 0
 } YLANSIColorKey;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 int isHiddenAttribute(attribute a) ;
 int isBlinkCell(cell c) ;
 int bgColorIndexOfAttribute(attribute a) ;
 int fgColorIndexOfAttribute(attribute a) ;
 int bgBoldOfAttribute(attribute a) ;
 int fgBoldOfAttribute(attribute a) ;
+#ifdef __cplusplus
+}
+#endif
 
 #define termKeyUp @"\x1B[A"
 #define termKeyDown @"\x1B[B"

@@ -22,6 +22,8 @@
 #import "RemoteControlContainer.h"
 #import "MultiClickRemoteBehavior.h"
 
+#import <Carbon/Carbon.h>
+
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #define SiteTableViewDataType @"SiteTableViewDataType"
 
@@ -1218,7 +1220,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// Close
 		[testFSWindow close];
 		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeNormal, nil);
+		SetSystemUIMode(kUIModeNormal, 0);
 		// Set the super view back!!!
 		// Important!
 		[orinSuperView addSubview:_telnetView];

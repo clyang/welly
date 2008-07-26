@@ -14,7 +14,6 @@
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
 #import "XIPreviewController.h"
-//#import "YLImagePreviewer.h"
 
 #include <deque>
 #include "encoding.h"
@@ -59,6 +58,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		return YES;
 	return NO;
 }
+
+@interface YLView ()
+- (void) drawSpecialSymbol:(unichar)ch forRow:(int)r column:(int)c leftAttribute:(attribute)attr1 rightAttribute:(attribute)attr2;
+@end
 
 @implementation YLView
 

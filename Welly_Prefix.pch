@@ -1,7 +1,8 @@
 //
-// Prefix header for all source files of the 'MacBlueTelnet' target in the 'MacBlueTelnet' project
+// Prefix header for all source files
 //
 
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
+    #import <Carbon/Carbon.h>
 #endif

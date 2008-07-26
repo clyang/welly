@@ -8,10 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern "C" {
-    #import "CommonType.h"
-}
-
 @class YLTerminal;
 @class YLConnection;
 @class YLMarkedTextView;
@@ -44,7 +40,6 @@ extern "C" {
 
 - (void) displayCellAtRow: (int) r column: (int) c;
 - (void) updateBackedImage;
-- (void) drawSpecialSymbol: (unichar) ch forRow: (int) r column: (int) c leftAttribute: (attribute) attr1 rightAttribute: (attribute) attr2 ;
 - (void) drawSelection ;
 - (void) drawBlink ;
 - (void) refreshHiddenRegion;
