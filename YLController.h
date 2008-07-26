@@ -116,16 +116,16 @@
 - (IBAction)openPostDownload:(id)sender;
 - (IBAction)cancelPostDownload:(id)sender;
 
+// sites KVC
 - (NSArray *)sites;
 - (unsigned)countOfSites;
-- (id)objectInSitesAtIndex:(unsigned)theIndex;
-- (void)getSites:(id *)objsPtr range:(NSRange)range;
-- (void)insertObject:(id)obj inSitesAtIndex:(unsigned)theIndex;
-- (void)removeObjectFromSitesAtIndex:(unsigned)theIndex;
-- (void)replaceObjectInSitesAtIndex:(unsigned)theIndex withObject:(id)obj;
-/* commented by boost @ 9#
-- (void) refreshTabLabelNumber: (NSTabView *) tabView ;
-*/
+- (id)objectInSitesAtIndex:(unsigned)index;
+- (void)getSites:(id *)objects range:(NSRange)range;
+- (void)insertObject:(id)anObject inSitesAtIndex:(unsigned)index;
+- (void)removeObjectFromSitesAtIndex:(unsigned)index;
+- (void)replaceObjectInSitesAtIndex:(unsigned)index withObject:(id)anObject;
+
+// emoticons KVC
 - (NSArray *)emoticons;
 - (unsigned)countOfEmoticons;
 - (id)objectInEmoticonsAtIndex:(unsigned)theIndex;

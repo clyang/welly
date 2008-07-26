@@ -12,12 +12,12 @@
 
 - (id) init {
     if ([super init]) {
-        [self setName: @"Site Name"];
-        [self setAddress: @""];
-        [self setEncoding: YLGBKEncoding];
-		[self setAnsiColorKey: YLEscEscEscANSIColorKey];
-		[self setAutoReply: NO];
-		[self setAutoReplyString: @"[Welly] Sorry, I am not around."];
+        [self setName:@"Site Name"];
+        [self setAddress:@""];
+        [self setEncoding:YLGBKEncoding];
+        [self setAnsiColorKey:YLEscEscEscANSIColorKey];
+        [self setAutoReply:NO];
+        [self setAutoReplyString:@"[Welly] Sorry, I am not around."];
     }
     return self;
 }

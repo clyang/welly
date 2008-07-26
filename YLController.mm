@@ -33,13 +33,19 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 @implementation YLController
 
-- (id) init {
-	self = [super init];
-	// Init...
-	isFullScreen = false;
-	if (self != nil) {
-	}
-	return self;
+- (id)init {
+    if (self = [super init]) {
+        _sites = [[NSMutableArray alloc] init];
+        _emoticons = [[NSMutableArray alloc] init];
+        isFullScreen = false;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [_sites release];
+    [_emoticons release];
+    [super dealloc];
 }
 
 - (void) awakeFromNib {
@@ -125,7 +131,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [[_sitesMenu submenu] removeItemAtIndex:i];
     }
     
-	// Now add items of site one by one
+    // Now add items of site one by one
     for (YLSite *s in _sites) {
         NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
         [menuItem setRepresentedObject:s];
@@ -277,17 +283,18 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #pragma mark -
 #pragma mark User Defaults
 
-- (void) loadSites {
-    NSArray *array = [[NSUserDefaults standardUserDefaults] arrayForKey: @"Sites"];
-    for (NSDictionary *d in array) 
-        [self insertObject: [YLSite siteWithDictionary: d] inSitesAtIndex: [self countOfSites]];    
+- (void)loadSites {
+    NSArray *array = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
+    for (NSDictionary *d in array)
+        //[_sites addObject:[YLSite siteWithDictionary:d]];
+        [self insertObject:[YLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];    
 }
 
-- (void) saveSites {
+- (void)saveSites {
     NSMutableArray *a = [NSMutableArray array];
     for (YLSite *s in _sites)
-        [a addObject: [s dictionaryOfSite]];
-    [[NSUserDefaults standardUserDefaults] setObject: a forKey: @"Sites"];
+        [a addObject:[s dictionaryOfSite]];
+    [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"Sites"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self updateSitesMenu];
 }
@@ -620,106 +627,71 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 #pragma mark -
-#pragma mark Accessor
+#pragma mark Sites KVC Accessors
+
 - (NSArray *)sites {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
-    return [[_sites retain] autorelease];
+    return _sites;
 }
 
 - (unsigned)countOfSites {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
     return [_sites count];
 }
 
-- (id)objectInSitesAtIndex:(unsigned)theIndex {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
-    return [_sites objectAtIndex:theIndex];
+- (id)objectInSitesAtIndex:(unsigned)index {
+    return [_sites objectAtIndex:index];
 }
 
-- (void)getSites:(id *)objsPtr range:(NSRange)range {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
-    [_sites getObjects:objsPtr range:range];
+- (void)getSites:(id *)objects range:(NSRange)range {
+    [_sites getObjects:objects range:range];
 }
 
-- (void)insertObject:(id)obj inSitesAtIndex:(unsigned)theIndex {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
-    [_sites insertObject:obj atIndex:theIndex];
+- (void)insertObject:(id)anObject inSitesAtIndex:(unsigned)index {
+    [_sites insertObject:anObject atIndex:index];
 }
 
-- (void)removeObjectFromSitesAtIndex:(unsigned)theIndex {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
-    [_sites removeObjectAtIndex:theIndex];
+- (void)removeObjectFromSitesAtIndex:(unsigned)index {
+    [_sites removeObjectAtIndex:index];
 }
 
-- (void)replaceObjectInSitesAtIndex:(unsigned)theIndex withObject:(id)obj {
-    if (!_sites) {
-        _sites = [[NSMutableArray alloc] init];
-    }
+- (void)replaceObjectInSitesAtIndex:(unsigned)index withObject:(id)anObject {
+    [_sites replaceObjectAtIndex:index withObject:anObject];
 }
+
+#pragma mark -
+#pragma mark Emoticons KVC Accessors
 
 - (NSArray *)emoticons {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
-    return [[_emoticons retain] autorelease];
+    return _emoticons;
 }
 
 - (unsigned)countOfEmoticons {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     return [_emoticons count];
 }
 
 - (id)objectInEmoticonsAtIndex:(unsigned)theIndex {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     return [_emoticons objectAtIndex:theIndex];
 }
 
 - (void)getEmoticons:(id *)objsPtr range:(NSRange)range {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     [_emoticons getObjects:objsPtr range:range];
 }
 
 - (void)insertObject:(id)obj inEmoticonsAtIndex:(unsigned)theIndex {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     [_emoticons insertObject:obj atIndex:theIndex];
 }
 
 - (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     [_emoticons removeObjectAtIndex:theIndex];
 }
 
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj {
-    if (!_emoticons) {
-        _emoticons = [[NSMutableArray alloc] init];
-    }
     [_emoticons replaceObjectAtIndex:theIndex withObject:obj];
 }
 
+/* commented out by boost @ 9#: who is using this...
 - (IBOutlet) view { return _telnetView; }
 - (void) setView: (IBOutlet) o {}
+*/
 
 #pragma mark -
 #pragma mark Application Delegation
