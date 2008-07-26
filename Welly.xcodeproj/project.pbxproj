@@ -11,6 +11,10 @@
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */; };
+		166D62AD0E2E17A900514885 /* XIPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D62AC0E2E17A900514885 /* XIPortal.m */; };
+		166D639F0E2E232600514885 /* PortalImageLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D639E0E2E232600514885 /* PortalImageLayout.m */; };
+		166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D63B20E2E255A00514885 /* QuartzCore.framework */; };
+		1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* PortalImage.m */; };
 		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
@@ -95,6 +99,13 @@
 		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
 		1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPreviewController.h; sourceTree = "<group>"; };
 		1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPreviewController.m; sourceTree = "<group>"; };
+		166D62AB0E2E17A900514885 /* XIPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPortal.h; sourceTree = "<group>"; };
+		166D62AC0E2E17A900514885 /* XIPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPortal.m; sourceTree = "<group>"; };
+		166D639D0E2E232600514885 /* PortalImageLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalImageLayout.h; sourceTree = "<group>"; };
+		166D639E0E2E232600514885 /* PortalImageLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortalImageLayout.m; sourceTree = "<group>"; };
+		166D63B20E2E255A00514885 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		1680A7EB0E2F0F8300A2E175 /* PortalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalImage.h; sourceTree = "<group>"; };
+		1680A7EC0E2F0F8300A2E175 /* PortalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortalImage.m; sourceTree = "<group>"; };
 		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
@@ -207,6 +218,7 @@
 				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
 				5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */,
 				5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */,
+				166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +253,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				166D63B20E2E255A00514885 /* QuartzCore.framework */,
 				81624CE10E2F8F89009C9987 /* Carbon.framework */,
 				5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */,
 				5A1969CD0E1D495F00ED377C /* Sparkle.framework */,
@@ -406,6 +419,12 @@
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
 				8570AD5D0A3923A900838442 /* YLView.h */,
 				8570AD5E0A3923A900838442 /* YLView.mm */,
+				166D62AB0E2E17A900514885 /* XIPortal.h */,
+				166D62AC0E2E17A900514885 /* XIPortal.m */,
+				1680A7EB0E2F0F8300A2E175 /* PortalImage.h */,
+				1680A7EC0E2F0F8300A2E175 /* PortalImage.m */,
+				166D639D0E2E232600514885 /* PortalImageLayout.h */,
+				166D639E0E2E232600514885 /* PortalImageLayout.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -543,6 +562,9 @@
 				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */,
+				166D62AD0E2E17A900514885 /* XIPortal.m in Sources */,
+				166D639F0E2E232600514885 /* PortalImageLayout.m in Sources */,
+				1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */,
 				5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

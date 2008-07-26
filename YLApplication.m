@@ -84,4 +84,9 @@ static NSString *gLeftString, *gRightString;
 
     [pool release];
 }
+
+- (YLController *)controller {
+    return _controller;
+}
+
 @end

@@ -14,6 +14,7 @@
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
 #import "XIPreviewController.h"
+#import "XIPortal.h"
 
 #include <deque>
 #include "encoding.h"
@@ -200,14 +201,15 @@ BOOL isSpecialSymbol(unichar ch) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
-//        [self setTabViewType: NSNoTabsNoBorder];
+        _portal = [[XIPortal alloc] initWithView:self];
     }
     return self;
 }
 
 - (void) dealloc {
-	[_backedImage release];
-	[super dealloc];
+    [_backedImage release];
+    [_portal release];
+    [super dealloc];
 }
 
 #pragma mark -
@@ -691,26 +693,41 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) keyDown: (NSEvent *) e {
+    unichar c = [[e characters] characterAtIndex: 0];
+    // portal
+	if ([self wantsLayer])
+    {
+        switch (c) {
+        case NSLeftArrowFunctionKey:
+            [_portal moveSelection:-1];
+            break;
+        case NSRightArrowFunctionKey:
+            [_portal moveSelection:+1];
+            break;
+        case ' ':
+        case '\r':
+            [_portal select];
+            break;
+        }
+    }
+
     [self clearSelection];
-	unichar c = [[e characters] characterAtIndex: 0];
 	unsigned char arrow[6] = {0x1B, 0x4F, 0x00, 0x1B, 0x4F, 0x00};
 	unsigned char buf[10];
 
-    //[[self frontMostTerminal] setHasMessage: NO];
-	[[self frontMostTerminal] resetMessageCount];
-    
-	if ([e modifierFlags] & NSControlKeyMask) {
-		buf[0] = c;
-		[[self frontMostConnection] sendBytes: buf length: 1];
+    YLTerminal *ds = [self frontMostTerminal];    
+    [ds resetMessageCount];
+
+    if ([e modifierFlags] & NSControlKeyMask) {
+        buf[0] = c;
+        [[self frontMostConnection] sendBytes:buf length:1];
         return;
-	}
+    }
 	
 	if (c == NSUpArrowFunctionKey) arrow[2] = arrow[5] = 'A';
 	if (c == NSDownArrowFunctionKey) arrow[2] = arrow[5] = 'B';
 	if (c == NSRightArrowFunctionKey) arrow[2] = arrow[5] = 'C';
 	if (c == NSLeftArrowFunctionKey) arrow[2] = arrow[5] = 'D';
-
-    YLTerminal *ds = [self frontMostTerminal];
 	
 	if (![self hasMarkedText] && 
 		(c == NSUpArrowFunctionKey ||
@@ -795,7 +812,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)drawRect:(NSRect)rect {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     YLTerminal *ds = [self frontMostTerminal];
-        
+
 	if ([self connected]) {
 		// Modified by gtCarrera
 		// Draw the background color first!!!
@@ -840,9 +857,8 @@ BOOL isSpecialSymbol(unichar ch) {
             [self drawSelection];
 	} else {
 		[[gConfig colorBG] set];
-        
         NSRect r = [self bounds];
-		NSRectFill(r);
+        NSRectFill(r);
 	}
 	
     [pool release];

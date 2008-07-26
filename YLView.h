@@ -7,10 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CommonType.h"
 
 @class YLTerminal;
 @class YLConnection;
 @class YLMarkedTextView;
+@class XIPortal;
 
 @interface YLView : NSTabView <NSTextInput> {	
 	CGFloat _fontWidth;
@@ -30,6 +32,8 @@
     
     int _selectionLocation;
     int _selectionLength;
+    
+    XIPortal *_portal;
 }
 
 - (void) configure ;
@@ -46,8 +50,8 @@
 
 - (void) clearSelection;
 
-- (YLTerminal *) frontMostTerminal;
-- (YLConnection *) frontMostConnection;
+- (YLTerminal *)frontMostTerminal;
+- (YLConnection *)frontMostConnection;
 - (BOOL)connected;
 
 - (void) extendBottomFrom: (int) start to: (int) end;

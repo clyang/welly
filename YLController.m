@@ -5,9 +5,6 @@
 //  Created by Yung-Luen Lan on 9/11/07.
 //  Copyright 2007 yllan.org. All rights reserved.
 
-//  Modified by boost @ 9# on 7/12/2008.
-//  Add support for ordering sites via drag & drop.
-
 #import "YLController.h"
 #import "YLTerminal.h"
 #import "XIPTY.h"
@@ -117,6 +114,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // drag & drop in site view
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
+
+    // open the portal
+    if ([_sites count] > 0) {
+        [_telnetView setWantsLayer:YES];
+        [_mainWindow makeFirstResponder:_telnetView];
+    }
 }
 
 - (void)updateSitesMenu {
@@ -192,6 +195,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         tabViewItem = [_telnetView selectedTabViewItem];
         connection = [tabViewItem identifier];
         [connection setSite:site];
+        [_telnetView setWantsLayer:NO];
     } else {
         connection = [[[YLConnection alloc] initWithSite:site] autorelease];
         tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
@@ -403,8 +407,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     [_mainWindow makeKeyAndOrderFront:self];
     // let user input
-	[_telnetView resignFirstResponder];
-	[_addressBar becomeFirstResponder];
+    //[_mainWindow makeFirstResponder:_addressBar];
     
     [pool release];
 }
@@ -469,13 +472,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [sender setStringValue: [s address]];
 }
 
-- (IBAction) openLocation: (id) sender {
-    [_mainWindow makeKeyAndOrderFront: self];
-	[_telnetView resignFirstResponder];
-	[_addressBar becomeFirstResponder];
+- (IBAction)openLocation:(id)sender {
+    [_mainWindow makeKeyAndOrderFront:self];
+    //[_mainWindow makeFirstResponder:_addressBar];
 }
 
-- (BOOL) shouldReconnect {
+- (BOOL)shouldReconnect {
 	if (![[_telnetView frontMostConnection] connected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
@@ -846,9 +848,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	[[connection terminal] resetMessageCount];
     // empty tab
     if (![[[connection site] address] length]) {
-        [_telnetView resignFirstResponder];
-        [_addressBar becomeFirstResponder];
-    }
+        // open the portal for empty tab
+        //[_mainWindow makeFirstResponder:_addressBar];
+        [_telnetView setWantsLayer:YES];
+    } else
+        [_telnetView setWantsLayer:NO];
 
     [self updateEncodingMenu];
     YLSite *site = [connection site];
