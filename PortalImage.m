@@ -244,7 +244,7 @@ static void * imageThread (void *arg) {
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<DesktopImage: %p; %@>", self, [self name]];
+    return [NSString stringWithFormat:@"<PortalImage: %p; %@>", self, [self name]];
 }
 
 @end

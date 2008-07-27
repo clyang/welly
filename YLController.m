@@ -143,24 +143,24 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
     // update portal
+    // NOTE: comment out the folowing line to turn off cover flow
     [_telnetView updatePortal];
 }
 
-- (void) updateEncodingMenu {
-    // Update encoding menu status
+- (void)updateEncodingMenu {
+    // update encoding menu status
     NSMenu *m = [_encodingMenuItem submenu];
-    int i;
-    for (i = 0; i < [m numberOfItems]; i++) {
-        NSMenuItem *item = [m itemAtIndex: i];
-        [item setState: NSOffState];
+    for (int i = 0; i < [m numberOfItems]; i++) {
+        NSMenuItem *item = [m itemAtIndex:i];
+        [item setState:NSOffState];
     }
-	if (![_telnetView frontMostTerminal])
-		return;
-	YLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
-	if (currentEncoding == YLBig5Encoding)
-		[[m itemWithTitle: titleBig5] setState: NSOnState];
-	if (currentEncoding == YLGBKEncoding)
-		[[m itemWithTitle: titleGBK] setState: NSOnState];
+    if (![_telnetView frontMostTerminal])
+        return;
+    YLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
+    if (currentEncoding == YLBig5Encoding)
+        [[m itemWithTitle:titleBig5] setState:NSOnState];
+    if (currentEncoding == YLGBKEncoding)
+        [[m itemWithTitle:titleGBK] setState:NSOnState];
 }
 
 - (void) updateBlinkTicker: (NSTimer *) t {
@@ -836,7 +836,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [[connection terminal] setAllDirty];
 
     YLSite *site = [connection site];
-    [_telnetView setWantsLayer:[site empty]];
+    if ([_telnetView layer])
+        [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
     [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
@@ -849,10 +850,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
         if ([_sites count]) {
-            [_telnetView setWantsLayer:YES];
+            if ([_telnetView layer])
+                [_telnetView setWantsLayer:YES];
             [_mainWindow makeFirstResponder:_telnetView];
         } else {
-            [_telnetView setWantsLayer:NO];
+            if ([_telnetView layer])
+                [_telnetView setWantsLayer:NO];
             [_mainWindow makeFirstResponder:_addressBar];
         }
     }

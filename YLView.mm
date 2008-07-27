@@ -541,25 +541,32 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Event Handling
 
-- (void) mouseDown: (NSEvent *) e {
-    //[[self frontMostTerminal] setHasMessage: NO];
+- (void)mouseDown:(NSEvent *)theEvent {
 	[[self frontMostTerminal] resetMessageCount];
-    [[self window] makeFirstResponder: self];
+    [[self window] makeFirstResponder:self];
+
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
+
+    // portal
+    if ([self wantsLayer]) {
+        [_portal clickAtPoint:p count:[theEvent clickCount]];
+        return;
+    }
+
     if (![self connected]) return;
-    NSPoint p = [e locationInWindow];
-    p = [self convertPoint: p toView: nil];
+
     _selectionLocation = [self convertIndexFromPoint: p];
     _selectionLength = 0;
     
-    if (([e modifierFlags] & NSCommandKeyMask) == 0x00 &&
-        [e clickCount] == 3) {
+    if (([theEvent modifierFlags] & NSCommandKeyMask) == 0x00 &&
+        [theEvent clickCount] == 3) {
         _selectionLocation = _selectionLocation - (_selectionLocation % gColumn);
         _selectionLength = gColumn;
-    } else if (([e modifierFlags] & NSCommandKeyMask) == 0x00 &&
-               [e clickCount] == 2) {
-        int r, c;
-        r = _selectionLocation / gColumn;
-        c = _selectionLocation % gColumn;
+    } else if (([theEvent modifierFlags] & NSCommandKeyMask) == 0x00 &&
+               [theEvent clickCount] == 2) {
+        int r = _selectionLocation / gColumn;
+        int c = _selectionLocation % gColumn;
         cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
         [[self frontMostTerminal] updateDoubleByteStateForRow: r];
         if (currRow[c].attr.f.doubleByte == 1) { // Double Byte
@@ -587,19 +594,18 @@ BOOL isSpecialSymbol(unichar ch) {
     
     [self setNeedsDisplay: YES];
     
-    /* Click to move cursor. */
-    if ([e modifierFlags] & NSCommandKeyMask) {
+    // click to move cursor
+    if ([theEvent modifierFlags] & NSCommandKeyMask) {
         unsigned char cmd[gRow * gColumn + 1];
         unsigned int cmdLength = 0;
         int moveToRow = _selectionLocation / gColumn;
         int moveToCol = _selectionLocation % gColumn;
         id ds = [self frontMostTerminal];
         BOOL home = NO;
-		int i;
 		if (moveToRow > [ds cursorRow]) {
 			cmd[cmdLength++] = 0x01;
 			home = YES;
-			for (i = [ds cursorRow]; i < moveToRow; i++) {
+			for (int i = [ds cursorRow]; i < moveToRow; i++) {
 				cmd[cmdLength++] = 0x1B;
 				cmd[cmdLength++] = 0x4F;
 				cmd[cmdLength++] = 0x42;
@@ -607,7 +613,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		} else if (moveToRow < [ds cursorRow]) {
 			cmd[cmdLength++] = 0x01;
 			home = YES;
-			for (i = [ds cursorRow]; i > moveToRow; i--) {
+			for (int i = [ds cursorRow]; i > moveToRow; i--) {
 				cmd[cmdLength++] = 0x1B;
 				cmd[cmdLength++] = 0x4F;
 				cmd[cmdLength++] = 0x41;
@@ -616,7 +622,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		
         cell *currRow = [[self frontMostTerminal] cellsOfRow: moveToRow];
 		if (home) {
-			for (i = 0; i < moveToCol; i++) {
+			for (int i = 0; i < moveToCol; i++) {
                 if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
                     cmd[cmdLength++] = 0x1B;
                     cmd[cmdLength++] = 0x4F;
@@ -624,7 +630,7 @@ BOOL isSpecialSymbol(unichar ch) {
                 }
 			}
 		} else if (moveToCol > [ds cursorColumn]) {
-			for (i = [ds cursorColumn]; i < moveToCol; i++) {
+			for (int i = [ds cursorColumn]; i < moveToCol; i++) {
                 if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
                     cmd[cmdLength++] = 0x1B;
                     cmd[cmdLength++] = 0x4F;
@@ -632,7 +638,7 @@ BOOL isSpecialSymbol(unichar ch) {
                 }
 			}
 		} else if (moveToCol < [ds cursorColumn]) {
-			for (i = [ds cursorColumn]; i > moveToCol; i--) {
+			for (int i = [ds cursorColumn]; i > moveToCol; i--) {
                 if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
                     cmd[cmdLength++] = 0x1B;
                     cmd[cmdLength++] = 0x4F;
@@ -661,32 +667,39 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 
-- (void) mouseUp: (NSEvent *) e {
+- (void)mouseUp:(NSEvent *)theEvent {
     if (![self connected]) return;
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
+    // open url
     if (_selectionLength <= 3) {
-        NSPoint p = [e locationInWindow];
-        p = [self convertPoint: p toView: nil];
-        int index = [self convertIndexFromPoint: p];
-        
-        NSString *url = [[self frontMostTerminal] urlStringAtRow: (index / gColumn) 
-                                                          column: (index % gColumn)];
-        if (url) {
-			// modified by boost @ 9#
-			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
-                // click while holding shift key or navigate web pages
-                // open the URL with browser
-				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-			} else {
-                // open with previewer
-                [XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
-				// [[YLImagePreviewer alloc] initWithURL: [NSURL URLWithString: url]];
-			}
+        int index = [self convertIndexFromPoint:p];
+        NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
+        if (url == nil)
+            return;
+        if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
+            // click while holding shift key or navigate web pages
+            // open the URL with browser
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+        } else {
+            // open with previewer
+            [XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
         }
     }
 }
 
-- (void)keyDown:(NSEvent *)e {
-    unichar c = [[e characters] characterAtIndex:0];
+- (void)scrollWheel:(NSEvent *)theEvent {
+    // portal
+    if ([self wantsLayer]) {
+        if ([theEvent deltaY] > 0)
+            [_portal moveSelection:-1];
+        else if ([theEvent deltaY] < 0)
+            [_portal moveSelection:+1];
+    }
+}
+
+- (void)keyDown:(NSEvent *)theEvent {
+    unichar c = [[theEvent characters] characterAtIndex:0];
     // portal
     if ([self wantsLayer]) {
         switch (c) {
@@ -701,6 +714,7 @@ BOOL isSpecialSymbol(unichar ch) {
             [_portal select];
             break;
         }
+        return;
     }
 
     [self clearSelection];
@@ -710,7 +724,7 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];    
     [ds resetMessageCount];
 
-    if ([e modifierFlags] & NSControlKeyMask) {
+    if ([theEvent modifierFlags] & NSControlKeyMask) {
         buf[0] = c;
         [[self frontMostConnection] sendBytes:buf length:1];
         return;
@@ -750,7 +764,7 @@ BOOL isSpecialSymbol(unichar ch) {
         return;
 	}
 
-	[self interpretKeyEvents: [NSArray arrayWithObject: e]];
+	[self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
 }
 
 - (void) flagsChanged: (NSEvent *) event {

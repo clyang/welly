@@ -11,13 +11,13 @@
 
 @interface XIPortal : NSObject {
     CAScrollLayer *_bodyLayer;
-    CATextLayer *_headerTextLayer, *_desktopImageCountLayer;
+    CATextLayer *_headerTextLayer, *_footerTextLayer;
     CATransform3D _sublayerTransform;
     CGImageRef _shadowImage;
 
-    CGSize _desktopImageSize;
-    NSMutableArray *_desktopImages;
-    int _totalDesktopImages, _selectedDesktopImageIndex;
+    CGSize _imageSize;
+    NSMutableArray *_images;
+    int _totalImages, _selectedImageIndex;
 
     NSMapTable *_layerDictionary;
 }
@@ -27,5 +27,6 @@
 - (void)loadCovers;
 - (void)moveSelection:(int)dx;
 - (void)select;
+- (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count;
 
 @end

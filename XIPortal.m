@@ -84,6 +84,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     CALayer *rootLayer = [CALayer layer];
     rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
     rootLayer.backgroundColor = [XIPortal color:C_BLACK];
+    rootLayer.name = @"root";
 
     // informative header text
     _headerTextLayer = [CATextLayer layer];
@@ -127,22 +128,22 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [rootLayer addSublayer:statusLayer];
     
     //...such as the image count
-    _desktopImageCountLayer = [CATextLayer layer];
-    _desktopImageCountLayer.name = @"desktopImage-count";
-    _desktopImageCountLayer.style = textStyle;
-    [_desktopImageCountLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
-    [_desktopImageCountLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
-    [statusLayer addSublayer:_desktopImageCountLayer];
+    _footerTextLayer = [CATextLayer layer];
+    _footerTextLayer.name = @"footer";
+    _footerTextLayer.style = textStyle;
+    [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
+    [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
+    [statusLayer addSublayer:_footerTextLayer];
 
     // done
-    _desktopImageSize = *(CGSize *)&cellSize;
+    _imageSize = *(CGSize *)&cellSize;
     [view setLayer:rootLayer];
     [_bodyLayer setDelegate:self];
     
     // create a gradient image to use for our image shadows
     CGRect r;
     r.origin = CGPointZero;
-    r.size = _desktopImageSize;
+    r.size = _imageSize;
     size_t bytesPerRow = 4*r.size.width;
     void* bitmapData = malloc(bytesPerRow * r.size.height);
     CGContextRef context = CGBitmapContextCreate(bitmapData, r.size.width,
@@ -159,15 +160,19 @@ static const CGFloat colorValues[C_COUNT][4] = {
     free(bitmapData);
     [gradient release];
     
-    /* create a pleasant gradient mask around our central layer.
-       We don't have to worry about re-creating these when the window
-       size changes because the images will be automatically interpolated
-       to their new sizes; and as gradients, they are very well suited to
-       interpolation. */
+    // create a pleasant gradient mask around our central layer.
+    // We don't have to worry about re-creating these when the window
+    // size changes because the images will be automatically interpolated
+    // to their new sizes; and as gradients, they are very well suited to
+    // interpolation.
     CALayer *maskLayer = [CALayer layer];
+    maskLayer.name = @"mask";
     CALayer *leftGradientLayer = [CALayer layer];
+    leftGradientLayer.name = @"leftGradient";
     CALayer *rightGradientLayer = [CALayer layer];
+    rightGradientLayer.name = @"rightGradient";
     CALayer *bottomGradientLayer = [CALayer layer];
+    bottomGradientLayer.name = @"bottomGradient";
     
     // left
     r.origin = CGPointZero;
@@ -232,11 +237,11 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [leftGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
     [leftGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY]];
     [leftGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"superlayer" attribute:kCAConstraintMaxY]];
-    [leftGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX scale:.5 offset:-_desktopImageSize.width / 2]];
+    [leftGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX scale:.5 offset:-_imageSize.width / 2]];
     [rightGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
     [rightGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY]];
     [rightGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"superlayer" attribute:kCAConstraintMaxY]];
-    [rightGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMaxX scale:.5 offset:_desktopImageSize.width / 2]];
+    [rightGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMaxX scale:.5 offset:_imageSize.width / 2]];
     [bottomGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
     [bottomGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY]];
     [bottomGradientLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
@@ -297,8 +302,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
         size_t count = CFArrayGetCount(indices);
         for (size_t i = 0; i < count; i++) {
             size_t idx = (uintptr_t) CFArrayGetValueAtIndex(indices, i);
-            if (idx < _totalDesktopImages) {
-                desktopImage = [_desktopImages objectAtIndex:idx];
+            if (idx < _totalImages) {
+                desktopImage = [_images objectAtIndex:idx];
                 [self updateImageForLayer:[self layerForDesktopImage:desktopImage] fromDesktopImage:desktopImage];
             }
         }
@@ -309,12 +314,12 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 - (void)updateSelection {
     DesktopImageLayout *layout = [_bodyLayer layoutManager];
-    [_bodyLayer setValue:[NSNumber numberWithInteger:_selectedDesktopImageIndex] forKey:selectedDesktopImage];
+    [_bodyLayer setValue:[NSNumber numberWithInteger:_selectedImageIndex] forKey:selectedDesktopImage];
 
     // here is where we ask the layout manager to reflect the new selected image
     [_bodyLayer layoutIfNeeded];
 
-    CALayer *layer = [self layerForDesktopImage:[_desktopImages objectAtIndex:_selectedDesktopImageIndex]];
+    CALayer *layer = [self layerForDesktopImage:[_images objectAtIndex:_selectedImageIndex]];
     if (layer == nil)
         return;
     
@@ -329,15 +334,15 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)moveSelection:(int)dx {
-    _selectedDesktopImageIndex += dx;
+    _selectedImageIndex += dx;
 
-    if (_selectedDesktopImageIndex >= _totalDesktopImages) {
-        _selectedDesktopImageIndex = _totalDesktopImages - 1;
-        NSBeep();
+    if (_selectedImageIndex >= _totalImages) {
+        _selectedImageIndex = _totalImages - 1;
+        //NSBeep();
     }
-    if (_selectedDesktopImageIndex < 0) {
-        _selectedDesktopImageIndex = 0;
-        NSBeep();
+    if (_selectedImageIndex < 0) {
+        _selectedImageIndex = 0;
+        //NSBeep();
     }
 
     [self updateSelection];
@@ -345,7 +350,31 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 - (void)select {
     YLController *controller = [((YLApplication *)NSApp) controller];
-    [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedDesktopImageIndex]];
+    [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
+}
+
+- (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
+    CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
+    NSAssert([rootLayer superlayer] == nil, @"root layer");
+    CGPoint p = [rootLayer convertPoint:*(CGPoint*)&aPoint toLayer:containerLayer];
+    CALayer *layer = [_bodyLayer hitTest:p];
+    id image = [layer delegate];
+    // image container
+    if (image == nil) {
+        layer = [[layer sublayers] objectAtIndex:0];
+        image = [layer delegate];
+    }
+    NSUInteger index = [_images indexOfObject:image];
+    if (index == NSNotFound)
+        return;
+    if (index == _selectedImageIndex) {
+        // double click to open
+        if (count > 1)
+            [self select];
+    } else {
+        // move
+        [self moveSelection:(index - _selectedImageIndex)];
+    }
 }
 
 - (void)loadCovers {
@@ -355,8 +384,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
     NSString *dir = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"] stringByAppendingPathComponent:@"Covers"];
     // load sites
     NSArray *sites = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
-    [_desktopImages release];
-    _desktopImages = [[NSMutableArray arrayWithCapacity:0] retain];
+    [_images release];
+    _images = [[NSMutableArray arrayWithCapacity:0] retain];
     for (NSDictionary *d in sites) {
         NSString *key = [d objectForKey:@"name"];
         if ([key length] == 0)
@@ -368,14 +397,14 @@ static const CGFloat colorValues[C_COUNT][4] = {
         // nonexistent file
         if (file == nil)
             file = key;
-        DesktopImage *desktopImage = [[DesktopImage alloc] initWithPath:file];
-        [_desktopImages addObject:desktopImage];
-        [desktopImage release];
+        DesktopImage *image = [[DesktopImage alloc] initWithPath:file];
+        [_images addObject:image];
+        [image release];
     }
     
-    size_t count = [_desktopImages count];
-    id *values = malloc (count * sizeof (values[0]));
-    [_desktopImages getObjects:values];
+    size_t count = [_images count];
+    id *values = malloc(count * sizeof (values[0]));
+    [_images getObjects:values];
     
     for (size_t i = 0; i < count; i++) {
         DesktopImage *desktopImage = values[i];
@@ -391,7 +420,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
             // default appearance - will persist until image loads
             CGRect r;
             r.origin = CGPointZero;
-            r.size = _desktopImageSize;
+            r.size = _imageSize;
             [desktopImageLayer setBounds:r];
             [desktopImageLayer setBackgroundColor:[XIPortal color:C_GRAY]];
             desktopImageLayer.name = @"desktopImage";
@@ -399,6 +428,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
             [layer setBackgroundColor:[XIPortal color:C_TRANSPARENT]];
             [layer setSublayers:[NSArray arrayWithObject:desktopImageLayer]];
             [layer setSublayerTransform:_sublayerTransform];
+            layer.name = @"desktopImageContainer";
             
             // and the desktop image's reflection layer
             CALayer *sublayer = [CALayer layer];
@@ -410,6 +440,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
             [sublayer setBackgroundColor:[XIPortal color:C_GRAY]];
             [desktopImageLayer addSublayer:sublayer];
             CALayer *gradientLayer = [CALayer layer];
+            gradientLayer.name = @"reflectionGradient";
             r.origin.y += r.size.height;
             // if the gradient rect is exactly the correct size,
             // antialiasing sometimes gives us a line of bright pixels
@@ -426,12 +457,12 @@ static const CGFloat colorValues[C_COUNT][4] = {
         values[i] = [desktopImageLayer superlayer];
     }
     
-    _totalDesktopImages = count;
-    [_bodyLayer setValue:[NSNumber numberWithInt:_totalDesktopImages] forKey:desktopImageCount];
+    _totalImages = count;
+    [_bodyLayer setValue:[NSNumber numberWithInt:_totalImages] forKey:desktopImageCount];
     
     [_bodyLayer setSublayers:[NSArray arrayWithObjects:values count:count]];
     free(values);
-    //[_desktopImageCountLayer setString:[NSString stringWithFormat:@"%d sites", _totalDesktopImages]];
+    //[_footerTextLayer setString:[NSString stringWithFormat:@"%d sites", _totalImages]];
     
     [self updateSelection];
 }
