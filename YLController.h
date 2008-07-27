@@ -70,11 +70,6 @@
 	NSTimer* scrollTimer;
 }
 
-- (void)updateSitesMenu;
-- (void)loadSites;
-- (void)loadEmoticons;
-- (void)loadLastConnections;
-
 - (IBAction)setEncoding:(id)sender;
 - (IBAction)setDetectDoubleByteAction:(id)sender;
 - (IBAction)setAutoReplyAction:(id)sender;

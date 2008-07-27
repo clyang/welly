@@ -75,5 +75,8 @@
 - (NSString *) selectedPlainString ;
 - (BOOL) hasBlinkCell ;
 
-- (void) insertText: (id) aString withDelay: (int) microsecond ;
+- (void)insertText:(id)aString withDelay:(int)microsecond;
+
+- (void)updatePortal;
+
 @end

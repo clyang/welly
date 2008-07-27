@@ -181,8 +181,7 @@ BOOL isSpecialSymbol(unichar ch) {
     if (!gSingleAdvance) gSingleAdvance = (CGSize *) malloc(sizeof(CGSize) * gColumn);
     if (!gDoubleAdvance) gDoubleAdvance = (CGSize *) malloc(sizeof(CGSize) * gColumn);
 
-    int i;
-    for (i = 0; i < gColumn; i++) {
+    for (int i = 0; i < gColumn; i++) {
         gSingleAdvance[i] = CGSizeMake(_fontWidth * 1.0, 0.0);
         gDoubleAdvance[i] = CGSizeMake(_fontWidth * 2.0, 0.0);
     }
@@ -196,17 +195,15 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame: frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
-        _portal = [[XIPortal alloc] initWithView:self];
     }
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [_backedImage release];
     [_portal release];
     [super dealloc];
@@ -673,17 +670,13 @@ BOOL isSpecialSymbol(unichar ch) {
         
         NSString *url = [[self frontMostTerminal] urlStringAtRow: (index / gColumn) 
                                                           column: (index % gColumn)];
-        if (url)
-        {
+        if (url) {
 			// modified by boost @ 9#
-			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask)
-            {
+			if (([e modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
                 // click while holding shift key or navigate web pages
                 // open the URL with browser
 				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-			}
-			else
-			{
+			} else {
                 // open with previewer
                 [XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
 				// [[YLImagePreviewer alloc] initWithURL: [NSURL URLWithString: url]];
@@ -692,11 +685,10 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 }
 
-- (void) keyDown: (NSEvent *) e {
-    unichar c = [[e characters] characterAtIndex: 0];
+- (void)keyDown:(NSEvent *)e {
+    unichar c = [[e characters] characterAtIndex:0];
     // portal
-	if ([self wantsLayer])
-    {
+    if ([self wantsLayer]) {
         switch (c) {
         case NSLeftArrowFunctionKey:
             [_portal moveSelection:-1];
@@ -1629,6 +1621,11 @@ BOOL isSpecialSymbol(unichar ch) {
  */
 - (NSArray*) validAttributesForMarkedText {
 	return [NSArray array];
+}
+
+- (void)updatePortal {
+    [_portal release];
+    _portal = [[XIPortal alloc] initWithView:self];
 }
 
 @end

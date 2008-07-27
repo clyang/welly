@@ -39,11 +39,10 @@ static const CGFloat colorValues[C_COUNT][4] = {
     static CGColorRef colors[C_COUNT];
     static CGColorSpaceRef space;
     
-    if (colors[name] == NULL)
-    {
+    if (colors[name] == NULL) {
         if (space == NULL)
-            space = CGColorSpaceCreateWithName (kCGColorSpaceGenericRGB);
-        colors[name] = CGColorCreate (space, colorValues[name]);
+            space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        colors[name] = CGColorCreate(space, colorValues[name]);
     }
     
     return colors[name];
@@ -58,8 +57,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
     // sign up to be informed when a new image loads
     [[NSNotificationCenter defaultCenter] addObserver:self
-    selector:@selector(imageDidLoadNotification:)
-    name:desktopImageImageDidLoadNotification object:nil];
+                                             selector:@selector(imageDidLoadNotification:)
+                                                 name:desktopImageImageDidLoadNotification
+                                               object:nil];
     
     _layerDictionary = [[NSMapTable mapTableWithStrongToStrongObjects] retain];
     
@@ -70,13 +70,12 @@ static const CGFloat colorValues[C_COUNT][4] = {
     _sublayerTransform.m34 = 1. / -zDistance;
     
     NSDictionary *textStyle = [NSDictionary dictionaryWithObjectsAndKeys:
-    [NSNumber numberWithInteger:12], @"cornerRadius",
-    [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
-    @"LucidaGrande", @"font",
-    //@"BankGothic-Light", @"font",
-    [NSNumber numberWithInteger:18], @"fontSize",
-    kCAAlignmentCenter, @"alignmentMode",
-    nil];
+        [NSNumber numberWithInteger:12], @"cornerRadius",
+        [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
+        @"LucidaGrande", @"font",
+        [NSNumber numberWithInteger:18], @"fontSize",
+        kCAAlignmentCenter, @"alignmentMode",
+        nil];
     
     // here we set up the hierarchy of layers.
     //   This means child/parent relationships as well as

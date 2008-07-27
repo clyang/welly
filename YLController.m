@@ -24,6 +24,13 @@
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #define SiteTableViewDataType @"SiteTableViewDataType"
 
+@interface  YLController ()
+- (void)updateSitesMenu;
+- (void)loadSites;
+- (void)loadEmoticons;
+- (void)loadLastConnections;
+@end
+
 @implementation YLController
 
 - (id)init {
@@ -134,6 +141,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [[_sitesMenu submenu] addItem:menuItem];
         [menuItem release];
     }
+    
+    // update portal
+    [_telnetView updatePortal];
 }
 
 - (void) updateEncodingMenu {
@@ -840,10 +850,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if ([tabView numberOfTabViewItems] == 0) {
         if ([_sites count]) {
             [_telnetView setWantsLayer:YES];
-            [_mainWindow makeFirstResponder:_addressBar];
+            [_mainWindow makeFirstResponder:_telnetView];
         } else {
             [_telnetView setWantsLayer:NO];
-            [_mainWindow makeFirstResponder:_telnetView];
+            [_mainWindow makeFirstResponder:_addressBar];
         }
     }
 }
