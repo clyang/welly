@@ -24,12 +24,6 @@
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #define SiteTableViewDataType @"SiteTableViewDataType"
 
-@interface YLController (Private)
-- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem ;
-- (void)tabView:(NSTabView *)tabView willCloseTabViewItem:(NSTabViewItem *)tabViewItem ;
-- (void)tabView:(NSTabView *)tabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem ;
-@end
-
 @implementation YLController
 
 - (id)init {
@@ -47,7 +41,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [super dealloc];
 }
 
-- (void) awakeFromNib {
+- (void)awakeFromNib {
     // Register URL
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(getUrl:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
     
@@ -116,10 +110,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
 
     // open the portal
-    if ([_sites count] > 0) {
-        [_telnetView setWantsLayer:YES];
-        [_mainWindow makeFirstResponder:_telnetView];
-    }
+    [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
 }
 
 - (void)updateSitesMenu {
@@ -181,7 +172,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 }
 
-- (void) newConnectionWithSite:(YLSite *)site {
+- (void)newConnectionWithSite:(YLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
 	// Set the view to be focused.
@@ -190,46 +181,49 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     YLConnection *connection;
     NSTabViewItem *tabViewItem;
     BOOL emptyTab = [_telnetView frontMostConnection] && ([_telnetView frontMostTerminal] == nil);
-    if (emptyTab) {
+    if (emptyTab && ![site empty]) {
 		// reuse the empty tab
         tabViewItem = [_telnetView selectedTabViewItem];
         connection = [tabViewItem identifier];
         [connection setSite:site];
-        [_telnetView setWantsLayer:NO];
+        [self tabView:_telnetView didSelectTabViewItem:tabViewItem];
     } else {
         connection = [[[YLConnection alloc] initWithSite:site] autorelease];
         tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
-        // this will invoke tabView:didSelectTabViewItem
+        // this will invoke tabView:didSelectTabViewItem for the first tab
         [_telnetView addTabViewItem:tabViewItem];
+        [_telnetView selectTabViewItem:tabViewItem];
     }
-
-    // new terminal
-    YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
-    [connection setTerminal:terminal];
-	
-	// Clear out the terminal
-	[terminal clearAll];
-
-    // XIPTY as the default protocol (a proxy)
-    XIPTY *protocol = [[XIPTY new] autorelease];
-    [connection setProtocol:protocol];
-    [protocol setDelegate:connection];
-    [protocol connect:[site address]];
-
+    
     // set the tab label as the site name.
     [tabViewItem setLabel:[site name]];
-    // select the item
-    [_telnetView selectTabViewItem:tabViewItem];
+
+    if ([site empty]) {
+        [connection setTerminal:nil];
+        [connection setProtocol:nil];
+    } else {
+        // new terminal
+        YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
+        [connection setTerminal:terminal];
+        // clear out the terminal
+        [terminal clearAll];
+
+        // XIPTY as the default protocol (a proxy)
+        XIPTY *protocol = [[XIPTY new] autorelease];
+        [connection setProtocol:protocol];
+        [protocol setDelegate:connection];
+        [protocol connect:[site address]];
+    }
 
     /* commented by boost @ 9#
     [self refreshTabLabelNumber: _telnetView];
-    */
+
     [self updateEncodingMenu];
     [_detectDoubleByteButton setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
     [_detectDoubleByteMenuItem setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
 	[_autoReplyButton setState: [[[_telnetView frontMostConnection] site] autoReply] ? NSOnState : NSOffState];
 	[_autoReplyMenuItem setState: [[[_telnetView frontMostConnection] site] autoReply] ? NSOnState : NSOffState];
-	
+    */
     [pool release];
 }
 
@@ -389,15 +383,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 }
 
-- (IBAction) newTab: (id) sender {
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-
-    YLSite *site = [YLSite site];
-    [site setEncoding: [[YLLGlobalConfig sharedInstance] defaultEncoding]];
-    [site setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-	[site setAutoReply:NO];
-	[site setAutoReplyString:defaultAutoReplyString];
-
+- (IBAction)newTab:(id)sender {
+    [self newConnectionWithSite:[YLSite site]];
+    /*
     YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
 
     NSTabViewItem *tabItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
@@ -406,10 +394,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_telnetView selectTabViewItem:tabItem];
 
     [_mainWindow makeKeyAndOrderFront:self];
+    */
     // let user input
     //[_mainWindow makeFirstResponder:_addressBar];
-    
-    [pool release];
 }
 
 - (IBAction) connect: (id) sender {
@@ -418,58 +405,50 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     BOOL ssh = NO;
     
     NSString *name = [sender stringValue];
-    if ([[name lowercaseString] hasPrefix: @"ssh://"]) 
+    if ([[name lowercaseString] hasPrefix:@"ssh://"]) 
         ssh = YES;
 //        name = [name substringFromIndex: 6];
-    if ([[name lowercaseString] hasPrefix: @"telnet://"])
+    if ([[name lowercaseString] hasPrefix:@"telnet://"])
         name = [name substringFromIndex: 9];
-    if ([[name lowercaseString] hasPrefix: @"bbs://"])
+    if ([[name lowercaseString] hasPrefix:@"bbs://"])
         name = [name substringFromIndex: 6];
     
     NSMutableArray *matchedSites = [NSMutableArray array];
-    YLSite *s = [YLSite site];
+    YLSite *s;
         
     if ([name rangeOfString: @"."].location != NSNotFound) { /* Normal address */        
         for (YLSite *site in _sites) 
-            if ([[site address] rangeOfString: name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix: @"ssh://"])) 
-                [matchedSites addObject: site];
+            if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
+                [matchedSites addObject:site];
         if ([matchedSites count] > 0) {
-            [matchedSites sortUsingDescriptors: [NSArray arrayWithObject: [[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
-            s = [[[matchedSites objectAtIndex: 0] copy] autorelease];
+            [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
+            s = [[[matchedSites objectAtIndex:0] copy] autorelease];
         } else {
-            [s setAddress: name];
-            [s setName: name];
-            [s setEncoding: [[YLLGlobalConfig sharedInstance] defaultEncoding]];
-            [s setAnsiColorKey: [[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
-            [s setDetectDoubleByte: [[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-			[s setAutoReply: NO];
-			[s setAutoReplyString: defaultAutoReplyString];
+            s = [YLSite site];
+            [s setAddress:name];
+            [s setName:name];
         }
     } else { /* Short Address? */
         for (YLSite *site in _sites) 
             if ([[site name] rangeOfString: name].location != NSNotFound) 
-                [matchedSites addObject: site];
-        [matchedSites sortUsingDescriptors: [NSArray arrayWithObject: [[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
+                [matchedSites addObject:site];
+        [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
         if ([matchedSites count] == 0) {
             for (YLSite *site in _sites) 
                 if ([[site address] rangeOfString: name].location != NSNotFound)
-                    [matchedSites addObject: site];
-            [matchedSites sortUsingDescriptors: [NSArray arrayWithObject: [[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
+                    [matchedSites addObject:site];
+            [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
         } 
         if ([matchedSites count] > 0) {
-            s = [[[matchedSites objectAtIndex: 0] copy] autorelease];
+            s = [[[matchedSites objectAtIndex:0] copy] autorelease];
         } else {
-            [s setAddress: [sender stringValue]];
-            [s setName: name];
-            [s setEncoding: [[YLLGlobalConfig sharedInstance] defaultEncoding]];
-            [s setAnsiColorKey: [[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
-            [s setDetectDoubleByte: [[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-			[s setAutoReply: NO];
-			[s setAutoReplyString: defaultAutoReplyString];
+            s = [YLSite site];
+            [s setAddress:[sender stringValue]];
+            [s setName:name];
         }
     }
-    [self newConnectionWithSite: s];
-    [sender setStringValue: [s address]];
+    [self newConnectionWithSite:s];
+    [sender setStringValue:[s address]];
 }
 
 - (IBAction)openLocation:(id)sender {
@@ -533,12 +512,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)closeTab:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
-    
-    NSTabViewItem *sel = [_telnetView selectedTabViewItem];
+    [_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
+    /*
     if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
         [self tabView:_telnetView willCloseTabViewItem:sel];
         [_telnetView removeTabViewItem:sel];
     }
+    */
 }
 
 - (IBAction) editSites: (id) sender {
@@ -631,7 +611,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 #pragma mark -
-#pragma mark Sites KVC Accessors
+#pragma mark Sites Accessors
 
 - (NSArray *)sites {
     return _sites;
@@ -662,7 +642,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 #pragma mark -
-#pragma mark Emoticons KVC Accessors
+#pragma mark Emoticons Accessors
 
 - (NSArray *)emoticons {
     return _emoticons;
@@ -835,41 +815,49 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [[tabViewItem identifier] close];
 }
 
-- (void)tabView:(NSTabView *)tabView didCloseTabViewItem:(NSTabViewItem *)tabViewItem {
-    // pass
-}
-
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     YLConnection *connection = [tabViewItem identifier];
     [_telnetView updateBackedImage];
+    [_telnetView clearSelection];
     [_addressBar setStringValue: [[connection site] address]];
     [_telnetView setNeedsDisplay: YES];
     [_mainWindow makeFirstResponder: tabView];
 	[[connection terminal] resetMessageCount];
-    // empty tab
-    if (![[[connection site] address] length]) {
-        // open the portal for empty tab
-        //[_mainWindow makeFirstResponder:_addressBar];
-        [_telnetView setWantsLayer:YES];
-    } else
-        [_telnetView setWantsLayer:NO];
+    [[connection terminal] setAllDirty];
 
-    [self updateEncodingMenu];
     YLSite *site = [connection site];
-    [_detectDoubleByteButton setState: [site detectDoubleByte] ? NSOnState : NSOffState];
-    [_detectDoubleByteMenuItem setState: [site detectDoubleByte] ? NSOnState : NSOffState];
-    [_autoReplyButton setState: [site autoReply] ? NSOnState : NSOffState];
+    [_telnetView setWantsLayer:[site empty]];
+    [self updateEncodingMenu];
+#define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
+    [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
+    [_detectDoubleByteMenuItem setState:CELLSTATE([site detectDoubleByte])];
+    [_autoReplyButton setState:CELLSTATE([site autoReply])];
+#undef CELLSTATE
 }
 
+- (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
+    // all tab closed, no didSelectTabViewItem will happen
+    if ([tabView numberOfTabViewItems] == 0) {
+        if ([_sites count]) {
+            [_telnetView setWantsLayer:YES];
+            [_mainWindow makeFirstResponder:_addressBar];
+        } else {
+            [_telnetView setWantsLayer:NO];
+            [_mainWindow makeFirstResponder:_telnetView];
+        }
+    }
+}
+
+/*
 - (BOOL)tabView:(NSTabView *)tabView shouldSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     return YES;
 }
-
 - (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     id identifier = [tabViewItem identifier];
     [[identifier terminal] setAllDirty];
     [_telnetView clearSelection];
 }
+*/
 
 #pragma mark -
 #pragma mark Compose

@@ -7,27 +7,30 @@
 //
 
 #import "YLSite.h"
+#import "YLLGlobalConfig.h"
 
 @implementation YLSite
 
-- (id) init {
+- (id)init {
     if ([super init]) {
-        [self setName:@"Site Name"];
+        [self setName:@"Untitled"];
         [self setAddress:@""];
-        [self setEncoding:YLGBKEncoding];
-        [self setAnsiColorKey:YLEscEscEscANSIColorKey];
+        //[self setEncoding:YLGBKEncoding];
+        [self setEncoding:[[YLLGlobalConfig sharedInstance] defaultEncoding]];
+        [self setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
+        //[self setAnsiColorKey:YLEscEscEscANSIColorKey];
+        [self setAnsiColorKey: [[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
         [self setAutoReply:NO];
         [self setAutoReplyString:@"[Welly] Sorry, I am not around."];
     }
     return self;
 }
 
-+ (YLSite *) site {
++ (YLSite *)site {
     return [[YLSite new] autorelease];
 }
 
-
-+ (YLSite *) siteWithDictionary: (NSDictionary *) d {
++ (YLSite *)siteWithDictionary:(NSDictionary *)d {
     YLSite *s = [YLSite site];
     [s setName: [d valueForKey: @"name"] ?: @""];
     [s setAddress: [d valueForKey: @"address"] ?: @""];
@@ -39,12 +42,16 @@
     return s;
 }
 
-- (NSDictionary *) dictionaryOfSite {
+- (NSDictionary *)dictionaryOfSite {
     return [NSDictionary dictionaryWithObjectsAndKeys: [self name] ?: @"", @"name", [self address], @"address",
             [NSNumber numberWithUnsignedShort: [self encoding]], @"encoding", 
             [NSNumber numberWithUnsignedShort: [self ansiColorKey]], @"ansicolorkey", 
             [NSNumber numberWithBool: [self detectDoubleByte]], @"detectdoublebyte",
 			[self autoReplyString] ?: @"", @"autoreplystring", nil];
+}
+
+- (BOOL)empty {
+    return [_address length] == 0;
 }
 
 - (NSString *)name {

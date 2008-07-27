@@ -12,6 +12,7 @@
 @interface PSMTabBarControl ()
 - (NSArray *)cells;
 - (id)cellForPoint:(NSPoint)mousePt cellFrame:(NSRect *)cellFrame;
+- (void)closeTabClick:(id)sender;
 @end
 
 @implementation XITabBarControl
@@ -77,6 +78,13 @@
         [self selectLastTabViewItem:sender];
     else
         [self selectTabViewItemAtIndex:index-1];
+}
+
+#pragma mark -
+
+- (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
+    int index = [self indexOfTabViewItem:tabViewItem];
+    [self closeTabClick:[[self cells] objectAtIndex:index]];
 }
 
 @end

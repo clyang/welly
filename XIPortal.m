@@ -138,7 +138,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // done
     _desktopImageSize = *(CGSize *)&cellSize;
     [view setLayer:rootLayer];
-    [view setWantsLayer:YES];
     [_bodyLayer setDelegate:self];
     
     // create a gradient image to use for our image shadows

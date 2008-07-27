@@ -10,7 +10,7 @@
 #import "XITabBarControl.h"
 #import "YLSite.h"
 #import "KOAutoReplyDelegate.h"
-#define defaultAutoReplyString @"[Welly] Sorry, I am not around."
+
 #define scrollTimerInterval 0.12
 #define floatWindowLevel kCGStatusWindowLevel+1
 
@@ -114,7 +114,7 @@
 - (IBAction)openPostDownload:(id)sender;
 - (IBAction)cancelPostDownload:(id)sender;
 
-// sites KVC
+// sites accessors
 - (NSArray *)sites;
 - (unsigned)countOfSites;
 - (id)objectInSitesAtIndex:(unsigned)index;
@@ -123,7 +123,7 @@
 - (void)removeObjectFromSitesAtIndex:(unsigned)index;
 - (void)replaceObjectInSitesAtIndex:(unsigned)index withObject:(id)anObject;
 
-// emoticons KVC
+// emoticons accessors
 - (NSArray *)emoticons;
 - (unsigned)countOfEmoticons;
 - (id)objectInEmoticonsAtIndex:(unsigned)theIndex;

@@ -23,6 +23,8 @@
 + (YLSite *) siteWithDictionary: (NSDictionary *) d ;
 - (NSDictionary *) dictionaryOfSite ;
 
+- (BOOL)empty;
+
 - (NSString *)name;
 - (void)setName:(NSString *)value;
 

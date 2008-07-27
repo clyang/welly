@@ -10,9 +10,15 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
 @interface XITabBarControl : PSMTabBarControl
+
+// select
 - (void)selectTabViewItemAtIndex:(NSInteger)index;
 - (void)selectFirstTabViewItem:(id)sender;
 - (void)selectLastTabViewItem:(id)sender;
 - (void)selectNextTabViewItem:(id)sender;
 - (void)selectPreviousTabViewItem:(id)sender;
+
+// close
+- (void)removeTabViewItem:(NSTabViewItem *)tabViewItem;	
+
 @end
