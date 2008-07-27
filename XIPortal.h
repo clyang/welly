@@ -25,6 +25,7 @@
 + (CGColorRef)color:(int)name;
 - initWithView:(NSView *)view;
 - (void)loadCovers;
+- (NSUInteger)selected;
 - (void)moveSelection:(int)dx;
 - (void)select;
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count;

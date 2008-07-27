@@ -37,7 +37,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if (self = [super init]) {
         _sites = [[NSMutableArray alloc] init];
         _emoticons = [[NSMutableArray alloc] init];
-        isFullScreen = false;
+        _isFullScreen = false;
     }
     return self;
 }
@@ -515,7 +515,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)selectTabNumber:(int)index {
-    if (index <= [_telnetView numberOfTabViewItems]) {
+    if (index > 0 && index <= [_telnetView numberOfTabViewItems]) {
         [_tab selectTabViewItemAtIndex:index-1];
     }
 }
@@ -710,13 +710,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	// Restore from full screen firstly
-	if(isFullScreen) {
-		isFullScreen = false;
-		[self restoreFont:screenRatio];
-		[testFSWindow close];
-		[orinSuperView addSubview:_telnetView];
+	if (_isFullScreen) {
+		_isFullScreen = false;
+		[self restoreFont:_screenRatio];
+		[_testFSWindow close];
+		[_orinSuperView addSubview:_telnetView];
 		// Also add tab view back...
-		[orinSuperView addSubview:_tab];
+		[_orinSuperView addSubview:_tab];
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeNormal, 0);
 		// Show the main window
@@ -797,13 +797,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
 	// Restore from full screen firstly
-	if(isFullScreen) {
-		isFullScreen = false;
-		[self restoreFont:screenRatio];
-		[testFSWindow close];
-		[orinSuperView addSubview:tabView];
+	if (_isFullScreen) {
+		_isFullScreen = false;
+		[self restoreFont:_screenRatio];
+		[_testFSWindow close];
+		[_orinSuperView addSubview:tabView];
 		// Also add tab view back...
-		[orinSuperView addSubview:_tab];
+		[_orinSuperView addSubview:_tab];
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeNormal, 0);
 		[_mainWindow setAlphaValue:100.0f];
@@ -838,15 +838,18 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     YLConnection *connection = [tabViewItem identifier];
+    YLSite *site = [connection site];
+    [_addressBar setStringValue:[site address]];
+    YLTerminal *terminal = [connection terminal];
+    [terminal resetMessageCount];
+    [terminal setAllDirty];
+
+    [_mainWindow makeFirstResponder:tabView];
+    NSAssert(tabView == _telnetView, @"tabView");
     [_telnetView updateBackedImage];
     [_telnetView clearSelection];
-    [_addressBar setStringValue: [[connection site] address]];
-    [_telnetView setNeedsDisplay: YES];
-    [_mainWindow makeFirstResponder: tabView];
-	[[connection terminal] resetMessageCount];
-    [[connection terminal] setAllDirty];
+    [_telnetView setNeedsDisplay:YES];
 
-    YLSite *site = [connection site];
     if ([_telnetView layer])
         [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];
@@ -1101,7 +1104,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			case kRemoteButtonPlus_Hold:
 				// Enable timer!
 				[self disableTimer];
-				scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
+				_scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
 									  target:self 
 									  selector:@selector(doScrollUp:)
 									  userInfo:nil
@@ -1110,7 +1113,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			case kRemoteButtonMinus_Hold:
 				// Enable timer!
 				[self disableTimer];
-				scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
+				_scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
 									  target:self 
 									  selector:@selector(doScrollDown:)
 									  userInfo:nil
@@ -1137,9 +1140,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)disableTimer {
-    [scrollTimer invalidate];
-    [scrollTimer release];
-    scrollTimer = nil;
+    [_scrollTimer invalidate];
+    [_scrollTimer release];
+    _scrollTimer = nil;
 }
 
 // for bindings access
@@ -1172,36 +1175,36 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void) setFont:(CGFloat) ratio {
 	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
-		[[YLLGlobalConfig sharedInstance] englishFontSize] * screenRatio];
+		[[YLLGlobalConfig sharedInstance] englishFontSize] * _screenRatio];
 	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
-		[[YLLGlobalConfig sharedInstance] chineseFontSize] * screenRatio];
+		[[YLLGlobalConfig sharedInstance] chineseFontSize] * _screenRatio];
 	[[YLLGlobalConfig sharedInstance] setCellWidth: 
-		[[YLLGlobalConfig sharedInstance] cellWidth] * screenRatio];
+		[[YLLGlobalConfig sharedInstance] cellWidth] * _screenRatio];
 	[[YLLGlobalConfig sharedInstance] setCellHeight: 
-		[[YLLGlobalConfig sharedInstance] cellHeight] * screenRatio];
+		[[YLLGlobalConfig sharedInstance] cellHeight] * _screenRatio];
 }
 
-- (void) fullScreenHandle {
+- (void)fullScreenHandle {
 	// For full screen!
-	if(!isFullScreen) {
+	if (!_isFullScreen) {
 		// Set current state
-		isFullScreen = true;
+		_isFullScreen = true;
 		// Calculate the expand ratio
 		NSRect screenRect = [[NSScreen mainScreen] frame];
 		CGFloat ratioH = screenRect.size.height / [_telnetView frame].size.height;
 		CGFloat ratioW = screenRect.size.width / [_telnetView frame].size.width;
-		if(ratioH > ratioW && ratioH > screenRatio) {
-			screenRatio = ratioW;
+		if (ratioH > ratioW && ratioH > _screenRatio) {
+			_screenRatio = ratioW;
 		}
-		else if(ratioH > screenRatio) {
-			screenRatio = ratioH;
+		else if (ratioH > _screenRatio) {
+			_screenRatio = ratioH;
 		}
 		// Do the expandsion
-		[self setFont:screenRatio];
+		[self setFont:_screenRatio];
 		
 		// Move the origin point
 		NSPoint newOP;
-		if([_telnetView frame].size.height < screenRect.size.height) {
+		if ([_telnetView frame].size.height < screenRect.size.height) {
 			newOP.y += (screenRect.size.height - [_telnetView frame].size.height) / 2;
 		}
 				
@@ -1210,38 +1213,37 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar 
 						/*| kUIOptionDisableProcessSwitch*/);
-		testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
+		_testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
 											styleMask:NSBorderlessWindowMask
 											backing:NSBackingStoreBuffered
 											defer:NO
 											screen:[NSScreen mainScreen]];
-		[testFSWindow setOpaque: NO];
-		[testFSWindow setBackgroundColor: [[YLLGlobalConfig sharedInstance] colorBG]];
-		[testFSWindow makeKeyAndOrderFront:nil];
+		[_testFSWindow setOpaque: NO];
+		[_testFSWindow setBackgroundColor: [[YLLGlobalConfig sharedInstance] colorBG]];
+		[_testFSWindow makeKeyAndOrderFront:nil];
 		//[testFSWindow setLevel:windowLevel];
 		// Record superview
-		orinSuperView = [_telnetView superview];
-		[testFSWindow setContentView: [_telnetView retain]];
-		[[testFSWindow contentView] setFrameOrigin:newOP];
+		_orinSuperView = [_telnetView superview];
+		[_testFSWindow setContentView: [_telnetView retain]];
+		[[_testFSWindow contentView] setFrameOrigin:newOP];
 		// Hide the main window
 		[_mainWindow setAlphaValue:0.0f];
 		//NSLog(@"New OP x = %f, y = %f \n", newOP.x, newOP.y);
-	}
-	else {
+	} else {
 		// Change the state
-		isFullScreen = false;
+		_isFullScreen = false;
 		// Restore the font settings
 		// REMEMBER: Also do it in terminating the app
-		[self restoreFont:screenRatio];
+		[self restoreFont:_screenRatio];
 		// Close
-		[testFSWindow close];
+		[_testFSWindow close];
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeNormal, 0);
 		// Set the super view back!!!
 		// Important!
-		[orinSuperView addSubview:_telnetView];
+		[_orinSuperView addSubview:_telnetView];
 		// Also add tab view back...
-		[orinSuperView addSubview:_tab];
+		[_orinSuperView addSubview:_tab];
 		// Show the main window
 		[_mainWindow setAlphaValue:100.0f];
 	}

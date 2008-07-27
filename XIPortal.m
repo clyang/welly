@@ -83,6 +83,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // the root layer for the view--serves to attach the hierarchy to an NSView
     CALayer *rootLayer = [CALayer layer];
     rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
+    //NSColor *bgColor = [[YLLGlobalConfig sharedInstance] colorBG];
+    //rootLayer.backgroundColor = CGColorCreateGenericRGB(bgColor.redComponent, bgColor.greenComponent, bgColor.blueComponent, bgColor.alphaComponent);
     rootLayer.backgroundColor = [XIPortal color:C_BLACK];
     rootLayer.name = @"root";
 
@@ -331,6 +333,10 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_headerTextLayer setString:[(DesktopImage *)[layer delegate] name]];
 
     [self updateImage];
+}
+
+- (NSUInteger)selected {
+    return _selectedImageIndex;
 }
 
 - (void)moveSelection:(int)dx {

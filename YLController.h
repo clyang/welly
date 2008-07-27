@@ -56,18 +56,18 @@
 	
 	IBOutlet NSTextView *_unreadMessageTextView;
 	
-	/* Remote Control */
+	// Remote Control
 	RemoteControl *remoteControl;
 	MultiClickRemoteBehavior *remoteControlBehavior;
 	
-	/* Full Screen */
-	CGFloat screenRatio;
-	bool isFullScreen;
-	NSWindow* testFSWindow;
-	NSView* orinSuperView;
+	// Full Screen
+	CGFloat _screenRatio;
+	bool _isFullScreen;
+	NSWindow* _testFSWindow;
+	NSView* _orinSuperView;
 	
 	// Timer test
-	NSTimer* scrollTimer;
+	NSTimer* _scrollTimer;
 }
 
 - (IBAction)setEncoding:(id)sender;

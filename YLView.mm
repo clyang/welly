@@ -1576,68 +1576,63 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_textField setHidden: NO];
 }
 
-- (void) unmarkText {
-	[_markedText release];
-	_markedText = nil;
-	[_textField setHidden: YES];
+- (void)unmarkText {
+    [_markedText release];
+    _markedText = nil;
+    [_textField setHidden: YES];
 }
 
-- (BOOL) hasMarkedText {
-	return (_markedText != nil);
+- (BOOL)hasMarkedText {
+    return (_markedText != nil);
 }
 
-- (NSInteger) conversationIdentifier {
-	return (NSInteger) self;
+- (NSInteger)conversationIdentifier {
+    return (NSInteger)self;
 }
 
-/* Returns attributed string at the range.  This allows input mangers to query any range in backing-store.  May return nil.
- */
-- (NSAttributedString *) attributedSubstringFromRange:(NSRange)theRange {
-	if (theRange.location < 0 || theRange.location >= [_markedText length]) return nil;
-	if (theRange.location + theRange.length > [_markedText length]) 
-		theRange.length = [_markedText length] - theRange.location;
-	return [[[NSAttributedString alloc] initWithString: [[_markedText string] substringWithRange: theRange]] autorelease];
+// Returns attributed string at the range.  This allows input mangers to query any range in backing-store.  May return nil.
+- (NSAttributedString *)attributedSubstringFromRange:(NSRange)theRange {
+    if (theRange.location < 0 || theRange.location >= [_markedText length]) return nil;
+    if (theRange.location + theRange.length > [_markedText length]) 
+        theRange.length = [_markedText length] - theRange.location;
+    return [[[NSAttributedString alloc] initWithString:[[_markedText string] substringWithRange:theRange]] autorelease];
 }
 
-/* This method returns the range for marked region.  If hasMarkedText == false, it'll return NSNotFound location & 0 length range.
- */
-- (NSRange) markedRange {
-	return _markedRange;
+// This method returns the range for marked region.  If hasMarkedText == false, it'll return NSNotFound location & 0 length range.
+- (NSRange)markedRange {
+    return _markedRange;
 }
 
-/* This method returns the range for selected region.  Just like markedRange method, its location field contains char index from the text beginning.
- */
-- (NSRange) selectedRange {
-	return _selectedRange;
+// This method returns the range for selected region.  Just like markedRange method, its location field contains char index from the text beginning.
+- (NSRange)selectedRange {
+    return _selectedRange;
 }
 
-/* This method returns the first frame of rects for theRange in screen coordindate system.
- */
-- (NSRect) firstRectForCharacterRange:(NSRange)theRange {
-	NSPoint pointInWindowCoordinates;
-	NSRect rectInScreenCoordinates;
-	
-	pointInWindowCoordinates = [_textField frame].origin;
-	//[_textField convertPoint: [_textField frame].origin toView: nil];
-	rectInScreenCoordinates.origin = [[_textField window] convertBaseToScreen: pointInWindowCoordinates];
-	rectInScreenCoordinates.size = [_textField bounds].size;
+// This method returns the first frame of rects for theRange in screen coordindate system.
+- (NSRect)firstRectForCharacterRange:(NSRange)theRange {
+    NSPoint pointInWindowCoordinates;
+    NSRect rectInScreenCoordinates;
 
-	return rectInScreenCoordinates;
+    pointInWindowCoordinates = [_textField frame].origin;
+    //[_textField convertPoint: [_textField frame].origin toView: nil];
+    rectInScreenCoordinates.origin = [[_textField window] convertBaseToScreen: pointInWindowCoordinates];
+    rectInScreenCoordinates.size = [_textField bounds].size;
+
+    return rectInScreenCoordinates;
 }
 
-/* This method returns the index for character that is nearest to thePoint.  thPoint is in screen coordinate system.
- */
+// This method returns the index for character that is nearest to thePoint.  thPoint is in screen coordinate system.
 - (NSUInteger)characterIndexForPoint:(NSPoint)thePoint {
-	return 0;
+    return 0;
 }
 
-/* This method is the key to attribute extension.  We could add new attributes through this method. NSInputServer examines the return value of this method & constructs appropriate attributed string.
- */
-- (NSArray*) validAttributesForMarkedText {
-	return [NSArray array];
+// This method is the key to attribute extension.  We could add new attributes through this method. NSInputServer examines the return value of this method & constructs appropriate attributed string.
+- (NSArray*)validAttributesForMarkedText {
+    return [NSArray array];
 }
 
 - (void)updatePortal {
+    //int sel = [_portal selected];
     [_portal release];
     _portal = [[XIPortal alloc] initWithView:self];
 }
