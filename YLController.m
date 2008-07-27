@@ -715,6 +715,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[self restoreFont:screenRatio];
 		[testFSWindow close];
 		[orinSuperView addSubview:_telnetView];
+		// Also add tab view back...
+		[orinSuperView addSubview:_tab];
+		// Change UI mode by carbon
+		SetSystemUIMode(kUIModeNormal, 0);
+		// Show the main window
+		[_mainWindow setAlphaValue:100.0f];
 	}
     int tabNumber = [_telnetView numberOfTabViewItems];
     int i;
@@ -796,6 +802,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[self restoreFont:screenRatio];
 		[testFSWindow close];
 		[orinSuperView addSubview:tabView];
+		// Also add tab view back...
+		[orinSuperView addSubview:_tab];
+		// Change UI mode by carbon
+		SetSystemUIMode(kUIModeNormal, 0);
+		[_mainWindow setAlphaValue:100.0f];
 	}
     if (![[tabViewItem identifier] connected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
@@ -1198,7 +1209,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// int windowLevel = kCGMainMenuWindowLevel;
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar 
-						| kUIOptionDisableProcessSwitch);
+						/*| kUIOptionDisableProcessSwitch*/);
 		testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
 											styleMask:NSBorderlessWindowMask
 											backing:NSBackingStoreBuffered
@@ -1229,6 +1240,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// Set the super view back!!!
 		// Important!
 		[orinSuperView addSubview:_telnetView];
+		// Also add tab view back...
+		[orinSuperView addSubview:_tab];
 		// Show the main window
 		[_mainWindow setAlphaValue:100.0f];
 	}
