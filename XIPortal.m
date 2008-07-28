@@ -365,10 +365,13 @@ static const CGFloat colorValues[C_COUNT][4] = {
     CGPoint p = [rootLayer convertPoint:*(CGPoint*)&aPoint toLayer:containerLayer];
     CALayer *layer = [_bodyLayer hitTest:p];
     id image = [layer delegate];
+    // something weird; see below
+    BOOL patch = NO;
     // image container
     if (image == nil) {
         layer = [[layer sublayers] objectAtIndex:0];
         image = [layer delegate];
+        patch = YES;
     }
     NSUInteger index = [_images indexOfObject:image];
     if (index == NSNotFound)
@@ -379,7 +382,13 @@ static const CGFloat colorValues[C_COUNT][4] = {
             [self select];
     } else {
         // move
-        [self moveSelection:(index - _selectedImageIndex)];
+        int dx = index - _selectedImageIndex;
+        // ugly patch
+        if (patch) {
+            if (dx > 0) --dx;
+            else if (dx < 0) ++dx;
+        }
+        [self moveSelection:dx];
     }
 }
 
