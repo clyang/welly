@@ -8,18 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
-#import "YLView.h"
-#import "YLConnection.h"
-#import "KOAutoReplyDelegate.h"
-#ifdef __cplusplus
-#import <deque>
-typedef std::deque<unsigned char> uchar_queue;
-typedef std::deque<int> int_queue;
-#else
-typedef void uchar_queue;
-typedef void int_queue;
-#endif
 
+@class YLView, YLConnection, KOAutoReplyDelegate, XIIntegerArray;
 
 @interface YLTerminal : NSObject {	
 @public
@@ -44,8 +34,8 @@ typedef void int_queue;
 
     enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL } _state;
 
-    uchar_queue *_csBuf;
-    int_queue *_csArg;
+    XIIntegerArray *_csBuf;
+    XIIntegerArray *_csArg;
     unsigned int _csTemp;
     YLView *_view;
     

@@ -8,9 +8,12 @@
 
 #import "YLTerminal.h"
 #import "YLLGlobalConfig.h"
-#import "encoding.h"
-#import "TYGrowlBridge.h"
+#import "YLView.h"
+#import "YLConnection.h"
 #import "KOAutoReplyDelegate.h"
+#import "TYGrowlBridge.h"
+#import "XIIntegerArray.h"
+#import "encoding.h"
 
 #define CURSOR_MOVETO(x, y)		do {\
 									_cursorX = (x); _cursorY = (y); \
@@ -74,15 +77,14 @@ static unsigned short gEmptyAttr;
 	return self;
 }
 
-- (void) dealloc {
-	delete _csBuf;
-	delete _csArg;
-    int i;
-    for (i = 0; i < _row; i++)
+- (void)dealloc {
+    [_csBuf release];
+    [_csArg release];
+    for (int i = 0; i < _row; i++)
         free(_grid[i]);
     free(_grid);
-	[_autoReplyDelegate dealloc];
-	[super dealloc];
+    [_autoReplyDelegate dealloc];
+    [super dealloc];
 }
 
 # pragma mark -
@@ -101,7 +103,7 @@ if (_cursorX <= _column - 1) { \
     _grid[_cursorY][_cursorX].attr.f.blink = _blink; \
     _grid[_cursorY][_cursorX].attr.f.reverse = _reverse; \
     _grid[_cursorY][_cursorX].attr.f.url = NO; \
-    [self setDirty: YES atRow: _cursorY column: _cursorX]; \
+    [self setDirty:YES atRow:_cursorY column:_cursorX]; \
     _cursorX++; \
 }
 
@@ -129,7 +131,7 @@ if (_cursorX <= _column - 1) { \
 				if (_cursorX > 0)
 					_cursorX--;
 			} else if (c == 0x09) { // Tab (HT)
-				_cursorX = (int(_cursorX / 8) * 8);	// mjhsieh: this implement is not yet tested
+				_cursorX = (((int)(_cursorX / 8)) * 8);	// mjhsieh: this implement is not yet tested
 			} else if (c == 0x0A || c == 0x0B || c == 0x0C) { // Linefeed (LF) / Vertical tab (VT) / Form feed (FF)
 				if (_cursorY == _scrollEndRow) {
                     //if ((i != len - 1 && bytes[i + 1] != 0x0A) || 
@@ -153,8 +155,8 @@ if (_cursorX <= _column - 1) { \
 			} else if (c == 0x1B) { // ESC
 				_state = TP_ESCAPE;
 //			} else if (c == 0x9B) { // Control Sequence Introducer
-//				_csBuf->clear();
-//				_csArg->clear();
+//				[_csBuf clear];
+//				[_csArg->clear];
 //				_csTemp = 0;
 //				_state = TP_CONTROL;
 			} else {
@@ -165,8 +167,8 @@ if (_cursorX <= _column - 1) { \
 
         case TP_ESCAPE:
 			if (c == 0x5B) { // 0x5B == '['
-				_csBuf->clear();
-				_csArg->clear();
+				[_csBuf clear];
+				[_csArg clear];
 				_csTemp = 0;
 				_state = TP_CONTROL;
 			} else if (c == 'M') { // scroll down (cursor up)
@@ -224,47 +226,47 @@ if (_cursorX <= _column - 1) { \
 
         case TP_CONTROL:
 			if (isParameter(c)) {
-				_csBuf->push_back(c);
+				[_csBuf push_back:c];
 				if (c >= '0' && c <= '9') {
 					_csTemp = _csTemp * 10 + (c - '0');
-				} else if (!_csBuf->empty()) {
-					_csArg->push_back(_csTemp);
+				} else if (![_csBuf empty]) {
+					[_csArg push_back:_csTemp];
 					_csTemp = 0;
-					_csBuf->clear();
+					[_csBuf clear];
 				}
 			} else {
-				if (!_csBuf->empty()) {
-					_csArg->push_back(_csTemp);
+				if (![_csBuf empty]) {
+					[_csArg push_back:_csTemp];
 					_csTemp = 0;
-					_csBuf->clear();
+					[_csBuf clear];
 				}
 				
 				if (NO) {
 					// just for code alignment...
 				} else if (c == 'A') {		// Cursor Up
-					if (_csArg->size() > 0)
-						_cursorY -= _csArg->front();
+					if ([_csArg size] > 0)
+						_cursorY -= [_csArg front];
 					else
 						_cursorY--;
 					
 					if (_cursorY < 0) _cursorY = 0;
 				} else if (c == 'B') {		// Cursor Down
-					if (_csArg->size() > 0)
-						_cursorY += _csArg->front();
+					if ([_csArg size] > 0)
+						_cursorY += [_csArg front];
 					else
 						_cursorY++;
 					
 					if (_cursorY >= _row) _cursorY = _row - 1;
 				} else if (c == 'C') {		// Cursor Right
-					if (_csArg->size() > 0)
-						_cursorX += _csArg->front();
+					if ([_csArg size] > 0)
+						_cursorX += [_csArg front];
 					else
 						_cursorX++;
 					
 					if (_cursorX >= _column) _cursorX = _column - 1;					
 				} else if (c == 'D') {		// Cursor Left
-					if (_csArg->size() > 0)
-						_cursorX -= _csArg->front();
+					if ([_csArg size] > 0)
+						_cursorX -= [_csArg front];
 					else
 						_cursorX--;
 					
@@ -275,16 +277,16 @@ if (_cursorX <= _column - 1) { \
 						^[3H		: go to row 3, column 1
 						^[3;4H		: go to row 3, column 4
 					 */
-					if (_csArg->size() == 0) {
+					if ([_csArg size] == 0) {
 						_cursorX = 0, _cursorY = 0;
-					} else if (_csArg->size() == 1) {
-                        if ((*_csArg)[0] < 1) (*_csArg)[0] = 1;
-						CURSOR_MOVETO(0, _csArg->front() - 1);
+					} else if ([_csArg size] == 1) {
+                        if ([_csArg front] < 1) [_csArg set:1 at:0];
+						CURSOR_MOVETO(0, [_csArg front] - 1);
 					} else {
-                        if ((*_csArg)[0] < 1) (*_csArg)[0] = 1;
-                        if ((*_csArg)[1] < 1) (*_csArg)[1] = 1;
-//                        NSLog(@"jump %d %d", (*_csArg)[0], (*_csArg)[1]);
-						CURSOR_MOVETO((*_csArg)[1] - 1, (*_csArg)[0] - 1);
+                        if ([_csArg front] < 1) [_csArg set:1 at:0];
+                        if ([_csArg at:1] < 1) [_csArg set:1 at:1];
+//                        NSLog(@"jump %d %d", [_csArg front], [_csArg at:1]);
+						CURSOR_MOVETO([_csArg at:1] - 1, [_csArg front] - 1);
 //                        [self setDirty: YES atRow: _cursorY column: _cursorX];
 					}
 				} else if (c == 'J') {		// Erase Region (cursor does not move)
@@ -294,15 +296,15 @@ if (_cursorX <= _column - 1) { \
 						^[2J		: clear all
 					 */
 					int j;
-					if (_csArg->size() == 0 || _csArg->front() == 0) {
+					if ([_csArg size] == 0 || [_csArg front] == 0) {
                         [self clearRow: _cursorY fromStart: _cursorX toEnd: _column - 1];
                         for (j = _cursorY + 1; j < _row; j++)
                             [self clearRow: j];
-                    } else if (_csArg->size() == 1 && _csArg->front() == 1) {
+                    } else if ([_csArg size] == 1 && [_csArg front] == 1) {
                         [self clearRow: _cursorY fromStart: 0 toEnd: _cursorX];
                         for (j = 0; j < _cursorY; j++)
                             [self clearRow: j];
-                    } else if (_csArg->size() == 1 && _csArg->front() == 2) {
+                    } else if ([_csArg size] == 1 && [_csArg front] == 2) {
                         [self clearAll];
                     }
 				} else if (c == 'K') {		// Erase Line (cursor does not move)
@@ -311,19 +313,19 @@ if (_cursorX <= _column - 1) { \
 						^[1K		: clear from start of line to cursor position
 						^[2K		: clear whole line
 					 */
-					if (_csArg->size() == 0 || _csArg->front() == 0) {
-                        [self clearRow: _cursorY fromStart: _cursorX toEnd: _column - 1];
-                    } else if (_csArg->size() == 1 && _csArg->front() == 1) {
-                        [self clearRow: _cursorY fromStart: 0 toEnd: _cursorX];
-                    } else if (_csArg->size() == 1 && _csArg->front() == 2) {
-                        [self clearRow: _cursorY];
+					if ([_csArg size] == 0 || [_csArg front] == 0) {
+                        [self clearRow:_cursorY fromStart:_cursorX toEnd:(_column - 1)];
+                    } else if ([_csArg size] == 1 && [_csArg front] == 1) {
+                        [self clearRow: _cursorY fromStart:0 toEnd:_cursorX];
+                    } else if ([_csArg size] == 1 && [_csArg front] == 2) {
+                        [self clearRow:_cursorY];
                     }
 				} else if (c == 'L') {      // Insert Line
                     int lineNumber = 0;
-                    if (_csArg->size() == 0) 
+                    if ([_csArg size] == 0) 
                         lineNumber = 1;
-                    else if (_csArg->size() > 0)
-                        lineNumber = _csArg->front();
+                    else if ([_csArg size] > 0)
+                        lineNumber = [_csArg front];
 
                     int i;
                     for (i = 0; i < lineNumber; i++) {
@@ -338,10 +340,10 @@ if (_cursorX <= _column - 1) { \
                         [self setDirtyForRow: i];
 				} else if (c == 'M') {      // Delete Line
                     int lineNumber = 0;
-                    if (_csArg->size() == 0) 
+                    if ([_csArg size] == 0) 
                         lineNumber = 1;
-                    else if (_csArg->size() > 0)
-                        lineNumber = _csArg->front();
+                    else if ([_csArg size] > 0)
+                        lineNumber = [_csArg front];
                     
                     int i;
                     for (i = 0; i < lineNumber; i++) {
@@ -359,7 +361,7 @@ if (_cursorX <= _column - 1) { \
 				} else if (c == 'l') {          // reset mode
 					NSLog(@"control sequence: reset mode is not implemented yet.");
 				} else if (c == 'm') { 
-					if (_csArg->empty()) { // clear
+					if ([_csArg empty]) { // clear
 						_fgColor = 7;
 						_bgColor = 9;
 						_bold = NO;
@@ -367,10 +369,10 @@ if (_cursorX <= _column - 1) { \
 						_blink = NO;
 						_reverse = NO;
 					} else {
-						while (!_csArg->empty()) {
-							int p = _csArg->front();
-							_csArg->pop_front();
-							if (p  == 0) {
+						while (![_csArg empty]) {
+							int p = [_csArg front];
+							[_csArg pop_front];
+							if (p == 0) {
 								_fgColor = 7;
 								_bgColor = 9;
 								_bold = NO;
@@ -396,13 +398,13 @@ if (_cursorX <= _column - 1) { \
 						}
 					}
 				} else if (c == 'r') {
-                    if (_csArg->size() == 0) {
+                    if ([_csArg size] == 0) {
                         _scrollBeginRow = 0;
                         _scrollEndRow = _row - 1;
-                    } else if (_csArg->size() == 2) {
-                        int s = (*_csArg)[0];
-                        int e = (*_csArg)[1];
-                        if (s > e) s = (*_csArg)[1], e = (*_csArg)[0];
+                    } else if ([_csArg size] == 2) {
+                        int s = [_csArg front];
+                        int e = [_csArg at:1];
+                        if (s > e) s = [_csArg at:1], e = [_csArg front];
                         _scrollBeginRow = s - 1;
                         _scrollEndRow = e - 1;
                     }
@@ -417,7 +419,7 @@ if (_cursorX <= _column - 1) { \
 				} else {
 					NSLog(@"unsupported control sequence: %c", c);
 				}
-				_csArg->clear();
+				[_csArg clear];
 				_state = TP_NORMAL;
 			}
 
@@ -486,7 +488,7 @@ if (_cursorX <= _column - 1) { \
 # pragma mark -
 # pragma mark Clear
 
-- (void) clearAll {
+- (void)clearAll {
     _cursorX = _cursorY = 0;
 	
     attribute t;
@@ -514,13 +516,13 @@ if (_cursorX <= _column - 1) { \
         [self clearRow: i];
     
     if (_csBuf)
-        _csBuf->clear();
+        [_csBuf clear];
     else
-        _csBuf = new std::deque<unsigned char>();
+        _csBuf = [[XIIntegerArray integerArray] retain];
     if (_csArg)
-        _csArg->clear();
+        [_csArg clear];
     else
-        _csArg = new std::deque<int>();
+        _csArg = [[XIIntegerArray integerArray] retain];
 }
 
 - (void) clearRow: (int) r {

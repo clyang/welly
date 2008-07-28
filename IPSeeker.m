@@ -243,14 +243,15 @@ NSString* L(NSString* key) {
 }
 
 - (NSString*)readString:(unsigned long long)offset {
-	[m_file seekToFileOffset:offset];
-	NSMutableData* data = [NSMutableData data];
-	while(NSData* tmp = [m_file readDataOfLength:1]) {
-		char byte = ((const char*)[tmp bytes])[0];
-		if(byte == 0)
-			break;
-		else
-			[data appendBytes:(const char*)[tmp bytes] length:1];
+    [m_file seekToFileOffset:offset];
+    NSMutableData* data = [NSMutableData data];
+    NSData* tmp;
+    while (tmp = [m_file readDataOfLength:1]) {
+        char byte = ((const char*)[tmp bytes])[0];
+        if (byte == 0)
+            break;
+        else
+            [data appendBytes:[tmp bytes] length:1];
 	}
 	return [(NSString*)CFStringCreateFromExternalRepresentation(kCFAllocatorDefault, (CFDataRef)data, kCFStringEncodingGB_18030_2000) autorelease];
 }

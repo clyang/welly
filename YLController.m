@@ -7,6 +7,8 @@
 
 #import "YLController.h"
 #import "YLTerminal.h"
+#import "YLView.h"
+#import "YLConnection.h"
 #import "XIPTY.h"
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
@@ -169,15 +171,15 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [_telnetView setNeedsDisplay: YES];
 }
 
-- (void) antiIdle: (NSTimer *) t {
+- (void)antiIdle:(NSTimer *)timer {
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"AntiIdle"]) return;
     NSArray *a = [_telnetView tabViewItems];
     for (NSTabViewItem *item in a) {
-        id telnet = [item identifier];
-        if ([telnet connected] && [telnet lastTouchDate] && [[NSDate date] timeIntervalSinceDate: [telnet lastTouchDate]] >= 119) {
+        YLConnection *connection = [item identifier];
+        if ([connection connected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
             unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-            [telnet sendBytes:msg length:6];
+            [connection sendBytes:msg length:6];
         }
     }
 }
