@@ -145,8 +145,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
     // update portal
+    BOOL flag = [_telnetView wantsLayer];
     // NOTE: comment out the folowing line to turn off cover flow
     [_telnetView updatePortal];
+    // NOTE: notify the view first, or the layer will display incorrectly.
+    [_telnetView setWantsLayer:YES];
+    [_telnetView setWantsLayer:flag];
 }
 
 - (void)updateEncodingMenu {
@@ -165,10 +169,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [[m itemWithTitle:titleGBK] setState:NSOnState];
 }
 
-- (void) updateBlinkTicker: (NSTimer *) t {
+- (void)updateBlinkTicker:(NSTimer *)timer {
     [[YLLGlobalConfig sharedInstance] updateBlinkTicker];
     if ([_telnetView hasBlinkCell])
-        [_telnetView setNeedsDisplay: YES];
+        [_telnetView setNeedsDisplay:YES];
 }
 
 - (void)antiIdle:(NSTimer *)timer {
@@ -564,20 +568,20 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self saveSites];
 }
 
-- (IBAction) addSites: (id) sender {
+- (IBAction)addSites:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
     NSString *address = [[[_telnetView frontMostConnection] site] address];
     
     for (YLSite *s in _sites) 
-        if ([[s address] isEqualToString: address]) 
+        if ([[s address] isEqualToString:address]) 
             return;
     
-    YLSite *s = [[[[_telnetView frontMostConnection] site] copy] autorelease];
-    [_sitesController addObject: s];
-    [_sitesController setSelectedObjects: [NSArray arrayWithObject: s]];
-    [self performSelector: @selector(editSites:) withObject: sender afterDelay: 0.1];
+    YLSite *site = [[[[_telnetView frontMostConnection] site] copy] autorelease];
+    [_sitesController addObject:site];
+    [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
+    [self performSelector:@selector(editSites:) withObject:sender afterDelay:0.1];
     if ([_siteNameField acceptsFirstResponder])
-        [_sitesWindow makeFirstResponder: _siteNameField];
+        [_sitesWindow makeFirstResponder:_siteNameField];
 }
 
 

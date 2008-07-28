@@ -259,6 +259,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [containerLayer addSublayer:maskLayer];
     
     [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
+    //[self loadCovers];
     return self;
 }
 
@@ -269,7 +270,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [super dealloc];
 }
 
-- (CALayer *)layerForDesktopImage:(DesktopImage *)desktopImage {
+- (CALayer *)layerForImage:(DesktopImage *)desktopImage {
     // we have to do this sublayer thing because the actual layer
     //   stored for the key is the layer containing both the desktop image
     //   and its reflection.
@@ -277,7 +278,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     return (CALayer *)[[containerLayer sublayers] objectAtIndex:0];
 }
 
-- (void)updateImageForLayer:(CALayer *)layer fromDesktopImage:(DesktopImage *)desktopImage {
+- (void)updateImageForLayer:(CALayer *)layer fromImage:(DesktopImage *)desktopImage {
     CGSize size = [layer bounds].size;
     CGImageRef image = [desktopImage imageOfSize:size];
 
@@ -293,23 +294,19 @@ static const CGFloat colorValues[C_COUNT][4] = {
         [desktopImage requestImageOfSize:size];
 }
 
-- (void)updateImage {
-    DesktopImage *desktopImage;
-    
+- (void)updateImage { 
     CGRect visRect = [_bodyLayer visibleRect];
     DesktopImageLayout *layout = [_bodyLayer layoutManager];
-    CFArrayRef indices = [layout desktopImageIndicesOfLayer:_bodyLayer inRect:visRect];
+    NSPointerArray *indices = [layout imageIndicesOfLayer:_bodyLayer inRect:visRect];
     
     if (indices != NULL) {
-        size_t count = CFArrayGetCount(indices);
-        for (size_t i = 0; i < count; i++) {
-            size_t idx = (uintptr_t) CFArrayGetValueAtIndex(indices, i);
-            if (idx < _totalImages) {
-                desktopImage = [_images objectAtIndex:idx];
-                [self updateImageForLayer:[self layerForDesktopImage:desktopImage] fromDesktopImage:desktopImage];
-            }
+        for (NSUInteger i = 0; i < [indices count]; ++i) {
+            int idx = (int)[indices pointerAtIndex:i];
+            if (idx >= _totalImages)
+                continue;
+            DesktopImage *image = [_images objectAtIndex:idx];
+            [self updateImageForLayer:[self layerForImage:image] fromImage:image];
         }
-        CFRelease(indices);
     }
     [DesktopImage sweepImageQueue];
 }
@@ -321,7 +318,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // here is where we ask the layout manager to reflect the new selected image
     [_bodyLayer layoutIfNeeded];
 
-    CALayer *layer = [self layerForDesktopImage:[_images objectAtIndex:_selectedImageIndex]];
+    CALayer *layer = [self layerForImage:[_images objectAtIndex:_selectedImageIndex]];
     if (layer == nil)
         return;
     
@@ -329,7 +326,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // we scroll so the selected image is centered, but the layout manager
     //   doesn't know about this--as far as it is concerned everything takes
     //   place in a very wide frame
-    [_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedDesktopImageInLayer:_bodyLayer], r.origin.y)];
+    [_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
     [_headerTextLayer setString:[(DesktopImage *)[layer delegate] name]];
 
     [self updateImage];
@@ -423,7 +420,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     
     for (size_t i = 0; i < count; i++) {
         DesktopImage *desktopImage = values[i];
-        CALayer *desktopImageLayer = [self layerForDesktopImage:desktopImage];
+        CALayer *desktopImageLayer = [self layerForImage:desktopImage];
         
         if (desktopImageLayer == nil) {
             CALayer *layer = [CALayer layer];
@@ -484,7 +481,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 - (void)imageDidLoadNotification:(NSNotification *)note {
     DesktopImage *desktopImage = [note object];
-    CALayer *layer = [self layerForDesktopImage:desktopImage];
+    CALayer *layer = [self layerForImage:desktopImage];
     if (layer != nil) {
         CGImageRef image = [desktopImage imageOfSize:[layer bounds].size];
         if (image != NULL) {

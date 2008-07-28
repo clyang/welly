@@ -82,7 +82,7 @@ static DesktopImageLayout *sharedLayoutManager;
     return nil;
 }
 
-- (float)positionOfSelectedDesktopImageInLayer:(CALayer *)layer {
+- (float)positionOfSelectedImageInLayer:(CALayer *)layer {
     // extract values from the layer: selected image index, and spacing information
     NSNumber *number = [layer valueForKey:selectedDesktopImage];
     int selected = number != nil ? [number integerValue] : 0;
@@ -99,7 +99,7 @@ static DesktopImageLayout *sharedLayoutManager;
     return x;
 }
 
-- (CFArrayRef)desktopImageIndicesOfLayer:(CALayer *)layer inRect:(CGRect)r {
+- (NSPointerArray *)imageIndicesOfLayer:(CALayer *)layer inRect:(CGRect)r {
     CGSize size = [layer bounds].size;
     NSSize margin = [[layer valueForKey:@"margin"] sizeValue];
     NSSize spacing = [[layer valueForKey:@"spacing"] sizeValue];
@@ -127,12 +127,10 @@ static DesktopImageLayout *sharedLayoutManager;
     if (count <= 0)
         return NULL;
 
-    const void **values = alloca(count * sizeof (values[0]));
-    int i = 0;
+    NSPointerArray *values = [NSPointerArray pointerArrayWithWeakObjects];
     for (int x = x0; x <= x1; x++)
-        values[i++] = (void *)x;
-
-    return CFArrayCreate (NULL, values, count, NULL);
+        [values addPointer:(void *)x];
+    return values;
 }
 
 // this is where the magic happens
