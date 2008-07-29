@@ -250,37 +250,37 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    if ([keyPath isEqualToString: @"showHiddenText"]) {
+    if ([keyPath isEqualToString:@"showHiddenText"]) {
         if ([[YLLGlobalConfig sharedInstance] showHiddenText]) 
-            [_showHiddenTextMenuItem setState: NSOnState];
+            [_showHiddenTextMenuItem setState:NSOnState];
         else
-            [_showHiddenTextMenuItem setState: NSOffState];        
-    } else if ([keyPath isEqualToString: @"messageCount"]) {
+            [_showHiddenTextMenuItem setState:NSOffState];        
+    } else if ([keyPath isEqualToString:@"messageCount"]) {
         NSDockTile *dockTile = [NSApp dockTile];
         if ([[YLLGlobalConfig sharedInstance] messageCount] == 0) {
-            [dockTile setBadgeLabel: nil];
+            [dockTile setBadgeLabel:nil];
         } else {
-            [dockTile setBadgeLabel: [NSString stringWithFormat: @"%d", [[YLLGlobalConfig sharedInstance] messageCount]]];
+            [dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", [[YLLGlobalConfig sharedInstance] messageCount]]];
         }
         [dockTile display];
-    } else if ([keyPath isEqualToString: @"shouldSmoothFonts"]) {
+    } else if ([keyPath isEqualToString:@"shouldSmoothFonts"]) {
         [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
         [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay: YES];
-    } else if ([keyPath hasPrefix: @"cell"]) {
+        [_telnetView setNeedsDisplay:YES];
+    } else if ([keyPath hasPrefix:@"cell"]) {
         YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
         NSRect r = [_mainWindow frame];
         CGFloat topLeftCorner = r.origin.y + r.size.height;
 
         CGFloat shift = 0.0;
 
-        /* Calculate the toolbar height */
+        // Calculate the toolbar height
         shift = NSHeight([_mainWindow frame]) - NSHeight([[_mainWindow contentView] frame]) + 22;
 
         r.size.width = [config cellWidth] * [config column];
         r.size.height = [config cellHeight] * [config row] + shift;
         r.origin.y = topLeftCorner - r.size.height;
-        [_mainWindow setFrame: r display: YES animate: NO];
+        [_mainWindow setFrame:r display:YES animate:NO];
         [_telnetView configure];
         [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
         [_telnetView updateBackedImage];
@@ -288,11 +288,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         NSRect tabRect = [_tab frame];
         tabRect.size.width = r.size.width;
         [_tab setFrame: tabRect];
-    } else if ([keyPath hasPrefix: @"chineseFont"] || [keyPath hasPrefix: @"englishFont"] || [keyPath hasPrefix: @"color"]) {
+    } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
         [[YLLGlobalConfig sharedInstance] refreshFont];
         [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
         [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay: YES];
+        [_telnetView setNeedsDisplay:YES];
     }
 }
 
@@ -728,8 +728,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// Show the main window
 		[_mainWindow setAlphaValue:100.0f];
 	}
-    int tabNumber = [_telnetView numberOfTabViewItems];
-    int i;
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey: @"RestoreConnection"]) 
         [self saveLastConnections];
@@ -738,8 +736,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         return YES;
     
     BOOL hasConnectedConnetion = NO;
-    for (i = 0; i < tabNumber; i++) {
-        id connection = [[_telnetView tabViewItemAtIndex: i] identifier];
+    int tabNumber = [_telnetView numberOfTabViewItems];
+    for (int i = 0; i < tabNumber; i++) {
+        id connection = [[_telnetView tabViewItemAtIndex:i] identifier];
         if ([connection connected]) 
             hasConnectedConnetion = YES;
     }
@@ -751,7 +750,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                       _mainWindow, self, 
                       @selector(confirmSheetDidEnd:returnCode:contextInfo:), 
                       @selector(confirmSheetDidDismiss:returnCode:contextInfo:), nil, 
-                      [NSString stringWithFormat: NSLocalizedString(@"There are %d tabs open in Welly. Do you want to quit anyway?", @"Sheet Message"),
+                      [NSString stringWithFormat:NSLocalizedString(@"There are %d tabs open in Welly. Do you want to quit anyway?", @"Sheet Message"),
                                 tabNumber]);
     return NSTerminateLater;
 }
@@ -1201,40 +1200,37 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		CGFloat ratioW = screenRect.size.width / [_telnetView frame].size.width;
 		if (ratioH > ratioW && ratioH > _screenRatio) {
 			_screenRatio = ratioW;
-		}
-		else if (ratioH > _screenRatio) {
+		} else if (ratioH > _screenRatio) {
 			_screenRatio = ratioH;
 		}
 		// Do the expandsion
 		[self setFont:_screenRatio];
-		
-		// Move the origin point
-		NSPoint newOP;
-		if ([_telnetView frame].size.height < screenRect.size.height) {
-			newOP.y += (screenRect.size.height - [_telnetView frame].size.height) / 2;
-		}
-				
+
+        // Record new origin
+        NSPoint newOP = {0, (screenRect.size.height - [_telnetView frame].size.height) / 2};
+
 		// Init the window and show
 		// int windowLevel = kCGMainMenuWindowLevel;
 		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar 
-						/*| kUIOptionDisableProcessSwitch*/);
-		_testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
-											styleMask:NSBorderlessWindowMask
-											backing:NSBackingStoreBuffered
-											defer:NO
-											screen:[NSScreen mainScreen]];
-		[_testFSWindow setOpaque: NO];
-		[_testFSWindow setBackgroundColor: [[YLLGlobalConfig sharedInstance] colorBG]];
-		[_testFSWindow makeKeyAndOrderFront:nil];
-		//[testFSWindow setLevel:windowLevel];
-		// Record superview
-		_orinSuperView = [_telnetView superview];
-		[_testFSWindow setContentView: [_telnetView retain]];
-		[[_testFSWindow contentView] setFrameOrigin:newOP];
-		// Hide the main window
-		[_mainWindow setAlphaValue:0.0f];
-		//NSLog(@"New OP x = %f, y = %f \n", newOP.x, newOP.y);
+		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar /*| kUIOptionDisableProcessSwitch*/);
+
+        _testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
+                                                    styleMask:NSBorderlessWindowMask
+                                                      backing:NSBackingStoreBuffered
+                                                        defer:NO];
+        [_testFSWindow setOpaque:NO];
+        [_testFSWindow setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
+        //[testFSWindow setLevel:windowLevel];
+        [_testFSWindow makeKeyAndOrderFront:nil];
+        // Record superview
+        _orinSuperView = [_telnetView superview];       
+        // Transfer the view
+        [_testFSWindow setContentView:_telnetView];
+        // Move the origin point
+        [[_testFSWindow contentView] setFrameOrigin:newOP];
+        // Hide the main window
+        [_mainWindow setAlphaValue:0.0f];
+        //NSLog(@"New OP x = %f, y = %f \n", newOP.x, newOP.y);
 	} else {
 		// Change the state
 		_isFullScreen = false;

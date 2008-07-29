@@ -72,8 +72,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
     NSDictionary *textStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithInteger:12], @"cornerRadius",
         [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
-        @"LucidaGrande", @"font",
-        [NSNumber numberWithInteger:18], @"fontSize",
+        @"BankGothic-Medium", @"font",
+        [NSNumber numberWithInteger:24], @"fontSize",
         kCAAlignmentCenter, @"alignmentMode",
         nil];
     
@@ -97,7 +97,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"header" attribute:kCAConstraintMaxY offset:-32]];
     _headerTextLayer.string = @"Loading...";
     _headerTextLayer.style = textStyle;
-    _headerTextLayer.fontSize = 24;
     _headerTextLayer.wrapped = YES;
     [rootLayer addSublayer:_headerTextLayer];
     
