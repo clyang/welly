@@ -76,6 +76,13 @@ static NSString *gLeftString, *gRightString;
                    [[event characters] isEqualToString:@"n"]) {
             [_controller editSites:self];
             event = nil;
+        } else if (([event modifierFlags] & NSCommandKeyMask) == 0 && 
+                   ([event modifierFlags] & NSAlternateKeyMask) == 0 && 
+                   ([event modifierFlags] & NSControlKeyMask) == NSControlKeyMask && 
+                   ([event modifierFlags] & NSShiftKeyMask) == 0 && 
+                   [[event characters] characterAtIndex:0] == '\t') {
+            [_controller selectNextTab:self];
+            event = nil;
         }
     }
 
