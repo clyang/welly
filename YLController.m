@@ -87,9 +87,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_mainWindow setOpaque:NO];
 
     [_mainWindow setFrameAutosaveName:@"wellyMainWindowFrame"];
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
-        [self loadLastConnections];
     
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateBlinkTicker:) userInfo:nil repeats:YES];
@@ -119,7 +116,16 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
 
     // open the portal
+    // the switch
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+        [_telnetView updatePortal];
+        [_telnetView setWantsLayer:YES];
+    }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
+    
+    // restore connections
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
+        [self loadLastConnections];
 }
 
 - (void)updateSitesMenu {
@@ -145,12 +151,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
     // update portal
-    BOOL flag = [_telnetView wantsLayer];
-    // NOTE: comment out the folowing line to turn off cover flow
-    [_telnetView updatePortal];
-    // NOTE: notify the view first, or the layer will display incorrectly.
-    [_telnetView setWantsLayer:YES];
-    [_telnetView setWantsLayer:flag];
+    if ([_telnetView layer]) {
+        BOOL flag = [_telnetView wantsLayer];
+        // NOTE: comment out the folowing line to turn off cover flow
+        [_telnetView updatePortal];
+        // NOTE: notify the view first, or the layer will display incorrectly.
+        [_telnetView setWantsLayer:YES];
+        [_telnetView setWantsLayer:flag];
+    }
 }
 
 - (void)updateEncodingMenu {
