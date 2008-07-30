@@ -138,7 +138,7 @@ static NSString * stringFromFileSize(long long size) {
 	// dectect file type to avoid useless download
 	// by gtCarrera @ 9#
 	NSString *fileType = [[_filename pathExtension] lowercaseString];
-	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"bmp", @"png", @"gif", @"tiff", @"pdf", nil];
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
 	Boolean canView = [allowedTypes containsObject: fileType];
 	if (!canView) {
         [download cancel];

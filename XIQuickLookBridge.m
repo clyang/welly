@@ -40,7 +40,7 @@
 
 - (id)init {
     if (self == [super init]) {
-        _URLs = [[NSMutableArray arrayWithCapacity: 1] retain];
+        _URLs = [[NSMutableArray alloc] init];
     }
     return self;
 }
