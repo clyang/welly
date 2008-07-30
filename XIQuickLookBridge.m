@@ -14,6 +14,7 @@
 - (void)close;
 - (void)makeKeyAndOrderFrontWithEffect:(int)flag;
 - (void)setURLs:(NSArray *)URLs currentIndex:(unsigned)index preservingDisplayState:(BOOL)flag;
+- (void)setEnableDragNDrop:(BOOL)flag;
 @end
 
 @implementation XIQuickLookBridge
@@ -30,6 +31,7 @@
 		// End
         // for zoom effect
         [[sSharedPanel windowController] setDelegate:[[XIQuickLookBridge alloc] init]];
+        [sSharedPanel setEnableDragNDrop:YES];
     }
     return sSharedPanel;
 }
