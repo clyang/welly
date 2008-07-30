@@ -59,7 +59,7 @@
     } else {
         if (port == nil)
             port = @"23";
-        fmt = @"/usr/bin/telnet %@ %@";
+        fmt = @"/usr/bin/telnet -8 %@ %@";
     }
     NSString *r = [NSString stringWithFormat:fmt, addr, port];
     return r;
