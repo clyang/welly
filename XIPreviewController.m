@@ -20,9 +20,28 @@
 
 // current downloading URLs
 static NSMutableSet *sURLs;
+static NSString *sCacheDir;
 
 + (void)initialize {
     sURLs = [[NSMutableSet alloc] initWithCapacity:10];
+    // locate the cache directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSAssert([paths count] > 0, @"~/Library/Caches");
+    sCacheDir = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"] retain];
+    // clean it at startup
+    BOOL flag = NO;
+    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    // detect if another Welly exists
+    for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] launchedApplications]) {
+        if ([[dict objectForKey:@"NSApplicationName"] isEqual:@"Welly"] &&
+            [[dict objectForKey:@"NSApplicationProcessIdentifier"] intValue] != pid) {
+            flag = YES;
+            break;
+        }
+    }
+    // no other Welly
+    if (!flag)
+        [[NSFileManager defaultManager] removeFileAtPath:sCacheDir handler:nil];
 }
 
 - (IBAction)openPreview:(id)sender {
@@ -128,11 +147,8 @@ static NSString * stringFromFileSize(long long size) {
                         identifier:download];
 
     // set local path
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSAssert([paths count] > 0, @"~/Library/Caches");
-    NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir attributes:nil];
-    _path = [[cacheDir stringByAppendingPathComponent:_filename] retain];
+    [[NSFileManager defaultManager] createDirectoryAtPath:sCacheDir attributes:nil];
+    _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
     [download setDestination:_path allowOverwrite:YES];
 
 	// dectect file type to avoid useless download
