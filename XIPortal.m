@@ -256,9 +256,11 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // we make it a sublayer rather than a mask so that the overlapping alpha will work correctly
     // without the use of a compositing filter
     [containerLayer addSublayer:maskLayer];
-    
-    [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
+
     //[self loadCovers];
+    [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
+    // restore last selection
+    [self performSelectorOnMainThread:@selector(restoreSelection) withObject:nil waitUntilDone:NO];
     return self;
 }
 
@@ -331,10 +333,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self updateImage];
 }
 
-- (NSUInteger)selected {
-    return _selectedImageIndex;
-}
-
 - (void)moveSelection:(int)dx {
     _selectedImageIndex += dx;
 
@@ -347,7 +345,15 @@ static const CGFloat colorValues[C_COUNT][4] = {
         //NSBeep();
     }
 
+    // store the selection
+    [[NSUserDefaults standardUserDefaults] setInteger:_selectedImageIndex forKey:@"PortalSelection"];
+
     [self updateSelection];
+}
+
+- (void)restoreSelection {
+    NSInteger dx = [[NSUserDefaults standardUserDefaults] integerForKey:@"PortalSelection"];
+    [self moveSelection:dx];
 }
 
 - (void)select {

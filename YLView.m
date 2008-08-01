@@ -1629,15 +1629,9 @@ BOOL isSpecialSymbol(unichar ch) {
     return [NSArray array];
 }
 
-- (void)updatePortalInternal:(NSNumber *)dx {
-    [_portal moveSelection:[dx integerValue]];
-}
-
 - (void)updatePortal {
-    NSUInteger sel = [_portal selected];
     [_portal release];
     _portal = [[XIPortal alloc] initWithView:self];
-    [self performSelectorOnMainThread:@selector(updatePortalInternal:) withObject:[NSNumber numberWithInteger:sel] waitUntilDone:NO];
 }
 
 @end
