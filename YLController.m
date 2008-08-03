@@ -476,8 +476,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction)openLocation:(id)sender {
-    [_mainWindow makeKeyAndOrderFront:self];
-    //[_mainWindow makeFirstResponder:_addressBar];
+    [_mainWindow makeFirstResponder:_addressBar];
 }
 
 - (BOOL)shouldReconnect {
