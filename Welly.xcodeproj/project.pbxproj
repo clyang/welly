@@ -46,6 +46,8 @@
 		5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
+		81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* LLFullScreenController.m */; };
+		81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AAE0AB40192009FC710 /* YLTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* YLTerminal.m */; };
@@ -159,6 +161,10 @@
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		81F8ECF00E5005190022FA65 /* LLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenController.h; sourceTree = "<group>"; };
+		81F8ECF10E5005190022FA65 /* LLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenController.m; sourceTree = "<group>"; };
+		81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenProcessor.h; sourceTree = "<group>"; };
+		81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenProcessor.m; sourceTree = "<group>"; };
 		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* YLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTerminal.h; sourceTree = "<group>"; };
@@ -232,6 +238,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				81F8ECFB0E5006660022FA65 /* FullScreen */,
 				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
 				5AC33B7B0DA477AB0006AA09 /* Nally9only */,
 				85D9B9D20C97DF7B006C5E0F /* Views */,
@@ -415,6 +422,17 @@
 			name = Nally9only;
 			sourceTree = "<group>";
 		};
+		81F8ECFB0E5006660022FA65 /* FullScreen */ = {
+			isa = PBXGroup;
+			children = (
+				81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */,
+				81F8ECF00E5005190022FA65 /* LLFullScreenController.h */,
+				81F8ECF10E5005190022FA65 /* LLFullScreenController.m */,
+				81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */,
+			);
+			name = FullScreen;
+			sourceTree = "<group>";
+		};
 		85D9B9D20C97DF7B006C5E0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,6 +590,8 @@
 				1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */,
 				5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* XIIntegerArray.m in Sources */,
+				81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */,
+				81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
