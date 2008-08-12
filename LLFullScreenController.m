@@ -19,10 +19,10 @@
 			   superView:(NSView*)sview
 		  originalWindow:(NSWindow*) owin {
 	if(self = [super init]) {
-		_myProcessor = pro;
-		_targetView = tview;
-		_superView = sview;
-		_originalWindow = owin;
+		_myProcessor = [pro retain];
+		_targetView = [tview retain];
+		_superView = [sview retain];
+		_originalWindow = [owin retain];
 		_isFullScreen = false;
 	}
 	return self;
@@ -36,9 +36,9 @@
 			 originalWindow:(NSWindow*) owin {
 	if(self = [super init]) {
 		_myProcessor = nil;
-		_targetView = tview;
-		_superView = sview;
-		_originalWindow = owin;
+		_targetView = [tview retain];
+		_superView = [sview retain];
+		_originalWindow = [owin retain];
 		_isFullScreen = false;
 	}
 	return self;
@@ -47,7 +47,7 @@
 #pragma mark -
 #pragma mark Dealloc
 - (void)dealloc {
-	[_originalWindow release];
+	[_fullScreenWindow release];
     [super dealloc];
 }
 

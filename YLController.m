@@ -725,7 +725,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Restore from full screen firstly
 	if (_isFullScreen) {
 		_isFullScreen = false;
-		[self restoreFont:_screenRatio];
+		[_myPro processBeforeExit];
 		[_testFSWindow close];
 		[_orinSuperView addSubview:_telnetView];
 		// Also add tab view back...
@@ -811,7 +811,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Restore from full screen firstly
 	if (_isFullScreen) {
 		_isFullScreen = false;
-		[self restoreFont:_screenRatio];
+		[_myPro processBeforeExit];
 		[_testFSWindow close];
 		[_orinSuperView addSubview:tabView];
 		// Also add tab view back...
@@ -1173,7 +1173,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)restoreFont:(CGFloat)ratio {
-	if(ratio != 0.0f) {
 		[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
 			[[YLLGlobalConfig sharedInstance] englishFontSize] / ratio];
 		[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
@@ -1182,18 +1181,17 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			[[YLLGlobalConfig sharedInstance] cellWidth] / ratio];
 		[[YLLGlobalConfig sharedInstance] setCellHeight: 
 			[[YLLGlobalConfig sharedInstance] cellHeight] / ratio];
-	}
 }
 
 - (void) setFont:(CGFloat) ratio {
 	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
-		[[YLLGlobalConfig sharedInstance] englishFontSize] * _screenRatio];
+		[[YLLGlobalConfig sharedInstance] englishFontSize] * ratio];
 	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
-		[[YLLGlobalConfig sharedInstance] chineseFontSize] * _screenRatio];
+		[[YLLGlobalConfig sharedInstance] chineseFontSize] * ratio];
 	[[YLLGlobalConfig sharedInstance] setCellWidth: 
-		[[YLLGlobalConfig sharedInstance] cellWidth] * _screenRatio];
+		[[YLLGlobalConfig sharedInstance] cellWidth] * ratio];
 	[[YLLGlobalConfig sharedInstance] setCellHeight: 
-		[[YLLGlobalConfig sharedInstance] cellHeight] * _screenRatio];
+		[[YLLGlobalConfig sharedInstance] cellHeight] * ratio];
 }
 
 - (void)fullScreenHandle {
@@ -1201,19 +1199,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	if (!_isFullScreen) {
 		// Set current state
 		_isFullScreen = true;
-		// Calculate the expand ratio
-		NSRect screenRect = [[NSScreen mainScreen] frame];
-		CGFloat ratioH = screenRect.size.height / [_telnetView frame].size.height;
-		CGFloat ratioW = screenRect.size.width / [_telnetView frame].size.width;
-		if (ratioH > ratioW && ratioH > _screenRatio) {
-			_screenRatio = ratioW;
-		} else if (ratioH > _screenRatio) {
-			_screenRatio = ratioH;
-		}
-		// Do the expandsion
-		[self setFont:_screenRatio];
-
+		// Temp code!
+		_myPro = [[LLTelnetProcessor alloc] initByView:[_telnetView retain]];
+		[_myPro processBeforeEnter];
         // Record new origin
+		NSRect screenRect = [[NSScreen mainScreen] frame];
         NSPoint newOP = {0, (screenRect.size.height - [_telnetView frame].size.height) / 2};
 
 		// Init the window and show
@@ -1241,9 +1231,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	} else {
 		// Change the state
 		_isFullScreen = false;
-		// Restore the font settings
-		// REMEMBER: Also do it in terminating the app
-		[self restoreFont:_screenRatio];
+		// Temp code!
+		[_myPro processBeforeExit];
 		// Close
 		[_testFSWindow close];
 		// Change UI mode by carbon

@@ -10,6 +10,8 @@
 #import "XITabBarControl.h"
 #import "YLSite.h"
 #import "KOAutoReplyDelegate.h"
+// Temp code!
+#import "LLTelnetProcessor.h"
 
 #define scrollTimerInterval 0.12
 #define floatWindowLevel kCGStatusWindowLevel+1
@@ -65,6 +67,8 @@
 	bool _isFullScreen;
 	NSWindow* _testFSWindow;
 	NSView* _orinSuperView;
+	// Temp code!
+	LLTelnetProcessor* _myPro;
 	
 	// Timer test
 	NSTimer* _scrollTimer;
