@@ -540,7 +540,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Event Handling
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	[[self frontMostTerminal] resetMessageCount];
+	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
 
     NSPoint p = [theEvent locationInWindow];
@@ -696,7 +696,9 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 }
 
-- (void)keyDown:(NSEvent *)theEvent {
+- (void)keyDown:(NSEvent *)theEvent {    
+    [[self frontMostConnection] resetMessageCount];
+	
     unichar c = [[theEvent characters] characterAtIndex:0];
     // portal
     if ([self wantsLayer]) {
@@ -719,8 +721,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	unsigned char arrow[6] = {0x1B, 0x4F, 0x00, 0x1B, 0x4F, 0x00};
 	unsigned char buf[10];
 
-    YLTerminal *ds = [self frontMostTerminal];    
-    [ds resetMessageCount];
+    YLTerminal *ds = [self frontMostTerminal];
 
     if ([theEvent modifierFlags] & NSControlKeyMask) {
         buf[0] = c;

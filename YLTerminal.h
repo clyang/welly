@@ -18,49 +18,23 @@
     unsigned int _cursorX;
     unsigned int _cursorY;
     unsigned int _offset;
-
-    int _savedCursorX;
-    int _savedCursorY;
-
-    int _fgColor;
-    int _bgColor;
-    BOOL _bold;
-    BOOL _underline;
-    BOOL _blink;
-    BOOL _reverse;
 	
     cell **_grid;
     char *_dirty;
 
-    enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL } _state;
-
-    XIIntegerArray *_csBuf;
-    XIIntegerArray *_csArg;
-    unsigned int _csTemp;
+    //enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL } _state;
     YLView *_view;
-    
-    int _scrollBeginRow;
-    int _scrollEndRow;
 
-    int _messageCount;
     YLConnection *_connection;
-
-    KOAutoReplyDelegate *_autoReplyDelegate;
 }
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
-
-/* Input Interface */
-- (void)feedData:(NSData *)data connection:(id)connection;
-- (void)feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection;
 
 /* Start / Stop */
 - (void)startConnection;
 - (void)closeConnection;
 
 /* Clear */
-- (void)clearRow:(int)r;
-- (void)clearRow:(int)r fromStart:(int)s toEnd:(int)e;
 - (void)clearAll;
 
 /* Dirty */
@@ -84,10 +58,11 @@
 - (int)cursorColumn;
 - (YLEncoding)encoding;
 - (void)setEncoding:(YLEncoding) encoding;
-- (int)messageCount;
-- (void)increaseMessageCount:(int)value;
-- (void)resetMessageCount;
 - (YLConnection *)connection;
 - (void)setConnection:(YLConnection *)value;
-- (KOAutoReplyDelegate *)autoReplyDelegate;
+
+/* Input Interface */
+- (void)feedGrid: (cell **)grid;
+- (void)setCursorX: (int) cursorX
+				 Y: (int) cursorY;
 @end

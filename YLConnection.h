@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "XIProtocol.h"
 
-@class YLSite, YLTerminal;
+@class YLSite, YLTerminal, KOTerminalFeeder, KOAutoReplyDelegate;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
@@ -24,8 +24,12 @@
     NSDate *_lastTouchDate;
     
     YLTerminal *_terminal;
+	KOTerminalFeeder *_feeder;
     NSObject <XIProtocol> *_protocol;
     YLSite * _site;
+	
+	KOAutoReplyDelegate *_autoReplyDelegate;
+	int _messageCount;
 }
 
 - (id)initWithSite:(YLSite *)site;
@@ -34,6 +38,9 @@
 
 - (YLTerminal *)terminal;
 - (void)setTerminal:(YLTerminal *)term;
+
+- (KOTerminalFeeder *)terminalFeeder;
+- (void)setTerminalFeeder:(KOTerminalFeeder *)feeder;
 
 - (id)protocol;
 - (void)setProtocol:(id)proto;
@@ -58,5 +65,14 @@
 - (void)sendBytes:(const void *)msg length:(NSInteger)length;
 - (void)sendText:(NSString *)text;
 - (void)sendText:(NSString *)text withDelay:(int)microsecond;
+
+/* message */
+- (KOAutoReplyDelegate *) autoReplyDelegate;
+- (void)newMessage: (NSString *)message
+		fromCaller: (NSString *)caller;
+- (int)messageCount;
+- (void)increaseMessageCount:(int)value;
+- (void)resetMessageCount;
+- (void)didClickGrowlNewMessage:(id)connection;
 
 @end

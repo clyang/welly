@@ -146,4 +146,8 @@
 - (void) doScrollDown:(NSTimer*) timer;
 - (void) disableTimer;
 
+// temporary added, should be remove in future!!!
+// by K.O.ed
+- (YLView *) getView;
+
 @end

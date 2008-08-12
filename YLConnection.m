@@ -8,8 +8,13 @@
 
 #import "YLConnection.h"
 #import "YLTerminal.h"
+#import "KOTerminalFeeder.h"
 #import "encoding.h"
-
+#import "YLLGlobalConfig.h"
+#import "YLApplication.h"
+#import "TYGrowlBridge.h"
+#import "YLController.h"
+#import "YLView.h"
 
 @implementation YLConnection
 
@@ -22,6 +27,9 @@
 - (id)initWithSite:(YLSite *)site {
     if (self == [super initWithContent:self]) {
         [self setSite:site];
+		[self setTerminalFeeder: [[KOTerminalFeeder alloc] initWithConnection: self]];
+		_autoReplyDelegate = [[KOAutoReplyDelegate alloc] init];
+		[_autoReplyDelegate setConnection: self];
     }
     return self;
 }
@@ -30,7 +38,9 @@
     [_lastTouchDate release];
     [_icon release];
     [_terminal release];
+	[_feeder release];
     [_protocol release];
+    [_autoReplyDelegate release];
     [super dealloc];
 }
 
@@ -54,6 +64,19 @@
 		[_terminal release];
 		_terminal = [value retain];
         [_terminal setConnection:self];
+		[_feeder setTerminal: _terminal];
+	}
+}
+
+- (KOTerminalFeeder *)terminalFeeder {
+	return _feeder;
+}
+
+- (void) setTerminalFeeder:(KOTerminalFeeder *)value {
+	if (_feeder != value) {
+		[_feeder release];
+		_feeder = [value retain];
+        //[_feeder setConnection:self];
 	}
 }
 
@@ -77,7 +100,7 @@
     if (_connected) 
         [self setIcon:[NSImage imageNamed:@"online.pdf"]];
     else {
-        [[self terminal] resetMessageCount];
+        [self resetMessageCount];
         [self setIcon:[NSImage imageNamed:@"offline.pdf"]];
     }
 }
@@ -133,7 +156,8 @@
 }
 
 - (void)protocolDidRecv:(id)protocol data:(NSData*)data {
-    [_terminal feedData:data connection:self];
+    //[_terminal feedData:data connection:self];
+	[_feeder feedData:data connection:self];
 }
 
 - (void)protocolWillSend:(id)protocol data:(NSData*)data {
@@ -143,6 +167,7 @@
 - (void)protocolDidClose:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:NO];
+	[_feeder clearAll];
     [_terminal clearAll];
 }
 
@@ -156,6 +181,7 @@
 - (void)reconnect {
     [_protocol close];
     [_protocol connect:[_site address]];
+	[self resetMessageCount];
 }
 
 - (void)sendMessage:(NSData *)msg {
@@ -207,6 +233,82 @@
     }
 
     [pool release];
+}
+
+#pragma mark -
+#pragma mark message
+- (KOAutoReplyDelegate *)autoReplyDelegate {
+	return _autoReplyDelegate;
+}
+
+- (int)messageCount {
+	return _messageCount;
+}
+
+- (void)increaseMessageCount:(int)value {
+	// increase the '_messageCount' by 'value'
+	if (value <= 0)
+		return;
+	
+	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+	
+	// we should let the icon on the deck bounce
+	[NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
+	//if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
+	//[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
+	[config setMessageCount: [config messageCount] + value];
+	_messageCount += value;
+    [self setObjectCount:_messageCount];
+	//} else {
+	//	_hasMessage = NO;
+	//}
+}
+
+- (void)resetMessageCount {
+	// reset '_messageCount' to zero
+	if (_messageCount <= 0)
+		return;
+	
+	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+	[config setMessageCount: [config messageCount] - _messageCount];
+	_messageCount = 0;
+    [self setObjectCount:_messageCount];
+}
+
+- (void) newMessage: (NSString *)message
+		 fromCaller: (NSString *)caller {
+	// If there is a new message, we should notify the auto-reply delegate.
+	[_autoReplyDelegate newMessage: message
+						fromCaller: caller];
+	
+	YLView *view = [[((YLApplication *)NSApp) controller] getView];
+	if (self != [view frontMostConnection] || ![NSApp isActive] || [_site autoReply]) {
+		// not in focus
+		[self increaseMessageCount: 1];
+		// notify auto replied
+		if ([_site autoReply]) {
+			message = [NSString stringWithFormat: @"%@\n(已自动回复)", message];
+		}
+		// should invoke growl notification
+		[TYGrowlBridge notifyWithTitle:caller
+						   description:message
+					  notificationName:@"New Message Received"
+							  iconData:[NSData data]
+							  priority:0
+							  isSticky:NO
+						  clickContext:self
+						 clickSelector:@selector(didClickGrowlNewMessage:)
+							identifier:self];
+	}
+}
+
+- (void)didClickGrowlNewMessage:(id)connection {
+    // bring the window to front
+    [NSApp activateIgnoringOtherApps:YES];
+	YLView *view = [[((YLApplication *)NSApp) controller] getView];
+    [[view window] makeKeyAndOrderFront:nil];
+    // select the tab
+    [view selectTabViewItemWithIdentifier:connection];
 }
 
 @end

@@ -11,7 +11,6 @@
 
 //@class YLController
 @class YLConnection;
-@class YLView;
 @class YLSite;
 //@class YLEncoding;
 
@@ -26,8 +25,8 @@
 - (id) initWithConnection: (YLConnection *)connection;
 - (void) dealloc;
 - (void) setConnection: (YLConnection *)connection;
-- (void) messageComes : (NSString *)callerName
-			  message : (NSString *)message;
+- (void) newMessage : (NSString *)message
+		 fromCaller : (NSString *)callerName;
 - (void) showUnreadMessagesOnTextView : (NSTextView *) textView;
 - (int) unreadCount;
 @end

@@ -38,8 +38,8 @@
 	_site = [connection site];
 }
 
-- (void) messageComes : (NSString *)callerName
-			  message : (NSString *)message {
+- (void) newMessage : (NSString *)message
+		 fromCaller : (NSString *)callerName {
 	if ([[_connection site] autoReply]) {
 		// enclose the autoReplyString with two '\r'
 		NSString *aString = [NSString stringWithFormat: @"\r%@\r", [[_connection site] autoReplyString]];

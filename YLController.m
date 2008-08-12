@@ -229,8 +229,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         // new terminal
         YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
         [connection setTerminal:terminal];
-        // clear out the terminal
-        [terminal clearAll];
 
         // XIPTY as the default protocol (a proxy)
         XIPTY *protocol = [[XIPTY new] autorelease];
@@ -377,9 +375,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	[_autoReplyMenuItem setState: ar ? NSOnState : NSOffState];
 	if (!ar && ar != [[[_telnetView frontMostConnection] site] autoReply]) {
 		// when user is to close auto reply, 
-		if ([[[_telnetView frontMostTerminal] autoReplyDelegate] unreadCount] > 0) {
+		if ([[[_telnetView frontMostConnection] autoReplyDelegate] unreadCount] > 0) {
 			// we should inform him with the unread messages
-			[[[_telnetView frontMostTerminal] autoReplyDelegate] showUnreadMessagesOnTextView: _unreadMessageTextView];
+			[[[_telnetView frontMostConnection] autoReplyDelegate] showUnreadMessagesOnTextView: _unreadMessageTextView];
 			[_messageWindow makeKeyAndOrderFront: self];
 		}
 	}
@@ -496,14 +494,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void) confirmReconnect:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
-		[[_telnetView frontMostTerminal] resetMessageCount];
 		[[_telnetView frontMostConnection] reconnect];
     }
 }
 
 - (IBAction) reconnect: (id) sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
-        [[_telnetView frontMostTerminal] resetMessageCount];
         [[_telnetView frontMostConnection] reconnect];
         return;
     }
@@ -853,7 +849,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     YLSite *site = [connection site];
     [_addressBar setStringValue:[site address]];
     YLTerminal *terminal = [connection terminal];
-    [terminal resetMessageCount];
+    [connection resetMessageCount];
     [terminal setAllDirty];
 
     [_mainWindow makeFirstResponder:tabView];
@@ -1280,5 +1276,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // done
     return YES;
 }
+
+- (YLView *) getView {
+	return _telnetView;
+}
+
 
 @end
