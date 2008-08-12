@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
+		1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */; };
 		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */; };
 		166D62AD0E2E17A900514885 /* XIPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D62AC0E2E17A900514885 /* XIPortal.m */; };
@@ -99,6 +100,8 @@
 		07B370790D6840B20035E87D /* HMBlkAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HMBlkAppKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1600D7AD0E51C2B100496E3E /* KOTerminalFeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOTerminalFeeder.h; sourceTree = "<group>"; };
+		1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOTerminalFeeder.m; sourceTree = "<group>"; };
 		1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookBridge.m; sourceTree = "<group>"; };
 		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
 		1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPreviewController.h; sourceTree = "<group>"; };
@@ -478,6 +481,8 @@
 				16C0C90E0E294C2700B576C5 /* XIPTY.m */,
 				85145AAC0AB40192009FC710 /* YLTerminal.h */,
 				85145AAD0AB40192009FC710 /* YLTerminal.m */,
+				1600D7AD0E51C2B100496E3E /* KOTerminalFeeder.h */,
+				1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */,
 				8579CA280CF21D3D005A8353 /* YLSite.h */,
 				8579CA290CF21D3D005A8353 /* YLSite.m */,
 				85E7825A0D057E8400BDA3FB /* YLEmoticon.h */,
@@ -598,6 +603,7 @@
 				81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */,
 				81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */,
 				819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */,
+				1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
