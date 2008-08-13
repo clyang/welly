@@ -13,10 +13,11 @@
 @interface LLTelnetProcessor : LLFullScreenProcessor {
 	CGFloat _screenRatio;
 	NSView * _myView;
+	NSView * _tabView;
 }
 
 // Constructor
-- (id) initByView:(NSView*) view;
+- (id) initByView:(NSView*) view myTabView:(NSView*) tView;
 // Private functions to access font sizes
 - (void) setFont:(bool)isSet;
 

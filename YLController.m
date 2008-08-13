@@ -39,7 +39,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if (self = [super init]) {
         _sites = [[NSMutableArray alloc] init];
         _emoticons = [[NSMutableArray alloc] init];
-        _isFullScreen = false;
     }
     return self;
 }
@@ -74,7 +73,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [[_tab addTabButton] setTarget:self];
     [[_tab addTabButton] setAction:@selector(newTab:)];
     _telnetView = (YLView *)[_tab tabView];
-
+	
     // Trigger the KVO to update the information properly.
     [[YLLGlobalConfig sharedInstance] setShowHiddenText:[[YLLGlobalConfig sharedInstance] showHiddenText]];
     [[YLLGlobalConfig sharedInstance] setCellWidth:[[YLLGlobalConfig sharedInstance] cellWidth]];
@@ -111,7 +110,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self setValue:container forKey:@"remoteControl"];
     [container startListening:self];
     remoteControl = container;
-
+	
+	// For full screen, initiallize the full screen controller
+	_fullScreenController = [[LLFullScreenController alloc] 
+							 initWithoutProcessor:_telnetView 
+							 superView:[_telnetView superview] 
+							 originalWindow:_mainWindow];
+	
     // drag & drop in site view
     [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
 
@@ -719,18 +724,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	// Restore from full screen firstly
-	if (_isFullScreen) {
-		_isFullScreen = false;
-		[_myPro processBeforeExit];
-		[_testFSWindow close];
-		[_orinSuperView addSubview:_telnetView];
-		// Also add tab view back...
-		[_orinSuperView addSubview:_tab];
-		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeNormal, 0);
-		// Show the main window
-		[_mainWindow setAlphaValue:100.0f];
-	}
+	[_fullScreenController releaseFullScreen];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey: @"RestoreConnection"]) 
         [self saveLastConnections];
@@ -805,17 +799,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
 	// Restore from full screen firstly
-	if (_isFullScreen) {
-		_isFullScreen = false;
-		[_myPro processBeforeExit];
-		[_testFSWindow close];
-		[_orinSuperView addSubview:tabView];
-		// Also add tab view back...
-		[_orinSuperView addSubview:_tab];
-		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeNormal, 0);
-		[_mainWindow setAlphaValue:100.0f];
-	}
+	[_fullScreenController releaseFullScreen];
+	
     if (![[tabViewItem identifier] connected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
     /* commented out by boost @ 9#: modal makes more sense
@@ -1128,7 +1113,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 									  repeats:YES] retain];
 				break;
 			case kRemoteButtonMenu_Hold:
-				[self fullScreenHandle];
+				[self fullScreenMode:nil];
 				break;
 		}
 	}
@@ -1164,83 +1149,16 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark For full screen
+// Here is an example to the newly designed full screen module with a customized processor
+// A "processor" here will resize the NSViews and do some necessary work before full
+// screen
 - (IBAction)fullScreenMode:(id)sender {
-	[self fullScreenHandle];
-}
-
-- (void)restoreFont:(CGFloat)ratio {
-		[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
-			[[YLLGlobalConfig sharedInstance] englishFontSize] / ratio];
-		[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
-			[[YLLGlobalConfig sharedInstance] chineseFontSize] / ratio];
-		[[YLLGlobalConfig sharedInstance] setCellWidth: 
-			[[YLLGlobalConfig sharedInstance] cellWidth] / ratio];
-		[[YLLGlobalConfig sharedInstance] setCellHeight: 
-			[[YLLGlobalConfig sharedInstance] cellHeight] / ratio];
-}
-
-- (void) setFont:(CGFloat) ratio {
-	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
-		[[YLLGlobalConfig sharedInstance] englishFontSize] * ratio];
-	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
-		[[YLLGlobalConfig sharedInstance] chineseFontSize] * ratio];
-	[[YLLGlobalConfig sharedInstance] setCellWidth: 
-		[[YLLGlobalConfig sharedInstance] cellWidth] * ratio];
-	[[YLLGlobalConfig sharedInstance] setCellHeight: 
-		[[YLLGlobalConfig sharedInstance] cellHeight] * ratio];
-}
-
-- (void)fullScreenHandle {
-	// For full screen!
-	if (!_isFullScreen) {
-		// Set current state
-		_isFullScreen = true;
-		// Temp code!
-		_myPro = [[LLTelnetProcessor alloc] initByView:[_telnetView retain]];
-		[_myPro processBeforeEnter];
-        // Record new origin
-		NSRect screenRect = [[NSScreen mainScreen] frame];
-        NSPoint newOP = {0, (screenRect.size.height - [_telnetView frame].size.height) / 2};
-
-		// Init the window and show
-		// int windowLevel = kCGMainMenuWindowLevel;
-		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar /*| kUIOptionDisableProcessSwitch*/);
-
-        _testFSWindow = [[NSWindow alloc] initWithContentRect:screenRect
-                                                    styleMask:NSBorderlessWindowMask
-                                                      backing:NSBackingStoreBuffered
-                                                        defer:NO];
-        [_testFSWindow setOpaque:NO];
-        [_testFSWindow setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
-        //[testFSWindow setLevel:windowLevel];
-        [_testFSWindow makeKeyAndOrderFront:nil];
-        // Record superview
-        _orinSuperView = [_telnetView superview];       
-        // Transfer the view
-        [_testFSWindow setContentView:_telnetView];
-        // Move the origin point
-        [[_testFSWindow contentView] setFrameOrigin:newOP];
-        // Hide the main window
-        [_mainWindow setAlphaValue:0.0f];
-        //NSLog(@"New OP x = %f, y = %f \n", newOP.x, newOP.y);
-	} else {
-		// Change the state
-		_isFullScreen = false;
-		// Temp code!
-		[_myPro processBeforeExit];
-		// Close
-		[_testFSWindow close];
-		// Change UI mode by carbon
-		SetSystemUIMode(kUIModeNormal, 0);
-		// Set the super view back!!!
-		// Important!
-		[_orinSuperView addSubview:_telnetView];
-		// Also add tab view back...
-		[_orinSuperView addSubview:_tab];
-		// Show the main window
-		[_mainWindow setAlphaValue:100.0f];
+	if([_fullScreenController getProcessor] == nil) {
+		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initByView:_telnetView 
+															   myTabView:_tab];
+		[_fullScreenController setProcessor:myPro];
 	}
+	[_fullScreenController handleFullScreen];
 }
 
 #pragma mark -

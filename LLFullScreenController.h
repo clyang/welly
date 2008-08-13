@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "LLFullScreenProcessor.h"
+#import "YLLGlobalConfig.h"
 
 @interface LLFullScreenController : NSObject {
 	// Object to resize the target view and its super view
@@ -34,4 +35,7 @@
 // Handle functions
 - (void) handleFullScreen;
 - (void) releaseFullScreen;
+// Accessor
+- (void) setProcessor:(LLFullScreenProcessor*) myPro;
+- (LLFullScreenProcessor*) getProcessor;
 @end

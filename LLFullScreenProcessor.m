@@ -5,10 +5,7 @@
 //  Created by gtCarrera @ 9# on 08-8-11.
 //  Copyright 2008. All rights reserved.
 //
-
-
 #import "LLFullScreenProcessor.h"
-
 
 @implementation LLFullScreenProcessor
 

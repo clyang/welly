@@ -10,7 +10,7 @@
 #import "XITabBarControl.h"
 #import "YLSite.h"
 #import "KOAutoReplyDelegate.h"
-// Temp code!
+#import "LLFullScreenController.h"
 #import "LLTelnetProcessor.h"
 
 #define scrollTimerInterval 0.12
@@ -63,12 +63,7 @@
 	MultiClickRemoteBehavior *remoteControlBehavior;
 	
 	// Full Screen
-	CGFloat _screenRatio;
-	bool _isFullScreen;
-	NSWindow* _testFSWindow;
-	NSView* _orinSuperView;
-	// Temp code!
-	LLTelnetProcessor* _myPro;
+	LLFullScreenController* _fullScreenController;
 	
 	// Timer test
 	NSTimer* _scrollTimer;
@@ -137,9 +132,6 @@
 
 // for full screen
 - (IBAction) fullScreenMode: (id) sender;
-- (void) setFont:(CGFloat) ratio;
-- (void) restoreFont:(CGFloat) ratio;
-- (void) fullScreenHandle;
 
 // for timer
 - (void) doScrollUp:(NSTimer*) timer;
