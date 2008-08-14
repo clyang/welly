@@ -421,16 +421,9 @@ static unsigned short gEmptyAttr;
 	}
 	[_terminal setCursorX: _cursorX Y: _cursorY];
 	[_terminal feedGrid: _grid];
-	/*
-    for (i = 0; i < _row; i++) {
-        [_terminal updateDoubleByteStateForRow: i];
-        [_terminal updateURLStateForRow: i];
-    }*/
-    /*[_view performSelector: @selector(tick:)
-				withObject: nil
-				afterDelay: 0.07];
-    */
+	
 	if (hasNewMessage && _grid[0][0].attr.f.bgColor != 9) {
+		// new incoming message
 		for (i = 2; i < _row && _grid[i][0].attr.f.bgColor != 9; ++i);	// determine the end of the message
 		NSString *callerName = [_terminal stringFromIndex: 0 length: _column];
 		NSString *messageString = [_terminal stringFromIndex: _column length: (i - 1) * _column];

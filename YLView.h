@@ -79,4 +79,10 @@
 
 - (void)updatePortal;
 
+/* ip seeker */
+- (void) updateIPStateForRow: (int) r;
+- (void)addToolTip: (NSString *)tooltip
+			   row: (int)r
+			column: (int)c
+			length: (int)length;
 @end

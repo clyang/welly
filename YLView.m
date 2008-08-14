@@ -16,6 +16,7 @@
 #import "XIPreviewController.h"
 #import "XIPortal.h"
 #import "XIIntegerArray.h"
+#import "IPSeeker.h"
 #include "encoding.h"
 
 
@@ -986,7 +987,7 @@ BOOL isSpecialSymbol(unichar ch) {
         /* Draw String row by row */
         for (y = 0; y < gRow; y++) {
             [self drawStringForRow: y context: myCGContext];
-        }		
+        }
         CGContextRestoreGState(myCGContext);
         
         for (y = 0; y < gRow; y++) {
@@ -994,7 +995,12 @@ BOOL isSpecialSymbol(unichar ch) {
                 [ds setDirty: NO atRow: y column: x];
             }
         }
-        
+		
+		// added by K.O.ed @ 9#: update ip status
+        [self removeAllToolTips];
+		for (y = 0; y < gRow; y++) {
+			[self updateIPStateForRow: y];
+		}
     } else {
         [[NSColor clearColor] set];
         CGContextFillRect(myCGContext, CGRectMake(0, 0, gColumn * _fontWidth, gRow * _fontHeight));
@@ -1232,7 +1238,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	int c;
 	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
 	NSRect rowRect = NSMakeRect(start * _fontWidth, (gRow - 1 - r) * _fontHeight, (end - start) * _fontWidth, _fontHeight);
-
+	
 	attribute currAttr, lastAttr = (currRow + start)->attr;
 	int length = 0;
 	unsigned int currentBackgroundColor;
@@ -1635,4 +1641,109 @@ BOOL isSpecialSymbol(unichar ch) {
     _portal = [[XIPortal alloc] initWithView:self];
 }
 
+- (void)addToolTip: (NSString *)tooltip
+			   row: (int)r
+			column: (int)c
+			length: (int)length {
+	/* ip tooltip */
+	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
+							 _fontWidth * length, _fontHeight);
+	NSLog(@"addToolTip: %@ row: %d column: %d length: %d", tooltip, r, c, length);
+	[self addToolTipRect: rect owner: self userData: [tooltip retain]];
+}
+
+- (void) updateIPStateForRow: (int) r {
+	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
+	int state = 0;
+	char ip[4] = {0};
+	int seg = 0;
+	int start = 0, length = 0;
+	for (int i = 0; i < gColumn; i++) {
+		unsigned char b = currRow[i].byte;
+		switch (state) {
+			case 0:
+				if (b >= '0' && b <= '9') { // numeric, beginning of an ip
+					start = i;
+					length = 1;
+					ip[0] = ip[1] = ip[2] = ip[3];
+					seg = b - '0';
+					state = 1;
+				}
+				break;
+			case 1:
+			case 2:
+			case 3:
+				if (b == '.') {	// segment ended
+					if (seg > 255) {	// invalid number
+						state = 0;
+						break;
+					}
+					// valid number
+					ip[state-1] = seg & 0xff;
+					seg = 0;
+					state++;
+					length++;
+				} else if (b >= '0' && b <= '9') {	// continue to be numeric
+					seg = seg * 10 + (b - '0');
+					length++;
+				} else {	// invalid character
+					state = 0;
+					break;
+				}
+				break;
+			case 4:
+				if (b >= '0' && b <= '9') {	// continue to be numeric
+					seg = seg * 10 + (b - '0');
+					length++;					
+				} else {	// non-numeric, then the string should be finished.
+					if (seg < 255) {	// available ip
+						ip[state-1] = seg & 255;
+						[self addToolTip: [[IPSeeker shared] getLocation:ip] row:r column:start length:length];
+					}
+					state = 0;
+					break;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+@end
+
+@implementation NSObject(NSToolTipOwner)
+- (NSString *) view: (NSView *)view 
+   stringForToolTip: (NSToolTipTag)tag 
+			  point: (NSPoint)point 
+		   userData: (void *)userData {
+	/*
+	NSString *u = (NSString *)userData;
+	NSArray* components = [u componentsSeparatedByString:@"."];
+	NSMutableData* data = [NSMutableData dataWithLength:4];
+	NSString *loc = @"";
+	if([components count] == 4) {
+		char* ip = (char*)[data mutableBytes];
+		int value = [[components objectAtIndex:0] intValue];
+		if(value > 255 || value < 0)
+			return @"";
+		ip[0] = value & 0xFF;
+		value = [[components objectAtIndex:1] intValue];
+		if(value > 255 || value < 0)
+			return @"";
+		ip[1] = value & 0xFF;
+		value = [[components objectAtIndex:2] intValue];
+		if(value > 255 || value < 0)
+			return @"";
+		ip[2] = value & 0xFF;
+		value = [[components objectAtIndex:3] intValue];
+		if(value > 255 || value < 0)
+			return @"";
+		ip[3] = value & 0xFF;
+		loc = [[IPSeeker shared] getLocation:ip];
+	}
+	//NSString *loc = [[IPSeeker shared] getLocation: [(NSString *)userData UTF8String]];
+	[u release];
+	return [loc retain];*/
+	return (NSString *)userData;
+}
 @end
