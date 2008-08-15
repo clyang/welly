@@ -64,8 +64,9 @@ static NSString *sCacheDir;
         NSURLRequest *request = [NSURLRequest requestWithURL:URL
                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                              timeoutInterval:30.0];
-        XIDownloadDelegate *delegate = [[XIDownloadDelegate new] autorelease];
+        XIDownloadDelegate *delegate = [[XIDownloadDelegate alloc] init];
         download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
+        [delegate release];
     }
     if (download == nil)
         [[NSWorkspace sharedWorkspace] openURL:URL];
@@ -157,8 +158,10 @@ static NSString * stringFromFileSize(long long size) {
 	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
 	Boolean canView = [allowedTypes containsObject: fileType];
 	if (!canView) {
+        [self retain]; // "cancel" may release the delegate
         [download cancel];
-        [self download:download didFailWithError:nil]; 
+        [self download:download didFailWithError:nil];
+        [self release];
 	}
 }
 
@@ -179,7 +182,7 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-    [download autorelease];
+    [download release];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
@@ -191,7 +194,7 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-    [download autorelease];
+    [download release];
 }
 
 @end
