@@ -12,7 +12,9 @@
 @class YLTerminal;
 @class YLConnection;
 @class YLMarkedTextView;
+@class KOEffectView;
 @class XIPortal;
+@class XIIntegerArray;
 
 @interface YLView : NSTabView <NSTextInput> {	
 	CGFloat _fontWidth;
@@ -29,11 +31,14 @@
 	NSRange _markedRange;
 	
 	IBOutlet YLMarkedTextView *_textField;
+	IBOutlet KOEffectView *_effectView;
     
     int _selectionLocation;
     int _selectionLength;
     
     XIPortal *_portal;
+	
+	XIIntegerArray *_ipTrackingRects;
 }
 
 - (void) configure ;
@@ -80,7 +85,8 @@
 - (void)updatePortal;
 
 /* ip seeker */
-- (void) updateIPStateForRow: (int) r;
+- (void)updateIPStateForRow: (int) r;
+- (void)clearIPState;
 - (void)addToolTip: (NSString *)tooltip
 			   row: (int)r
 			column: (int)c

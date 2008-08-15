@@ -17,6 +17,7 @@
 #import "XIPortal.h"
 #import "XIIntegerArray.h"
 #import "IPSeeker.h"
+#import "KOEffectView.h"
 #include "encoding.h"
 
 
@@ -198,6 +199,8 @@ BOOL isSpecialSymbol(unichar ch) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
+		
+		_ipTrackingRects = [[XIIntegerArray alloc] init];
     }
     return self;
 }
@@ -997,7 +1000,7 @@ BOOL isSpecialSymbol(unichar ch) {
         }
 		
 		// added by K.O.ed @ 9#: update ip status
-        [self removeAllToolTips];
+        [self clearIPState];
 		for (y = 0; y < gRow; y++) {
 			[self updateIPStateForRow: y];
 		}
@@ -1641,6 +1644,17 @@ BOOL isSpecialSymbol(unichar ch) {
     _portal = [[XIPortal alloc] initWithView:self];
 }
 
+#pragma mark -
+#pragma mark ip seeker
+- (void)mouseEntered:(NSEvent *)theEvent {
+	NSRect rect = [[theEvent trackingArea] rect];
+	[_effectView drawBox: rect];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+	[_effectView clear];
+}
+
 - (void)addToolTip: (NSString *)tooltip
 			   row: (int)r
 			column: (int)c
@@ -1648,8 +1662,9 @@ BOOL isSpecialSymbol(unichar ch) {
 	/* ip tooltip */
 	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
 							 _fontWidth * length, _fontHeight);
-	NSLog(@"addToolTip: %@ row: %d column: %d length: %d", tooltip, r, c, length);
 	[self addToolTipRect: rect owner: self userData: [tooltip retain]];
+	NSTrackingRectTag rectTag = [self addTrackingRect: rect owner: self userData: [tooltip retain] assumeInside: YES];
+	[_ipTrackingRects push_back: rectTag];
 }
 
 - (void) updateIPStateForRow: (int) r {
@@ -1709,6 +1724,21 @@ BOOL isSpecialSymbol(unichar ch) {
 		}
 	}
 }
+
+/*
+ * clear all ip areas
+ */
+- (void)clearIPState {
+	[_effectView clear];
+	// remove all tool tips
+	[self removeAllToolTips];
+	// remove all ip tracking rects
+	while(![_ipTrackingRects empty]) {
+		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_ipTrackingRects front];
+		[self removeTrackingRect:rectTag];
+		[_ipTrackingRects pop_front];
+	}
+}
 @end
 
 @implementation NSObject(NSToolTipOwner)
@@ -1716,34 +1746,6 @@ BOOL isSpecialSymbol(unichar ch) {
    stringForToolTip: (NSToolTipTag)tag 
 			  point: (NSPoint)point 
 		   userData: (void *)userData {
-	/*
-	NSString *u = (NSString *)userData;
-	NSArray* components = [u componentsSeparatedByString:@"."];
-	NSMutableData* data = [NSMutableData dataWithLength:4];
-	NSString *loc = @"";
-	if([components count] == 4) {
-		char* ip = (char*)[data mutableBytes];
-		int value = [[components objectAtIndex:0] intValue];
-		if(value > 255 || value < 0)
-			return @"";
-		ip[0] = value & 0xFF;
-		value = [[components objectAtIndex:1] intValue];
-		if(value > 255 || value < 0)
-			return @"";
-		ip[1] = value & 0xFF;
-		value = [[components objectAtIndex:2] intValue];
-		if(value > 255 || value < 0)
-			return @"";
-		ip[2] = value & 0xFF;
-		value = [[components objectAtIndex:3] intValue];
-		if(value > 255 || value < 0)
-			return @"";
-		ip[3] = value & 0xFF;
-		loc = [[IPSeeker shared] getLocation:ip];
-	}
-	//NSString *loc = [[IPSeeker shared] getLocation: [(NSString *)userData UTF8String]];
-	[u release];
-	return [loc retain];*/
 	return (NSString *)userData;
 }
 @end
