@@ -38,7 +38,7 @@
     IBOutlet id _detectDoubleByteButton;
 	IBOutlet id _autoReplyButton;
 
-    YLView *_telnetView;
+    IBOutlet YLView *_telnetView;
     IBOutlet XITabBarControl *_tab;
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
     IBOutlet NSMenuItem *_closeWindowMenuItem;

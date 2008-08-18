@@ -208,6 +208,8 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)dealloc {
     [_backedImage release];
     [_portal release];
+	
+	[_ipTrackingRects release];
     [super dealloc];
 }
 

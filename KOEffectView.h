@@ -19,7 +19,6 @@
 	CALayer *boxLayer;
 }
 
-- (IBAction)addNewLayer:(id)sender;
 - (void)drawBox: (NSRect) rect;
 - (void)clear;
 @end

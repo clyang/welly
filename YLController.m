@@ -122,7 +122,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // open the portal
     // the switch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+    if (YES || [[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
         [_telnetView updatePortal];
         [_telnetView setWantsLayer:YES];
     }

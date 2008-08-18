@@ -642,7 +642,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSClassName">KOEffectView</string>
 								</object>
 							</object>
@@ -4773,7 +4772,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="source" ref="92983356"/>
 						<reference key="destination" ref="571244695"/>
 					</object>
-					<int key="connectionID">1167</int>
+					<int key="connectionID">1168</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4831,8 +4830,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="92983356"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="571244695"/>
 							<reference ref="388583076"/>
+							<reference ref="571244695"/>
 						</object>
 						<reference key="parent" ref="957750958"/>
 					</object>
@@ -6849,11 +6848,11 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{259, 111}, {960, 598}}</string>
+					<string>{{49, 111}, {960, 598}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<integer value="0"/>
-					<string>{{259, 111}, {960, 598}}</string>
+					<reference ref="8"/>
+					<string>{{49, 111}, {960, 598}}</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
 					<string>{{197, 144}, {960, 598}}</string>
@@ -7104,7 +7103,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1167</int>
+			<int key="maxID">1168</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7120,10 +7119,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">KOEffectView</string>
 					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">addNewLayer:</string>
-						<string key="NS.object.0">id</string>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">mainView</string>
 						<string key="NS.object.0">YLView</string>
@@ -7360,6 +7355,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>_sitesWindow</string>
 							<string>_tab</string>
 							<string>_tableView</string>
+							<string>_telnetView</string>
 							<string>_unreadMessageTextView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -7390,6 +7386,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<string>NSPanel</string>
 							<string>XITabBarControl</string>
 							<string>NSTableView</string>
+							<string>YLView</string>
 							<string>NSTextView</string>
 						</object>
 					</object>

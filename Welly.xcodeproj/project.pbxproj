@@ -31,7 +31,7 @@
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
-		5A4B02890E55941D00260486 /* KOEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4B02880E55941D00260486 /* KOEffectView.m */; };
+		5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* KOEffectView.m */; };
 		5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
@@ -140,8 +140,8 @@
 		5A309A7B0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		5A309A7C0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/Preferences.nib; sourceTree = "<group>"; };
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
+		5A4A50180E5956EE007E16E6 /* KOEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOEffectView.m; sourceTree = "<group>"; };
 		5A4B02870E55941D00260486 /* KOEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOEffectView.h; sourceTree = "<group>"; };
-		5A4B02880E55941D00260486 /* KOEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOEffectView.m; sourceTree = "<group>"; };
 		5A56C3800E342CFF00082312 /* KOPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOPostDownloader.h; sourceTree = "<group>"; };
 		5A56C3810E342CFF00082312 /* KOPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOPostDownloader.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
@@ -450,7 +450,7 @@
 				858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */,
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
 				5A4B02870E55941D00260486 /* KOEffectView.h */,
-				5A4B02880E55941D00260486 /* KOEffectView.m */,
+				5A4A50180E5956EE007E16E6 /* KOEffectView.m */,
 				8570AD5D0A3923A900838442 /* YLView.h */,
 				8570AD5E0A3923A900838442 /* YLView.m */,
 				166D62AB0E2E17A900514885 /* XIPortal.h */,
@@ -609,7 +609,7 @@
 				81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */,
 				819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */,
 				1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */,
-				5A4B02890E55941D00260486 /* KOEffectView.m in Sources */,
+				5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
