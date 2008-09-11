@@ -10,6 +10,7 @@
 
 #import <Quartz/Quartz.h>
 #import <ScreenSaver/ScreenSaver.h>
+#import <CoreText/CTFont.h>
 
 
 @implementation KOEffectView
@@ -18,6 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+		[self setWantsLayer: YES];
     }
     return self;
 }
@@ -85,5 +87,75 @@
 
 - (void) clear {
 	[boxLayer removeFromSuperlayer];
+}
+
+#pragma mark Pop-Up Message
+
+// Just similiar to the code of "addNewLayer"...
+// by gtCarrera @ 9#
+- (void)drawPopUpMessage:(NSString*) message {
+	//Initiallize a new CALayer
+	if(!popUpLayer){
+		popUpLayer = [CALayer layer];
+
+		// Set the colors of the pop-up layer
+		popUpLayer.backgroundColor = CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f);
+		popUpLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+		popUpLayer.borderWidth = 2.0;
+    }	
+    // Create a text layer to add so we can see the message.
+    CATextLayer *textLayer = [CATextLayer layer];
+	// Set its foreground color
+    textLayer.foregroundColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+	
+	// Set the message to the text layer
+	textLayer.string = message;
+	// Modify its styles
+	textLayer.truncationMode = kCATruncationEnd;
+    CGFontRef font = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_BOX_FONT);
+    textLayer.font = font;
+	// Here, calculate the size of the text layer
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								[NSFont fontWithName:DEFAULT_POPUP_BOX_FONT 
+												size:textLayer.fontSize], 
+								NSFontAttributeName, 
+								nil];
+	NSSize messageSize = [message sizeWithAttributes:attributes];
+	
+	// Change the size of text layer automatically
+	NSRect textRect = NSZeroRect;
+	textRect.size.width = messageSize.width;
+	textRect.size.height = messageSize.height;
+    CGFontRelease(font);
+	
+    // Create a new rectangle with a suitable size for the inner texts.
+	// Set it to an appropriate position of the whole view
+    NSRect rect = textRect;
+	NSRect screenRect = [self frame];
+	rect.origin.x = screenRect.size.width / 2 - textRect.size.width / 2;
+	rect.origin.y = screenRect.size.height / 5;
+	rect.size.height += 7;
+	rect.size.width += 30;
+	
+	// Move the origin point of the message layer, so the message can be 
+	// displayed in the center of the background layer
+	textRect.origin.x += (rect.size.width - textRect.size.width) / 2.0;
+	textLayer.frame = NSRectToCGRect(textRect);
+	
+    // Set the layer frame to our rectangle.
+    popUpLayer.frame = NSRectToCGRect(rect);
+	popUpLayer.cornerRadius = rect.size.height/5;
+	[popUpLayer addSublayer:[textLayer retain]];
+    
+    // Insert the layer into the root layer
+	[mainLayer addSublayer:[popUpLayer retain]];
+}
+
+- (void)removePopUpMessage {
+	if(popUpLayer) {
+		[popUpLayer removeFromSuperlayer];
+		[popUpLayer autorelease];
+		popUpLayer = nil;
+	}
 }
 @end

@@ -1741,6 +1741,13 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_ipTrackingRects pop_front];
 	}
 }
+
+#pragma mark -
+#pragma mark Test for effect views
+- (NSView *) getEffectView {
+	return _effectView;
+}
+
 @end
 
 @implementation NSObject(NSToolTipOwner)

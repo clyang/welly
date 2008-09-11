@@ -115,4 +115,8 @@
 - (LLFullScreenProcessor*) getProcessor {
 	return _myProcessor;
 }
+
+- (BOOL) isInFullScreen {
+	return _isFullScreen;
+}
 @end

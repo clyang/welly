@@ -21,6 +21,9 @@
 #import "RemoteControlContainer.h"
 #import "MultiClickRemoteBehavior.h"
 
+// Test code by gtCarrera
+#import "LLPopUpMessage.h"
+// End
 #import <Carbon/Carbon.h>
 
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
@@ -122,7 +125,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // open the portal
     // the switch
-    if (YES || [[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
         [_telnetView updatePortal];
         [_telnetView setWantsLayer:YES];
     }
@@ -520,12 +523,25 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return;	
 }
 
+- (void) fullScreenPopUp {
+	// Test code only!!!
+	//if([_fullScreenController isInFullScreen]) {
+		NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
+		[LLPopUpMessage showPopUpMessage:currSiteName 
+								duration:0.7 
+							  effectView:((KOEffectView*)[_telnetView getEffectView])];
+	//}
+	// Ends here:)
+}
+
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
+	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
+	[self fullScreenPopUp];
 }
 
 - (void)selectTabNumber:(int)index {
@@ -1155,7 +1171,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction)fullScreenMode:(id)sender {
 	if([_fullScreenController getProcessor] == nil) {
 		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initByView:_telnetView 
-															   myTabView:_tab];
+															   myTabView:_tab 
+															  effectView:((KOEffectView*)[_telnetView getEffectView])];
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];

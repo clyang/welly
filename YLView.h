@@ -91,4 +91,7 @@
 			   row: (int)r
 			column: (int)c
 			length: (int)length;
+
+// Test for effect view
+- (NSView *) getEffectView ;
 @end

@@ -38,4 +38,5 @@
 // Accessor
 - (void) setProcessor:(LLFullScreenProcessor*) myPro;
 - (LLFullScreenProcessor*) getProcessor;
+- (BOOL) isInFullScreen;
 @end

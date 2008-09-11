@@ -49,6 +49,7 @@
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
 		819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* LLTelnetProcessor.m */; };
+		81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* LLPopUpMessage.m */; };
 		81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* LLFullScreenController.m */; };
 		81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
@@ -170,6 +171,8 @@
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		819586600E5183E200AFBFCE /* LLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTelnetProcessor.h; sourceTree = "<group>"; };
 		819586610E5183E200AFBFCE /* LLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTelnetProcessor.m; sourceTree = "<group>"; };
+		81E307200E79031B0024C47E /* LLPopUpMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPopUpMessage.h; sourceTree = "<group>"; };
+		81E307210E79031B0024C47E /* LLPopUpMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPopUpMessage.m; sourceTree = "<group>"; };
 		81F8ECF00E5005190022FA65 /* LLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenController.h; sourceTree = "<group>"; };
 		81F8ECF10E5005190022FA65 /* LLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenController.m; sourceTree = "<group>"; };
 		81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenProcessor.h; sourceTree = "<group>"; };
@@ -472,6 +475,8 @@
 				85ED52280D0920E6003296D4 /* CommonType.c */,
 				16BF97BB0E3D9B7500ED990A /* XIIntegerArray.h */,
 				16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */,
+				81E307200E79031B0024C47E /* LLPopUpMessage.h */,
+				81E307210E79031B0024C47E /* LLPopUpMessage.m */,
 			);
 			name = "Constant & Utilities";
 			sourceTree = "<group>";
@@ -610,6 +615,7 @@
 				819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */,
 				1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */,
+				81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,6 +676,7 @@
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -699,6 +706,7 @@
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
+					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;

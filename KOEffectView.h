@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
+#define DEFAULT_POPUP_BOX_FONT @"Helvetica"
+
 @class YLView;
 
 @interface KOEffectView : NSView {
@@ -17,8 +19,14 @@
 	IBOutlet YLView *mainView;
 	
 	CALayer *boxLayer;
+	CALayer *popUpLayer;
 }
 
 - (void)drawBox: (NSRect) rect;
 - (void)clear;
+// To show pop up message by core animation
+// This method might be changed in future
+// by gtCarrera @ 9#
+- (void)drawPopUpMessage:(NSString*) message;
+- (void)removePopUpMessage;
 @end
