@@ -19,6 +19,7 @@
 #import "IPSeeker.h"
 #import "KOEffectView.h"
 #include "encoding.h"
+#include <math.h>
 
 
 static YLLGlobalConfig *gConfig;
@@ -201,6 +202,7 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLocation = 0;
 		
 		_ipTrackingRects = [[XIIntegerArray alloc] init];
+		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
     return self;
 }
@@ -676,7 +678,7 @@ BOOL isSpecialSymbol(unichar ch) {
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     // open url
-    if (_selectionLength <= 3) {
+    if (abs(_selectionLength) <= 3) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
         if (url == nil)
@@ -1643,7 +1645,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)updatePortal {
     [_portal release];
-    _portal = [[XIPortal alloc] initWithView:self];
+    _portal = [[XIPortal alloc] initWithView: self];
 }
 
 #pragma mark -
