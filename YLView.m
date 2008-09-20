@@ -825,8 +825,8 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)drawRect:(NSRect)rect {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     YLTerminal *ds = [self frontMostTerminal];
-
 	if ([self connected]) {
+		NSLog(@"connected");
 		// Modified by gtCarrera
 		// Draw the background color first!!!
 		[[gConfig colorBG] set];
@@ -869,6 +869,7 @@ BOOL isSpecialSymbol(unichar ch) {
         if (_selectionLength != 0) 
             [self drawSelection];
 	} else {
+		NSLog(@"Not connected!");
 		[[gConfig colorBG] set];
         NSRect r = [self bounds];
         NSRectFill(r);
@@ -879,7 +880,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void) drawBlink {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-
+	
     int c, r;
     if (![gConfig blinkTicker]) return;
     id ds = [self frontMostTerminal];
@@ -971,6 +972,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) updateBackedImage {
+	NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
@@ -1746,7 +1748,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Test for effect views
-- (NSView *) getEffectView {
+- (KOEffectView *) getEffectView {
 	return _effectView;
 }
 
