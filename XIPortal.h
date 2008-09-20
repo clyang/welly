@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#import "YLView.h"
 
 @interface XIPortal : NSObject {
     CAScrollLayer *_bodyLayer;

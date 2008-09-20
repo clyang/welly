@@ -29,4 +29,7 @@
 // by gtCarrera @ 9#
 - (void)drawPopUpMessage:(NSString*) message;
 - (void)removePopUpMessage;
+
+- (void) resize;
+- (void) setupLayer;
 @end

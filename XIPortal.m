@@ -265,6 +265,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)dealloc {
+	NSLog(@"XIPortal dealloced!");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     CGImageRelease(_shadowImage);  
     [_layerDictionary release];
@@ -358,6 +359,11 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 - (void)select {
     YLController *controller = [((YLApplication *)NSApp) controller];
+	YLView *telnetview = [controller getView];
+	[telnetview setWantsLayer:NO];
+	KOEffectView * ev = [telnetview getEffectView];
+	[ev setWantsLayer:YES];
+	[ev setupLayer];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
 }
 
@@ -380,7 +386,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
         return;
     if (index == _selectedImageIndex) {
         // double click to open
-        if (count > 1)
+        // if (count > 1)
             [self select];
     } else {
         // move

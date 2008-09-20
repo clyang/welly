@@ -49,26 +49,24 @@
 	_screenRatio = (ratioH > ratioW) ? ratioW : ratioH;
 	
 	// Set the effect view to screen size
-	//_viewRect = [_effectView frame];
-	NSLog(@"effectView frame %f,%f", _viewRect.size.width, _viewRect.size.height);
-	NSLog(@"effectView origin %f,%f", _viewRect.origin.x, _viewRect.origin.y);
-	//[_effectView setFrame:screenRect];
-	NSLog(@"screenRect frame %f,%f", [_effectView frame].size.width, [_effectView frame].size.height);
-	NSLog(@"screenRect origin %f,%f", [_effectView frame].origin.x, [_effectView frame].origin.y);
+	_viewRect = [_effectView frame];
+
 	// Then, do the expansion
 	[self setFont:YES];
+	
+	[_effectView resize];	
 }
 
 - (void) processBeforeExit {
 	// Set the tab view back...
 	[[_myView superview] addSubview:_tabView];
-	[[_myView superview] addSubview:_effectView];
-	// And reset the effect view...
-	//[_effectView setFrame:_viewRect];
-	NSLog(@"!screenRect frame %f,%f", [_effectView frame].size.width, [_effectView frame].size.height);
-	NSLog(@"!screenRect origin %f,%f", [_effectView frame].origin.x, [_effectView frame].origin.y);
+	//[[_myView superview] addSubview:_effectView];
+	
 	// And reset the font...
 	[self setFont:NO];
+	
+	// And reset the effect view...
+	[_effectView resize];
 }
 
 @end

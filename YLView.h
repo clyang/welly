@@ -93,5 +93,5 @@
 			length: (int)length;
 
 // Test for effect view
-- (NSView *) getEffectView ;
+- (KOEffectView *) getEffectView ;
 @end

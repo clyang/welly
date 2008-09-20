@@ -16,6 +16,7 @@
 @implementation KOEffectView
 
 - (id)initWithFrame:(NSRect)frame {
+	NSLog(@"Init");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
@@ -27,15 +28,21 @@
 - (void)dealloc {
 	[mainLayer release];
 	[boxLayer release];
-	
+	[popUpLayer release];
 	[super dealloc];
 }
 
-- (void)setupLayer {
+- (void)setupLayer
+{
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
-    CALayer *root = [self layer];
-    
+	NSLog(@"current effectView layer = %x", [self layer]);
+    CALayer *root = [CALayer layer];
+	NSLog(@"root's superLayer = %x", [root superlayer]);
+	[root removeFromSuperlayer];
+	[self setLayer:root];
+	NSLog(@"root's superLayer = %x", [root superlayer]);
+	NSLog(@"current effectView layer = %x", [self layer]);
     // mainLayer is the layer that gets scaled. All of its sublayers
     // are automatically scaled with it.
     mainLayer = [CALayer layer];
@@ -44,21 +51,25 @@
     // Make the background color to be a dark gray with a 50% alpha similar to
     // the real Dashbaord.
     mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
-    [root insertSublayer:mainLayer above:[mainView layer]];
+    //[root insertSublayer:[mainLayer retain] above:[mainView layer]];
+	
+	NSLog(@"root = %x", root);
 }
 
 - (void)drawRect:(NSRect)rect {
-    // Drawing code here.
+    NSLog(@"draw rect in ev");
+	// Drawing code here.
 	//[[NSColor redColor] set];
 	//NSRectFill([self bounds]);
 }
 
-- (void)awakeFromNib;
-{
+- (void)awakeFromNib {
+	NSLog(@"awake");
 	[self setupLayer];
 }
 
 - (void) setBox {
+	NSLog(@"setBox");
 	boxLayer = [CALayer layer];
     
 	boxLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
@@ -134,8 +145,8 @@
 	NSRect screenRect = [self frame];
 	rect.origin.x = screenRect.size.width / 2 - textRect.size.width / 2;
 	rect.origin.y = screenRect.size.height / 5;
-	rect.size.height += 7;
-	rect.size.width += 30;
+	rect.size.height += 10;
+	rect.size.width += 50;
 	
 	// Move the origin point of the message layer, so the message can be 
 	// displayed in the center of the background layer
@@ -149,6 +160,7 @@
     
     // Insert the layer into the root layer
 	[mainLayer addSublayer:[popUpLayer retain]];
+	NSLog(@"Pop message @ (%f, %f)", rect.origin.x, rect.origin.y);
 }
 
 - (void)removePopUpMessage {
@@ -157,5 +169,9 @@
 		[popUpLayer autorelease];
 		popUpLayer = nil;
 	}
+}
+
+-(void) resize {
+	[self setFrame:[mainView frame]];
 }
 @end

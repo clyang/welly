@@ -244,7 +244,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [protocol setDelegate:connection];
         [protocol connect:[site address]];
     }
-
     /* commented by boost @ 9#
     [self refreshTabLabelNumber: _telnetView];
 
