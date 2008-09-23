@@ -183,6 +183,33 @@ static NSString * stringFromFileSize(long long size) {
                           isSticky:NO
                         identifier:download];
     [download release];
+	
+	// Test code for read exif info by gtCarrera
+	CGImageSourceRef exifSource = CGImageSourceCreateWithURL((CFURLRef)([[download request] URL]), nil);
+	NSDictionary * metaData = (NSDictionary*) CGImageSourceCopyPropertiesAtIndex(exifSource, 0, nil);
+	
+	NSDictionary * exifData = [metaData objectForKey:(NSString *)kCGImagePropertyExifDictionary];
+	NSDictionary * tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
+	
+	NSString * dateTime = [exifData objectForKey:(NSString*)kCGImagePropertyExifDateTimeOriginal];
+	NSString * makeName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFMake];
+	NSString * modelName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFModel];
+	NSString * eTime = [exifData objectForKey:(NSString*)kCGImagePropertyExifExposureTime];
+	NSString * fLength = [exifData objectForKey:(NSString*)kCGImagePropertyExifFocalLength];
+	NSString * mav = [exifData objectForKey:(NSString*)kCGImagePropertyExifApertureValue];
+	
+	NSString * content = [[NSString alloc] initWithFormat:
+						  @"原始创建日期：%@\n\n设备制造商及型号：\n%@ %@\n\n曝光时间：%@s\n焦距：%@ mm\n光圈：%@", 
+						  dateTime, makeName, modelName, eTime, fLength, mav];
+	// NSLog(@"exif: %@", metaData);
+	
+	[TYGrowlBridge notifyWithTitle:_filename
+                       description:content
+                  notificationName:@"File Transfer"
+                          isSticky:NO
+                        identifier:download];
+	// NSLog(@"%@", content);
+	// Test end
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
