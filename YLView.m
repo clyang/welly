@@ -826,7 +826,7 @@ BOOL isSpecialSymbol(unichar ch) {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     YLTerminal *ds = [self frontMostTerminal];
 	if ([self connected]) {
-		NSLog(@"connected");
+		// NSLog(@"connected");
 		// Modified by gtCarrera
 		// Draw the background color first!!!
 		[[gConfig colorBG] set];
@@ -869,7 +869,7 @@ BOOL isSpecialSymbol(unichar ch) {
         if (_selectionLength != 0) 
             [self drawSelection];
 	} else {
-		NSLog(@"Not connected!");
+		// NSLog(@"Not connected!");
 		[[gConfig colorBG] set];
         NSRect r = [self bounds];
         NSRectFill(r);
@@ -972,7 +972,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) updateBackedImage {
-	NSLog(@"Image");
+	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];

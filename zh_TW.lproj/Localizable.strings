@@ -1,4 +1,5 @@
-﻿Welly/* Sheet Title */
+﻿
+/* Sheet Title */
 "Are you sure you want to quit Welly?" = "確認要結束 Welly？";
 
 /* Sheet Title */
@@ -60,3 +61,7 @@
 "Connecting" = "連線中";
 "Completed" = "已完成";
 "Opening browser" = "正在打開瀏覽器";
+
+/* EXIF info */
+"exifStringFormat" = "原始創建日期：%@\n\n曝光時間：%@s\n焦距：%@ mm\n光圈：%@\n";
+"tiffStringFormat" = "\n設備製造商及型號：\n%@ %@";

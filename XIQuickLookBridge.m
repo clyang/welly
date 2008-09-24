@@ -17,6 +17,7 @@
 - (void)setEnableDragNDrop:(BOOL)flag;
 @end
 
+
 @implementation XIQuickLookBridge
 
 + (id)sharedPanel {
@@ -63,7 +64,9 @@
 }
 
 + (void)orderFront {
-    [[XIQuickLookBridge sharedPanel] makeKeyAndOrderFrontWithEffect:2]; // 2 for zoom effect
+    [[XIQuickLookBridge sharedPanel] makeKeyAndOrderFrontWithEffect:2]; 
+	// 1 = fade in
+	// 2 = zoom in
 }
 
 + (NSMutableArray *)URLs {

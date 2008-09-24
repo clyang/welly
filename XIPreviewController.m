@@ -187,28 +187,44 @@ static NSString * stringFromFileSize(long long size) {
 	// Test code for read exif info by gtCarrera
 	CGImageSourceRef exifSource = CGImageSourceCreateWithURL((CFURLRef)([[download request] URL]), nil);
 	NSDictionary * metaData = (NSDictionary*) CGImageSourceCopyPropertiesAtIndex(exifSource, 0, nil);
-	
 	NSDictionary * exifData = [metaData objectForKey:(NSString *)kCGImagePropertyExifDictionary];
 	NSDictionary * tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
 	
 	NSString * dateTime = [exifData objectForKey:(NSString*)kCGImagePropertyExifDateTimeOriginal];
-	NSString * makeName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFMake];
-	NSString * modelName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFModel];
 	NSString * eTime = [exifData objectForKey:(NSString*)kCGImagePropertyExifExposureTime];
 	NSString * fLength = [exifData objectForKey:(NSString*)kCGImagePropertyExifFocalLength];
-	NSString * mav = [exifData objectForKey:(NSString*)kCGImagePropertyExifApertureValue];
+	NSString * fNumber = [exifData objectForKey:(NSString*)kCGImagePropertyExifFNumber];
+
+	NSString * makeName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFMake];
+	NSString * modelName = [tiffData objectForKey:(NSString*)kCGImagePropertyTIFFModel];
 	
-	NSString * content = [[NSString alloc] initWithFormat:
-						  @"原始创建日期：%@\n\n设备制造商及型号：\n%@ %@\n\n曝光时间：%@s\n焦距：%@ mm\n光圈：%@", 
-						  dateTime, makeName, modelName, eTime, fLength, mav];
-	// NSLog(@"exif: %@", metaData);
+	NSString * exifString = [[NSString alloc] initWithFormat:
+							 NSLocalizedString(@"exifStringFormat", 
+											   "Original Date Time: %@\n\nExposure Time: %@s\nFocal Length%@ mm\nf-Number: %@\n"), 
+							 dateTime, eTime, fLength, fNumber];
+	NSString * tiffString = [[NSString alloc] initWithFormat:
+							 NSLocalizedString(@"tiffStringFormat", 
+											   "\nManufacturer and Model: \n%@ %@"), 
+							 makeName, modelName];
+	BOOL showInfo = YES;
+	NSString * content;
+	if(exifData && tiffData)
+		content = [[NSString alloc] initWithFormat:@"%@%@", exifString, tiffString];
+	else if(exifData && !tiffData)
+		content = [[NSString alloc] initWithFormat:@"%@", exifString];
+	else if(!exifData && tiffData)
+		content = [[NSString alloc] initWithFormat:@"%@", tiffString];
+	else {
+		showInfo = NO;
+		content = [[NSString alloc] initWithString:@""];
+	}
 	
-	[TYGrowlBridge notifyWithTitle:_filename
-                       description:content
-                  notificationName:@"File Transfer"
-                          isSticky:NO
-                        identifier:download];
-	// NSLog(@"%@", content);
+	if(showInfo) 
+		[TYGrowlBridge notifyWithTitle:_filename
+						   description:content
+					  notificationName:@"File Transfer"
+							  isSticky:NO
+							identifier:download];
 	// Test end
 }
 

@@ -16,7 +16,7 @@
 @implementation KOEffectView
 
 - (id)initWithFrame:(NSRect)frame {
-	NSLog(@"Init");
+	// NSLog(@"Init");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
@@ -36,13 +36,13 @@
 {
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
-	NSLog(@"current effectView layer = %x", [self layer]);
+	// NSLog(@"current effectView layer = %x", [self layer]);
     CALayer *root = [CALayer layer];
-	NSLog(@"root's superLayer = %x", [root superlayer]);
+	// NSLog(@"root's superLayer = %x", [root superlayer]);
 	[root removeFromSuperlayer];
 	[self setLayer:root];
-	NSLog(@"root's superLayer = %x", [root superlayer]);
-	NSLog(@"current effectView layer = %x", [self layer]);
+	// NSLog(@"root's superLayer = %x", [root superlayer]);
+	// NSLog(@"current effectView layer = %x", [self layer]);
     // mainLayer is the layer that gets scaled. All of its sublayers
     // are automatically scaled with it.
     mainLayer = [CALayer layer];
@@ -53,23 +53,23 @@
     mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
     //[root insertSublayer:[mainLayer retain] above:[mainView layer]];
 	
-	NSLog(@"root = %x", root);
+	// NSLog(@"root = %x", root);
 }
 
 - (void)drawRect:(NSRect)rect {
-    NSLog(@"draw rect in ev");
+    // NSLog(@"draw rect in ev");
 	// Drawing code here.
 	//[[NSColor redColor] set];
 	//NSRectFill([self bounds]);
 }
 
 - (void)awakeFromNib {
-	NSLog(@"awake");
+	// NSLog(@"awake");
 	[self setupLayer];
 }
 
 - (void) setBox {
-	NSLog(@"setBox");
+	// NSLog(@"setBox");
 	boxLayer = [CALayer layer];
     
 	boxLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
@@ -160,7 +160,7 @@
     
     // Insert the layer into the root layer
 	[mainLayer addSublayer:[popUpLayer retain]];
-	NSLog(@"Pop message @ (%f, %f)", rect.origin.x, rect.origin.y);
+	// NSLog(@"Pop message @ (%f, %f)", rect.origin.x, rect.origin.y);
 }
 
 - (void)removePopUpMessage {

@@ -265,7 +265,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)dealloc {
-	NSLog(@"XIPortal dealloced!");
+	// NSLog(@"XIPortal dealloced!");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     CGImageRelease(_shadowImage);  
     [_layerDictionary release];
