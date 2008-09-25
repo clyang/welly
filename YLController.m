@@ -1220,7 +1220,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	[openPanel beginSheetForDirectory:@"~"
 								 file:nil
-								types:nil
+								types:[NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil]
 					   modalForWindow:_sitesWindow
 						modalDelegate:self
 					   didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
@@ -1232,16 +1232,18 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			 returnCode:(int)returnCode
 			contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSString *source = [sheet filename];
-		NSString *destination = [[[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+		NSString *destination = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
 									 stringByAppendingPathComponent:@"Application Support"]
 									stringByAppendingPathComponent:@"Welly"]
 								   stringByAppendingPathComponent:@"Covers"]
-								  stringByAppendingPathComponent:[_siteNameField stringValue]]
-								 stringByAppendingPathExtension:[source pathExtension]];
-		NSFileManager *fileManager = [NSFileManager defaultManager];
-		[fileManager removeItemAtPath:destination error:NULL];
-		[fileManager copyItemAtPath:source toPath:destination error:NULL];
+								  stringByAppendingPathComponent:[_siteNameField stringValue]];
+		NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
+		for (NSString *ext in allowedTypes) {
+			[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
+		}
+		[fileManager copyItemAtPath:source toPath:[destination stringByAppendingPathExtension:[source pathExtension]] error:NULL];
 	}
 }
 

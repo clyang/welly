@@ -8,6 +8,9 @@
 /* Sheet Title */
 "Are you sure you want to reconnect?" = "確認要重新連線？";
 
+/* Sheet Title */
+"Are you sure you want to paste?" = "確認要進行粘貼？";
+
 /* Default Button */
 "Close" = "關閉";
 
@@ -34,6 +37,9 @@
 
 /* Sheet Message */
 "The connection is still alive. If you reconnect, the current connection will be lost. Do you want to reconnect anyway?" = "此連線未結束。若您重新連線，此連線會強迫斷線。您確認要重新連線嗎？";
+
+/* Sheet Message */
+"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?" = "您似乎並非在編輯文章。進行粘貼可能會產生難以預料的行為。您確認要進行粘貼嗎？";
 
 /* Preferences */
 "General" = "一般";

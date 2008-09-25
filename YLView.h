@@ -92,6 +92,14 @@
 			column: (int)c
 			length: (int)length;
 
+// safe_paste
+- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)performPaste;
+- (void)performPasteWrap;
+- (void)performPasteColor;
+
 // Test for effect view
 - (KOEffectView *) getEffectView ;
 @end

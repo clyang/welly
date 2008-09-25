@@ -282,215 +282,59 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void) pasteColor: (id) sender {
     if (![self connected]) return;
-    NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	NSArray *types = [pb types];
-	if (![types containsObject: ANSIColorPBoardType]) {
-		[self paste: self];
-		return;
+	YLTerminal *terminal = [self frontMostTerminal];
+	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
+		[self performPasteColor];
+	} else {
+			NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
+						  NSLocalizedString(@"Confirm", @"Default Button"),
+						  NSLocalizedString(@"Cancel", @"Cancel Button"),
+						  nil,
+						  [self window],
+						  self,
+						  @selector(confirmPasteColor:returnCode:contextInfo:),
+						  nil,
+						  nil,
+						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
 	}
-	
-    NSData *escData;
-    YLSite *s = [[self frontMostConnection] site];
-    if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
-        escData = [NSData dataWithBytes: "\x15" length: 1];
-    } else if ([s ansiColorKey] == YLEscEscEscANSIColorKey) {
-        escData = [NSData dataWithBytes: "\x1B\x1B" length: 2];
-    } else {
-        escData = [NSData dataWithBytes: "\x1B" length:1];
-    }
-    
-	cell *buffer = (cell *) [[pb dataForType: ANSIColorPBoardType] bytes];
-	int bufferLength = [[pb dataForType: ANSIColorPBoardType] length] / sizeof(cell);
-		
-	attribute defaultANSI;
-	defaultANSI.f.bgColor = gConfig->_bgColorIndex;
-	defaultANSI.f.fgColor = gConfig->_fgColorIndex;
-	defaultANSI.f.blink = 0;
-	defaultANSI.f.bold = 0;
-	defaultANSI.f.underline = 0;
-	defaultANSI.f.reverse = 0;
-	
-	attribute previousANSI = defaultANSI;
-	NSMutableData *writeBuffer = [NSMutableData data];
-	
-	int i;
-	for (i = 0; i < bufferLength; i++) {
-		if (buffer[i].byte == '\n' ) {
-			previousANSI = defaultANSI;
-            [writeBuffer appendData: escData];
-			[writeBuffer appendBytes: "[m\r" length: 3];
-			continue;
-		}
-		
-		attribute currentANSI = buffer[i].attr;
-		
-        char tmp[100];
-        tmp[0] = '\0';
-        
-		/* Unchanged */
-		if ((currentANSI.f.blink == previousANSI.f.blink) &&
-			(currentANSI.f.bold == previousANSI.f.bold) &&
-			(currentANSI.f.underline == previousANSI.f.underline) &&
-			(currentANSI.f.reverse == previousANSI.f.reverse) &&
-			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
-			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
-			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-			continue;
-		}
-		
-		/* Clear */        
-		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
-			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
-			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
-			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
-            (currentANSI.f.bgColor ==  gConfig->_bgColorIndex && previousANSI.f.reverse != gConfig->_bgColorIndex) ) {
-			strcpy(tmp, "[0");
-			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
-			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
-			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
-			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
-			if (currentANSI.f.fgColor != gConfig->_fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
-			if (currentANSI.f.bgColor != gConfig->_bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
-			strcat(tmp, "m");
-            [writeBuffer appendData: escData];
-			[writeBuffer appendBytes: tmp length: strlen(tmp)];
-			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-			previousANSI = currentANSI;
-			continue;
-		}
-		
-		/* Add attribute */
-		strcpy(tmp, "[");
-		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) strcat(tmp, "5;");
-		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) strcat(tmp, "1;");
-		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) strcat(tmp, "4;");
-		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) strcat(tmp, "7;");
-		if (currentANSI.f.fgColor != previousANSI.f.fgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
-		if (currentANSI.f.bgColor != previousANSI.f.bgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
-		tmp[strlen(tmp) - 1] = 'm';
-		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
-        [writeBuffer appendData: escData];
-		[writeBuffer appendBytes: tmp length: strlen(tmp)];
-		previousANSI = currentANSI;
-		continue;
-	}
-    [writeBuffer appendData: escData];
-	[writeBuffer appendBytes: "[m" length: 2];
-    unsigned char *buf = (unsigned char *)[writeBuffer bytes];
-    for (i = 0; i < [writeBuffer length]; i++) {
-        [[self frontMostConnection] sendBytes: buf + i length: 1];
-        usleep(100);
-    }
 }
 
 - (void) paste: (id) sender {
     if (![self connected]) return;
-    NSPasteboard *pb = [NSPasteboard generalPasteboard];
-    NSArray *types = [pb types];
-    if ([types containsObject: NSStringPboardType]) {
-        NSString *str = [pb stringForType: NSStringPboardType];
-        [self insertText: str withDelay: 100];
-    }
+	YLTerminal *terminal = [self frontMostTerminal];
+	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
+		[self performPaste];
+	} else {
+		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
+						  NSLocalizedString(@"Confirm", @"Default Button"),
+						  NSLocalizedString(@"Cancel", @"Cancel Button"),
+						  nil,
+						  [self window],
+						  self,
+						  @selector(confirmPaste:returnCode:contextInfo:),
+						  nil,
+						  nil,
+						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	}
 }
 
 - (void)pasteWrap:(id)sender {
     if (![self connected]) return;
-    NSPasteboard *pb = [NSPasteboard generalPasteboard];
-    NSArray *types = [pb types];
-    if (![types containsObject:NSStringPboardType]) return;
-    
-    NSString *str = [pb stringForType:NSStringPboardType];
-    int i, j, LINE_WIDTH = 66, LPADDING = 4;
-    XIIntegerArray *word = [XIIntegerArray integerArray],
-                   *text = [XIIntegerArray integerArray];
-    int word_width = 0, line_width = 0;
-    [text push_back:0x000d];
-    for (i = 0; i < LPADDING; i++)
-        [text push_back:0x0020];
-    line_width = LPADDING;
-    for (i = 0; i < [str length]; i++) {
-        unichar c = [str characterAtIndex: i];
-        if (c == 0x0020 || c == 0x0009) { // space
-            for (j = 0; j < [word size]; j++)
-                [text push_back:[word at:j]];
-            [word clear];
-            line_width += word_width;
-            word_width = 0;
-            if (line_width >= LINE_WIDTH + LPADDING) {
-                [text push_back:0x000d];
-                for (j = 0; j < LPADDING; j++)
-                    [text push_back:0x0020];
-                line_width = LPADDING;
-            }
-            int repeat = (c == 0x0020) ? 1 : 4;
-            for (j = 0; j < repeat ; j++)
-                [text push_back:0x0020];
-            line_width += repeat;
-        } else if (c == 0x000a || c == 0x000d) {
-            for (j = 0; j < [word size]; j++)
-                [text push_back:[word at:j]];
-            [word clear];
-            [text push_back:0x000d];
-//            [text push_back:0x000d];
-            for (j = 0; j < LPADDING; j++)
-                [text push_back:0x0020];
-            line_width = LPADDING;
-            word_width = 0;
-        } else if (c > 0x0020 && c < 0x0100) {
-            [word push_back:c];
-            word_width++;
-            if (c >= 0x0080) word_width++;
-        } else if (c >= 0x1000){
-            for (j = 0; j < [word size]; j++)
-                [text push_back:[word at:j]];
-            [word clear];
-            line_width += word_width;
-            word_width = 0;
-            if (line_width >= LINE_WIDTH + LPADDING) {
-                [text push_back:0x000d];
-                for (j = 0; j < LPADDING; j++)
-                    [text push_back:0x0020];
-                line_width = LPADDING;
-            }
-            [text push_back:c];
-            line_width += 2;
-        } else {
-            [word push_back:c];
-        }
-        if (line_width + word_width > LINE_WIDTH + LPADDING) {
-            [text push_back:0x000d];
-            for (j = 0; j < LPADDING; j++)
-                [text push_back:0x0020];
-            line_width = LPADDING;
-        }
-        if (word_width > LINE_WIDTH) {
-            int acc_width = 0;
-            while (![word empty]) {
-                int w = ([word front] < 0x0080) ? 1 : 2;
-                if (acc_width + w <= LINE_WIDTH) {
-                    [text push_back:[word front]];
-                    acc_width += w;
-                    [word pop_front];
-                } else {
-                    [text push_back:0x000d];
-                    for (j = 0; j < LPADDING; j++)
-                        [text push_back:0x0020];
-                    line_width = LPADDING;
-                    word_width -= acc_width;
-                }
-            }
-        }
-    }
-    while (![word empty]) {
-        [text push_back:[word front]];
-        [word pop_front];
-    }
-    unichar *carray = (unichar *)malloc(sizeof(unichar) * [text size]);
-    for (i = 0; i < [text size]; i++)
-        carray[i] = [text at:i];
-    NSString *mStr = [NSString stringWithCharacters:carray length:[text size]];
-    free(carray);
-    [self insertText:mStr withDelay:100];
+	YLTerminal *terminal = [self frontMostTerminal];
+	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
+		[self performPasteWrap];
+	} else {
+		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
+                      NSLocalizedString(@"Confirm", @"Default Button"),
+                      NSLocalizedString(@"Cancel", @"Cancel Button"),
+                      nil,
+                      [self window],
+					  self,
+                      @selector(confirmPasteWrap:returnCode:contextInfo:),
+                      nil,
+                      nil,
+                      NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	}
 }
 
 - (void) selectAll: (id) sender {
@@ -1743,6 +1587,237 @@ BOOL isSpecialSymbol(unichar ch) {
 		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_ipTrackingRects front];
 		[self removeTrackingRect:rectTag];
 		[_ipTrackingRects pop_front];
+	}
+}
+
+#pragma mark -
+#pragma mark safe_paste
+
+- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPaste];
+    }
+}
+
+- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPasteWrap];
+    }
+}
+
+- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPasteColor];
+    }
+}
+
+- (void)performPaste {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if ([types containsObject: NSStringPboardType]) {
+		NSString *str = [pb stringForType: NSStringPboardType];
+		[self insertText: str withDelay: 100];
+	}
+}
+
+- (void)performPasteWrap {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if (![types containsObject:NSStringPboardType]) return;
+	
+	NSString *str = [pb stringForType:NSStringPboardType];
+	int i, j, LINE_WIDTH = 66, LPADDING = 4;
+	XIIntegerArray *word = [XIIntegerArray integerArray],
+	*text = [XIIntegerArray integerArray];
+	int word_width = 0, line_width = 0;
+	[text push_back:0x000d];
+	for (i = 0; i < LPADDING; i++)
+		[text push_back:0x0020];
+	line_width = LPADDING;
+	for (i = 0; i < [str length]; i++) {
+		unichar c = [str characterAtIndex: i];
+		if (c == 0x0020 || c == 0x0009) { // space
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			line_width += word_width;
+			word_width = 0;
+			if (line_width >= LINE_WIDTH + LPADDING) {
+				[text push_back:0x000d];
+				for (j = 0; j < LPADDING; j++)
+					[text push_back:0x0020];
+				line_width = LPADDING;
+			}
+			int repeat = (c == 0x0020) ? 1 : 4;
+			for (j = 0; j < repeat ; j++)
+				[text push_back:0x0020];
+			line_width += repeat;
+		} else if (c == 0x000a || c == 0x000d) {
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			[text push_back:0x000d];
+			//            [text push_back:0x000d];
+			for (j = 0; j < LPADDING; j++)
+				[text push_back:0x0020];
+			line_width = LPADDING;
+			word_width = 0;
+		} else if (c > 0x0020 && c < 0x0100) {
+			[word push_back:c];
+			word_width++;
+			if (c >= 0x0080) word_width++;
+		} else if (c >= 0x1000){
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			line_width += word_width;
+			word_width = 0;
+			if (line_width >= LINE_WIDTH + LPADDING) {
+				[text push_back:0x000d];
+				for (j = 0; j < LPADDING; j++)
+					[text push_back:0x0020];
+				line_width = LPADDING;
+			}
+			[text push_back:c];
+			line_width += 2;
+		} else {
+			[word push_back:c];
+		}
+		if (line_width + word_width > LINE_WIDTH + LPADDING) {
+			[text push_back:0x000d];
+			for (j = 0; j < LPADDING; j++)
+				[text push_back:0x0020];
+			line_width = LPADDING;
+		}
+		if (word_width > LINE_WIDTH) {
+			int acc_width = 0;
+			while (![word empty]) {
+				int w = ([word front] < 0x0080) ? 1 : 2;
+				if (acc_width + w <= LINE_WIDTH) {
+					[text push_back:[word front]];
+					acc_width += w;
+					[word pop_front];
+				} else {
+					[text push_back:0x000d];
+					for (j = 0; j < LPADDING; j++)
+						[text push_back:0x0020];
+					line_width = LPADDING;
+					word_width -= acc_width;
+				}
+			}
+		}
+	}
+	while (![word empty]) {
+		[text push_back:[word front]];
+		[word pop_front];
+	}
+	unichar *carray = (unichar *)malloc(sizeof(unichar) * [text size]);
+	for (i = 0; i < [text size]; i++)
+		carray[i] = [text at:i];
+	NSString *mStr = [NSString stringWithCharacters:carray length:[text size]];
+	free(carray);
+	[self insertText:mStr withDelay:100];		
+}
+
+- (void)performPasteColor {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if (![types containsObject: ANSIColorPBoardType]) {
+		[self performPaste];
+		return;
+	}
+	
+	NSData *escData;
+	YLSite *s = [[self frontMostConnection] site];
+	if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
+		escData = [NSData dataWithBytes: "\x15" length: 1];
+	} else if ([s ansiColorKey] == YLEscEscEscANSIColorKey) {
+		escData = [NSData dataWithBytes: "\x1B\x1B" length: 2];
+	} else {
+		escData = [NSData dataWithBytes: "\x1B" length:1];
+	}
+	
+	cell *buffer = (cell *) [[pb dataForType: ANSIColorPBoardType] bytes];
+	int bufferLength = [[pb dataForType: ANSIColorPBoardType] length] / sizeof(cell);
+	
+	attribute defaultANSI;
+	defaultANSI.f.bgColor = gConfig->_bgColorIndex;
+	defaultANSI.f.fgColor = gConfig->_fgColorIndex;
+	defaultANSI.f.blink = 0;
+	defaultANSI.f.bold = 0;
+	defaultANSI.f.underline = 0;
+	defaultANSI.f.reverse = 0;
+	
+	attribute previousANSI = defaultANSI;
+	NSMutableData *writeBuffer = [NSMutableData data];
+	
+	int i;
+	for (i = 0; i < bufferLength; i++) {
+		if (buffer[i].byte == '\n' ) {
+			previousANSI = defaultANSI;
+			[writeBuffer appendData: escData];
+			[writeBuffer appendBytes: "[m\r" length: 3];
+			continue;
+		}
+		
+		attribute currentANSI = buffer[i].attr;
+		
+		char tmp[100];
+		tmp[0] = '\0';
+		
+		/* Unchanged */
+		if ((currentANSI.f.blink == previousANSI.f.blink) &&
+			(currentANSI.f.bold == previousANSI.f.bold) &&
+			(currentANSI.f.underline == previousANSI.f.underline) &&
+			(currentANSI.f.reverse == previousANSI.f.reverse) &&
+			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
+			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
+			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
+			continue;
+		}
+		
+		/* Clear */        
+		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
+			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
+			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
+			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
+			(currentANSI.f.bgColor ==  gConfig->_bgColorIndex && previousANSI.f.reverse != gConfig->_bgColorIndex) ) {
+			strcpy(tmp, "[0");
+			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
+			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
+			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
+			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
+			if (currentANSI.f.fgColor != gConfig->_fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
+			if (currentANSI.f.bgColor != gConfig->_bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
+			strcat(tmp, "m");
+			[writeBuffer appendData: escData];
+			[writeBuffer appendBytes: tmp length: strlen(tmp)];
+			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
+			previousANSI = currentANSI;
+			continue;
+		}
+		
+		/* Add attribute */
+		strcpy(tmp, "[");
+		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) strcat(tmp, "5;");
+		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) strcat(tmp, "1;");
+		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) strcat(tmp, "4;");
+		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) strcat(tmp, "7;");
+		if (currentANSI.f.fgColor != previousANSI.f.fgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
+		if (currentANSI.f.bgColor != previousANSI.f.bgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
+		tmp[strlen(tmp) - 1] = 'm';
+		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
+		[writeBuffer appendData: escData];
+		[writeBuffer appendBytes: tmp length: strlen(tmp)];
+		previousANSI = currentANSI;
+		continue;
+	}
+	[writeBuffer appendData: escData];
+	[writeBuffer appendBytes: "[m" length: 2];
+	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
+	for (i = 0; i < [writeBuffer length]; i++) {
+		[[self frontMostConnection] sendBytes: buf + i length: 1];
+		usleep(100);
 	}
 }
 
