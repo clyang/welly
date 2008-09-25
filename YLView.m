@@ -283,10 +283,8 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) pasteColor: (id) sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
-		[self performPasteColor];
-	} else {
-			NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
+		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
 						  NSLocalizedString(@"Confirm", @"Default Button"),
 						  NSLocalizedString(@"Cancel", @"Cancel Button"),
 						  nil,
@@ -296,15 +294,15 @@ BOOL isSpecialSymbol(unichar ch) {
 						  nil,
 						  nil,
 						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	} else {
+		[self performPasteColor];
 	}
 }
 
 - (void) paste: (id) sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
-		[self performPaste];
-	} else {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
 						  NSLocalizedString(@"Confirm", @"Default Button"),
 						  NSLocalizedString(@"Cancel", @"Cancel Button"),
@@ -315,25 +313,27 @@ BOOL isSpecialSymbol(unichar ch) {
 						  nil,
 						  nil,
 						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	} else {
+		[self performPaste];
 	}
 }
 
 - (void)pasteWrap:(id)sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([terminal cellsOfRow:(terminal->_row - 1)]->byte == 161) {
-		[self performPasteWrap];
-	} else {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
-                      NSLocalizedString(@"Confirm", @"Default Button"),
-                      NSLocalizedString(@"Cancel", @"Cancel Button"),
-                      nil,
-                      [self window],
-					  self,
-                      @selector(confirmPasteWrap:returnCode:contextInfo:),
-                      nil,
-                      nil,
-                      NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+						  NSLocalizedString(@"Confirm", @"Default Button"),
+						  NSLocalizedString(@"Cancel", @"Cancel Button"),
+						  nil,
+						  [self window],
+						  self,
+						  @selector(confirmPasteWrap:returnCode:contextInfo:),
+						  nil,
+						  nil,
+						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	} else {
+		[self performPasteWrap];
 	}
 }
 
