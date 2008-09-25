@@ -1215,5 +1215,34 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	return _telnetView;
 }
 
+// for portal
+- (IBAction)browseImage:(id)sender {
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel beginSheetForDirectory:@"~"
+								 file:nil
+								types:nil
+					   modalForWindow:_sitesWindow
+						modalDelegate:self
+					   didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
+						  contextInfo:nil];
+	[openPanel setLevel:floatWindowLevel + 1];
+}
+
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet
+			 returnCode:(int)returnCode
+			contextInfo:(void *)contextInfo {
+	if (returnCode == NSOKButton) {
+		NSString *source = [sheet filename];
+		NSString *destination = [[[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+									 stringByAppendingPathComponent:@"Application Support"]
+									stringByAppendingPathComponent:@"Welly"]
+								   stringByAppendingPathComponent:@"Covers"]
+								  stringByAppendingPathComponent:[_siteNameField stringValue]]
+								 stringByAppendingPathExtension:[source pathExtension]];
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		[fileManager removeItemAtPath:destination error:NULL];
+		[fileManager copyItemAtPath:source toPath:destination error:NULL];
+	}
+}
 
 @end

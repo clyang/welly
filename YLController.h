@@ -138,6 +138,10 @@
 - (void) doScrollDown:(NSTimer*) timer;
 - (void) disableTimer;
 
+// for portal
+- (IBAction)browseImage:(id)sender;
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+
 // temporary added, should be remove in future!!!
 // by K.O.ed
 - (YLView *) getView;
