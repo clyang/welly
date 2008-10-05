@@ -126,7 +126,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // open the portal
     // the switch
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
-        [_telnetView updatePortal];
+		[_telnetView updatePortal];
         [_telnetView setWantsLayer:YES];
     }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
@@ -1104,10 +1104,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	else { // Key Press
 		switch(buttonIdentifier) {
 			case kRemoteButtonRight_Hold:	// Right Tab
-				[_telnetView selectNextTabViewItem: self];
+				[self selectNextTab:self];
 				break;
 			case kRemoteButtonLeft_Hold:	// Left Tab
-				[_telnetView selectPreviousTabViewItem: self];
+				[self selectPrevTab:self];
 				break;
 			case kRemoteButtonPlus_Hold:
 				// Enable timer!
