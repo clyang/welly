@@ -49,6 +49,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (id)initWithView:(NSView *)view {
+	// test
+	_mainView = [view retain];
+	// end
     NSSize cellSpacing = {5, 5}, cellSize = {240, 240};
 
     self = [super init];
@@ -359,11 +362,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 - (void)select {
     YLController *controller = [((YLApplication *)NSApp) controller];
-	YLView *telnetview = [controller getView];
-	[telnetview setWantsLayer:NO];
-	KOEffectView * ev = [telnetview getEffectView];
-	[ev setWantsLayer:YES];
-	[ev setupLayer];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
 }
 

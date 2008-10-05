@@ -37,17 +37,19 @@
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
 	// NSLog(@"current effectView layer = %x", [self layer]);
-    CALayer *root = [CALayer layer];
+	
+    /*CALayer *root = [CALayer layer];
 	// NSLog(@"root's superLayer = %x", [root superlayer]);
 	[root removeFromSuperlayer];
-	[self setLayer:root];
+	[self setLayer:root];*/
+	
 	// NSLog(@"root's superLayer = %x", [root superlayer]);
 	// NSLog(@"current effectView layer = %x", [self layer]);
     // mainLayer is the layer that gets scaled. All of its sublayers
     // are automatically scaled with it.
     mainLayer = [CALayer layer];
     mainLayer.frame = NSRectToCGRect(contentFrame);
-    
+    [self setLayer:mainLayer];
     // Make the background color to be a dark gray with a 50% alpha similar to
     // the real Dashbaord.
     mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);

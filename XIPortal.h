@@ -21,6 +21,9 @@
     int _totalImages, _selectedImageIndex;
 
     NSMapTable *_layerDictionary;
+	
+	// test...
+	NSView * _mainView;
 }
 
 + (CGColorRef)color:(int)name;
