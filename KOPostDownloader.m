@@ -15,7 +15,7 @@
 @implementation KOPostDownloader
 
 + (NSString *)downloadPostFromConnection:(YLConnection *)connection {
-    const int sleepTime = 10000, maxAttempt = 3000;
+    const int sleepTime = 1000, maxAttempt = 30000000;
 
     YLTerminal *terminal = [connection terminal];
 
@@ -41,8 +41,8 @@
                 break;
             }
         }
-        if (![bottomLine hasPrefix:@"下面还有喔"]) {
-            // bottom line should have this prefix if the post has not ended.
+        if ((![bottomLine hasPrefix:@"下面还有喔"])&&([bottomLine length] > 0)) {
+			// bottom line should have this prefix if the post has not ended.
             isFinished = YES;
         }
 
