@@ -546,6 +546,15 @@ BOOL isSpecialSymbol(unichar ch) {
         else if ([theEvent deltaY] < 0)
             [_portal moveSelection:+1];
     }
+	// Connected terminal
+	if([[[self frontMostTerminal] connection] connected]) {
+		// For Y-Axis
+		if([theEvent deltaY] < -0.3)
+			[[self frontMostConnection] sendText:termKeyDown];
+		else if([theEvent deltaY] > 0.3) {
+			[[self frontMostConnection] sendText:termKeyUp];
+		}
+	}
 }
 
 - (void)keyDown:(NSEvent *)theEvent {    
