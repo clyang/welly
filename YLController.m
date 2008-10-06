@@ -747,14 +747,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) 
         return YES;
     
-    BOOL hasConnectedConnetion = NO;
     int tabNumber = [_telnetView numberOfTabViewItems];
+	int connectedConnection = 0;
     for (int i = 0; i < tabNumber; i++) {
         id connection = [[_telnetView tabViewItemAtIndex:i] identifier];
-        if ([connection connected]) 
-            hasConnectedConnetion = YES;
+        if ([connection connected])
+            ++connectedConnection;
     }
-    if (!hasConnectedConnetion) return YES;
+    if (connectedConnection == 0) return YES;
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to quit Welly?", @"Sheet Title"), 
                       NSLocalizedString(@"Quit", @"Default Button"), 
                       NSLocalizedString(@"Cancel", @"Cancel Button"), 
@@ -763,7 +763,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                       @selector(confirmSheetDidEnd:returnCode:contextInfo:), 
                       @selector(confirmSheetDidDismiss:returnCode:contextInfo:), nil, 
                       [NSString stringWithFormat:NSLocalizedString(@"There are %d tabs open in Welly. Do you want to quit anyway?", @"Sheet Message"),
-                                tabNumber]);
+                                connectedConnection]);
     return NSTerminateLater;
 }
 
