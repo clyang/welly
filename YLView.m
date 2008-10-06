@@ -719,7 +719,7 @@ BOOL isSpecialSymbol(unichar ch) {
         NSRectFill(r);
 	}
 	
-	//[_effectView setFrame: [self frame]];
+	[_effectView resize];
     [pool release];
 }
 

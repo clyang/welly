@@ -82,9 +82,6 @@
         // Move the origin point
         [[_fullScreenWindow contentView] setFrameOrigin:newOP];
 		
-		// Hard code to fix the effect view problem
-		NSPoint newOP2 = {0, 0};
-		[[(YLView *)_targetView getEffectView] setFrameOrigin:newOP2];
         // Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 	} else {

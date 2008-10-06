@@ -54,7 +54,7 @@
 	// Then, do the expansion
 	[self setFont:YES];
 	
-	[_effectView resize];
+	//[_effectView resize];
 }
 
 - (void) processBeforeExit {
@@ -66,7 +66,7 @@
 	[self setFont:NO];
 	
 	// And reset the effect view...
-	[_effectView resize];
+	//[_effectView resize];
 }
 
 @end

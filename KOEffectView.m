@@ -190,6 +190,7 @@
 }
 
 -(void) resize {
-	[self setFrame:[mainView frame]];
+	[self setFrameSize:[mainView frame].size];
+	[self setFrameOrigin: NSMakePoint(0, 0)];
 }
 @end
