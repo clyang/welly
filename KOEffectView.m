@@ -14,12 +14,23 @@
 
 
 @implementation KOEffectView
+- (id)initWithView:(YLView *)view {
+	self = [self initWithFrame:[view frame]];
+	if (self) {
+		mainView = [view retain];
+		[self setWantsLayer:YES];
+		[self setupLayer];
+	}
+	return self;
+}
 
 - (id)initWithFrame:(NSRect)frame {
 	// NSLog(@"Init");
     self = [super initWithFrame:frame];
     if (self) {
+		NSLog(@"%d", frame.size.width);
         // Initialization code here.
+		[self setFrame:frame];
 		[self setWantsLayer: YES];
     }
     return self;
@@ -34,6 +45,8 @@
 
 - (void)setupLayer
 {
+	NSLog(@"setupLayer:");
+	NSLog(@"mainView frame:%d", [mainView frame].size.width);
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
 	// NSLog(@"current effectView layer = %x", [self layer]);
@@ -61,8 +74,11 @@
 - (void)drawRect:(NSRect)rect {
     // NSLog(@"draw rect in ev");
 	// Drawing code here.
-	//[[NSColor redColor] set];
-	//NSRectFill([self bounds]);
+	//NSLog(@"drawRect:");
+//	NSRect contentFrame = [mainView frame];
+//	[self setFrame: contentFrame];
+//	[[NSColor redColor] set];
+//	NSRectFill([self bounds]);
 }
 
 - (void)awakeFromNib {

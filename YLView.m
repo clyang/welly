@@ -719,6 +719,7 @@ BOOL isSpecialSymbol(unichar ch) {
         NSRectFill(r);
 	}
 	
+	//[_effectView setFrame: [self frame]];
     [pool release];
 }
 

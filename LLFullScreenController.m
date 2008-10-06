@@ -7,6 +7,7 @@
 //
 
 #import "LLFullScreenController.h"
+#import "YLView.h"
 #import <Carbon/Carbon.h>
 
 @implementation LLFullScreenController
@@ -75,11 +76,15 @@
         [_fullScreenWindow setOpaque:NO];
 		// FIXME: A little bit hard-code here...
         [_fullScreenWindow setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
-        [_fullScreenWindow makeKeyAndOrderFront:nil];      
+        [_fullScreenWindow makeKeyAndOrderFront:nil];
         // Set the view to the full screen window
         [_fullScreenWindow setContentView:_targetView];
         // Move the origin point
         [[_fullScreenWindow contentView] setFrameOrigin:newOP];
+		
+		// Hard code to fix the effect view problem
+		NSPoint newOP2 = {0, 0};
+		[[(YLView *)_targetView getEffectView] setFrameOrigin:newOP2];
         // Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 	} else {
