@@ -549,9 +549,9 @@ BOOL isSpecialSymbol(unichar ch) {
 	// Connected terminal
 	if([[[self frontMostTerminal] connection] connected]) {
 		// For Y-Axis
-		if([theEvent deltaY] < -0.3)
+		if([theEvent deltaY] < 0)
 			[[self frontMostConnection] sendText:termKeyDown];
-		else if([theEvent deltaY] > 0.3) {
+		else if([theEvent deltaY] > 0) {
 			[[self frontMostConnection] sendText:termKeyUp];
 		}
 	}
