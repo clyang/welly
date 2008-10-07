@@ -832,6 +832,7 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
+	[self clearIPState];
 	if (ds) {
         /* Draw Background */
         for (y = 0; y < gRow; y++) {
@@ -860,7 +861,6 @@ BOOL isSpecialSymbol(unichar ch) {
         }
 		
 		// added by K.O.ed @ 9#: update ip status
-        [self clearIPState];
 		for (y = 0; y < gRow; y++) {
 			[self updateIPStateForRow: y];
 		}
@@ -1507,8 +1507,8 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark ip seeker
 - (void)mouseEntered:(NSEvent *)theEvent {
-	NSRect rect = [[theEvent trackingArea] rect];
-	[_effectView drawBox: rect];
+		NSRect rect = [[theEvent trackingArea] rect];
+		[_effectView drawBox: rect];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
