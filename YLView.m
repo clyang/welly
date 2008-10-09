@@ -1500,7 +1500,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)updatePortal {
-    [_portal release];
+	if(_portal != nil)
+		[_portal release];
     _portal = [[XIPortal alloc] initWithView: self];
 }
 

@@ -49,9 +49,10 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (id)initWithView:(NSView *)view {
-	// test
 	_mainView = [view retain];
-	// end
+	if(![_mainView wantsLayer])
+		[_mainView setWantsLayer:YES];
+	
     NSSize cellSpacing = {5, 5}, cellSize = {240, 240};
 
     self = [super init];
@@ -90,6 +91,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
     //rootLayer.backgroundColor = CGColorCreateGenericRGB(bgColor.redComponent, bgColor.greenComponent, bgColor.blueComponent, bgColor.alphaComponent);
     rootLayer.backgroundColor = [XIPortal color:C_BLACK];
     rootLayer.name = @"root";
+	
+	if(![_mainView layer])
+		[_mainView setLayer:rootLayer];
 
     // informative header text
     _headerTextLayer = [CATextLayer layer];
@@ -264,6 +268,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
     // restore last selection
     [self performSelectorOnMainThread:@selector(restoreSelection) withObject:nil waitUntilDone:NO];
+	
+	if([_mainView layer] == nil) 
+		[_mainView setLayer:rootLayer];
     return self;
 }
 
@@ -361,7 +368,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)select {
-    YLController *controller = [((YLApplication *)NSApp) controller];
+	[_mainView setLayer:nil];
+    [_mainView setWantsLayer:NO];
+	YLController *controller = [((YLApplication *)NSApp) controller];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
 }
 

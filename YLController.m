@@ -414,6 +414,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)newTab:(id)sender {
     [self newConnectionWithSite:[YLSite site]];
+	
+	// Draw the portal and entering the portal control mode if needed...
+	/*if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"])) {
+		[_telnetView updatePortal];
+		//return;
+	}*/
     /*
     YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
 

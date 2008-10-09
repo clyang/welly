@@ -28,7 +28,7 @@
 	// NSLog(@"Init");
     self = [super initWithFrame:frame];
     if (self) {
-		NSLog(@"%d", frame.size.width);
+		//NSLog(@"%d", frame.size.width);
         // Initialization code here.
 		[self setFrame:frame];
 		[self setWantsLayer: YES];
@@ -45,8 +45,8 @@
 
 - (void)setupLayer
 {
-	NSLog(@"setupLayer:");
-	NSLog(@"mainView frame:%d", [mainView frame].size.width);
+	//NSLog(@"setupLayer:");
+	//NSLog(@"mainView frame:%d", [mainView frame].size.width);
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
 	// NSLog(@"current effectView layer = %x", [self layer]);
