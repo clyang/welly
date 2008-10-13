@@ -205,6 +205,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)newConnectionWithSite:(YLSite *)site {
+
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
 	// Set the view to be focused.

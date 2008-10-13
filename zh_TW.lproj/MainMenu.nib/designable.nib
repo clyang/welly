@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="917"/>
 			<integer value="206"/>
+			<integer value="917"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -638,18 +638,19 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSSuperview" ref="92983356"/>
 									<string key="NSClassName">YLMarkedTextView</string>
 								</object>
+								<object class="NSCustomView" id="952858198">
+									<reference key="NSNextResponder" ref="92983356"/>
+									<int key="NSvFlags">268</int>
+									<string key="NSFrame">{{67, 409}, {163, 96}}</string>
+									<reference key="NSSuperview" ref="92983356"/>
+									<bool key="NSViewIsLayerTreeHost">YES</bool>
+									<string key="NSClassName">KOEffectView</string>
+								</object>
 							</object>
 							<string key="NSFrame">{{1, 0}, {960, 576}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
 							<string key="NSClassName">YLView</string>
 							<string key="NSExtension">NSView</string>
-						</object>
-						<object class="NSCustomView" id="533705844">
-							<reference key="NSNextResponder" ref="957750958"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{6, 475}, {163, 96}}</string>
-							<reference key="NSSuperview" ref="957750958"/>
-							<string key="NSClassName">KOEffectView</string>
 						</object>
 						<object class="NSCustomView" id="131296537">
 							<reference key="NSNextResponder" ref="957750958"/>
@@ -663,7 +664,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{213, 176}</string>
+				<string key="NSMinSize">{0, 69}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSMenu" id="549289591">
@@ -1993,7 +1994,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{400, 266}</string>
+				<string key="NSMinSize">{0, 16}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSArrayController" id="448993837">
@@ -3014,7 +3015,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="384820876">
+																	<object class="NSParagraphStyle" id="740560435">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3172,7 +3173,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string key="NSFrameSize">{600, 400}</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{300, 272}</string>
+				<string key="NSMinSize">{0, 72}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSWindowTemplate" id="959210322">
@@ -3225,7 +3226,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="384820876"/>
+																	<reference ref="740560435"/>
 																</object>
 															</object>
 														</object>
@@ -4695,22 +4696,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">mainView</string>
-						<reference key="source" ref="533705844"/>
-						<reference key="destination" ref="92983356"/>
-					</object>
-					<int key="connectionID">1152</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_effectView</string>
-						<reference key="source" ref="92983356"/>
-						<reference key="destination" ref="533705844"/>
-					</object>
-					<int key="connectionID">1153</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">nextKeyView</string>
 						<reference key="source" ref="347050792"/>
 						<reference key="destination" ref="273595084"/>
@@ -4732,6 +4717,22 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="destination" ref="273595084"/>
 					</object>
 					<int key="connectionID">1158</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">mainView</string>
+						<reference key="source" ref="952858198"/>
+						<reference key="destination" ref="92983356"/>
+					</object>
+					<int key="connectionID">1160</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_effectView</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="952858198"/>
+					</object>
+					<int key="connectionID">1161</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4781,7 +4782,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="92983356"/>
 							<reference ref="131296537"/>
-							<reference ref="533705844"/>
 						</object>
 						<reference key="parent" ref="670863990"/>
 					</object>
@@ -4791,6 +4791,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="388583076"/>
+							<reference ref="952858198"/>
 						</object>
 						<reference key="parent" ref="957750958"/>
 					</object>
@@ -6394,11 +6395,6 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="parent" ref="332582478"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1151</int>
-						<reference key="object" ref="533705844"/>
-						<reference key="parent" ref="957750958"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1154</int>
 						<reference key="object" ref="273595084"/>
 						<object class="NSMutableArray" key="children">
@@ -6411,6 +6407,11 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<int key="objectID">1155</int>
 						<reference key="object" ref="555061495"/>
 						<reference key="parent" ref="273595084"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1159</int>
+						<reference key="object" ref="952858198"/>
+						<reference key="parent" ref="92983356"/>
 					</object>
 				</object>
 			</object>
@@ -6483,9 +6484,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>1145.IBPluginDependency</string>
 					<string>1146.IBPluginDependency</string>
 					<string>1148.IBPluginDependency</string>
-					<string>1151.IBPluginDependency</string>
 					<string>1154.IBPluginDependency</string>
 					<string>1155.IBPluginDependency</string>
+					<string>1159.IBPluginDependency</string>
 					<string>129.IBPluginDependency</string>
 					<string>129.ImportedFromIB2</string>
 					<string>130.IBPluginDependency</string>
@@ -7055,7 +7056,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1158</int>
+			<int key="maxID">1161</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
