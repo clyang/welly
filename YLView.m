@@ -18,6 +18,7 @@
 #import "XIIntegerArray.h"
 #import "IPSeeker.h"
 #import "KOEffectView.h"
+#import "KOTrackingRectData.h"
 #include "encoding.h"
 #include <math.h>
 
@@ -1508,12 +1509,36 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark ip seeker
 - (void)mouseEntered:(NSEvent *)theEvent {
-		NSRect rect = [[theEvent trackingArea] rect];
-		[_effectView drawBox: rect];
+	NSRect rect = [[theEvent trackingArea] rect];
+	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
+	switch (rectData->type) {
+		case IPADDR:
+			[_effectView drawBox: rect];
+			break;
+		default:
+			break;
+	}
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
 	[_effectView clear];
+}
+
+- (void)addIPRect: (const char *)ip
+			  row: (int)r
+		   column: (int)c
+		   length: (int)length {
+	/* ip tooltip */
+	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
+							 _fontWidth * length, _fontHeight);
+	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
+	[self addToolTip: tooltip row:r column:c length:length];
+	NSTrackingRectTag rectTag = [self addTrackingRect: rect
+												owner: self
+											 userData: [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
+																			  toolTip:[tooltip retain]]
+										 assumeInside: YES];
+	[_ipTrackingRects push_back: rectTag];
 }
 
 - (void)addToolTip: (NSString *)tooltip
@@ -1524,8 +1549,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
 							 _fontWidth * length, _fontHeight);
 	[self addToolTipRect: rect owner: self userData: [tooltip retain]];
-	NSTrackingRectTag rectTag = [self addTrackingRect: rect owner: self userData: [tooltip retain] assumeInside: YES];
-	[_ipTrackingRects push_back: rectTag];
 }
 
 - (void) updateIPStateForRow: (int) r {
@@ -1574,7 +1597,7 @@ BOOL isSpecialSymbol(unichar ch) {
 				} else {	// non-numeric, then the string should be finished.
 					if (seg < 255) {	// available ip
 						ip[state-1] = seg & 255;
-						[self addToolTip: [[IPSeeker shared] getLocation:ip] row:r column:start length:length];
+						[self addIPRect: ip row:r column:start length:length];
 					}
 					state = 0;
 					break;

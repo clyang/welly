@@ -49,7 +49,7 @@
 - (cell *)cellsOfRow:(int)r;
 
 /* Update State */
-- (void)updateIPStateForRow:(int)r;
+//- (void)updateIPStateForRow:(int)r;
 - (void)updateURLStateForRow:(int)r;
 - (void)updateDoubleByteStateForRow:(int)r;
 - (NSString *)urlStringAtRow:(int)r column:(int)c;

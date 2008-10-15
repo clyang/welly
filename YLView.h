@@ -87,6 +87,10 @@
 /* ip seeker */
 - (void)updateIPStateForRow: (int) r;
 - (void)clearIPState;
+- (void)addIPRect: (const char*)ip
+			  row: (int)r
+		   column: (int)c
+		   length: (int)length;
 - (void)addToolTip: (NSString *)tooltip
 			   row: (int)r
 			column: (int)c

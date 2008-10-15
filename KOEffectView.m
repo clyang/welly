@@ -45,8 +45,6 @@
 
 - (void)setupLayer
 {
-	//NSLog(@"setupLayer:");
-	//NSLog(@"mainView frame:%d", [mainView frame].size.width);
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
 	// NSLog(@"current effectView layer = %x", [self layer]);
@@ -72,13 +70,7 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-    // NSLog(@"draw rect in ev");
 	// Drawing code here.
-	//NSLog(@"drawRect:");
-//	NSRect contentFrame = [mainView frame];
-//	[self setFrame: contentFrame];
-//	[[NSColor redColor] set];
-//	NSRectFill([self bounds]);
 }
 
 - (void)awakeFromNib {

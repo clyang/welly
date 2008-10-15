@@ -107,8 +107,7 @@
 	[self setAllDirty];
 }
 
-# pragma mark -
-# pragma mark Dirty
+# pragma mark -# pragma mark Dirty
 
 - (void) setAllDirty {
 	int i, end = _column * _row;
@@ -184,66 +183,6 @@
 
 # pragma mark -
 # pragma mark Update State
-- (void) updateIPStateForRow: (int) r {
-	cell *currRow = _grid[r];
-	int state = 0;
-	NSMutableString *ipStr = [[NSMutableString alloc] init];
-	int seg = 0;
-	int start = 0, length = 0;
-	for (int i = 0; i < _column; i++) {
-		unsigned char b = currRow[i].byte;
-		switch (state) {
-			case 0:
-				if (b >= '0' && b <= '9') { // numeric, beginning of an ip
-					start = i;
-					length = 1;
-					[ipStr setString: @""];
-					[ipStr appendFormat: @"%c", b];
-					seg = b - '0';
-					state = 1;
-				}
-				break;
-			case 1:
-			case 2:
-			case 3:
-				if (b == '.') {	// segment ended
-					if (seg > 255) {	// invalid number
-						state = 0;
-						break;
-					}
-					// valid number
-					[ipStr appendFormat: @"%c", b];
-					seg = 0;
-					state++;
-					length++;
-				} else if (b >= '0' && b <= '9') {	// continue to be numeric
-					[ipStr appendFormat: @"%c", b];
-					seg = seg * 10 + (b - '0');
-					length++;
-				} else {	// invalid character
-					state = 0;
-					break;
-				}
-				break;
-			case 4:
-				if (b >= '0' && b <= '9') {	// continue to be numeric
-					[ipStr appendFormat: @"%c", b];
-					seg = seg * 10 + (b - '0');
-					length++;					
-				} else {	// non-numeric, then the string should be finished.
-					if (seg < 255 && [ipStr characterAtIndex: [ipStr length] - 1] != '.') {	// available ip
-						[_view addToolTip: [NSString stringWithString: ipStr] row:r column:start length:length];
-					}
-					state = 0;
-					break;
-				}
-				break;
-			default:
-				break;
-		}
-	}
-}
-
 - (void) updateDoubleByteStateForRow: (int) r {
 	cell *currRow = _grid[r];
 	int i, db = 0;
