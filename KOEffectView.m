@@ -108,6 +108,7 @@
 
 - (void) clear {
 	[boxLayer removeFromSuperlayer];
+	[popUpLayer removeFromSuperlayer];
 }
 
 #pragma mark Pop-Up Message
@@ -115,6 +116,8 @@
 // Just similiar to the code of "addNewLayer"...
 // by gtCarrera @ 9#
 - (void)drawPopUpMessage:(NSString*) message {
+	// Remove previous message
+	[self removePopUpMessage];
 	//Initiallize a new CALayer
 	if(!popUpLayer){
 		popUpLayer = [CALayer layer];
