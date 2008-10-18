@@ -1590,19 +1590,20 @@ BOOL isSpecialSymbol(unichar ch) {
 					break;
 				}
 				break;
-			case 4:
-				if (b >= '0' && b <= '9') {	// continue to be numeric
-					seg = seg * 10 + (b - '0');
-					length++;					
-				} else {	// non-numeric, then the string should be finished.
-					if (seg < 255) {	// available ip
-						ip[state-1] = seg & 255;
-						[self addIPRect: ip row:r column:start length:length];
-					}
-					state = 0;
-					break;
-				}
-				break;
+            case 4:
+                if (b >= '0' && b <= '9') {	// continue to be numeric
+                    seg = seg * 10 + (b - '0');
+                    length++;
+                } else {	// non-numeric, then the string should be finished.
+                    if (b == '*') // for ip address 255.255.255.*
+                        ++length;
+                    if (seg < 255) {	// available ip
+                        ip[state-1] = seg & 255;
+                        [self addIPRect:ip row:r column:start length:length];
+                    }
+                    state = 0;
+                }
+                break;
 			default:
 				break;
 		}
