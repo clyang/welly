@@ -1235,17 +1235,41 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	[openPanel setLevel:floatWindowLevel + 1];
 }
 
+- (IBAction) removeSiteImage:(id)sender {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// Get the destination dir
+	NSString *destination = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+								stringByAppendingPathComponent:@"Application Support"]
+							    stringByAppendingPathComponent:@"Welly"]
+							    stringByAppendingPathComponent:@"Covers"]
+							    stringByAppendingPathComponent:[_siteNameField stringValue]];
+
+	// For all allowed types
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
+	for (NSString *ext in allowedTypes) {
+		// Remove it!
+		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
+	}
+}
+
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet
 			 returnCode:(int)returnCode
 			contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSString *source = [sheet filename];
-		NSString *destination = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-									 stringByAppendingPathComponent:@"Application Support"]
-									stringByAppendingPathComponent:@"Welly"]
-								   stringByAppendingPathComponent:@"Covers"]
-								  stringByAppendingPathComponent:[_siteNameField stringValue]];
+		// Create the dir if necessary
+		// by gtCarrera
+		NSString *destDir = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+							   stringByAppendingPathComponent:@"Application Support"]
+							 stringByAppendingPathComponent:@"Welly"];
+		[fileManager createDirectoryAtPath:destDir attributes:nil];
+		destDir = [destDir stringByAppendingPathComponent:@"Covers"];
+		[fileManager createDirectoryAtPath:destDir attributes:nil];
+		
+ 		NSString *destination = [destDir stringByAppendingPathComponent:[_siteNameField stringValue]];
+		// Ends here
+		
 		NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
 		for (NSString *ext in allowedTypes) {
 			[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
