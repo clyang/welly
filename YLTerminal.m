@@ -52,12 +52,11 @@
 	for (int i = 0; i < _row; i++) {
 		memcpy(_grid[i], grid[i], sizeof(cell) * (_column + 1));
 	}
-	//[_view removeAllToolTips];
 	for (int i = 0; i < _row; i++) {
         [self updateDoubleByteStateForRow: i];
         [self updateURLStateForRow: i];
-		//[self updateIPStateForRow: i];
     }
+	[self updateBBSState];
     [_view performSelector: @selector(tick:)
 				withObject: nil
 				afterDelay: 0.07];
@@ -172,7 +171,6 @@
             spacebuf = 0;
         }
     }
-	NSLog(@"encoding %d, Big5 %d", [[[self connection] site] encoding], YLBig5Encoding);
     if (bufLength == 0) return nil;
     return [[[NSString alloc] initWithCharacters: textBuf length: bufLength] autorelease];
 }
@@ -272,6 +270,27 @@
             break;
     }
     return urlString;
+}
+
+//
+// added by K.O.ed
+// WARNING: bunch of hard code
+// 
+- (void)updateBBSState {
+	NSString *topLine = [self stringFromIndex:0 length: _row];	// get the first line from the screen
+	if (NO) {
+		// just for align
+	} else if ([topLine rangeOfString:@"主选单"].length > 0) {
+		NSLog(@"主选单");
+	} else if ([topLine rangeOfString:@"讨论区列表"].length > 0 || [topLine rangeOfString:@"个人定制区"].length > 0) {
+		NSLog(@"讨论区列表");
+	} else if ([topLine rangeOfString:@"好朋友列表"].length > 0) {
+		NSLog(@"好朋友列表");
+	} else if ([topLine rangeOfString:@"版主"].length > 0) {
+		NSLog(@"版面");
+	}
+		
+	return;
 }
 
 # pragma mark -

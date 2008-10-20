@@ -22,10 +22,13 @@
     cell **_grid;
     char *_dirty;
 
-    //enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL } _state;
     YLView *_view;
 
     YLConnection *_connection;
+	
+	enum {
+		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
+	} _bbsState;
 }
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
@@ -49,10 +52,10 @@
 - (cell *)cellsOfRow:(int)r;
 
 /* Update State */
-//- (void)updateIPStateForRow:(int)r;
 - (void)updateURLStateForRow:(int)r;
 - (void)updateDoubleByteStateForRow:(int)r;
 - (NSString *)urlStringAtRow:(int)r column:(int)c;
+- (void)updateBBSState;
 
 /* Accessor */
 - (int)cursorRow;
