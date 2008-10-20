@@ -277,7 +277,7 @@
 // WARNING: bunch of hard code
 // 
 - (void)updateBBSState {
-	NSString *topLine = [self stringFromIndex:0 length: _row];	// get the first line from the screen
+	NSString *topLine = [self stringFromIndex:0 length: _column];	// get the first line from the screen
 	if (NO) {
 		// just for align
 	} else if ([topLine rangeOfString:@"主选单"].length > 0) {
@@ -292,8 +292,12 @@
 	} else if ([topLine rangeOfString:@"版主"].length > 0) {
 		NSLog(@"版面");
 		_bbsState.state = BBSBoardBrowse;
+		NSUInteger loc = [topLine rangeOfString:@"["].location + 1;
+		NSUInteger len = [topLine length] - 1 - loc;
+		_bbsState.boardName = [topLine substringWithRange: NSMakeRange(loc, len)];
+		NSLog(_bbsState.boardName);
 	}
-		
+
 	return;
 }
 
