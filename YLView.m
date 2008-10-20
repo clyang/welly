@@ -1548,6 +1548,8 @@ BOOL isSpecialSymbol(unichar ch) {
 			[_effectView drawBox: rect];
 			break;
 		case POSTENTRY:
+			// FIXME: remove the following line if preference is done
+			break;
 			[_effectView drawPostHotPoint: rect];
 			_postEntryData = rectData;
 			break;
