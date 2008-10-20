@@ -11,6 +11,13 @@
 
 @class YLView, YLConnection, KOAutoReplyDelegate, XIIntegerArray;
 
+typedef struct {
+	enum {
+		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
+	} state;
+	NSString *boardName;
+} BBSState;
+
 @interface YLTerminal : NSObject {	
 @public
     unsigned int _row;
@@ -62,6 +69,7 @@
 - (void)setEncoding:(YLEncoding) encoding;
 - (YLConnection *)connection;
 - (void)setConnection:(YLConnection *)value;
+- (BBSState)bbsState;
 
 /* Input Interface */
 - (void)feedGrid: (cell **)grid;

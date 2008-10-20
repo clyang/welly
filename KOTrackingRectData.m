@@ -20,4 +20,10 @@
 	return data;
 }
 
++ (KOTrackingRectData *)postEntryRectData {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = POSTENTRY;
+	return data;
+}
+
 @end

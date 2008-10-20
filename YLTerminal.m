@@ -328,4 +328,8 @@
     _connection = value;
 }
 
+- (BBSState)bbsState {
+	return _bbsState;
+}
+
 @end

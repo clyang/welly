@@ -39,6 +39,7 @@
     XIPortal *_portal;
 	
 	XIIntegerArray *_ipTrackingRects;
+	XIIntegerArray *_postTrackingRects;
 }
 
 - (void) configure ;
@@ -86,7 +87,7 @@
 
 /* ip seeker */
 - (void)updateIPStateForRow: (int) r;
-- (void)clearIPState;
+- (void)clearAllEffectsState;
 - (void)addIPRect: (const char*)ip
 			  row: (int)r
 		   column: (int)c
@@ -95,6 +96,9 @@
 			   row: (int)r
 			column: (int)c
 			length: (int)length;
+
+/* post entry */
+- (void) updatePostHotPointForRow: (int) r;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;

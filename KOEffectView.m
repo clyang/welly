@@ -108,8 +108,39 @@
 
 - (void) clear {
 	[boxLayer removeFromSuperlayer];
+	[postLayer removeFromSuperlayer];
 	[popUpLayer removeFromSuperlayer];
 }
+
+#pragma mark Post View
+- (void) setPostLayer {
+	// NSLog(@"setBox");
+	postLayer = [CALayer layer];
+    
+	postLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
+	postLayer.borderColor = CGColorCreateGenericRGB(1.0, 0.0, 0.0, 1.0f);
+	postLayer.borderWidth = 2.0;
+	postLayer.cornerRadius = 6.0;
+}
+
+- (void) drawPostHotPoint: (NSRect) rect {
+	if (!postLayer)
+		[self setPostLayer];
+	
+	[postLayer removeFromSuperlayer];
+	
+	rect.origin.x -= 1.0;
+	rect.origin.y -= 0.0;
+	rect.size.width += 2.0;
+	rect.size.height += 0.0;
+	
+    // Set the layer frame to the rect
+    postLayer.frame = NSRectToCGRect(rect);
+    
+    // Insert the layer into the root layer
+	[mainLayer addSublayer: [postLayer retain]];
+}
+
 
 #pragma mark Pop-Up Message
 

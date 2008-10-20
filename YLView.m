@@ -203,6 +203,7 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLocation = 0;
 		
 		_ipTrackingRects = [[XIIntegerArray alloc] init];
+		_postTrackingRects = [[XIIntegerArray alloc] init];
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
     return self;
@@ -500,7 +501,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (cmdLength > 0) 
             [[self frontMostConnection] sendBytes: cmd length: cmdLength];
     }
-    
+	
 //    [super mouseDown: e];
 }
 
@@ -833,7 +834,7 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-	[self clearIPState];
+	[self clearAllEffectsState];
 	if (ds) {
         /* Draw Background */
         for (y = 0; y < gRow; y++) {
@@ -864,6 +865,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		// added by K.O.ed @ 9#: update ip status
 		for (y = 0; y < gRow; y++) {
 			[self updateIPStateForRow: y];
+			[self updatePostHotPointForRow: y];
 		}
     } else {
         [[NSColor clearColor] set];
@@ -1515,6 +1517,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		case IPADDR:
 			[_effectView drawBox: rect];
 			break;
+		case POSTENTRY:
+			[_effectView drawPostHotPoint: rect];
+			break;
 		default:
 			break;
 	}
@@ -1613,7 +1618,7 @@ BOOL isSpecialSymbol(unichar ch) {
 /*
  * clear all ip areas
  */
-- (void)clearIPState {
+- (void)clearAllEffectsState {
 	[_effectView clear];
 	// remove all tool tips
 	[self removeAllToolTips];
@@ -1623,6 +1628,44 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self removeTrackingRect:rectTag];
 		[_ipTrackingRects pop_front];
 	}
+	
+	while(![_postTrackingRects empty]) {
+		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_postTrackingRects front];
+		[self removeTrackingRect:rectTag];
+		[_postTrackingRects pop_front];
+	}
+}
+
+#pragma mark -
+#pragma mark Post Hot Point
+- (void)addPostEntryRect: (const char *)ip
+			  row: (int)r
+		   column: (int)c
+		   length: (int)length {
+	/* ip tooltip */
+	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
+							 _fontWidth * length, _fontHeight);
+	NSTrackingRectTag rectTag = [self addTrackingRect: rect
+												owner: self
+											 userData: [KOTrackingRectData postEntryRectData]
+										 assumeInside: YES];
+	[_postTrackingRects push_back: rectTag];
+}
+
+- (void) updatePostHotPointForRow: (int) r {
+	// only do this staff when browsing a board
+	if ([[self frontMostTerminal] bbsState].state != BBSBoardBrowse)
+		return;
+	
+	if (r < 3 || r == gRow - 1)
+		return;
+	//cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
+	
+	// 32
+	[self addPostEntryRect: ""
+					   row: r
+					column: 30
+					length: 80-34];
 }
 
 #pragma mark -
