@@ -39,6 +39,12 @@ typedef enum YLANSIColorKey {
     YLEscEscEscANSIColorKey = 0
 } YLANSIColorKey;
 
+typedef struct {
+	enum {
+		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
+	} state;
+} BBSState;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

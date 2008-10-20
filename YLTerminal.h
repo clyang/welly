@@ -26,9 +26,7 @@
 
     YLConnection *_connection;
 	
-	enum {
-		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
-	} _bbsState;
+	BBSState _bbsState;
 }
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
