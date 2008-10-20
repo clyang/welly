@@ -106,9 +106,13 @@
 	[mainLayer addSublayer: [boxLayer retain]];
 }
 
-- (void) clear {
+- (void) clearBox {
 	[boxLayer removeFromSuperlayer];
-	[postLayer removeFromSuperlayer];
+}
+
+- (void) clear {
+	[self clearBox];
+	[self clearPostHotPoint];
 	[popUpLayer removeFromSuperlayer];
 }
 
@@ -141,6 +145,9 @@
 	[mainLayer addSublayer: [postLayer retain]];
 }
 
+- (void)clearPostHotPoint {
+	[postLayer removeFromSuperlayer];
+}
 
 #pragma mark Pop-Up Message
 

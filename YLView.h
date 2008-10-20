@@ -15,6 +15,7 @@
 @class KOEffectView;
 @class XIPortal;
 @class XIIntegerArray;
+@class KOTrackingRectData;
 
 @interface YLView : NSTabView <NSTextInput> {	
 	CGFloat _fontWidth;
@@ -40,6 +41,8 @@
 	
 	XIIntegerArray *_ipTrackingRects;
 	XIIntegerArray *_postTrackingRects;
+	
+	KOTrackingRectData *_postEntryData;
 }
 
 - (void) configure ;

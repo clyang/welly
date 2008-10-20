@@ -295,7 +295,13 @@
 		NSUInteger loc = [topLine rangeOfString:@"["].location + 1;
 		NSUInteger len = [topLine length] - 1 - loc;
 		_bbsState.boardName = [topLine substringWithRange: NSMakeRange(loc, len)];
-		NSLog(_bbsState.boardName);
+		for (int i = 3; i < _row; ++i) {
+			if (_grid[i][0].byte == '>') {
+				_bbsState.cursorRow = i;
+				break;
+			}
+		}
+		NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
 	}
 
 	return;

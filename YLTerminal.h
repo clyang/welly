@@ -16,6 +16,7 @@ typedef struct {
 		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
 	} state;
 	NSString *boardName;
+	int cursorRow;
 } BBSState;
 
 @interface YLTerminal : NSObject {	

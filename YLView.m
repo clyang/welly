@@ -502,6 +502,36 @@ BOOL isSpecialSymbol(unichar ch) {
             [[self frontMostConnection] sendBytes: cmd length: cmdLength];
     }
 	
+	if (_postEntryData != nil) {
+		unsigned char cmd[gRow * gColumn + 1];
+        unsigned int cmdLength = 0;
+        id ds = [self frontMostTerminal];
+		int moveToRow = _postEntryData->row;
+		int cursorRow = [ds bbsState].cursorRow;
+		
+		//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
+		
+		if (moveToRow > cursorRow) {
+			cmd[cmdLength++] = 0x01;
+			for (int i = cursorRow; i <= moveToRow; i++) {
+				cmd[cmdLength++] = 0x1B;
+				cmd[cmdLength++] = 0x4F;
+				cmd[cmdLength++] = 0x42;
+			} 
+		} else if (moveToRow < cursorRow) {
+			cmd[cmdLength++] = 0x01;
+			for (int i = cursorRow; i >= moveToRow; i--) {
+				cmd[cmdLength++] = 0x1B;
+				cmd[cmdLength++] = 0x4F;
+				cmd[cmdLength++] = 0x41;
+			} 			
+		}
+		
+		cmd[cmdLength++] = 0x0D;
+		
+		[[self frontMostConnection] sendBytes: cmd length: cmdLength];
+	}
+	
 //    [super mouseDown: e];
 }
 
@@ -1519,6 +1549,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case POSTENTRY:
 			[_effectView drawPostHotPoint: rect];
+			_postEntryData = rectData;
 			break;
 		default:
 			break;
@@ -1526,7 +1557,18 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	[_effectView clear];
+	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
+	switch (rectData->type) {
+		case IPADDR:
+			[_effectView clearBox];
+			break;
+		case POSTENTRY:
+			[_effectView clearPostHotPoint];
+			_postEntryData = nil;
+			break;
+		default:
+			break;
+	}
 }
 
 - (void)addIPRect: (const char *)ip
@@ -1634,11 +1676,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self removeTrackingRect:rectTag];
 		[_postTrackingRects pop_front];
 	}
+	_postEntryData = nil;
 }
 
 #pragma mark -
 #pragma mark Post Hot Point
-- (void)addPostEntryRect: (const char *)ip
+- (void)addPostEntryRect: (const char *)nothing
 			  row: (int)r
 		   column: (int)c
 		   length: (int)length {
@@ -1647,7 +1690,7 @@ BOOL isSpecialSymbol(unichar ch) {
 							 _fontWidth * length, _fontHeight);
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData postEntryRectData]
+											 userData: [KOTrackingRectData postEntryRectData: r]
 										 assumeInside: YES];
 	[_postTrackingRects push_back: rectTag];
 }
@@ -1659,13 +1702,35 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	if (r < 3 || r == gRow - 1)
 		return;
-	//cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
 	
+	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
+	int start = -1, end = -1;
+	
+	for (int i = 0; i < gColumn - 1; ++i) {
+		int db = currRow[i].attr.f.doubleByte;
+		
+		if (db == 1 || db == 0) {
+			if (currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
+				start = i;
+			}
+			if (currRow[i].byte != ' ' && currRow[i].byte > 0)
+				end = i;
+		} else if (db == 2) {
+			unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
+			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
+			if (ch == 9679) // the solid circle
+				start = i - 1;
+			end = i;
+		}
+	}
 	// 32
+	if (start == -1)
+		return;
+	
 	[self addPostEntryRect: ""
 					   row: r
-					column: 30
-					length: 80-34];
+					column: start
+					length: end - start + 1];
 }
 
 #pragma mark -

@@ -25,10 +25,11 @@
 
 // for ip seeker
 - (void)drawBox: (NSRect) rect;
-- (void)clear;
+- (void)clearBox;
 
 // for post view
 - (void)drawPostHotPoint: (NSRect) rect;
+- (void)clearPostHotPoint;
 
 // To show pop up message by core animation
 // This method might be changed in future
@@ -36,6 +37,7 @@
 - (void)drawPopUpMessage:(NSString*) message;
 - (void)removePopUpMessage;
 
-- (void) resize;
-- (void) setupLayer;
+- (void)resize;
+- (void)clear;
+- (void)setupLayer;
 @end

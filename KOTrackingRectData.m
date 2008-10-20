@@ -20,9 +20,10 @@
 	return data;
 }
 
-+ (KOTrackingRectData *)postEntryRectData {
++ (KOTrackingRectData *)postEntryRectData: (int)row {
 	KOTrackingRectData *data = [[self alloc] init];
 	data->type = POSTENTRY;
+	data->row = row;
 	return data;
 }
 
