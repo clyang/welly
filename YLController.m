@@ -1224,6 +1224,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 // for portal
 - (IBAction)browseImage:(id)sender {
+	[_sitesWindow setLevel:0];
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	[openPanel beginSheetForDirectory:@"~"
 								 file:nil
@@ -1232,24 +1233,36 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 						modalDelegate:self
 					   didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
 						  contextInfo:nil];
-	[openPanel setLevel:floatWindowLevel + 1];
+	//[openPanel setLevel:floatWindowLevel + 1];
 }
 
-- (IBAction) removeSiteImage:(id)sender {
+- (void) removeImage {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	// Get the destination dir
 	NSString *destination = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
 								stringByAppendingPathComponent:@"Application Support"]
-							    stringByAppendingPathComponent:@"Welly"]
-							    stringByAppendingPathComponent:@"Covers"]
-							    stringByAppendingPathComponent:[_siteNameField stringValue]];
-
+							   stringByAppendingPathComponent:@"Welly"]
+							  stringByAppendingPathComponent:@"Covers"]
+							 stringByAppendingPathComponent:[_siteNameField stringValue]];
+	
 	// For all allowed types
 	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
 	for (NSString *ext in allowedTypes) {
 		// Remove it!
 		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
 	}
+}
+
+- (IBAction) removeSiteImage:(id)sender {
+	[_sitesWindow setAlphaValue:0];
+	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Del image?", @"Sheet Title")
+									 defaultButton:NSLocalizedString(@"Del", @"Default Button")
+								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+									   otherButton:nil
+						 informativeTextWithFormat:NSLocalizedString(@"Del it or not...", @"Sheet Message")];
+	if ([alert runModal] == NSAlertDefaultReturn)
+		[self removeImage];
+	[_sitesWindow setAlphaValue:100];
 }
 
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet
