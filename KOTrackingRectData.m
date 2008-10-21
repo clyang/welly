@@ -15,14 +15,16 @@
 						   toolTip: (NSString *)toolTip {
 	KOTrackingRectData *data = [[self alloc] init];
 	data->type = IPADDR;
-	data->ipAddr = ipAddr;
-	data->toolTip = toolTip;
+	data->ipAddr = [ipAddr retain];
+	data->toolTip = [toolTip retain];
 	return data;
 }
 
-+ (KOTrackingRectData *)postEntryRectData: (int)row {
++ (KOTrackingRectData *)postEntryRectData: (NSString *)postTitle
+									atRow: (int)row {
 	KOTrackingRectData *data = [[self alloc] init];
 	data->type = POSTENTRY;
+	data->postTitle = [postTitle retain];
 	data->row = row;
 	return data;
 }

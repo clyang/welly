@@ -28,8 +28,8 @@
 - (void)clearBox;
 
 // for post view
-- (void)drawPostHotPoint: (NSRect) rect;
-- (void)clearPostHotPoint;
+- (void)drawPostEntry: (NSRect) rect;
+- (void)clearPostEntry;
 
 // To show pop up message by core animation
 // This method might be changed in future

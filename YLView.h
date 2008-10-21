@@ -90,18 +90,14 @@
 
 /* ip seeker */
 - (void)updateIPStateForRow: (int) r;
-- (void)clearAllEffectsState;
-- (void)addIPRect: (const char*)ip
-			  row: (int)r
-		   column: (int)c
-		   length: (int)length;
+- (void)clearAllTrackingArea;
 - (void)addToolTip: (NSString *)tooltip
 			   row: (int)r
 			column: (int)c
 			length: (int)length;
 
 /* post entry */
-- (void) updatePostHotPointForRow: (int) r;
+- (void)updatePostEntryForRow: (int) r;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;

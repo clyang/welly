@@ -16,11 +16,13 @@
 	
 	NSString *ipAddr;
 	NSString *toolTip;
+	NSString *postTitle;
 	int row;
 	int column;
 }
 
 + (KOTrackingRectData *)ipRectData: (NSString *)ipAddr
 						   toolTip: (NSString *)toolTip;
-+ (KOTrackingRectData *)postEntryRectData: (int)row;
++ (KOTrackingRectData *)postEntryRectData: (NSString *)postTitle
+									atRow: (int)row;
 @end

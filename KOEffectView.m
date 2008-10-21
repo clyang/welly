@@ -112,7 +112,7 @@
 
 - (void) clear {
 	[self clearBox];
-	[self clearPostHotPoint];
+	[self clearPostEntry];
 	[popUpLayer removeFromSuperlayer];
 }
 
@@ -127,7 +127,7 @@
 	postLayer.cornerRadius = 6.0;
 }
 
-- (void) drawPostHotPoint: (NSRect) rect {
+- (void) drawPostEntry: (NSRect) rect {
 	if (!postLayer)
 		[self setPostLayer];
 	
@@ -145,7 +145,7 @@
 	[mainLayer addSublayer: [postLayer retain]];
 }
 
-- (void)clearPostHotPoint {
+- (void)clearPostEntry {
 	[postLayer removeFromSuperlayer];
 }
 

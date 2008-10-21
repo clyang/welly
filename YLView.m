@@ -285,7 +285,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) pasteColor: (id) sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
 						  NSLocalizedString(@"Confirm", @"Default Button"),
 						  NSLocalizedString(@"Cancel", @"Cancel Button"),
@@ -304,7 +304,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) paste: (id) sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
 						  NSLocalizedString(@"Confirm", @"Default Button"),
 						  NSLocalizedString(@"Cancel", @"Cancel Button"),
@@ -323,7 +323,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)pasteWrap:(id)sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal cellsOfRow:(terminal->_row - 1)]->byte != 161) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
 						  NSLocalizedString(@"Confirm", @"Default Button"),
 						  NSLocalizedString(@"Cancel", @"Cancel Button"),
@@ -392,6 +392,39 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Event Handling
+- (void)mouseEntered:(NSEvent *)theEvent {
+	NSRect rect = [[theEvent trackingArea] rect];
+	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
+	switch (rectData->type) {
+		case IPADDR:
+			[_effectView drawBox: rect];
+			break;
+		case POSTENTRY:
+			// FIXME: remove the following line if preference is done
+			//if([[[self frontMostConnection] site] enableMouse]) {
+			[_effectView drawPostEntry: rect];
+			_postEntryData = rectData;
+			//}
+			break;
+		default:
+			break;
+	}
+}
+
+- (void)mouseExited:(NSEvent *)theEvent {
+	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
+	switch (rectData->type) {
+		case IPADDR:
+			[_effectView clearBox];
+			break;
+		case POSTENTRY:
+			[_effectView clearPostEntry];
+			_postEntryData = nil;
+			break;
+		default:
+			break;
+	}
+}
 
 - (void)mouseDown:(NSEvent *)theEvent {
 	[[self frontMostConnection] resetMessageCount];
@@ -510,6 +543,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		int cursorRow = [ds bbsState].cursorRow;
 		
 		//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
+		NSLog(@"title = %@", _postEntryData->postTitle);
 		
 		if (moveToRow > cursorRow) {
 			cmd[cmdLength++] = 0x01;
@@ -524,7 +558,7 @@ BOOL isSpecialSymbol(unichar ch) {
 				cmd[cmdLength++] = 0x1B;
 				cmd[cmdLength++] = 0x4F;
 				cmd[cmdLength++] = 0x41;
-			} 			
+			} 
 		}
 		
 		cmd[cmdLength++] = 0x0D;
@@ -864,7 +898,7 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-	[self clearAllEffectsState];
+	[self clearAllTrackingArea];
 	if (ds) {
         /* Draw Background */
         for (y = 0; y < gRow; y++) {
@@ -895,7 +929,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		// added by K.O.ed @ 9#: update ip status
 		for (y = 0; y < gRow; y++) {
 			[self updateIPStateForRow: y];
-			[self updatePostHotPointForRow: y];
+			[self updatePostEntryForRow: y];
 		}
     } else {
         [[NSColor clearColor] set];
@@ -1540,40 +1574,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark ip seeker
-- (void)mouseEntered:(NSEvent *)theEvent {
-	NSRect rect = [[theEvent trackingArea] rect];
-	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
-	switch (rectData->type) {
-		case IPADDR:
-			[_effectView drawBox: rect];
-			break;
-		case POSTENTRY:
-			// FIXME: remove the following line if preference is done
-			if([[[self frontMostConnection] site] enableMouse]) {
-				[_effectView drawPostHotPoint: rect];
-				_postEntryData = rectData;
-			}
-			break;
-		default:
-			break;
-	}
-}
-
-- (void)mouseExited:(NSEvent *)theEvent {
-	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
-	switch (rectData->type) {
-		case IPADDR:
-			[_effectView clearBox];
-			break;
-		case POSTENTRY:
-			[_effectView clearPostHotPoint];
-			_postEntryData = nil;
-			break;
-		default:
-			break;
-	}
-}
-
 - (void)addIPRect: (const char *)ip
 			  row: (int)r
 		   column: (int)c
@@ -1601,7 +1601,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self addToolTipRect: rect owner: self userData: [tooltip retain]];
 }
 
-- (void) updateIPStateForRow: (int) r {
+- (void)updateIPStateForRow: (int) r {
 	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
 	int state = 0;
 	char ip[4] = {0};
@@ -1663,7 +1663,7 @@ BOOL isSpecialSymbol(unichar ch) {
 /*
  * clear all ip areas
  */
-- (void)clearAllEffectsState {
+- (void)clearAllTrackingArea {
 	[_effectView clear];
 	// remove all tool tips
 	[self removeAllToolTips];
@@ -1683,8 +1683,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
-#pragma mark Post Hot Point
-- (void)addPostEntryRect: (const char *)nothing
+#pragma mark Post Entry Point
+- (void)addPostEntryRect: (NSString *)postTitle
 			  row: (int)r
 		   column: (int)c
 		   length: (int)length {
@@ -1693,14 +1693,15 @@ BOOL isSpecialSymbol(unichar ch) {
 							 _fontWidth * length, _fontHeight);
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData postEntryRectData: r]
+											 userData: [KOTrackingRectData postEntryRectData: postTitle
+																					   atRow: r]
 										 assumeInside: YES];
 	[_postTrackingRects push_back: rectTag];
 }
 
-- (void) updatePostHotPointForRow: (int) r {
+- (void) updatePostEntryForRow: (int) r {
 	// only do this staff when browsing a board
-	if ([[self frontMostTerminal] bbsState].state != BBSBoardBrowse)
+	if ([[self frontMostTerminal] bbsState].state != BBSBrowseBoard)
 		return;
 	
 	if (r < 3 || r == gRow - 1)
@@ -1708,29 +1709,36 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
 	int start = -1, end = -1;
+	unichar textBuf[gColumn + 1];
+	int bufLength = 0;
 	
 	for (int i = 0; i < gColumn - 1; ++i) {
 		int db = currRow[i].attr.f.doubleByte;
 		
-		if (db == 1 || db == 0) {
+		if (db == 0) {
 			if (currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
 				start = i;
 			}
-			if (currRow[i].byte != ' ' && currRow[i].byte > 0)
+			if (currRow[i].byte > 0)
 				end = i;
+			if (start != -1) {
+				textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
+			}
 		} else if (db == 2) {
 			unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
 			if (ch == 9679) // the solid circle
 				start = i - 1;
 			end = i;
+			if (start != -1)
+				textBuf[bufLength++] = ch;
 		}
 	}
-	// 32
+	
 	if (start == -1)
 		return;
 	
-	[self addPostEntryRect: ""
+	[self addPostEntryRect: [NSString stringWithCharacters:textBuf length:bufLength]
 					   row: r
 					column: start
 					length: end - start + 1];

@@ -13,7 +13,7 @@
 
 typedef struct {
 	enum {
-		BBSMainMenu, BBSBoardList, BBSFriendList, BBSBoardBrowse
+		BBSUnknown, BBSMainMenu, BBSBoardList, BBSFriendList, BBSBrowseBoard, BBSViewPost, BBSComposePost
 	} state;
 	NSString *boardName;
 	int cursorRow;
