@@ -42,7 +42,7 @@
 	XIIntegerArray *_ipTrackingRects;
 	XIIntegerArray *_postTrackingRects;
 	
-	KOTrackingRectData *_postEntryData;
+	KOTrackingRectData *_clickEntryData;
 }
 
 - (void) configure ;
@@ -100,7 +100,7 @@
 			length: (int)length;
 
 /* post entry */
-- (void)updatePostEntryForRow: (int) r;
+- (void)updateClickEntryForRow: (int) r;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;

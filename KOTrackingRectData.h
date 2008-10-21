@@ -11,7 +11,7 @@
 @interface KOTrackingRectData : NSData {
 @public
 	enum KOTrackingRectType {
-		IPADDR, POSTENTRY
+		IPADDR, CLICKENTRY
 	} type;
 	
 	NSString *ipAddr;
@@ -23,6 +23,6 @@
 
 + (KOTrackingRectData *)ipRectData: (NSString *)ipAddr
 						   toolTip: (NSString *)toolTip;
-+ (KOTrackingRectData *)postEntryRectData: (NSString *)postTitle
++ (KOTrackingRectData *)clickEntryRectData: (NSString *)postTitle
 									atRow: (int)row;
 @end

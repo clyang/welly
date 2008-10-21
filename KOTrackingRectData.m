@@ -20,10 +20,10 @@
 	return data;
 }
 
-+ (KOTrackingRectData *)postEntryRectData: (NSString *)postTitle
++ (KOTrackingRectData *)clickEntryRectData: (NSString *)postTitle
 									atRow: (int)row {
 	KOTrackingRectData *data = [[self alloc] init];
-	data->type = POSTENTRY;
+	data->type = CLICKENTRY;
 	data->postTitle = [postTitle retain];
 	data->row = row;
 	return data;

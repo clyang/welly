@@ -399,11 +399,11 @@ BOOL isSpecialSymbol(unichar ch) {
 		case IPADDR:
 			[_effectView drawIPAddrBox: rect];
 			break;
-		case POSTENTRY:
+		case CLICKENTRY:
 			// FIXME: remove the following line if preference is done
 			//if([[[self frontMostConnection] site] enableMouse]) {
 			[_effectView drawClickEntry: rect];
-			_postEntryData = rectData;
+			_clickEntryData = rectData;
 			//}
 			break;
 		default:
@@ -417,9 +417,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		case IPADDR:
 			[_effectView clearIPAddrBox];
 			break;
-		case POSTENTRY:
+		case CLICKENTRY:
 			[_effectView clearClickEntry];
-			_postEntryData = nil;
+			_clickEntryData = nil;
 			break;
 		default:
 			break;
@@ -535,15 +535,15 @@ BOOL isSpecialSymbol(unichar ch) {
             [[self frontMostConnection] sendBytes: cmd length: cmdLength];
     }
 	
-	if (_postEntryData != nil) {
+	if (_clickEntryData != nil) {
 		unsigned char cmd[gRow * gColumn + 1];
         unsigned int cmdLength = 0;
         id ds = [self frontMostTerminal];
-		int moveToRow = _postEntryData->row;
+		int moveToRow = _clickEntryData->row;
 		int cursorRow = [ds bbsState].cursorRow;
 		
 		//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
-		NSLog(@"title = %@", _postEntryData->postTitle);
+		NSLog(@"title = %@", _clickEntryData->postTitle);
 		
 		if (moveToRow > cursorRow) {
 			cmd[cmdLength++] = 0x01;
@@ -1574,7 +1574,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	for (int y = 0; y < gRow; y++) {
 		[self updateIPStateForRow: y];
-		[self updatePostEntryForRow: y];
+		[self updateClickEntryForRow: y];
 	}
 }
 
@@ -1685,11 +1685,11 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self removeTrackingRect:rectTag];
 		[_postTrackingRects pop_front];
 	}
-	_postEntryData = nil;
+	_clickEntryData = nil;
 }
 
 #pragma mark Post Entry Point
-- (void)addPostEntryRect: (NSString *)postTitle
+- (void)addClickEntryRect: (NSString *)title
 			  row: (int)r
 		   column: (int)c
 		   length: (int)length {
@@ -1698,55 +1698,63 @@ BOOL isSpecialSymbol(unichar ch) {
 							 _fontWidth * length, _fontHeight);
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData postEntryRectData: postTitle
+											 userData: [KOTrackingRectData clickEntryRectData: title
 																					   atRow: r]
 										 assumeInside: YES];
 	[_postTrackingRects push_back: rectTag];
 }
 
-- (void) updatePostEntryForRow: (int) r {
-	// only do this staff when browsing a board
-	if ([[self frontMostTerminal] bbsState].state != BBSBrowseBoard)
-		return;
-	
-	if (r < 3 || r == gRow - 1)
-		return;
-	
-	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
-	int start = -1, end = -1;
-	unichar textBuf[gColumn + 1];
-	int bufLength = 0;
-	
-	for (int i = 0; i < gColumn - 1; ++i) {
-		int db = currRow[i].attr.f.doubleByte;
+- (void) updateClickEntryForRow: (int) r {
+	YLTerminal *ds = [self frontMostTerminal];
+	cell *currRow = [ds cellsOfRow: r];
+	if ([ds bbsState].state == BBSBrowseBoard) {
+		// browsing a board
+		if (r < 3 || r == gRow - 1)
+			return;
 		
-		if (db == 0) {
-			if (currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
-				start = i;
-			}
-			if (currRow[i].byte > 0)
+		int start = -1, end = -1;
+		unichar textBuf[gColumn + 1];
+		int bufLength = 0;
+		
+		for (int i = 0; i < gColumn - 1; ++i) {
+			int db = currRow[i].attr.f.doubleByte;
+			
+			if (db == 0) {
+				if (currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
+					start = i;
+				}
+				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
+					end = i;
+				if (start != -1) {
+					textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
+				}
+			} else if (db == 2) {
+				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
+				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
+				if (ch == 9679) // the solid circle
+					start = i - 1;
 				end = i;
-			if (start != -1) {
-				textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
+				if (start != -1)
+					textBuf[bufLength++] = ch;
 			}
-		} else if (db == 2) {
-			unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
-			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-			if (ch == 9679) // the solid circle
-				start = i - 1;
-			end = i;
-			if (start != -1)
-				textBuf[bufLength++] = ch;
 		}
+		
+		if (start == -1)
+			return;
+		
+		[self addClickEntryRect: [NSString stringWithCharacters:textBuf length:bufLength]
+							row: r
+						 column: start
+						 length: end - start + 1];
+		
+	} else if ([ds bbsState].state == BBSBoardList) {
+		// watching board list
+		if (r < 3 || r == gRow - 1)
+			return;
+		if (currRow[12].byte == 0 || currRow[12].byte == ' ')
+			return;
+		[self addClickEntryRect: [ds stringFromIndex:12 + r * gColumn length:80-28] row:r column:12 length:80-28];
 	}
-	
-	if (start == -1)
-		return;
-	
-	[self addPostEntryRect: [NSString stringWithCharacters:textBuf length:bufLength]
-					   row: r
-					column: start
-					length: end - start + 1];
 }
 
 #pragma mark -

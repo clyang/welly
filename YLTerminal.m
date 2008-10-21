@@ -287,6 +287,12 @@
 	} else if ([topLine rangeOfString:@"讨论区列表"].length > 0 || [topLine rangeOfString:@"个人定制区"].length > 0) {
 		NSLog(@"讨论区列表");
 		_bbsState.state = BBSBoardList;
+		for (int i = 3; i < _row; ++i) {
+			if (_grid[i][0].byte == '>') {
+				_bbsState.cursorRow = i;
+				break;
+			}
+		}
 	} else if ([topLine rangeOfString:@"好朋友列表"].length > 0) {
 		NSLog(@"好朋友列表");
 		_bbsState.state = BBSFriendList;
