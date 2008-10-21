@@ -44,6 +44,7 @@ static YLLGlobalConfig *sSharedInstance;
         [self setShowHiddenText: [defaults boolForKey: @"ShowHiddenText"]];
         [self setShouldSmoothFonts: [defaults boolForKey: @"ShouldSmoothFonts"]];
         [self setDetectDoubleByte: [defaults boolForKey: @"DetectDoubleByte"]];
+		[self setEnableMouse:[defaults boolForKey: @"EnableMouse"]];
         [self setDefaultEncoding: (YLEncoding) [defaults integerForKey: @"DefaultEncoding"]];
         [self setDefaultANSIColorKey: (YLANSIColorKey) [defaults integerForKey: @"DefaultANSIColorKey"]];
         [self setRepeatBounce: [defaults boolForKey: @"RepeatBounce"]];
@@ -249,6 +250,15 @@ static YLLGlobalConfig *sSharedInstance;
 - (void)setDetectDoubleByte:(BOOL)value {
     _detectDoubleByte = value;
     [[NSUserDefaults standardUserDefaults] setBool: value forKey: @"DetectDoubleByte"];
+}
+
+- (BOOL)enableMouse {
+    return _enableMouse;
+}
+
+- (void)setEnableMouse:(BOOL)value {
+    _enableMouse = value;
+    [[NSUserDefaults standardUserDefaults] setBool: value forKey: @"EnableMouse"];
 }
 
 - (YLEncoding)defaultEncoding {

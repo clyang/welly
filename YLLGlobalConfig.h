@@ -26,6 +26,7 @@
 	BOOL _blinkTicker;
     BOOL _shouldSmoothFonts;
     BOOL _detectDoubleByte;
+	BOOL _enableMouse;
 	BOOL _autoReply;
     BOOL _repeatBounce;
     YLEncoding _defaultEncoding;
@@ -73,6 +74,8 @@
 - (void)setShouldSmoothFonts:(BOOL)value;
 - (BOOL)detectDoubleByte;
 - (void)setDetectDoubleByte:(BOOL)value;
+- (BOOL)enableMouse;
+- (void)setEnableMouse:(BOOL)value;
 - (BOOL)repeatBounce;
 - (void)setRepeatBounce:(BOOL)value;
 - (YLEncoding)defaultEncoding;

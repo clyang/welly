@@ -16,6 +16,7 @@
     YLANSIColorKey _ansiColorKey;
     BOOL _detectDoubleByte;
 	BOOL _autoReply;
+	BOOL _enableMouse;
 	NSString *_autoReplyString;
 }
 
@@ -42,6 +43,9 @@
 
 - (BOOL)autoReply;
 - (void)setAutoReply:(BOOL)value;
+
+- (BOOL)enableMouse;
+- (void)setEnableMouse:(BOOL)value;
 
 - (NSString *)autoReplyString;
 - (void)setAutoReplyString:(NSString *)value;

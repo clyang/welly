@@ -1549,9 +1549,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case POSTENTRY:
 			// FIXME: remove the following line if preference is done
-			break;
-			[_effectView drawPostHotPoint: rect];
-			_postEntryData = rectData;
+			if([[[self frontMostConnection] site] enableMouse]) {
+				[_effectView drawPostHotPoint: rect];
+				_postEntryData = rectData;
+			}
 			break;
 		default:
 			break;

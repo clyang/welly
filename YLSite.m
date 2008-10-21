@@ -18,7 +18,8 @@
         //[self setEncoding:YLGBKEncoding];
         [self setEncoding:[[YLLGlobalConfig sharedInstance] defaultEncoding]];
         [self setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-        //[self setAnsiColorKey:YLEscEscEscANSIColorKey];
+        [self setEnableMouse:[[YLLGlobalConfig sharedInstance] enableMouse]];
+		//[self setAnsiColorKey:YLEscEscEscANSIColorKey];
         [self setAnsiColorKey: [[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
         [self setAutoReply:NO];
         [self setAutoReplyString:@"[Welly] Sorry, I am not around."];
@@ -37,6 +38,7 @@
     [s setEncoding: (YLEncoding)[[d valueForKey: @"encoding"] unsignedShortValue]];
     [s setAnsiColorKey: (YLANSIColorKey)[[d valueForKey: @"ansicolorkey"] unsignedShortValue]];
     [s setDetectDoubleByte: [[d valueForKey: @"detectdoublebyte"] boolValue]];
+	[s setEnableMouse: [[d valueForKey: @"enablemouse"] boolValue]];
 	[s setAutoReply: NO];
 	[s setAutoReplyString: [d valueForKey: @"autoreplystring"] ?: @"[Welly] Sorry, I am not around."];
     return s;
@@ -47,6 +49,7 @@
             [NSNumber numberWithUnsignedShort: [self encoding]], @"encoding", 
             [NSNumber numberWithUnsignedShort: [self ansiColorKey]], @"ansicolorkey", 
             [NSNumber numberWithBool: [self detectDoubleByte]], @"detectdoublebyte",
+			[NSNumber numberWithBool: [self enableMouse]], @"enablemouse",
 			[self autoReplyString] ?: @"", @"autoreplystring", nil];
 }
 
@@ -100,6 +103,14 @@
     _detectDoubleByte = value;
 }
 
+- (BOOL)enableMouse {
+    return _enableMouse;
+}
+
+- (void)setEnableMouse:(BOOL)value {
+    _enableMouse = value;
+}
+
 - (BOOL)autoReply {
 	return _autoReply;
 }
@@ -132,6 +143,7 @@
     [s setDetectDoubleByte: [self detectDoubleByte]];
 	[s setAutoReply: NO];
 	[s setAutoReplyString: [self autoReplyString]];
+	[s setEnableMouse:[self enableMouse]];
     return s;
 }
 

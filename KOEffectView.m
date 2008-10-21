@@ -121,9 +121,9 @@
 	// NSLog(@"setBox");
 	postLayer = [CALayer layer];
     
-	postLayer.backgroundColor = CGColorCreateGenericRGB(0.95, 0.95, 0.95, 0.1f);
-	postLayer.borderColor = CGColorCreateGenericRGB(0.0, 0.0, 1.0, 1.0f);
-	postLayer.borderWidth = 1.5;
+	postLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
+	postLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
+	postLayer.borderWidth = 0;
 	postLayer.cornerRadius = 6.0;
 }
 
