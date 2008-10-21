@@ -15,7 +15,7 @@
 @implementation KOPostDownloader
 
 + (NSString *)downloadPostFromConnection:(YLConnection *)connection {
-    const int sleepTime = 10000, maxAttempt = 3000000;
+    const int sleepTime = 100000, maxAttempt = 300000;
 
     YLTerminal *terminal = [connection terminal];
 
