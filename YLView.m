@@ -898,7 +898,7 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-	[self clearAllTrackingArea];
+	[self refreshAllHotSpots];
 	if (ds) {
         /* Draw Background */
         for (y = 0; y < gRow; y++) {
@@ -925,12 +925,6 @@ BOOL isSpecialSymbol(unichar ch) {
                 [ds setDirty: NO atRow: y column: x];
             }
         }
-		
-		// added by K.O.ed @ 9#: update ip status
-		for (y = 0; y < gRow; y++) {
-			[self updateIPStateForRow: y];
-			[self updatePostEntryForRow: y];
-		}
     } else {
         [[NSColor clearColor] set];
         CGContextFillRect(myCGContext, CGRectMake(0, 0, gColumn * _fontWidth, gRow * _fontHeight));
@@ -1573,6 +1567,18 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
+#pragma mark Hot Spots;
+- (void)refreshAllHotSpots {
+	[self clearAllTrackingArea];
+	if (![[self frontMostConnection] connected]) 
+		return;
+	for (int y = 0; y < gRow; y++) {
+		[self updateIPStateForRow: y];
+		[self updatePostEntryForRow: y];
+	}
+}
+
+#pragma mark -
 #pragma mark ip seeker
 - (void)addIPRect: (const char *)ip
 			  row: (int)r
@@ -1682,7 +1688,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	_postEntryData = nil;
 }
 
-#pragma mark -
 #pragma mark Post Entry Point
 - (void)addPostEntryRect: (NSString *)postTitle
 			  row: (int)r

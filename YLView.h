@@ -88,6 +88,9 @@
 
 - (void)updatePortal;
 
+/* Hot Spots */
+- (void)refreshAllHotSpots;
+
 /* ip seeker */
 - (void)updateIPStateForRow: (int) r;
 - (void)clearAllTrackingArea;
