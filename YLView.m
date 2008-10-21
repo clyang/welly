@@ -401,10 +401,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case CLICKENTRY:
 			// FIXME: remove the following line if preference is done
-			//if([[[self frontMostConnection] site] enableMouse]) {
-			[_effectView drawClickEntry: rect];
-			_clickEntryData = rectData;
-			//}
+			if([[[self frontMostConnection] site] enableMouse]) {
+				[_effectView drawClickEntry: rect];
+				_clickEntryData = rectData;
+			}
 			break;
 		default:
 			break;
