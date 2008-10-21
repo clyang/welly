@@ -38,7 +38,7 @@
 
 - (void)dealloc {
 	[mainLayer release];
-	[boxLayer release];
+	[ipAddrLayer release];
 	[popUpLayer release];
 	[super dealloc];
 }
@@ -69,8 +69,19 @@
 	// NSLog(@"root = %x", root);
 }
 
+- (void) clear {
+	[self clearIPAddrBox];
+	[self clearClickEntry];
+	[popUpLayer removeFromSuperlayer];
+}
+
 - (void)drawRect:(NSRect)rect {
 	// Drawing code here.
+}
+
+-(void) resize {
+	[self setFrameSize:[mainView frame].size];
+	[self setFrameOrigin: NSMakePoint(0, 0)];
 }
 
 - (void)awakeFromNib {
@@ -78,21 +89,20 @@
 	[self setupLayer];
 }
 
-- (void) setBox {
-	// NSLog(@"setBox");
-	boxLayer = [CALayer layer];
+- (void) setIPAddrBox {
+	ipAddrLayer = [CALayer layer];
     
-	boxLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
-	boxLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
-	boxLayer.borderWidth = 2.0;
-	boxLayer.cornerRadius = 6.0;
+	ipAddrLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
+	ipAddrLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+	ipAddrLayer.borderWidth = 2.0;
+	ipAddrLayer.cornerRadius = 6.0;
 }
 
-- (void) drawBox: (NSRect) rect {
-	if (!boxLayer)
-		[self setBox];
+- (void) drawIPAddrBox: (NSRect) rect {
+	if (!ipAddrLayer)
+		[self setIPAddrBox];
 	
-	[boxLayer removeFromSuperlayer];
+	[ipAddrLayer removeFromSuperlayer];
 	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
@@ -100,38 +110,31 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    boxLayer.frame = NSRectToCGRect(rect);
+    ipAddrLayer.frame = NSRectToCGRect(rect);
     
     // Insert the layer into the root layer
-	[mainLayer addSublayer: [boxLayer retain]];
+	[mainLayer addSublayer: [ipAddrLayer retain]];
 }
 
-- (void) clearBox {
-	[boxLayer removeFromSuperlayer];
+- (void) clearIPAddrBox {
+	[ipAddrLayer removeFromSuperlayer];
 }
 
-- (void) clear {
-	[self clearBox];
-	[self clearPostEntry];
-	[popUpLayer removeFromSuperlayer];
-}
-
-#pragma mark Post View
-- (void) setPostLayer {
-	// NSLog(@"setBox");
-	postLayer = [CALayer layer];
+#pragma mark Click Entry
+- (void) setClickEntry {
+	clickEntryLayer = [CALayer layer];
     
-	postLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
-	postLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
-	postLayer.borderWidth = 0;
-	postLayer.cornerRadius = 6.0;
+	clickEntryLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
+	clickEntryLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
+	clickEntryLayer.borderWidth = 0;
+	clickEntryLayer.cornerRadius = 6.0;
 }
 
-- (void) drawPostEntry: (NSRect) rect {
-	if (!postLayer)
-		[self setPostLayer];
+- (void) drawClickEntry: (NSRect) rect {
+	if (!clickEntryLayer)
+		[self setClickEntry];
 	
-	[postLayer removeFromSuperlayer];
+	[clickEntryLayer removeFromSuperlayer];
 	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
@@ -139,14 +142,14 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    postLayer.frame = NSRectToCGRect(rect);
+    clickEntryLayer.frame = NSRectToCGRect(rect);
     
     // Insert the layer into the root layer
-	[mainLayer addSublayer: [postLayer retain]];
+	[mainLayer addSublayer: [clickEntryLayer retain]];
 }
 
-- (void)clearPostEntry {
-	[postLayer removeFromSuperlayer];
+- (void)clearClickEntry {
+	[clickEntryLayer removeFromSuperlayer];
 }
 
 #pragma mark Pop-Up Message
@@ -220,10 +223,5 @@
 		[popUpLayer autorelease];
 		popUpLayer = nil;
 	}
-}
-
--(void) resize {
-	[self setFrameSize:[mainView frame].size];
-	[self setFrameOrigin: NSMakePoint(0, 0)];
 }
 @end

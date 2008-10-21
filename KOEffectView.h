@@ -18,18 +18,18 @@
 	
 	IBOutlet YLView *mainView;
 	
-	CALayer *boxLayer;
-	CALayer *postLayer;
+	CALayer *ipAddrLayer;
+	CALayer *clickEntryLayer;
 	CALayer *popUpLayer;
 }
 
 // for ip seeker
-- (void)drawBox: (NSRect) rect;
-- (void)clearBox;
+- (void)drawIPAddrBox: (NSRect) rect;
+- (void)clearIPAddrBox;
 
 // for post view
-- (void)drawPostEntry: (NSRect) rect;
-- (void)clearPostEntry;
+- (void)drawClickEntry: (NSRect) rect;
+- (void)clearClickEntry;
 
 // To show pop up message by core animation
 // This method might be changed in future

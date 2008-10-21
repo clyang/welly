@@ -397,12 +397,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
 	switch (rectData->type) {
 		case IPADDR:
-			[_effectView drawBox: rect];
+			[_effectView drawIPAddrBox: rect];
 			break;
 		case POSTENTRY:
 			// FIXME: remove the following line if preference is done
 			//if([[[self frontMostConnection] site] enableMouse]) {
-			[_effectView drawPostEntry: rect];
+			[_effectView drawClickEntry: rect];
 			_postEntryData = rectData;
 			//}
 			break;
@@ -415,10 +415,10 @@ BOOL isSpecialSymbol(unichar ch) {
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
 	switch (rectData->type) {
 		case IPADDR:
-			[_effectView clearBox];
+			[_effectView clearIPAddrBox];
 			break;
 		case POSTENTRY:
-			[_effectView clearPostEntry];
+			[_effectView clearClickEntry];
 			_postEntryData = nil;
 			break;
 		default:
