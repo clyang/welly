@@ -73,3 +73,8 @@
 /* EXIF info */
 "exifStringFormat" = "原始创建日期：%@\n\n曝光时间：%@s\n焦距：%@ mm\n光圈：%@\n";
 "tiffStringFormat" = "\n设备制造商及型号：\n%@ %@";
+
+/* Cover flow */
+"Are you sure you want to delete the cover?" = "您真的要删除这个封面么？";
+"Welly will delete this cover file, please confirm." = "Welly即将删除这个站点的封面信息，请您确认";
+"Delete" = "删除";

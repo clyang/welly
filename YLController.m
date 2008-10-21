@@ -1255,11 +1255,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction) removeSiteImage:(id)sender {
 	[_sitesWindow setAlphaValue:0];
-	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Del image?", @"Sheet Title")
-									 defaultButton:NSLocalizedString(@"Del", @"Default Button")
+	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to delete the cover?", @"Sheet Title")
+									 defaultButton:NSLocalizedString(@"Delete", @"Default Button")
 								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
 									   otherButton:nil
-						 informativeTextWithFormat:NSLocalizedString(@"Del it or not...", @"Sheet Message")];
+						 informativeTextWithFormat:NSLocalizedString(@"Welly will delete this cover file, please confirm.", @"Sheet Message")];
 	if ([alert runModal] == NSAlertDefaultReturn)
 		[self removeImage];
 	[_sitesWindow setAlphaValue:100];
