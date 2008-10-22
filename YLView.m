@@ -402,6 +402,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		case CLICKENTRY:
 			// FIXME: remove the following line if preference is done
 			if([[[self frontMostConnection] site] enableMouse]) {
+				NSCursor * cursor = [NSCursor pointingHandCursor];
+				[cursor set];
 				[_effectView drawClickEntry: rect];
 				_clickEntryData = rectData;
 			}
@@ -419,6 +421,8 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case CLICKENTRY:
 			[_effectView clearClickEntry];
+			NSCursor * cursor = [NSCursor arrowCursor];
+			[cursor set];
 			_clickEntryData = nil;
 			break;
 		default:
