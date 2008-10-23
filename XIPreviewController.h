@@ -7,10 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <HMBlkAppKit/HMBlkAppKit.h>
 
 @interface XIPreviewController : NSObject {
-
 }
+
+// This progress bar is restored by gtCarrera
+HMBlkProgressIndicator *_indicator;
+NSPanel         *_window;
 
 - (IBAction)openPreview:(id)sender;
 + (NSURLDownload *)dowloadWithURL:(NSURL *)URL;
