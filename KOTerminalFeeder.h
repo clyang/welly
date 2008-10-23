@@ -42,6 +42,8 @@
 	
 	YLTerminal *_terminal;
 	YLConnection *_connection;
+	
+	BOOL _hasNewMessage;	// to determine if a growl notification is needed
 }
 
 - (id)init;

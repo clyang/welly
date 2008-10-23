@@ -39,6 +39,10 @@ typedef enum YLANSIColorKey {
     YLEscEscEscANSIColorKey = 0
 } YLANSIColorKey;
 
+typedef enum {
+	TYFirebird, TYMaple, TYUnix
+} TYBBSType;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

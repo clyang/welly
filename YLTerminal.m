@@ -12,6 +12,7 @@
 #import "YLConnection.h"
 #import "XIIntegerArray.h"
 #import "encoding.h"
+#import "YLSite.h"
 
 @implementation YLTerminal
 
@@ -347,10 +348,21 @@
 
 - (void)setConnection:(YLConnection *)value {
     _connection = value;
+	// FIXME: BBS type is temoprarily determined by the ansi color key.
+	// remove #import "YLSite.h" when fixed.
+	[self setBbsType:[[_connection site] ansiColorKey] == YLCtrlUANSIColorKey ? TYMaple : TYFirebird];
 }
 
 - (BBSState)bbsState {
 	return _bbsState;
+}
+
+- (TYBBSType)bbsType {
+	return _bbsType;
+}
+
+- (void)setBbsType:(TYBBSType)bbsType {
+	_bbsType = bbsType;
 }
 
 @end

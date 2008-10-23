@@ -20,6 +20,7 @@ typedef struct {
 } BBSState;
 
 @interface YLTerminal : NSObject {	
+	TYBBSType _bbsType;
 @public
     unsigned int _row;
     unsigned int _column;
@@ -71,6 +72,8 @@ typedef struct {
 - (YLConnection *)connection;
 - (void)setConnection:(YLConnection *)value;
 - (BBSState)bbsState;
+- (TYBBSType)bbsType;
+- (void)setBbsType:(TYBBSType)bbsType;
 
 /* Input Interface */
 - (void)feedGrid: (cell **)grid;
