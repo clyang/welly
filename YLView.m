@@ -1693,7 +1693,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 /*
- * clear all ip areas
+ * clear all tracking rects
  */
 - (void)clearAllTrackingArea {
 	[_effectView clear];
@@ -1712,9 +1712,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_postTrackingRects pop_front];
 	}
 	_clickEntryData = nil;
-	[self removeTrackingRect:_exitTrackingRect];
-	_exitTrackingRect = 0;
-	_isMouseInExitArea = NO;
+	
+	//[self removeTrackingRect:_exitTrackingRect];
+	//_exitTrackingRect = 0;
+	//_isMouseInExitArea = NO;
 }
 
 #pragma mark Post Entry Point
@@ -1807,6 +1808,7 @@ BOOL isSpecialSymbol(unichar ch) {
 										owner: self
 									 userData: [KOTrackingRectData exitRectData]
 								 assumeInside: YES];
+	//NSLog(@"Exit Area added!");
 }
 
 - (void)updateExitArea {
