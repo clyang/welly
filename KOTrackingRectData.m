@@ -29,4 +29,10 @@
 	return data;
 }
 
++ (KOTrackingRectData *)exitRectData {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = EXITAREA;
+	return data;
+}
+
 @end

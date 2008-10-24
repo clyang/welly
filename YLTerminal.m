@@ -279,10 +279,11 @@
 // 
 - (void)updateBBSState {
 	NSString *topLine = [self stringFromIndex:0 length:_column];	// get the first line from the screen
+	NSString *secondLine = [self stringFromIndex:_column length:_column];
 	NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
 	if (NO) {
 		// just for align
-	} else if ([topLine rangeOfString:@"主选单"].length > 0) {
+	} else if ([secondLine rangeOfString:@"目前选择"].length > 0) {
 		NSLog(@"主选单");
 		_bbsState.state = BBSMainMenu;
 	} else if ([topLine rangeOfString:@"讨论区列表"].length > 0 || [topLine rangeOfString:@"个人定制区"].length > 0) {
@@ -297,6 +298,12 @@
 	} else if ([topLine rangeOfString:@"好朋友列表"].length > 0) {
 		NSLog(@"好朋友列表");
 		_bbsState.state = BBSFriendList;
+		for (int i = 3; i < _row; ++i) {
+			if (_grid[i][0].byte == '>') {
+				_bbsState.cursorRow = i;
+				break;
+			}
+		}
 	} else if ([topLine rangeOfString:@"版主"].length > 0) {
 		NSLog(@"版面");
 		_bbsState.state = BBSBrowseBoard;

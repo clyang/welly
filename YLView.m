@@ -100,6 +100,13 @@ BOOL isSpecialSymbol(unichar ch) {
     [cursorImage release];
 }
 
+- (NSRect) rectAtRow: (int)r 
+			  Column: (int)c 
+			  Height: (int)h 
+			   Width: (int)w {
+	return NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
+}
+
 - (void) createSymbolPath {
 	int i = 0;
 	gSymbolBlackSquareRect = NSMakeRect(1.0, 1.0, _fontWidth * 2 - 2, _fontHeight - 2);
@@ -408,6 +415,13 @@ BOOL isSpecialSymbol(unichar ch) {
 				_clickEntryData = rectData;
 			}
 			break;
+		case EXITAREA:
+			if([[[self frontMostConnection] site] enableMouse]) {
+				NSCursor * cursor = [NSCursor resizeLeftCursor];
+				[cursor set];
+				_isMouseInExitArea = YES;
+			}
+			break;
 		default:
 			break;
 	}
@@ -415,15 +429,19 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)mouseExited:(NSEvent *)theEvent {
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
+	NSCursor *cursor = [NSCursor arrowCursor];
 	switch (rectData->type) {
 		case IPADDR:
 			[_effectView clearIPAddrBox];
 			break;
 		case CLICKENTRY:
 			[_effectView clearClickEntry];
-			NSCursor * cursor = [NSCursor arrowCursor];
 			[cursor set];
 			_clickEntryData = nil;
+			break;
+		case EXITAREA:
+			[cursor set];			
+			_isMouseInExitArea = NO;
 			break;
 		default:
 			break;
@@ -550,15 +568,15 @@ BOOL isSpecialSymbol(unichar ch) {
 		NSLog(@"title = %@", _clickEntryData->postTitle);
 		
 		if (moveToRow > cursorRow) {
-			cmd[cmdLength++] = 0x01;
-			for (int i = cursorRow; i <= moveToRow; i++) {
+			//cmd[cmdLength++] = 0x01;
+			for (int i = cursorRow; i < moveToRow; i++) {
 				cmd[cmdLength++] = 0x1B;
 				cmd[cmdLength++] = 0x4F;
 				cmd[cmdLength++] = 0x42;
 			} 
 		} else if (moveToRow < cursorRow) {
-			cmd[cmdLength++] = 0x01;
-			for (int i = cursorRow; i >= moveToRow; i--) {
+			//cmd[cmdLength++] = 0x01;
+			for (int i = cursorRow; i > moveToRow; i--) {
 				cmd[cmdLength++] = 0x1B;
 				cmd[cmdLength++] = 0x4F;
 				cmd[cmdLength++] = 0x41;
@@ -570,6 +588,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 	}
 	
+	if (_isMouseInExitArea) {
+		[[self frontMostConnection] sendText: termKeyLeft];
+	}
 //    [super mouseDown: e];
 }
 
@@ -985,6 +1006,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		} else if (db == 2) {
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
 			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
+			NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
 			if (isSpecialSymbol(ch)) {
 				[self drawSpecialSymbol: ch forRow: r column: (x - 1) leftAttribute: (currRow + x - 1)->attr rightAttribute: (currRow + x)->attr];
 			} else {
@@ -1576,13 +1598,13 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self clearAllTrackingArea];
 	if (![[self frontMostConnection] connected]) 
 		return;
+	[self updateExitArea];
 	for (int y = 0; y < gRow; y++) {
 		[self updateIPStateForRow: y];
 		[self updateClickEntryForRow: y];
 	}
 }
 
-#pragma mark -
 #pragma mark ip seeker
 - (void)addIPRect: (const char *)ip
 			  row: (int)r
@@ -1690,13 +1712,16 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_postTrackingRects pop_front];
 	}
 	_clickEntryData = nil;
+	[self removeTrackingRect:_exitTrackingRect];
+	_exitTrackingRect = 0;
+	_isMouseInExitArea = NO;
 }
 
 #pragma mark Post Entry Point
 - (void)addClickEntryRect: (NSString *)title
-			  row: (int)r
-		   column: (int)c
-		   length: (int)length {
+					  row: (int)r
+				   column: (int)c
+				   length: (int)length {
 	/* ip tooltip */
 	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
 							 _fontWidth * length, _fontHeight);
@@ -1724,7 +1749,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			int db = currRow[i].attr.f.doubleByte;
 			
 			if (db == 0) {
-				if (currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
+				if (start == -1 && currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
 					start = i;
 				}
 				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
@@ -1735,7 +1760,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			} else if (db == 2) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-				if (ch == 9679) // the solid circle
+				if (start == -1 && ch == 9679) // the solid circle
 					start = i - 1;
 				end = i;
 				if (start != -1)
@@ -1758,7 +1783,40 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (currRow[12].byte == 0 || currRow[12].byte == ' ')
 			return;
 		[self addClickEntryRect: [ds stringFromIndex:12 + r * gColumn length:80-28] row:r column:12 length:80-28];
+	} else if ([ds bbsState].state == BBSFriendList) {
+		if (r < 3 || r == gRow - 1)
+			return;
+		if (currRow[7].byte == 0 || currRow[7].byte == ' ')
+			return;
+		[self addClickEntryRect: [ds stringFromIndex:7 + r * gColumn length:80-13] row:r column:7 length:80-13];
 	}
+}
+
+#pragma mark Exit Area
+
+- (void)addExitAreaAtRow: (int)r 
+				  column: (int)c 
+				  height: (int)h 
+				   width: (int)w {
+	//NSRect rect = [self rectAtRow:r	Column:c Height:h Width:w];
+	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight,
+							 _fontWidth * w, _fontHeight * h);
+	if (_exitTrackingRect)
+		[self removeTrackingRect: _exitTrackingRect];
+	_exitTrackingRect = [self addTrackingRect: rect
+										owner: self
+									 userData: [KOTrackingRectData exitRectData]
+								 assumeInside: YES];
+}
+
+- (void)updateExitArea {
+	//YLTerminal *ds = [self frontMostTerminal];
+	//if ([ds bbsState].state == BBSBrowseBoard) {
+		[self addExitAreaAtRow:3 
+						column:0 
+						height:20
+						 width:7];
+	//}
 }
 
 #pragma mark -
