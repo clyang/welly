@@ -7,6 +7,7 @@
 //
 
 #import "KOEffectView.h"
+#import "YLLGlobalConfig.h"
 
 #import <Quartz/Quartz.h>
 #import <ScreenSaver/ScreenSaver.h>
@@ -150,6 +151,73 @@
 
 - (void)clearClickEntry {
 	[clickEntryLayer removeFromSuperlayer];
+}
+
+#pragma mark Welly Buttons
+
+- (void)drawButtonAt: (NSPoint) mousePos withMessage: (NSString *) message {
+	//Initiallize a new CALayer
+	if(!buttonLayer){
+		buttonLayer = [CALayer layer];
+		// Set the colors of the pop-up layer
+		buttonLayer.backgroundColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
+		buttonLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+		buttonLayer.borderWidth = 0.0;
+		buttonLayer.cornerRadius = 12.0;
+    }	
+    // Create a text layer to add so we can see the message.
+    CATextLayer *textLayer = [CATextLayer layer];
+	// Set its foreground color
+    textLayer.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0f);
+	
+	// Set the message to the text layer
+	textLayer.string = message;
+	// Modify its styles
+	textLayer.truncationMode = kCATruncationEnd;
+    CGFontRef font = CGFontCreateWithFontName((CFStringRef)[[YLLGlobalConfig sharedInstance] englishFontName]);
+    textLayer.font = font;
+	textLayer.fontSize = [[YLLGlobalConfig sharedInstance] englishFontSize] - 2;
+	// Here, calculate the size of the text layer
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								[NSFont fontWithName:[[YLLGlobalConfig sharedInstance] englishFontName] 
+												size:textLayer.fontSize], 
+								NSFontAttributeName, 
+								nil];
+	NSSize messageSize = [message sizeWithAttributes:attributes];
+	
+	// Change the size of text layer automatically
+	NSRect textRect = NSZeroRect;
+	textRect.size.width = messageSize.width;
+	textRect.size.height = messageSize.height;
+    CGFontRelease(font);
+	
+    // Create a new rectangle with a suitable size for the inner texts.
+	// Set it to an appropriate position of the whole view
+    NSRect finalRect = textRect;
+	finalRect.origin.x = mousePos.x - textRect.size.width / 2;
+	finalRect.origin.y = mousePos.y - textRect.size.height;
+	finalRect.size.width += 8;
+	finalRect.size.height += 4;
+	
+	// Move the origin point of the message layer, so the message can be 
+	// displayed in the center of the background layer
+	textRect.origin.x += (finalRect.size.width - textRect.size.width) / 2.0;
+	textRect.origin.y += (finalRect.size.height - textRect.size.height) / 2.0;
+	textLayer.frame = NSRectToCGRect(textRect);
+	
+    // Set the layer frame to our rectangle.
+    buttonLayer.frame = NSRectToCGRect(finalRect);
+	//buttonLayer.cornerRadius = finalRect.size.height/5;
+	[buttonLayer addSublayer:[textLayer retain]];
+    
+    // Insert the layer into the root layer
+	[mainLayer addSublayer:[buttonLayer retain]];
+}
+
+- (void)clearButton {
+	CALayer *textLayer = [[buttonLayer sublayers] lastObject];
+	[textLayer removeFromSuperlayer];
+	[buttonLayer removeFromSuperlayer];
 }
 
 #pragma mark Pop-Up Message

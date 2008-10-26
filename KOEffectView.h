@@ -21,6 +21,7 @@
 	CALayer *ipAddrLayer;
 	CALayer *clickEntryLayer;
 	CALayer *popUpLayer;
+	CALayer *buttonLayer;
 }
 
 // for ip seeker
@@ -30,6 +31,10 @@
 // for post view
 - (void)drawClickEntry: (NSRect) rect;
 - (void)clearClickEntry;
+
+// for button
+- (void)drawButtonAt: (NSPoint) mousePos withMessage: (NSString *) message;
+- (void)clearButton;
 
 // To show pop up message by core animation
 // This method might be changed in future
