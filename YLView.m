@@ -104,7 +104,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			  Column: (int)c 
 			  Height: (int)h 
 			   Width: (int)w {
-	return NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
+	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
 }
 
 - (void) createSymbolPath {
@@ -416,9 +416,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			}
 			break;
 		case EXITAREA:
-			if([[[self frontMostConnection] site] enableMouse]) {
-				NSCursor * cursor = [NSCursor resizeLeftCursor];
-				[cursor set];
+			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
 				_isMouseInExitArea = YES;
 			}
 			break;
@@ -440,7 +438,6 @@ BOOL isSpecialSymbol(unichar ch) {
 			_clickEntryData = nil;
 			break;
 		case EXITAREA:
-			[cursor set];			
 			_isMouseInExitArea = NO;
 			break;
 		default:
@@ -1800,14 +1797,17 @@ BOOL isSpecialSymbol(unichar ch) {
 				  height: (int)h 
 				   width: (int)w {
 	//NSRect rect = [self rectAtRow:r	Column:c Height:h Width:w];
+	if (_exitTrackingRect)
+		return;
 	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight,
 							 _fontWidth * w, _fontHeight * h);
-	if (_exitTrackingRect)
-		[self removeTrackingRect: _exitTrackingRect];
+	//if (_exitTrackingRect)
+	//	[self removeTrackingRect: _exitTrackingRect];
 	_exitTrackingRect = [self addTrackingRect: rect
 										owner: self
 									 userData: [KOTrackingRectData exitRectData]
 								 assumeInside: YES];
+	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
 	//NSLog(@"Exit Area added!");
 }
 
