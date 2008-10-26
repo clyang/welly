@@ -211,7 +211,7 @@
 	for (i = 0; i < _column; i++) {
         if (urlState) {
             unsigned char c = currRow[i].byte;
-            if (0x21 > c || c > 0x7E) 
+            if (0x21 > c || c > 0x7E || c == ')') 
                 urlState = NO;
         } else {
             int p;
