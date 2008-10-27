@@ -42,8 +42,10 @@
 	XIIntegerArray *_ipTrackingRects;
 	XIIntegerArray *_postTrackingRects;
 	NSTrackingRectTag _exitTrackingRect;
+	XIIntegerArray *_buttonTrackingRects;
 	
 	KOTrackingRectData *_clickEntryData;
+	KOTrackingRectData *_buttonData;
 	BOOL _isMouseInExitArea;
 }
 
@@ -105,6 +107,8 @@
 - (void)updateClickEntryForRow: (int) r;
 
 - (void)updateExitArea;
+
+- (void)updateButtonAreaForRow: (int) r;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;

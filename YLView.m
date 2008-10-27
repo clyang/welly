@@ -101,9 +101,9 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (NSRect) rectAtRow: (int)r 
-			  Column: (int)c 
-			  Height: (int)h 
-			   Width: (int)w {
+			  column: (int)c 
+			  height: (int)h 
+			   width: (int)w {
 	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
 }
 
@@ -211,6 +211,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		
 		_ipTrackingRects = [[XIIntegerArray alloc] init];
 		_postTrackingRects = [[XIIntegerArray alloc] init];
+		_buttonTrackingRects = [[XIIntegerArray alloc] init];
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
     return self;
@@ -420,6 +421,14 @@ BOOL isSpecialSymbol(unichar ch) {
 				_isMouseInExitArea = YES;
 			}
 			break;
+		case BUTTON:
+			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
+				NSPoint p = [theEvent locationInWindow];
+				p = [self convertPoint:p toView:nil];
+				[_effectView drawButtonAt:p withMessage:[[rectData getButtonText] retain]];
+				_buttonData = rectData;
+			}
+			break;
 		default:
 			break;
 	}
@@ -439,6 +448,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case EXITAREA:
 			_isMouseInExitArea = NO;
+			break;
+		case BUTTON:
+			[_effectView clearButton];
+			_buttonData = nil;
 			break;
 		default:
 			break;
@@ -497,6 +510,9 @@ BOOL isSpecialSymbol(unichar ch) {
     }
     
     [self setNeedsDisplay: YES];
+	
+	if (![[[self frontMostConnection] site] enableMouse])
+		return;
     
     // click to move cursor
     if ([theEvent modifierFlags] & NSCommandKeyMask) {
@@ -562,7 +578,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		int cursorRow = [ds bbsState].cursorRow;
 		
 		//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
-		NSLog(@"title = %@", _clickEntryData->postTitle);
+		//NSLog(@"title = %@", _clickEntryData->postTitle);
 		
 		if (moveToRow > cursorRow) {
 			//cmd[cmdLength++] = 0x01;
@@ -587,6 +603,10 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	if (_isMouseInExitArea) {
 		[[self frontMostConnection] sendText: termKeyLeft];
+	}
+	
+	if (_buttonData) {
+		[[self frontMostConnection] sendText: _buttonData->commandSequence];
 	}
 //    [super mouseDown: e];
 }
@@ -1003,7 +1023,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		} else if (db == 2) {
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
 			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-			NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
+			//NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
 			if (isSpecialSymbol(ch)) {
 				[self drawSpecialSymbol: ch forRow: r column: (x - 1) leftAttribute: (currRow + x - 1)->attr rightAttribute: (currRow + x)->attr];
 			} else {
@@ -1599,6 +1619,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	for (int y = 0; y < gRow; y++) {
 		[self updateIPStateForRow: y];
 		[self updateClickEntryForRow: y];
+		[self updateButtonAreaForRow: y];
 	}
 }
 
@@ -1708,7 +1729,14 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self removeTrackingRect:rectTag];
 		[_postTrackingRects pop_front];
 	}
+	
+	while(![_buttonTrackingRects empty]) {
+		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_buttonTrackingRects front];
+		[self removeTrackingRect:rectTag];
+		[_buttonTrackingRects pop_front];
+	}
 	_clickEntryData = nil;
+	_buttonData = nil;
 	
 	//[self removeTrackingRect:_exitTrackingRect];
 	//_exitTrackingRect = 0;
@@ -1721,8 +1749,8 @@ BOOL isSpecialSymbol(unichar ch) {
 				   column: (int)c
 				   length: (int)length {
 	/* ip tooltip */
-	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
-							 _fontWidth * length, _fontHeight);
+	NSRect rect = [self rectAtRow:r column:c height:1 width:length];
+	//NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * length, _fontHeight);
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
 											 userData: [KOTrackingRectData clickEntryRectData: title
@@ -1796,18 +1824,16 @@ BOOL isSpecialSymbol(unichar ch) {
 				  column: (int)c 
 				  height: (int)h 
 				   width: (int)w {
-	//NSRect rect = [self rectAtRow:r	Column:c Height:h Width:w];
+	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
 	if (_exitTrackingRect)
 		return;
-	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight,
-							 _fontWidth * w, _fontHeight * h);
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	_exitTrackingRect = [self addTrackingRect: rect
 										owner: self
 									 userData: [KOTrackingRectData exitRectData]
 								 assumeInside: YES];
-	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
 	//NSLog(@"Exit Area added!");
 }
 
@@ -1819,6 +1845,35 @@ BOOL isSpecialSymbol(unichar ch) {
 						height:20
 						 width:7];
 	//}
+}
+
+#pragma mark button Area
+- (void) addButtonArea: (KOButtonType)buttonType 
+	   commandSequence: (NSString *)cmd 
+				 atRow: (int)r 
+				column: (int)c 
+				length: (int)len {
+	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
+	NSTrackingRectTag rectTag = [self addTrackingRect: rect
+												owner: self
+											 userData: [KOTrackingRectData buttonRectData:buttonType
+																		  commandSequence:cmd]
+										 assumeInside: YES];
+	[_buttonTrackingRects push_back: rectTag];
+}
+
+- (void) updateButtonAreaForRow:(int)r {
+	YLTerminal *ds = [self frontMostTerminal];
+	//cell *currRow = [ds cellsOfRow: r];
+	if ([ds bbsState].state == BBSBrowseBoard) {
+		for (int x = 0; x < gColumn - 8; ++x) {
+			if ([[ds stringFromIndex: x + r * gColumn length:8] isEqualToString: @"发表文章"]) {
+				[self addButtonArea:COMPOSE_POST commandSequence:fbComposePost atRow:r column:x length:8];
+				NSLog(@"founded!");
+				x += 7;
+			}
+		}
+	}
 }
 
 #pragma mark -

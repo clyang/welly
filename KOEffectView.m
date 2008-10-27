@@ -73,6 +73,7 @@
 - (void) clear {
 	[self clearIPAddrBox];
 	[self clearClickEntry];
+	[self clearButton];
 	[popUpLayer removeFromSuperlayer];
 }
 

@@ -7,11 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+typedef enum {
+	COMPOSE_POST
+} KOButtonType;
 
 @interface KOTrackingRectData : NSData {
 @public
 	enum KOTrackingRectType {
-		IPADDR, CLICKENTRY, EXITAREA
+		IPADDR, CLICKENTRY, EXITAREA, BUTTON
 	} type;
 	
 	NSString *ipAddr;
@@ -19,11 +22,21 @@
 	NSString *postTitle;
 	int row;
 	int column;
+	
+	KOButtonType buttonType;
+	
+	NSString *commandSequence;
 }
 
 + (KOTrackingRectData *)ipRectData: (NSString *)ipAddr
 						   toolTip: (NSString *)toolTip;
 + (KOTrackingRectData *)clickEntryRectData: (NSString *)postTitle
-									atRow: (int)row;
+									 atRow: (int)row;
 + (KOTrackingRectData *)exitRectData;
++ (KOTrackingRectData *)buttonRectData: (KOButtonType)buttonType 
+					   commandSequence: (NSString *)cmd;
+
+- (NSString *)getButtonText;
+
+#define fbComposePost @"\020"
 @end

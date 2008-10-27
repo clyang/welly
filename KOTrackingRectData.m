@@ -35,4 +35,24 @@
 	return data;
 }
 
++ (KOTrackingRectData *)buttonRectData: (KOButtonType)buttonType 
+					   commandSequence: (NSString *)cmd {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = BUTTON;
+	data->buttonType = buttonType;
+	data->commandSequence = [cmd retain];
+	return data;
+}
+
+- (NSString *)getButtonText {
+	assert(type == BUTTON);
+	switch (buttonType) {
+		case COMPOSE_POST:
+			return @"发表文章";
+		default:
+			break;
+	}
+	return @"";
+}
+
 @end
