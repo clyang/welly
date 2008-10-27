@@ -49,6 +49,8 @@
 	switch (buttonType) {
 		case COMPOSE_POST:
 			return @"发表文章";
+		case DELETE_POST:
+			return @"自宫";
 		default:
 			break;
 	}

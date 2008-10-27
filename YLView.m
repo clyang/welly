@@ -1869,7 +1869,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		for (int x = 0; x < gColumn - 8; ++x) {
 			if ([[ds stringFromIndex: x + r * gColumn length:8] isEqualToString: @"发表文章"]) {
 				[self addButtonArea:COMPOSE_POST commandSequence:fbComposePost atRow:r column:x length:8];
-				NSLog(@"founded!");
+				x += 7;
+			}
+			if ([[ds stringFromIndex: x + r * gColumn length:4] isEqualToString: @"砍信"]) {
+				[self addButtonArea:DELETE_POST commandSequence:fbDeletePost atRow:r column:x length:4];
 				x += 7;
 			}
 		}

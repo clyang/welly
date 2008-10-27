@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 typedef enum {
-	COMPOSE_POST
+	COMPOSE_POST, DELETE_POST
 } KOButtonType;
 
 @interface KOTrackingRectData : NSData {
@@ -39,4 +39,5 @@ typedef enum {
 - (NSString *)getButtonText;
 
 #define fbComposePost @"\020"
+#define fbDeletePost @"dy\n"
 @end
