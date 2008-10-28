@@ -158,14 +158,17 @@
 
 - (void)drawButtonAt: (NSPoint) mousePos withMessage: (NSString *) message {
 	//Initiallize a new CALayer
-	if(!buttonLayer){
-		buttonLayer = [CALayer layer];
-		// Set the colors of the pop-up layer
-		buttonLayer.backgroundColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
-		buttonLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
-		buttonLayer.borderWidth = 0.0;
-		buttonLayer.cornerRadius = 12.0;
-    }	
+	if(buttonLayer)
+		[buttonLayer release];
+	
+	buttonLayer = [CALayer layer];
+	// Set the colors of the pop-up layer
+	buttonLayer.backgroundColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
+	buttonLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+	buttonLayer.borderWidth = 0.0;
+	buttonLayer.cornerRadius = 6.0;
+
+	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
 	// Set its foreground color
@@ -210,6 +213,10 @@
     buttonLayer.frame = NSRectToCGRect(finalRect);
 	//buttonLayer.cornerRadius = finalRect.size.height/5;
 	[buttonLayer addSublayer:[textLayer retain]];
+	
+	CATransition * buttonTrans = [CATransition new];
+	buttonTrans.type = kCATransitionReveal;
+	[buttonLayer addAnimation: buttonTrans forKey: kCATransition];
     
     // Insert the layer into the root layer
 	[mainLayer addSublayer:[buttonLayer retain]];
@@ -218,6 +225,7 @@
 - (void)clearButton {
 	CALayer *textLayer = [[buttonLayer sublayers] lastObject];
 	[textLayer removeFromSuperlayer];
+	[buttonLayer removeAllAnimations];
 	[buttonLayer removeFromSuperlayer];
 }
 
