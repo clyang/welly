@@ -127,7 +127,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // the switch
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
 		[_telnetView updatePortal];
-        [_telnetView setWantsLayer:YES];
     }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
     
@@ -160,12 +159,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     
     // update portal
     if ([_telnetView layer]) {
-        BOOL flag = [_telnetView wantsLayer];
+        //BOOL flag = [_telnetView wantsLayer];
         // NOTE: comment out the folowing line to turn off cover flow
         [_telnetView updatePortal];
         // NOTE: notify the view first, or the layer will display incorrectly.
-        [_telnetView setWantsLayer:YES];
-        [_telnetView setWantsLayer:flag];
+//        [_telnetView setWantsLayer:YES];
+//        [_telnetView setWantsLayer:flag];
     }
 }
 
@@ -205,7 +204,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)newConnectionWithSite:(YLSite *)site {
-
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
 	// Set the view to be focused.
@@ -235,6 +233,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [connection setTerminal:nil];
         [connection setProtocol:nil];
     } else {
+		// Close the portal
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+			NSLog(@"Portal removed!");
+			[_telnetView removePortal];
+		}
         // new terminal
         YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
         [connection setTerminal:terminal];
@@ -417,10 +420,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self newConnectionWithSite:[YLSite site]];
 	
 	// Draw the portal and entering the portal control mode if needed...
-	/*if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"])) {
+	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"])) {
 		[_telnetView updatePortal];
-		//return;
-	}*/
+	}
     /*
     YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
 

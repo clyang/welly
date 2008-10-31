@@ -49,10 +49,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (id)initWithView:(NSView *)view {
+	self = [super initWithFrame:[view frame]];
 	_mainView = [view retain];
-	if(![_mainView wantsLayer])
-		[_mainView setWantsLayer:YES];
-	
+	[self setWantsLayer:YES];
     NSSize cellSpacing = {5, 5}, cellSize = {240, 240};
 
     self = [super init];
@@ -91,9 +90,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     //rootLayer.backgroundColor = CGColorCreateGenericRGB(bgColor.redComponent, bgColor.greenComponent, bgColor.blueComponent, bgColor.alphaComponent);
     rootLayer.backgroundColor = [XIPortal color:C_BLACK];
     rootLayer.name = @"root";
-	
-	if(![_mainView layer])
-		[_mainView setLayer:rootLayer];
 
     // informative header text
     _headerTextLayer = [CATextLayer layer];
@@ -145,7 +141,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
     // done
     _imageSize = *(CGSize *)&cellSize;
-    [view setLayer:rootLayer];
+    [self setLayer:rootLayer];
     [_bodyLayer setDelegate:self];
     
     // create a gradient image to use for our image shadows
@@ -268,9 +264,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
     // restore last selection
     [self performSelectorOnMainThread:@selector(restoreSelection) withObject:nil waitUntilDone:NO];
-	
-	if([_mainView layer] == nil) 
-		[_mainView setLayer:rootLayer];
     return self;
 }
 
@@ -514,6 +507,17 @@ static const CGFloat colorValues[C_COUNT][4] = {
             CGImageRelease (image);
         }
     }
+}
+
+- (void)mouseDown:(NSEvent *)theEvent {
+	NSLog(@"Mouse down!");
+    [[self window] makeFirstResponder:self];
+	
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
+	
+	[self clickAtPoint:p count:[theEvent clickCount]];
+	return;
 }
 
 @end

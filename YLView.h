@@ -47,6 +47,7 @@
 	KOTrackingRectData *_clickEntryData;
 	KOTrackingRectData *_buttonData;
 	BOOL _isMouseInExitArea;
+	BOOL _isInPortalMode;
 }
 
 - (void) configure ;
@@ -89,8 +90,9 @@
 - (BOOL) hasBlinkCell ;
 
 - (void)insertText:(id)aString withDelay:(int)microsecond;
-
+/* Portal */
 - (void)updatePortal;
+- (void)removePortal;
 
 /* Hot Spots */
 - (void)refreshAllHotSpots;

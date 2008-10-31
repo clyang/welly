@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "YLView.h"
 
-@interface XIPortal : NSObject {
+@interface XIPortal : NSView {
     CAScrollLayer *_bodyLayer;
     CATextLayer *_headerTextLayer, *_footerTextLayer;
     CATransform3D _sublayerTransform;

@@ -208,8 +208,8 @@ BOOL isSpecialSymbol(unichar ch) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
-		
-		_ipTrackingRects = [[XIIntegerArray alloc] init];
+		_isInPortalMode = NO;
+ 		_ipTrackingRects = [[XIIntegerArray alloc] init];
 		_postTrackingRects = [[XIIntegerArray alloc] init];
 		_buttonTrackingRects = [[XIIntegerArray alloc] init];
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
@@ -466,7 +466,7 @@ BOOL isSpecialSymbol(unichar ch) {
     p = [self convertPoint:p toView:nil];
 
     // portal
-    if ([self wantsLayer]) {
+    if (_isInPortalMode) {
         [_portal clickAtPoint:p count:[theEvent clickCount]];
         return;
     }
@@ -648,7 +648,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)scrollWheel:(NSEvent *)theEvent {
     // portal
-    if ([self wantsLayer]) {
+    if (_isInPortalMode) {
         if ([theEvent deltaY] > 0)
             [_portal moveSelection:-1];
         else if ([theEvent deltaY] < 0)
@@ -670,7 +670,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	
     unichar c = [[theEvent characters] characterAtIndex:0];
     // portal
-    if ([self wantsLayer]) {
+    if (_isInPortalMode) {
         switch (c) {
         case NSLeftArrowFunctionKey:
             [_portal moveSelection:-1];
@@ -1603,10 +1603,25 @@ BOOL isSpecialSymbol(unichar ch) {
     return [NSArray array];
 }
 
+#pragma mark -
+#pragma mark Portal
 - (void)updatePortal {
-	if(_portal != nil)
-		[_portal release];
-    _portal = [[XIPortal alloc] initWithView: self];
+	if(_portal) {
+	}
+	else {
+		_portal = [[XIPortal alloc] initWithView: self];
+		[_portal setFrame:[self frame]];
+	}
+	[self addSubview:_portal];
+	_isInPortalMode = YES;
+}
+- (void)removePortal {
+	if(_portal) {
+		//[_portal setAlphaValue:0];
+		[_portal removeFromSuperview];
+		//[_portal autorelease];
+	}
+	_isInPortalMode = NO;
 }
 
 #pragma mark -
