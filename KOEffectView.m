@@ -166,7 +166,7 @@
 	buttonLayer.backgroundColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
 	buttonLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
 	buttonLayer.borderWidth = 0.0;
-	buttonLayer.cornerRadius = 6.0;
+	buttonLayer.cornerRadius = 10.0;
 
 	
     // Create a text layer to add so we can see the message.
