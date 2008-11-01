@@ -361,8 +361,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)select {
-	[_mainView setLayer:nil];
-    [_mainView setWantsLayer:NO];
 	YLController *controller = [((YLApplication *)NSApp) controller];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
 }

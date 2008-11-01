@@ -464,7 +464,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
-
     // portal
     if (_isInPortalMode) {
         [_portal clickAtPoint:p count:[theEvent clickCount]];
@@ -1605,6 +1604,9 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Portal
+- (BOOL) isInPortalState {
+	return _isInPortalMode;
+}
 - (void)updatePortal {
 	if(_portal) {
 	}
@@ -1613,6 +1615,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal setFrame:[self frame]];
 	}
 	[self addSubview:_portal];
+	//[_portal retain];
 	_isInPortalMode = YES;
 }
 - (void)removePortal {
@@ -1622,6 +1625,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		//[_portal autorelease];
 	}
 	_isInPortalMode = NO;
+}
+- (void)checkPortal {
+	if([[self frontMostConnection] connected] && _isInPortalMode)
+		[self removePortal];
+	if(![[self frontMostConnection] connected] && !_isInPortalMode)
+		[self updatePortal];
 }
 
 #pragma mark -

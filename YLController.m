@@ -234,8 +234,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [connection setProtocol:nil];
     } else {
 		// Close the portal
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
-			NSLog(@"Portal removed!");
+		if ([_telnetView isInPortalState]) {
+			//NSLog(@"Portal removed!");
 			[_telnetView removePortal];
 		}
         // new terminal
@@ -544,11 +544,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
+	[_telnetView checkPortal];
 	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
+	[_telnetView checkPortal];
 	[self fullScreenPopUp];
 }
 
@@ -556,11 +558,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if (index > 0 && index <= [_telnetView numberOfTabViewItems]) {
         [_tab selectTabViewItemAtIndex:index-1];
     }
+//	NSLog(@"Select tab %d", index);
+	[_telnetView checkPortal];
 }
 
 - (IBAction)closeTab:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
     [_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
+	[_telnetView checkPortal];
     /*
     if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
         [self tabView:_telnetView willCloseTabViewItem:sel];

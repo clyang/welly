@@ -86,6 +86,8 @@
 - (float) fontHeight;
 - (void) setFontHeight:(float)value;
 
+- (BOOL) isInPortalState;
+
 - (NSString *) selectedPlainString ;
 - (BOOL) hasBlinkCell ;
 
@@ -93,6 +95,7 @@
 /* Portal */
 - (void)updatePortal;
 - (void)removePortal;
+- (void)checkPortal;
 
 /* Hot Spots */
 - (void)refreshAllHotSpots;
