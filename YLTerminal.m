@@ -284,10 +284,10 @@
 	if (NO) {
 		// just for align
 	} else if ([secondLine rangeOfString:@"目前选择"].length > 0) {
-		NSLog(@"主选单");
+		//NSLog(@"主选单");
 		_bbsState.state = BBSMainMenu;
 	} else if ([topLine rangeOfString:@"讨论区列表"].length > 0 || [topLine rangeOfString:@"个人定制区"].length > 0) {
-		NSLog(@"讨论区列表");
+		//NSLog(@"讨论区列表");
 		_bbsState.state = BBSBoardList;
 		for (int i = 3; i < _row; ++i) {
 			if (_grid[i][0].byte == '>') {
@@ -296,7 +296,7 @@
 			}
 		}
 	} else if ([topLine rangeOfString:@"好朋友列表"].length > 0) {
-		NSLog(@"好朋友列表");
+		//NSLog(@"好朋友列表");
 		_bbsState.state = BBSFriendList;
 		for (int i = 3; i < _row; ++i) {
 			if (_grid[i][0].byte == '>') {
@@ -305,7 +305,7 @@
 			}
 		}
 	} else if ([topLine rangeOfString:@"版主"].length > 0) {
-		NSLog(@"版面");
+		//NSLog(@"版面");
 		_bbsState.state = BBSBrowseBoard;
 		NSUInteger loc = [topLine rangeOfString:@"["].location + 1;
 		NSUInteger len = [topLine length] - 1 - loc;
@@ -316,12 +316,12 @@
 				break;
 			}
 		}
-		NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
+		//NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
 	} else if ([bottomLine rangeOfString:@"阅读文章"].length > 0 || [bottomLine rangeOfString:@"下面还有喔"].length > 0) {
-		NSLog(@"阅读文章");
+		//NSLog(@"阅读文章");
 		_bbsState.state = BBSViewPost;
 	} else if ([self cellsOfRow:(_row - 1)]->byte == 161) {
-		NSLog(@"发表文章");
+		//NSLog(@"发表文章");
 		_bbsState.state = BBSComposePost;
 	} else {
 		_bbsState.state = BBSUnknown;

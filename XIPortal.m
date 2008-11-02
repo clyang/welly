@@ -508,7 +508,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	NSLog(@"Mouse down!");
     [[self window] makeFirstResponder:self];
 	
     NSPoint p = [theEvent locationInWindow];
