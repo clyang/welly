@@ -129,6 +129,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[_telnetView updatePortal];
     }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
+	[_tab setMainController:[self retain]];
     
     // restore connections
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
@@ -157,15 +158,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [menuItem release];
     }
     
-    // update portal
-    if ([_telnetView layer]) {
-        //BOOL flag = [_telnetView wantsLayer];
-        // NOTE: comment out the folowing line to turn off cover flow
-        [_telnetView updatePortal];
-        // NOTE: notify the view first, or the layer will display incorrectly.
-//        [_telnetView setWantsLayer:YES];
-//        [_telnetView setWantsLayer:flag];
-    }
+    // Reset portal
+	[_telnetView resetPortal];
 }
 
 - (void)updateEncodingMenu {
@@ -235,7 +229,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     } else {
 		// Close the portal
 		if ([_telnetView isInPortalState]) {
-			//NSLog(@"Portal removed!");
 			[_telnetView removePortal];
 		}
         // new terminal
@@ -532,25 +525,21 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void) fullScreenPopUp {
-	// Test code only!!!
-	//if([_fullScreenController isInFullScreen]) {
-		NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
-		[LLPopUpMessage showPopUpMessage:currSiteName 
-								duration:0.7 
-							  effectView:((KOEffectView*)[_telnetView getEffectView])];
-	//}
-	// Ends here:)
+	NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
+	[LLPopUpMessage showPopUpMessage:currSiteName 
+							duration:1.2
+						  effectView:((KOEffectView*)[_telnetView getEffectView])];
 }
 
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
-	[_telnetView checkPortal];
+	[self checkPortal];
 	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
-	[_telnetView checkPortal];
+	[self checkPortal];
 	[self fullScreenPopUp];
 }
 
@@ -559,13 +548,18 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [_tab selectTabViewItemAtIndex:index-1];
     }
 //	NSLog(@"Select tab %d", index);
-	[_telnetView checkPortal];
+	[self checkPortal];
 }
 
 - (IBAction)closeTab:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
-    [_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
-	[_telnetView checkPortal];
+	// Here, sometimes it may throw a exception...
+	@try {
+		[_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
+	}
+	@catch (NSException * e) {
+	}
+	[self checkPortal];
     /*
     if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
         [self tabView:_telnetView willCloseTabViewItem:sel];
@@ -872,8 +866,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_telnetView clearSelection];
     [_telnetView setNeedsDisplay:YES];
 
-    if ([_telnetView layer])
-        [_telnetView setWantsLayer:[site empty]];
+//    if ([_telnetView layer])
+//        [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
     [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
@@ -886,12 +880,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
         if ([_sites count]) {
-            if ([_telnetView layer])
-                [_telnetView setWantsLayer:YES];
+//            if ([_telnetView layer])
+//                [_telnetView setWantsLayer:YES];
             [_mainWindow makeFirstResponder:_telnetView];
         } else {
-            if ([_telnetView layer])
-                [_telnetView setWantsLayer:NO];
+//            if ([_telnetView layer])
+//                [_telnetView setWantsLayer:NO];
             [_mainWindow makeFirstResponder:_addressBar];
         }
     }
@@ -1174,6 +1168,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (MultiClickRemoteBehavior*) remoteBehavior {
     return remoteControlBehavior;
+}
+#pragma mark -
+#pragma mark For Portal
+- (void) checkPortal {
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+		[_telnetView checkPortal];
+	}
 }
 
 #pragma mark -

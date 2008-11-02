@@ -9,7 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
-@interface XITabBarControl : PSMTabBarControl
+@class YLController;
+@interface XITabBarControl : PSMTabBarControl {
+	YLController * _currMainController;
+}
 
 // select
 - (void)selectTabViewItemAtIndex:(NSInteger)index;
@@ -20,5 +23,8 @@
 
 // close
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem;	
+
+// Set main controller
+- (void)setMainController:(YLController *)view;
 
 @end

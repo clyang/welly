@@ -7,6 +7,7 @@
 //
 
 #import "XITabBarControl.h"
+#import "YLController.h"
 
 // suppress warnings
 @interface PSMTabBarControl ()
@@ -32,6 +33,13 @@
         }
     }
     [super mouseDown:theEvent];
+}
+
+- (void)mouseUp:(NSEvent *) theEvent {
+	// Send the info to super
+	[super mouseUp:theEvent];
+	// Check the portal when mouse is up
+	[_currMainController checkPortal];
 }
 
 - (void)selectTabViewItemAtIndex:(NSInteger)index {
@@ -87,4 +95,8 @@
     [self closeTabClick:[[self cells] objectAtIndex:index]];
 }
 
+#pragma mark - Set main controller
+- (void)setMainController:(YLController *)view {
+	_currMainController = view;
+}
 @end

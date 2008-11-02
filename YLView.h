@@ -96,7 +96,7 @@
 - (void)updatePortal;
 - (void)removePortal;
 - (void)checkPortal;
-
+- (void)resetPortal;
 /* Hot Spots */
 - (void)refreshAllHotSpots;
 

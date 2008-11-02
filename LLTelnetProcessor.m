@@ -53,7 +53,7 @@
 
 	// Then, do the expansion
 	[self setFont:YES];
-	
+	//[[[_myView subviews] objectAtIndex:1] setFrame:[_myView frame]];
 	//[_effectView resize];
 }
 
@@ -64,7 +64,7 @@
 	
 	// And reset the font...
 	[self setFont:NO];
-	
+	//[[[_myView subviews] objectAtIndex:1] setFrame:[_myView frame]];
 	// And reset the effect view...
 	//[_effectView resize];
 }

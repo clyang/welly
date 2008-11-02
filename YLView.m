@@ -1607,25 +1607,36 @@ BOOL isSpecialSymbol(unichar ch) {
 - (BOOL) isInPortalState {
 	return _isInPortalMode;
 }
+// Show the portal, initiallize it if necessary
 - (void)updatePortal {
-	if(_portal) {
-	}
-	else {
+	if(!_portal) {
 		_portal = [[XIPortal alloc] initWithView: self];
 		[_portal setFrame:[self frame]];
 	}
 	[self addSubview:_portal];
-	//[_portal retain];
 	_isInPortalMode = YES;
 }
+// Remove current portal, but NOT release it!
 - (void)removePortal {
 	if(_portal) {
-		//[_portal setAlphaValue:0];
 		[_portal removeFromSuperview];
-		//[_portal autorelease];
 	}
 	_isInPortalMode = NO;
 }
+// Reset a new portal
+- (void)resetPortal {
+	// Remove it at first...
+	if(_isInPortalMode)
+		if(_portal)
+			[_portal removeFromSuperview];
+	[_portal release];
+	// Alloc a new portal and show it...
+	_portal = [[XIPortal alloc] initWithView: self];
+	[_portal setFrame:[self frame]];
+	if(_isInPortalMode)
+		[self updatePortal];
+}
+// Set the portal in right state...
 - (void)checkPortal {
 	if([[self frontMostConnection] connected] && _isInPortalMode)
 		[self removePortal];
