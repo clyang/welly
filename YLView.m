@@ -1632,12 +1632,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		if(_portal)
 			[_portal removeFromSuperview];
 	[_portal release];
-	// Alloc a new portal and show it...
-	_portal = [[XIPortal alloc] initWithView: self];
-	[_portal setFrame:[self frame]];
+	_portal = nil;
+	// Update the new portal if necessary...
 	if(_isInPortalMode) {
-		[self addSubview:_portal];
-		_isInPortalMode = YES;
+		[self updatePortal];
 	}
 }
 // Set the portal in right state...

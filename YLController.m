@@ -512,7 +512,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction) reconnect: (id) sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
 		// Close the portal
-		if ([_telnetView isInPortalState]) {
+		if ([_telnetView isInPortalState] && ![[[_telnetView frontMostConnection] site] empty] 
+			&& [_telnetView numberOfTabViewItems] > 0) {
 			[_telnetView removePortal];
 		}
 		[[_telnetView frontMostConnection] reconnect];
