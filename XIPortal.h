@@ -28,6 +28,7 @@
 
 + (CGColorRef)color:(int)name;
 - initWithView:(NSView *)view;
+- (BOOL)needsInit;
 - (void)loadCovers;
 - (void)moveSelection:(int)dx;
 - (void)select;

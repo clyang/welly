@@ -158,8 +158,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [menuItem release];
     }
     
-    // Reset portal
-	[_telnetView resetPortal];
+    // Reset portal if necessary
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+		[_telnetView resetPortal];
+	}
 }
 
 - (void)updateEncodingMenu {
@@ -509,7 +511,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction) reconnect: (id) sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
-        [[_telnetView frontMostConnection] reconnect];
+		// Close the portal
+		if ([_telnetView isInPortalState]) {
+			[_telnetView removePortal];
+		}
+		[[_telnetView frontMostConnection] reconnect];
         return;
     }
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 

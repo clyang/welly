@@ -156,7 +156,7 @@
 
 #pragma mark Welly Buttons
 
-- (void)drawButtonAt: (NSPoint) mousePos withMessage: (NSString *) message {
+- (void)drawButton: (NSRect) rect withMessage: (NSString *) message {
 	//Initiallize a new CALayer
 	if(buttonLayer)
 		[buttonLayer release];
@@ -198,13 +198,13 @@
     // Create a new rectangle with a suitable size for the inner texts.
 	// Set it to an appropriate position of the whole view
     NSRect finalRect = textRect;
-	finalRect.origin.x = mousePos.x - textRect.size.width / 2;
-	finalRect.origin.y = mousePos.y - textRect.size.height;
+	finalRect.origin.x = rect.origin.x;// - textRect.size.width / 2;
+	finalRect.origin.y = rect.origin.y;// - textRect.size.height;
 	finalRect.size.width += 8;
 	finalRect.size.height += 4;
 	
 	// Move the origin point of the message layer, so the message can be 
-	// displayed in the center of the background layer
+	// displayed in the center of the background rect
 	textRect.origin.x += (finalRect.size.width - textRect.size.width) / 2.0;
 	textRect.origin.y += (finalRect.size.height - textRect.size.height) / 2.0;
 	textLayer.frame = NSRectToCGRect(textRect);

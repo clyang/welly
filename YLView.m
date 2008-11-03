@@ -425,9 +425,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case BUTTON:
 			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
-				NSPoint p = [theEvent locationInWindow];
-				p = [self convertPoint:p toView:nil];
-				[_effectView drawButtonAt:p withMessage:[[rectData getButtonText] retain]];
+				[_effectView drawButton:rect withMessage:[[rectData getButtonText] retain]];
 				_buttonData = rectData;
 			}
 			break;
@@ -1612,7 +1610,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 // Show the portal, initiallize it if necessary
 - (void)updatePortal {
-	if(!_portal) {
+	if(_portal) {
+	} else {
 		_portal = [[XIPortal alloc] initWithView: self];
 		[_portal setFrame:[self frame]];
 	}
@@ -1636,8 +1635,10 @@ BOOL isSpecialSymbol(unichar ch) {
 	// Alloc a new portal and show it...
 	_portal = [[XIPortal alloc] initWithView: self];
 	[_portal setFrame:[self frame]];
-	if(_isInPortalMode)
-		[self updatePortal];
+	if(_isInPortalMode) {
+		[self addSubview:_portal];
+		_isInPortalMode = YES;
+	}
 }
 // Set the portal in right state...
 - (void)checkPortal {
