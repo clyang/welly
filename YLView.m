@@ -222,6 +222,8 @@ BOOL isSpecialSymbol(unichar ch) {
     [_portal release];
 	
 	[_ipTrackingRects release];
+	[_postTrackingRects release];
+	[_buttonTrackingRects release];
     [super dealloc];
 }
 
@@ -509,105 +511,7 @@ BOOL isSpecialSymbol(unichar ch) {
     }
     
     [self setNeedsDisplay: YES];
-	
-	if (![[[self frontMostConnection] site] enableMouse])
-		return;
-    
-    // click to move cursor
-    if ([theEvent modifierFlags] & NSCommandKeyMask) {
-        unsigned char cmd[gRow * gColumn + 1];
-        unsigned int cmdLength = 0;
-        int moveToRow = _selectionLocation / gColumn;
-        int moveToCol = _selectionLocation % gColumn;
-        id ds = [self frontMostTerminal];
-        BOOL home = NO;
-		if (moveToRow > [ds cursorRow]) {
-			cmd[cmdLength++] = 0x01;
-			home = YES;
-			for (int i = [ds cursorRow]; i < moveToRow; i++) {
-				cmd[cmdLength++] = 0x1B;
-				cmd[cmdLength++] = 0x4F;
-				cmd[cmdLength++] = 0x42;
-			} 
-		} else if (moveToRow < [ds cursorRow]) {
-			cmd[cmdLength++] = 0x01;
-			home = YES;
-			for (int i = [ds cursorRow]; i > moveToRow; i--) {
-				cmd[cmdLength++] = 0x1B;
-				cmd[cmdLength++] = 0x4F;
-				cmd[cmdLength++] = 0x41;
-			} 			
-		} 
-		
-        cell *currRow = [[self frontMostTerminal] cellsOfRow: moveToRow];
-		if (home) {
-			for (int i = 0; i < moveToCol; i++) {
-                if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-                    cmd[cmdLength++] = 0x1B;
-                    cmd[cmdLength++] = 0x4F;
-                    cmd[cmdLength++] = 0x43;                    
-                }
-			}
-		} else if (moveToCol > [ds cursorColumn]) {
-			for (int i = [ds cursorColumn]; i < moveToCol; i++) {
-                if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-                    cmd[cmdLength++] = 0x1B;
-                    cmd[cmdLength++] = 0x4F;
-                    cmd[cmdLength++] = 0x43;
-                }
-			}
-		} else if (moveToCol < [ds cursorColumn]) {
-			for (int i = [ds cursorColumn]; i > moveToCol; i--) {
-                if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-                    cmd[cmdLength++] = 0x1B;
-                    cmd[cmdLength++] = 0x4F;
-                    cmd[cmdLength++] = 0x44;
-                }
-			}
-		}
-		if (cmdLength > 0) 
-            [[self frontMostConnection] sendBytes: cmd length: cmdLength];
-    }
-	
-	if (_clickEntryData != nil) {
-		unsigned char cmd[gRow * gColumn + 1];
-        unsigned int cmdLength = 0;
-        id ds = [self frontMostTerminal];
-		int moveToRow = _clickEntryData->row;
-		int cursorRow = [ds bbsState].cursorRow;
-		
-		//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
-		//NSLog(@"title = %@", _clickEntryData->postTitle);
-		
-		if (moveToRow > cursorRow) {
-			//cmd[cmdLength++] = 0x01;
-			for (int i = cursorRow; i < moveToRow; i++) {
-				cmd[cmdLength++] = 0x1B;
-				cmd[cmdLength++] = 0x4F;
-				cmd[cmdLength++] = 0x42;
-			} 
-		} else if (moveToRow < cursorRow) {
-			//cmd[cmdLength++] = 0x01;
-			for (int i = cursorRow; i > moveToRow; i--) {
-				cmd[cmdLength++] = 0x1B;
-				cmd[cmdLength++] = 0x4F;
-				cmd[cmdLength++] = 0x41;
-			} 
-		}
-		
-		cmd[cmdLength++] = 0x0D;
-		
-		[[self frontMostConnection] sendBytes: cmd length: cmdLength];
-	}
-	
-	if (_isMouseInExitArea) {
-		[[self frontMostConnection] sendText: termKeyLeft];
-	}
-	
-	if (_buttonData) {
-		[[self frontMostConnection] sendText: _buttonData->commandSequence];
-	}
-//    [super mouseDown: e];
+	//    [super mouseDown: e];
 }
 
 - (void) mouseDragged: (NSEvent *) e {
@@ -632,16 +536,115 @@ BOOL isSpecialSymbol(unichar ch) {
     if (abs(_selectionLength) <= 3) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
-        if (url == nil)
-            return;
-        if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
-            // click while holding shift key or navigate web pages
-            // open the URL with browser
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-        } else {
-            // open with previewer
-            [XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
-        }
+        if (url != nil) {
+			if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
+				// click while holding shift key or navigate web pages
+				// open the URL with browser
+				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+			} else {
+				// open with previewer
+				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+			}
+			return;	// click on url should not invoke hot spot
+		}
+        
+		if (![[[self frontMostConnection] site] enableMouse])
+			return;
+		
+		// click to move cursor
+		if ([theEvent modifierFlags] & NSCommandKeyMask) {
+			unsigned char cmd[gRow * gColumn + 1];
+			unsigned int cmdLength = 0;
+			int moveToRow = _selectionLocation / gColumn;
+			int moveToCol = _selectionLocation % gColumn;
+			id ds = [self frontMostTerminal];
+			BOOL home = NO;
+			if (moveToRow > [ds cursorRow]) {
+				cmd[cmdLength++] = 0x01;
+				home = YES;
+				for (int i = [ds cursorRow]; i < moveToRow; i++) {
+					cmd[cmdLength++] = 0x1B;
+					cmd[cmdLength++] = 0x4F;
+					cmd[cmdLength++] = 0x42;
+				} 
+			} else if (moveToRow < [ds cursorRow]) {
+				cmd[cmdLength++] = 0x01;
+				home = YES;
+				for (int i = [ds cursorRow]; i > moveToRow; i--) {
+					cmd[cmdLength++] = 0x1B;
+					cmd[cmdLength++] = 0x4F;
+					cmd[cmdLength++] = 0x41;
+				} 			
+			} 
+			
+			cell *currRow = [[self frontMostTerminal] cellsOfRow: moveToRow];
+			if (home) {
+				for (int i = 0; i < moveToCol; i++) {
+					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+						cmd[cmdLength++] = 0x1B;
+						cmd[cmdLength++] = 0x4F;
+						cmd[cmdLength++] = 0x43;                    
+					}
+				}
+			} else if (moveToCol > [ds cursorColumn]) {
+				for (int i = [ds cursorColumn]; i < moveToCol; i++) {
+					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+						cmd[cmdLength++] = 0x1B;
+						cmd[cmdLength++] = 0x4F;
+						cmd[cmdLength++] = 0x43;
+					}
+				}
+			} else if (moveToCol < [ds cursorColumn]) {
+				for (int i = [ds cursorColumn]; i > moveToCol; i--) {
+					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+						cmd[cmdLength++] = 0x1B;
+						cmd[cmdLength++] = 0x4F;
+						cmd[cmdLength++] = 0x44;
+					}
+				}
+			}
+			if (cmdLength > 0) 
+				[[self frontMostConnection] sendBytes: cmd length: cmdLength];
+		}
+		
+		if (_clickEntryData != nil) {
+			unsigned char cmd[gRow * gColumn + 1];
+			unsigned int cmdLength = 0;
+			id ds = [self frontMostTerminal];
+			int moveToRow = _clickEntryData->row;
+			int cursorRow = [ds bbsState].cursorRow;
+			
+			//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
+			//NSLog(@"title = %@", _clickEntryData->postTitle);
+			
+			if (moveToRow > cursorRow) {
+				//cmd[cmdLength++] = 0x01;
+				for (int i = cursorRow; i < moveToRow; i++) {
+					cmd[cmdLength++] = 0x1B;
+					cmd[cmdLength++] = 0x4F;
+					cmd[cmdLength++] = 0x42;
+				} 
+			} else if (moveToRow < cursorRow) {
+				//cmd[cmdLength++] = 0x01;
+				for (int i = cursorRow; i > moveToRow; i--) {
+					cmd[cmdLength++] = 0x1B;
+					cmd[cmdLength++] = 0x4F;
+					cmd[cmdLength++] = 0x41;
+				} 
+			}
+			
+			cmd[cmdLength++] = 0x0D;
+			
+			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
+		}
+		
+		if (_isMouseInExitArea) {
+			[[self frontMostConnection] sendText: termKeyLeft];
+		}
+		
+		if (_buttonData) {
+			[[self frontMostConnection] sendText: _buttonData->commandSequence];
+		}		
     }
 }
 
@@ -1402,7 +1405,7 @@ BOOL isSpecialSymbol(unichar ch) {
     return _fontHeight;
 }
 
-- (void)setFontHeight:(float)value {
+- (void) setFontHeight:(float)value {
     _fontHeight = value;
 }
 
@@ -1466,7 +1469,7 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
-- (void) doCommandBySelector:(SEL)aSelector {
+- (void)doCommandBySelector:(SEL)aSelector {
 	unsigned char ch[10];
     
 //    NSLog(@"%s", aSelector);

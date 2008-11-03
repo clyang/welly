@@ -9,6 +9,7 @@
 #import "YLContextualMenuManager.h"
 #import "TYGrowlBridge.h"
 #import "IPSeeker.h"
+#import "YLView.h"
 
 static YLContextualMenuManager *gSharedInstance;
 
@@ -77,6 +78,13 @@ static YLContextualMenuManager *gSharedInstance;
         [item setTarget: self];
         [item setRepresentedObject: s];
         [a addObject: item];
+		
+		item = [[[NSMenuItem alloc] initWithTitle: NSLocalizedString(@"Copy", @"Menu")
+										   action: @selector(copy:) 
+									keyEquivalent: @""] autorelease];
+		[item setTarget: self];
+		[item setRepresentedObject: s];
+		[a addObject: item];
     }
     return a;
 }

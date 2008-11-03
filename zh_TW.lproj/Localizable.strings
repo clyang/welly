@@ -25,6 +25,7 @@
 
 /* Menu */
 "IP Seeker" = "IP搜尋";
+"Copy" = "拷貝"
 
 /* Default Button */
 "Quit" = "結束";
