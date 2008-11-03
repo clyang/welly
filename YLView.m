@@ -1651,7 +1651,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Hot Spots;
 - (void)refreshAllHotSpots {
 	[self clearAllTrackingArea];
-	if (![[self frontMostConnection] connected]) 
+	if (![[self frontMostConnection] connected] || ![[[self frontMostConnection] site] enableMouse]) 
 		return;
 	[self updateExitArea];
 	for (int y = 0; y < gRow; y++) {
