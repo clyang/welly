@@ -1640,10 +1640,12 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 // Set the portal in right state...
 - (void)checkPortal {
-	if([[self frontMostConnection] connected] && _isInPortalMode)
+	if(![[[self frontMostConnection] site] empty] && _isInPortalMode) {
 		[self removePortal];
-	if(![[self frontMostConnection] connected] && !_isInPortalMode)
+	}
+	else if([[[self frontMostConnection] site] empty] && !_isInPortalMode) {
 		[self updatePortal];
+	}
 }
 
 #pragma mark -
