@@ -203,22 +203,26 @@
     int protocolNum = 7;
     
     BOOL urlState = NO;
-    
     if (r > 0) 
         urlState = _grid[r - 1][_column - 1].attr.f.url;
-    
-	int i;
-	for (i = 0; i < _column; i++) {
+    // for URL that contains "()", esp. M$ sites
+    int par = 0;
+    for (int i = 0; i < _column; i++) {
         if (urlState) {
             unsigned char c = currRow[i].byte;
-            if (0x21 > c || c > 0x7E || c == ')') 
+            if (0x21 > c || c > 0x7E || c == '"' || c == '\'')
                 urlState = NO;
+            else if (c == '(')
+                ++par;
+            else if (c == ')') {
+                if (--par < 0)
+                    urlState = NO;
+            }
         } else {
-            int p;
-            for (p = 0; p < protocolNum; p++) {
-                int s, len = strlen(protocols[p]);
+            for (int p = 0; p < protocolNum; p++) {
+                int len = strlen(protocols[p]);
                 BOOL match = YES;
-                for (s = 0; s < len; s++) 
+                for (int s = 0; s < len; s++) 
                     if (currRow[i + s].byte != protocols[p][s] || currRow[i + s].attr.f.doubleByte) {
                         match = NO;
                         break;
