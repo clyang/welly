@@ -1800,7 +1800,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
     NSString *title = [[self frontMostTerminal] stringFromIndex:c+r*gColumn length:length];
-	[self addClickEntryRect:title row:r column:c length:length];
+    [self addClickEntryRect:title row:r column:c length:length];
 }
 
 - (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
@@ -1815,13 +1815,14 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) updateClickEntryForRow: (int) r {
-	YLTerminal *ds = [self frontMostTerminal];
-	cell *currRow = [ds cellsOfRow:r];
-	if ([ds bbsState].state == BBSBrowseBoard) {
-		// browsing a board
-		if (r < 3 || r == gRow - 1)
-			return;
-		
+    // header/footer
+    if (r < 3 || r == gRow - 1)
+        return;
+
+    YLTerminal *ds = [self frontMostTerminal];
+    cell *currRow = [ds cellsOfRow:r];
+    if ([ds bbsState].state == BBSBrowseBoard) {
+        // browsing a board
 		int start = -1, end = -1;
 		unichar textBuf[gColumn + 1];
 		int bufLength = 0;
@@ -1829,7 +1830,6 @@ BOOL isSpecialSymbol(unichar ch) {
         // don't check the first two columns ("●" may be used as cursor)
         for (int i = 2; i < gColumn - 1; ++i) {
 			int db = currRow[i].attr.f.doubleByte;
-			
 			if (db == 0) {
                 if (start == -1) {
                     if ([self startsAtRow:r column:i with:@"Re: "] || // smth
@@ -1838,10 +1838,9 @@ BOOL isSpecialSymbol(unichar ch) {
                 }
 				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
 					end = i;
-				if (start != -1) {
-					textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
-				}
-			} else if (db == 2 && i > 0) {
+                if (start != -1)
+                    textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
+            } else if (db == 2) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
                 // smth: 0x25cf (solid circle "●")
@@ -1864,21 +1863,17 @@ BOOL isSpecialSymbol(unichar ch) {
 						 length: end - start + 1];
 		
 	} else if ([ds bbsState].state == BBSBoardList) {
-		// watching board list
-		if (r < 3 || r == gRow - 1)
-			return;
+        // watching board list
         // TODO: fix magic numbers
         if (currRow[12].byte != 0 && currRow[12].byte != ' ' && currRow[11].byte == ' ')
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
-	} else if ([ds bbsState].state == BBSFriendList) {
+    } else if ([ds bbsState].state == BBSFriendList) {
         // TODO: fix magic numbers
-		if (r < 3 || r == gRow - 1)
-			return;
-		if (currRow[7].byte == 0 || currRow[7].byte == ' ')
-			return;
-		[self addClickEntryRectAtRow:r column:7 length:80-13];
+        if (currRow[7].byte == 0 || currRow[7].byte == ' ')
+            return;
+        [self addClickEntryRectAtRow:r column:7 length:80-13];
 	}
 }
 
