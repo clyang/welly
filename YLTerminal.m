@@ -285,7 +285,7 @@
             continue;
         // smth: "> "
         // ptt: "●"
-        if ([cursor compare:@"> "] == 0 || [cursor compare:@"●"] == 0) {
+        if ([cursor compare:@">"] == 0 || [cursor compare:@"●"] == 0) {
             _bbsState.cursorRow = i;
             break;
         }
