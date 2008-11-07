@@ -1820,8 +1820,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		int start = -1, end = -1;
 		unichar textBuf[gColumn + 1];
 		int bufLength = 0;
-		
-		for (int i = 0; i < gColumn - 1; ++i) {
+    
+        // don't check the first two columns ("●" may be used as cursor)
+        for (int i = 2; i < gColumn - 1; ++i) {
 			int db = currRow[i].attr.f.doubleByte;
 			
 			if (db == 0) {
@@ -1861,10 +1862,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		// watching board list
 		if (r < 3 || r == gRow - 1)
 			return;
+        // TODO: fix magic numbers
 		if (currRow[12].byte == 0 || currRow[12].byte == ' ')
 			return;
 		[self addClickEntryRect: [ds stringFromIndex:12 + r * gColumn length:80-28] row:r column:12 length:80-28];
 	} else if ([ds bbsState].state == BBSFriendList) {
+        // TODO: fix magic numbers
 		if (r < 3 || r == gRow - 1)
 			return;
 		if (currRow[7].byte == 0 || currRow[7].byte == ' ')
