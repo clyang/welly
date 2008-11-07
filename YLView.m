@@ -1827,7 +1827,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			if (db == 0) {
                 if (start == -1) {
                     if ([self startsAtRow:r column:i with:@"Re: "] || // smth
-                        [self startsAtRow:r column:i with:@"R: "])   // ptt
+                        [self startsAtRow:r column:i with:@"R: "])    // ptt
                         start = i;
                 }
 				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
@@ -1835,7 +1835,7 @@ BOOL isSpecialSymbol(unichar ch) {
 				if (start != -1) {
 					textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
 				}
-			} else if (db == 2) {
+			} else if (db == 2 && i > 0) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
                 // smth: 0x25cf (solid circle "●")
