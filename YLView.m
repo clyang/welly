@@ -1798,6 +1798,11 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_postTrackingRects push_back: rectTag];
 }
 
+- (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
+    NSString *title = [[self frontMostTerminal] stringFromIndex:c+r*gColumn length:length];
+	[self addClickEntryRect:title row:r column:c length:length];
+}
+
 - (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
     cell *currRow = [[self frontMostTerminal] cellsOfRow:row];
     int i = 0, n = [s length];
@@ -1863,16 +1868,17 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (r < 3 || r == gRow - 1)
 			return;
         // TODO: fix magic numbers
-		if (currRow[12].byte == 0 || currRow[12].byte == ' ')
-			return;
-		[self addClickEntryRect: [ds stringFromIndex:12 + r * gColumn length:80-28] row:r column:12 length:80-28];
+        if (currRow[12].byte != 0 && currRow[12].byte != ' ' && currRow[11].byte == ' ')
+            [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
+        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
+            [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
 	} else if ([ds bbsState].state == BBSFriendList) {
         // TODO: fix magic numbers
 		if (r < 3 || r == gRow - 1)
 			return;
 		if (currRow[7].byte == 0 || currRow[7].byte == ' ')
 			return;
-		[self addClickEntryRect: [ds stringFromIndex:7 + r * gColumn length:80-13] row:r column:7 length:80-13];
+		[self addClickEntryRectAtRow:r column:7 length:80-13];
 	}
 }
 

@@ -331,7 +331,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 		//NSLog(@"好朋友列表");
         _bbsState.state = BBSFriendList;
         [self updateBBSCursor];
-    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"讨论区", @"看板", @"诚征版主中", @"徵求中", nil])) {
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"诚征版主中", @"徵求中", nil])) {
         //NSLog(@"版面");
         _bbsState.state = BBSBrowseBoard;
         _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
