@@ -310,57 +310,44 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     return NO;
 }
 
-static NSRange indexOfAnyString(NSString *row, NSArray *array) {
-    NSEnumerator *e = [array objectEnumerator];
-    NSString *s;
-    while (s = [e nextObject]) {
-        NSRange range = [row rangeOfString:s];
-        if (range.length > 0)
-            return range;
-    }
-    return NSMakeRange(0, 0);
-}
-
 //
 // added by K.O.ed
 // WARNING: bunch of hard code
 // 
 - (void)updateBBSState {
-	NSString *topLine = [self stringFromIndex:0 length:_column];	// get the first line from the screen
-	NSString *secondLine = [self stringFromIndex:_column length:_column];
-	NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
-	if (NO) {
-		// just for align
-	} else if ([secondLine rangeOfString:@"目前选择"].length > 0) {
-		//NSLog(@"主选单");
-		_bbsState.state = BBSMainMenu;
-	} else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
-		//NSLog(@"讨论区列表");
-		_bbsState.state = BBSBoardList;
-		[self updateBBSCursor];
-	} else if ([topLine rangeOfString:@"好朋友列表"].length > 0) { // TODO: "使用者列表", "休閒聊天"
+    NSString *topLine = [self stringFromIndex:0 length:_column];	// get the first line from the screen
+    NSString *secondLine = [self stringFromIndex:_column length:_column];
+    NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
+    if (NO) {
+        // just for align
+    } else if ([secondLine rangeOfString:@"目前选择"].length > 0) {
+        //NSLog(@"主选单");
+        _bbsState.state = BBSMainMenu;
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
+        //NSLog(@"讨论区列表");
+        _bbsState.state = BBSBoardList;
+        [self updateBBSCursor];
+    } else if ([topLine rangeOfString:@"好朋友列表"].length > 0) { // TODO: "使用者列表", "休閒聊天"
 		//NSLog(@"好朋友列表");
-		_bbsState.state = BBSFriendList;
-		[self updateBBSCursor];
-	} else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"讨论区", @"看板", @"诚征版主中", @"徵求中", nil])) {
-		//NSLog(@"版面");
-		_bbsState.state = BBSBrowseBoard;
-		_bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
+        _bbsState.state = BBSFriendList;
+        [self updateBBSCursor];
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"讨论区", @"看板", @"诚征版主中", @"徵求中", nil])) {
+        //NSLog(@"版面");
+        _bbsState.state = BBSBrowseBoard;
+        _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
         if (_bbsState.boardName == nil)
             _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
         [self updateBBSCursor];
-		//NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
-	} else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"下面还有喔", @"瀏覽", nil])) {
-		//NSLog(@"阅读文章");
-		_bbsState.state = BBSViewPost;
-	} else if ([self cellsOfRow:(_row - 1)]->byte == 161) {
-		//NSLog(@"发表文章");
-		_bbsState.state = BBSComposePost;
-	} else {
-		_bbsState.state = BBSUnknown;
-	}
-
-	return;
+        //NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"下面还有喔", @"瀏覽", nil])) {
+        //NSLog(@"阅读文章");
+        _bbsState.state = BBSViewPost;
+    } else if ([self cellsOfRow:(_row - 1)]->byte == 161) {
+        //NSLog(@"发表文章");
+        _bbsState.state = BBSComposePost;
+    } else {
+        _bbsState.state = BBSUnknown;
+    }
 }
 
 # pragma mark -
