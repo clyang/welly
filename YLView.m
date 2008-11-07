@@ -1798,9 +1798,20 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_postTrackingRects push_back: rectTag];
 }
 
+- (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
+    cell *currRow = [[self frontMostTerminal] cellsOfRow:row];
+    int i = 0, n = [s length];
+    for (; i < n && column < gColumn - 1; ++i, ++column)
+        if (currRow[column].byte != [s characterAtIndex:i])
+            return NO;
+    if (i != n)
+        return NO;
+    return YES;
+}
+
 - (void) updateClickEntryForRow: (int) r {
 	YLTerminal *ds = [self frontMostTerminal];
-	cell *currRow = [ds cellsOfRow: r];
+	cell *currRow = [ds cellsOfRow:r];
 	if ([ds bbsState].state == BBSBrowseBoard) {
 		// browsing a board
 		if (r < 3 || r == gRow - 1)
@@ -1814,9 +1825,11 @@ BOOL isSpecialSymbol(unichar ch) {
 			int db = currRow[i].attr.f.doubleByte;
 			
 			if (db == 0) {
-				if (start == -1 && currRow[i].byte == 'R' && currRow[i+1].byte == 'e') {
-					start = i;
-				}
+                if (start == -1) {
+                    if ([self startsAtRow:r column:i with:@"Re: "] || // smth
+                        [self startsAtRow:r column:i with:@"R: "])   // ptt
+                        start = i;
+                }
 				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
 					end = i;
 				if (start != -1) {
@@ -1825,7 +1838,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			} else if (db == 2) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-				if (start == -1 && ch == 9679) // the solid circle
+                // smth: 0x25cf (solid circle "●")
+                // free/sjtu: 0x25c6 (solid diamond "◆")
+                // ptt: 0x25a1 (hollow square "□")
+                if (start == -1 && ch >= 0x25a0 && ch <= 0x25cf)
 					start = i - 1;
 				end = i;
 				if (start != -1)
