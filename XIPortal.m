@@ -10,7 +10,7 @@
 #import "XIPortal.h"
 #import "PortalImage.h"
 #import "PortalImageLayout.h"
-//#import "YLLGlobalConfig.h"
+#import "YLLGlobalConfig.h"
 #import "YLApplication.h"
 #import "YLController.h"
 
@@ -75,8 +75,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
     NSDictionary *textStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithInteger:12], @"cornerRadius",
         [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
-        @"BankGothic-Medium", @"font",
-        [NSNumber numberWithInteger:24], @"fontSize",
+        //@"BankGothic-Medium", @"font",
+        [NSNumber numberWithFloat:[[YLLGlobalConfig sharedInstance] englishFontSize] * 1.3], @"fontSize",
         kCAAlignmentCenter, @"alignmentMode",
         nil];
     

@@ -7,12 +7,13 @@
 //
 
 #import "LLTelnetProcessor.h"
+#import "XIPortal.h"
 
 
 @implementation LLTelnetProcessor
 
 // Constructor
-- (id) initByView:(NSView*) view myTabView:(NSView*) tView  effectView:(KOEffectView*) eView {
+- (id) initByView:(YLView*) view myTabView:(NSView*) tView  effectView:(KOEffectView*) eView {
 	if (self = [super init]) {
         _screenRatio = 0.0f;
 		_myView = [view retain];
@@ -53,8 +54,11 @@
 
 	// Then, do the expansion
 	[self setFont:YES];
-	//[[[_myView subviews] objectAtIndex:1] setFrame:[_myView frame]];
-	//[_effectView resize];
+	
+	// And reset portal if necessary...
+	if([_myView isInPortalState]) {
+		[_myView resetPortal];
+	}
 }
 
 - (void) processBeforeExit {
@@ -64,9 +68,11 @@
 	
 	// And reset the font...
 	[self setFont:NO];
-	//[[[_myView subviews] objectAtIndex:1] setFrame:[_myView frame]];
-	// And reset the effect view...
-	//[_effectView resize];
+	
+	// ...
+	if([_myView isInPortalState]) {
+		[_myView resetPortal];
+	}
 }
 
 @end

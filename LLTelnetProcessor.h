@@ -10,17 +10,18 @@
 #import "LLFullScreenProcessor.h"
 #import "YLLGlobalConfig.h"
 #import "KOEffectView.h"
+#import "YLView.h"
 
 @interface LLTelnetProcessor : LLFullScreenProcessor {
 	CGFloat _screenRatio;
 	NSRect _viewRect;
-	NSView * _myView;
+	YLView * _myView;
 	NSView * _tabView;
 	KOEffectView * _effectView;
 }
 
 // Constructor
-- (id) initByView:(NSView*) view myTabView:(NSView*) tView effectView:(KOEffectView*) eView;
+- (id) initByView:(YLView*) view myTabView:(NSView*) tView effectView:(KOEffectView*) eView;
 // Private functions to access font sizes
 - (void) setFont:(bool)isSet;
 
