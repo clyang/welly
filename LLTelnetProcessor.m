@@ -15,6 +15,7 @@
 // Constructor
 - (id) initByView:(YLView*) view myTabView:(NSView*) tView  effectView:(KOEffectView*) eView {
 	if (self = [super init]) {
+		needResetPortal = NO;
         _screenRatio = 0.0f;
 		_myView = [view retain];
 		_tabView = [tView retain];
@@ -58,6 +59,7 @@
 	// And reset portal if necessary...
 	if([_myView isInPortalState]) {
 		[_myView resetPortal];
+		needResetPortal = YES;
 	}
 }
 
@@ -70,8 +72,9 @@
 	[self setFont:NO];
 	
 	// ...
-	if([_myView isInPortalState]) {
+	if(needResetPortal || [_myView isInPortalState]) {
 		[_myView resetPortal];
+		needResetPortal = NO;
 	}
 }
 

@@ -13,6 +13,7 @@
 #import "YLView.h"
 
 @interface LLTelnetProcessor : LLFullScreenProcessor {
+	BOOL needResetPortal;
 	CGFloat _screenRatio;
 	NSRect _viewRect;
 	YLView * _myView;
