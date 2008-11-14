@@ -327,7 +327,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
         //NSLog(@"讨论区列表");
         _bbsState.state = BBSBoardList;
         [self updateBBSCursor];
-    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"好朋友列表", @"使用者列表", @"休閒聊天"])) {
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"好朋友列表", @"使用者列表", @"休閒聊天", nil])) {
         //NSLog(@"好朋友列表");
         _bbsState.state = BBSFriendList;
         [self updateBBSCursor];
