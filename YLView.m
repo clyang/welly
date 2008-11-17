@@ -450,6 +450,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			[_effectView clearIPAddrBox];
 			break;
 		case CLICK_ENTRY:
+		case MAIN_MENU_CLICK_ENTRY:
 			[_effectView clearClickEntry];
 			[cursor set];
 			_clickEntryData = nil;
@@ -1915,7 +1916,7 @@ BOOL isSpecialSymbol(unichar ch) {
         [self addClickEntryRectAtRow:r column:7 length:80-13];
 	} else if ([ds bbsState].state == BBSMainMenu) {
 		// main menu
-		if (r < 8 || r == gRow - 1)
+		if (r < 3 || r == gRow - 1)
 			return;
 		/*
 		const int ST_START = 0;
@@ -1938,10 +1939,12 @@ BOOL isSpecialSymbol(unichar ch) {
 				case ST_START:
 					if (currRow[i].byte == '(' && currRow[i+2].byte == ')') {
 						start = i;
+						end = start;
 						state = ST_BRACKET_FOUND;
 						shortcut = currRow[i+1].byte;
 					} else if (currRow[i].byte == ')') {
 						start = i - 1;
+						end = start;
 						state = ST_BRACKET_FOUND;
 						shortcut = currRow[i-1].byte;
 					}
