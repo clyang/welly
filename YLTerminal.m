@@ -320,7 +320,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
     if (NO) {
         // just for align
-    } else if ([secondLine rangeOfString:@"目前选择"].length > 0) {
+    } else if ([secondLine rangeOfString:@"目前选择"].length > 0 || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
@@ -331,7 +331,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
         //NSLog(@"好朋友列表");
         _bbsState.state = BBSFriendList;
         [self updateBBSCursor];
-    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"处理信笺选单", nil])) {
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"处理信笺选单", @"電子郵件", nil])) {
         //NSLog(@"处理信笺选单");
         _bbsState.state = BBSMailMenu;
         [self updateBBSCursor];
