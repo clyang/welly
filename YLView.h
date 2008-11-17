@@ -40,7 +40,7 @@
     XIPortal *_portal;
 	
 	XIIntegerArray *_ipTrackingRects;
-	XIIntegerArray *_postTrackingRects;
+	XIIntegerArray *_clickEntryTrackingRects;
 	NSTrackingRectTag _exitTrackingRect;
 	XIIntegerArray *_buttonTrackingRects;
 	

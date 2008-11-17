@@ -210,7 +210,7 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLocation = 0;
 		_isInPortalMode = NO;
  		_ipTrackingRects = [[XIIntegerArray alloc] init];
-		_postTrackingRects = [[XIIntegerArray alloc] init];
+		_clickEntryTrackingRects = [[XIIntegerArray alloc] init];
 		_buttonTrackingRects = [[XIIntegerArray alloc] init];
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
@@ -222,7 +222,7 @@ BOOL isSpecialSymbol(unichar ch) {
     [_portal release];
 	
 	[_ipTrackingRects release];
-	[_postTrackingRects release];
+	[_clickEntryTrackingRects release];
 	[_buttonTrackingRects release];
     [super dealloc];
 }
@@ -406,10 +406,10 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSRect rect = [[theEvent trackingArea] rect];
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
 	switch (rectData->type) {
-		case IPADDR:
+		case IP_ADDR:
 			[_effectView drawIPAddrBox: rect];
 			break;
-		case CLICKENTRY:
+		case CLICK_ENTRY:
 			// FIXME: remove the following line if preference is done
 			if([[[self frontMostConnection] site] enableMouse]) {
 				NSCursor * cursor = [NSCursor pointingHandCursor];
@@ -418,7 +418,15 @@ BOOL isSpecialSymbol(unichar ch) {
 				_clickEntryData = rectData;
 			}
 			break;
-		case EXITAREA:
+		case MAIN_MENU_CLICK_ENTRY:
+			if([[[self frontMostConnection] site] enableMouse]) {
+				NSCursor * cursor = [NSCursor pointingHandCursor];
+				[cursor set];
+				[_effectView drawClickEntry: rect];
+				_clickEntryData = rectData;
+			}
+			break;
+		case EXIT_AREA:
 			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
 				_isMouseInExitArea = YES;
 			}
@@ -438,15 +446,15 @@ BOOL isSpecialSymbol(unichar ch) {
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
 	NSCursor *cursor = [NSCursor arrowCursor];
 	switch (rectData->type) {
-		case IPADDR:
+		case IP_ADDR:
 			[_effectView clearIPAddrBox];
 			break;
-		case CLICKENTRY:
+		case CLICK_ENTRY:
 			[_effectView clearClickEntry];
 			[cursor set];
 			_clickEntryData = nil;
 			break;
-		case EXITAREA:
+		case EXIT_AREA:
 			_isMouseInExitArea = NO;
 			break;
 		case BUTTON:
@@ -606,6 +614,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		}
 		
 		if (_clickEntryData != nil) {
+			if (_clickEntryData->commandSequence != nil) {
+				NSLog(_clickEntryData->commandSequence);
+				[[self frontMostConnection] sendText: _clickEntryData->commandSequence];
+				return;
+			}
+			
 			unsigned char cmd[gRow * gColumn + 1];
 			unsigned int cmdLength = 0;
 			id ds = [self frontMostTerminal];
@@ -1768,10 +1782,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_ipTrackingRects pop_front];
 	}
 	
-	while(![_postTrackingRects empty]) {
-		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_postTrackingRects front];
+	while(![_clickEntryTrackingRects empty]) {
+		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_clickEntryTrackingRects front];
 		[self removeTrackingRect:rectTag];
-		[_postTrackingRects pop_front];
+		[_clickEntryTrackingRects pop_front];
 	}
 	
 	while(![_buttonTrackingRects empty]) {
@@ -1800,7 +1814,7 @@ BOOL isSpecialSymbol(unichar ch) {
 											 userData: [KOTrackingRectData clickEntryRectData: title
 																					   atRow: r]
 										 assumeInside: YES];
-	[_postTrackingRects push_back: rectTag];
+	[_clickEntryTrackingRects push_back: rectTag];
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -1819,15 +1833,27 @@ BOOL isSpecialSymbol(unichar ch) {
     return YES;
 }
 
-- (void) updateClickEntryForRow: (int) r {
-    // header/footer
-    if (r < 3 || r == gRow - 1)
-        return;
+- (void)addMainMenuClickEntry: (NSString *)cmd 
+						  row: (int)r
+					   column: (int)c 
+					   length: (int)len {
+	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
+	NSTrackingRectTag rectTag = [self addTrackingRect: rect
+												owner: self
+											 userData: [KOTrackingRectData mainMenuClickEntryRectData:cmd]
+										 assumeInside: YES];
+	[_clickEntryTrackingRects push_back: rectTag];
+}
 
+- (void) updateClickEntryForRow: (int) r {
     YLTerminal *ds = [self frontMostTerminal];
     cell *currRow = [ds cellsOfRow:r];
     if ([ds bbsState].state == BBSBrowseBoard) {
         // browsing a board
+		// header/footer
+		if (r < 3 || r == gRow - 1)
+			return;
+		
 		int start = -1, end = -1;
 		unichar textBuf[gColumn + 1];
 		int bufLength = 0;
@@ -1869,16 +1895,84 @@ BOOL isSpecialSymbol(unichar ch) {
 		
 	} else if ([ds bbsState].state == BBSBoardList) {
         // watching board list
+		// header/footer
+		if (r < 3 || r == gRow - 1)
+			return;
+		
         // TODO: fix magic numbers
         if (currRow[12].byte != 0 && currRow[12].byte != ' ' && currRow[11].byte == ' ')
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
     } else if ([ds bbsState].state == BBSFriendList) {
+		// header/footer
+		if (r < 3 || r == gRow - 1)
+			return;
+		
         // TODO: fix magic numbers
         if (currRow[7].byte == 0 || currRow[7].byte == ' ')
             return;
         [self addClickEntryRectAtRow:r column:7 length:80-13];
+	} else if ([ds bbsState].state == BBSMainMenu) {
+		// main menu
+		if (r < 8 || r == gRow - 1)
+			return;
+		/*
+		const int ST_START = 0;
+		const int ST_BRACKET_FOUND = 1;
+		const int ST_SPACE_FOUND = 2;
+		const int ST_NON_SPACE_FOUND = 3;
+		*/
+		enum {
+			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND
+		};
+		
+		int start = -1, end = -1;
+		int state = ST_START;
+		char shortcut = 0;
+		
+        // don't check the first two columns ("●" may be used as cursor)
+        for (int i = 2; i < gColumn - 2; ++i) {
+			int db = currRow[i].attr.f.doubleByte;
+			switch (state) {
+				case ST_START:
+					if (currRow[i].byte == '(' && currRow[i+2].byte == ')') {
+						start = i;
+						state = ST_BRACKET_FOUND;
+						shortcut = currRow[i+1].byte;
+					} else if (currRow[i].byte == ')') {
+						start = i - 1;
+						state = ST_BRACKET_FOUND;
+						shortcut = currRow[i-1].byte;
+					}
+					break;
+				case ST_BRACKET_FOUND:
+					end = i;
+					if (currRow[i].byte == ' ')
+						state = ST_SPACE_FOUND;
+					if (db == 1)
+						state = ST_NON_SPACE_FOUND;
+					break;
+				case ST_SPACE_FOUND:
+					end = i;
+					if (currRow[i].byte != ' ')
+						state = ST_NON_SPACE_FOUND;
+					break;
+				case ST_NON_SPACE_FOUND:
+					if (currRow[i].byte == ' ') {
+						state = ST_START;
+						[self addMainMenuClickEntry:[NSString stringWithFormat:@"%c\n", shortcut] 
+												row:r
+											 column:start
+											 length:end - start + 1];
+					} else {
+						end = i;
+					}
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }
 

@@ -14,7 +14,7 @@
 + (KOTrackingRectData *)ipRectData: (NSString *)ipAddr
 						   toolTip: (NSString *)toolTip {
 	KOTrackingRectData *data = [[self alloc] init];
-	data->type = IPADDR;
+	data->type = IP_ADDR;
 	data->ipAddr = [ipAddr retain];
 	data->toolTip = [toolTip retain];
 	return data;
@@ -23,15 +23,22 @@
 + (KOTrackingRectData *)clickEntryRectData: (NSString *)postTitle
 									atRow: (int)row {
 	KOTrackingRectData *data = [[self alloc] init];
-	data->type = CLICKENTRY;
+	data->type = CLICK_ENTRY;
 	data->postTitle = [postTitle retain];
 	data->row = row;
 	return data;
 }
 
++ (KOTrackingRectData *)mainMenuClickEntryRectData: (NSString *)cmd {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = MAIN_MENU_CLICK_ENTRY;
+	data->commandSequence = [cmd retain];
+	return data;
+}
+
 + (KOTrackingRectData *)exitRectData {
 	KOTrackingRectData *data = [[self alloc] init];
-	data->type = EXITAREA;
+	data->type = EXIT_AREA;
 	return data;
 }
 
