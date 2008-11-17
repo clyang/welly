@@ -1951,10 +1951,12 @@ BOOL isSpecialSymbol(unichar ch) {
 					break;
 				case ST_BRACKET_FOUND:
 					end = i;
-					if (currRow[i].byte == ' ')
+					if (currRow[i].byte == ' ') {
 						state = ST_SPACE_FOUND;
-					if (db == 1)
+					}
+					if (db == 1) {
 						state = ST_NON_SPACE_FOUND;
+					}
 					break;
 				case ST_SPACE_FOUND:
 					end = i;
@@ -1962,7 +1964,7 @@ BOOL isSpecialSymbol(unichar ch) {
 						state = ST_NON_SPACE_FOUND;
 					break;
 				case ST_NON_SPACE_FOUND:
-					if (currRow[i].byte == ' ') {
+					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
 						state = ST_START;
 						[self addMainMenuClickEntry:[NSString stringWithFormat:@"%c\n", shortcut] 
 												row:r
