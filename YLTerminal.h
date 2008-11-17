@@ -15,6 +15,8 @@ typedef struct {
 	enum {
 		BBSUnknown, 
 		BBSMainMenu, 
+		BBSMailMenu, 
+		BBSMailList, 
 		BBSBoardList, 
 		BBSFriendList, 
 		BBSBrowseBoard, 

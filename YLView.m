@@ -1849,7 +1849,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) updateClickEntryForRow: (int) r {
     YLTerminal *ds = [self frontMostTerminal];
     cell *currRow = [ds cellsOfRow:r];
-    if ([ds bbsState].state == BBSBrowseBoard) {
+    if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
         // browsing a board
 		// header/footer
 		if (r < 3 || r == gRow - 1)
@@ -1914,7 +1914,7 @@ BOOL isSpecialSymbol(unichar ch) {
         if (currRow[7].byte == 0 || currRow[7].byte == ' ')
             return;
         [self addClickEntryRectAtRow:r column:7 length:80-13];
-	} else if ([ds bbsState].state == BBSMainMenu) {
+	} else if ([ds bbsState].state == BBSMainMenu || [ds bbsState].state == BBSMailMenu) {
 		// main menu
 		if (r < 3 || r == gRow - 1)
 			return;

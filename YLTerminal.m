@@ -331,6 +331,14 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
         //NSLog(@"好朋友列表");
         _bbsState.state = BBSFriendList;
         [self updateBBSCursor];
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"处理信笺选单", nil])) {
+        //NSLog(@"处理信笺选单");
+        _bbsState.state = BBSMailMenu;
+        [self updateBBSCursor];
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"邮件选单", nil])) {
+        //NSLog(@"邮件选单");
+        _bbsState.state = BBSMailList;
+        [self updateBBSCursor];
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"诚征版主中", @"徵求中", nil])) {
         //NSLog(@"版面");
         _bbsState.state = BBSBrowseBoard;
