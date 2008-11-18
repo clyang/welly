@@ -1875,10 +1875,10 @@ BOOL isSpecialSymbol(unichar ch) {
             } else if (db == 2) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
 				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-                // smth: 0x25cf (solid circle "●")
+                // smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
                 // free/sjtu: 0x25c6 (solid diamond "◆")
                 // ptt: 0x25a1 (hollow square "□")
-                if (start == -1 && ch >= 0x25a0 && ch <= 0x25cf)
+                if (start == -1 && ch >= 0x2510 && ch <= 0x260f)
 					start = i - 1;
 				end = i;
 				if (start != -1)
