@@ -96,7 +96,7 @@
     
 	ipAddrLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
 	ipAddrLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
-	ipAddrLayer.borderWidth = 2.0;
+	ipAddrLayer.borderWidth = 1.4;
 	ipAddrLayer.cornerRadius = 6.0;
 }
 
