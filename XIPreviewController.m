@@ -129,21 +129,20 @@ static NSString * stringFromFileSize(long long size) {
 - (void)dealloc {
     [_filename release];
     [_path release];
-	// close window
+    // close window
     [_window close];
     [_indicator release];
-	[_window release];
+    [_window release];
     [super dealloc];
 }
 
 - (void)showLoadingWindow
 {
-    // Window styles
-	unsigned int style = NSTitledWindowMask | 
-	NSMiniaturizableWindowMask | NSClosableWindowMask | 
-	NSHUDWindowMask | NSUtilityWindowMask;
-	
-	// Init the window
+    unsigned int style = NSTitledWindowMask
+        | NSMiniaturizableWindowMask | NSClosableWindowMask
+        | NSHUDWindowMask | NSUtilityWindowMask;
+
+    // init
     _window = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 400, 30)
                                          styleMask:style
                                            backing:NSBackingStoreBuffered 
@@ -155,7 +154,7 @@ static NSString * stringFromFileSize(long long size) {
     [_window setTitle:@"Loading..."];
     [_window setViewsNeedDisplay:NO];
     [_window makeKeyAndOrderFront:nil];
-	
+
     // Init progress bar
     _indicator = [[HMBlkProgressIndicator alloc] initWithFrame:NSMakeRect(10, 10, 380, 10)];
     [[_window contentView] addSubview:_indicator];
