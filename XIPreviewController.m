@@ -11,9 +11,14 @@
 #import "TYGrowlBridge.h"
 
 @interface XIDownloadDelegate : NSObject {
+    // This progress bar is restored by gtCarrera
+    // boost: don't put it in XIPreviewController
+    HMBlkProgressIndicator *_indicator;
+    NSPanel         *_window;
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
 }
+- (void)showLoadingWindow;
 @end
 
 @implementation XIPreviewController
@@ -48,35 +53,6 @@ static NSString *sCacheDir;
     [XIQuickLookBridge orderFront];
 }
 
-// Static function to initiallize the loading window
-+ (void) showLoadingWindow
-{
-    // Window styles
-	unsigned int style = NSTitledWindowMask | 
-	NSMiniaturizableWindowMask | NSClosableWindowMask | 
-	NSHUDWindowMask | NSUtilityWindowMask;
-	
-	// Init the window
-    _window = [[NSPanel alloc] initWithContentRect: NSMakeRect(0, 0, 400, 30)
-                                         styleMask: style
-                                           backing: NSBackingStoreBuffered 
-                                             defer: NO];
-    [_window setFloatingPanel: NO];
-    [_window setDelegate: self];
-    [_window setOpaque: YES];
-    [_window center];
-    [_window setTitle: @"Loading..."];
-    [_window setViewsNeedDisplay: NO];
-    [_window makeKeyAndOrderFront: nil];
-	
-    // Init progress bar
-    _indicator = [[HMBlkProgressIndicator alloc] initWithFrame: NSMakeRect(10, 10, 380, 10)];
-    [[_window contentView] addSubview: _indicator];
-    // [_indicator release];
-	
-    [_indicator startAnimation: self];
-}
-
 + (NSURLDownload *)dowloadWithURL:(NSURL *)URL {
     // already downloading
     if ([sURLs containsObject:URL])
@@ -90,7 +66,6 @@ static NSString *sCacheDir;
         download = nil;
     else {
 		// Here, if a download is necessary, show the download window
-		[self showLoadingWindow];
         [sURLs addObject:URL];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL
                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -144,10 +119,47 @@ static NSString * stringFromFileSize(long long size) {
         stringFromFileSize(_contentLength)];
 }
 
+- init {
+    if (self = [super init]) {
+        [self showLoadingWindow];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [_filename release];
     [_path release];
+	// close window
+    [_window close];
+    [_indicator release];
+	[_window release];
     [super dealloc];
+}
+
+- (void)showLoadingWindow
+{
+    // Window styles
+	unsigned int style = NSTitledWindowMask | 
+	NSMiniaturizableWindowMask | NSClosableWindowMask | 
+	NSHUDWindowMask | NSUtilityWindowMask;
+	
+	// Init the window
+    _window = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 400, 30)
+                                         styleMask:style
+                                           backing:NSBackingStoreBuffered 
+                                             defer:NO];
+    [_window setFloatingPanel:NO];
+    [_window setDelegate:self];
+    [_window setOpaque:YES];
+    [_window center];
+    [_window setTitle:@"Loading..."];
+    [_window setViewsNeedDisplay:NO];
+    [_window makeKeyAndOrderFront:nil];
+	
+    // Init progress bar
+    _indicator = [[HMBlkProgressIndicator alloc] initWithFrame:NSMakeRect(10, 10, 380, 10)];
+    [[_window contentView] addSubview:_indicator];
+    [_indicator startAnimation:self];
 }
 
 - (void)downloadDidBegin:(NSURLDownload *)download {
@@ -192,17 +204,18 @@ static NSString * stringFromFileSize(long long size) {
 		// Close the progress bar window
 		[_window close];
 		
-        [self retain]; // "cancel" may release the delegate
+        [self retain]; // "didFailWithError" may release the delegate
         [download cancel];
         [self download:download didFailWithError:nil];
         [self release];
+        return; // or next may crash
 	}
-	
-	// Or, set the window to show the download progress
-	[_window setTitle: [NSString stringWithFormat: @"Loading %@...", _filename]];
-    [_indicator setIndeterminate: NO];
-    [_indicator setMaxValue: (double) _contentLength];
-    [_indicator setDoubleValue: 0];
+
+    // Or, set the window to show the download progress
+    [_window setTitle:[NSString stringWithFormat:@"Loading %@...", _filename]];
+    [_indicator setIndeterminate:NO];
+    [_indicator setMaxValue:(double)_contentLength];
+    [_indicator setDoubleValue:0];
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length { 
@@ -224,11 +237,6 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-    [download release];
-	// Close window when download finished
-	[_window close];
-	[_indicator autorelease];
-	[_window autorelease];
 	
 	// For read exif info by gtCarrera
 	CGImageSourceRef exifSource = CGImageSourceCreateWithURL((CFURLRef)([NSURL fileURLWithPath:_path]), nil);
@@ -271,6 +279,8 @@ static NSString * stringFromFileSize(long long size) {
 					  notificationName:@"File Transfer"
 							  isSticky:NO
 							identifier:download];
+
+    [download release];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
@@ -282,10 +292,6 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:NO
                         identifier:download];
-	// Close window when download failed
-	[_window close];
-	[_window autorelease];
-	[_indicator autorelease];
     [download release];
 }
 
