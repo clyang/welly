@@ -58,6 +58,20 @@
 			return @"发表文章";
 		case DELETE_POST:
 			return @"自宫";
+		case SHOW_NOTE:
+			return @"备忘录";
+		case SHOW_HELP:
+			return @"求助";
+		case NORMAL_TO_DIGEST:
+			return @"切换到文摘模式";
+		case DIGEST_TO_THREAD:
+			return @"切换到主题模式";
+		case THREAD_TO_MARK:
+			return @"切换到精华模式";
+		case MARK_TO_ORIGIN:
+			return @"切换到原作模式";
+		case ORIGIN_TO_NORMAL:
+			return @"切换到一般模式";
 		default:
 			break;
 	}
