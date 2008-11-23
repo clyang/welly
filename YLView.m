@@ -2029,14 +2029,51 @@ BOOL isSpecialSymbol(unichar ch) {
 	YLTerminal *ds = [self frontMostTerminal];
 	//cell *currRow = [ds cellsOfRow: r];
 	if ([ds bbsState].state == BBSBrowseBoard) {
-		for (int x = 0; x < gColumn - 8; ++x) {
-			if ([[ds stringFromIndex: x + r * gColumn length:8] isEqualToString: @"发表文章"]) {
-				[self addButtonArea:COMPOSE_POST commandSequence:fbComposePost atRow:r column:x length:8];
-				x += 7;
+		for (int x = 0; x < gColumn; ++x) {
+			if (x < gColumn - 16 && [[ds stringFromIndex:(x + r * gColumn) length:16] isEqualToString:@"发表文章[Ctrl-P]"]) {
+				[self addButtonArea:COMPOSE_POST commandSequence:fbComposePost atRow:r column:x length:16];
+				x += 15;
+				continue;
 			}
-			if ([[ds stringFromIndex: x + r * gColumn length:4] isEqualToString: @"砍信"]) {
-				[self addButtonArea:DELETE_POST commandSequence:fbDeletePost atRow:r column:x length:4];
-				x += 7;
+			if (x < gColumn - 7 && [[ds stringFromIndex:(x + r * gColumn) length:7] isEqualToString:@"砍信[d]"]) {
+				[self addButtonArea:DELETE_POST commandSequence:fbDeletePost atRow:r column:x length:7];
+				x += 6;
+				continue;
+			}
+			if (x < gColumn - 11 && [[ds stringFromIndex:(x + r * gColumn) length:11] isEqualToString:@"备忘录[TAB]"]) {
+				[self addButtonArea:SHOW_NOTE commandSequence:fbShowNote atRow:r column:x length:11];
+				x += 10;
+				continue;
+			}
+			if (x < gColumn - 7 && [[ds stringFromIndex:(x + r * gColumn) length:7] isEqualToString:@"求助[h]"]) {
+				[self addButtonArea:SHOW_HELP commandSequence:fbShowHelp atRow:r column:x length:7];
+				x += 6;
+				continue;
+			}
+			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[一般模式]"]) {
+				[self addButtonArea:NORMAL_TO_DIGEST commandSequence:fbNormalToDigest atRow:r column:x length:10];
+				x += 9;
+				continue;
+			}
+			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[文摘模式]"]) {
+				[self addButtonArea:DIGEST_TO_THREAD commandSequence:fbDigestToThread atRow:r column:x length:10];
+				x += 9;
+				continue;
+			}
+			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[主题模式]"]) {
+				[self addButtonArea:THREAD_TO_MARK commandSequence:fbThreadToMark atRow:r column:x length:10];
+				x += 9;
+				continue;
+			}
+			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[精华模式]"]) {
+				[self addButtonArea:MARK_TO_ORIGIN commandSequence:fbMarkToOrigin atRow:r column:x length:10];
+				x += 9;
+				continue;
+			}
+			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[原作模式]"]) {
+				[self addButtonArea:ORIGIN_TO_NORMAL commandSequence:fbOriginToNormal atRow:r column:x length:10];
+				x += 9;
+				continue;
 			}
 		}
 	}
