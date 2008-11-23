@@ -19,7 +19,7 @@
 + (YLTerminal *)terminalWithView:(YLView *)view {
     YLTerminal *terminal = [[YLTerminal alloc] init];
     terminal->_view = view;
-    return [terminal autorelease];
+	return [terminal autorelease];
 }
 
 - (id) init {
@@ -36,6 +36,10 @@
 		_dirty = (char *) malloc(sizeof(char) * (_row * _column));
 		
         [self clearAll];
+		// Initiallize url list
+		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
+		// Ready to store current url
+		currURL = [[NSMutableString alloc] initWithCapacity:40];
 	}
 	return self;
 }
@@ -44,19 +48,30 @@
     for (int i = 0; i < _row; i++)
         free(_grid[i]);
     free(_grid);
+	[_currentURLList release];
+	[_currentURLList dealloc];
     [super dealloc];
 }
 
 #pragma mark -
 #pragma mark input interface
 - (void)feedGrid: (cell **)grid {
+	// Clear the url list
+	[_currentURLList removeAllObjects];
+	
 	for (int i = 0; i < _row; i++) {
 		memcpy(_grid[i], grid[i], sizeof(cell) * (_column + 1));
 	}
+	
 	for (int i = 0; i < _row; i++) {
         [self updateDoubleByteStateForRow: i];
         [self updateURLStateForRow: i];
     }
+//	NSLog(@"Begin");
+//	for(NSString * url in _currentURLList) {
+//		NSLog(@"%@", url);
+//	}
+//	NSLog(@"End");
 	[self updateBBSState];
     [_view performSelector: @selector(tick:)
 				withObject: nil
@@ -203,20 +218,33 @@
     int protocolNum = 7;
     
     BOOL urlState = NO;
+
     if (r > 0) 
         urlState = _grid[r - 1][_column - 1].attr.f.url;
     // for URL that contains "()", esp. M$ sites
     int par = 0;
     for (int i = 0; i < _column; i++) {
         if (urlState) {
+			// Push current char in!
             unsigned char c = currRow[i].byte;
-            if (0x21 > c || c > 0x7E || c == '"' || c == '\'')
+			[currURL appendFormat:@"%c", c];
+            if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
+				//NSLog(@"URL: %@", currURL);
+				NSString * myURL = [[NSString alloc] initWithString:currURL];
+				[_currentURLList addObject:[myURL retain]];
+				[currURL setString:@""];
                 urlState = NO;
+			}
             else if (c == '(')
                 ++par;
             else if (c == ')') {
-                if (--par < 0)
+                if (--par < 0) {
+					//NSLog(@"URL: %@", currURL);
+					NSString * myURL = [[NSString alloc] initWithString:currURL];
+					[_currentURLList addObject:[myURL retain]];
+					[currURL setString:@""];
                     urlState = NO;
+				}
             }
         } else {
             for (int p = 0; p < protocolNum; p++) {
@@ -229,6 +257,8 @@
                     }
                 
                 if (match) {
+					// Push current prefix into current url
+					[currURL appendFormat:@"%c", protocols[p][0]];
                     urlState = YES;
                     break;
                 }

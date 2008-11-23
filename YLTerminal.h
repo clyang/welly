@@ -29,12 +29,14 @@ typedef struct {
 
 @interface YLTerminal : NSObject {	
 	TYBBSType _bbsType;
+	NSMutableString * currURL;
 @public
     unsigned int _row;
     unsigned int _column;
     unsigned int _cursorX;
     unsigned int _cursorY;
     unsigned int _offset;
+	NSMutableArray * _currentURLList;
 	
     cell **_grid;
     char *_dirty;
