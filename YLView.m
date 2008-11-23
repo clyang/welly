@@ -1925,7 +1925,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		const int ST_NON_SPACE_FOUND = 3;
 		*/
 		enum {
-			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND
+			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND, ST_SINGLE_SPACE_FOUND
 		};
 		
 		int start = -1, end = -1;
@@ -1950,20 +1950,28 @@ BOOL isSpecialSymbol(unichar ch) {
 					}
 					break;
 				case ST_BRACKET_FOUND:
-					end = i;
+					end = i;/*
 					if (currRow[i].byte == ' ') {
 						state = ST_SPACE_FOUND;
-					}
+					}*/
 					if (db == 1) {
 						state = ST_NON_SPACE_FOUND;
 					}
 					break;
+					/*
 				case ST_SPACE_FOUND:
 					end = i;
 					if (currRow[i].byte != ' ')
 						state = ST_NON_SPACE_FOUND;
-					break;
+					break;*/
 				case ST_NON_SPACE_FOUND:
+					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
+						state = ST_SINGLE_SPACE_FOUND;
+					} else {
+						end = i;
+					}
+					break;
+				case ST_SINGLE_SPACE_FOUND:
 					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
 						state = ST_START;
 						[self addMainMenuClickEntry:[NSString stringWithFormat:@"%c\n", shortcut] 
@@ -1971,6 +1979,7 @@ BOOL isSpecialSymbol(unichar ch) {
 											 column:start
 											 length:end - start + 1];
 					} else {
+						state = ST_NON_SPACE_FOUND;
 						end = i;
 					}
 					break;
