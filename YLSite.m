@@ -14,7 +14,9 @@
 - (id)init {
     if ([super init]) {
         [self setName:@"Untitled"];
-        [self setAddress:@"ssh://id@site:port OR telnet.site"];
+
+        [self setAddress:@""];
+
         //[self setEncoding:YLGBKEncoding];
         [self setEncoding:[[YLLGlobalConfig sharedInstance] defaultEncoding]];
         [self setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
