@@ -662,7 +662,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="NSFrameSize">{960, 598}</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{0, 69}</string>
+				<string key="NSMinSize">{213, 176}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSMenu" id="549289591">
@@ -1707,7 +1707,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="1023304296">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string key="NSContents">ssh://id@site:port OR telnet.site</string>
+														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="925378139"/>
 														<bool key="NSDrawsBackground">YES</bool>
@@ -1740,7 +1740,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="766846940">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string type="base64-UTF8" key="NSContents">56uZ5Y+w5ZCNA</string>
+														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="787624531"/>
 														<bool key="NSDrawsBackground">YES</bool>
@@ -2034,7 +2034,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{0, 16}</string>
+				<string key="NSMinSize">{400, 266}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSArrayController" id="448993837">
@@ -3214,7 +3214,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string key="NSFrameSize">{600, 400}</string>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
-				<string key="NSMinSize">{0, 72}</string>
+				<string key="NSMinSize">{300, 272}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSWindowTemplate" id="959210322">

@@ -1739,7 +1739,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="1023304296">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string key="NSContents">ssh://id@site:port OR telnet.site</string>
+														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="925378139"/>
 														<bool key="NSDrawsBackground">YES</bool>
@@ -1772,7 +1772,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="766846940">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string type="base64-UTF8" key="NSContents">56uZ54K55ZCNA</string>
+														<string key="NSContents"/>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="787624531"/>
 														<bool key="NSDrawsBackground">YES</bool>
