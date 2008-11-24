@@ -1707,7 +1707,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="1023304296">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string key="NSContents"/>
+														<string key="NSContents">ssh://id@site:port OR telnet.site</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="925378139"/>
 														<bool key="NSDrawsBackground">YES</bool>
@@ -1740,7 +1740,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<object class="NSTextFieldCell" key="NSCell" id="766846940">
 														<int key="NSCellFlags">-1804468671</int>
 														<int key="NSCellFlags2">272761856</int>
-														<string key="NSContents"/>
+														<string type="base64-UTF8" key="NSContents">56uZ5Y+w5ZCNA</string>
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="787624531"/>
 														<bool key="NSDrawsBackground">YES</bool>
@@ -3056,7 +3056,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="740560435">
+																	<object class="NSParagraphStyle" id="93733222">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3267,7 +3267,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="740560435"/>
+																	<reference ref="93733222"/>
 																</object>
 															</object>
 														</object>
