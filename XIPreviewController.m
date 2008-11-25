@@ -194,21 +194,16 @@ static NSString * stringFromFileSize(long long size) {
     _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
     [download setDestination:_path allowOverwrite:YES];
 
-	// dectect file type to avoid useless download
-	// by gtCarrera @ 9#
-	NSString *fileType = [[_filename pathExtension] lowercaseString];
-	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
-	Boolean canView = [allowedTypes containsObject: fileType];
-	if (!canView) {
-		// Close the progress bar window
-		[_window close];
-		
-        [self retain]; // "didFailWithError" may release the delegate
+    // dectect file type to avoid useless download
+    // by gtCarrera @ 9#
+    NSString *fileType = [[_filename pathExtension] lowercaseString];
+    NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
+    Boolean canView = [allowedTypes containsObject:fileType];
+    if (!canView) {		
         [download cancel];
         [self download:download didFailWithError:nil];
-        [self release];
-        return; // or next may crash
-	}
+        return; // released
+    }
 
     // Or, set the window to show the download progress
     [_window setTitle:[NSString stringWithFormat:@"Loading %@...", _filename]];
@@ -278,7 +273,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
             // format
             id keys[] = {@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", @"ISO", nil};
             id vals[] = {dateTime, eTimeStr, fLength, fNumber, iso};
-            formatProps(props, keys,vals);
+            formatProps(props, keys, vals);
         }
 
         NSDictionary *tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
