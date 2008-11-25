@@ -238,6 +238,7 @@ static NSString * stringFromFileSize(long long size) {
                         identifier:download];
 
     // For read exif info by gtCarrera
+    // boost: pool (leaks), check nil (crash), readable values
     CGImageSourceRef exifSource = CGImageSourceCreateWithURL((CFURLRef)([NSURL fileURLWithPath:_path]), nil);
     if (exifSource) {
         NSDictionary *metaData = (NSDictionary*) CGImageSourceCopyPropertiesAtIndex(exifSource, 0, nil);
@@ -250,10 +251,17 @@ static NSString * stringFromFileSize(long long size) {
             NSNumber *eTime = [exifData objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
             NSNumber *fLength = [exifData objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
             NSNumber *fNumber = [exifData objectForKey:(NSString *)kCGImagePropertyExifFNumber];
+            // readable exposure time
+            NSString *eTimeStr;
+            double eTimeVal = [eTime doubleValue];
+            if (eTimeVal < 1) {
+                eTimeStr = [NSString stringWithFormat:@"1/%g", 1/eTimeVal];
+            } else
+                eTimeStr = [eTime stringValue];
             exifString = [NSString stringWithFormat:
                           NSLocalizedString(@"exifStringFormat", 
-                                            "Original Date Time: %@\n\nExposure Time: %@s\nFocal Length%@ mm\nf-Number: %@\n"), 
-                          dateTime, eTime, fLength, fNumber];
+                                            "Original Date Time: %@\n\nExposure Time: %@ s\nFocal Length%@ mm\nf-Number: %@\n"), 
+                          dateTime, eTimeStr, fLength, fNumber];
         }
 
         NSString *tiffString = @"";

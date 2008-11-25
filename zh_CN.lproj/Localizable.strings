@@ -72,7 +72,7 @@
 "Opening browser" = "正在打开浏览器";
 
 /* EXIF info */
-"exifStringFormat" = "原始创建日期：%@\n\n曝光时间：%@s\n焦距：%@ mm\n光圈：%@\n";
+"exifStringFormat" = "原始创建日期：%@\n\n曝光时间：%@ s\n焦距：%@ mm\n光圈：%@\n";
 "tiffStringFormat" = "\n设备制造商及型号：\n%@ %@";
 
 /* Cover flow */
