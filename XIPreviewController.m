@@ -261,6 +261,7 @@ static void formatProps(NSMutableString *s, NSArray *fmt, NSArray *val) {
             NSNumber *eTime = [exifData objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
             NSNumber *fLength = [exifData objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
             NSNumber *fNumber = [exifData objectForKey:(NSString *)kCGImagePropertyExifFNumber];
+            NSArray *isoArray = [exifData objectForKey:(NSString *)kCGImagePropertyExifISOSpeedRatings];
             // readable exposure time
             NSString *eTimeStr = nil;
             if (eTime) {
@@ -271,9 +272,14 @@ static void formatProps(NSMutableString *s, NSArray *fmt, NSArray *val) {
                 } else
                     eTimeStr = [eTime stringValue];
             }
+            // iso
+            NSNumber *iso = nil;
+            if (isoArray && [isoArray count])
+                iso = [isoArray objectAtIndex:0];
+            // format
             formatProps(props,
-                        [NSArray arrayWithObjects:@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", nil],
-                        [NSArray arrayWithObjects:dateTime, eTimeStr, fLength, fNumber, nil]);
+                        [NSArray arrayWithObjects:@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", @"ISO", nil],
+                        [NSArray arrayWithObjects:dateTime, eTimeStr, fLength, fNumber, iso, nil]);
         }
 
         NSDictionary *tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];

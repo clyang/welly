@@ -76,6 +76,7 @@
 "Exposure Time" = "曝光时间: %@ s\n";
 "Focal Length" = "焦距: %@ mm\n";
 "F Number" = "光圈: %@\n";
+"ISO" = "ISO: %@\n";
 "tiffStringFormat" = "\n设备制造商及型号：\n%@ %@";
 
 /* Cover flow */
