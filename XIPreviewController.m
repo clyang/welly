@@ -252,12 +252,15 @@ static NSString * stringFromFileSize(long long size) {
             NSNumber *fLength = [exifData objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
             NSNumber *fNumber = [exifData objectForKey:(NSString *)kCGImagePropertyExifFNumber];
             // readable exposure time
-            NSString *eTimeStr;
-            double eTimeVal = [eTime doubleValue];
-            if (eTimeVal < 1) {
-                eTimeStr = [NSString stringWithFormat:@"1/%g", 1/eTimeVal];
-            } else
-                eTimeStr = [eTime stringValue];
+            NSString *eTimeStr = nil;
+            if (eTime) {
+                double eTimeVal = [eTime doubleValue];
+                // zero exposure time...
+                if (eTimeVal < 1 && eTimeVal != 0) {
+                    eTimeStr = [NSString stringWithFormat:@"1/%g", 1/eTimeVal];
+                } else
+                    eTimeStr = [eTime stringValue];
+            }
             exifString = [NSString stringWithFormat:
                           NSLocalizedString(@"exifStringFormat", 
                                             "Original Date Time: %@\n\nExposure Time: %@ s\nFocal Length%@ mm\nf-Number: %@\n"), 
@@ -269,10 +272,12 @@ static NSString * stringFromFileSize(long long size) {
         if (tiffData) {
             NSString *makeName = [tiffData objectForKey:(NSString *)kCGImagePropertyTIFFMake];
             NSString *modelName = [tiffData objectForKey:(NSString *)kCGImagePropertyTIFFModel];
-            tiffString = [NSString stringWithFormat:
-                          NSLocalizedString(@"tiffStringFormat", 
-                                            "\nManufacturer and Model: \n%@ %@"), 
-                          makeName, modelName];
+            // some photos give null names
+            if (makeName || modelName)
+                tiffString = [NSString stringWithFormat:
+                              NSLocalizedString(@"tiffStringFormat", 
+                                                "\nManufacturer and Model: \n%@ %@"), 
+                              makeName, modelName];
         }
 
         NSString *content = [exifString stringByAppendingString:tiffString];
