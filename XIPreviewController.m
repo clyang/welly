@@ -228,6 +228,16 @@ static NSString * stringFromFileSize(long long size) {
 	[_indicator incrementBy: (double)length];
 }
 
+static void formatProps(NSMutableString *s, NSArray *fmt, NSArray *val) {
+    uint n = [fmt count];
+    for (uint i = 0; i < n; ++i) {
+        id obj = [val objectAtIndex:i];
+        if (obj == nil)
+            continue;
+        [s appendFormat:NSLocalizedString([fmt objectAtIndex:i], nil), obj];
+    }
+}
+
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
     [XIQuickLookBridge add:[NSURL fileURLWithPath:_path]];
@@ -244,7 +254,7 @@ static NSString * stringFromFileSize(long long size) {
         NSDictionary *metaData = (NSDictionary*) CGImageSourceCopyPropertiesAtIndex(exifSource, 0, nil);
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-        NSString *exifString = @"";
+        NSMutableString *props = [NSMutableString string];
         NSDictionary *exifData = [metaData objectForKey:(NSString *)kCGImagePropertyExifDictionary];
         if (exifData) {
             NSString *dateTime = [exifData objectForKey:(NSString *)kCGImagePropertyExifDateTimeOriginal];
@@ -261,29 +271,23 @@ static NSString * stringFromFileSize(long long size) {
                 } else
                     eTimeStr = [eTime stringValue];
             }
-            exifString = [NSString stringWithFormat:
-                          NSLocalizedString(@"exifStringFormat", 
-                                            "Original Date Time: %@\n\nExposure Time: %@ s\nFocal Length%@ mm\nf-Number: %@\n"), 
-                          dateTime, eTimeStr, fLength, fNumber];
+            formatProps(props,
+                        [NSArray arrayWithObjects:@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", nil],
+                        [NSArray arrayWithObjects:dateTime, eTimeStr, fLength, fNumber, nil]);
         }
 
-        NSString *tiffString = @"";
         NSDictionary *tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
         if (tiffData) {
             NSString *makeName = [tiffData objectForKey:(NSString *)kCGImagePropertyTIFFMake];
             NSString *modelName = [tiffData objectForKey:(NSString *)kCGImagePropertyTIFFModel];
             // some photos give null names
             if (makeName || modelName)
-                tiffString = [NSString stringWithFormat:
-                              NSLocalizedString(@"tiffStringFormat", 
-                                                "\nManufacturer and Model: \n%@ %@"), 
-                              makeName, modelName];
+                [props appendFormat:NSLocalizedString(@"tiffStringFormat", "\nManufacturer and Model: \n%@ %@"), makeName, modelName];
         }
 
-        NSString *content = [exifString stringByAppendingString:tiffString];
-        if([content length]) 
+        if([props length]) 
             [TYGrowlBridge notifyWithTitle:_filename
-                               description:content
+                               description:props
                           notificationName:@"File Transfer"
                                   isSticky:NO
                                 identifier:download];
