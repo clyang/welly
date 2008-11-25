@@ -228,13 +228,12 @@ static NSString * stringFromFileSize(long long size) {
 	[_indicator incrementBy: (double)length];
 }
 
-static void formatProps(NSMutableString *s, NSArray *fmt, NSArray *val) {
-    uint n = [fmt count];
-    for (uint i = 0; i < n; ++i) {
-        id obj = [val objectAtIndex:i];
+static void formatProps(NSMutableString *s, id *fmt, id *val) {
+    for (; *fmt; ++fmt, ++val) {
+        id obj = *val;
         if (obj == nil)
             continue;
-        [s appendFormat:NSLocalizedString([fmt objectAtIndex:i], nil), obj];
+        [s appendFormat:NSLocalizedString(*fmt, nil), obj];
     }
 }
 
@@ -277,9 +276,9 @@ static void formatProps(NSMutableString *s, NSArray *fmt, NSArray *val) {
             if (isoArray && [isoArray count])
                 iso = [isoArray objectAtIndex:0];
             // format
-            formatProps(props,
-                        [NSArray arrayWithObjects:@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", @"ISO", nil],
-                        [NSArray arrayWithObjects:dateTime, eTimeStr, fLength, fNumber, iso, nil]);
+            id keys[] = {@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", @"ISO", nil};
+            id vals[] = {dateTime, eTimeStr, fLength, fNumber, iso};
+            formatProps(props, keys,vals);
         }
 
         NSDictionary *tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];
