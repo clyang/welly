@@ -331,6 +331,8 @@ static NSString *extractString(NSString *row, NSString *start, NSString *end) {
 }
 
 static BOOL hasAnyString(NSString *row, NSArray *array) {
+	if (row == nil)
+		return NO;
     NSEnumerator *e = [array objectEnumerator];
     NSString *s;
     while (s = [e nextObject]) {
@@ -350,7 +352,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
     if (NO) {
         // just for align
-    } else if ([secondLine rangeOfString:@"目前选择"].length > 0 || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", nil])) {
+    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前选择", nil]) || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
@@ -380,7 +382,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"下面还有喔", @"瀏覽", nil])) {
         //NSLog(@"阅读文章");
         _bbsState.state = BBSViewPost;
-    } else if ([self cellsOfRow:(_row - 1)]->byte == 161) {
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
         //NSLog(@"发表文章");
         _bbsState.state = BBSComposePost;
     } else {
