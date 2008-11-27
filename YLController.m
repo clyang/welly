@@ -393,7 +393,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction)setMouseAction:(id)sender {
     BOOL state = [sender state];
     if ([sender isKindOfClass:[NSMenuItem class]])
-		state = !state;
+        state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 }
 

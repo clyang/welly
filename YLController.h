@@ -33,10 +33,10 @@
     IBOutlet NSPanel *_sitesWindow;
     IBOutlet NSPanel *_emoticonsWindow;
     IBOutlet NSWindow *_mainWindow;
-	IBOutlet NSPanel *_messageWindow;
-	IBOutlet id _addressBar;
+    IBOutlet NSPanel *_messageWindow;
+    IBOutlet id _addressBar;
     IBOutlet id _detectDoubleByteButton;
-	IBOutlet id _autoReplyButton;
+    IBOutlet id _autoReplyButton;
     IBOutlet id _mouseButton;
 
     IBOutlet YLView *_telnetView;
