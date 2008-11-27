@@ -25,7 +25,7 @@
     NSString *bottomLine = [terminal stringFromIndex:linesPerPage * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
     NSString *newBottomLine = bottomLine;
 
-    NSMutableString *buf = [[NSMutableString alloc] initWithCString:""];
+    NSMutableString *buf = [NSMutableString string];
 
     BOOL isFinished = NO;
 
@@ -34,14 +34,19 @@
         // read in the whole page, and store in 'newPage' array
         for (; j < linesPerPage; ++j) {
             // read one line
-            newPage[j] = [terminal stringFromIndex:j * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
-            if ([newPage[j] hasPrefix:@"※"]) {    // has post ending symbol
+            NSString *line = [terminal stringFromIndex:j * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
+            newPage[j] = line;
+            // check the post ending symbol "※"
+            // ptt may include the symbol in the middle for re post
+            if ([line hasPrefix:@"※"] && ![line hasPrefix:@"※ 引述"]) {
                 isFinished = YES;
                 lastline = j;
                 break;
             }
         }
-        if ((![bottomLine hasPrefix:@"下面还有喔"])&&([bottomLine length] > 10)) {
+        // smth && ptt
+        if ((![bottomLine hasPrefix:@"下面还有喔"]) && ([bottomLine length] > 10)
+            && ((![bottomLine rangeOfString:@"瀏覽"].length) || ([bottomLine rangeOfString:@"(100%)"].length > 0))) {
 			// bottom line should have this prefix if the post has not ended.
             isFinished = YES;
         }
@@ -49,9 +54,7 @@
         int k = linesPerPage - 1;
         // if it is the last page, we should check if there are duplicated pages
         if (isFinished && i != 0) {
-            int jj = j;
-            //BOOL stopFlag = false;
-            while (j > 0 && jj >= 0) {
+            while (j > 0) {
                 // first, we should locate the last line of last page in the new page.
                 // i.e. find a newPage[j] that equals the last line of last page.
                 while (j > 0) {
@@ -62,7 +65,7 @@
                 NSAssert(j == 0 || [newPage[j] isEqualToString:lastPage[k]], @"bbs post layout tradition");
                 
                 // now check if it is really duplicated
-                for (jj = j - 1; jj >= 0; --jj) {
+                for (int jj = j - 1; jj >= 0; --jj) {
                     --k;
                     if (![newPage[jj] isEqualToString:lastPage[k]]) {
                         // it is not really duplicated by last page effect, but only duplicated by the author of the post
@@ -71,6 +74,8 @@
                         break;
                     }
                 }
+                // jj verified, quit
+                break;
             }
         } else {
             j = (i == 0) ? -1 : 0; // except the first page, every time page down would lead to the first line duplicated

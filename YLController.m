@@ -1056,8 +1056,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #pragma mark Post Download
 
 - (void)preparePostDownload:(id)param {
+    // clear s
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
     NSString *s = [KOPostDownloader downloadPostFromConnection:[_telnetView frontMostConnection]];
-    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:NO];
+    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:TRUE];
+    [pool release];
 }
 
 - (IBAction)openPostDownload:(id)sender {
