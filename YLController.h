@@ -37,6 +37,7 @@
 	IBOutlet id _addressBar;
     IBOutlet id _detectDoubleByteButton;
 	IBOutlet id _autoReplyButton;
+    IBOutlet id _mouseButton;
 
     IBOutlet YLView *_telnetView;
     IBOutlet XITabBarControl *_tab;
@@ -72,6 +73,7 @@
 - (IBAction)setEncoding:(id)sender;
 - (IBAction)setDetectDoubleByteAction:(id)sender;
 - (IBAction)setAutoReplyAction:(id)sender;
+- (IBAction)setMouseAction:(id)sender;
 
 - (IBAction)newTab:(id)sender;
 - (IBAction)connect:(id)sender;

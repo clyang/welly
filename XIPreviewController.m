@@ -13,8 +13,8 @@
 @interface XIDownloadDelegate : NSObject {
     // This progress bar is restored by gtCarrera
     // boost: don't put it in XIPreviewController
+    NSPanel *_window;
     HMBlkProgressIndicator *_indicator;
-    NSPanel         *_window;
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
 }
@@ -151,6 +151,9 @@ static NSString * stringFromFileSize(long long size) {
     [_window setDelegate:self];
     [_window setOpaque:YES];
     [_window center];
+    //NSRect frame = [_window frame];
+    //frame.origin.y -= frame.size.height * ([sURLs count] - 1);
+    //[_window setFrameOrigin:frame.origin];
     [_window setTitle:@"Loading..."];
     [_window setViewsNeedDisplay:NO];
     [_window makeKeyAndOrderFront:nil];

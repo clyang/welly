@@ -243,15 +243,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [protocol setDelegate:connection];
         [protocol connect:[site address]];
     }
-    /* commented by boost @ 9#
-    [self refreshTabLabelNumber: _telnetView];
 
     [self updateEncodingMenu];
-    [_detectDoubleByteButton setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
-    [_detectDoubleByteMenuItem setState: [[[_telnetView frontMostConnection] site] detectDoubleByte] ? NSOnState : NSOffState];
-	[_autoReplyButton setState: [[[_telnetView frontMostConnection] site] autoReply] ? NSOnState : NSOffState];
-	[_autoReplyMenuItem setState: [[[_telnetView frontMostConnection] site] autoReply] ? NSOnState : NSOffState];
-    */
+    [_detectDoubleByteButton setState:[site detectDoubleByte] ? NSOnState : NSOffState];
+    [_detectDoubleByteMenuItem setState:[site detectDoubleByte] ? NSOnState : NSOffState];
+    [_autoReplyButton setState:[site autoReply] ? NSOnState : NSOffState];
+    [_autoReplyMenuItem setState:[site autoReply] ? NSOnState : NSOffState];
+    [_mouseButton setState:[site enableMouse] ? NSOnState : NSOffState];
+
     [pool release];
 }
 
@@ -389,6 +388,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	}
 	
 	[[[_telnetView frontMostConnection] site] setAutoReply: ar];
+}
+
+- (IBAction)setMouseAction:(id)sender {
+    BOOL state = [sender state];
+    if ([sender isKindOfClass:[NSMenuItem class]])
+		state = !state;
+    [_mouseButton setState:(state ? NSOnState : NSOffState)];
 }
 
 - (IBAction) closeMessageWindow: (id) sender {

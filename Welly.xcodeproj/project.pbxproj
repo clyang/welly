@@ -16,6 +16,7 @@
 		166D639F0E2E232600514885 /* PortalImageLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D639E0E2E232600514885 /* PortalImageLayout.m */; };
 		166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D63B20E2E255A00514885 /* QuartzCore.framework */; };
 		1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* PortalImage.m */; };
+		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
 		16BF97BD0E3D9B7600ED990A /* XIIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */; };
 		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
@@ -116,6 +117,7 @@
 		166D63B20E2E255A00514885 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		1680A7EB0E2F0F8300A2E175 /* PortalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalImage.h; sourceTree = "<group>"; };
 		1680A7EC0E2F0F8300A2E175 /* PortalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortalImage.m; sourceTree = "<group>"; };
+		169A2ED40EDDA871009770ED /* mouse.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mouse.pdf; sourceTree = "<group>"; };
 		16BF97BB0E3D9B7500ED990A /* XIIntegerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIIntegerArray.h; sourceTree = "<group>"; };
 		16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIIntegerArray.m; sourceTree = "<group>"; };
 		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				169A2ED40EDDA871009770ED /* mouse.pdf */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				85957EAE0CFF1176006E5E08 /* sleep.pdf */,
 				857EAE4E0CF1D89300777C15 /* offline.pdf */,
@@ -580,6 +583,7 @@
 				5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */,
 				16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */,
 				16DC3D090E3338B70060E8F0 /* online.pdf in Resources */,
+				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
