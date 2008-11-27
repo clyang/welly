@@ -38,7 +38,8 @@
             newPage[j] = line;
             // check the post ending symbol "※"
             // ptt may include the symbol in the middle for re post
-            if ([line hasPrefix:@"※"] && ![line hasPrefix:@"※ 引述"]) {
+            // NOTE: should we just remove them?
+            if ([line hasPrefix:@"※ 来源"] || [line hasPrefix:@"※ 发信站"] || [line hasPrefix:@"※ 發信站"]) {
                 isFinished = YES;
                 lastline = j;
                 break;
