@@ -65,7 +65,7 @@ static YLContextualMenuManager *gSharedInstance;
         [item setRepresentedObject: s];
         [a addObject: item];
         
-        item = [[[NSMenuItem alloc] initWithTitle: NSLocalizedString(@"Lookup in Dictionary", @"Menu")
+        item = [[[NSMenuItem alloc] initWithTitle: NSLocalizedString(@"Look Up in Dictionary", @"Menu")
                                            action: @selector(lookupDictionary:)
                                     keyEquivalent: @""] autorelease];
         [item setTarget: self];
