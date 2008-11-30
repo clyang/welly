@@ -59,6 +59,10 @@
     } else {
         if (port == nil)
             port = @"23";
+        range = [addr rangeOfString:@"@"];
+        // remove username for telnet
+        if (range.length > 0)
+            addr = [addr substringFromIndex:range.location + range.length];
         // "-" before the port number forces the initial option negotiation
         fmt = @"/usr/bin/telnet -8 %@ -%@";
     }
@@ -192,6 +196,8 @@
         else chunkSize = length;
         
         int size = write(_fd, msg, chunkSize);
+        if (size < 0)
+            break;
         
         msg += size;
         length -= size;

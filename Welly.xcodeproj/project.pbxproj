@@ -10,6 +10,7 @@
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */; };
+		160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160D6D4A0EE2E5B900CDC416 /* Security.framework */; };
 		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */; };
 		166D62AD0E2E17A900514885 /* XIPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D62AC0E2E17A900514885 /* XIPortal.m */; };
@@ -106,6 +107,7 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1600D7AD0E51C2B100496E3E /* KOTerminalFeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOTerminalFeeder.h; sourceTree = "<group>"; };
 		1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOTerminalFeeder.m; sourceTree = "<group>"; };
+		160D6D4A0EE2E5B900CDC416 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookBridge.m; sourceTree = "<group>"; };
 		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
 		1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPreviewController.h; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */,
 				166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
+				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +283,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				160D6D4A0EE2E5B900CDC416 /* Security.framework */,
 				166D63B20E2E255A00514885 /* QuartzCore.framework */,
 				81624CE10E2F8F89009C9987 /* Carbon.framework */,
 				5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */,

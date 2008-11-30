@@ -16,6 +16,10 @@
 #import "YLController.h"
 #import "YLView.h"
 
+@interface YLConnection ()
+- (void)login;
+@end
+
 @implementation YLConnection
 
 - (id)init {
@@ -27,9 +31,9 @@
 - (id)initWithSite:(YLSite *)site {
     if (self == [super initWithContent:self]) {
         [self setSite:site];
-		[self setTerminalFeeder: [[KOTerminalFeeder alloc] initWithConnection: self]];
-		_autoReplyDelegate = [[KOAutoReplyDelegate alloc] init];
-		[_autoReplyDelegate setConnection: self];
+        [self setTerminalFeeder:[[KOTerminalFeeder alloc] initWithConnection:self]];
+        _autoReplyDelegate = [[KOAutoReplyDelegate alloc] init];
+        [_autoReplyDelegate setConnection: self];
     }
     return self;
 }
@@ -38,9 +42,10 @@
     [_lastTouchDate release];
     [_icon release];
     [_terminal release];
-	[_feeder release];
+    [_feeder release];
     [_protocol release];
     [_autoReplyDelegate release];
+    [_site release];
     [super dealloc];
 }
 
@@ -122,7 +127,7 @@
 
 - (void)setIsProcessing:(BOOL)value {
     if (_processing != value)
-    _processing = value;
+        _processing = value;
 }
 
 - (int)objectCount {
@@ -153,6 +158,8 @@
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
+    [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
+    //[self login];
 }
 
 - (void)protocolDidRecv:(id)protocol data:(NSData*)data {
@@ -233,6 +240,39 @@
     }
 
     [pool release];
+}
+
+- (void)login {
+    NSString *addr = [_site address];
+    const char *account = [addr UTF8String];
+    // telnet; send username
+    if (![addr hasPrefix:@"ssh"]) {
+        char *pe = strchr(account, '@');
+        if (pe) {
+            char *ps = pe;
+            for (; ps > account; --ps)
+                if (*ps == ' ' || *ps == '/')
+                    break;
+            if (ps != pe) {
+                sleep(1);
+                [self sendBytes:ps length:pe-ps];
+                [self sendBytes:"\r" length:1];
+            }
+        }
+    }
+    // send password
+    const char *service = "Welly";
+    UInt32 len = 0;
+    void *pass = 0;
+    SecKeychainFindGenericPassword(nil,
+        strlen(service), service,
+        strlen(account), account,
+        &len, &pass,
+        nil);
+    if (len) {
+        [self sendBytes:pass length:len];
+        [self sendBytes:"\r" length:1];
+    }
 }
 
 #pragma mark -
