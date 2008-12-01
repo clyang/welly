@@ -21,7 +21,8 @@ typedef struct {
 		BBSFriendList, 
 		BBSBrowseBoard, 
 		BBSViewPost, 
-		BBSComposePost
+		BBSComposePost,
+		BBSWaitingEnter,
 	} state;
 	NSString *boardName;
 	int cursorRow;

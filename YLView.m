@@ -657,7 +657,11 @@ BOOL isSpecialSymbol(unichar ch) {
 		
 		if (_buttonData) {
 			[[self frontMostConnection] sendText: _buttonData->commandSequence];
-		}		
+		}
+		
+		if ([[self frontMostTerminal] bbsState].state == BBSWaitingEnter) {
+			[[self frontMostConnection] sendText: termKeyEnter];
+		}
     }
 }
 
