@@ -352,7 +352,8 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
     if (NO) {
         // just for align
-    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前选择", nil]) || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", nil])) {
+    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前选择", nil])
+			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
@@ -385,7 +386,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
         //NSLog(@"发表文章");
         _bbsState.state = BBSComposePost;
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按任何键继续", nil])) {
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按任何键继续", @"按任意鍵繼續", nil])) {
 		//NSLog(@"按回车继续");
 		_bbsState.state = BBSWaitingEnter;
 	} else {
