@@ -1673,8 +1673,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	for(int y = 0; y < gRow; y++)
 		[self updateIPStateForRow: y];
 	// For the mouse preference
-	if (![[[self frontMostConnection] site] enableMouse]) 
-		return;
+	//if (![[[self frontMostConnection] site] enableMouse]) 
+		//return;
 	[self updateExitArea];
 	for (int y = 0; y < gRow; y++) {
 		[self updateClickEntryForRow: y];
@@ -1978,6 +1978,8 @@ BOOL isSpecialSymbol(unichar ch) {
 												row:r
 											 column:start
 											 length:end - start + 1];
+						start = i;
+						end = i;
 					} else {
 						state = ST_NON_SPACE_FOUND;
 						end = i;

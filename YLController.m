@@ -395,6 +395,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if ([sender isKindOfClass:[NSMenuItem class]])
         state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
+	
+	[[[_telnetView frontMostConnection] site] setEnableMouse: state];
 }
 
 - (IBAction) closeMessageWindow: (id) sender {
@@ -886,6 +888,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
     [_detectDoubleByteMenuItem setState:CELLSTATE([site detectDoubleByte])];
     [_autoReplyButton setState:CELLSTATE([site autoReply])];
+	[_autoReplyMenuItem setState:CELLSTATE([site autoReply])];
+	[_mouseButton setState:CELLSTATE([site enableMouse])];
 #undef CELLSTATE
 }
 
