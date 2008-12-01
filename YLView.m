@@ -540,7 +540,7 @@ BOOL isSpecialSymbol(unichar ch) {
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     // open url
-    if (abs(_selectionLength) <= 3) {
+    if (abs(_selectionLength) <= 1) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
         if (url != nil) {
