@@ -1905,7 +1905,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			return;
 		
         // TODO: fix magic numbers
-        if (currRow[12].byte != 0 && currRow[12].byte != ' ' && currRow[11].byte == ' ')
+        if (currRow[12].byte != 0 && currRow[12].byte != ' ' && (currRow[11].byte == ' ' || currRow[11].byte == '*'))
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
