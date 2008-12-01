@@ -385,7 +385,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
         //NSLog(@"发表文章");
         _bbsState.state = BBSComposePost;
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按任何键继续"])) {
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按任何键继续", nil])) {
 		//NSLog(@"按回车继续");
 		_bbsState.state = BBSWaitingEnter;
 	} else {
