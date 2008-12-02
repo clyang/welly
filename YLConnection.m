@@ -264,6 +264,15 @@
     const char *service = "Welly";
     UInt32 len = 0;
     void *pass = 0;
+/*
+    len = 8;
+    pass = "password";
+    SecKeychainAddGenericPassword(nil,
+        strlen(service), service,
+        strlen(account), account,
+        len, pass,
+        nil);
+*/
     SecKeychainFindGenericPassword(nil,
         strlen(service), service,
         strlen(account), account,
