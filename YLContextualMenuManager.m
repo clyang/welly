@@ -78,8 +78,8 @@
                  keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
-		
-		[menu addItemWithTitle:NSLocalizedString(@"Copy", @"Menu")
+
+        [menu addItemWithTitle:NSLocalizedString(@"Copy", @"Menu")
                         action:@selector(copy:) 
                  keyEquivalent:@""];
     }
