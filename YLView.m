@@ -1375,15 +1375,10 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (NSMenu *) menuForEvent: (NSEvent *) theEvent {
-    NSMenu *menu = [[self class] defaultMenu];
-    if (![self connected]) return menu;
-    
+    if (![self connected])
+        return nil;
     NSString *s = [self selectedPlainString];
-    NSArray *a = [[YLContextualMenuManager sharedInstance] availableMenuItemForSelectionString: s];
-    for(NSMenuItem *item in a) {
-        [menu addItem: item];
-    }
-    return menu;
+    return [YLContextualMenuManager menuWithSelectedString:s];
 }
 
 /* Otherwise, it will return the subview. */
