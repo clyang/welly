@@ -8,8 +8,6 @@
 //  new interface, by boost @ 9#
 
 #import "YLContextualMenuManager.h"
-#import "TYGrowlBridge.h"
-#import "IPSeeker.h"
 #import "YLView.h"
 #import "Carbon/Carbon.h"
 
@@ -36,7 +34,9 @@
 + (NSMenu *)menuWithSelectedString:(NSString*)s {
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 
-//    NSString *shortURL = [self extractShortURL:s];
+/* comment: why not just using the url recognition?
+
+    NSString *shortURL = [self extractShortURL:s];
     NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 
     if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
@@ -46,7 +46,7 @@
                         action:@selector(openURL:)
                  keyEquivalent:@""];
     }
-/*    
+    
     if ([shortURL length] > 0 && [shortURL length] < 8) {
         [menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString: shortURL]
                         action:@selector(openURL:)
@@ -73,10 +73,6 @@
                         action:@selector(lookupDictionary:)
                  keyEquivalent:@""];
 
-        [menu addItemWithTitle:NSLocalizedString(@"IP Seeker", @"Menu")
-                        action:@selector(ipSeeker:)
-                 keyEquivalent:@""];
-
         [menu addItem:[NSMenuItem separatorItem]];
 
         [menu addItemWithTitle:NSLocalizedString(@"Copy", @"Menu")
@@ -95,7 +91,7 @@
     return menu;
 }
 
-+ (IBAction) openURL:(id)sender {
++ (IBAction)openURL:(id)sender {
     NSString *u = [sender title];
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:u]];
 }
@@ -117,35 +113,6 @@
     [spb declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
     [spb setString:u forType:NSStringPboardType];
     NSPerformService(@"Look Up in Dictionary", spb);
-}
-
-+ (IBAction)ipSeeker:(id)sender {
-    NSString *u = [sender representedObject];
-	NSArray* components = [u componentsSeparatedByString:@"."];
-	NSMutableData* data = [NSMutableData dataWithLength:4];
-	if([components count] == 4) {
-		char* ip = (char*)[data mutableBytes];
-		int value = [[components objectAtIndex:0] intValue];
-		if(value > 255 || value < 0)
-			return;
-		ip[0] = value & 0xFF;
-		value = [[components objectAtIndex:1] intValue];
-		if(value > 255 || value < 0)
-			return;
-		ip[1] = value & 0xFF;
-		value = [[components objectAtIndex:2] intValue];
-		if(value > 255 || value < 0)
-			return;
-		ip[2] = value & 0xFF;
-		value = [[components objectAtIndex:3] intValue];
-		if(value > 255 || value < 0)
-			return;
-		ip[3] = value & 0xFF;
-        NSString *loc = [[IPSeeker shared] getLocation:ip];
-		[TYGrowlBridge notifyWithTitle:u
-                           description:loc
-                      notificationName:@"IP Address Location"];
-	}
 }
 
 @end
