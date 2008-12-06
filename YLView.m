@@ -1936,13 +1936,8 @@ BOOL isSpecialSymbol(unichar ch) {
 			int db = currRow[i].attr.f.doubleByte;
 			switch (state) {
 				case ST_START:
-					if (currRow[i].byte == '(' && currRow[i+2].byte == ')') {
-						start = i;
-						end = start;
-						state = ST_BRACKET_FOUND;
-						shortcut = currRow[i+1].byte;
-					} else if (currRow[i].byte == ')') {
-						start = i - 1;
+					if (currRow[i].byte == ')' && isalnum(currRow[i-1].byte)) {
+						start = (currRow[i-2].byte == '(')? i-2: i-1;
 						end = start;
 						state = ST_BRACKET_FOUND;
 						shortcut = currRow[i-1].byte;
