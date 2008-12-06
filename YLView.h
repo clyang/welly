@@ -50,19 +50,20 @@
 	BOOL _isInPortalMode;
 }
 
-- (void) configure ;
+- (void)configure;
 
-- (void) pasteWrap: (id) sender ;
-- (void) paste: (id) sender ;
-- (void) pasteColor: (id) sender ;
+- (void)copy:(id)sender;
+- (void)pasteWrap:(id)sender;
+- (void)paste:(id)sender;
+- (void)pasteColor:(id)sender;
 
-- (void) displayCellAtRow: (int) r column: (int) c;
-- (void) updateBackedImage;
-- (void) drawSelection ;
-- (void) drawBlink ;
-- (void) refreshHiddenRegion;
+- (void)displayCellAtRow:(int)r column:(int)c;
+- (void)updateBackedImage;
+- (void)drawSelection;
+- (void)drawBlink;
+- (void)refreshHiddenRegion;
 
-- (void) clearSelection;
+- (void)clearSelection;
 
 - (YLTerminal *)frontMostTerminal;
 - (YLConnection *)frontMostConnection;

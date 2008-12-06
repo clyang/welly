@@ -9,6 +9,8 @@
 
 #import "YLContextualMenuManager.h"
 #import "YLView.h"
+#import "YLController.h"
+#import "YLApplication.h"
 #import "Carbon/Carbon.h"
 
 /*
@@ -84,7 +86,9 @@
         NSMenuItem *item = [menu itemAtIndex:i];
         if ([item isSeparatorItem])
             continue;
+        //if ([item target] == nil)
         [item setTarget:self];
+        //if ([item representedObject] == nil)
         [item setRepresentedObject:s];
     }
 
@@ -113,6 +117,11 @@
     [spb declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
     [spb setString:u forType:NSStringPboardType];
     NSPerformService(@"Look Up in Dictionary", spb);
+}
+
++ (IBAction)copy:(id)sender {
+    YLView *view = [[((YLApplication *)NSApp) controller] getView];
+    [view copy:sender];
 }
 
 @end
