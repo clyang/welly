@@ -202,7 +202,9 @@ static NSString * stringFromFileSize(long long size) {
     NSString *fileType = [[_filename pathExtension] lowercaseString];
     NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
     Boolean canView = [allowedTypes containsObject:fileType];
-    if (!canView) {		
+    if (!canView) {
+        // cancel will decrease the count, fk
+        [download retain];
         [download cancel];
         [self download:download didFailWithError:nil];
         return; // released
@@ -223,7 +225,7 @@ static NSString * stringFromFileSize(long long size) {
                           isSticky:YES
                         identifier:download];
 	// Add the incremented value
-	[_indicator incrementBy: (double)length];
+	[_indicator incrementBy:(double)length];
 }
 
 static void formatProps(NSMutableString *s, id *fmt, id *val) {
