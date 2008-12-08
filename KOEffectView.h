@@ -10,6 +10,7 @@
 #import <QuartzCore/CoreAnimation.h>
 
 #define DEFAULT_POPUP_BOX_FONT @"Helvetica"
+#define DEFAULT_POPUP_MENU_FONT @"Lucida-Grande"
 
 @class YLView;
 
@@ -22,6 +23,9 @@
 	CALayer *clickEntryLayer;
 	CALayer *popUpLayer;
 	CALayer *buttonLayer;
+	
+	CALayer *menuLayer;
+	CALayer *selectionLayer;
 }
 
 // for ip seeker
@@ -35,6 +39,11 @@
 // for button
 - (void)drawButton: (NSRect) rect withMessage: (NSString *) message;
 - (void)clearButton;
+
+// for menu
+- (void)showMenuAtPoint: (NSPoint) pt 
+			withItems: (NSArray *) items;
+- (void)hideMenu;
 
 // To show pop up message by core animation
 // This method might be changed in future

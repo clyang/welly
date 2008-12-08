@@ -8,6 +8,7 @@
 
 #import "KOEffectView.h"
 #import "YLLGlobalConfig.h"
+#import "KOMenuItem.h"
 
 #import <Quartz/Quartz.h>
 #import <ScreenSaver/ScreenSaver.h>
@@ -213,6 +214,142 @@
 	[textLayer removeFromSuperlayer];
 	[buttonLayer removeAllAnimations];
 	[buttonLayer removeFromSuperlayer];
+}
+
+#pragma mark -
+#pragma mark Menu
+
+const CGFloat menuWidth = 300.0;
+const CGFloat menuHeight = 50.0;
+const CGFloat menuFontSize = 30.0;
+const CGFloat menuSpacing = 20.0;
+const CGFloat menuInitialOffset = 10.0;
+const CGFloat menuItemPadding = 2.0;
+const CGFloat menuMarginOffset = 10.0;
+
+-(void)setupMenuLayer;
+{
+    [[self window] makeFirstResponder:self];
+    
+    menuLayer = [CALayer layer];
+    menuLayer.frame = mainLayer.bounds;
+    menuLayer.layoutManager =[CAConstraintLayoutManager layoutManager];
+	
+	menuLayer.borderWidth = 2.0;
+    menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+	menuLayer.cornerRadius = 2.0;
+	
+    [mainLayer addSublayer: menuLayer];
+    
+    selectionLayer = [CALayer layer];
+    selectionLayer.bounds = CGRectMake(0.0, 0.0, menuWidth, menuHeight);
+    selectionLayer.borderWidth = 2.0;
+    selectionLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+    selectionLayer.cornerRadius = menuHeight / 2;
+    
+    CIFilter *filter = [CIFilter filterWithName:@"CIBloom"];
+    [filter setDefaults];
+    [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
+    [filter setName:@"pulseFilter"];
+    
+    [selectionLayer setFilters:[NSArray arrayWithObject:filter]];
+    
+    CABasicAnimation* pulseAnimation = [CABasicAnimation animation];
+    pulseAnimation.keyPath = @"filters.pulseFilter.inputIntensity";
+    pulseAnimation.fromValue = [NSNumber numberWithFloat: 0.0];
+    pulseAnimation.toValue = [NSNumber numberWithFloat: 1.5];
+    pulseAnimation.duration = 1.0;
+    pulseAnimation.repeatCount = 1e100f;
+    pulseAnimation.autoreverses = YES;
+    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	
+    [selectionLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
+	
+    [mainLayer addSublayer:selectionLayer];
+    
+    //[self changeSelectedIndex:0];
+}
+
+- (void)showMenuAtPoint: (NSPoint) pt 
+			  withItems: (NSArray *)items {
+	if (!menuLayer)
+		[self setupMenuLayer];
+	
+	//[menuLayer setPosition: NSPointToCGPoint(pt)];
+	CGFloat width = 0.0;
+	CGFloat height = menuMarginOffset * 2;
+	CGFloat itemHeight = 0.0;
+	
+    for (int i = 0; i < [items count]; i++) {
+		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex: i];
+		NSString *name = [item name];
+		name = @"fucking fucking";
+		
+		CATextLayer *menuItemLayer = [CATextLayer layer];
+		
+		CGFontRef font = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_MENU_FONT);
+		menuItemLayer.font = font;
+		menuItemLayer.fontSize = menuFontSize;
+		NSLog(@"%f, %d", menuItemLayer.fontSize, menuFontSize);
+		[menuItemLayer setForegroundColor:CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f)];
+		//menuItemLayer.foregroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+		
+		// Modify its styles
+		menuItemLayer.truncationMode = kCATruncationEnd;		// Here, calculate the size of the text layer
+		NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+									[NSFont fontWithName:DEFAULT_POPUP_MENU_FONT 
+													size:menuItemLayer.fontSize], 
+									NSFontAttributeName,
+									nil];
+		menuItemLayer.string = name;
+		NSSize messageSize = [name sizeWithAttributes:attributes];
+		
+		if (messageSize.width > width)
+			width = messageSize.width;
+		
+		if (height > 0)
+			height += messageSize.height + menuItemPadding;
+		else
+			height += messageSize.height;
+		
+		itemHeight = messageSize.height;
+		/*
+		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
+																 relativeTo: @"superlayer"
+																  attribute: kCAConstraintMaxY
+																	 offset: -(i * menuHeight + menuSpacing + menuInitialOffset)]];
+		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
+																 relativeTo: @"superlayer"
+																  attribute: kCAConstraintMidX]];
+		 */
+		//menuItemLayer.foregroundColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.5f);
+		[menuLayer addSublayer: menuItemLayer];
+    }
+	
+	CGRect rect = CGRectZero;
+	rect.size.width = width + menuMarginOffset * 2;
+	rect.size.height = height;
+	rect.origin = NSPointToCGPoint(pt);
+	
+	[menuLayer setFrame: rect];
+	
+	int i = 0;
+	for (CALayer *menuItemLayer in [menuLayer sublayers]) {
+		
+		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
+																 relativeTo: @"superlayer"
+																  attribute: kCAConstraintMaxY
+																	 offset: -(i++ * itemHeight + menuItemPadding + menuMarginOffset)]];
+		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
+																 relativeTo: @"superlayer"
+																  attribute: kCAConstraintMidX]];
+	}
+    
+    //[menuLayer layoutIfNeeded];
+}
+
+- (void)hideMenu {
+	
 }
 
 #pragma mark Pop-Up Message

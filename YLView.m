@@ -19,6 +19,7 @@
 #import "IPSeeker.h"
 #import "KOEffectView.h"
 #import "KOTrackingRectData.h"
+#import "KOMenuItem.h"
 #include "encoding.h"
 #include <math.h>
 
@@ -540,6 +541,9 @@ BOOL isSpecialSymbol(unichar ch) {
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     // open url
+	KOMenuItem *item = [KOMenuItem itemWithName: @"TEST"];
+	[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObject: [item retain]]];
+	
     if (abs(_selectionLength) <= 1) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
