@@ -26,10 +26,8 @@
 }
 
 - (id)initWithFrame:(NSRect)frame {
-	// NSLog(@"Init");
     self = [super initWithFrame:frame];
     if (self) {
-		//NSLog(@"%d", frame.size.width);
         // Initialization code here.
 		[self setFrame:frame];
 		[self setWantsLayer: YES];
@@ -48,15 +46,7 @@
 {
 	NSRect contentFrame = [mainView frame];
 	[self setFrame: contentFrame];
-	// NSLog(@"current effectView layer = %x", [self layer]);
 	
-    /*CALayer *root = [CALayer layer];
-	// NSLog(@"root's superLayer = %x", [root superlayer]);
-	[root removeFromSuperlayer];
-	[self setLayer:root];*/
-	
-	// NSLog(@"root's superLayer = %x", [root superlayer]);
-	// NSLog(@"current effectView layer = %x", [self layer]);
     // mainLayer is the layer that gets scaled. All of its sublayers
     // are automatically scaled with it.
     mainLayer = [CALayer layer];
@@ -65,9 +55,6 @@
     // Make the background color to be a dark gray with a 50% alpha similar to
     // the real Dashbaord.
     mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
-    //[root insertSublayer:[mainLayer retain] above:[mainView layer]];
-	
-	// NSLog(@"root = %x", root);
 }
 
 - (void) clear {
@@ -87,7 +74,6 @@
 }
 
 - (void)awakeFromNib {
-	// NSLog(@"awake");
 	[self setupLayer];
 }
 
