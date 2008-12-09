@@ -267,13 +267,44 @@ const CGFloat menuMarginWidth = 20.0;
 	
     [selectionLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
 	
-    [mainLayer addSublayer:selectionLayer];
+    //[mainLayer addSublayer:selectionLayer];
     
     //[self changeSelectedIndex:0];
 }
 
 - (void)changeSelectedIndex: (int) index {
 	// TODO: add code for selecting menu item
+	NSArray *layers = [menuLayer sublayers];
+	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
+		CALayer *menuItemLayer = [layers objectAtIndex: selectedItemIndex];
+		[menuItemLayer setFilters: nil];
+		[menuItemLayer removeAllAnimations];
+	}
+	
+	selectedItemIndex = index;
+	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
+		CALayer *menuItemLayer = [layers objectAtIndex: selectedItemIndex];
+		
+		// Add bloom
+		CIFilter *filter = [CIFilter filterWithName:@"CIBloom"];
+		[filter setDefaults];
+		[filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
+		[filter setName:@"pulseFilter"];
+		
+		[menuItemLayer setFilters: [NSArray arrayWithObject:filter]];
+		
+		// Add pulse animation
+		CABasicAnimation* pulseAnimation = [CABasicAnimation animation];
+		pulseAnimation.keyPath = @"filters.pulseFilter.inputIntensity";
+		pulseAnimation.fromValue = [NSNumber numberWithFloat: 0.0];
+		pulseAnimation.toValue = [NSNumber numberWithFloat: 1.5];
+		pulseAnimation.duration = 1.0;
+		pulseAnimation.repeatCount = 1e100f;
+		pulseAnimation.autoreverses = YES;
+		pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+		
+		[menuItemLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
+	}
 }
 
 - (void)removeAllMenuItems {
@@ -282,15 +313,9 @@ const CGFloat menuMarginWidth = 20.0;
 		CALayer *menuItemLayer = [layers objectAtIndex: i];
 		[menuItemLayer removeFromSuperlayer];
 	}
-	/*
-	for (CALayer *menuItemLayer in [menuLayer sublayers]) {
-		//[menuItemLayer removeAllAnimations];
-		[menuItemLayer removeFromSuperlayer];
-		menuItemLayer = nil;
-		//[menuItemLayer autorelease];
-	}*/
+	
 	selectedItemIndex = -1;
-	//[menuLayer layoutIfNeeded];
+	[menuLayer layoutIfNeeded];
 }
 
 - (void)showMenuAtPoint: (NSPoint) pt 
@@ -304,7 +329,7 @@ const CGFloat menuMarginWidth = 20.0;
 	CGFloat height = menuMarginHeight;
 	CGFloat itemHeight = 0.0;
 	
-	// add menu items
+	// Add menu items
     for (int i = 0; i < [items count]; i++) {
 		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex: i];
 		NSString *name = [item name];
@@ -357,10 +382,12 @@ const CGFloat menuMarginWidth = 20.0;
 	menuLayer.cornerRadius = rect.size.height / 5;
 	
     [menuLayer layoutIfNeeded];
+	
+	[self changeSelectedIndex: 0];
 }
 
 - (void)hideMenu {
-	
+	// TODO: add code to hide the menu
 }
 
 #pragma mark Pop-Up Message
