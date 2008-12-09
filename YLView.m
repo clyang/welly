@@ -545,7 +545,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	// For Test
 	KOMenuItem *item = [KOMenuItem itemWithName: @"TEST"];
 	KOMenuItem *item2 = [KOMenuItem itemWithName: @"TEST2"];
-	//[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: [item retain], [item2 retain]]];
+	[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: [item retain], [item2 retain]]];
 
     if (abs(_selectionLength) <= 1) {
         int index = [self convertIndexFromPoint:p];

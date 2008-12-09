@@ -26,6 +26,7 @@
 	
 	CALayer *menuLayer;
 	CALayer *selectionLayer;
+	int selectedItemIndex;
 }
 
 // for ip seeker
@@ -44,6 +45,7 @@
 - (void)showMenuAtPoint: (NSPoint) pt 
 			withItems: (NSArray *) items;
 - (void)hideMenu;
+- (void)changeSelectedIndex: (int) index;
 
 // To show pop up message by core animation
 // This method might be changed in future

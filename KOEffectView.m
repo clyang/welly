@@ -222,10 +222,9 @@
 const CGFloat menuWidth = 300.0;
 const CGFloat menuHeight = 50.0;
 const CGFloat menuFontSize = 24.0;
-const CGFloat menuSpacing = 20.0;
-const CGFloat menuInitialOffset = 10.0;
 const CGFloat menuItemPadding = 5.0;
-const CGFloat menuMarginOffset = 10.0;
+const CGFloat menuMarginHeight = 5.0;
+const CGFloat menuMarginWidth = 20.0;
 
 -(void)setupMenuLayer;
 {
@@ -239,7 +238,7 @@ const CGFloat menuMarginOffset = 10.0;
 	// set border style
 	menuLayer.borderWidth = 2.0;
     menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
-	menuLayer.cornerRadius = 2.0;
+	menuLayer.cornerRadius = 5.0;
 	
     [mainLayer addSublayer: menuLayer];
     
@@ -273,8 +272,25 @@ const CGFloat menuMarginOffset = 10.0;
     //[self changeSelectedIndex:0];
 }
 
+- (void)changeSelectedIndex: (int) index {
+	// TODO: add code for selecting menu item
+}
+
 - (void)removeAllMenuItems {
-	// TODO: add codes to remove all menu items
+	NSArray *layers = [menuLayer sublayers];
+	for (int i = 0; i < [layers count]; ++i) {
+		CALayer *menuItemLayer = [layers objectAtIndex: i];
+		[menuItemLayer removeFromSuperlayer];
+	}
+	/*
+	for (CALayer *menuItemLayer in [menuLayer sublayers]) {
+		//[menuItemLayer removeAllAnimations];
+		[menuItemLayer removeFromSuperlayer];
+		menuItemLayer = nil;
+		//[menuItemLayer autorelease];
+	}*/
+	selectedItemIndex = -1;
+	//[menuLayer layoutIfNeeded];
 }
 
 - (void)showMenuAtPoint: (NSPoint) pt 
@@ -285,7 +301,7 @@ const CGFloat menuMarginOffset = 10.0;
 	[self removeAllMenuItems];
 	
 	CGFloat width = 0.0;
-	CGFloat height = 0.0;
+	CGFloat height = menuMarginHeight;
 	CGFloat itemHeight = 0.0;
 	
 	// add menu items
@@ -315,14 +331,14 @@ const CGFloat menuMarginOffset = 10.0;
 		// Modify the layer's size
 		if (messageSize.width > width)
 			width = messageSize.width;
-		height += messageSize.height + (i == 0) ? 0 : menuItemPadding;
+		height += messageSize.height + ((i == 0) ? 0 : menuItemPadding);
 		itemHeight = messageSize.height;
 		
 		// Set the layer's constraint
 		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
 																 relativeTo: @"superlayer"
 																  attribute: kCAConstraintMaxY
-																	 offset: -(height + menuMarginOffset)]];
+																	 offset: -height + itemHeight]];
 		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
 																 relativeTo: @"superlayer"
 																  attribute: kCAConstraintMidX]];
@@ -332,18 +348,15 @@ const CGFloat menuMarginOffset = 10.0;
     }
 	
 	CGRect rect = CGRectZero;
-	rect.size.width = width + menuMarginOffset * 2;
-	rect.size.height = height + menuMarginOffset * 2;
+	rect.size.width = width + menuMarginWidth * 2;
+	rect.size.height = height + menuMarginHeight;
 	rect.origin = NSPointToCGPoint(pt);
+	rect.origin.y -= rect.size.height;
 	
 	[menuLayer setFrame: rect];
+	menuLayer.cornerRadius = rect.size.height / 5;
 	
-	//int i = 0;
-	for (CALayer *menuItemLayer in [menuLayer sublayers]) {
-		
-	}
-    
-    //[menuLayer layoutIfNeeded];
+    [menuLayer layoutIfNeeded];
 }
 
 - (void)hideMenu {
