@@ -541,9 +541,12 @@ BOOL isSpecialSymbol(unichar ch) {
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     // open url
-	KOMenuItem *item = [KOMenuItem itemWithName: @"TEST"];
-	[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObject: [item retain]]];
 	
+	// For Test
+	KOMenuItem *item = [KOMenuItem itemWithName: @"TEST"];
+	KOMenuItem *item2 = [KOMenuItem itemWithName: @"TEST2"];
+	//[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: [item retain], [item2 retain]]];
+
     if (abs(_selectionLength) <= 1) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];

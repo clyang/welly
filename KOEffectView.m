@@ -221,26 +221,29 @@
 
 const CGFloat menuWidth = 300.0;
 const CGFloat menuHeight = 50.0;
-const CGFloat menuFontSize = 30.0;
+const CGFloat menuFontSize = 24.0;
 const CGFloat menuSpacing = 20.0;
 const CGFloat menuInitialOffset = 10.0;
-const CGFloat menuItemPadding = 2.0;
+const CGFloat menuItemPadding = 5.0;
 const CGFloat menuMarginOffset = 10.0;
 
 -(void)setupMenuLayer;
 {
-    [[self window] makeFirstResponder:self];
+    //[[self window] makeFirstResponder:self];
     
+	// create menu layer
     menuLayer = [CALayer layer];
     menuLayer.frame = mainLayer.bounds;
     menuLayer.layoutManager =[CAConstraintLayoutManager layoutManager];
 	
+	// set border style
 	menuLayer.borderWidth = 2.0;
     menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
 	menuLayer.cornerRadius = 2.0;
 	
     [mainLayer addSublayer: menuLayer];
     
+	// set selection layer
     selectionLayer = [CALayer layer];
     selectionLayer.bounds = CGRectMake(0.0, 0.0, menuWidth, menuHeight);
     selectionLayer.borderWidth = 2.0;
@@ -270,79 +273,74 @@ const CGFloat menuMarginOffset = 10.0;
     //[self changeSelectedIndex:0];
 }
 
+- (void)removeAllMenuItems {
+	// TODO: add codes to remove all menu items
+}
+
 - (void)showMenuAtPoint: (NSPoint) pt 
 			  withItems: (NSArray *)items {
 	if (!menuLayer)
 		[self setupMenuLayer];
 	
-	//[menuLayer setPosition: NSPointToCGPoint(pt)];
+	[self removeAllMenuItems];
+	
 	CGFloat width = 0.0;
-	CGFloat height = menuMarginOffset * 2;
+	CGFloat height = 0.0;
 	CGFloat itemHeight = 0.0;
 	
+	// add menu items
     for (int i = 0; i < [items count]; i++) {
 		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex: i];
 		NSString *name = [item name];
-		name = @"fucking fucking";
 		
 		CATextLayer *menuItemLayer = [CATextLayer layer];
-		
-		CGFontRef font = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_MENU_FONT);
-		menuItemLayer.font = font;
-		menuItemLayer.fontSize = menuFontSize;
-		NSLog(@"%f, %d", menuItemLayer.fontSize, menuFontSize);
-		[menuItemLayer setForegroundColor:CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f)];
-		//menuItemLayer.foregroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+		menuItemLayer.string = name;
 		
 		// Modify its styles
-		menuItemLayer.truncationMode = kCATruncationEnd;		// Here, calculate the size of the text layer
+		CGFontRef font = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_MENU_FONT);
+		menuItemLayer.font = font;
+		CGFontRelease(font);
+		menuItemLayer.fontSize = menuFontSize;
+		menuItemLayer.foregroundColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+		menuItemLayer.truncationMode = kCATruncationEnd;
+		
+		// Here, calculate the size of the text layer
 		NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 									[NSFont fontWithName:DEFAULT_POPUP_MENU_FONT 
 													size:menuItemLayer.fontSize], 
 									NSFontAttributeName,
 									nil];
-		menuItemLayer.string = name;
 		NSSize messageSize = [name sizeWithAttributes:attributes];
 		
+		// Modify the layer's size
 		if (messageSize.width > width)
 			width = messageSize.width;
-		
-		if (height > 0)
-			height += messageSize.height + menuItemPadding;
-		else
-			height += messageSize.height;
-		
+		height += messageSize.height + (i == 0) ? 0 : menuItemPadding;
 		itemHeight = messageSize.height;
-		/*
+		
+		// Set the layer's constraint
 		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
 																 relativeTo: @"superlayer"
 																  attribute: kCAConstraintMaxY
-																	 offset: -(i * menuHeight + menuSpacing + menuInitialOffset)]];
+																	 offset: -(height + menuMarginOffset)]];
 		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
 																 relativeTo: @"superlayer"
 																  attribute: kCAConstraintMidX]];
-		 */
-		//menuItemLayer.foregroundColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.5f);
+		
+		// insert this menu item
 		[menuLayer addSublayer: menuItemLayer];
     }
 	
 	CGRect rect = CGRectZero;
 	rect.size.width = width + menuMarginOffset * 2;
-	rect.size.height = height;
+	rect.size.height = height + menuMarginOffset * 2;
 	rect.origin = NSPointToCGPoint(pt);
 	
 	[menuLayer setFrame: rect];
 	
-	int i = 0;
+	//int i = 0;
 	for (CALayer *menuItemLayer in [menuLayer sublayers]) {
 		
-		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
-																 relativeTo: @"superlayer"
-																  attribute: kCAConstraintMaxY
-																	 offset: -(i++ * itemHeight + menuItemPadding + menuMarginOffset)]];
-		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
-																 relativeTo: @"superlayer"
-																  attribute: kCAConstraintMidX]];
 	}
     
     //[menuLayer layoutIfNeeded];
