@@ -1639,10 +1639,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self addSubview:_portal];
 	_isInPortalMode = YES;
 }
-// Remove current portal, but NOT release it!
+// Remove current portal
 - (void)removePortal {
 	if(_portal) {
 		[_portal removeFromSuperview];
+		[_portal release];
+		_portal = nil;
 	}
 	_isInPortalMode = NO;
 }

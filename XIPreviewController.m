@@ -13,8 +13,8 @@
 @interface XIDownloadDelegate : NSObject {
     // This progress bar is restored by gtCarrera
     // boost: don't put it in XIPreviewController
-    NSPanel *_window;
     HMBlkProgressIndicator *_indicator;
+    NSPanel         *_window;
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
 }
@@ -151,9 +151,6 @@ static NSString * stringFromFileSize(long long size) {
     [_window setDelegate:self];
     [_window setOpaque:YES];
     [_window center];
-    //NSRect frame = [_window frame];
-    //frame.origin.y -= frame.size.height * ([sURLs count] - 1);
-    //[_window setFrameOrigin:frame.origin];
     [_window setTitle:@"Loading..."];
     [_window setViewsNeedDisplay:NO];
     [_window makeKeyAndOrderFront:nil];
@@ -197,18 +194,21 @@ static NSString * stringFromFileSize(long long size) {
     _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
     [download setDestination:_path allowOverwrite:YES];
 
-    // dectect file type to avoid useless download
-    // by gtCarrera @ 9#
-    NSString *fileType = [[_filename pathExtension] lowercaseString];
-    NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
-    Boolean canView = [allowedTypes containsObject:fileType];
-    if (!canView) {
-        // cancel will decrease the count, fk
-        [download retain];
+	// dectect file type to avoid useless download
+	// by gtCarrera @ 9#
+	NSString *fileType = [[_filename pathExtension] lowercaseString];
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
+	Boolean canView = [allowedTypes containsObject: fileType];
+	if (!canView) {
+		// Close the progress bar window
+		[_window close];
+		
+        [self retain]; // "didFailWithError" may release the delegate
         [download cancel];
         [self download:download didFailWithError:nil];
-        return; // released
-    }
+        [self release];
+        return; // or next may crash
+	}
 
     // Or, set the window to show the download progress
     [_window setTitle:[NSString stringWithFormat:@"Loading %@...", _filename]];
@@ -225,7 +225,7 @@ static NSString * stringFromFileSize(long long size) {
                           isSticky:YES
                         identifier:download];
 	// Add the incremented value
-	[_indicator incrementBy:(double)length];
+	[_indicator incrementBy: (double)length];
 }
 
 static void formatProps(NSMutableString *s, id *fmt, id *val) {
@@ -278,7 +278,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
             // format
             id keys[] = {@"Original Date Time", @"Exposure Time", @"Focal Length", @"F Number", @"ISO", nil};
             id vals[] = {dateTime, eTimeStr, fLength, fNumber, iso};
-            formatProps(props, keys, vals);
+            formatProps(props, keys,vals);
         }
 
         NSDictionary *tiffData = [metaData objectForKey:(NSString *)kCGImagePropertyTIFFDictionary];

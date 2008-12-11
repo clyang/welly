@@ -367,6 +367,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 - (void)select {
 	YLController *controller = [((YLApplication *)NSApp) controller];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
+	//[]
 }
 
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
