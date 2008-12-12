@@ -69,6 +69,7 @@
 "Connecting" = "连接中";
 "Completed" = "已完成";
 "Opening browser" = "正在打开浏览器";
+"Canceled" = "下载已取消";
 
 /* EXIF info */
 "Original Date Time" = "原始创建日期: \n%@\n\n";

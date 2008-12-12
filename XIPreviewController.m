@@ -17,6 +17,7 @@
     NSPanel         *_window;
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
+	NSURLDownload * currDownload;
 }
 - (void)showLoadingWindow;
 @end
@@ -136,8 +137,7 @@ static NSString * stringFromFileSize(long long size) {
     [super dealloc];
 }
 
-- (void)showLoadingWindow
-{
+- (void)showLoadingWindow {
     unsigned int style = NSTitledWindowMask
         | NSMiniaturizableWindowMask | NSClosableWindowMask
         | NSHUDWindowMask | NSUtilityWindowMask;
@@ -154,11 +154,30 @@ static NSString * stringFromFileSize(long long size) {
     [_window setTitle:@"Loading..."];
     [_window setViewsNeedDisplay:NO];
     [_window makeKeyAndOrderFront:nil];
+	[[_window windowController] setDelegate:self];
 
     // Init progress bar
     _indicator = [[HMBlkProgressIndicator alloc] initWithFrame:NSMakeRect(10, 10, 380, 10)];
     [[_window contentView] addSubview:_indicator];
     [_indicator startAnimation:self];
+}
+
+// Window delegate for _window, finallize the download 
+- (BOOL)windowShouldClose:(id)window {
+	// Show the canceled message
+	[TYGrowlBridge notifyWithTitle:[[[currDownload request] URL] absoluteString]
+                       description:NSLocalizedString(@"Canceled", @"Download canceled")
+                  notificationName:@"File Transfer"
+                          isSticky:NO
+                        identifier:currDownload];
+	// Remove current url from the url list
+	NSURL *URL = [[currDownload request] URL];
+    [sURLs removeObject:URL];
+	// Cancel the download
+	[currDownload cancel];
+	// Release if necessary
+	[currDownload autorelease];
+	return YES;
 }
 
 - (void)downloadDidBegin:(NSURLDownload *)download {
@@ -167,6 +186,7 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:YES
                         identifier:download];
+	currDownload = download;
 }
 
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response { 

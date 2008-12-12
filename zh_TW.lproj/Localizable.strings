@@ -67,6 +67,7 @@
 "Connecting" = "連線中";
 "Completed" = "已完成";
 "Opening browser" = "正在打開瀏覽器";
+"Canceled" = "預覽已取消";
 
 /* EXIF info */
 "Original Date Time" = "原始創建日期: \n%@\n\n";

@@ -58,6 +58,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     if (self == nil)
         return nil;
 
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
     // sign up to be informed when a new image loads
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(imageDidLoadNotification:)
@@ -264,14 +265,15 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
     // restore last selection
     [self performSelectorOnMainThread:@selector(restoreSelection) withObject:nil waitUntilDone:NO];
+	[pool release];
     return self;
 }
 
 - (void)dealloc {
-	NSLog(@"XIPortal dealloced!");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    CGImageRelease(_shadowImage);  
+    CGImageRelease(_shadowImage);
     [_layerDictionary release];
+	[_images release];
     [super dealloc];
 }
 
@@ -367,7 +369,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
 - (void)select {
 	YLController *controller = [((YLApplication *)NSApp) controller];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
-	//[]
 }
 
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
