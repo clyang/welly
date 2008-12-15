@@ -23,11 +23,11 @@
 			  effectView: (KOEffectView *) effectView {
 	[effectView drawPopUpMessage:message];
 	_effectView = [effectView retain];
-	[[NSTimer scheduledTimerWithTimeInterval:duration 
+	[NSTimer scheduledTimerWithTimeInterval:duration 
 									  target:self 
 									selector:@selector(hidePopUpMessage)
 									userInfo:nil
-									 repeats:NO] retain];
+									 repeats:NO];
 }
 
 @end

@@ -270,9 +270,11 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)dealloc {
+	NSLog(@"Portal dealloced");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     CGImageRelease(_shadowImage);
     [_layerDictionary release];
+	[_mainView release];
 	[_images release];
     [super dealloc];
 }
@@ -490,7 +492,6 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_bodyLayer setSublayers:[NSArray arrayWithObjects:values count:count]];
     free(values);
     //[_footerTextLayer setString:[NSString stringWithFormat:@"%d sites", _totalImages]];
-    
     [self updateSelection];
 }
 

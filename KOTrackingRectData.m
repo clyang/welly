@@ -17,6 +17,7 @@
 	data->type = IP_ADDR;
 	data->ipAddr = [ipAddr retain];
 	data->toolTip = [toolTip retain];
+	[data autorelease];
 	return data;
 }
 

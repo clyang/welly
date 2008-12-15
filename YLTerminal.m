@@ -231,7 +231,7 @@
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
 				//NSLog(@"URL: %@", currURL);
 				NSString * myURL = [[NSString alloc] initWithString:currURL];
-				[_currentURLList addObject:[myURL retain]];
+				[_currentURLList addObject: myURL];
 				[currURL setString:@""];
                 urlState = NO;
 			}
@@ -241,7 +241,7 @@
                 if (--par < 0) {
 					//NSLog(@"URL: %@", currURL);
 					NSString * myURL = [[NSString alloc] initWithString:currURL];
-					[_currentURLList addObject:[myURL retain]];
+					[_currentURLList addObject: myURL];
 					[currURL setString:@""];
                     urlState = NO;
 				}
