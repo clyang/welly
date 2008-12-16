@@ -1704,7 +1704,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
 											 userData: [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
-																			  toolTip:[tooltip retain]]
+																			  toolTip:tooltip]
 										 assumeInside: YES];
 	[_ipTrackingRects push_back: rectTag];
 }
@@ -1716,7 +1716,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	/* ip tooltip */
 	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
 							 _fontWidth * length, _fontHeight);
-	[self addToolTipRect: rect owner: self userData: [tooltip retain]];
+	[self addToolTipRect: rect owner: self userData: tooltip];
 }
 
 - (void)updateIPStateForRow: (int) r {
