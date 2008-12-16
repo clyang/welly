@@ -243,6 +243,8 @@
 }
 
 - (void)login {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
     // telnet; send username
@@ -282,6 +284,8 @@
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
     }
+	
+	[pool release];
 }
 
 #pragma mark -
