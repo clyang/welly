@@ -1636,16 +1636,17 @@ BOOL isSpecialSymbol(unichar ch) {
 		_portal = [[XIPortal alloc] initWithView: self];
 		[_portal setFrame:[self frame]];
 	}
+	[_effectView clear];
 	[self addSubview:_portal];
 	_isInPortalMode = YES;
 }
 // Remove current portal
 - (void)removePortal {
-	if(_portal) {
+	//if(_portal) {
 		[_portal removeFromSuperview];
 		[_portal release];
 		_portal = nil;
-	}
+	//}
 	_isInPortalMode = NO;
 }
 // Reset a new portal

@@ -62,7 +62,7 @@
 	[self clearIPAddrBox];
 	[self clearClickEntry];
 	[self clearButton];
-	[popUpLayer removeFromSuperlayer];
+	[self removePopUpMessage];
 }
 
 - (void)drawRect:(NSRect)rect {
@@ -328,7 +328,6 @@ const CGFloat menuMarginWidth = 20.0;
 	CGFloat width = 0.0;
 	CGFloat height = menuMarginHeight;
 	CGFloat itemHeight = 0.0;
-	
 	// Add menu items
     for (int i = 0; i < [items count]; i++) {
 		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex: i];
@@ -371,7 +370,6 @@ const CGFloat menuMarginWidth = 20.0;
 		// insert this menu item
 		[menuLayer addSublayer: menuItemLayer];
     }
-	
 	CGRect rect = CGRectZero;
 	rect.size.width = width + menuMarginWidth * 2;
 	rect.size.height = height + menuMarginHeight;
@@ -458,7 +456,7 @@ const CGFloat menuMarginWidth = 20.0;
 - (void)removePopUpMessage {
 	if(popUpLayer) {
 		[popUpLayer removeFromSuperlayer];
-		[popUpLayer autorelease];
+		[popUpLayer release];
 		popUpLayer = nil;
 	}
 }
