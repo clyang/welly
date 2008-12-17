@@ -51,6 +51,7 @@
 		5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
+		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
 		819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* LLTelnetProcessor.m */; };
 		81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* LLPopUpMessage.m */; };
@@ -178,6 +179,7 @@
 		5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAutoReplyDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81208EBD0EF8D94D005FD459 /* default_site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_site.png; sourceTree = "<group>"; };
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		819586600E5183E200AFBFCE /* LLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTelnetProcessor.h; sourceTree = "<group>"; };
 		819586610E5183E200AFBFCE /* LLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTelnetProcessor.m; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				81208EBD0EF8D94D005FD459 /* default_site.png */,
 				169A2ED40EDDA871009770ED /* mouse.pdf */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				85957EAE0CFF1176006E5E08 /* sleep.pdf */,
@@ -593,6 +596,7 @@
 				16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */,
 				16DC3D090E3338B70060E8F0 /* online.pdf in Resources */,
 				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
+				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

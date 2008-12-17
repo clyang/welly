@@ -114,7 +114,7 @@ static void * imageThread (void *arg) {
         NSURL *url = [NSURL fileURLWithPath:path];
         CGImageSourceRef isr = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
         if (isr == NULL)
-            isr = CGImageSourceCreateWithData((CFDataRef)[[NSImage imageNamed:@"NSApplicationIcon"] TIFFRepresentation], NULL);
+            isr = CGImageSourceCreateWithData((CFDataRef)[[NSImage imageNamed:@"default_site.png"] TIFFRepresentation], NULL);
         CGImageRef image = NULL;
         if (isr) {
             image = CGImageSourceCreateImageAtIndex(isr, 0, NULL);
