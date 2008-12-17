@@ -52,7 +52,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	self = [super initWithFrame:[view frame]];
 	_mainView = [view retain];
 	[self setWantsLayer:YES];
-    NSSize cellSpacing = {5, 5}, cellSize = {240, 240};
+    NSSize cellSpacing = {5, 5}, cellSize = {280, 280};
 
     self = [super init];
     if (self == nil)
