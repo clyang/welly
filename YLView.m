@@ -1821,7 +1821,8 @@ BOOL isSpecialSymbol(unichar ch) {
 
 	_clickEntryData = nil;
 	_buttonData = nil;
-	//[self removeTrackingRect:_exitTrackingRect];
+	// Remove the tracking rect for exit
+	[self removeTrackingRect:_exitTrackingRect];
 	_exitTrackingRect = 0;
 	//_isMouseInExitArea = NO;
 }
@@ -2030,7 +2031,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//	[self removeTrackingRect: _exitTrackingRect];
 	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
 	// FIXME: Why cannot do it here?
-	//[_trackingRectDataList addObject:data];
+	[_trackingRectDataList addObject:data];
 	_exitTrackingRect = [self addTrackingRect: rect
 										owner: self
 									 userData: data
