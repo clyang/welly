@@ -213,6 +213,7 @@ BOOL isSpecialSymbol(unichar ch) {
  		_ipTrackingRects = [[XIIntegerArray alloc] init];
 		_clickEntryTrackingRects = [[XIIntegerArray alloc] init];
 		_buttonTrackingRects = [[XIIntegerArray alloc] init];
+		_trackingRectDataList = [[NSMutableArray alloc] initWithCapacity:20];
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
     return self;
@@ -225,6 +226,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_ipTrackingRects release];
 	[_clickEntryTrackingRects release];
 	[_buttonTrackingRects release];
+	[_trackingRectDataList release];
     [super dealloc];
 }
 
@@ -1637,6 +1639,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal setFrame:[self frame]];
 	}
 	[_effectView clear];
+	[self clearAllTrackingArea];
 	[self addSubview:_portal];
 	_isInPortalMode = YES;
 }
@@ -1701,10 +1704,15 @@ BOOL isSpecialSymbol(unichar ch) {
 							 _fontWidth * length, _fontHeight);
 	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
 	[self addToolTip: tooltip row:r column:c length:length];
+	// Here we use an mutable array to store the ref of tracking rect data
+	// Just for the f**king [NSView removeTrackingRect] which cannot release
+	// user data
+	KOTrackingRectData * data = [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
+													   toolTip:tooltip];
+	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
-																			  toolTip:tooltip]
+											 userData: data
 										 assumeInside: YES];
 	[_ipTrackingRects push_back: rectTag];
 }
@@ -1778,6 +1786,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
+#pragma mark Remove All Tracking Rects
 /*
  * clear all tracking rects
  */
@@ -1785,6 +1794,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_effectView clear];
 	// remove all tool tips
 	[self removeAllToolTips];
+	// Release all tracking rect data
+	while ([_trackingRectDataList count] != 0) {
+		KOTrackingRectData * rectData = (KOTrackingRectData*)[_trackingRectDataList lastObject];
+		[_trackingRectDataList removeLastObject];
+		[rectData release];
+	}
 	// remove all ip tracking rects
 	while(![_ipTrackingRects empty]) {
 		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_ipTrackingRects front];
@@ -1803,11 +1818,11 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self removeTrackingRect:rectTag];
 		[_buttonTrackingRects pop_front];
 	}
+
 	_clickEntryData = nil;
 	_buttonData = nil;
-	
 	//[self removeTrackingRect:_exitTrackingRect];
-	//_exitTrackingRect = 0;
+	_exitTrackingRect = 0;
 	//_isMouseInExitArea = NO;
 }
 
@@ -1819,10 +1834,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	/* ip tooltip */
 	NSRect rect = [self rectAtRow:r column:c height:1 width:length];
 	//NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * length, _fontHeight);
+	KOTrackingRectData * data = [KOTrackingRectData clickEntryRectData: title
+																 atRow: r];
+	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData clickEntryRectData: title
-																					   atRow: r]
+											 userData: data
 										 assumeInside: YES];
 	[_clickEntryTrackingRects push_back: rectTag];
 }
@@ -1848,9 +1865,11 @@ BOOL isSpecialSymbol(unichar ch) {
 					   column: (int)c 
 					   length: (int)len {
 	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
+	KOTrackingRectData * data = [KOTrackingRectData mainMenuClickEntryRectData:cmd];
+	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData mainMenuClickEntryRectData:cmd]
+											 userData: data
 										 assumeInside: YES];
 	[_clickEntryTrackingRects push_back: rectTag];
 }
@@ -2002,15 +2021,19 @@ BOOL isSpecialSymbol(unichar ch) {
 				  column: (int)c 
 				  height: (int)h 
 				   width: (int)w {
+	//NSLog(@"Exit Area added");
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
 	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
 	if (_exitTrackingRect)
 		return;
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
+	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
+	// FIXME: Why cannot do it here?
+	//[_trackingRectDataList addObject:data];
 	_exitTrackingRect = [self addTrackingRect: rect
 										owner: self
-									 userData: [KOTrackingRectData exitRectData]
+									 userData: data
 								 assumeInside: YES];
 	//NSLog(@"Exit Area added!");
 }
@@ -2032,10 +2055,12 @@ BOOL isSpecialSymbol(unichar ch) {
 				column: (int)c 
 				length: (int)len {
 	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
+	KOTrackingRectData * data = [KOTrackingRectData buttonRectData:buttonType
+												   commandSequence:cmd];
+	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
-											 userData: [KOTrackingRectData buttonRectData:buttonType
-																		  commandSequence:cmd]
+											 userData: data
 										 assumeInside: YES];
 	[_buttonTrackingRects push_back: rectTag];
 }

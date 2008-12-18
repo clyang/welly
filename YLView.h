@@ -43,6 +43,7 @@
 	XIIntegerArray *_clickEntryTrackingRects;
 	NSTrackingRectTag _exitTrackingRect;
 	XIIntegerArray *_buttonTrackingRects;
+	NSMutableArray *_trackingRectDataList;
 	
 	KOTrackingRectData *_clickEntryData;
 	KOTrackingRectData *_buttonData;

@@ -51,6 +51,21 @@
 	return data;
 }
 
+#pragma mark -
+#pragma mark Dealloc
+- (void)dealloc {
+	//NSLog(@"Tracking rect data dealloced!");
+	if(ipAddr)
+		[ipAddr release];
+	if(toolTip)
+		[toolTip release];
+	if(postTitle)
+		[postTitle release];
+	if(commandSequence)
+		[commandSequence release];
+    [super dealloc];
+}
+
 - (NSString *)getButtonText {
 	assert(type == BUTTON);
 	switch (buttonType) {
