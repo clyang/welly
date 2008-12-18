@@ -2030,7 +2030,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
-	// FIXME: Why cannot do it here?
 	[_trackingRectDataList addObject:data];
 	_exitTrackingRect = [self addTrackingRect: rect
 										owner: self
