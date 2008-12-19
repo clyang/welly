@@ -660,7 +660,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 		}
 		
-		if (_isMouseInExitArea) {
+		if (_isMouseInExitArea && [[self frontMostTerminal] bbsState].state != BBSWaitingEnter) {
 			[[self frontMostConnection] sendText: termKeyLeft];
 		}
 		
