@@ -625,7 +625,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		
 		if (_clickEntryData != nil) {
 			if (_clickEntryData->commandSequence != nil) {
-				NSLog(_clickEntryData->commandSequence);
+				//NSLog(_clickEntryData->commandSequence);
 				[[self frontMostConnection] sendText: _clickEntryData->commandSequence];
 				return;
 			}
