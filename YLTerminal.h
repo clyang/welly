@@ -25,7 +25,6 @@ typedef struct {
 		BBSWaitingEnter,
 	} state;
 	NSString *boardName;
-	int cursorRow;
 } BBSState;
 
 @interface YLTerminal : NSObject {	
