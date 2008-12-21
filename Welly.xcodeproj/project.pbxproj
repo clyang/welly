@@ -57,6 +57,7 @@
 		81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* LLPopUpMessage.m */; };
 		81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* LLFullScreenController.m */; };
 		81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */; };
+		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AAE0AB40192009FC710 /* YLTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* YLTerminal.m */; };
@@ -189,6 +190,7 @@
 		81F8ECF10E5005190022FA65 /* LLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenController.m; sourceTree = "<group>"; };
 		81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenProcessor.h; sourceTree = "<group>"; };
 		81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenProcessor.m; sourceTree = "<group>"; };
+		81FEAD310EFE91BD0051C867 /* waiting.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = waiting.pdf; sourceTree = "<group>"; };
 		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* YLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTerminal.h; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				81FEAD310EFE91BD0051C867 /* waiting.pdf */,
 				81208EBD0EF8D94D005FD459 /* default_site.png */,
 				169A2ED40EDDA871009770ED /* mouse.pdf */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
@@ -597,6 +600,7 @@
 				16DC3D090E3338B70060E8F0 /* online.pdf in Resources */,
 				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
+				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
