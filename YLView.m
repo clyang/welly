@@ -634,7 +634,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			unsigned int cmdLength = 0;
 			id ds = [self frontMostTerminal];
 			int moveToRow = _clickEntryData->row;
-			int cursorRow = [ds bbsState].cursorRow;
+			int cursorRow = [ds cursorRow];
 			
 			//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
 			//NSLog(@"title = %@", _clickEntryData->postTitle);
@@ -1932,6 +1932,8 @@ BOOL isSpecialSymbol(unichar ch) {
         // TODO: fix magic numbers
         if (currRow[12].byte != 0 && currRow[12].byte != ' ' && (currRow[11].byte == ' ' || currRow[11].byte == '*'))
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
+        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-'))
+            [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
     } else if ([ds bbsState].state == BBSFriendList) {

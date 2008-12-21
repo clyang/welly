@@ -307,22 +307,6 @@
     return urlString;
 }
 
-// boost: ad-hoc
-- (void)updateBBSCursor {
-    for (int i = 3; i < _row; ++i) {
-        NSString *cursor = [self stringFromIndex:i*_column length:2];
-        if (cursor == nil)
-            continue;
-        // smth: "> "
-        // ptt: "●"
-        if ([cursor compare:@">"] == 0 || [cursor compare:@"●"] == 0) {
-            _bbsState.cursorRow = i;
-            break;
-        }
-    }
-    // FIXME: what if not found
-}
-
 static NSString *extractString(NSString *row, NSString *start, NSString *end) {
     NSRange rs = [row rangeOfString:start], re = [row rangeOfString:end];
     if (rs.length == 0 || re.length == 0 || re.location <= rs.location)
@@ -359,26 +343,21 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
         //NSLog(@"讨论区列表");
         _bbsState.state = BBSBoardList;
-        [self updateBBSCursor];
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"好朋友列表", @"使用者列表", @"休閒聊天", nil])) {
         //NSLog(@"好朋友列表");
         _bbsState.state = BBSFriendList;
-        [self updateBBSCursor];
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"处理信笺选单", @"電子郵件", nil])) {
         //NSLog(@"处理信笺选单");
         _bbsState.state = BBSMailMenu;
-        [self updateBBSCursor];
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"邮件选单", nil])) {
         //NSLog(@"邮件选单");
         _bbsState.state = BBSMailList;
-        [self updateBBSCursor];
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"诚征版主中", @"徵求中", nil])) {
         //NSLog(@"版面");
         _bbsState.state = BBSBrowseBoard;
         _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
         if (_bbsState.boardName == nil)
             _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
-        [self updateBBSCursor];
         //NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"下面还有喔", @"瀏覽", nil])) {
         //NSLog(@"阅读文章");
@@ -386,7 +365,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
         //NSLog(@"发表文章");
         _bbsState.state = BBSComposePost;
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按任何键继续", @"按任意鍵繼續", nil])) {
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按 ◆Enter◆ 继续", @"按 <ENTER> 继续", @"按任何键继续", @"上次连线时间为", @"按任意鍵繼續", nil])) {
 		//NSLog(@"按回车继续");
 		_bbsState.state = BBSWaitingEnter;
 	} else {
