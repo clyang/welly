@@ -869,10 +869,11 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) drawBlink {
+    if (![gConfig blinkTicker]) return;
+
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
     int c, r;
-    if (![gConfig blinkTicker]) return;
     id ds = [self frontMostTerminal];
     if (!ds) return;
     for (r = 0; r < gRow; r++) {

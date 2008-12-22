@@ -71,7 +71,7 @@
                     if (![newPage[jj] isEqualToString:lastPage[k]]) {
                         // it is not really duplicated by last page effect, but only duplicated by the author of the post
                         j = jj;
-                        k = linesPerPage - 1;
+                        // k = linesPerPage - 1;
                         break;
                     }
                 }
