@@ -49,7 +49,7 @@
         free(_grid[i]);
     free(_grid);
 	[_currentURLList release];
-	[_currentURLList dealloc];
+	[currURL release];
     [super dealloc];
 }
 
@@ -57,6 +57,10 @@
 #pragma mark input interface
 - (void)feedGrid: (cell **)grid {
 	// Clear the url list
+	for(NSString * str in _currentURLList) {
+		//[_currentURLList removeObject:str];
+		[str release];
+	}
 	[_currentURLList removeAllObjects];
 	
 	for (int i = 0; i < _row; i++) {

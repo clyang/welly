@@ -150,16 +150,23 @@
 	
 	buttonLayer = [CALayer layer];
 	// Set the colors of the pop-up layer
-	buttonLayer.backgroundColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
-	buttonLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+	CGColorRef myColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
+	buttonLayer.backgroundColor = myColor;
+	CGColorRelease(myColor);
+	myColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+	buttonLayer.borderColor = myColor;
+	CGColorRelease(myColor);
 	buttonLayer.borderWidth = 0.0;
 	buttonLayer.cornerRadius = 10.0;
 
 	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
+	[textLayer autorelease];
 	// Set its foreground color
-    textLayer.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0f);
+	myColor = CGColorCreateGenericRGB(0, 0, 0, 1.0f);
+    textLayer.foregroundColor = myColor;
+	CGColorRelease(myColor);
 	
 	// Set the message to the text layer
 	textLayer.string = message;
@@ -204,7 +211,7 @@
 	CATransition * buttonTrans = [CATransition new];
 	buttonTrans.type = kCATransitionReveal;
 	[buttonLayer addAnimation: buttonTrans forKey: kCATransition];
-    
+    [buttonTrans autorelease];
     // Insert the layer into the root layer
 	[mainLayer addSublayer:[buttonLayer retain]];
 }
@@ -406,6 +413,7 @@ const CGFloat menuMarginWidth = 20.0;
     }	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
+	[textLayer autorelease];
 	// Set its foreground color
     textLayer.foregroundColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
 	
