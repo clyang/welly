@@ -1933,10 +1933,12 @@ BOOL isSpecialSymbol(unichar ch) {
         // TODO: fix magic numbers
         if (currRow[12].byte != 0 && currRow[12].byte != ' ' && (currRow[11].byte == ' ' || currRow[11].byte == '*'))
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
-        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-'))
-            [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
+        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[30].byte == ' ')
+            [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
+        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[31].byte == ' ')
+            [self addClickEntryRectAtRow:r column:10 length:80-30]; // zju88
     } else if ([ds bbsState].state == BBSFriendList) {
 		// header/footer
 		if (r < 3 || r == gRow - 1)

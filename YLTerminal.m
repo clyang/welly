@@ -340,7 +340,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
     if (NO) {
         // just for align
-    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前选择", nil])
+    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
 			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
