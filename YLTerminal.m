@@ -13,6 +13,7 @@
 #import "XIIntegerArray.h"
 #import "encoding.h"
 #import "YLSite.h"
+#import "LLUrlData.h"
 
 @implementation YLTerminal
 
@@ -57,10 +58,11 @@
 #pragma mark input interface
 - (void)feedGrid: (cell **)grid {
 	// Clear the url list
-	for(NSString * str in _currentURLList) {
-		//[_currentURLList removeObject:str];
-		[str release];
+	for(LLUrlData * data in _currentURLList) {
+		//NSLog(@"%@", [data url]);
+		[data release];
 	}
+
 	[_currentURLList removeAllObjects];
 	
 	for (int i = 0; i < _row; i++) {
@@ -234,8 +236,11 @@
 			[currURL appendFormat:@"%c", c];
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
 				//NSLog(@"URL: %@", currURL);
-				NSString * myURL = [[NSString alloc] initWithString:currURL];
-				[_currentURLList addObject: myURL];
+				NSPoint cp;
+				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
+																	name:currURL 
+																position:cp];
+				[_currentURLList addObject: currUrlData];
 				[currURL setString:@""];
                 urlState = NO;
 			}
@@ -244,8 +249,11 @@
             else if (c == ')') {
                 if (--par < 0) {
 					//NSLog(@"URL: %@", currURL);
-					NSString * myURL = [[NSString alloc] initWithString:currURL];
-					[_currentURLList addObject: myURL];
+					NSPoint cp;
+					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
+																		name:currURL 
+																	position:cp];
+					[_currentURLList addObject: currUrlData];
 					[currURL setString:@""];
                     urlState = NO;
 				}
