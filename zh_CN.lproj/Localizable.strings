@@ -83,3 +83,21 @@
 "Are you sure you want to delete the cover?" = "您真的要删除这个封面么？";
 "Welly will delete this cover file, please confirm." = "Welly即将删除这个站点的封面信息，请您确认";
 "Delete" = "删除";
+
+/* Color */
+"Black" = "黑色";
+"Red" = "红色";
+"Green" = "绿色";
+"Yellow" = "黄色";
+"Blue" = "蓝色";
+"Magenta" = "洋红";
+"Cyan" = "青绿";
+"White" = "白色";
+"BlackHilite" = "黑色（高亮）";
+"RedHilite" = "红色（高亮）";
+"GreenHilite" = "绿色（高亮）";
+"YellowHilite" = "黄色（高亮）";
+"BlueHilite" = "蓝色（高亮）";
+"MagentaHilite" = "洋红（高亮）";
+"CyanHilite" = "青绿（高亮）";
+"WhiteHilite" = "白色（高亮）";

@@ -24,7 +24,7 @@
 "Look Up in Dictionary" = "查詢字典";
 
 /* Menu */
-"Copy" = "拷貝"
+"Copy" = "拷貝";
 
 /* Default Button */
 "Quit" = "結束";
@@ -81,3 +81,21 @@
 "Are you sure you want to delete the cover?" = "您真的要移除這個封面麼？";
 "Welly will delete this cover file, please confirm." = "Welly即將移除這個站台的封面信息，請您確認";
 "Delete" = "移除";
+
+/* Color */
+"Black" = "黑色";
+"Red" = "紅色";
+"Green" = "綠色";
+"Yellow" = "黃色";
+"Blue" = "藍色";
+"Magenta" = "洋紅";
+"Cyan" = "青綠";
+"White" = "白色";
+"BlackHilite" = "黑色（高亮度）";
+"RedHilite" = "紅色（高亮度）";
+"GreenHilite" = "綠色（高亮度）";
+"YellowHilite" = "黃色（高亮度）";
+"BlueHilite" = "藍色（高亮度）";
+"MagentaHilite" = "洋紅（高亮度）";
+"CyanHilite" = "青綠（高亮度）";
+"WhiteHilite" = "白色（高亮度）";

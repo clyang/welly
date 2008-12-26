@@ -24,7 +24,6 @@
 	/* composeWindow */
 	IBOutlet NSTextView *_composeText;
 	IBOutlet NSPanel *_composeWindow;
-	IBOutlet NSButton *_colorButtonRed;
 	
 	/* post download window */
 	IBOutlet NSPanel *_postWindow;
