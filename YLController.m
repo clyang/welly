@@ -937,6 +937,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_composeText setBackgroundColor:[NSColor blackColor]];
     [_composeText setTextColor:[[YLLGlobalConfig sharedInstance] colorWhite]];
     [_composeText setInsertionPointColor:[NSColor whiteColor]];
+	[_composeText setFont:[NSFont fontWithName:@"Helvetica" size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 //    for (int i = 0; i < maxRounds && !isFinished; ++i) {
 //        for (int j = 0; j < linesPerRound; ++j) {
 //            NSString *nextLine = [[_telnetView frontMostTerminal] stringFromIndex:j * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
@@ -1071,7 +1072,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[writeBuffer appendString:[NSString stringWithCharacters:&ch length:1]];
 	}
 	
-	[writeBuffer appendString:@"\030"]; // ctrl-x
+	[writeBuffer appendString:escString];
+	[writeBuffer appendString:@"[m\030"]; // ctrl-x
 	[[_telnetView frontMostConnection] sendText:writeBuffer];
 	
     [_composeWindow endEditingFor: nil];
