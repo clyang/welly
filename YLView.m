@@ -569,55 +569,98 @@ BOOL isSpecialSymbol(unichar ch) {
 		
 		// click to move cursor
 		if ([[self frontMostTerminal] bbsState].state == BBSComposePost) {
-			unsigned char cmd[gRow * gColumn + 1];
+			unsigned char cmd[gRow * gColumn * 3];
 			unsigned int cmdLength = 0;
-			int moveToRow = _selectionLocation / gColumn;
-			int moveToCol = _selectionLocation % gColumn;
 			id ds = [self frontMostTerminal];
-			BOOL home = NO;
-			if (moveToRow > [ds cursorRow]) {
-				cmd[cmdLength++] = 0x01;
-				home = YES;
-				for (int i = [ds cursorRow]; i < moveToRow; i++) {
-					cmd[cmdLength++] = 0x1B;
-					cmd[cmdLength++] = 0x4F;
-					cmd[cmdLength++] = 0x42;
+			// FIXME: what actually matters is whether the user enables auto-break-line
+			// however, since it is enabled by default in smth (switchible by ctrl-p) and disabled in ptt,
+			// we temporarily use bbsType here...
+			if ([ds bbsType] == TYMaple) { // auto-break-line IS NOT enabled in bbs
+				int moveToRow = _selectionLocation / gColumn;
+				int moveToCol = _selectionLocation % gColumn;
+				BOOL home = NO;
+				if (moveToRow > [ds cursorRow]) {
+					cmd[cmdLength++] = 0x01;
+					home = YES;
+					for (int i = [ds cursorRow]; i < moveToRow; i++) {
+						cmd[cmdLength++] = 0x1B;
+						cmd[cmdLength++] = 0x4F;
+						cmd[cmdLength++] = 0x42;
+					} 
+				} else if (moveToRow < [ds cursorRow]) {
+					cmd[cmdLength++] = 0x01;
+					home = YES;
+					for (int i = [ds cursorRow]; i > moveToRow; i--) {
+						cmd[cmdLength++] = 0x1B;
+						cmd[cmdLength++] = 0x4F;
+						cmd[cmdLength++] = 0x41;
+					} 			
 				} 
-			} else if (moveToRow < [ds cursorRow]) {
-				cmd[cmdLength++] = 0x01;
-				home = YES;
-				for (int i = [ds cursorRow]; i > moveToRow; i--) {
-					cmd[cmdLength++] = 0x1B;
-					cmd[cmdLength++] = 0x4F;
-					cmd[cmdLength++] = 0x41;
-				} 			
-			} 
-			
-			cell *currRow = [[self frontMostTerminal] cellsOfRow: moveToRow];
-			if (home) {
-				for (int i = 0; i < moveToCol; i++) {
-					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-						cmd[cmdLength++] = 0x1B;
-						cmd[cmdLength++] = 0x4F;
-						cmd[cmdLength++] = 0x43;                    
+				
+				cell *currRow = [[self frontMostTerminal] cellsOfRow: moveToRow];
+				if (home) {
+					for (int i = 0; i < moveToCol; i++) {
+						if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+							cmd[cmdLength++] = 0x1B;
+							cmd[cmdLength++] = 0x4F;
+							cmd[cmdLength++] = 0x43;                    
+						}
+					}
+				} else if (moveToCol > [ds cursorColumn]) {
+					for (int i = [ds cursorColumn]; i < moveToCol; i++) {
+						if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+							cmd[cmdLength++] = 0x1B;
+							cmd[cmdLength++] = 0x4F;
+							cmd[cmdLength++] = 0x43;
+						}
+					}
+				} else if (moveToCol < [ds cursorColumn]) {
+					for (int i = [ds cursorColumn]; i > moveToCol; i--) {
+						if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
+							cmd[cmdLength++] = 0x1B;
+							cmd[cmdLength++] = 0x4F;
+							cmd[cmdLength++] = 0x44;
+						}
 					}
 				}
-			} else if (moveToCol > [ds cursorColumn]) {
-				for (int i = [ds cursorColumn]; i < moveToCol; i++) {
-					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-						cmd[cmdLength++] = 0x1B;
-						cmd[cmdLength++] = 0x4F;
-						cmd[cmdLength++] = 0x43;
+			} else { // auto-break-line IS enabled in bbs
+				int thisRow = [ds cursorRow];
+				int cursorLocation = thisRow * gColumn + [ds cursorColumn];
+				int prevRow = -1;
+				int lastEffectiveChar;
+				if (cursorLocation < _selectionLocation) {
+					for (int i = cursorLocation; i < _selectionLocation; ++i) {
+						thisRow = i / gColumn;
+						if (thisRow != prevRow) {
+							cell *currRow = [ds cellsOfRow:thisRow];
+							for (lastEffectiveChar = gColumn - 1; lastEffectiveChar != 0 && currRow[lastEffectiveChar - 1].byte == 0; --lastEffectiveChar);
+							prevRow = thisRow;
+						}
+						if (i % gColumn <= lastEffectiveChar
+							&& ([ds attrAtRow:i / gColumn column:i % gColumn].f.doubleByte != 2
+								|| [[[self frontMostConnection] site] detectDoubleByte])) {
+							cmd[cmdLength++] = 0x1B;
+							cmd[cmdLength++] = 0x4F;
+							cmd[cmdLength++] = 0x43;                    
+						}
 					}
-				}
-			} else if (moveToCol < [ds cursorColumn]) {
-				for (int i = [ds cursorColumn]; i > moveToCol; i--) {
-					if (currRow[i].attr.f.doubleByte != 2 || [[[self frontMostConnection] site] detectDoubleByte]) {
-						cmd[cmdLength++] = 0x1B;
-						cmd[cmdLength++] = 0x4F;
-						cmd[cmdLength++] = 0x44;
+				} else {
+					for (int i = cursorLocation; i > _selectionLocation; --i) {
+						thisRow = i / gColumn;
+						if (thisRow != prevRow) {
+							cell *currRow = [ds cellsOfRow:thisRow];
+							for (lastEffectiveChar = gColumn - 1; lastEffectiveChar != 0 && currRow[lastEffectiveChar - 1].byte == 0; --lastEffectiveChar);
+							prevRow = thisRow;
+						}
+						if (i % gColumn <= lastEffectiveChar
+							&& ([ds attrAtRow:i / gColumn column:i % gColumn].f.doubleByte != 2
+								|| [[[self frontMostConnection] site] detectDoubleByte])) {
+							cmd[cmdLength++] = 0x1B;
+							cmd[cmdLength++] = 0x4F;
+							cmd[cmdLength++] = 0x44;                    
+						}					
 					}
-				}
+				}				
 			}
 			if (cmdLength > 0) 
 				[[self frontMostConnection] sendBytes: cmd length: cmdLength];
@@ -660,7 +703,9 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 		}
 		
-		if (_isMouseInExitArea && [[self frontMostTerminal] bbsState].state != BBSWaitingEnter) {
+		if (_isMouseInExitArea
+			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
+			&& [[self frontMostTerminal] bbsState].state != BBSComposePost) {
 			[[self frontMostConnection] sendText: termKeyLeft];
 		}
 		
