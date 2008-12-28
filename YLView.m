@@ -568,7 +568,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			return;
 		
 		// click to move cursor
-		if ([theEvent modifierFlags] & NSCommandKeyMask) {
+		if ([[self frontMostTerminal] bbsState].state == BBSComposePost) {
 			unsigned char cmd[gRow * gColumn + 1];
 			unsigned int cmdLength = 0;
 			int moveToRow = _selectionLocation / gColumn;
