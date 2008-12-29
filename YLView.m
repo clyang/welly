@@ -633,7 +633,10 @@ BOOL isSpecialSymbol(unichar ch) {
 						thisRow = i / gColumn;
 						if (thisRow != prevRow) {
 							cell *currRow = [ds cellsOfRow:thisRow];
-							for (lastEffectiveChar = gColumn - 1; lastEffectiveChar != 0 && currRow[lastEffectiveChar - 1].byte == 0; --lastEffectiveChar);
+							for (lastEffectiveChar = gColumn - 1;
+								 lastEffectiveChar != 0
+								 && (currRow[lastEffectiveChar - 1].byte == 0 || currRow[lastEffectiveChar - 1].byte == '~');
+								 --lastEffectiveChar);
 							prevRow = thisRow;
 						}
 						if (i % gColumn <= lastEffectiveChar
@@ -649,7 +652,10 @@ BOOL isSpecialSymbol(unichar ch) {
 						thisRow = i / gColumn;
 						if (thisRow != prevRow) {
 							cell *currRow = [ds cellsOfRow:thisRow];
-							for (lastEffectiveChar = gColumn - 1; lastEffectiveChar != 0 && currRow[lastEffectiveChar - 1].byte == 0; --lastEffectiveChar);
+							for (lastEffectiveChar = gColumn - 1;
+								 lastEffectiveChar != 0
+								 && (currRow[lastEffectiveChar - 1].byte == 0 || currRow[lastEffectiveChar - 1].byte == '~');
+								 --lastEffectiveChar);
 							prevRow = thisRow;
 						}
 						if (i % gColumn <= lastEffectiveChar
