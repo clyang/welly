@@ -964,6 +964,15 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction) openCompose: (id) sender {
+	if([[_telnetView frontMostTerminal] bbsState].state != BBSComposePost) {
+		NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
+										 defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
+									   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+										   otherButton:nil
+							 informativeTextWithFormat:NSLocalizedString(@"It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?", @"Sheet Message")];
+		if ([alert runModal] != NSAlertDefaultReturn)
+			return;
+	}
 	[NSThread detachNewThreadSelector: @selector(prepareCompose:) toTarget: self withObject: self];
 	[[NSUserDefaults standardUserDefaults] setObject:@"1Welly" forKey:@"NSColorPickerPageableNameListDefaults"];
 	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];

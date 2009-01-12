@@ -10,6 +10,9 @@
 /* Sheet Title */
 "Are you sure you want to paste?" = "您确定要进行粘贴吗？";
 
+/* Sheet Title */
+"Are you sure you want to open the composer?" = "您确定要使用编辑器吗？";
+
 /* Default Button */
 "Close" = "关闭";
 
@@ -39,6 +42,9 @@
 
 /* Sheet Message */
 "It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?" = "您似乎并非在编辑文章。进行粘贴可能会产生难以预料的行为。您确定要进行粘贴吗？";
+
+/* Sheet Message */
+"It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?" = "您似乎并非在编辑文章，此时使用文本编辑器可能会产生难以预料的行为。您确定要继续吗？";
 
 /* Preferences */
 "General" = "一般";
