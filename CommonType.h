@@ -68,3 +68,5 @@ int fgBoldOfAttribute(attribute a) ;
 
 #define titleBig5 @"SetEncodingBig5"
 #define titleGBK @"SetEncodingGBK"
+
+#define supportedCoverExtensions ([NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil])

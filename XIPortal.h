@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "YLView.h"
 
+@class YLSite;
+
 @interface XIPortal : NSView {
     CAScrollLayer *_bodyLayer;
     CATextLayer *_headerTextLayer, *_footerTextLayer;
@@ -32,6 +34,9 @@
 - (void)loadCovers;
 - (void)moveSelection:(int)dx;
 - (void)select;
+- (YLSite *)selectedSite;
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count;
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender;
 
 @end

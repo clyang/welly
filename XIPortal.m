@@ -265,6 +265,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self performSelectorOnMainThread:@selector(loadCovers) withObject:nil waitUntilDone:NO];
     // restore last selection
     [self performSelectorOnMainThread:@selector(restoreSelection) withObject:nil waitUntilDone:NO];
+	
+	// register for dragged types
+	[self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
 	[pool release];
     return self;
 }
@@ -371,6 +374,11 @@ static const CGFloat colorValues[C_COUNT][4] = {
 - (void)select {
 	YLController *controller = [((YLApplication *)NSApp) controller];
     [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
+}
+
+- (YLSite *)selectedSite {
+	YLController *controller = [((YLApplication *)NSApp) controller];
+	return [controller objectInSitesAtIndex:_selectedImageIndex];
 }
 
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
@@ -524,4 +532,61 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	return;
 }
 
+#pragma mark -
+#pragma mark Drag & Drop
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
+	// Need the delegate hooked up to accept the dragged item(s) into the model	
+	if ([[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+	{
+		return NSDragOperationCopy;
+	}
+	
+	return NSDragOperationNone;
+}
+
+// Work around a bug from 10.2 onwards
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
+{
+	return NSDragOperationEvery;
+}
+
+// Stop the NSTableView implementation getting in the way
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
+{
+	return [self draggingEntered:sender];
+}
+
+//
+// drag a picture file into the portal view to change the cover picture
+// 
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+	NSLog(@"portal: performDragOperation:");
+
+	YLSite *site = [self selectedSite];
+	if (site == NULL)
+		return NO;
+
+	NSPasteboard *pboard = [sender draggingPasteboard];
+
+	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+		NSLog(@"portal: begin to add file");
+		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+		int numberOfFiles = [files count];
+		// Perform operation using the list of files
+		for (int i = 0; i < numberOfFiles; ++i) {
+			NSString *filename = [files objectAtIndex: i];
+			NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
+			NSLog(@"portal: begin to add file: %@, suffix: %@", filename, suffix);
+			NSArray *suffixes = supportedCoverExtensions;
+			if ([filename hasSuffix: @"/"] || ![suffixes containsObject: suffix])
+				continue;
+			NSLog(@"portal: begin to add picture: %@", filename);
+			[(YLView *)_mainView addPortalPicture:filename forSite:[site name]];
+			[(YLView *)_mainView resetPortal];
+			break;
+		}
+    }
+    return YES;
+}
 @end

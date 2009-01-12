@@ -49,6 +49,8 @@
 	KOTrackingRectData *_buttonData;
 	BOOL _isMouseInExitArea;
 	BOOL _isInPortalMode;
+
+	NSCursor *_normalCursor;
 }
 
 - (void)configure;
@@ -99,6 +101,9 @@
 - (void)removePortal;
 - (void)checkPortal;
 - (void)resetPortal;
+- (void)addPortalPicture: (NSString *) source 
+				 forSite: (NSString *) siteName;
+
 /* Hot Spots */
 - (void)refreshAllHotSpots;
 
@@ -127,4 +132,5 @@
 
 // Test for effect view
 - (KOEffectView *) getEffectView ;
+
 @end

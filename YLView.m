@@ -413,15 +413,8 @@ BOOL isSpecialSymbol(unichar ch) {
 			[_effectView drawIPAddrBox: rect];
 			break;
 		case CLICK_ENTRY:
-			// FIXME: remove the following line if preference is done
-			if([[[self frontMostConnection] site] enableMouse]) {
-				NSCursor * cursor = [NSCursor pointingHandCursor];
-				[cursor set];
-				[_effectView drawClickEntry: rect];
-				_clickEntryData = rectData;
-			}
-			break;
 		case MAIN_MENU_CLICK_ENTRY:
+			// FIXME: remove the following line if preference is done
 			if([[[self frontMostConnection] site] enableMouse]) {
 				NSCursor * cursor = [NSCursor pointingHandCursor];
 				[cursor set];
@@ -447,7 +440,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)mouseExited:(NSEvent *)theEvent {
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
-	NSCursor *cursor = [NSCursor arrowCursor];
 	switch (rectData->type) {
 		case IP_ADDR:
 			[_effectView clearIPAddrBox];
@@ -455,7 +447,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		case CLICK_ENTRY:
 		case MAIN_MENU_CLICK_ENTRY:
 			[_effectView clearClickEntry];
-			[cursor set];
+			[_normalCursor set];
 			_clickEntryData = nil;
 			break;
 		case EXIT_AREA:
@@ -815,6 +807,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) flagsChanged: (NSEvent *) event {
+	/*
 	unsigned int currentFlags = [event modifierFlags];
 	NSCursor *viewCursor = nil;
 	if (currentFlags & NSCommandKeyMask) {
@@ -823,6 +816,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		viewCursor = [NSCursor arrowCursor];
 	}
 	[viewCursor set];
+	 */
 	[super flagsChanged: event];
 }
 
@@ -1727,10 +1721,44 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
+- (void)addPortalPicture: (NSString *) source 
+				 forSite: (NSString *) siteName {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	// Create the dir if necessary
+	// by gtCarrera
+	NSString *destDir = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
+						  stringByAppendingPathComponent:@"Application Support"]
+						 stringByAppendingPathComponent:@"Welly"];
+	[fileManager createDirectoryAtPath:destDir attributes:nil];
+	destDir = [destDir stringByAppendingPathComponent:@"Covers"];
+	[fileManager createDirectoryAtPath:destDir attributes:nil];
+	
+	NSString *destination = [destDir stringByAppendingPathComponent:siteName];
+	// Ends here
+	
+	// Remove all existing picture for this site
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
+	for (NSString *ext in allowedTypes) {
+		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
+	}
+	[fileManager copyItemAtPath:source toPath:[destination stringByAppendingPathExtension:[source pathExtension]] error:NULL];
+}
+
 #pragma mark -
 #pragma mark Hot Spots;
 - (void)refreshAllHotSpots {
 	[self clearAllTrackingArea];
+	[self updateExitArea];
+	
+	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) {
+		_normalCursor = gMoveCursor;
+		[gMoveCursor set];
+	} else {
+		_normalCursor = [NSCursor arrowCursor];
+		[[NSCursor arrowCursor] set];
+	}
+	
 	// For default hot spots
 	if(![[self frontMostConnection] connected])
 		return;
@@ -1739,7 +1767,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	// For the mouse preference
 	//if (![[[self frontMostConnection] site] enableMouse]) 
 		//return;
-	[self updateExitArea];
 	for (int y = 0; y < gRow; y++) {
 		[self updateClickEntryForRow: y];
 		[self updateButtonAreaForRow: y];
@@ -2078,11 +2105,12 @@ BOOL isSpecialSymbol(unichar ch) {
 				  column: (int)c 
 				  height: (int)h 
 				   width: (int)w {
-	//NSLog(@"Exit Area added");
-	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
-	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
+	//NSLog(@"Exit Area added");	
 	if (_exitTrackingRect)
 		return;
+	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
+	
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
@@ -2094,14 +2122,29 @@ BOOL isSpecialSymbol(unichar ch) {
 	//NSLog(@"Exit Area added!");
 }
 
+- (void)removeExitArea {
+	if (!_exitTrackingRect) {
+		NSLog(@"No exit area!");
+		return;
+	}
+	//[[self window] invalidateCursorRectsForView: self];
+	//NSRect rect = [self rectAtRow:3	column:0 height:20 width:7];
+	//[self removeCursorRect: rect cursor:[NSCursor resizeLeftCursor]];
+	//[self addCursorRect:[self frame] cursor:_normalCursor];
+	[self removeTrackingRect: _exitTrackingRect];
+	//_exitTrackingRect = -1;
+}
+
 - (void)updateExitArea {
-	//YLTerminal *ds = [self frontMostTerminal];
-	//if ([ds bbsState].state == BBSBrowseBoard) {
+	YLTerminal *ds = [self frontMostTerminal];
+	if ([ds bbsState].state == BBSComposePost) {
+		[self removeExitArea];
+	} else {
 		[self addExitAreaAtRow:3 
 						column:0 
 						height:20
 						 width:7];
-	//}
+	}
 }
 
 #pragma mark button Area
@@ -2412,6 +2455,69 @@ BOOL isSpecialSymbol(unichar ch) {
 	return _effectView;
 }
 
+/*
+#pragma mark -
+#pragma mark Drag & Drop
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
+{
+	// Need the delegate hooked up to accept the dragged item(s) into the model
+	if ([self delegate]==nil)
+	{
+		return NSDragOperationNone;
+	}
+	
+	if ([[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+	{
+		return NSDragOperationCopy;
+	}
+	
+	return NSDragOperationNone;
+}
+
+// Work around a bug from 10.2 onwards
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
+{
+	return NSDragOperationEvery;
+}
+
+// Stop the NSTableView implementation getting in the way
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
+{
+	return [self draggingEntered:sender];
+}
+
+//
+// drag a picture file into the portal view to change the cover picture
+// 
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+	NSLog(@"performDragOperation:");
+	if (![self isInPortalState])
+		return NO;
+	
+	YLSite *site = [_portal selectedSite];
+	if (site == NULL)
+		return NO;
+	
+    NSPasteboard *pboard = [sender draggingPasteboard];
+	
+    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
+        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+        int numberOfFiles = [files count];
+        // Perform operation using the list of files
+		for (int i = 0; i < numberOfFiles; ++i) {
+			NSString *filename = [files objectAtIndex: i];
+			NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
+			NSArray *suffixes = supportedCoverExtensions;
+			if ([filename hasSuffix: @"/"] || [suffixes containsObject: suffix])
+				continue;
+			[self addPortalPicture:filename forSite:[site name]];
+			[self updatePortal];
+			break;
+		}
+    }
+    return YES;
+}
+*/
 @end
 
 @implementation NSObject(NSToolTipOwner)

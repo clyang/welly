@@ -685,6 +685,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (id)objectInSitesAtIndex:(unsigned)index {
+	if (index < 0 || index >= [_sites count])
+		return NULL;
     return [_sites objectAtIndex:index];
 }
 
@@ -1333,7 +1335,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 							 stringByAppendingPathComponent:[_siteNameField stringValue]];
 	
 	// For all allowed types
-	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
+	NSArray *allowedTypes = supportedCoverExtensions;
 	for (NSString *ext in allowedTypes) {
 		// Remove it!
 		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
@@ -1356,25 +1358,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			 returnCode:(int)returnCode
 			contextInfo:(void *)contextInfo {
 	if (returnCode == NSOKButton) {
-		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSString *source = [sheet filename];
-		// Create the dir if necessary
-		// by gtCarrera
-		NSString *destDir = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-							   stringByAppendingPathComponent:@"Application Support"]
-							 stringByAppendingPathComponent:@"Welly"];
-		[fileManager createDirectoryAtPath:destDir attributes:nil];
-		destDir = [destDir stringByAppendingPathComponent:@"Covers"];
-		[fileManager createDirectoryAtPath:destDir attributes:nil];
-		
- 		NSString *destination = [destDir stringByAppendingPathComponent:[_siteNameField stringValue]];
-		// Ends here
-		
-		NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
-		for (NSString *ext in allowedTypes) {
-			[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
-		}
-		[fileManager copyItemAtPath:source toPath:[destination stringByAppendingPathExtension:[source pathExtension]] error:NULL];
+		NSString *siteName = [_siteNameField stringValue];
+		[_telnetView addPortalPicture:source forSite:siteName];
 	}
 }
 
