@@ -2183,7 +2183,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
 	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
-	NSLog(@"new Exit area");
+	//NSLog(@"new Exit area");
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
@@ -2244,7 +2244,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	if ([ds bbsState].state == BBSBoardList 
 		|| [ds bbsState].state == BBSBrowseBoard
 		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList) {
+		|| [ds bbsState].state == BBSMailList
+		|| [ds bbsState].state == BBSViewPost) {
 			[self addPageUpAreaAtRow:0
 							  column:20
 							  height:[[YLLGlobalConfig sharedInstance] row] / 2
@@ -2278,7 +2279,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	if ([ds bbsState].state == BBSBoardList 
 		|| [ds bbsState].state == BBSBrowseBoard
 		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList) {
+		|| [ds bbsState].state == BBSMailList
+		|| [ds bbsState].state == BBSViewPost) {
 		[self addPageDownAreaAtRow:[[YLLGlobalConfig sharedInstance] row] / 2
 						  column:20
 						  height:[[YLLGlobalConfig sharedInstance] row] / 2
