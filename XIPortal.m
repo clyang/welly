@@ -579,7 +579,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 			NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
 			NSLog(@"portal: begin to add file: %@, suffix: %@", filename, suffix);
 			NSArray *suffixes = supportedCoverExtensions;
-			if ([filename hasSuffix: @"/"] || ![suffixes containsObject: suffix])
+			if ([filename hasSuffix: @"/"] || ![suffixes containsObject: [suffix lowercaseString]])
 				continue;
 			NSLog(@"portal: begin to add picture: %@", filename);
 			[(YLView *)_mainView addPortalPicture:filename forSite:[site name]];

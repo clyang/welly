@@ -2197,7 +2197,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)removeExitArea {
 	if (!_exitTrackingRect) {
-		NSLog(@"No exit area!");
+		//NSLog(@"No exit area!");
 		return;
 	}
 	//[[self window] invalidateCursorRectsForView: self];
@@ -2205,7 +2205,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//[self removeCursorRect: rect cursor:[NSCursor resizeLeftCursor]];
 	//[self addCursorRect:[self frame] cursor:_normalCursor];
 	[self removeTrackingRect: _exitTrackingRect];
-	NSLog(@"Exit area removed");
+	//NSLog(@"Exit area removed");
 	//_exitTrackingRect = -1;
 }
 
