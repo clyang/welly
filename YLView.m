@@ -440,6 +440,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		case BUTTON:
 			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
 				[_effectView drawButton:rect withMessage:[[rectData getButtonText] retain]];
+				NSCursor * cursor = [NSCursor pointingHandCursor];
+				[cursor push];
 				_buttonData = rectData;
 			}
 			break;
@@ -471,6 +473,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case BUTTON:
 			[_effectView clearButton];
+			[NSCursor pop];
 			_buttonData = nil;
 			break;
 		default:
@@ -571,9 +574,6 @@ BOOL isSpecialSymbol(unichar ch) {
 			}
 			return;	// click on url should not invoke hot spot
 		}
-        
-		if (![[[self frontMostConnection] site] enableMouse])
-			return;
 		
 		// click to move cursor
 		if ([[self frontMostTerminal] bbsState].state == BBSComposePost) {
@@ -680,6 +680,10 @@ BOOL isSpecialSymbol(unichar ch) {
 				[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 		}
 		
+		
+		if (![[[self frontMostConnection] site] enableMouse])
+			return;
+		
 		if (_clickEntryData != nil) {
 			if (_clickEntryData->commandSequence != nil) {
 				//NSLog(_clickEntryData->commandSequence);
@@ -717,6 +721,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 			return;
 		}
+		if (_buttonData) {
+			[[self frontMostConnection] sendText: _buttonData->commandSequence];
+			return;
+		}
 		
 		if (_isMouseInExitArea
 			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
@@ -733,10 +741,6 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (_isMouseInPgDownArea ) {
 			[[self frontMostConnection] sendText: termKeyPageDown];
 			return;
-		}
-		
-		if (_buttonData) {
-			[[self frontMostConnection] sendText: _buttonData->commandSequence];
 		}
 		
 		if ([[self frontMostTerminal] bbsState].state == BBSWaitingEnter) {
@@ -1070,6 +1074,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
+	[self refreshAllHotSpots];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 	if (ds) {
         /* Draw Background */
@@ -1104,13 +1109,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 	[_backedImage unlockFocus];
     [pool release];
-	if (![[[self frontMostConnection] site] enableMouse])
-		return;
-	else {
-		NSAutoreleasePool * pool = [NSAutoreleasePool new];
-		[self refreshAllHotSpots];
-		[pool release];
-	}
 	return;
 }
 
@@ -1818,28 +1816,30 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Hot Spots;
 - (void)refreshAllHotSpots {
+	// Clear it...
 	[self clearAllTrackingArea];
 	[self discardCursorRects];
-	[self updateExitArea];
-	[self updatePageUpArea];
+	// For default hot spots
+	if(![[self frontMostConnection] connected])
+		return;
+	for(int y = 0; y < gRow; y++)
+		[self updateIPStateForRow: y];
 	// Set the cursor for writting texts
 	// I don't know why the cursor cannot change the first time
 	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) 
 		[gMoveCursor set];
 	else
 		[NSCursor pop];
-	// For default hot spots
-	if(![[self frontMostConnection] connected])
-		return;
-	for(int y = 0; y < gRow; y++)
-		[self updateIPStateForRow: y];
 	// For the mouse preference
-	//if (![[[self frontMostConnection] site] enableMouse]) 
-		//return;
+	if (![[[self frontMostConnection] site] enableMouse]) 
+		return;
 	for (int y = 0; y < gRow; y++) {
 		[self updateClickEntryForRow: y];
 		[self updateButtonAreaForRow: y];
 	}
+	[self updateExitArea];
+	[self updatePageUpArea];
+	[self updatePageDownArea];
 }
 
 #pragma mark ip seeker
@@ -2231,9 +2231,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self addCursorRect:rect cursor:[NSCursor resizeUpCursor]];
 	if (_pgUpTrackingRect)
 		return;
-	//if (_exitTrackingRect)
-	//	[self removeTrackingRect: _exitTrackingRect];
-	// TODO: Change the data type here
 	KOTrackingRectData * data = [KOTrackingRectData pgUpRectData];
 	[_trackingRectDataList addObject:data];
 	_pgUpTrackingRect = [self addTrackingRect: rect
@@ -2255,6 +2252,40 @@ BOOL isSpecialSymbol(unichar ch) {
 	} else {
 		if(_pgUpTrackingRect) {
 			[self removeTrackingRect: _pgUpTrackingRect];
+			[NSCursor pop];
+		}
+	}
+}
+
+- (void)addPageDownAreaAtRow: (int)r 
+					column: (int)c 
+					height: (int)h 
+					 width: (int)w {
+	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	[self addCursorRect:rect cursor:[NSCursor resizeDownCursor]];
+	if (_pgDownTrackingRect)
+		return;
+	KOTrackingRectData * data = [KOTrackingRectData pgDownRectData];
+	[_trackingRectDataList addObject:data];
+	_pgDownTrackingRect = [self addTrackingRect: rect
+										owner: self
+									 userData: data
+								 assumeInside: YES];
+}
+
+- (void)updatePageDownArea {
+	YLTerminal *ds = [self frontMostTerminal];
+	if ([ds bbsState].state == BBSBoardList 
+		|| [ds bbsState].state == BBSBrowseBoard
+		|| [ds bbsState].state == BBSFriendList
+		|| [ds bbsState].state == BBSMailList) {
+		[self addPageDownAreaAtRow:[[YLLGlobalConfig sharedInstance] row] / 2
+						  column:12 
+						  height:[[YLLGlobalConfig sharedInstance] row] / 2
+						   width:[[YLLGlobalConfig sharedInstance] column] - 12];
+	} else {
+		if(_pgDownTrackingRect) {
+			[self removeTrackingRect: _pgDownTrackingRect];
 			[NSCursor pop];
 		}
 	}

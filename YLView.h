@@ -126,6 +126,7 @@
 - (void)updateClickEntryForRow: (int) r;
 - (void)updateExitArea;
 - (void)updatePageUpArea;
+- (void)updatePageDownArea;
 - (void)updateButtonAreaForRow: (int) r;
 
 // safe_paste
