@@ -2217,7 +2217,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self addExitAreaAtRow:3 
 						column:0 
 						height:20
-						 width:12];
+						 width:20];
 	}
 }
 
@@ -2246,9 +2246,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		|| [ds bbsState].state == BBSFriendList
 		|| [ds bbsState].state == BBSMailList) {
 			[self addPageUpAreaAtRow:0
-							  column:12 
+							  column:20
 							  height:[[YLLGlobalConfig sharedInstance] row] / 2
-							   width:[[YLLGlobalConfig sharedInstance] column] - 12];
+							   width:[[YLLGlobalConfig sharedInstance] column] - 20];
 	} else {
 		if(_pgUpTrackingRect) {
 			[self removeTrackingRect: _pgUpTrackingRect];
@@ -2280,9 +2280,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		|| [ds bbsState].state == BBSFriendList
 		|| [ds bbsState].state == BBSMailList) {
 		[self addPageDownAreaAtRow:[[YLLGlobalConfig sharedInstance] row] / 2
-						  column:12 
+						  column:20
 						  height:[[YLLGlobalConfig sharedInstance] row] / 2
-						   width:[[YLLGlobalConfig sharedInstance] column] - 12];
+						   width:[[YLLGlobalConfig sharedInstance] column] - 20];
 	} else {
 		if(_pgDownTrackingRect) {
 			[self removeTrackingRect: _pgDownTrackingRect];
