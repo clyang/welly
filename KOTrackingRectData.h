@@ -14,7 +14,7 @@ typedef enum {
 @interface KOTrackingRectData : NSData {
 @public
 	enum KOTrackingRectType {
-		IP_ADDR, CLICK_ENTRY, MAIN_MENU_CLICK_ENTRY, EXIT_AREA, BUTTON
+		IP_ADDR, CLICK_ENTRY, MAIN_MENU_CLICK_ENTRY, EXIT_AREA, PG_UP_AREA, PG_DOWN_AREA, BUTTON
 	} type;
 	
 	NSString *ipAddr;
@@ -34,6 +34,8 @@ typedef enum {
 									 atRow: (int)row;
 + (KOTrackingRectData *)mainMenuClickEntryRectData: (NSString *)cmd;
 + (KOTrackingRectData *)exitRectData;
++ (KOTrackingRectData *)pgUpRectData;
++ (KOTrackingRectData *)pgDownRectData;
 + (KOTrackingRectData *)buttonRectData: (KOButtonType)buttonType 
 					   commandSequence: (NSString *)cmd;
 

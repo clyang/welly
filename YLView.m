@@ -417,7 +417,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			// FIXME: remove the following line if preference is done
 			if([[[self frontMostConnection] site] enableMouse]) {
 				NSCursor * cursor = [NSCursor pointingHandCursor];
-				[cursor set];
+				[cursor push];
 				[_effectView drawClickEntry: rect];
 				_clickEntryData = rectData;
 			}
@@ -425,6 +425,16 @@ BOOL isSpecialSymbol(unichar ch) {
 		case EXIT_AREA:
 			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
 				_isMouseInExitArea = YES;
+			}
+			break;
+		case PG_UP_AREA:
+			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
+				_isMouseInPgUpArea = YES;
+			}
+			break;
+		case PG_DOWN_AREA:
+			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
+				_isMouseInPgDownArea = YES;
 			}
 			break;
 		case BUTTON:
@@ -447,11 +457,17 @@ BOOL isSpecialSymbol(unichar ch) {
 		case CLICK_ENTRY:
 		case MAIN_MENU_CLICK_ENTRY:
 			[_effectView clearClickEntry];
-			[_normalCursor set];
+			[NSCursor pop];
 			_clickEntryData = nil;
 			break;
 		case EXIT_AREA:
 			_isMouseInExitArea = NO;
+			break;
+		case PG_UP_AREA:
+			_isMouseInPgUpArea = NO;
+			break;
+		case PG_DOWN_AREA:
+			_isMouseInPgDownArea = NO;
 			break;
 		case BUTTON:
 			[_effectView clearButton];
@@ -706,6 +722,17 @@ BOOL isSpecialSymbol(unichar ch) {
 			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
 			&& [[self frontMostTerminal] bbsState].state != BBSComposePost) {
 			[[self frontMostConnection] sendText: termKeyLeft];
+			return;
+		}
+		
+		if (_isMouseInPgUpArea ) {
+			[[self frontMostConnection] sendText: termKeyPageUp];
+			return;
+		}
+		
+		if (_isMouseInPgDownArea ) {
+			[[self frontMostConnection] sendText: termKeyPageDown];
+			return;
 		}
 		
 		if (_buttonData) {
@@ -1044,7 +1071,6 @@ BOOL isSpecialSymbol(unichar ch) {
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
-	[self refreshAllHotSpots];
 	if (ds) {
         /* Draw Background */
         for (y = 0; y < gRow; y++) {
@@ -1078,6 +1104,14 @@ BOOL isSpecialSymbol(unichar ch) {
 
 	[_backedImage unlockFocus];
     [pool release];
+	if (![[[self frontMostConnection] site] enableMouse])
+		return;
+	else {
+		NSAutoreleasePool * pool = [NSAutoreleasePool new];
+		[self refreshAllHotSpots];
+		[pool release];
+	}
+	return;
 }
 
 - (void) drawStringForRow: (int) r context: (CGContextRef) myCGContext {
@@ -1785,16 +1819,15 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Hot Spots;
 - (void)refreshAllHotSpots {
 	[self clearAllTrackingArea];
+	[self discardCursorRects];
 	[self updateExitArea];
-	
-	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) {
-		_normalCursor = gMoveCursor;
+	[self updatePageUpArea];
+	// Set the cursor for writting texts
+	// I don't know why the cursor cannot change the first time
+	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) 
 		[gMoveCursor set];
-	} else {
-		_normalCursor = [NSCursor arrowCursor];
-		[[NSCursor arrowCursor] set];
-	}
-	
+	else
+		[NSCursor pop];
 	// For default hot spots
 	if(![[self frontMostConnection] connected])
 		return;
@@ -1803,7 +1836,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	// For the mouse preference
 	//if (![[[self frontMostConnection] site] enableMouse]) 
 		//return;
-	[self updatePageUpArea];
 	for (int y = 0; y < gRow; y++) {
 		[self updateClickEntryForRow: y];
 		[self updateButtonAreaForRow: y];
@@ -2151,7 +2183,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
 	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
-	
+	NSLog(@"new Exit area");
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
@@ -2173,6 +2205,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//[self removeCursorRect: rect cursor:[NSCursor resizeLeftCursor]];
 	//[self addCursorRect:[self frame] cursor:_normalCursor];
 	[self removeTrackingRect: _exitTrackingRect];
+	NSLog(@"Exit area removed");
 	//_exitTrackingRect = -1;
 }
 
@@ -2184,7 +2217,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self addExitAreaAtRow:3 
 						column:0 
 						height:20
-						 width:7];
+						 width:12];
 	}
 }
 
@@ -2194,7 +2227,6 @@ BOOL isSpecialSymbol(unichar ch) {
 					column: (int)c 
 					height: (int)h 
 					 width: (int)w {
-	NSLog(@"Page Up Area added");
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
 	[self addCursorRect:rect cursor:[NSCursor resizeUpCursor]];
 	if (_pgUpTrackingRect)
@@ -2202,23 +2234,29 @@ BOOL isSpecialSymbol(unichar ch) {
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
 	// TODO: Change the data type here
-	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
+	KOTrackingRectData * data = [KOTrackingRectData pgUpRectData];
 	[_trackingRectDataList addObject:data];
 	_pgUpTrackingRect = [self addTrackingRect: rect
 										owner: self
 									 userData: data
 								 assumeInside: YES];
-	NSLog(@"Page up Area added!");
 }
 
 - (void)updatePageUpArea {
 	YLTerminal *ds = [self frontMostTerminal];
-	if ([ds bbsState].state != BBSMailMenu 
-		&& [ds bbsState].state != BBSMainMenu) {
+	if ([ds bbsState].state == BBSBoardList 
+		|| [ds bbsState].state == BBSBrowseBoard
+		|| [ds bbsState].state == BBSFriendList
+		|| [ds bbsState].state == BBSMailList) {
 			[self addPageUpAreaAtRow:0
-							  column:7 
-							  height:[[YLLGlobalConfig sharedInstance] column] / 2
-							   width:[[YLLGlobalConfig sharedInstance] row] - 7];
+							  column:12 
+							  height:[[YLLGlobalConfig sharedInstance] row] / 2
+							   width:[[YLLGlobalConfig sharedInstance] column] - 12];
+	} else {
+		if(_pgUpTrackingRect) {
+			[self removeTrackingRect: _pgUpTrackingRect];
+			[NSCursor pop];
+		}
 	}
 }
 

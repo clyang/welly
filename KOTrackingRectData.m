@@ -42,6 +42,18 @@
 	return data;
 }
 
++ (KOTrackingRectData *)pgUpRectData {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = PG_UP_AREA;
+	return data;
+}
+
++ (KOTrackingRectData *)pgDownRectData {
+	KOTrackingRectData *data = [[self alloc] init];
+	data->type = PG_DOWN_AREA;
+	return data;
+}
+
 + (KOTrackingRectData *)buttonRectData: (KOButtonType)buttonType 
 					   commandSequence: (NSString *)cmd {
 	KOTrackingRectData *data = [[self alloc] init];

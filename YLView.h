@@ -50,6 +50,8 @@
 	KOTrackingRectData *_clickEntryData;
 	KOTrackingRectData *_buttonData;
 	BOOL _isMouseInExitArea;
+	BOOL _isMouseInPgUpArea;
+	BOOL _isMouseInPgDownArea;
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
 	NSCursor *_normalCursor;
