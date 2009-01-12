@@ -699,6 +699,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			cmd[cmdLength++] = 0x0D;
 			
 			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
+			return;
 		}
 		
 		if (_isMouseInExitArea
@@ -756,6 +757,22 @@ BOOL isSpecialSymbol(unichar ch) {
         }
         return;
     }
+	
+	// Url menu
+	if(_isInUrlMode) {
+		NSLog(@"!");
+		switch (c) {
+			case NSUpArrowFunctionKey:
+				NSLog(@"Select prev url");
+				break;
+			case NSDownArrowFunctionKey:
+				NSLog(@"Select next url");
+				break;
+			default:
+				NSLog(@"%d, %d, %d", c, NSUpArrowFunctionKey, NSDownArrowFunctionKey);
+		}
+		return;
+	}
 
     [self clearSelection];
 	unsigned char arrow[6] = {0x1B, 0x4F, 0x00, 0x1B, 0x4F, 0x00};
@@ -809,6 +826,19 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) flagsChanged: (NSEvent *) event {
 	/*
 	unsigned int currentFlags = [event modifierFlags];
+	// for Url menu
+	if((currentFlags & NSShiftKeyMask) && (currentFlags & NSControlKeyMask) && !_isInUrlMode) {
+		_isInUrlMode = YES;
+		//NSLog(@"Enter url state");
+		[super flagsChanged:event];
+		return;
+	} else if (_isInUrlMode) {
+		_isInUrlMode = NO;
+		//NSLog(@"Exit Url state");
+		[super flagsChanged:event];
+		return;
+	}
+	// for old things...
 	NSCursor *viewCursor = nil;
 	if (currentFlags & NSCommandKeyMask) {
 		viewCursor = gMoveCursor;
@@ -1673,6 +1703,12 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
+#pragma mark Url Menu
+- (BOOL) isInUrlState {
+	return _isInUrlMode;
+}
+
+#pragma mark -
 #pragma mark Portal
 - (BOOL) isInPortalState {
 	return _isInPortalMode;
@@ -1767,6 +1803,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	// For the mouse preference
 	//if (![[[self frontMostConnection] site] enableMouse]) 
 		//return;
+	[self updatePageUpArea];
 	for (int y = 0; y < gRow; y++) {
 		[self updateClickEntryForRow: y];
 		[self updateButtonAreaForRow: y];
@@ -1900,9 +1937,13 @@ BOOL isSpecialSymbol(unichar ch) {
 
 	_clickEntryData = nil;
 	_buttonData = nil;
-	// Remove the tracking rect for exit
+	// Remove the tracking rect for exit, pgup and pgdown
 	[self removeTrackingRect:_exitTrackingRect];
+	[self removeTrackingRect:_pgUpTrackingRect];
+	[self removeTrackingRect:_pgDownTrackingRect];
 	_exitTrackingRect = 0;
+	_pgUpTrackingRect = 0;
+	_pgDownTrackingRect = 0;
 	//_isMouseInExitArea = NO;
 }
 
@@ -2144,6 +2185,40 @@ BOOL isSpecialSymbol(unichar ch) {
 						column:0 
 						height:20
 						 width:7];
+	}
+}
+
+#pragma mark pgUp/Down Area
+
+- (void)addPageUpAreaAtRow: (int)r 
+					column: (int)c 
+					height: (int)h 
+					 width: (int)w {
+	NSLog(@"Page Up Area added");
+	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	[self addCursorRect:rect cursor:[NSCursor resizeUpCursor]];
+	if (_pgUpTrackingRect)
+		return;
+	//if (_exitTrackingRect)
+	//	[self removeTrackingRect: _exitTrackingRect];
+	// TODO: Change the data type here
+	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
+	[_trackingRectDataList addObject:data];
+	_pgUpTrackingRect = [self addTrackingRect: rect
+										owner: self
+									 userData: data
+								 assumeInside: YES];
+	NSLog(@"Page up Area added!");
+}
+
+- (void)updatePageUpArea {
+	YLTerminal *ds = [self frontMostTerminal];
+	if ([ds bbsState].state != BBSMailMenu 
+		&& [ds bbsState].state != BBSMainMenu) {
+			[self addPageUpAreaAtRow:0
+							  column:7 
+							  height:[[YLLGlobalConfig sharedInstance] column] / 2
+							   width:[[YLLGlobalConfig sharedInstance] row] - 7];
 	}
 }
 

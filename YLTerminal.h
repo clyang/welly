@@ -84,6 +84,7 @@ typedef struct {
 - (BBSState)bbsState;
 - (TYBBSType)bbsType;
 - (void)setBbsType:(TYBBSType)bbsType;
+- (NSMutableArray *) urlList;
 
 /* Input Interface */
 - (void)feedGrid: (cell **)grid;

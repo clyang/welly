@@ -42,6 +42,8 @@
 	XIIntegerArray *_ipTrackingRects;
 	XIIntegerArray *_clickEntryTrackingRects;
 	NSTrackingRectTag _exitTrackingRect;
+	NSTrackingRectTag _pgUpTrackingRect;
+	NSTrackingRectTag _pgDownTrackingRect;
 	XIIntegerArray *_buttonTrackingRects;
 	NSMutableArray *_trackingRectDataList;
 	
@@ -49,7 +51,7 @@
 	KOTrackingRectData *_buttonData;
 	BOOL _isMouseInExitArea;
 	BOOL _isInPortalMode;
-
+	BOOL _isInUrlMode;
 	NSCursor *_normalCursor;
 }
 
@@ -91,11 +93,14 @@
 - (void) setFontHeight:(float)value;
 
 - (BOOL) isInPortalState;
+- (BOOL) isInUrlState;
 
 - (NSString *) selectedPlainString ;
 - (BOOL) hasBlinkCell ;
 
 - (void)insertText:(id)aString withDelay:(int)microsecond;
+/* Url Menu */
+
 /* Portal */
 - (void)updatePortal;
 - (void)removePortal;
@@ -117,9 +122,8 @@
 
 /* post entry */
 - (void)updateClickEntryForRow: (int) r;
-
 - (void)updateExitArea;
-
+- (void)updatePageUpArea;
 - (void)updateButtonAreaForRow: (int) r;
 
 // safe_paste

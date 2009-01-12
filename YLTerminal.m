@@ -408,6 +408,10 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     return _connection;
 }
 
+- (NSMutableArray *) urlList {
+	return _currentURLList;
+}
+
 - (void)setConnection:(YLConnection *)value {
     _connection = value;
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
