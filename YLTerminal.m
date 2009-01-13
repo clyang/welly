@@ -236,7 +236,12 @@
 			[currURL appendFormat:@"%c", c];
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
 				//NSLog(@"URL: %@", currURL);
+				// Here we store the row and column number in the NSPoint
+				// to convert it to an actual pos, see
+				// NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * length, _fontHeight);
 				NSPoint cp;
+				cp.x = i;
+				cp.y = r;
 				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
 																	name:currURL 
 																position:cp];
@@ -250,6 +255,8 @@
                 if (--par < 0) {
 					//NSLog(@"URL: %@", currURL);
 					NSPoint cp;
+					cp.x = i;
+					cp.y = r;
 					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
 																		name:currURL 
 																	position:cp];

@@ -551,15 +551,9 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)mouseUp:(NSEvent *)theEvent {
     if (![self connected]) return;
-    NSPoint p = [theEvent locationInWindow];
-    p = [self convertPoint:p toView:nil];
     // open url
-	
-	// For Test
-	//KOMenuItem *item = [KOMenuItem itemWithName: @"TEST"];
-	//KOMenuItem *item2 = [KOMenuItem itemWithName: @"TEST2"];
-	//[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: [item retain], [item2 retain]]];
-
+	NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
     if (abs(_selectionLength) <= 1) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
@@ -861,16 +855,26 @@ BOOL isSpecialSymbol(unichar ch) {
 	unsigned int currentFlags = [event modifierFlags];
 	// for Url menu
 	if((currentFlags & NSShiftKeyMask) && (currentFlags & NSControlKeyMask) && !_isInUrlMode) {
+		NSLog(@"URL Mode");
 		_isInUrlMode = YES;
-		//NSLog(@"Enter url state");
+		NSPoint p;
+		p.x = 320;
+		p.y = 320;
+		// For Test
+		KOMenuItem *item = [KOMenuItem initWithName: @"TEST"];
+		KOMenuItem *item2 = [KOMenuItem initWithName: @"TEST2"];
+		[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: item, item2, nil]];
+		
 		[super flagsChanged:event];
 		return;
 	} else if (_isInUrlMode) {
 		_isInUrlMode = NO;
-		//NSLog(@"Exit Url state");
+		[_effectView hideMenu];
+		NSLog(@"Exit Url state");
 		[super flagsChanged:event];
 		return;
 	}
+	/*
 	// for old things...
 	NSCursor *viewCursor = nil;
 	if (currentFlags & NSCommandKeyMask) {

@@ -11,7 +11,7 @@
 
 @implementation KOMenuItem
 
-+ (KOMenuItem *) itemWithName: (NSString *) name {
++ (KOMenuItem *) initWithName: (NSString *) name {
 	KOMenuItem *item = [[KOMenuItem alloc] init];
 	item->_name = name;
 	return item;
