@@ -725,6 +725,8 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendText: _buttonData->commandSequence];
 			return;
 		}
+		// Judge the selection size, if larger than 0, return directly
+		if(abs(_selectionLength) > 1) return;
 		
 		if (_isMouseInExitArea
 			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
