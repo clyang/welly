@@ -23,6 +23,7 @@
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
 		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
+		186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* TYComposeDelegate.m */; };
 		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
@@ -133,6 +134,8 @@
 		16DC3D080E3338B70060E8F0 /* online.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = online.pdf; sourceTree = "<group>"; };
 		16FEC31F0E2A80B50035DADD /* XITabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XITabBarControl.h; sourceTree = "<group>"; };
 		16FEC3200E2A80B50035DADD /* XITabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XITabBarControl.m; sourceTree = "<group>"; };
+		186E810D0F218C10007D73BC /* TYComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYComposeDelegate.h; sourceTree = "<group>"; };
+		186E810E0F218C10007D73BC /* TYComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYComposeDelegate.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* TYGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYGrowlBridge.h; sourceTree = "<group>"; };
 		18A685A70D9414D900CA423A /* TYGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYGrowlBridge.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
 				5A56C3800E342CFF00082312 /* KOPostDownloader.h */,
 				5A56C3810E342CFF00082312 /* KOPostDownloader.m */,
+				186E810D0F218C10007D73BC /* TYComposeDelegate.h */,
+				186E810E0F218C10007D73BC /* TYComposeDelegate.m */,
 			);
 			name = Nally9only;
 			sourceTree = "<group>";
@@ -658,6 +663,7 @@
 				5A422E830EA5828F0009BAD8 /* KOTrackingRectData.m in Sources */,
 				5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */,
 				8155E2480F03DFE700F3144A /* LLUrlData.m in Sources */,
+				186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

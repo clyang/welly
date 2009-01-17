@@ -21,9 +21,9 @@
 @class MultiClickRemoteBehavior;
 
 @interface YLController : NSObject {
-	/* composeWindow */
-	IBOutlet NSTextView *_composeText;
-	IBOutlet NSPanel *_composeWindow;
+    /* composeWindow */
+    IBOutlet NSTextView *_composeText;
+    IBOutlet NSPanel *_composeWindow;
 	
 	/* post download window */
 	IBOutlet NSPanel *_postWindow;
@@ -103,6 +103,7 @@
 - (IBAction) cancelCompose: (id) sender;
 - (IBAction) setUnderline: (id) sender;
 - (IBAction) setBlink: (id) sender;
+- (IBAction) changeBackgroundColor: (id) sender;
 - (void) prepareCompose: (id) param;
 
 /* post download actions */
