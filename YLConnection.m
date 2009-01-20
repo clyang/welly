@@ -254,12 +254,12 @@
         char *pe = strchr(account, '@');
         if (pe) {
             char *ps = pe;
-            for (; ps > account; --ps)
+            for (; ps >= account; --ps)
                 if (*ps == ' ' || *ps == '/')
                     break;
             if (ps != pe) {
                 sleep(1);
-                [self sendBytes:ps length:pe-ps];
+                [self sendBytes:ps+1 length:pe-ps-1];
                 [self sendBytes:"\r" length:1];
             }
         }
@@ -285,6 +285,7 @@
     if (len) {
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
+        SecKeychainItemFreeContent(nil, pass);
     }
 	
 	[pool release];

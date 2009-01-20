@@ -28,6 +28,10 @@
 	/* post download window */
 	IBOutlet NSPanel *_postWindow;
 	IBOutlet NSTextView *_postText;
+    
+    /* password window */
+    IBOutlet NSPanel *_passwordWindow;
+    IBOutlet NSSecureTextField *_passwordField;
 	
     IBOutlet NSPanel *_sitesWindow;
     IBOutlet NSPanel *_emoticonsWindow;
@@ -51,6 +55,7 @@
     IBOutlet NSTableView *_tableView;
     IBOutlet NSMenuItem *_sitesMenu;
     IBOutlet NSTextField *_siteNameField;
+    IBOutlet NSTextField *_siteAddressField;
 	IBOutlet NSTextField *_autoReplyStringField;
     IBOutlet NSMenuItem *_showHiddenTextMenuItem;
     IBOutlet NSMenuItem *_encodingMenuItem;
@@ -109,6 +114,11 @@
 /* post download actions */
 - (IBAction)openPostDownload:(id)sender;
 - (IBAction)cancelPostDownload:(id)sender;
+
+/* password window actions */
+- (IBAction)openPassword:(id)sender;
+- (IBAction)confirmPassword:(id)sender;
+- (IBAction)cancelPassword:(id)sender;
 
 // sites accessors
 - (NSArray *)sites;

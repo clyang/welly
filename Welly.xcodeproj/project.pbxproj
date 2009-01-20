@@ -23,6 +23,7 @@
 		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
 		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
+		185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* Passwords Small.tif */; };
 		186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* TYComposeDelegate.m */; };
 		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
@@ -134,6 +135,7 @@
 		16DC3D080E3338B70060E8F0 /* online.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = online.pdf; sourceTree = "<group>"; };
 		16FEC31F0E2A80B50035DADD /* XITabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XITabBarControl.h; sourceTree = "<group>"; };
 		16FEC3200E2A80B50035DADD /* XITabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XITabBarControl.m; sourceTree = "<group>"; };
+		185680E50F25E23B00A1F4F3 /* Passwords Small.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Passwords Small.tif"; sourceTree = "<group>"; };
 		186E810D0F218C10007D73BC /* TYComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYComposeDelegate.h; sourceTree = "<group>"; };
 		186E810E0F218C10007D73BC /* TYComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYComposeDelegate.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* TYGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYGrowlBridge.h; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				185680E50F25E23B00A1F4F3 /* Passwords Small.tif */,
 				81FEAD310EFE91BD0051C867 /* waiting.pdf */,
 				81208EBD0EF8D94D005FD459 /* default_site.png */,
 				169A2ED40EDDA871009770ED /* mouse.pdf */,
@@ -611,6 +614,7 @@
 				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
+				185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

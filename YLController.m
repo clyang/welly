@@ -1189,6 +1189,53 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 #pragma mark -
+#pragma mark Password Window
+
+- (IBAction)openPassword:(id)sender {
+    if ([[_siteAddressField stringValue] length] == 0) {
+        return;
+    }
+	[_sitesWindow setLevel:0];
+    [NSApp beginSheet:_passwordWindow
+       modalForWindow:_sitesWindow
+        modalDelegate:nil
+       didEndSelector:nil
+          contextInfo:nil];
+}
+
+- (IBAction)confirmPassword:(id)sender {
+    [_passwordWindow endEditingFor:nil];
+    const char *service = "Welly";
+    const char *account = [[_siteAddressField stringValue] UTF8String];
+    const char *pass = [[_passwordField stringValue] UTF8String];
+    if (*pass) {
+        SecKeychainAddGenericPassword(nil,
+                                      strlen(service), service,
+                                      strlen(account), account,
+                                      strlen(pass), pass,
+                                      nil);
+    } else {
+        SecKeychainItemRef itemRef;
+        SecKeychainFindGenericPassword(nil,
+                                       strlen(service), service,
+                                       strlen(account), account,
+                                       nil, nil,
+                                       &itemRef);
+        SecKeychainItemDelete(itemRef);
+    }
+    [_passwordField setStringValue:@""];
+    [NSApp endSheet:_passwordWindow];
+    [_passwordWindow orderOut:self];
+}
+
+- (IBAction)cancelPassword:(id)sender {
+    [_passwordWindow endEditingFor:nil];
+    [_passwordField setStringValue:@""];
+    [NSApp endSheet:_passwordWindow];
+    [_passwordWindow orderOut:self];
+}
+
+#pragma mark -
 #pragma mark Remote Control
 /* Remote Control */
 - (void) remoteButton: (RemoteControlEventIdentifier) buttonIdentifier 
