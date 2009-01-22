@@ -95,26 +95,27 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // post download
     [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
-
-    // set remote control
-    // 1. instantiate the desired behavior for the remote control device
-    remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
-    // 2. configure the behavior
-    [remoteControlBehavior setDelegate:self];
-    [remoteControlBehavior setClickCountingEnabled:YES];
-    [remoteControlBehavior setSimulateHoldEvent:YES];
-    [remoteControlBehavior setMaximumClickCountTimeDifference:DEFAULT_CLICK_TIME_DIFFERENCE];
-    // 3. a Remote Control Container manages a number of devices and conforms to the RemoteControl interface
-    //    Therefore you can enable or disable all the devices of the container with a single "startListening:" call.
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	RemoteControlContainer *container = [[RemoteControlContainer alloc] initWithDelegate: remoteControlBehavior];
-    [container instantiateAndAddRemoteControlDeviceWithClass:[AppleRemote class]];	
-    [container instantiateAndAddRemoteControlDeviceWithClass:[KeyspanFrontRowControl class]];
-    // to give the binding mechanism a chance to see the change of the attribute
-    [self setValue:container forKey:@"remoteControl"];
-    [container startListening:self];
-    remoteControl = container;
-	[pool release];
+	// set remote control
+	if([[NSUserDefaults standardUserDefaults] boolForKey: @"RemoteSupport"]) {
+		// 1. instantiate the desired behavior for the remote control device
+		remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
+		// 2. configure the behavior
+		[remoteControlBehavior setDelegate:self];
+		[remoteControlBehavior setClickCountingEnabled:YES];
+		[remoteControlBehavior setSimulateHoldEvent:YES];
+		[remoteControlBehavior setMaximumClickCountTimeDifference:DEFAULT_CLICK_TIME_DIFFERENCE];
+		// 3. a Remote Control Container manages a number of devices and conforms to the RemoteControl interface
+		//    Therefore you can enable or disable all the devices of the container with a single "startListening:" call.
+		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+		RemoteControlContainer *container = [[RemoteControlContainer alloc] initWithDelegate: remoteControlBehavior];
+		[container instantiateAndAddRemoteControlDeviceWithClass:[AppleRemote class]];	
+		[container instantiateAndAddRemoteControlDeviceWithClass:[KeyspanFrontRowControl class]];
+		// to give the binding mechanism a chance to see the change of the attribute
+		[self setValue:container forKey:@"remoteControl"];
+		[container startListening:self];
+		remoteControl = container;
+		[pool release];
+	}
 	// For full screen, initiallize the full screen controller
 	_fullScreenController = [[LLFullScreenController alloc] 
 							 initWithoutProcessor:_telnetView 
