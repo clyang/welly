@@ -1221,6 +1221,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_passwordWindow endEditingFor:nil];
     const char *service = "Welly";
     const char *account = [[_siteAddressField stringValue] UTF8String];
+    SecKeychainItemRef itemRef;
+    if (!SecKeychainFindGenericPassword(nil,
+                                        strlen(service), service,
+                                        strlen(account), account,
+                                        nil, nil,
+                                        &itemRef))
+        SecKeychainItemDelete(itemRef);
     const char *pass = [[_passwordField stringValue] UTF8String];
     if (*pass) {
         SecKeychainAddGenericPassword(nil,
@@ -1228,14 +1235,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                                       strlen(account), account,
                                       strlen(pass), pass,
                                       nil);
-    } else {
-        SecKeychainItemRef itemRef;
-        if (!SecKeychainFindGenericPassword(nil,
-                                            strlen(service), service,
-                                            strlen(account), account,
-                                            nil, nil,
-                                            &itemRef))
-            SecKeychainItemDelete(itemRef);
     }
     [_passwordField setStringValue:@""];
     [NSApp endSheet:_passwordWindow];
