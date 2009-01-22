@@ -1193,10 +1193,23 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 #pragma mark Password Window
 
 - (IBAction)openPassword:(id)sender {
-    if ([[_siteAddressField stringValue] length] == 0) {
+    NSString *siteAddress = [_siteAddressField stringValue];
+    if ([siteAddress length] == 0)
+        return;
+	[_sitesWindow setLevel:0];
+    if (![siteAddress hasPrefix:@"ssh"] && [siteAddress rangeOfString:@"@"].location == NSNotFound) {
+        NSBeginAlertSheet(NSLocalizedString(@"Site address format error", @"Sheet Title"),
+                          nil,
+                          nil,
+                          nil,
+                          _sitesWindow,
+                          self,
+                          nil,
+                          nil,
+                          nil,
+                          NSLocalizedString(@"Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections.", @"Sheet Message"));
         return;
     }
-	[_sitesWindow setLevel:0];
     [NSApp beginSheet:_passwordWindow
        modalForWindow:_sitesWindow
         modalDelegate:nil
@@ -1217,12 +1230,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                                       nil);
     } else {
         SecKeychainItemRef itemRef;
-        SecKeychainFindGenericPassword(nil,
-                                       strlen(service), service,
-                                       strlen(account), account,
-                                       nil, nil,
-                                       &itemRef);
-        SecKeychainItemDelete(itemRef);
+        if (!SecKeychainFindGenericPassword(nil,
+                                            strlen(service), service,
+                                            strlen(account), account,
+                                            nil, nil,
+                                            &itemRef))
+            SecKeychainItemDelete(itemRef);
     }
     [_passwordField setStringValue:@""];
     [NSApp endSheet:_passwordWindow];

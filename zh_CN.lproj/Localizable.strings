@@ -13,6 +13,9 @@
 /* Sheet Title */
 "Are you sure you want to open the composer?" = "您确定要使用编辑器吗？";
 
+/* Sheet Title */
+"Site address format error" = "站点地址格式错误";
+
 /* Default Button */
 "Close" = "关闭";
 
@@ -45,6 +48,9 @@
 
 /* Sheet Message */
 "It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?" = "您似乎并非在编辑文章，此时使用文本编辑器可能会产生难以预料的行为。您确定要继续吗？";
+
+/* Sheet Message */
+"Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections." = "要使用 telnet 连接的自动登录功能，您需要在地址中显式写入您的 BBS 帐号，即“id@”不可省略。";
 
 /* Preferences */
 "General" = "一般";
