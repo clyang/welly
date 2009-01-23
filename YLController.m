@@ -937,9 +937,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 //	usleep(sleepTime);
 //	*/
     [_composeText setString:@""];
-    [_composeText setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
-    [_composeText setTextColor:[[YLLGlobalConfig sharedInstance] colorWhite]];
-    [_composeText setInsertionPointColor:[NSColor whiteColor]];
+    [_composeText setBackgroundColor:[NSColor whiteColor]];
+    [_composeText setTextColor:[NSColor blackColor]];
+    [_composeText setInsertionPointColor:[NSColor blackColor]];
     [_composeText setFont:[NSFont fontWithName:@"Helvetica" size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 //    for (int i = 0; i < maxRounds && !isFinished; ++i) {
 //        for (int j = 0; j < linesPerRound; ++j) {
@@ -1005,6 +1005,68 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
           contextInfo:nil];
 }
 
+static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground) {
+    if (!rawColor)
+        return nil;
+    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    if ([rawColor isEqual:[config colorBG]] ||
+        [rawColor isEqual:[config colorBlack]] ||
+        [rawColor isEqual:[config colorRed]] ||
+        [rawColor isEqual:[config colorGreen]] ||
+        [rawColor isEqual:[config colorYellow]] ||
+        [rawColor isEqual:[config colorBlue]] ||
+        [rawColor isEqual:[config colorMagenta]] ||
+        [rawColor isEqual:[config colorCyan]] ||
+        [rawColor isEqual:[config colorWhite]] ||
+        [rawColor isEqual:[config colorBGHilite]] ||
+        [rawColor isEqual:[config colorBlackHilite]] ||
+        [rawColor isEqual:[config colorRedHilite]] ||
+        [rawColor isEqual:[config colorGreenHilite]] ||
+        [rawColor isEqual:[config colorYellowHilite]] ||
+        [rawColor isEqual:[config colorBlueHilite]] ||
+        [rawColor isEqual:[config colorMagentaHilite]] ||
+        [rawColor isEqual:[config colorCyanHilite]] ||
+        [rawColor isEqual:[config colorWhiteHilite]])
+        return rawColor;
+    CGFloat h, s, b;
+    [[rawColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"] getHue:&h saturation:&s brightness:&b alpha:nil];
+    if (s < 0.05) {
+        if (isBackground)
+            return [config colorBG];
+        if (!isBackground && b < 0.05)
+            return [config colorWhite];
+        switch ((int)(b * 4)) {
+            case 0:
+                return [config colorBlack];
+            case 1:
+                return [config colorBlackHilite];
+            case 2:
+                return [config colorWhite];
+            default:
+                return [config colorWhiteHilite];
+        }
+    }
+    if (b < 0.05)
+        return [config colorBlack];
+    switch ((int)((h + 1.0/6/2) * 6)) {
+        case 0:
+        case 6:
+            return (b < 0.5) ? [config colorRed] : [config colorRedHilite];
+        case 1:
+            return (b < 0.5) ? [config colorYellow] : [config colorYellowHilite];
+        case 2:
+            return (b < 0.5) ? [config colorGreen] : [config colorGreenHilite];
+        case 3:
+            return (b < 0.5) ? [config colorCyan] : [config colorCyanHilite];
+        case 4:
+            return (b < 0.5) ? [config colorBlue] : [config colorBlueHilite];
+        case 5:
+            return (b < 0.5) ? [config colorMagenta] : [config colorMagentaHilite];
+        default:
+            return [config colorWhite];
+    }
+}
+
 - (IBAction) commitCompose: (id) sender {
     //[[_telnetView frontMostConnection] sendText: [_composeText string]];
     NSString *escString;
@@ -1034,8 +1096,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         
         underline = ([[storage attribute: NSUnderlineStyleAttributeName atIndex: i effectiveRange: nil] intValue] != NSUnderlineStyleNone);
         blink = [fontManager traitsOfFont: [storage attribute: NSFontAttributeName atIndex: i effectiveRange: nil]] & NSBoldFontMask;
-        color = [storage attribute:NSForegroundColorAttributeName atIndex:i effectiveRange:nil];
-        bgColor = [storage attribute:NSBackgroundColorAttributeName atIndex:i effectiveRange:nil];
+        color = colorUsingNearestAnsiColor([storage attribute:NSForegroundColorAttributeName atIndex:i effectiveRange:nil], NO);
+        bgColor = colorUsingNearestAnsiColor([storage attribute:NSBackgroundColorAttributeName atIndex:i effectiveRange:nil], YES);
         
         /* Add attributes */
         if ((underline != preUnderline) || 
@@ -1096,7 +1158,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
             else if (color == [config colorWhiteHilite])
                 sprintf(tmp, "[0;1;%s%s37%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
             else
-                sprintf(tmp, "[m");
+                sprintf(tmp, "[%s%s%s%sm", (underline || blink || *bgColorCode) ? "0;" : "", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
             [writeBuffer appendString:escString];
             [writeBuffer appendString:[NSString stringWithCString:tmp]];
             preUnderline = underline;
