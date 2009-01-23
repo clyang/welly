@@ -1158,7 +1158,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
             else if (color == [config colorWhiteHilite])
                 sprintf(tmp, "[0;1;%s%s37%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
             else
-                sprintf(tmp, "[%s%s%s%sm", (underline || blink || *bgColorCode) ? "0;" : "", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+                sprintf(tmp, "[%s%s%s%sm", (underline || blink || *bgColorCode) ? "0" : "", underline ? ";4" : "", blink ? ";5" : "", bgColorCode);
             [writeBuffer appendString:escString];
             [writeBuffer appendString:[NSString stringWithCString:tmp]];
             preUnderline = underline;
