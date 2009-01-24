@@ -155,6 +155,9 @@
 - (IBAction) removeSiteImage:(id)sender;
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)checkPortal;
+
+// for resotre
+- (IBAction)restoreSettings:(id)sender;
 // temporary added, should be remove in future!!!
 // by K.O.ed
 - (YLView *) getView;

@@ -1443,6 +1443,18 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 }
 
 #pragma mark -
+#pragma mark For restore settings
+- (IBAction)restoreSettings:(id)sender {
+	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to all you font settings?", @"Sheet Title")
+									 defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
+								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+									   otherButton:nil
+						 informativeTextWithFormat:NSLocalizedString(@"If you proceed, you will lost all you current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?", @"Sheet Message")];
+	if ([alert runModal] != NSAlertDefaultReturn)
+		return;
+}
+
+#pragma mark -
 #pragma mark Site View Drag & Drop
 - (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
     // copy to the pasteboard.
