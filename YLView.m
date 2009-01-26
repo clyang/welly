@@ -1003,7 +1003,12 @@ BOOL isSpecialSymbol(unichar ch) {
             if (isBlinkCell(currRow[c])) {
                 int bgColorIndex = currRow[c].attr.f.reverse ? currRow[c].attr.f.fgColor : currRow[c].attr.f.bgColor;
                 BOOL bold = currRow[c].attr.f.reverse ? currRow[c].attr.f.bold : NO;
-                [[gConfig colorAtIndex: bgColorIndex hilite: bold] set];
+				
+				// Modified by K.O.ed: All background color use same alpha setting.
+				NSColor *bgColor = [gConfig colorAtIndex: bgColorIndex hilite: bold];
+				bgColor = [bgColor colorWithAlphaComponent: [[gConfig colorBG] alphaComponent]];
+				[bgColor set];
+                //[[gConfig colorAtIndex: bgColorIndex hilite: bold] set];
                 NSRectFill(NSMakeRect(c * _fontWidth, (gRow - r - 1) * _fontHeight, _fontWidth, _fontHeight));
             }
         }
