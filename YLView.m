@@ -22,6 +22,7 @@
 #import "KOMenuItem.h"
 #import "KOMouseHotspotHandler.h"
 #import "KOClickEntryHotspotHandler.h"
+#import "KOExitAreaHotspotHandler.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -1857,8 +1858,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self updatePageDownArea];
 }
 
-- (void)setActiveHandler: (NSObject <KOMouseHotspotHandler> *)handler {
+- (void)setActiveHandler: (NSResponder <KOMouseHotspotHandler> *)handler {
 	_activeMouseHandler = handler;
+}
+
+- (NSResponder <KOMouseHotspotHandler> *)activeHandler {
+	return _activeMouseHandler;
 }
 
 - (void)removeActiveHandler {
@@ -2036,12 +2041,6 @@ BOOL isSpecialSymbol(unichar ch) {
 														  owner: handler
 													   userInfo: nil];
 	[self addTrackingArea:area];
-	
-	// Check if mouse is inside the area
-	NSPoint mousePos = [self convertPoint: [_window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([self mouse:mousePos inRect:rect]) {
-		[handler mouseEntered:[[NSEvent alloc] init]];
-	}
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -2084,12 +2083,6 @@ BOOL isSpecialSymbol(unichar ch) {
 														  owner: handler
 													   userInfo: nil];
 	[self addTrackingArea:area];
-	
-	// Check if mouse is inside the area
-	NSPoint mousePos = [self convertPoint: [_window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([self mouse:mousePos inRect:rect]) {
-		[handler mouseEntered:[[NSEvent alloc] init]];
-	}
 }
 
 - (void) updateClickEntryForRow: (int) r {
@@ -2244,19 +2237,29 @@ BOOL isSpecialSymbol(unichar ch) {
 				  height: (int)h 
 				   width: (int)w {
 	//NSLog(@"Exit Area added");	
-	if (_exitTrackingRect)
-		return;
+	//if (_exitTrackingRect)
+	//	return;
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
-	[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
+	//[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
 	//NSLog(@"new Exit area");
 	//if (_exitTrackingRect)
 	//	[self removeTrackingRect: _exitTrackingRect];
-	KOTrackingRectData * data = [KOTrackingRectData exitRectData];
-	[_trackingRectDataList addObject:data];
-	_exitTrackingRect = [self addTrackingRect: rect
-										owner: self
-									 userData: data
-								 assumeInside: YES];
+	//KOTrackingRectData * data = [KOTrackingRectData exitRectData];
+	//[_trackingRectDataList addObject:data];
+	//_exitTrackingRect = [self addTrackingRect: rect
+	//									owner: self
+	//								 userData: data
+	//							 assumeInside: YES];
+	KOExitAreaHotspotHandler *handler = [[KOExitAreaHotspotHandler alloc] initWithView:self 
+																					  rect:rect];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (  NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
 	//NSLog(@"Exit Area added!");
 }
 

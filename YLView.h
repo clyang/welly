@@ -57,11 +57,8 @@
 	BOOL _isInUrlMode;
 	NSCursor *_normalCursor;
 	
-	NSObject <KOMouseHotspotHandler> *_activeMouseHandler;
+	NSResponder <KOMouseHotspotHandler> *_activeMouseHandler;
 }
-// TEST
-- (void) tick: (NSArray *) a;
-
 
 - (void)configure;
 
@@ -119,7 +116,8 @@
 
 /* Hot Spots */
 - (void)refreshAllHotSpots;
-- (void)setActiveHandler: (NSObject <KOMouseHotspotHandler> *)handler;
+- (void)setActiveHandler: (NSResponder <KOMouseHotspotHandler> *)handler;
+- (NSResponder <KOMouseHotspotHandler> *)activeHandler;
 - (void)removeActiveHandler;
 
 /* ip seeker */

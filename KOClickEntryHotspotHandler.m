@@ -25,6 +25,11 @@
 	_rect = rect;
 	_row = row;
 	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
+	// Check if mouse is already inside the area
+	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	if ([_view mouse:mousePos inRect:rect]) {
+		[self mouseEntered:[[NSEvent alloc] init]];
+	}
 	return self;
 }
 
@@ -37,6 +42,11 @@
 	_rect = rect;
 	_commandSequence = [commandSequence retain];
 	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
+	// Check if mouse is already inside the area
+	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	if ([_view mouse:mousePos inRect:rect]) {
+		[self mouseEntered:[[NSEvent alloc] init]];
+	}
 	return self;
 }
 
