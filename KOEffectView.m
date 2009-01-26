@@ -117,13 +117,15 @@
 	clickEntryLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
 	clickEntryLayer.borderWidth = 0;
 	clickEntryLayer.cornerRadius = 6.0;
+	
+	[mainLayer addSublayer: [clickEntryLayer retain]];
 }
 
 - (void) drawClickEntry: (NSRect) rect {
 	if (!clickEntryLayer)
 		[self setClickEntry];
 	
-	[clickEntryLayer removeFromSuperlayer];
+	//[clickEntryLayer removeFromSuperlayer];
 	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
@@ -134,11 +136,14 @@
     clickEntryLayer.frame = NSRectToCGRect(rect);
     
     // Insert the layer into the root layer
-	[mainLayer addSublayer: [clickEntryLayer retain]];
+	//[mainLayer addSublayer: [clickEntryLayer retain]];
+	clickEntryLayer.opacity = 1.0f;
 }
 
 - (void)clearClickEntry {
-	[clickEntryLayer removeFromSuperlayer];
+	//[clickEntryLayer removeFromSuperlayer];
+	
+	[clickEntryLayer setOpacity: 0.0f];
 }
 
 #pragma mark Welly Buttons
