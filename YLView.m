@@ -22,7 +22,7 @@
 #import "KOMenuItem.h"
 #import "KOMouseHotspotHandler.h"
 #import "KOClickEntryHotspotHandler.h"
-#import "KOExitAreaHotspotHandler.h"
+#import "KOMovingAreaHotspotHandler.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -2255,8 +2255,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	//									owner: self
 	//								 userData: data
 	//							 assumeInside: YES];
-	KOExitAreaHotspotHandler *handler = [[KOExitAreaHotspotHandler alloc] initWithView:self 
-																					  rect:rect];
+	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler exitAreaHandlerForView:self
+																						rect:rect];
 	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
 														options: (  NSTrackingMouseEnteredAndExited 
 																  | NSTrackingMouseMoved 
@@ -2277,15 +2277,15 @@ BOOL isSpecialSymbol(unichar ch) {
 	//NSRect rect = [self rectAtRow:3	column:0 height:20 width:7];
 	//[self removeCursorRect: rect cursor:[NSCursor resizeLeftCursor]];
 	//[self addCursorRect:[self frame] cursor:_normalCursor];
-	[self removeTrackingRect: _exitTrackingRect];
+	//[self removeTrackingRect: _exitTrackingRect];
 	//NSLog(@"Exit area removed");
 	//_exitTrackingRect = -1;
 }
 
 - (void)updateExitArea {
 	YLTerminal *ds = [self frontMostTerminal];
-	if ([ds bbsState].state == BBSComposePost) {
-		[self removeExitArea];
+	if ([ds bbsState].state == BBSComposePost || [ds bbsState].state == BBSWaitingEnter) {
+		//[self removeExitArea];
 	} else {
 		[self addExitAreaAtRow:3 
 						column:0 
@@ -2301,6 +2301,7 @@ BOOL isSpecialSymbol(unichar ch) {
 					height: (int)h 
 					 width: (int)w {
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	/*
 	[self addCursorRect:rect cursor:[NSCursor resizeUpCursor]];
 	if (_pgUpTrackingRect)
 		return;
@@ -2310,6 +2311,17 @@ BOOL isSpecialSymbol(unichar ch) {
 										owner: self
 									 userData: data
 								 assumeInside: YES];
+	 */
+	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler pageUpAreaHandlerForView:self
+																					      rect:rect];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (  NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
 }
 
 - (void)updatePageUpArea {
@@ -2336,6 +2348,7 @@ BOOL isSpecialSymbol(unichar ch) {
 					height: (int)h 
 					 width: (int)w {
 	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
+	/*
 	[self addCursorRect:rect cursor:[NSCursor resizeDownCursor]];
 	if (_pgDownTrackingRect)
 		return;
@@ -2345,6 +2358,17 @@ BOOL isSpecialSymbol(unichar ch) {
 										owner: self
 									 userData: data
 								 assumeInside: YES];
+	 */
+	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler pageDownAreaHandlerForView:self
+																						    rect:rect];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (  NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
 }
 
 - (void)updatePageDownArea {

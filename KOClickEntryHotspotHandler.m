@@ -98,15 +98,13 @@
 	//NSLog(@"mouseEntered: ");
 	if([[[_view frontMostConnection] site] enableMouse]) {
 		[_effectView drawClickEntry: _rect];
-		//[[NSCursor pointingHandCursor] set];
+		[_view setActiveHandler: self];
 	}
-	[_view setActiveHandler: self];
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
 	//NSLog(@"mouseExited: ");
 	[_effectView clearClickEntry];
-	//[NSCursor pop];
 	[_view removeActiveHandler];
 }
 
