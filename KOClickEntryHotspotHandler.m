@@ -24,6 +24,7 @@
 	_effectView = [view getEffectView];
 	_rect = rect;
 	_row = row;
+	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
 	return self;
 }
 
@@ -35,11 +36,15 @@
 	_effectView = [view getEffectView];
 	_rect = rect;
 	_commandSequence = [commandSequence retain];
+	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
 	return self;
 }
 
 - (void) dealloc {
 	//NSLog(@"KOClickEntryHotspotHandler dealloc:");
+	if (_commandSequence)
+		[_commandSequence release];
+	[_view removeCursorRect:_rect cursor:[NSCursor pointingHandCursor]];
 	[super dealloc];
 }
 
@@ -47,7 +52,6 @@
 #pragma mark Mouse Event Handler
 - (void) mouseUp: (NSEvent *)theEvent {
 	if (_commandSequence != nil) {
-		//NSLog(_clickEntryData->commandSequence);
 		[[_view frontMostConnection] sendText: _commandSequence];
 		return;
 	}
@@ -81,28 +85,24 @@
 }
 
 - (void) mouseEntered: (NSEvent *)theEvent {
+	//NSLog(@"mouseEntered: ");
 	if([[[_view frontMostConnection] site] enableMouse]) {
 		[_effectView drawClickEntry: _rect];
+		//[[NSCursor pointingHandCursor] set];
 	}
 	[_view setActiveHandler: self];
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
+	//NSLog(@"mouseExited: ");
 	[_effectView clearClickEntry];
+	//[NSCursor pop];
 	[_view removeActiveHandler];
 }
 
 - (void) mouseMoved: (NSEvent *)theEvent {
-	if([[[_view frontMostConnection] site] enableMouse]) {
-		[_effectView drawClickEntry: _rect];
-	}
-	[_view setActiveHandler: self];
-}
-
-- (void) cursorUpdate: (NSEvent *)theEvent {
-//	NSLog(@"KOClickEntryHotspotHandler cursorUpdate: ");
-//	NSCursor * cursor = [NSCursor pointingHandCursor];
-//	[cursor set];
+	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
+		[[NSCursor pointingHandCursor] set];
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
+#import "KOMouseHotspotHandler.h"
 
 @class YLTerminal;
 @class YLConnection;
@@ -55,7 +56,12 @@
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
 	NSCursor *_normalCursor;
+	
+	NSObject <KOMouseHotspotHandler> *_activeMouseHandler;
 }
+// TEST
+- (void) tick: (NSArray *) a;
+
 
 - (void)configure;
 
@@ -113,6 +119,8 @@
 
 /* Hot Spots */
 - (void)refreshAllHotSpots;
+- (void)setActiveHandler: (NSObject <KOMouseHotspotHandler> *)handler;
+- (void)removeActiveHandler;
 
 /* ip seeker */
 - (void)updateIPStateForRow: (int) r;

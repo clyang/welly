@@ -133,7 +133,8 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    clickEntryLayer.frame = NSRectToCGRect(rect);
+    //clickEntryLayer.frame = NSRectToCGRect(rect);
+	[clickEntryLayer setFrame:NSRectToCGRect(rect)];
     
     // Insert the layer into the root layer
 	//[mainLayer addSublayer: [clickEntryLayer retain]];

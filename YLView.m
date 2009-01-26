@@ -20,6 +20,9 @@
 #import "KOEffectView.h"
 #import "KOTrackingRectData.h"
 #import "KOMenuItem.h"
+#import "KOMouseHotspotHandler.h"
+#import "KOClickEntryHotspotHandler.h"
+
 #include "encoding.h"
 #include <math.h>
 
@@ -416,8 +419,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		case MAIN_MENU_CLICK_ENTRY:
 			// FIXME: remove the following line if preference is done
 			if([[[self frontMostConnection] site] enableMouse]) {
-				NSCursor * cursor = [NSCursor pointingHandCursor];
-				[cursor push];
+				//[[NSCursor pointingHandCursor] push];
 				[_effectView drawClickEntry: rect];
 				_clickEntryData = rectData;
 			}
@@ -440,8 +442,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		case BUTTON:
 			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
 				[_effectView drawButton:rect withMessage:[[rectData getButtonText] retain]];
-				NSCursor * cursor = [NSCursor pointingHandCursor];
-				[cursor push];
+				//[[NSCursor pointingHandCursor] push];
 				_buttonData = rectData;
 			}
 			break;
@@ -459,7 +460,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		case CLICK_ENTRY:
 		case MAIN_MENU_CLICK_ENTRY:
 			[_effectView clearClickEntry];
-			[NSCursor pop];
+			//[NSCursor pop];
 			_clickEntryData = nil;
 			break;
 		case EXIT_AREA:
@@ -473,7 +474,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 		case BUTTON:
 			[_effectView clearButton];
-			[NSCursor pop];
+			//[NSCursor pop];
 			_buttonData = nil;
 			break;
 		default:
@@ -674,10 +675,16 @@ BOOL isSpecialSymbol(unichar ch) {
 				[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 		}
 		
-		
 		if (![[[self frontMostConnection] site] enableMouse])
 			return;
 		
+		if (_activeMouseHandler != nil) {
+			[_activeMouseHandler mouseUp: theEvent];
+			return;
+		}
+		
+		// Moved. Handled by mouse handlers.
+		/*
 		if (_clickEntryData != nil) {
 			if (_clickEntryData->commandSequence != nil) {
 				//NSLog(_clickEntryData->commandSequence);
@@ -715,6 +722,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
 			return;
 		}
+		 */
 		if (_buttonData) {
 			[[self frontMostConnection] sendText: _buttonData->commandSequence];
 			return;
@@ -1080,7 +1088,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
-	[self refreshAllHotSpots];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 	if (ds) {
         /* Draw Background */
@@ -1114,6 +1121,7 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 
 	[_backedImage unlockFocus];
+	[self refreshAllHotSpots];
     [pool release];
 	return;
 }
@@ -1823,8 +1831,9 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Hot Spots;
 - (void)refreshAllHotSpots {
 	// Clear it...
+	//[_window disableCursorRects];
 	[self clearAllTrackingArea];
-	[self discardCursorRects];
+	//[self discardCursorRects];
 	// For default hot spots
 	if(![[self frontMostConnection] connected])
 		return;
@@ -1833,7 +1842,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	// Set the cursor for writting texts
 	// I don't know why the cursor cannot change the first time
 	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) 
-		[gMoveCursor set];
+		[self addCursorRect:[self frame] cursor:gMoveCursor];
 	else
 		[NSCursor pop];
 	// For the mouse preference
@@ -1846,6 +1855,14 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];
+}
+
+- (void)setActiveHandler: (NSObject <KOMouseHotspotHandler> *)handler {
+	_activeMouseHandler = handler;
+}
+
+- (void)removeActiveHandler {
+	_activeMouseHandler = nil;
 }
 
 #pragma mark ip seeker
@@ -1983,6 +2000,13 @@ BOOL isSpecialSymbol(unichar ch) {
 	_pgUpTrackingRect = 0;
 	_pgDownTrackingRect = 0;
 	//_isMouseInExitArea = NO;
+	
+	for (NSTrackingArea *area in [self trackingAreas]) {
+		[[area owner] release];
+		[self removeTrackingArea: area];
+	}
+	[self discardCursorRects];
+	_activeMouseHandler = nil;
 }
 
 #pragma mark Post Entry Point
@@ -1993,14 +2017,31 @@ BOOL isSpecialSymbol(unichar ch) {
 	/* ip tooltip */
 	NSRect rect = [self rectAtRow:r column:c height:1 width:length];
 	//NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * length, _fontHeight);
-	KOTrackingRectData * data = [KOTrackingRectData clickEntryRectData: title
+	/*KOTrackingRectData * data = [KOTrackingRectData clickEntryRectData: title
 																 atRow: r];
 	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
 											 userData: data
 										 assumeInside: YES];
-	[_clickEntryTrackingRects push_back: rectTag];
+	[_clickEntryTrackingRects push_back: rectTag];*/
+	KOClickEntryHotspotHandler *handler = [[KOClickEntryHotspotHandler alloc] initWithView:self 
+																					  rect:rect 
+																					   row:r];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
+	
+	// Check if mouse is inside the area
+	NSPoint mousePos = [self convertPoint: [_window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	if ([self mouse:mousePos inRect:rect]) {
+		[handler mouseEntered:[[NSEvent alloc] init]];
+	}
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -2024,13 +2065,31 @@ BOOL isSpecialSymbol(unichar ch) {
 					   column: (int)c 
 					   length: (int)len {
 	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
+	/*
 	KOTrackingRectData * data = [KOTrackingRectData mainMenuClickEntryRectData:cmd];
 	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
 											 userData: data
 										 assumeInside: YES];
-	[_clickEntryTrackingRects push_back: rectTag];
+	[_clickEntryTrackingRects push_back: rectTag];*/
+	KOClickEntryHotspotHandler *handler = [[KOClickEntryHotspotHandler alloc] initWithView:self 
+																					  rect:rect 
+																		   commandSequence:cmd];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (  NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
+	
+	// Check if mouse is inside the area
+	NSPoint mousePos = [self convertPoint: [_window convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	if ([self mouse:mousePos inRect:rect]) {
+		[handler mouseEntered:[[NSEvent alloc] init]];
+	}
 }
 
 - (void) updateClickEntryForRow: (int) r {
@@ -2607,69 +2666,16 @@ BOOL isSpecialSymbol(unichar ch) {
 	return _effectView;
 }
 
-/*
-#pragma mark -
-#pragma mark Drag & Drop
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
-{
-	// Need the delegate hooked up to accept the dragged item(s) into the model
-	if ([self delegate]==nil)
-	{
-		return NSDragOperationNone;
-	}
-	
-	if ([[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
-	{
-		return NSDragOperationCopy;
-	}
-	
-	return NSDragOperationNone;
+- (void) cursorUpdate: (NSEvent *)theEvent {
+	//NSLog(@"YLView cursorUpdate:");
 }
 
-// Work around a bug from 10.2 onwards
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
-{
-	return NSDragOperationEvery;
+- (void) resetCursorRects {
+	//NSLog(@"YLView resetCursorRects:");
+	// Refresh again, f**king cocoa call resetCursorRects after updatedBackedImage:
+	[self refreshAllHotSpots];
+	return;
 }
-
-// Stop the NSTableView implementation getting in the way
-- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
-{
-	return [self draggingEntered:sender];
-}
-
-//
-// drag a picture file into the portal view to change the cover picture
-// 
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-	NSLog(@"performDragOperation:");
-	if (![self isInPortalState])
-		return NO;
-	
-	YLSite *site = [_portal selectedSite];
-	if (site == NULL)
-		return NO;
-	
-    NSPasteboard *pboard = [sender draggingPasteboard];
-	
-    if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
-        NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-        int numberOfFiles = [files count];
-        // Perform operation using the list of files
-		for (int i = 0; i < numberOfFiles; ++i) {
-			NSString *filename = [files objectAtIndex: i];
-			NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
-			NSArray *suffixes = supportedCoverExtensions;
-			if ([filename hasSuffix: @"/"] || [suffixes containsObject: suffix])
-				continue;
-			[self addPortalPicture:filename forSite:[site name]];
-			[self updatePortal];
-			break;
-		}
-    }
-    return YES;
-}
-*/
 @end
 
 @implementation NSObject(NSToolTipOwner)
