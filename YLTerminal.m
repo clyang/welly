@@ -336,9 +336,8 @@ static NSString *extractString(NSString *row, NSString *start, NSString *end) {
 static BOOL hasAnyString(NSString *row, NSArray *array) {
 	if (row == nil)
 		return NO;
-    NSEnumerator *e = [array objectEnumerator];
     NSString *s;
-    while (s = [e nextObject]) {
+    for (s in array) {
         if ([row rangeOfString:s].length > 0)
             return YES;
     }
@@ -438,4 +437,14 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 	_bbsType = bbsType;
 }
 
+@synthesize currURL;
+@synthesize _row;
+@synthesize _column;
+@synthesize _cursorX;
+@synthesize _cursorY;
+@synthesize _offset;
+@synthesize _currentURLList;
+@synthesize _grid;
+@synthesize _dirty;
+@synthesize _view;
 @end

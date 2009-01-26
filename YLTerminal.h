@@ -90,4 +90,15 @@ typedef struct {
 - (void)feedGrid: (cell **)grid;
 - (void)setCursorX: (int) cursorX
 				 Y: (int) cursorY;
+@property (retain) NSMutableString * currURL;
+@property unsigned int _row;
+@property unsigned int _column;
+@property unsigned int _cursorX;
+@property unsigned int _cursorY;
+@property unsigned int _offset;
+@property (retain,getter=urlList) NSMutableArray * _currentURLList;
+@property cell **_grid;
+@property char *_dirty;
+@property (retain) YLView *_view;
+@property (assign,getter=connection,setter=setConnection:) YLConnection *_connection;
 @end
