@@ -16,12 +16,16 @@
 	_view = view;
 	_effectView = [view getEffectView];
 	_rect = rect;
+	[self checkMousePosition];
+	return self;
+}
+
+- (void) checkMousePosition {
 	// Check if mouse is already inside the area
 	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([_view mouse:mousePos inRect:rect]) {
+	if ([_view mouse:mousePos inRect:_rect]) {
 		[self mouseEntered:[[NSEvent alloc] init]];
 	}
-	return self;
 }
 
 - (void) mouseEntered: (NSEvent *)theEvent {

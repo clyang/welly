@@ -18,9 +18,9 @@
 			   rect: (NSRect)rect 
 		 buttonType: (KOButtonType) buttonType
 	commandSequence: (NSString *)cmd {
-	[super initWithView:view rect:rect];
 	_buttonType = buttonType;
 	_commandSequence = [cmd retain];
+	[super initWithView:view rect:rect];
 	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
 	return self;
 }

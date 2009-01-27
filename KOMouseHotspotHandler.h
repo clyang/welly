@@ -21,5 +21,6 @@
 
 - (id) initWithView: (YLView *)view 
 			   rect: (NSRect)rect;
+- (void) checkMousePosition;
 - (void) mouseEntered: (NSEvent *)theEvent;
 @end

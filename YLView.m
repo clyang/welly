@@ -18,7 +18,7 @@
 #import "XIIntegerArray.h"
 #import "IPSeeker.h"
 #import "KOEffectView.h"
-#import "KOTrackingRectData.h"
+//#import "KOTrackingRectData.h"
 #import "KOMenuItem.h"
 #import "KOMouseHotspotHandler.h"
 #import "KOClickEntryHotspotHandler.h"
@@ -216,10 +216,12 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLength = 0;
         _selectionLocation = 0;
 		_isInPortalMode = NO;
+		/*
  		_ipTrackingRects = [[XIIntegerArray alloc] init];
 		_clickEntryTrackingRects = [[XIIntegerArray alloc] init];
 		_buttonTrackingRects = [[XIIntegerArray alloc] init];
 		_trackingRectDataList = [[NSMutableArray alloc] initWithCapacity:20];
+		 */
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
     }
     return self;
@@ -228,11 +230,12 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)dealloc {
     [_backedImage release];
     [_portal release];
-	
+	/*
 	[_ipTrackingRects release];
 	[_clickEntryTrackingRects release];
 	[_buttonTrackingRects release];
 	[_trackingRectDataList release];
+	 */
     [super dealloc];
 }
 
@@ -411,6 +414,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Event Handling
+/*
 - (void)mouseEntered:(NSEvent *)theEvent {
 	NSRect rect = [[theEvent trackingArea] rect];
 	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
@@ -484,7 +488,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			break;
 	}
 }
-
+*/
 - (void)mouseDown:(NSEvent *)theEvent {
 	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
@@ -681,11 +685,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (![[[self frontMostConnection] site] enableMouse])
 			return;
 		
+		if(abs(_selectionLength) > 1) return;
+		
 		if (_activeMouseHandler != nil) {
 			[_activeMouseHandler mouseUp: theEvent];
 			return;
 		}
-		
 		// Moved. Handled by mouse handlers.
 		/*
 		if (_clickEntryData != nil) {
@@ -726,13 +731,14 @@ BOOL isSpecialSymbol(unichar ch) {
 			return;
 		}
 		 */
+		/*
 		if (_buttonData) {
 			[[self frontMostConnection] sendText: _buttonData->commandSequence];
 			return;
 		}
+		 */
 		// Judge the selection size, if larger than 0, return directly
-		if(abs(_selectionLength) > 1) return;
-		
+		/*
 		if (_isMouseInExitArea
 			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
 			&& [[self frontMostTerminal] bbsState].state != BBSComposePost) {
@@ -749,7 +755,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			[[self frontMostConnection] sendText: termKeyPageDown];
 			return;
 		}
-		
+		*/
 		if ([[self frontMostTerminal] bbsState].state == BBSWaitingEnter) {
 			[[self frontMostConnection] sendText: termKeyEnter];
 		}
@@ -1989,6 +1995,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	// remove all tool tips
 	[self removeAllToolTips];
 	// Release all tracking rect data
+	/*
 	while ([_trackingRectDataList count] != 0) {
 		KOTrackingRectData * rectData = (KOTrackingRectData*)[_trackingRectDataList lastObject];
 		[_trackingRectDataList removeLastObject];
@@ -2023,6 +2030,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	_pgUpTrackingRect = 0;
 	_pgDownTrackingRect = 0;
 	//_isMouseInExitArea = NO;
+	 */
 	
 	for (NSTrackingArea *area in [self trackingAreas]) {
 		[[area owner] release];
@@ -2280,7 +2288,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self addTrackingArea:area];
 	//NSLog(@"Exit Area added!");
 }
-
+/*
 - (void)removeExitArea {
 	if (!_exitTrackingRect) {
 		//NSLog(@"No exit area!");
@@ -2294,7 +2302,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//NSLog(@"Exit area removed");
 	//_exitTrackingRect = -1;
 }
-
+*/
 - (void)updateExitArea {
 	YLTerminal *ds = [self frontMostTerminal];
 	if ([ds bbsState].state == BBSComposePost || [ds bbsState].state == BBSWaitingEnter) {
