@@ -36,7 +36,6 @@
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ACCDE0EED5BE200FC4543 /* KOMenuItem.m */; };
-		5A422E830EA5828F0009BAD8 /* KOTrackingRectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A422E820EA5828F0009BAD8 /* KOTrackingRectData.m */; };
 		5A43E8750F2E9B570002116B /* KOButtonAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */; };
 		5A43E87F0F2E9D270002116B /* KOMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* KOMouseHotspotHandler.m */; };
 		5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */; };
@@ -162,8 +161,6 @@
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		5A3ACCDD0EED5BE200FC4543 /* KOMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMenuItem.h; sourceTree = "<group>"; };
 		5A3ACCDE0EED5BE200FC4543 /* KOMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMenuItem.m; sourceTree = "<group>"; };
-		5A422E810EA5828F0009BAD8 /* KOTrackingRectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOTrackingRectData.h; sourceTree = "<group>"; };
-		5A422E820EA5828F0009BAD8 /* KOTrackingRectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOTrackingRectData.m; sourceTree = "<group>"; };
 		5A43E8730F2E9B570002116B /* KOButtonAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOButtonAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOButtonAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A43E87E0F2E9D270002116B /* KOMouseHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMouseHotspotHandler.m; sourceTree = "<group>"; };
@@ -550,8 +547,6 @@
 				16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */,
 				81E307200E79031B0024C47E /* LLPopUpMessage.h */,
 				81E307210E79031B0024C47E /* LLPopUpMessage.m */,
-				5A422E810EA5828F0009BAD8 /* KOTrackingRectData.h */,
-				5A422E820EA5828F0009BAD8 /* KOTrackingRectData.m */,
 				8155E2460F03DFE700F3144A /* LLUrlData.h */,
 				8155E2470F03DFE700F3144A /* LLUrlData.m */,
 			);
@@ -697,7 +692,6 @@
 				1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */,
 				81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */,
-				5A422E830EA5828F0009BAD8 /* KOTrackingRectData.m in Sources */,
 				5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */,
 				8155E2480F03DFE700F3144A /* LLUrlData.m in Sources */,
 				186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */,
