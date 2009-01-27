@@ -81,17 +81,19 @@
 - (void) setIPAddrBox {
 	ipAddrLayer = [CALayer layer];
     
+	// Set up the box
 	ipAddrLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
 	ipAddrLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
 	ipAddrLayer.borderWidth = 1.4;
 	ipAddrLayer.cornerRadius = 6.0;
+	
+    // Insert the layer into the root layer
+	[mainLayer addSublayer: [ipAddrLayer retain]];
 }
 
 - (void) drawIPAddrBox: (NSRect) rect {
 	if (!ipAddrLayer)
 		[self setIPAddrBox];
-	
-	[ipAddrLayer removeFromSuperlayer];
 	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
@@ -101,12 +103,12 @@
     // Set the layer frame to the rect
     ipAddrLayer.frame = NSRectToCGRect(rect);
     
-    // Insert the layer into the root layer
-	[mainLayer addSublayer: [ipAddrLayer retain]];
+    // Set the opacity to make the layer appear
+	ipAddrLayer.opacity = 1.0f;
 }
 
 - (void) clearIPAddrBox {
-	[ipAddrLayer removeFromSuperlayer];
+	ipAddrLayer.opacity = 0.0f;
 }
 
 #pragma mark Click Entry
@@ -118,6 +120,7 @@
 	clickEntryLayer.borderWidth = 0;
 	clickEntryLayer.cornerRadius = 6.0;
 	
+    // Insert the layer into the root layer
 	[mainLayer addSublayer: [clickEntryLayer retain]];
 }
 
@@ -125,26 +128,20 @@
 	if (!clickEntryLayer)
 		[self setClickEntry];
 	
-	//[clickEntryLayer removeFromSuperlayer];
-	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
 	rect.size.width += 2.0;
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    //clickEntryLayer.frame = NSRectToCGRect(rect);
-	[clickEntryLayer setFrame:NSRectToCGRect(rect)];
+    clickEntryLayer.frame = NSRectToCGRect(rect);
     
-    // Insert the layer into the root layer
-	//[mainLayer addSublayer: [clickEntryLayer retain]];
+    // Set the opacity to make the layer appear
 	clickEntryLayer.opacity = 1.0f;
 }
 
 - (void)clearClickEntry {
-	//[clickEntryLayer removeFromSuperlayer];
-	
-	[clickEntryLayer setOpacity: 0.0f];
+	clickEntryLayer.opacity = 0.0f;
 }
 
 #pragma mark Welly Buttons
