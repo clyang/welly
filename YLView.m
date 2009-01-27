@@ -23,6 +23,7 @@
 #import "KOMouseHotspotHandler.h"
 #import "KOClickEntryHotspotHandler.h"
 #import "KOMovingAreaHotspotHandler.h"
+#import "KOButtonAreaHotspotHandler.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -2397,14 +2398,26 @@ BOOL isSpecialSymbol(unichar ch) {
 				column: (int)c 
 				length: (int)len {
 	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
-	KOTrackingRectData * data = [KOTrackingRectData buttonRectData:buttonType
+	/*KOTrackingRectData * data = [KOTrackingRectData buttonRectData:buttonType
 												   commandSequence:cmd];
 	[_trackingRectDataList addObject:data];
 	NSTrackingRectTag rectTag = [self addTrackingRect: rect
 												owner: self
 											 userData: data
 										 assumeInside: YES];
-	[_buttonTrackingRects push_back: rectTag];
+	[_buttonTrackingRects push_back: rectTag];*/
+	KOButtonAreaHotspotHandler *handler = [[KOButtonAreaHotspotHandler alloc] initWithView:self 
+																					  rect:rect 
+																				buttonType:buttonType 
+																		   commandSequence:cmd];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
 }
 
 - (void) updateButtonAreaForRow:(int)r {

@@ -7,11 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "KOMouseHotspotHandler.h"
 #import "KOTrackingRectData.h"
 
-@interface KOButtonAreaHotspotHandler : NSObject {
-	KOButtonType buttonType;
-	NSString *commandSequence;
+@class YLView;
+@interface KOButtonAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
+	KOButtonType _buttonType;
+	NSString *_commandSequence;
 }
+
+- (id) initWithView: (YLView *)view 
+			   rect: (NSRect)rect 
+		 buttonType: (KOButtonType) buttonType
+	commandSequence: (NSString *)cmd;
+
+- (NSString *)getButtonText;
 
 @end

@@ -161,7 +161,6 @@
 	CGColorRelease(myColor);
 	buttonLayer.borderWidth = 0.0;
 	buttonLayer.cornerRadius = 10.0;
-
 	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
@@ -172,7 +171,7 @@
 	CGColorRelease(myColor);
 	
 	// Set the message to the text layer
-	textLayer.string = message;
+	textLayer.string = [message retain];
 	// Modify its styles
 	textLayer.truncationMode = kCATruncationEnd;
     CGFontRef font = CGFontCreateWithFontName((CFStringRef)[[YLLGlobalConfig sharedInstance] englishFontName]);
@@ -220,7 +219,8 @@
 }
 
 - (void)clearButton {
-	CALayer *textLayer = [[buttonLayer sublayers] lastObject];
+	CATextLayer *textLayer = [[buttonLayer sublayers] lastObject];
+	[textLayer.string release];
 	[textLayer removeFromSuperlayer];
 	[buttonLayer removeAllAnimations];
 	[buttonLayer removeFromSuperlayer];
