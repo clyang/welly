@@ -24,6 +24,7 @@
 #import "KOClickEntryHotspotHandler.h"
 #import "KOMovingAreaHotspotHandler.h"
 #import "KOButtonAreaHotspotHandler.h"
+#import "KOIPAddrHotspotHandler.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -1889,6 +1890,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	// Here we use an mutable array to store the ref of tracking rect data
 	// Just for the f**king [NSView removeTrackingRect] which cannot release
 	// user data
+	/*
 	KOTrackingRectData * data = [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
 													   toolTip:tooltip];
 	[_trackingRectDataList addObject:data];
@@ -1896,7 +1898,17 @@ BOOL isSpecialSymbol(unichar ch) {
 												owner: self
 											 userData: data
 										 assumeInside: YES];
-	[_ipTrackingRects push_back: rectTag];
+	[_ipTrackingRects push_back: rectTag];*/
+	KOIPAddrHotspotHandler *handler = [[KOIPAddrHotspotHandler alloc] initWithView:self 
+																			  rect:rect];
+	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
+														options: (  NSTrackingMouseEnteredAndExited 
+																  | NSTrackingMouseMoved 
+																  | NSTrackingActiveInKeyWindow 
+																  | NSTrackingCursorUpdate ) 
+														  owner: handler
+													   userInfo: nil];
+	[self addTrackingArea:area];
 }
 
 - (void)addToolTip: (NSString *)tooltip
