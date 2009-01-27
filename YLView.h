@@ -57,7 +57,7 @@
 	BOOL _isInUrlMode;
 	NSCursor *_normalCursor;
 	
-	NSResponder <KOMouseHotspotHandler> *_activeMouseHandler;
+	KOMouseHotspotHandler <KOMouseHotspotDelegate> *_activeMouseHandler;
 }
 
 - (void)configure;
@@ -116,8 +116,8 @@
 
 /* Hot Spots */
 - (void)refreshAllHotSpots;
-- (void)setActiveHandler: (NSResponder <KOMouseHotspotHandler> *)handler;
-- (NSResponder <KOMouseHotspotHandler> *)activeHandler;
+- (void)setActiveHandler: (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)handler;
+- (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)activeHandler;
 - (void)removeActiveHandler;
 
 /* ip seeker */

@@ -8,13 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol KOMouseHotspotHandler
+@protocol KOMouseHotspotDelegate
 - (void) mouseUp: (NSEvent *)theEvent;
 @end
 
-@interface NSResponder (KOMouseHotspotHandler)
+@class YLView, KOEffectView;
+@interface KOMouseHotspotHandler : NSObject {
+	NSRect _rect;
+	YLView *_view;
+	KOEffectView *_effectView;
+}
+
+- (id) initWithView: (YLView *)view 
+			   rect: (NSRect)rect;
 - (void) mouseEntered: (NSEvent *)theEvent;
-- (void) mouseExited: (NSEvent *)theEvent;
-- (void) mouseMoved: (NSEvent *)theEvent;
-- (void) cursorUpdate: (NSEvent *)theEvent;
 @end

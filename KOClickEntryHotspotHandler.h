@@ -12,11 +12,7 @@
 @class YLView;
 @class KOEffectView;
 
-@interface KOClickEntryHotspotHandler : NSResponder <KOMouseHotspotHandler> {
-	NSRect _rect;
-	YLView *_view;
-	KOEffectView *_effectView;
-	
+@interface KOClickEntryHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
 	int _row;
 	NSString *_commandSequence;
 }

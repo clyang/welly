@@ -11,10 +11,7 @@
 
 @class YLView;
 
-@interface KOMovingAreaHotspotHandler : NSResponder <KOMouseHotspotHandler> {
-	NSRect _rect;
-	YLView *_view;
-	
+@interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
 	enum {
 		AREA_EXIT, AREA_PAGE_UP, AREA_PAGE_DOWN
 	} _type;

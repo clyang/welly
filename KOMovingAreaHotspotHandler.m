@@ -40,14 +40,7 @@
 
 - (id) initWithView: (YLView *)view 
 			   rect: (NSRect)rect {
-	[self init];
-	_view = view;
-	_rect = rect;
-	// Check if mouse is already inside the area
-	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([_view mouse:mousePos inRect:rect]) {
-		[self mouseEntered:[[NSEvent alloc] init]];
-	}
+	[super initWithView:view rect:rect];
 	return self;
 }
 

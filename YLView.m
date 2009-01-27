@@ -1863,11 +1863,11 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self updatePageDownArea];
 }
 
-- (void)setActiveHandler: (NSResponder <KOMouseHotspotHandler> *)handler {
+- (void)setActiveHandler: (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)handler {
 	_activeMouseHandler = handler;
 }
 
-- (NSResponder <KOMouseHotspotHandler> *)activeHandler {
+- (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)activeHandler {
 	return _activeMouseHandler;
 }
 
@@ -2335,12 +2335,12 @@ BOOL isSpecialSymbol(unichar ch) {
 							  column:20
 							  height:[[YLLGlobalConfig sharedInstance] row] / 2
 							   width:[[YLLGlobalConfig sharedInstance] column] - 20];
-	} else {
+	} /*else {
 		if(_pgUpTrackingRect) {
 			[self removeTrackingRect: _pgUpTrackingRect];
 			[NSCursor pop];
 		}
-	}
+	}*/
 }
 
 - (void)addPageDownAreaAtRow: (int)r 
@@ -2382,12 +2382,12 @@ BOOL isSpecialSymbol(unichar ch) {
 						  column:20
 						  height:[[YLLGlobalConfig sharedInstance] row] / 2
 						   width:[[YLLGlobalConfig sharedInstance] column] - 20];
-	} else {
+	} /*else {
 		if(_pgDownTrackingRect) {
 			[self removeTrackingRect: _pgDownTrackingRect];
 			[NSCursor pop];
 		}
-	}
+	}*/
 }
 
 #pragma mark button Area

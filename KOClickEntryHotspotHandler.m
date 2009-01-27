@@ -19,34 +19,18 @@
 - (id) initWithView: (YLView *)view 
 			   rect: (NSRect)rect
 				row: (int)row {
-	[self init];
-	_view = view;
-	_effectView = [view getEffectView];
-	_rect = rect;
+	[super initWithView:view rect:rect];
 	_row = row;
 	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
-	// Check if mouse is already inside the area
-	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([_view mouse:mousePos inRect:rect]) {
-		[self mouseEntered:[[NSEvent alloc] init]];
-	}
 	return self;
 }
 
 - (id) initWithView: (YLView *)view 
 			   rect: (NSRect)rect 
 	commandSequence: (NSString *)commandSequence {
-	[self init];
-	_view = view;
-	_effectView = [view getEffectView];
-	_rect = rect;
+	[super initWithView:view rect:rect];
 	_commandSequence = [commandSequence retain];
 	[_view addCursorRect:rect cursor:[NSCursor pointingHandCursor]];
-	// Check if mouse is already inside the area
-	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([_view mouse:mousePos inRect:rect]) {
-		[self mouseEntered:[[NSEvent alloc] init]];
-	}
 	return self;
 }
 
