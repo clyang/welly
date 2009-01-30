@@ -2003,7 +2003,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<object class="NSButton" id="487688577">
 													<reference key="NSNextResponder" ref="546204354"/>
 													<int key="NSvFlags">268</int>
-													<string key="NSFrame">{{172, -80}, {113, 344}}</string>
+													<string key="NSFrame">{{193, 79}, {92, 28}}</string>
 													<reference key="NSSuperview" ref="546204354"/>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSButtonCell" key="NSCell" id="723598909">
@@ -2024,7 +2024,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<object class="NSButton" id="666703452">
 													<reference key="NSNextResponder" ref="546204354"/>
 													<int key="NSvFlags">268</int>
-													<string key="NSFrame">{{14, -80}, {130, 344}}</string>
+													<string key="NSFrame">{{14, 79}, {92, 28}}</string>
 													<reference key="NSSuperview" ref="546204354"/>
 													<bool key="NSEnabled">YES</bool>
 													<object class="NSButtonCell" key="NSCell" id="1010748712">
@@ -3137,7 +3137,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="133849961">
+																	<object class="NSParagraphStyle" id="406270086">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3345,7 +3345,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="133849961"/>
+																	<reference ref="406270086"/>
 																</object>
 															</object>
 														</object>
@@ -5955,11 +5955,11 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<reference ref="978696301"/>
 							<reference ref="347050792"/>
 							<reference ref="300618534"/>
-							<reference ref="666703452"/>
-							<reference ref="487688577"/>
 							<reference ref="459256841"/>
 							<reference ref="630800437"/>
 							<reference ref="667829870"/>
+							<reference ref="487688577"/>
+							<reference ref="666703452"/>
 						</object>
 						<reference key="parent" ref="893775230"/>
 					</object>
@@ -7948,6 +7948,7 @@ Z1s6cG9ydF0</string>
 							<string>openSites:</string>
 							<string>reconnect:</string>
 							<string>removeSiteImage:</string>
+							<string>restoreSettings:</string>
 							<string>selectNextTab:</string>
 							<string>selectPrevTab:</string>
 							<string>setAutoReplyAction:</string>
@@ -7960,6 +7961,7 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
