@@ -56,6 +56,9 @@ int fgBoldOfAttribute(attribute a) ;
 }
 #endif
 
+#define keyStringRight @"\uF703"
+#define keyStringLeft @"\uF702"
+
 #define termKeyUp @"\x1B[A"
 #define termKeyDown @"\x1B[B"
 #define termKeyRight @"\x1B[C"

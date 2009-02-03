@@ -8,8 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
-@interface KOIPAddrHotspotHandler : KOMouseHotspotHandler {
 
+@interface KOIPAddrHotspotHandler : KOMouseHotspotHandler {
 }
 
+- (void) update;
 @end

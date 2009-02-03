@@ -12,15 +12,15 @@
 - (void) mouseUp: (NSEvent *)theEvent;
 @end
 
-@class YLView, KOEffectView;
-@interface KOMouseHotspotHandler : NSObject {
-	NSRect _rect;
+@class YLView, KOMouseBehaviorManager;
+@interface KOMouseHotspotHandler : NSResponder {
 	YLView *_view;
-	KOEffectView *_effectView;
+	
+	KOMouseBehaviorManager *_manager;
+	int _maxRow, _maxColumn;
 }
 
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect;
-- (void) checkMousePosition;
+- (id) initWithView: (YLView *)view;
+- (id) initWithManager: (KOMouseBehaviorManager *)manager;
 - (void) mouseEntered: (NSEvent *)theEvent;
 @end

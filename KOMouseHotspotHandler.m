@@ -8,27 +8,25 @@
 #import "KOMouseHotspotHandler.h"
 #import "YLView.h"
 #import "KOEffectView.h"
+#import "YLLGlobalConfig.h"
+#import "KOMouseBehaviorManager.h"
 
 @implementation KOMouseHotspotHandler
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect {
+- (id) initWithView: (YLView *)view {
 	[self init];
 	_view = view;
-	_effectView = [view getEffectView];
-	_rect = rect;
-	[self checkMousePosition];
+	_maxRow = [[YLLGlobalConfig sharedInstance] row];
+	_maxColumn = [[YLLGlobalConfig sharedInstance] column];
 	return self;
 }
 
-- (void) checkMousePosition {
-	// Check if mouse is already inside the area
-	NSPoint mousePos = [_view convertPoint: [[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
-	if ([_view mouse:mousePos inRect:_rect]) {
-		[self mouseEntered:[[NSEvent alloc] init]];
-	}
+- (id) initWithManager: (KOMouseBehaviorManager *)manager {
+	_manager = manager;
+	return [self initWithView: [_manager view]];
 }
 
 - (void) mouseEntered: (NSEvent *)theEvent {
 	// Do nothing, just a virtual function
 }
+
 @end

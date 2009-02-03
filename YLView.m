@@ -18,13 +18,8 @@
 #import "XIIntegerArray.h"
 #import "IPSeeker.h"
 #import "KOEffectView.h"
-//#import "KOTrackingRectData.h"
 #import "KOMenuItem.h"
-#import "KOMouseHotspotHandler.h"
-#import "KOClickEntryHotspotHandler.h"
-#import "KOMovingAreaHotspotHandler.h"
-#import "KOButtonAreaHotspotHandler.h"
-#import "KOIPAddrHotspotHandler.h"
+#import "KOMouseBehaviorManager.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -216,13 +211,9 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLength = 0;
         _selectionLocation = 0;
 		_isInPortalMode = NO;
-		/*
- 		_ipTrackingRects = [[XIIntegerArray alloc] init];
-		_clickEntryTrackingRects = [[XIIntegerArray alloc] init];
-		_buttonTrackingRects = [[XIIntegerArray alloc] init];
-		_trackingRectDataList = [[NSMutableArray alloc] initWithCapacity:20];
-		 */
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
+		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
+		[self setDelegate: _mouseBehaviorDelegate];
     }
     return self;
 }
@@ -230,12 +221,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)dealloc {
     [_backedImage release];
     [_portal release];
-	/*
-	[_ipTrackingRects release];
-	[_clickEntryTrackingRects release];
-	[_buttonTrackingRects release];
-	[_trackingRectDataList release];
-	 */
+	[_mouseBehaviorDelegate dealloc];
     [super dealloc];
 }
 
@@ -543,7 +529,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//    [super mouseDown: e];
 }
 
-- (void) mouseDragged: (NSEvent *) e {
+- (void)mouseDragged: (NSEvent *) e {
     if (![self connected]) return;
     NSPoint p = [e locationInWindow];
     p = [self convertPoint: p toView: nil];
@@ -686,11 +672,12 @@ BOOL isSpecialSymbol(unichar ch) {
 			return;
 		
 		if(abs(_selectionLength) > 1) return;
-		
+		/*
 		if (_activeMouseHandler != nil) {
 			[_activeMouseHandler mouseUp: theEvent];
 			return;
-		}
+		}*/
+		[_mouseBehaviorDelegate mouseUp:theEvent];
 		// Moved. Handled by mouse handlers.
 		/*
 		if (_clickEntryData != nil) {
@@ -1099,6 +1086,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) updateBackedImage {
 	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	[_mouseBehaviorDelegate refreshAllHotSpots];
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
@@ -1135,7 +1123,6 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 
 	[_backedImage unlockFocus];
-	[self refreshAllHotSpots];
     [pool release];
 	return;
 }
@@ -1781,7 +1768,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal setFrame:[self frame]];
 	}
 	[_effectView clear];
-	[self clearAllTrackingArea];
+	[_mouseBehaviorDelegate clearAllTrackingArea];
 	[self addSubview:_portal];
 	_isInPortalMode = YES;
 }
@@ -1839,659 +1826,6 @@ BOOL isSpecialSymbol(unichar ch) {
 		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
 	}
 	[fileManager copyItemAtPath:source toPath:[destination stringByAppendingPathExtension:[source pathExtension]] error:NULL];
-}
-
-#pragma mark -
-#pragma mark Hot Spots;
-- (void)refreshAllHotSpots {
-	// Clear it...
-	//[_window disableCursorRects];
-	[self clearAllTrackingArea];
-	//[self discardCursorRects];
-	// For default hot spots
-	if(![[self frontMostConnection] connected])
-		return;
-	for(int y = 0; y < gRow; y++)
-		[self updateIPStateForRow: y];
-	// Set the cursor for writting texts
-	// I don't know why the cursor cannot change the first time
-	if ([[self frontMostTerminal] bbsState].state == BBSComposePost) 
-		[self addCursorRect:[self frame] cursor:gMoveCursor];
-	else
-		[NSCursor pop];
-	// For the mouse preference
-	if (![[[self frontMostConnection] site] enableMouse]) 
-		return;
-	for (int y = 0; y < gRow; y++) {
-		[self updateClickEntryForRow: y];
-		[self updateButtonAreaForRow: y];
-	}
-	[self updateExitArea];
-	[self updatePageUpArea];
-	[self updatePageDownArea];
-}
-
-- (void)setActiveHandler: (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)handler {
-	_activeMouseHandler = handler;
-}
-
-- (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)activeHandler {
-	return _activeMouseHandler;
-}
-
-- (void)removeActiveHandler {
-	_activeMouseHandler = nil;
-}
-
-#pragma mark ip seeker
-- (void)addIPRect: (const char *)ip
-			  row: (int)r
-		   column: (int)c
-		   length: (int)length {
-	/* ip tooltip */
-	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
-							 _fontWidth * length, _fontHeight);
-	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
-	[self addToolTip: tooltip row:r column:c length:length];
-	// Here we use an mutable array to store the ref of tracking rect data
-	// Just for the f**king [NSView removeTrackingRect] which cannot release
-	// user data
-	/*
-	KOTrackingRectData * data = [KOTrackingRectData ipRectData:[NSString stringWithFormat: @"%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]]
-													   toolTip:tooltip];
-	[_trackingRectDataList addObject:data];
-	NSTrackingRectTag rectTag = [self addTrackingRect: rect
-												owner: self
-											 userData: data
-										 assumeInside: YES];
-	[_ipTrackingRects push_back: rectTag];*/
-	KOIPAddrHotspotHandler *handler = [[KOIPAddrHotspotHandler alloc] initWithView:self 
-																			  rect:rect];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (  NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void)addToolTip: (NSString *)tooltip
-			   row: (int)r
-			column: (int)c
-			length: (int)length {
-	/* ip tooltip */
-	NSRect rect = NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight,
-							 _fontWidth * length, _fontHeight);
-	[self addToolTipRect: rect owner: self userData: tooltip];
-}
-
-- (void)updateIPStateForRow: (int) r {
-	cell *currRow = [[self frontMostTerminal] cellsOfRow: r];
-	int state = 0;
-	char ip[4] = {0};
-	int seg = 0;
-	int start = 0, length = 0;
-	for (int i = 0; i < gColumn; i++) {
-		unsigned char b = currRow[i].byte;
-		switch (state) {
-			case 0:
-				if (b >= '0' && b <= '9') { // numeric, beginning of an ip
-					start = i;
-					length = 1;
-					ip[0] = ip[1] = ip[2] = ip[3];
-					seg = b - '0';
-					state = 1;
-				}
-				break;
-			case 1:
-			case 2:
-			case 3:
-				if (b == '.') {	// segment ended
-					if (seg > 255) {	// invalid number
-						state = 0;
-						break;
-					}
-					// valid number
-					ip[state-1] = seg & 0xff;
-					seg = 0;
-					state++;
-					length++;
-				} else if (b >= '0' && b <= '9') {	// continue to be numeric
-					seg = seg * 10 + (b - '0');
-					length++;
-				} else {	// invalid character
-					state = 0;
-					break;
-				}
-				break;
-            case 4:
-                if (b >= '0' && b <= '9') {	// continue to be numeric
-                    seg = seg * 10 + (b - '0');
-                    length++;
-                } else {	// non-numeric, then the string should be finished.
-                    if (b == '*') // for ip address 255.255.255.*
-                        ++length;
-                    if (seg < 255) {	// available ip
-                        ip[state-1] = seg & 255;
-                        [self addIPRect:ip row:r column:start length:length];
-                    }
-                    state = 0;
-                }
-                break;
-			default:
-				break;
-		}
-	}
-}
-
-#pragma mark Remove All Tracking Rects
-/*
- * clear all tracking rects
- */
-- (void)clearAllTrackingArea {
-	[_effectView clear];
-	// remove all tool tips
-	[self removeAllToolTips];
-	// Release all tracking rect data
-	/*
-	while ([_trackingRectDataList count] != 0) {
-		KOTrackingRectData * rectData = (KOTrackingRectData*)[_trackingRectDataList lastObject];
-		[_trackingRectDataList removeLastObject];
-		[rectData release];
-	}
-	// remove all ip tracking rects
-	while(![_ipTrackingRects empty]) {
-		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_ipTrackingRects front];
-		[self removeTrackingRect:rectTag];
-		[_ipTrackingRects pop_front];
-	}
-	
-	while(![_clickEntryTrackingRects empty]) {
-		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_clickEntryTrackingRects front];
-		[self removeTrackingRect:rectTag];
-		[_clickEntryTrackingRects pop_front];
-	}
-	
-	while(![_buttonTrackingRects empty]) {
-		NSTrackingRectTag rectTag = (NSTrackingRectTag)[_buttonTrackingRects front];
-		[self removeTrackingRect:rectTag];
-		[_buttonTrackingRects pop_front];
-	}
-
-	_clickEntryData = nil;
-	_buttonData = nil;
-	// Remove the tracking rect for exit, pgup and pgdown
-	[self removeTrackingRect:_exitTrackingRect];
-	[self removeTrackingRect:_pgUpTrackingRect];
-	[self removeTrackingRect:_pgDownTrackingRect];
-	_exitTrackingRect = 0;
-	_pgUpTrackingRect = 0;
-	_pgDownTrackingRect = 0;
-	//_isMouseInExitArea = NO;
-	 */
-	
-	for (NSTrackingArea *area in [self trackingAreas]) {
-		[[area owner] release];
-		[self removeTrackingArea: area];
-	}
-	[self discardCursorRects];
-	_activeMouseHandler = nil;
-}
-
-#pragma mark Post Entry Point
-- (void)addClickEntryRect: (NSString *)title
-					  row: (int)r
-				   column: (int)c
-				   length: (int)length {
-	/* ip tooltip */
-	NSRect rect = [self rectAtRow:r column:c height:1 width:length];
-	//NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth * length, _fontHeight);
-	/*KOTrackingRectData * data = [KOTrackingRectData clickEntryRectData: title
-																 atRow: r];
-	[_trackingRectDataList addObject:data];
-	NSTrackingRectTag rectTag = [self addTrackingRect: rect
-												owner: self
-											 userData: data
-										 assumeInside: YES];
-	[_clickEntryTrackingRects push_back: rectTag];*/
-	KOClickEntryHotspotHandler *handler = [[KOClickEntryHotspotHandler alloc] initWithView:self 
-																					  rect:rect 
-																					   row:r];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
-    NSString *title = [[self frontMostTerminal] stringFromIndex:c+r*gColumn length:length];
-    [self addClickEntryRect:title row:r column:c length:length];
-}
-
-- (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
-    cell *currRow = [[self frontMostTerminal] cellsOfRow:row];
-    int i = 0, n = [s length];
-    for (; i < n && column < gColumn - 1; ++i, ++column)
-        if (currRow[column].byte != [s characterAtIndex:i])
-            return NO;
-    if (i != n)
-        return NO;
-    return YES;
-}
-
-- (void)addMainMenuClickEntry: (NSString *)cmd 
-						  row: (int)r
-					   column: (int)c 
-					   length: (int)len {
-	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
-	/*
-	KOTrackingRectData * data = [KOTrackingRectData mainMenuClickEntryRectData:cmd];
-	[_trackingRectDataList addObject:data];
-	NSTrackingRectTag rectTag = [self addTrackingRect: rect
-												owner: self
-											 userData: data
-										 assumeInside: YES];
-	[_clickEntryTrackingRects push_back: rectTag];*/
-	KOClickEntryHotspotHandler *handler = [[KOClickEntryHotspotHandler alloc] initWithView:self 
-																					  rect:rect 
-																		   commandSequence:cmd];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (  NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void) updateClickEntryForRow: (int) r {
-    YLTerminal *ds = [self frontMostTerminal];
-    cell *currRow = [ds cellsOfRow:r];
-    if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
-        // browsing a board
-		// header/footer
-		if (r < 3 || r == gRow - 1)
-			return;
-		
-		int start = -1, end = -1;
-		unichar textBuf[gColumn + 1];
-		int bufLength = 0;
-    
-        // don't check the first two columns ("●" may be used as cursor)
-        for (int i = 2; i < gColumn - 1; ++i) {
-			int db = currRow[i].attr.f.doubleByte;
-			if (db == 0) {
-                if (start == -1) {
-                    if ([self startsAtRow:r column:i with:@"Re: "] || // smth
-                        [self startsAtRow:r column:i with:@"R: "])    // ptt
-                        start = i;
-                }
-				if (currRow[i].byte > 0 && currRow[i].byte != ' ')
-					end = i;
-                if (start != -1)
-                    textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
-            } else if (db == 2) {
-				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
-				unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
-                // smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
-                // free/sjtu: 0x25c6 (solid diamond "◆")
-                // ptt: 0x25a1 (hollow square "□")
-                if (start == -1 && ch >= 0x2510 && ch <= 0x260f)
-					start = i - 1;
-				end = i;
-				if (start != -1)
-					textBuf[bufLength++] = ch;
-			}
-		}
-		
-		if (start == -1)
-			return;
-		
-		[self addClickEntryRect: [NSString stringWithCharacters:textBuf length:bufLength]
-							row: r
-						 column: start
-						 length: end - start + 1];
-		
-	} else if ([ds bbsState].state == BBSBoardList) {
-        // watching board list
-		// header/footer
-		if (r < 3 || r == gRow - 1)
-			return;
-		
-        // TODO: fix magic numbers
-        if (currRow[12].byte != 0 && currRow[12].byte != ' ' && (currRow[11].byte == ' ' || currRow[11].byte == '*'))
-            [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
-        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ')
-            [self addClickEntryRectAtRow:r column:10 length:80-26]; // ptt
-        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[30].byte == ' ')
-            [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
-        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[31].byte == ' ')
-            [self addClickEntryRectAtRow:r column:10 length:80-30]; // zju88
-    } else if ([ds bbsState].state == BBSFriendList) {
-		// header/footer
-		if (r < 3 || r == gRow - 1)
-			return;
-		
-        // TODO: fix magic numbers
-        if (currRow[7].byte == 0 || currRow[7].byte == ' ')
-            return;
-        [self addClickEntryRectAtRow:r column:7 length:80-13];
-	} else if ([ds bbsState].state == BBSMainMenu || [ds bbsState].state == BBSMailMenu) {
-		// main menu
-		if (r < 3 || r == gRow - 1)
-			return;
-		/*
-		const int ST_START = 0;
-		const int ST_BRACKET_FOUND = 1;
-		const int ST_SPACE_FOUND = 2;
-		const int ST_NON_SPACE_FOUND = 3;
-		*/
-		enum {
-			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND, ST_SINGLE_SPACE_FOUND
-		};
-		
-		int start = -1, end = -1;
-		int state = ST_START;
-		char shortcut = 0;
-		
-        // don't check the first two columns ("●" may be used as cursor)
-        for (int i = 2; i < gColumn - 2; ++i) {
-			int db = currRow[i].attr.f.doubleByte;
-			switch (state) {
-				case ST_START:
-					if (currRow[i].byte == ')' && isalnum(currRow[i-1].byte)) {
-						start = (currRow[i-2].byte == '(')? i-2: i-1;
-						end = start;
-						state = ST_BRACKET_FOUND;
-						shortcut = currRow[i-1].byte;
-					}
-					break;
-				case ST_BRACKET_FOUND:
-					end = i;/*
-					if (currRow[i].byte == ' ') {
-						state = ST_SPACE_FOUND;
-					}*/
-					if (db == 1) {
-						state = ST_NON_SPACE_FOUND;
-					}
-					break;
-					/*
-				case ST_SPACE_FOUND:
-					end = i;
-					if (currRow[i].byte != ' ')
-						state = ST_NON_SPACE_FOUND;
-					break;*/
-				case ST_NON_SPACE_FOUND:
-					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
-						state = ST_SINGLE_SPACE_FOUND;
-					} else {
-						end = i;
-					}
-					break;
-				case ST_SINGLE_SPACE_FOUND:
-					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
-						state = ST_START;
-						[self addMainMenuClickEntry:[NSString stringWithFormat:@"%c\n", shortcut] 
-												row:r
-											 column:start
-											 length:end - start + 1];
-						start = i;
-						end = i;
-					} else {
-						state = ST_NON_SPACE_FOUND;
-						end = i;
-					}
-					break;
-				default:
-					break;
-			}
-		}
-	}
-}
-
-#pragma mark Exit Area
-
-- (void)addExitAreaAtRow: (int)r 
-				  column: (int)c 
-				  height: (int)h 
-				   width: (int)w {
-	//NSLog(@"Exit Area added");	
-	//if (_exitTrackingRect)
-	//	return;
-	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
-	//[self addCursorRect:rect cursor:[NSCursor resizeLeftCursor]];
-	//NSLog(@"new Exit area");
-	//if (_exitTrackingRect)
-	//	[self removeTrackingRect: _exitTrackingRect];
-	//KOTrackingRectData * data = [KOTrackingRectData exitRectData];
-	//[_trackingRectDataList addObject:data];
-	//_exitTrackingRect = [self addTrackingRect: rect
-	//									owner: self
-	//								 userData: data
-	//							 assumeInside: YES];
-	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler exitAreaHandlerForView:self
-																						rect:rect];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (  NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-	//NSLog(@"Exit Area added!");
-}
-/*
-- (void)removeExitArea {
-	if (!_exitTrackingRect) {
-		//NSLog(@"No exit area!");
-		return;
-	}
-	//[[self window] invalidateCursorRectsForView: self];
-	//NSRect rect = [self rectAtRow:3	column:0 height:20 width:7];
-	//[self removeCursorRect: rect cursor:[NSCursor resizeLeftCursor]];
-	//[self addCursorRect:[self frame] cursor:_normalCursor];
-	//[self removeTrackingRect: _exitTrackingRect];
-	//NSLog(@"Exit area removed");
-	//_exitTrackingRect = -1;
-}
-*/
-- (void)updateExitArea {
-	YLTerminal *ds = [self frontMostTerminal];
-	if ([ds bbsState].state == BBSComposePost || [ds bbsState].state == BBSWaitingEnter) {
-		//[self removeExitArea];
-	} else {
-		[self addExitAreaAtRow:3 
-						column:0 
-						height:20
-						 width:20];
-	}
-}
-
-#pragma mark pgUp/Down Area
-
-- (void)addPageUpAreaAtRow: (int)r 
-					column: (int)c 
-					height: (int)h 
-					 width: (int)w {
-	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
-	/*
-	[self addCursorRect:rect cursor:[NSCursor resizeUpCursor]];
-	if (_pgUpTrackingRect)
-		return;
-	KOTrackingRectData * data = [KOTrackingRectData pgUpRectData];
-	[_trackingRectDataList addObject:data];
-	_pgUpTrackingRect = [self addTrackingRect: rect
-										owner: self
-									 userData: data
-								 assumeInside: YES];
-	 */
-	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler pageUpAreaHandlerForView:self
-																					      rect:rect];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (  NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void)updatePageUpArea {
-	YLTerminal *ds = [self frontMostTerminal];
-	if ([ds bbsState].state == BBSBoardList 
-		|| [ds bbsState].state == BBSBrowseBoard
-		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList
-		|| [ds bbsState].state == BBSViewPost) {
-			[self addPageUpAreaAtRow:0
-							  column:20
-							  height:[[YLLGlobalConfig sharedInstance] row] / 2
-							   width:[[YLLGlobalConfig sharedInstance] column] - 20];
-	} /*else {
-		if(_pgUpTrackingRect) {
-			[self removeTrackingRect: _pgUpTrackingRect];
-			[NSCursor pop];
-		}
-	}*/
-}
-
-- (void)addPageDownAreaAtRow: (int)r 
-					column: (int)c 
-					height: (int)h 
-					 width: (int)w {
-	NSRect rect = [self rectAtRow:r	column:c height:h width:w];
-	/*
-	[self addCursorRect:rect cursor:[NSCursor resizeDownCursor]];
-	if (_pgDownTrackingRect)
-		return;
-	KOTrackingRectData * data = [KOTrackingRectData pgDownRectData];
-	[_trackingRectDataList addObject:data];
-	_pgDownTrackingRect = [self addTrackingRect: rect
-										owner: self
-									 userData: data
-								 assumeInside: YES];
-	 */
-	KOMovingAreaHotspotHandler *handler = [KOMovingAreaHotspotHandler pageDownAreaHandlerForView:self
-																						    rect:rect];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (  NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void)updatePageDownArea {
-	YLTerminal *ds = [self frontMostTerminal];
-	if ([ds bbsState].state == BBSBoardList 
-		|| [ds bbsState].state == BBSBrowseBoard
-		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList
-		|| [ds bbsState].state == BBSViewPost) {
-		[self addPageDownAreaAtRow:[[YLLGlobalConfig sharedInstance] row] / 2
-						  column:20
-						  height:[[YLLGlobalConfig sharedInstance] row] / 2
-						   width:[[YLLGlobalConfig sharedInstance] column] - 20];
-	} /*else {
-		if(_pgDownTrackingRect) {
-			[self removeTrackingRect: _pgDownTrackingRect];
-			[NSCursor pop];
-		}
-	}*/
-}
-
-#pragma mark button Area
-- (void) addButtonArea: (KOButtonType)buttonType 
-	   commandSequence: (NSString *)cmd 
-				 atRow: (int)r 
-				column: (int)c 
-				length: (int)len {
-	NSRect rect = [self rectAtRow:r column:c height:1 width:len];
-	/*KOTrackingRectData * data = [KOTrackingRectData buttonRectData:buttonType
-												   commandSequence:cmd];
-	[_trackingRectDataList addObject:data];
-	NSTrackingRectTag rectTag = [self addTrackingRect: rect
-												owner: self
-											 userData: data
-										 assumeInside: YES];
-	[_buttonTrackingRects push_back: rectTag];*/
-	KOButtonAreaHotspotHandler *handler = [[KOButtonAreaHotspotHandler alloc] initWithView:self 
-																					  rect:rect 
-																				buttonType:buttonType 
-																		   commandSequence:cmd];
-	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
-														options: (NSTrackingMouseEnteredAndExited 
-																  | NSTrackingMouseMoved 
-																  | NSTrackingActiveInKeyWindow 
-																  | NSTrackingCursorUpdate ) 
-														  owner: handler
-													   userInfo: nil];
-	[self addTrackingArea:area];
-}
-
-- (void) updateButtonAreaForRow:(int)r {
-	YLTerminal *ds = [self frontMostTerminal];
-	//cell *currRow = [ds cellsOfRow: r];
-	if ([ds bbsState].state == BBSBrowseBoard) {
-		for (int x = 0; x < gColumn; ++x) {
-			if (x < gColumn - 16 && [[ds stringFromIndex:(x + r * gColumn) length:16] isEqualToString:@"发表文章[Ctrl-P]"]) {
-				[self addButtonArea:COMPOSE_POST commandSequence:fbComposePost atRow:r column:x length:16];
-				x += 15;
-				continue;
-			}
-			if (x < gColumn - 7 && [[ds stringFromIndex:(x + r * gColumn) length:7] isEqualToString:@"砍信[d]"]) {
-				[self addButtonArea:DELETE_POST commandSequence:fbDeletePost atRow:r column:x length:7];
-				x += 6;
-				continue;
-			}
-			if (x < gColumn - 11 && [[ds stringFromIndex:(x + r * gColumn) length:11] isEqualToString:@"备忘录[TAB]"]) {
-				[self addButtonArea:SHOW_NOTE commandSequence:fbShowNote atRow:r column:x length:11];
-				x += 10;
-				continue;
-			}
-			if (x < gColumn - 7 && [[ds stringFromIndex:(x + r * gColumn) length:7] isEqualToString:@"求助[h]"]) {
-				[self addButtonArea:SHOW_HELP commandSequence:fbShowHelp atRow:r column:x length:7];
-				x += 6;
-				continue;
-			}
-			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[一般模式]"]) {
-				[self addButtonArea:NORMAL_TO_DIGEST commandSequence:fbNormalToDigest atRow:r column:x length:10];
-				x += 9;
-				continue;
-			}
-			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[文摘模式]"]) {
-				[self addButtonArea:DIGEST_TO_THREAD commandSequence:fbDigestToThread atRow:r column:x length:10];
-				x += 9;
-				continue;
-			}
-			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[主题模式]"]) {
-				[self addButtonArea:THREAD_TO_MARK commandSequence:fbThreadToMark atRow:r column:x length:10];
-				x += 9;
-				continue;
-			}
-			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[精华模式]"]) {
-				[self addButtonArea:MARK_TO_ORIGIN commandSequence:fbMarkToOrigin atRow:r column:x length:10];
-				x += 9;
-				continue;
-			}
-			if (x < gColumn - 10 && [[ds stringFromIndex:(x + r * gColumn) length:10] isEqualToString:@"[原作模式]"]) {
-				[self addButtonArea:ORIGIN_TO_NORMAL commandSequence:fbOriginToNormal atRow:r column:x length:10];
-				x += 9;
-				continue;
-			}
-		}
-	}
 }
 
 #pragma mark -
@@ -2731,16 +2065,11 @@ BOOL isSpecialSymbol(unichar ch) {
 	return _effectView;
 }
 
-- (void) cursorUpdate: (NSEvent *)theEvent {
-	//NSLog(@"YLView cursorUpdate:");
-}
-
 - (void) resetCursorRects {
-	//NSLog(@"YLView resetCursorRects:");
-	// Refresh again, f**king cocoa call resetCursorRects after updatedBackedImage:
-	[self refreshAllHotSpots];
+	[_mouseBehaviorDelegate refreshAllHotSpots];
 	return;
 }
+
 @end
 
 @implementation NSObject(NSToolTipOwner)

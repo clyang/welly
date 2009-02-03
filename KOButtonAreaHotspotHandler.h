@@ -19,21 +19,24 @@
 #define fbMarkToOrigin @"\07""4\n"
 #define fbOriginToNormal @"e"
 
+NSString * const KOButtonTypeComposePost;
+NSString * const KOButtonTypeDeletePost;
+NSString * const KOButtonTypeShowNote;
+NSString * const KOButtonTypeShowHelp;
+NSString * const KOButtonTypeNormalToDigest;
+NSString * const KOButtonTypeDigestToThread;
+NSString * const KOButtonTypeThreadToMark;
+NSString * const KOButtonTypeMarkToOrigin;
+NSString * const KOButtonTypeOriginToNormal;
+
 typedef enum {
 	COMPOSE_POST, DELETE_POST, SHOW_NOTE, SHOW_HELP, NORMAL_TO_DIGEST, DIGEST_TO_THREAD, THREAD_TO_MARK, MARK_TO_ORIGIN, ORIGIN_TO_NORMAL
 } KOButtonType;
 
 @class YLView;
 @interface KOButtonAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
-	KOButtonType _buttonType;
 	NSString *_commandSequence;
 }
 
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect 
-		 buttonType: (KOButtonType) buttonType
-	commandSequence: (NSString *)cmd;
-
-- (NSString *)getButtonText;
-
+- (void) update;
 @end

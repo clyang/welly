@@ -52,6 +52,7 @@
 		5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */; };
 		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
 		5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1C0030E18F3870094C370 /* CoreData.framework */; };
+		5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */; };
 		5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */; };
@@ -187,6 +188,8 @@
 		5AB1BFEF0E18F3260094C370 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlContainer.h; sourceTree = "<group>"; };
 		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
 		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		5AC743FA0F34681100177CA1 /* KOMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseBehaviorManager.h; sourceTree = "<group>"; };
+		5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMouseBehaviorManager.m; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOClickEntryHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOClickEntryHotspotHandler.m; sourceTree = "<group>"; };
 		5AD4B7150F2D8F8200BF2F87 /* KOMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseHotspotHandler.h; sourceTree = "<group>"; };
@@ -519,6 +522,8 @@
 				5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */,
 				5A43E9C00F2EA8450002116B /* KOIPAddrHotspotHandler.h */,
 				5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */,
+				5AC743FA0F34681100177CA1 /* KOMouseBehaviorManager.h */,
+				5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */,
 			);
 			name = "Mouse Hotspot Handler";
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				5A43E8750F2E9B570002116B /* KOButtonAreaHotspotHandler.m in Sources */,
 				5A43E87F0F2E9D270002116B /* KOMouseHotspotHandler.m in Sources */,
 				5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */,
+				5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

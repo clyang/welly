@@ -12,17 +12,8 @@
 @class YLView;
 
 @interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
-	enum {
-		AREA_EXIT, AREA_PAGE_UP, AREA_PAGE_DOWN
-	} _type;
+	NSDictionary *_currentMovingAreaUserInfo;
 }
 
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect;
-+ (KOMovingAreaHotspotHandler *) exitAreaHandlerForView: (YLView *)view 
-												   rect: (NSRect)rect;
-+ (KOMovingAreaHotspotHandler *) pageUpAreaHandlerForView: (YLView *)view 
-												     rect: (NSRect)rect;
-+ (KOMovingAreaHotspotHandler *) pageDownAreaHandlerForView: (YLView *)view 
-													   rect: (NSRect)rect;
+- (void) update;
 @end

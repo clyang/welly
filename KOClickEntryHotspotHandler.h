@@ -17,11 +17,5 @@
 	NSString *_commandSequence;
 }
 
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect
-				row: (int)row;
-- (id) initWithView: (YLView *)view 
-			   rect: (NSRect)rect 
-	commandSequence: (NSString *)commandSequence;
-
+- (void) update;
 @end

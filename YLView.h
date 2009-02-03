@@ -8,15 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
-#import "KOMouseHotspotHandler.h"
 
 @class YLTerminal;
 @class YLConnection;
 @class YLMarkedTextView;
 @class KOEffectView;
 @class XIPortal;
-//@class XIIntegerArray;
-//@class KOTrackingRectData;
+@class KOMouseBehaviorManager;
 
 @interface YLView : NSTabView <NSTextInput> {	
 	CGFloat _fontWidth;
@@ -40,24 +38,10 @@
     
     XIPortal *_portal;
 	
-	//XIIntegerArray *_ipTrackingRects;
-	//XIIntegerArray *_clickEntryTrackingRects;
-	//NSTrackingRectTag _exitTrackingRect;
-	//NSTrackingRectTag _pgUpTrackingRect;
-	//NSTrackingRectTag _pgDownTrackingRect;
-	//XIIntegerArray *_buttonTrackingRects;
-	//NSMutableArray *_trackingRectDataList;
-	
-	//KOTrackingRectData *_clickEntryData;
-	//KOTrackingRectData *_buttonData;
-	//BOOL _isMouseInExitArea;
-	//BOOL _isMouseInPgUpArea;
-	//BOOL _isMouseInPgDownArea;
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
-	//NSCursor *_normalCursor;
 	
-	KOMouseHotspotHandler <KOMouseHotspotDelegate> *_activeMouseHandler;
+	KOMouseBehaviorManager *_mouseBehaviorDelegate;
 }
 
 - (void)configure;
@@ -97,6 +81,11 @@
 - (float) fontHeight;
 - (void) setFontHeight:(float)value;
 
+- (NSRect) rectAtRow: (int)r 
+			  column: (int)c 
+			  height: (int)h 
+			   width: (int)w;
+
 - (BOOL) isInPortalState;
 - (BOOL) isInUrlState;
 
@@ -113,27 +102,6 @@
 - (void)resetPortal;
 - (void)addPortalPicture: (NSString *) source 
 				 forSite: (NSString *) siteName;
-
-/* Hot Spots */
-- (void)refreshAllHotSpots;
-- (void)setActiveHandler: (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)handler;
-- (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)activeHandler;
-- (void)removeActiveHandler;
-
-/* ip seeker */
-- (void)updateIPStateForRow: (int) r;
-- (void)clearAllTrackingArea;
-- (void)addToolTip: (NSString *)tooltip
-			   row: (int)r
-			column: (int)c
-			length: (int)length;
-
-/* post entry */
-- (void)updateClickEntryForRow: (int) r;
-- (void)updateExitArea;
-- (void)updatePageUpArea;
-- (void)updatePageDownArea;
-- (void)updateButtonAreaForRow: (int) r;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
