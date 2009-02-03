@@ -193,11 +193,18 @@
 	
     // Create a new rectangle with a suitable size for the inner texts.
 	// Set it to an appropriate position of the whole view
-    NSRect finalRect = textRect;
+	
+	/* Comment out by K.O.ed: 2002.02.03
+	NSRect finalRect = textRect;
 	finalRect.origin.x = rect.origin.x;// - textRect.size.width / 2;
 	finalRect.origin.y = rect.origin.y;// - textRect.size.height;
 	finalRect.size.width += 8;
 	finalRect.size.height += 4;
+	*/
+	NSRect finalRect = rect;
+	if (finalRect.size.width < textRect.size.width + 8)
+		finalRect.size.width = textRect.size.width + 8;
+	finalRect.size.height = textRect.size.height + 4;
 	
 	// Move the origin point of the message layer, so the message can be 
 	// displayed in the center of the background rect
