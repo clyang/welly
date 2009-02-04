@@ -177,9 +177,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         return;
     YLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
     if (currentEncoding == YLBig5Encoding)
-        [[m itemWithTitle:titleBig5] setState:NSOnState];
+        [[m itemAtIndex:1] setState:NSOnState];
     if (currentEncoding == YLGBKEncoding)
-        [[m itemWithTitle:titleGBK] setState:NSOnState];
+        [[m itemAtIndex:0] setState:NSOnState];
 }
 
 - (void)updateBlinkTicker:(NSTimer *)timer {
@@ -408,9 +408,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction) setEncoding: (id) sender {
     //int index = [[_encodingMenuItem submenu] indexOfItem: sender];
 	YLEncoding encoding = YLGBKEncoding;
-	if ([[sender title] isEqual: titleGBK])
+	if ([[sender title] rangeOfString:@"GBK"].location != NSNotFound)
 		encoding = YLGBKEncoding;
-	if ([[sender title] isEqual: titleBig5])
+	if ([[sender title] rangeOfString:@"Big5"].location != NSNotFound)
 		encoding = YLBig5Encoding;
     if ([_telnetView frontMostTerminal]) {
         [[_telnetView frontMostTerminal] setEncoding: encoding];
