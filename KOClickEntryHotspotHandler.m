@@ -183,10 +183,16 @@
             [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[31].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-30]; // zju88
+        else if (currRow[11].byte != 0 && currRow[11].byte != ' ' && (currRow[10].byte == ' ' || currRow[10].byte == '*') && currRow[37].byte == ' ')
+            [self addClickEntryRectAtRow:r column:11 length:80-33]; // fudan
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[35].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-29]; // nankai
         else if (currRow[8].byte != 0 && currRow[8].byte != ' ' && currRow[7].byte == ' ' && currRow[33].byte == ' ')
             [self addClickEntryRectAtRow:r column:8 length:80-24]; // tku
+        else if (currRow[8].byte != 0 && currRow[8].byte != ' ' && (currRow[5].byte == ' ' || currRow[5].byte == '-') && currRow[25].byte == ' ')
+            [self addClickEntryRectAtRow:r column:8 length:80-26]; // wdbbs
+        else if (currRow[8].byte != 0 && currRow[8].byte != ' ' && currRow[7].byte == ' ' && currRow[20].byte == ' ')
+            [self addClickEntryRectAtRow:r column:8 length:80-36]; // cia
     } else if ([ds bbsState].state == BBSFriendList) {
 		// header/footer
 		if (r < 3 || r == _maxRow - 1)
