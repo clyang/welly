@@ -198,7 +198,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 	[_view removeAllToolTips];
 	[_view discardCursorRects];
 	
-	_activeMouseHandler = nil;
 	activeTrackingAreaUserInfo = nil;
 	for (NSTrackingArea *area in [_view trackingAreas]) {
 		[_view removeTrackingArea: area];
@@ -228,18 +227,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 	[_clickEntryHandler update];
 	[_buttonAreaHandler update];
 	[_movingAreaHandler update];
-}
-
-- (void)setActiveHandler: (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)handler {
-	_activeMouseHandler = handler;
-}
-
-- (KOMouseHotspotHandler <KOMouseHotspotDelegate> *)activeHandler {
-	return _activeMouseHandler;
-}
-
-- (void)removeActiveHandler {
-	_activeMouseHandler = nil;
 }
 
 #pragma mark button Area

@@ -27,8 +27,6 @@ NSString * const KOMouseCursorUserInfoName;
 	NSDictionary *activeTrackingAreaUserInfo;
 	NSDictionary *backgroundTrackingAreaUserInfo;
 	
-	KOMouseHotspotHandler <KOMouseHotspotDelegate> *_activeMouseHandler;
-	
 	KOIPAddrHotspotHandler *_ipAddrHandler;
 	KOClickEntryHotspotHandler *_clickEntryHandler;
 	KOButtonAreaHotspotHandler *_buttonAreaHandler;
