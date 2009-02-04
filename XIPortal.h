@@ -26,6 +26,9 @@
 	
 	// test...
 	NSView * _mainView;
+	
+	NSUInteger _clickedIndex;
+	CALayer *_clickedLayer;
 }
 
 + (CGColorRef)color:(int)name;
@@ -37,6 +40,9 @@
 - (YLSite *)selectedSite;
 - (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count;
 
-- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender;
+- (void)addPortalPicture: (NSString *) source 
+				 forSite: (NSString *) siteName;
 
+- (NSString *) portalImageFilePathForSite: (NSString *)siteName 
+							withExtention: (BOOL)withExtention;
 @end

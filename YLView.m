@@ -483,7 +483,8 @@ BOOL isSpecialSymbol(unichar ch) {
     p = [self convertPoint:p toView:nil];
     // portal
     if (_isInPortalMode) {
-        [_portal clickAtPoint:p count:[theEvent clickCount]];
+        //[_portal clickAtPoint:p count:[theEvent clickCount]];
+		[_portal mouseDown:theEvent];
         return;
     }
 
@@ -530,6 +531,12 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDragged: (NSEvent *) e {
+	// portal
+    if (_isInPortalMode) {
+        //[_portal clickAtPoint:p count:[theEvent clickCount]];
+		[_portal mouseDragged:e];
+        return;
+    }
     if (![self connected]) return;
     NSPoint p = [e locationInWindow];
     p = [self convertPoint: p toView: nil];
@@ -544,6 +551,13 @@ BOOL isSpecialSymbol(unichar ch) {
 
 
 - (void)mouseUp:(NSEvent *)theEvent {
+	// portal
+    if (_isInPortalMode) {
+        //[_portal clickAtPoint:p count:[theEvent clickCount]];
+		[_portal mouseUp:theEvent];
+        return;
+    }
+	
     if (![self connected]) return;
     // open url
 	NSPoint p = [theEvent locationInWindow];
@@ -1781,6 +1795,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//}
 	_isInPortalMode = NO;
 }
+
 // Reset a new portal
 - (void)resetPortal {
 	// Remove it at first...
@@ -1794,6 +1809,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self updatePortal];
 	}
 }
+
 // Set the portal in right state...
 - (void)checkPortal {
 	if(![[[self frontMostConnection] site] empty] && _isInPortalMode) {
@@ -1806,26 +1822,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)addPortalPicture: (NSString *) source 
 				 forSite: (NSString *) siteName {
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	
-	// Create the dir if necessary
-	// by gtCarrera
-	NSString *destDir = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
-						  stringByAppendingPathComponent:@"Application Support"]
-						 stringByAppendingPathComponent:@"Welly"];
-	[fileManager createDirectoryAtPath:destDir attributes:nil];
-	destDir = [destDir stringByAppendingPathComponent:@"Covers"];
-	[fileManager createDirectoryAtPath:destDir attributes:nil];
-	
-	NSString *destination = [destDir stringByAppendingPathComponent:siteName];
-	// Ends here
-	
-	// Remove all existing picture for this site
-	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil];
-	for (NSString *ext in allowedTypes) {
-		[fileManager removeItemAtPath:[destination stringByAppendingPathExtension:ext] error:NULL];
-	}
-	[fileManager copyItemAtPath:source toPath:[destination stringByAppendingPathExtension:[source pathExtension]] error:NULL];
+	[_portal addPortalPicture:source forSite:siteName];
 }
 
 #pragma mark -

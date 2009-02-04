@@ -15,7 +15,6 @@
 #import "YLController.h"
 
 @implementation XIPortal
-
 /* useful color values to have around */
 enum colors {
     C_WHITE,
@@ -371,47 +370,18 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [self moveSelection:dx];
 }
 
-- (void)select {
+- (YLSite *)siteAtIndex:(NSUInteger)index {
 	YLController *controller = [((YLApplication *)NSApp) controller];
-    [controller newConnectionWithSite:[controller objectInSitesAtIndex:_selectedImageIndex]];
+	return [controller objectInSitesAtIndex:index];	
 }
 
 - (YLSite *)selectedSite {
-	YLController *controller = [((YLApplication *)NSApp) controller];
-	return [controller objectInSitesAtIndex:_selectedImageIndex];
+	return [self siteAtIndex:_selectedImageIndex];
 }
 
-- (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
-    CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
-    NSAssert([rootLayer superlayer] == nil, @"root layer");
-    CGPoint p = [rootLayer convertPoint:*(CGPoint*)&aPoint toLayer:containerLayer];
-    CALayer *layer = [_bodyLayer hitTest:p];
-    id image = [layer delegate];
-    // something weird; see below
-    BOOL patch = NO;
-    // image container
-    if (image == nil) {
-        layer = [[layer sublayers] objectAtIndex:0];
-        image = [layer delegate];
-        patch = YES;
-    }
-    NSUInteger index = [_images indexOfObject:image];
-    if (index == NSNotFound)
-        return;
-    if (index == _selectedImageIndex) {
-        // double click to open
-        // if (count > 1)
-            [self select];
-    } else {
-        // move
-        int dx = index - _selectedImageIndex;
-        // ugly patch
-        if (patch) {
-            if (dx > 0) --dx;
-            else if (dx < 0) ++dx;
-        }
-        [self moveSelection:dx];
-    }
+- (void)select {
+	YLController *controller = [((YLApplication *)NSApp) controller];
+    [controller newConnectionWithSite:[self selectedSite]];
 }
 
 - (void)loadCovers {
@@ -522,38 +492,226 @@ static const CGFloat colorValues[C_COUNT][4] = {
     }
 }
 
+- (NSImage *)imageForDraggingAtIndex: (NSUInteger)index {
+	NSString *imageFilePath = [[_images objectAtIndex:index] path];
+	NSImage *dragImage = [[NSWorkspace sharedWorkspace] iconForFile:imageFilePath];
+	return dragImage;//[_images objectAtIndex:_selectedImageIndex];
+}
+
+#pragma mark -
+#pragma mark Event Handle
+- (CALayer *)layerAtPoint:(NSPoint)aPoint {
+	CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
+    NSAssert([rootLayer superlayer] == nil, @"root layer");
+    CGPoint p = [rootLayer convertPoint:*(CGPoint*)&aPoint toLayer:containerLayer];
+    CALayer *layer = [_bodyLayer hitTest:p];
+	return layer;
+}
+
+- (NSUInteger)indexAtPoint:(NSPoint)aPoint {
+    CALayer *layer = [self layerAtPoint:aPoint];
+    id image = [layer delegate];
+	
+    // something weird; see below
+    BOOL patch = NO;
+    // image container
+    if (image == nil) {
+        layer = [[layer sublayers] objectAtIndex:0];
+        image = [layer delegate];
+        patch = YES;
+    }
+    NSUInteger index = [_images indexOfObject:image];
+	
+	if (index == NSNotFound)
+		return NSNotFound;
+	
+	// ugly patch
+	if (patch) {
+		if (index > _selectedImageIndex) 
+			--index;
+		else if (index < _selectedImageIndex) 
+			++index;
+	}
+	return index;
+}
+
+- (void)clickAtPoint:(NSPoint)aPoint count:(NSUInteger)count {
+	/*
+    CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
+    NSAssert([rootLayer superlayer] == nil, @"root layer");
+    CGPoint p = [rootLayer convertPoint:*(CGPoint*)&aPoint toLayer:containerLayer];
+    CALayer *layer = [_bodyLayer hitTest:p];
+    id image = [layer delegate];
+    // something weird; see below
+    BOOL patch = NO;
+    // image container
+    if (image == nil) {
+        layer = [[layer sublayers] objectAtIndex:0];
+        image = [layer delegate];
+        patch = YES;
+    }
+    NSUInteger index = [_images indexOfObject:image];
+	 */
+	NSUInteger index = [self indexAtPoint:aPoint];
+    if (index == NSNotFound)
+        return;
+    if (index == _selectedImageIndex) {
+        // double click to open
+        // if (count > 1)
+		[self select];
+    } else {
+        // move
+        int dx = index - _selectedImageIndex;
+		/*
+        // ugly patch
+        if (patch) {
+            if (dx > 0) --dx;
+            else if (dx < 0) ++dx;
+        }
+		 */
+        [self moveSelection:dx];
+    }
+}
+
 - (void)mouseDown:(NSEvent *)theEvent {
-    [[self window] makeFirstResponder:self];
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
+
+	_clickedIndex = [self indexAtPoint:p];
+	_clickedLayer = [self layerAtPoint:p];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+	// Drag a cover
+	if (_clickedIndex == NSNotFound)
+		return;
+	YLSite *site = [[[((YLApplication *)NSApp) controller] sites] objectAtIndex:_clickedIndex];
+	if (site == NULL)
+		return;
+	NSString *siteName = [site name];
+	
+	// Do not allow to drag & drop default image
+	if ([self portalImageFilePathForSite:siteName withExtention:YES] == nil)
+		return;
+	
+    NSPoint p = [theEvent locationInWindow];
+    p = [self convertPoint:p toView:nil];
+	
+	NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+	
+	[pboard declareTypes:[NSArray arrayWithObject: NSStringPboardType] owner:nil];
+	[pboard setString:siteName forType:NSStringPboardType];
+	NSImage *dragImage = [self imageForDraggingAtIndex:_clickedIndex];
+	[self dragImage:dragImage
+				 at:p
+			 offset:NSZeroSize 
+			  event:theEvent 
+		 pasteboard:pboard 
+			 source:self
+		  slideBack:YES];
+	return;
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+	// Click on a cover
+	[[self window] makeFirstResponder:self];
 	
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
 	
 	[self clickAtPoint:p count:[theEvent clickCount]];
-	return;
+}
+
+#pragma mark -
+#pragma mark Manage Portal Images
+- (NSString *) portalImageFilePathForSite: (NSString *) siteName 
+							withExtention: (BOOL)withExtention {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	// Create the dir if necessary
+	// by gtCarrera
+	NSString *destDir = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] 
+						  stringByAppendingPathComponent:@"Application Support"] 
+						 stringByAppendingPathComponent:@"Welly"];
+	[fileManager createDirectoryAtPath:destDir attributes:nil];
+	destDir = [destDir stringByAppendingPathComponent:@"Covers"];
+	[fileManager createDirectoryAtPath:destDir attributes:nil];
+	
+	NSString *destination = [destDir stringByAppendingPathComponent:siteName];
+	if (!withExtention)
+		return destination;
+	else {
+		destination = [destination stringByAppendingString:@"."];
+		NSString *file = nil;
+		// Guess the extension
+		[destination completePathIntoString:&file caseSensitive:NO matchesIntoArray:nil filterTypes:nil];
+		return file;
+	}
+}
+
+- (void)removePortalPictureForSite: (NSString *) siteName {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	// Remove all existing picture for this site
+	NSArray *allowedTypes = supportedCoverExtensions;
+	for (NSString *ext in allowedTypes) {
+		[fileManager removeItemAtPath:[[self portalImageFilePathForSite:siteName withExtention:NO] stringByAppendingPathExtension:ext] error:NULL];
+	}
+	[(YLView *)_mainView resetPortal];
+}
+
+- (void)removePortalPictureAtIndex: (NSUInteger) index {
+	NSString *siteName = [[self siteAtIndex:index] name];
+	[self removePortalPictureForSite:siteName];
+}
+
+- (void)addPortalPicture: (NSString *) source 
+				 forSite: (NSString *) siteName {
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	[self removePortalPictureForSite:siteName];
+	[fileManager copyItemAtPath:source toPath:[[self portalImageFilePathForSite:siteName withExtention:NO] stringByAppendingPathExtension:[source pathExtension]] error:NULL];
+	[(YLView *)_mainView resetPortal];
 }
 
 #pragma mark -
 #pragma mark Drag & Drop
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {
-	// Need the delegate hooked up to accept the dragged item(s) into the model	
-	if ([[[sender draggingPasteboard] types] containsObject:NSFilenamesPboardType])
-	{
-		return NSDragOperationCopy;
-	}
+	// Check if site is available
+	if ([self selectedSite] == NULL)
+		return NSDragOperationNone;
 	
-	return NSDragOperationNone;
+	// Need the delegate hooked up to accept the dragged item(s) into the model	
+	// Check pboard type
+	NSPasteboard *pboard = [sender draggingPasteboard];
+	
+	if (![[pboard types] containsObject:NSFilenamesPboardType])
+		return NSDragOperationNone;
+	
+	// Check file number. We only support drag one image file in.
+	NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+	int numberOfFiles = [files count];
+	if (numberOfFiles != 1)
+		return NSDragOperationNone;
+	
+	// Check the file type
+	NSString *filename = [files objectAtIndex: 0];
+	NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
+	NSArray *suffixes = supportedCoverExtensions;
+	if ([filename hasSuffix: @"/"] || ![suffixes containsObject: [suffix lowercaseString]])
+		return NSDragOperationNone;;
+	
+	// Passed all check points
+	return NSDragOperationCopy;
 }
 
 // Work around a bug from 10.2 onwards
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
-{
+- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
 	return NSDragOperationEvery;
 }
 
 // Stop the NSTableView implementation getting in the way
-- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender
-{
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
 	return [self draggingEntered:sender];
 }
 
@@ -561,32 +719,58 @@ static const CGFloat colorValues[C_COUNT][4] = {
 // drag a picture file into the portal view to change the cover picture
 // 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
-	NSLog(@"portal: performDragOperation:");
-
 	YLSite *site = [self selectedSite];
 	if (site == NULL)
 		return NO;
 
 	NSPasteboard *pboard = [sender draggingPasteboard];
 
-	if ( [[pboard types] containsObject:NSFilenamesPboardType] ) {
-		NSLog(@"portal: begin to add file");
-		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-		int numberOfFiles = [files count];
-		// Perform operation using the list of files
-		for (int i = 0; i < numberOfFiles; ++i) {
-			NSString *filename = [files objectAtIndex: i];
-			NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
-			NSLog(@"portal: begin to add file: %@, suffix: %@", filename, suffix);
-			NSArray *suffixes = supportedCoverExtensions;
-			if ([filename hasSuffix: @"/"] || ![suffixes containsObject: [suffix lowercaseString]])
-				continue;
-			NSLog(@"portal: begin to add picture: %@", filename);
-			[(YLView *)_mainView addPortalPicture:filename forSite:[site name]];
-			[(YLView *)_mainView resetPortal];
-			break;
-		}
-    }
+	assert([[pboard types] containsObject:NSFilenamesPboardType]); 
+	
+	NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+	assert([files count] == 1);
+	
+	// Copy the image file into the cover folder
+	NSString *filename = [files objectAtIndex: 0];
+	NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
+	NSArray *suffixes = supportedCoverExtensions;
+	assert(![filename hasSuffix: @"/"] && [suffixes containsObject: [suffix lowercaseString]]);
+	[self addPortalPicture:filename forSite:[site name]];
+	
     return YES;
+}
+
+- (void) draggedImage: (NSImage *)image movedTo: (NSPoint)screenPoint {
+	// Convert screen point to the coordination in '_clickedLayer'
+	screenPoint = [[self window] convertScreenToBase:screenPoint];
+	screenPoint = [self convertPoint:screenPoint toView:nil];
+	CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
+    NSAssert([rootLayer superlayer] == nil, @"root layer");
+    CGPoint p = [containerLayer convertPoint:[rootLayer convertPoint:*(CGPoint*)&screenPoint toLayer:containerLayer] toLayer:_clickedLayer];
+	// Check the cursor position
+	if ([_clickedLayer containsPoint:p]) {
+		// If the cursor is inside the cover, we do not change the cursor
+		[[NSCursor arrowCursor] set];
+	} else {
+		// If the cursor get outside the cover, 
+		// we use the disappearing item cursor to represent the deleting operation
+		[[NSCursor disappearingItemCursor] set];
+	}
+}
+
+- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation {
+	// Convert screen point to the coordination in '_clickedLayer'
+	screenPoint = [[self window] convertScreenToBase:screenPoint];
+	screenPoint = [self convertPoint:screenPoint toView:nil];
+	CALayer *containerLayer = [_bodyLayer superlayer], *rootLayer = [containerLayer superlayer];
+	NSAssert([rootLayer superlayer] == nil, @"root layer");
+	CGPoint p = [containerLayer convertPoint:[rootLayer convertPoint:*(CGPoint*)&screenPoint toLayer:containerLayer] toLayer:_clickedLayer];
+	// Check the cursor position
+	if ([_clickedLayer containsPoint:p]) {
+		// The cursor is inside the cover, do nothing
+	} else {
+		// The cursor is outside the cover, we remove the cover
+		[self removePortalPictureAtIndex:_clickedIndex];
+	}
 }
 @end
