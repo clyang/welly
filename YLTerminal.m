@@ -128,7 +128,8 @@
 	[self setAllDirty];
 }
 
-# pragma mark -# pragma mark Dirty
+# pragma mark -
+# pragma mark Dirty
 
 - (void) setAllDirty {
 	int i, end = _column * _row;
@@ -355,7 +356,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     if (NO) {
         // just for align
     } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
-			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
+			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"选单", @"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
