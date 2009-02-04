@@ -885,6 +885,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_telnetView clearSelection];
     [_telnetView setNeedsDisplay:YES];
 
+	// Added by K.O.ed: 2009.02.04
+	[self checkPortal];
 //    if ([_telnetView layer])
 //        [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];

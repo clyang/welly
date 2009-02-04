@@ -36,13 +36,6 @@
     [super mouseDown:theEvent];
 }
 
-- (void)mouseUp:(NSEvent *) theEvent {
-	// Send the info to super
-	[super mouseUp:theEvent];
-	// Check the portal when mouse is up
-	[_currMainController checkPortal];
-}
-
 // Respond to key equivalent: 
 // Cmd+[0-9], Ctrl+Tab, Cmd+Shift+Left/Right (I don't know if we should keep this)
 // Added by K.O.ed, 2009.02.02
