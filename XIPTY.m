@@ -166,7 +166,7 @@
     struct timeval timeout;
     int chunkSize;
     
-    if (_fd < 0)
+    if (_fd < 0 || _connecting) // disable input when connecting
         return;
     
     [_delegate protocolWillSend:self data:data];
