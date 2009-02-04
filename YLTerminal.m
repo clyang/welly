@@ -359,7 +359,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"选单", @"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
-    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", nil])) {
+    } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", @"板板列表", nil])) {
         //NSLog(@"讨论区列表");
         _bbsState.state = BBSBoardList;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"好朋友列表", @"使用者列表", @"休閒聊天", nil])) {
