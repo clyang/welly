@@ -183,6 +183,8 @@
             [self addClickEntryRectAtRow:r column:10 length:80-23]; // lqqm
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[31].byte == ' ')
             [self addClickEntryRectAtRow:r column:10 length:80-30]; // zju88
+        else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && (currRow[9].byte == ' ' || currRow[9].byte == '-') && currRow[35].byte == ' ')
+            [self addClickEntryRectAtRow:r column:10 length:80-29]; // nankai
     } else if ([ds bbsState].state == BBSFriendList) {
 		// header/footer
 		if (r < 3 || r == _maxRow - 1)
