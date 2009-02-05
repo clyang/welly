@@ -1447,13 +1447,23 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 #pragma mark -
 #pragma mark For restore settings
 - (IBAction)restoreSettings:(id)sender {
-	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to all you font settings?", @"Sheet Title")
+	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to restore all you font settings?", @"Sheet Title")
 									 defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
 								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
 									   otherButton:nil
 						 informativeTextWithFormat:NSLocalizedString(@"If you proceed, you will lost all you current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?", @"Sheet Message")];
 	if ([alert runModal] != NSAlertDefaultReturn)
 		return;
+	if([_telnetView isInPortalState]) {
+		return;
+	}
+	// Set the font settings
+	[[YLLGlobalConfig sharedInstance] setCellWidth: 12];
+	[[YLLGlobalConfig sharedInstance] setCellHeight: 24];
+	[[YLLGlobalConfig sharedInstance] setChineseFontName: @"STHeiti"];
+	[[YLLGlobalConfig sharedInstance] setEnglishFontName: @"Monaco"];
+	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 22];
+	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 18];
 }
 
 #pragma mark -
