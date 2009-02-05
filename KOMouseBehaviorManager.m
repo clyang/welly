@@ -12,18 +12,12 @@
 #import "KOClickEntryHotspotHandler.h"
 #import "KOButtonAreaHotspotHandler.h"
 
-#import "YLLGlobalConfig.h"
-#import "encoding.h"
 #import "YLView.h"
 #import "YLTerminal.h"
 #import "YLSite.h"
-#import "IPSeeker.h"
 #import "KOEffectView.h"
 
-static YLLGlobalConfig *gConfig;
-static int gRow;
-static int gColumn;
-static NSCursor *gMoveCursor;
+static NSCursor *gMoveCursor = nil;
 
 NSString * const KOMouseHandlerUserInfoName = @"Handler";
 NSString * const KOMouseRowUserInfoName = @"Row";
@@ -47,7 +41,7 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 
 - (id) init {
 	[super init];
-	if (!gConfig)
+	if (!gMoveCursor)
 		[KOMouseBehaviorManager initialize];
 	return self;
 }
@@ -90,9 +84,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
     [cursorImage unlockFocus];
     gMoveCursor = [[NSCursor alloc] initWithImage: cursorImage hotSpot: NSMakePoint(5.5, 9.5)];
     [cursorImage release];
-    if (!gConfig) gConfig = [YLLGlobalConfig sharedInstance];
-	gColumn = [gConfig column];
-	gRow = [gConfig row];
 }
 
 #pragma mark -
@@ -122,7 +113,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 - (void) mouseMoved: (NSEvent *)theEvent {
 	if (activeTrackingAreaUserInfo)
 	{
-		//NSLog(@"mouseMoved: ");
 		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		[handler mouseMoved: theEvent];
 	} else if (backgroundTrackingAreaUserInfo) {
@@ -132,9 +122,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 }
 
 - (void) mouseUp: (NSEvent *)theEvent {
-	/*if (_activeMouseHandler) {
-		[_activeMouseHandler mouseUp:theEvent];
-	}*/
 	if (activeTrackingAreaUserInfo) {
 		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		[handler mouseUp: theEvent];
@@ -142,10 +129,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 		KOMouseHotspotHandler *handler = [backgroundTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		[handler mouseUp: theEvent];		
 	}
-}
-
-- (void) cursorUpdate: (NSEvent *)theEvent {
-	NSLog(@"KOMouseBehaviorManager cursorUpdate:");
 }
 
 #pragma mark -
@@ -157,11 +140,10 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 
 - (void) addTrackingAreaWithRect: (NSRect)rect 
 						userInfo: (NSDictionary *)userInfo {
-	//NSLog(@"KOMouseBehaviorManager addTrackingAreaWithRect(No Cursor):");
 	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect: rect 
 														options: (  NSTrackingMouseEnteredAndExited
 																  | NSTrackingMouseMoved
-																  | NSTrackingActiveWhenFirstResponder) 
+																  | NSTrackingActiveInActiveApp) 
 														  owner: self
 													   userInfo: userInfo];
 	[_view addTrackingArea:area];
@@ -182,7 +164,6 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 - (void) addTrackingAreaWithRect: (NSRect)rect 
 						userInfo: (NSDictionary *)userInfo 
 						  cursor: (NSCursor *)cursor {
-	NSLog(@"KOMouseBehaviorManager addTrackingAreaWithRect(Cursor):");
 	[_view addCursorRect:rect cursor:cursor];
 	[self addTrackingAreaWithRect:rect userInfo:userInfo];
 }
@@ -196,7 +177,8 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 	[[_view getEffectView] clear];
 	// remove all tool tips, cursor rects, and tracking areas
 	[_view removeAllToolTips];
-	[_view discardCursorRects];
+	//[_view discardCursorRects];
+	[[_view window] invalidateCursorRectsForView:_view];
 	
 	activeTrackingAreaUserInfo = nil;
 	for (NSTrackingArea *area in [_view trackingAreas]) {
