@@ -400,81 +400,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Event Handling
-/*
-- (void)mouseEntered:(NSEvent *)theEvent {
-	NSRect rect = [[theEvent trackingArea] rect];
-	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
-	switch (rectData->type) {
-		case IP_ADDR:
-			[_effectView drawIPAddrBox: rect];
-			break;
-		case CLICK_ENTRY:
-		case MAIN_MENU_CLICK_ENTRY:
-			// FIXME: remove the following line if preference is done
-			if([[[self frontMostConnection] site] enableMouse]) {
-				//[[NSCursor pointingHandCursor] push];
-				[_effectView drawClickEntry: rect];
-				_clickEntryData = rectData;
-			}
-			break;
-		case EXIT_AREA:
-			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
-				_isMouseInExitArea = YES;
-			}
-			break;
-		case PG_UP_AREA:
-			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
-				_isMouseInPgUpArea = YES;
-			}
-			break;
-		case PG_DOWN_AREA:
-			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
-				_isMouseInPgDownArea = YES;
-			}
-			break;
-		case BUTTON:
-			if([[self frontMostConnection] connected] && [[[self frontMostConnection] site] enableMouse]) {
-				[_effectView drawButton:rect withMessage:[[rectData getButtonText] retain]];
-				//[[NSCursor pointingHandCursor] push];
-				_buttonData = rectData;
-			}
-			break;
-		default:
-			break;
-	}
-}
-
-- (void)mouseExited:(NSEvent *)theEvent {
-	KOTrackingRectData *rectData = (KOTrackingRectData *)[theEvent userData];
-	switch (rectData->type) {
-		case IP_ADDR:
-			[_effectView clearIPAddrBox];
-			break;
-		case CLICK_ENTRY:
-		case MAIN_MENU_CLICK_ENTRY:
-			[_effectView clearClickEntry];
-			//[NSCursor pop];
-			_clickEntryData = nil;
-			break;
-		case EXIT_AREA:
-			_isMouseInExitArea = NO;
-			break;
-		case PG_UP_AREA:
-			_isMouseInPgUpArea = NO;
-			break;
-		case PG_DOWN_AREA:
-			_isMouseInPgDownArea = NO;
-			break;
-		case BUTTON:
-			[_effectView clearButton];
-			//[NSCursor pop];
-			_buttonData = nil;
-			break;
-		default:
-			break;
-	}
-}
-*/
 - (void)mouseDown:(NSEvent *)theEvent {
 	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
@@ -548,7 +473,6 @@ BOOL isSpecialSymbol(unichar ch) {
         [self setNeedsDisplay: YES];
     // TODO: Calculate the precise region to redraw
 }
-
 
 - (void)mouseUp:(NSEvent *)theEvent {
 	// portal
@@ -686,77 +610,10 @@ BOOL isSpecialSymbol(unichar ch) {
 			return;
 		
 		if(abs(_selectionLength) > 1) return;
-		/*
-		if (_activeMouseHandler != nil) {
-			[_activeMouseHandler mouseUp: theEvent];
-			return;
-		}*/
+
 		[_mouseBehaviorDelegate mouseUp:theEvent];
-		// Moved. Handled by mouse handlers.
-		/*
-		if (_clickEntryData != nil) {
-			if (_clickEntryData->commandSequence != nil) {
-				//NSLog(_clickEntryData->commandSequence);
-				[[self frontMostConnection] sendText: _clickEntryData->commandSequence];
-				return;
-			}
-			
-			unsigned char cmd[gRow * gColumn + 1];
-			unsigned int cmdLength = 0;
-			id ds = [self frontMostTerminal];
-			int moveToRow = _clickEntryData->row;
-			int cursorRow = [ds cursorRow];
-			
-			//NSLog(@"moveToRow: %d, cursorRow: %d, [ds cursorRow]: %d", moveToRow, cursorRow, [ds cursorRow]);
-			//NSLog(@"title = %@", _clickEntryData->postTitle);
-			
-			if (moveToRow > cursorRow) {
-				//cmd[cmdLength++] = 0x01;
-				for (int i = cursorRow; i < moveToRow; i++) {
-					cmd[cmdLength++] = 0x1B;
-					cmd[cmdLength++] = 0x4F;
-					cmd[cmdLength++] = 0x42;
-				} 
-			} else if (moveToRow < cursorRow) {
-				//cmd[cmdLength++] = 0x01;
-				for (int i = cursorRow; i > moveToRow; i--) {
-					cmd[cmdLength++] = 0x1B;
-					cmd[cmdLength++] = 0x4F;
-					cmd[cmdLength++] = 0x41;
-				} 
-			}
-			
-			cmd[cmdLength++] = 0x0D;
-			
-			[[self frontMostConnection] sendBytes: cmd length: cmdLength];
-			return;
-		}
-		 */
-		/*
-		if (_buttonData) {
-			[[self frontMostConnection] sendText: _buttonData->commandSequence];
-			return;
-		}
-		 */
-		// Judge the selection size, if larger than 0, return directly
-		/*
-		if (_isMouseInExitArea
-			&& [[self frontMostTerminal] bbsState].state != BBSWaitingEnter
-			&& [[self frontMostTerminal] bbsState].state != BBSComposePost) {
-			[[self frontMostConnection] sendText: termKeyLeft];
-			return;
-		}
-		
-		if (_isMouseInPgUpArea ) {
-			[[self frontMostConnection] sendText: termKeyPageUp];
-			return;
-		}
-		
-		if (_isMouseInPgDownArea ) {
-			[[self frontMostConnection] sendText: termKeyPageDown];
-			return;
-		}
-		*/
+
+		// TODO: move other code into Mouse Behavior Delegate
 		if ([[self frontMostTerminal] bbsState].state == BBSWaitingEnter) {
 			[[self frontMostConnection] sendText: termKeyEnter];
 		}
@@ -1510,6 +1367,11 @@ BOOL isSpecialSymbol(unichar ch) {
 - (BOOL)canBecomeKeyView {
     return YES;
 }
+
+- (BOOL)becomeFirstResponder {
+	NSLog(@"becomeFirstResponder");
+	return YES;
+}
 /* commented out by boost @ 9#: why not using the delegate...
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
     [[tabViewItem identifier] close];
@@ -2063,6 +1925,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) resetCursorRects {
+	[super resetCursorRects];
 	[_mouseBehaviorDelegate refreshAllHotSpots];
 	return;
 }

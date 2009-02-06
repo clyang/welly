@@ -174,13 +174,17 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
  * clear all tracking rects
  */
 - (void)clearAllTrackingArea {
+	// Clear effect
 	[[_view getEffectView] clear];
+	// Restore cursor
+	[[NSCursor arrowCursor] set];
+	
 	// remove all tool tips, cursor rects, and tracking areas
 	[_view removeAllToolTips];
-	//[_view discardCursorRects];
-	[[_view window] invalidateCursorRectsForView:_view];
+	[_view discardCursorRects];
 	
 	activeTrackingAreaUserInfo = nil;
+	backgroundTrackingAreaUserInfo = nil;
 	for (NSTrackingArea *area in [_view trackingAreas]) {
 		[_view removeTrackingArea: area];
 		if ([area owner] != self)

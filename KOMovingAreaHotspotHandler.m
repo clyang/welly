@@ -27,14 +27,14 @@
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
+	if ([NSCursor currentCursor] == [_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName])
+		[[NSCursor arrowCursor] set];
 	_manager.backgroundTrackingAreaUserInfo = nil;
 }
 
 - (void) mouseMoved: (NSEvent *)theEvent {
-	if([[_view frontMostConnection] connected]) {
-		if ([NSCursor currentCursor] == [NSCursor arrowCursor])
-			[[_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName] set];
-	}
+	if ([NSCursor currentCursor] == [NSCursor arrowCursor])
+		[[_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName] set];
 }
 
 #pragma mark -

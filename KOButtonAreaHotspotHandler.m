@@ -49,6 +49,9 @@ NSString * const KOButtonTypeOriginToNormal = @"Origin To Normal";
 	//NSLog(@"mouseExited: ");
 	[[_view getEffectView] clearButton];
 	_manager.activeTrackingAreaUserInfo = nil;
+	// FIXME: Temporally solve the problem in full screen mode.
+	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])
+		[[NSCursor arrowCursor] set];
 }
 
 - (void) mouseMoved: (NSEvent *)theEvent {
