@@ -115,5 +115,5 @@
 "WhiteHilite" = "白色（高亮）";
 
 /* Restore font */
-"Are you sure you want to restore all you font settings?" = "您真的要恢复所有字体设置么？";
-"If you proceed, you will lost all you current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?" = "若继续，Welly的所有当前字体设置均将被丢弃，是否继续？";
+"Are you sure you want to restore all your font settings?" = "您真的要恢复所有字体设置么？";
+"If you proceed, you will lost all your current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?" = "若继续，Welly的所有当前字体设置均将被丢弃，是否继续？";
