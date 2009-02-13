@@ -40,14 +40,14 @@ NSString * const KOButtonTypeOriginToNormal = @"Origin To Normal";
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonText = [userInfo objectForKey:KOMouseButtonTextUserInfoName];
 	if([[_view frontMostConnection] connected]) {
-		[[_view getEffectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
+		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
 		_manager.activeTrackingAreaUserInfo = userInfo;
 	}
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
 	//NSLog(@"mouseExited: ");
-	[[_view getEffectView] clearButton];
+	[[_view effectView] clearButton];
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])

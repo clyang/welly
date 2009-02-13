@@ -22,13 +22,13 @@
 - (void) mouseEntered: (NSEvent *)theEvent {
 	//NSLog(@"KOIPAddrHotspotHandler mouseEntered: ");
 	if([[_view frontMostConnection] connected]) {
-		[[_view getEffectView] drawIPAddrBox:[[theEvent trackingArea] rect]];
+		[[_view effectView] drawIPAddrBox:[[theEvent trackingArea] rect]];
 	}
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
 	//NSLog(@"KOIPAddrHotspotHandler mouseExited: ");
-	[[_view getEffectView] clearIPAddrBox];
+	[[_view effectView] clearIPAddrBox];
 }
 
 #pragma mark -

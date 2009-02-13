@@ -175,7 +175,7 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
  */
 - (void)clearAllTrackingArea {
 	// Clear effect
-	[[_view getEffectView] clear];
+	[[_view effectView] clear];
 	// Restore cursor
 	[[NSCursor arrowCursor] set];
 	

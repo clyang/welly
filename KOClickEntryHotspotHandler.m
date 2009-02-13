@@ -58,13 +58,13 @@
 
 - (void) mouseEntered: (NSEvent *)theEvent {
 	//NSLog(@"mouseEntered: ");
-	[[_view getEffectView] drawClickEntry: [[theEvent trackingArea] rect]];
+	[[_view effectView] drawClickEntry: [[theEvent trackingArea] rect]];
 	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
 	//NSLog(@"mouseExited: ");
-	[[_view getEffectView] clearClickEntry];
+	[[_view effectView] clearClickEntry];
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])

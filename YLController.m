@@ -545,7 +545,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
 	[LLPopUpMessage showPopUpMessage:currSiteName 
 							duration:1.2
-						  effectView:((KOEffectView*)[_telnetView getEffectView])];
+						  effectView:((KOEffectView*)[_telnetView effectView])];
 }
 
 - (IBAction)selectNextTab:(id)sender {
@@ -1438,7 +1438,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 	if([_fullScreenController getProcessor] == nil) {
 		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initByView:_telnetView 
 															   myTabView:_tab 
-															  effectView:((KOEffectView*)[_telnetView getEffectView])];
+															  effectView:((KOEffectView*)[_telnetView effectView])];
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];

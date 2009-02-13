@@ -112,6 +112,6 @@
 - (void)performPasteColor;
 
 // Test for effect view
-- (KOEffectView *) getEffectView ;
+- (KOEffectView *) effectView ;
 
 @end

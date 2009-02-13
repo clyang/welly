@@ -1920,7 +1920,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Test for effect views
-- (KOEffectView *) getEffectView {
+- (KOEffectView *) effectView {
 	return _effectView;
 }
 
