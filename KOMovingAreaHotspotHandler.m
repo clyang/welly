@@ -121,6 +121,9 @@
 }
 
 - (void) update {
+	// For the mouse preference
+	if (![_view mouseEnabled]) 
+		return;
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];

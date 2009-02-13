@@ -34,9 +34,7 @@ typedef enum {
 } KOButtonType;
 
 @class YLView;
-@interface KOButtonAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
+@interface KOButtonAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
 	NSString *_commandSequence;
 }
-
-- (void) update;
 @end

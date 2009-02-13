@@ -155,6 +155,9 @@ NSString * const KOButtonTypeOriginToNormal = @"Origin To Normal";
 }
 
 - (void) update {
+	// For the mouse preference
+	if (![_view mouseEnabled]) 
+		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow: r];
 	}

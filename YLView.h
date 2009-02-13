@@ -89,6 +89,11 @@
 - (BOOL) isInPortalState;
 - (BOOL) isInUrlState;
 
+- (KOEffectView *) effectView ;
+
+- (void)sendText: (NSString *)text;
+- (BOOL)mouseEnabled;
+
 - (NSString *) selectedPlainString ;
 - (BOOL) hasBlinkCell ;
 
@@ -111,7 +116,5 @@
 - (void)performPasteWrap;
 - (void)performPasteColor;
 
-// Test for effect view
-- (KOEffectView *) effectView ;
-
+- (int) convertIndexFromPoint: (NSPoint)aPoint;
 @end

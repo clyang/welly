@@ -8,10 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
-#import "KOIPAddrHotspotHandler.h"
-#import "KOClickEntryHotspotHandler.h"
-#import "KOButtonAreaHotspotHandler.h"
-#import "KOMovingAreaHotspotHandler.h"
 
 NSString * const KOMouseHandlerUserInfoName;
 NSString * const KOMouseRowUserInfoName;
@@ -27,10 +23,7 @@ NSString * const KOMouseCursorUserInfoName;
 	NSDictionary *activeTrackingAreaUserInfo;
 	NSDictionary *backgroundTrackingAreaUserInfo;
 	
-	KOIPAddrHotspotHandler *_ipAddrHandler;
-	KOClickEntryHotspotHandler *_clickEntryHandler;
-	KOButtonAreaHotspotHandler *_buttonAreaHandler;
-	KOMovingAreaHotspotHandler *_movingAreaHandler;
+	NSArray *_handlers;
 }
 @property (readwrite, assign) NSDictionary *activeTrackingAreaUserInfo;
 @property (readwrite, assign) NSDictionary *backgroundTrackingAreaUserInfo;
@@ -38,7 +31,7 @@ NSString * const KOMouseCursorUserInfoName;
 - (id) initWithView: (YLView *)view;
 - (YLView *) view;
 
-- (void) refreshAllHotSpots;
+- (void) update;
 - (void) addTrackingAreaWithRect: (NSRect) rect 
 						userInfo: (NSDictionary *)userInfo;
 - (void) addTrackingAreaWithRect: (NSRect) rect 

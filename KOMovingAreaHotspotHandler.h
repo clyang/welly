@@ -11,9 +11,7 @@
 
 @class YLView;
 
-@interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseHotspotDelegate> {
-	NSDictionary *_currentMovingAreaUserInfo;
-}
+@interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
 
-- (void) update;
+}
 @end

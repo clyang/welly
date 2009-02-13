@@ -8,8 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol KOMouseHotspotDelegate
+@protocol KOMouseUpHandler
 - (void) mouseUp: (NSEvent *)theEvent;
+@end
+
+@protocol KOUpdatable
+- (void) update;
 @end
 
 @class YLView, KOMouseBehaviorManager;

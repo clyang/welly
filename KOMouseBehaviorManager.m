@@ -11,13 +11,12 @@
 #import "KOMovingAreaHotspotHandler.h"
 #import "KOClickEntryHotspotHandler.h"
 #import "KOButtonAreaHotspotHandler.h"
+#import "KOEditingCursorMoveHotspotHandler.h"
 
 #import "YLView.h"
 #import "YLTerminal.h"
 #import "YLSite.h"
 #import "KOEffectView.h"
-
-static NSCursor *gMoveCursor = nil;
 
 NSString * const KOMouseHandlerUserInfoName = @"Handler";
 NSString * const KOMouseRowUserInfoName = @"Row";
@@ -32,58 +31,27 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 - (id) initWithView: (YLView *)view {
 	[self init];
 	_view = view;
-	_ipAddrHandler = [[KOIPAddrHotspotHandler alloc] initWithManager:self];
-	_clickEntryHandler = [[KOClickEntryHotspotHandler alloc] initWithManager:self];
-	_buttonAreaHandler = [[KOButtonAreaHotspotHandler alloc] initWithManager:self];
-	_movingAreaHandler = [[KOMovingAreaHotspotHandler alloc] initWithManager:self];
+	
+	_handlers = [[NSArray alloc] initWithObjects:
+				 [[KOIPAddrHotspotHandler alloc] initWithManager:self],
+				 [[KOClickEntryHotspotHandler alloc] initWithManager:self],
+				 [[KOButtonAreaHotspotHandler alloc] initWithManager:self],
+				 [[KOMovingAreaHotspotHandler alloc] initWithManager:self],
+				 [[KOEditingCursorMoveHotspotHandler alloc] initWithManager:self],
+				 nil];
 	return self;
 }
 
 - (id) init {
 	[super init];
-	if (!gMoveCursor)
-		[KOMouseBehaviorManager initialize];
 	return self;
 }
 
 - (void) dealloc {
-	[_ipAddrHandler dealloc];
-	[_clickEntryHandler dealloc];
-	[_buttonAreaHandler dealloc];
-	[_movingAreaHandler dealloc];
+	for (NSObject *obj in _handlers)
+		[obj dealloc];
+	[_handlers dealloc];
 	[super dealloc];
-}
-
-+ (void) initialize {
-    NSImage *cursorImage = [[NSImage alloc] initWithSize: NSMakeSize(11.0, 20.0)];
-    [cursorImage lockFocus];
-    [[NSColor clearColor] set];
-    NSRectFill(NSMakeRect(0, 0, 11, 20));
-    [[NSColor whiteColor] set];
-    NSBezierPath *path = [NSBezierPath bezierPath];
-    [path setLineCapStyle: NSRoundLineCapStyle];
-    [path moveToPoint: NSMakePoint(1.5, 1.5)];
-    [path lineToPoint: NSMakePoint(2.5, 1.5)];
-    [path lineToPoint: NSMakePoint(5.5, 4.5)];
-    [path lineToPoint: NSMakePoint(8.5, 1.5)];
-    [path lineToPoint: NSMakePoint(9.5, 1.5)];
-    [path moveToPoint: NSMakePoint(5.5, 4.5)];
-    [path lineToPoint: NSMakePoint(5.5, 15.5)];
-    [path lineToPoint: NSMakePoint(2.5, 18.5)];
-    [path lineToPoint: NSMakePoint(1.5, 18.5)];
-    [path moveToPoint: NSMakePoint(5.5, 15.5)];
-    [path lineToPoint: NSMakePoint(8.5, 18.5)];
-    [path lineToPoint: NSMakePoint(9.5, 18.5)];
-    [path moveToPoint: NSMakePoint(3.5, 9.5)];
-    [path lineToPoint: NSMakePoint(7.5, 9.5)];
-    [path setLineWidth: 3];
-    [path stroke];
-    [path setLineWidth: 1];
-    [[NSColor blackColor] set];
-    [path stroke];
-    [cursorImage unlockFocus];
-    gMoveCursor = [[NSCursor alloc] initWithImage: cursorImage hotSpot: NSMakePoint(5.5, 9.5)];
-    [cursorImage release];
 }
 
 #pragma mark -
@@ -124,10 +92,16 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 - (void) mouseUp: (NSEvent *)theEvent {
 	if (activeTrackingAreaUserInfo) {
 		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
-		[handler mouseUp: theEvent];
+		if ([handler conformsToProtocol:@protocol(KOMouseUpHandler)])
+			[handler mouseUp: theEvent];
 	} else if (backgroundTrackingAreaUserInfo) {
 		KOMouseHotspotHandler *handler = [backgroundTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
-		[handler mouseUp: theEvent];		
+		if ([handler conformsToProtocol:@protocol(KOMouseUpHandler)])
+			[handler mouseUp: theEvent];
+	}
+	
+	if ([[_view frontMostTerminal] bbsState].state == BBSWaitingEnter) {
+		[_view sendText: termKeyEnter];
 	}
 }
 
@@ -192,27 +166,17 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 	}
 }
 
-- (void)refreshAllHotSpots {
+- (void)update {
 	// Clear it...
 	[self clearAllTrackingArea];
-	// For default hot spots
+	
 	if(![[_view frontMostConnection] connected])
 		return;
 	
-	// Update IP address, this should be carried out always.
-	[_ipAddrHandler update];
-	// Set the cursor for writting texts
-	// I don't know why the cursor cannot change the first time
-	
-	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost) 
-		[_view addCursorRect:[_view frame] cursor:gMoveCursor];
-	
-	// For the mouse preference
-	if (![[[_view frontMostConnection] site] enableMouse]) 
-		return;
-	[_clickEntryHandler update];
-	[_buttonAreaHandler update];
-	[_movingAreaHandler update];
+	for (NSObject *obj in _handlers) {
+		if ([obj conformsToProtocol:@protocol(KOUpdatable)])
+			[(NSObject <KOUpdatable> *)obj update];
+	}
 }
 
 #pragma mark button Area

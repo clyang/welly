@@ -277,7 +277,9 @@
 }
 
 - (void) update {
-	//NSLog(@"KOClickEntryHotspotHandler update:");
+	// For the mouse preference
+	if (![_view mouseEnabled]) 
+		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateClickEntryForRow:r];
 	}
