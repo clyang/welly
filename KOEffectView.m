@@ -325,9 +325,16 @@ const CGFloat menuMarginWidth = 20.0;
 }
 
 - (void)removeAllMenuItems {
-	NSArray *layers = [menuLayer sublayers];
+	//NSArray *layers = [menuLayer sublayers];
+	// Notice, we must use this style of loop, otherwise it would crash
+	/*
 	for (int i = 0; i < [layers count]; ++i) {
-		CALayer *menuItemLayer = [layers objectAtIndex: i];
+		CATextLayer *menuItemLayer = [layers objectAtIndex: i];
+		[menuItemLayer removeFromSuperlayer];
+	}*/
+	while ([[menuLayer sublayers] count] > 0) {
+		CATextLayer *menuItemLayer = [[menuLayer sublayers] lastObject];
+		[menuItemLayer.string release];
 		[menuItemLayer removeFromSuperlayer];
 	}
 	
@@ -351,6 +358,7 @@ const CGFloat menuMarginWidth = 20.0;
 		NSString *name = [item name];
 		
 		CATextLayer *menuItemLayer = [CATextLayer layer];
+		[menuItemLayer autorelease];
 		menuItemLayer.string = name;
 		
 		// Modify its styles
@@ -385,24 +393,28 @@ const CGFloat menuMarginWidth = 20.0;
 																  attribute: kCAConstraintMidX]];
 		
 		// insert this menu item
-		[menuLayer addSublayer: menuItemLayer];
+		[menuLayer addSublayer: [menuItemLayer retain]];
     }
-	CGRect rect = CGRectZero;
-	rect.size.width = width + menuMarginWidth * 2;
-	rect.size.height = height + menuMarginHeight;
-	rect.origin = NSPointToCGPoint(pt);
-	rect.origin.y -= rect.size.height;
+	CGFloat totalHeight = height + menuMarginHeight;
+	CGFloat totalWidth = width + menuMarginWidth * 2;
+	menuLayer.cornerRadius = totalHeight / 5;
 	
-	[menuLayer setFrame: rect];
-	menuLayer.cornerRadius = rect.size.height / 5;
+	CGRect rect = CGRectZero;
+	rect.size.width = totalWidth;
+	rect.size.height = totalHeight;
+	rect.origin = NSPointToCGPoint(pt);
+	rect.origin.y -= totalHeight;
+	
+	menuLayer.frame = rect;
+	menuLayer.opacity = 1.0f;
 	
     [menuLayer layoutIfNeeded];
-	
+
 	[self changeSelectedIndex: 0];
 }
 
 - (void)hideMenu {
-	// TODO: add code to hide the menu
+	menuLayer.opacity = 0;
 }
 
 #pragma mark Pop-Up Message
