@@ -637,15 +637,6 @@ BOOL isSpecialSymbol(unichar ch) {
 		[super flagsChanged:event];
 		return;
 	}
-	/*
-	// for old things...
-	NSCursor *viewCursor = nil;
-	if (currentFlags & NSCommandKeyMask) {
-		viewCursor = gMoveCursor;
-	} else {
-		viewCursor = [NSCursor arrowCursor];
-	}
-	[viewCursor set];
 	 */
 	[super flagsChanged: event];
 }

@@ -9,29 +9,25 @@
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
 
-#define fbComposePost @"\020"
-#define fbDeletePost @"dy\n"
-#define fbShowNote @"\t"
-#define fbShowHelp @"h"
-#define fbNormalToDigest @"\07""1\n"
-#define fbDigestToThread @"\07""2\n"
-#define fbThreadToMark @"\07""3\n"
-#define fbMarkToOrigin @"\07""4\n"
-#define fbOriginToNormal @"e"
+NSString * const KOButtonNameComposePost;
+NSString * const KOButtonNameDeletePost;
+NSString * const KOButtonNameShowNote;
+NSString * const KOButtonNameShowHelp;
+NSString * const KOButtonNameNormalToDigest;
+NSString * const KOButtonNameDigestToThread;
+NSString * const KOButtonNameThreadToMark;
+NSString * const KOButtonNameMarkToOrigin;
+NSString * const KOButtonNameOriginToNormal;
+NSString * const KOButtonNameSwitchDisplayAllBoards;
+NSString * const KOButtonNameSwitchSortBoards;
+NSString * const KOButtonNameSwitchBoardsNumber;
 
-NSString * const KOButtonTypeComposePost;
-NSString * const KOButtonTypeDeletePost;
-NSString * const KOButtonTypeShowNote;
-NSString * const KOButtonTypeShowHelp;
-NSString * const KOButtonTypeNormalToDigest;
-NSString * const KOButtonTypeDigestToThread;
-NSString * const KOButtonTypeThreadToMark;
-NSString * const KOButtonTypeMarkToOrigin;
-NSString * const KOButtonTypeOriginToNormal;
-
-typedef enum {
-	COMPOSE_POST, DELETE_POST, SHOW_NOTE, SHOW_HELP, NORMAL_TO_DIGEST, DIGEST_TO_THREAD, THREAD_TO_MARK, MARK_TO_ORIGIN, ORIGIN_TO_NORMAL
-} KOButtonType;
+typedef struct {
+	NSString *signature;
+	int signatureLengthOfBytes;
+	NSString *buttonName;
+	NSString *commandSequence;
+} KOButtonDescription;
 
 @class YLView;
 @interface KOButtonAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
