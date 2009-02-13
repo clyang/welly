@@ -614,7 +614,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) flagsChanged: (NSEvent *) event {
-	
+	/*
 	unsigned int currentFlags = [event modifierFlags];
 	// for Url menu
 	if((currentFlags & NSShiftKeyMask) && (currentFlags & NSControlKeyMask) && !_isInUrlMode) {
