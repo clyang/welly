@@ -1548,7 +1548,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
             }
             if (![unreadKeyword isEqualToString:@"◆"]) {
                 // no more unread boards
-                NSLog(@"end because unreadKeyword is %@, cursorY is %u, cursorX is %u, whole line is {%@}", unreadKeyword, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                // NSLog(@"end because unreadKeyword is %@, cursorY is %u, cursorX is %u, whole line is {%@}", unreadKeyword, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
                 break;
             }
             [connection sendText:termKeyRight];
@@ -1567,7 +1567,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                 NSString *articleFlag = [terminal stringFromIndex:column * [terminal _cursorY] + 7 length:2];
                 if (!articleFlag || [articleFlag rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"*MGBUO"]].location == NSNotFound) {
                     // no more unread articles
-                    NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                    // NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
                     break;
                 }
                 BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal _cursorY] length:column] rangeOfString:@"●"].location != NSNotFound);
@@ -1579,28 +1579,28 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                            || [moreModeKeyword isEqualToString:@"时"])
                         usleep(refreshInterval);
                     if (isOriginal) {
-                        while (![[terminal stringFromIndex:6 length:1] isEqualToString:@":"]
-                               || ![[terminal stringFromIndex:column * 2 + 6 length:1] isEqualToString:@":"])
+                        while (![[terminal stringFromIndex:6 length:2] isEqualToString:@": "]
+                               || ![[terminal stringFromIndex:column * 2 + 6 length:2] isEqualToString:@": "])
                             usleep(refreshInterval);
                         int offset = ([[terminal stringFromIndex:column + 6 length:1] isEqualToString:@":"]) ? 0 : column; // in case of long nick + long board name
                         NSString *title = [terminal stringFromIndex:column + 8 + offset length:column - 8];
                         NSMutableString *description = [NSMutableString stringWithCapacity:column * (row - 4)];
-                        for (int i = 4; i < row; ++i) {
-                            if (i == row - 1) {
-                                [description appendFormat:@"<br />......"];
-                                break;
-                            }
+                        for (int i = 4; i < row - 1; ++i) {
                             NSString *nextLine = [terminal stringFromIndex:column * i length:column];
                             if ([nextLine isEqualToString:@"--"] || [nextLine hasPrefix:@"【 "] || [nextLine hasPrefix:@"※ "]) {
                                 break;
                             }
-                            if ([description length] != 0) {
-                                [description appendString:@"<br />"];
-                            }
                             if (nextLine) {
                                 [description appendString:nextLine];
+                                [description appendString:@"<br />"];
                             }
                         }
+                        [description replaceOccurrencesOfString:@"<br />" 
+                                                     withString:@"" 
+                                                        options:(NSBackwardsSearch | NSAnchoredSearch) 
+                                                          range:NSMakeRange(0, [description length])];
+                        if ([moreModeKeyword isEqualToString:@"下"])
+                            [description appendFormat:@"<br />......"];
                         NSString *author = [terminal stringFromIndex:8 length:column - 8];
                         NSString *boardName = [author substringFromIndex:[author rangeOfString:@" " options:NSBackwardsSearch].location + 1];
                         author = [author substringToIndex:[author rangeOfString:@" "].location];
@@ -1619,7 +1619,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                             NSLog(@"Exception in fetchFeed: not-nil assertion failed. %@#%@#%@#%@#%@#%@#%@#%u#%@\n%@\n%@\n%@\n%@", boardName, title, dayOfWeek, day, month, year, time, openParenthesisLocation, thirdLine,
                                   [terminal stringFromIndex:0 length:column], [terminal stringFromIndex:column length:column],
                                   [terminal stringFromIndex:column * 2 length:column], [terminal stringFromIndex:column * 4 length:column]);
-                            exitNow = YES;
+                            [[_rssThread threadDictionary] setValue:[NSNumber numberWithBool:YES] forKey:@"ThreadShouldExitNow"];
                             break;
                         }
                         [feedGenerator addItemWithTitle:[[[@"[" stringByAppendingString:boardName] stringByAppendingString:@"] "] stringByAppendingString:title]
