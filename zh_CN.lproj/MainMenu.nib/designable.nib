@@ -56,6 +56,7 @@
 							<string>7B9B3D76-7332-4EB9-A104-D37311A16A5C</string>
 							<string>7BB02DC8-443E-4253-A65F-3ADDC3C94613</string>
 							<string>821F261F-3C77-4669-8A1A-950DB20CED3C</string>
+							<string>D8EEE3D2-A136-4BBB-999B-75B01F2CCADA</string>
 							<string>D98269FF-0B86-4E2E-BB9D-A2F53CD45289</string>
 							<string>DC4B72A9-7BA2-406A-8B68-E8EBF9D918AE</string>
 							<string>NSToolbarFlexibleSpaceItem</string>
@@ -506,6 +507,43 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<bool key="NSToolbarIsUserRemovable">YES</bool>
 								<int key="NSToolbarItemVisibilityPriority">0</int>
 							</object>
+							<object class="NSToolbarItem" id="544854316">
+								<object class="NSMutableString" key="NSToolbarItemIdentifier">
+									<characters key="NS.bytes">D8EEE3D2-A136-4BBB-999B-75B01F2CCADA</characters>
+								</object>
+								<string key="NSToolbarItemLabel">RSS</string>
+								<string key="NSToolbarItemPaletteLabel">RSS</string>
+								<nil key="NSToolbarItemToolTip"/>
+								<object class="NSButton" key="NSToolbarItemView" id="243498781">
+									<nil key="NSNextResponder"/>
+									<int key="NSvFlags">268</int>
+									<string key="NSFrame">{{0, 14}, {30, 19}}</string>
+									<bool key="NSEnabled">YES</bool>
+									<object class="NSButtonCell" key="NSCell" id="541985834">
+										<int key="NSCellFlags">67239424</int>
+										<int key="NSCellFlags2">134217728</int>
+										<string key="NSContents">.))</string>
+										<reference key="NSSupport" ref="95304200"/>
+										<reference key="NSControlView" ref="243498781"/>
+										<int key="NSButtonFlags">-2038152961</int>
+										<int key="NSButtonFlags2">164</int>
+										<string key="NSAlternateContents"/>
+										<string key="NSKeyEquivalent"/>
+										<int key="NSPeriodicDelay">400</int>
+										<int key="NSPeriodicInterval">75</int>
+									</object>
+								</object>
+								<nil key="NSToolbarItemImage"/>
+								<nil key="NSToolbarItemTarget"/>
+								<nil key="NSToolbarItemAction"/>
+								<string key="NSToolbarItemMinSize">{30, 19}</string>
+								<string key="NSToolbarItemMaxSize">{30, 19}</string>
+								<bool key="NSToolbarItemEnabled">YES</bool>
+								<bool key="NSToolbarItemAutovalidates">YES</bool>
+								<int key="NSToolbarItemTag">0</int>
+								<bool key="NSToolbarIsUserRemovable">YES</bool>
+								<int key="NSToolbarItemVisibilityPriority">0</int>
+							</object>
 							<object class="NSToolbarItem" id="301320983">
 								<object class="NSMutableString" key="NSToolbarItemIdentifier">
 									<characters key="NS.bytes">D98269FF-0B86-4E2E-BB9D-A2F53CD45289</characters>
@@ -669,7 +707,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 						</object>
 					</object>
-					<object class="NSArray" key="NSToolbarIBAllowedItems">
+					<object class="NSMutableArray" key="NSToolbarIBAllowedItems">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="1029623945"/>
 						<reference ref="994231399"/>
@@ -681,6 +719,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference ref="660071643"/>
 						<reference ref="105059808"/>
 						<reference ref="629922980"/>
+						<reference ref="544854316"/>
 						<reference ref="444148976"/>
 						<reference ref="736355598"/>
 						<reference ref="282512370"/>
@@ -1636,6 +1675,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											</object>
 											<string key="NSFrame">{{1, 1}, {108, 342}}</string>
 											<reference key="NSSuperview" ref="602075345"/>
+											<reference key="NSNextKeyView" ref="13469874"/>
 											<reference key="NSDocView" ref="13469874"/>
 											<reference key="NSBGColor" ref="497942154"/>
 											<int key="NScvFlags">4</int>
@@ -1663,6 +1703,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									</object>
 									<string key="NSFrameSize">{110, 344}</string>
 									<reference key="NSSuperview" ref="893775230"/>
+									<reference key="NSNextKeyView" ref="133140844"/>
 									<int key="NSsFlags">530</int>
 									<reference key="NSVScroller" ref="237845809"/>
 									<reference key="NSHScroller" ref="800575191"/>
@@ -5090,6 +5131,14 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1286</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openRSS:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="243498781"/>
+					</object>
+					<int key="connectionID">1290</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -6144,6 +6193,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<reference ref="105059808"/>
 							<reference ref="282512370"/>
 							<reference ref="629922980"/>
+							<reference ref="544854316"/>
 						</object>
 						<reference key="parent" ref="670863990"/>
 					</object>
@@ -6960,6 +7010,29 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="714838679"/>
 						<reference key="parent" ref="935809572"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1287</int>
+						<reference key="object" ref="544854316"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="243498781"/>
+						</object>
+						<reference key="parent" ref="345961862"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1288</int>
+						<reference key="object" ref="243498781"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="541985834"/>
+						</object>
+						<reference key="parent" ref="544854316"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1289</int>
+						<reference key="object" ref="541985834"/>
+						<reference key="parent" ref="243498781"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -7068,6 +7141,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>1282.IBPluginDependency</string>
 					<string>1283.IBPluginDependency</string>
 					<string>1284.IBPluginDependency</string>
+					<string>1288.IBPluginDependency</string>
+					<string>1289.IBPluginDependency</string>
 					<string>129.IBPluginDependency</string>
 					<string>129.ImportedFromIB2</string>
 					<string>130.IBPluginDependency</string>
@@ -7422,6 +7497,8 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
@@ -7736,7 +7813,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1286</int>
+			<int key="maxID">1290</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7932,6 +8009,7 @@ Z1s6cG9ydF0</string>
 							<string>openPassword:</string>
 							<string>openPostDownload:</string>
 							<string>openPreferencesWindow:</string>
+							<string>openRSS:</string>
 							<string>openSites:</string>
 							<string>reconnect:</string>
 							<string>removeSiteImage:</string>
@@ -7948,6 +8026,7 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

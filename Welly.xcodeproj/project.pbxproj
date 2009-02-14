@@ -28,6 +28,7 @@
 		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
+		18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* TYFeedGenerator.m */; };
 		5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.m */; };
 		5A1969CE0E1D495F00ED377C /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
 		5A1969FD0E1D496800ED377C /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A1969CD0E1D495F00ED377C /* Sparkle.framework */; };
@@ -149,6 +150,8 @@
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
 		18BB9B850D98ECE500387145 /* IPSeeker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSeeker.h; sourceTree = "<group>"; };
 		18BB9B860D98ECE500387145 /* IPSeeker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSeeker.m; sourceTree = "<group>"; };
+		18F813940F45A93A002FF48C /* TYFeedGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYFeedGenerator.h; sourceTree = "<group>"; };
+		18F813950F45A93A002FF48C /* TYFeedGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYFeedGenerator.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -476,6 +479,8 @@
 		5AC33B7B0DA477AB0006AA09 /* Nally9only */ = {
 			isa = PBXGroup;
 			children = (
+				18F813940F45A93A002FF48C /* TYFeedGenerator.h */,
+				18F813950F45A93A002FF48C /* TYFeedGenerator.m */,
 				18BB9B850D98ECE500387145 /* IPSeeker.h */,
 				18BB9B860D98ECE500387145 /* IPSeeker.m */,
 				18A685A60D9414D900CA423A /* TYGrowlBridge.h */,
@@ -712,6 +717,7 @@
 				5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */,
 				5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */,
 				5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */,
+				18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

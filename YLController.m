@@ -21,6 +21,9 @@
 #import "RemoteControlContainer.h"
 #import "MultiClickRemoteBehavior.h"
 
+// for RSS
+#import "TYFeedGenerator.h"
+
 // Test code by gtCarrera
 #import "LLPopUpMessage.h"
 // End
@@ -1464,6 +1467,191 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 	[[YLLGlobalConfig sharedInstance] setEnglishFontName: @"Monaco"];
 	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 22];
 	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 18];
+}
+
+#pragma mark -
+#pragma mark For RSS feed
+- (IBAction)openRSS:(id)sender {
+    if (![_telnetView connected]) return;
+    if (!_rssThread) {
+        [NSThread detachNewThreadSelector:@selector(fetchFeed) toTarget:self withObject:nil];
+        NSBeginAlertSheet(@"Welly is now working in RSS mode. (Experimental)",
+                          @"Leave RSS mode",
+                          nil,
+                          nil,
+                          _mainWindow,
+                          self,
+                          @selector(rssSheetDidClose:returnCode:contextInfo:),
+                          nil,
+                          nil,
+                          @"In this mode, Welly automatically fetches data and generates RSS feed. To leave, click the button below.\r\rCaution: This feature is very unstable, and works only with SMTH BBS. Try it at your own risk!");
+    }
+}
+
+- (void)rssSheetDidClose:(NSWindow *)sheet
+              returnCode:(int)returnCode
+             contextInfo:(void *)contextInfo {
+    if (_rssThread) {
+        [[_rssThread threadDictionary] setValue:[NSNumber numberWithBool:YES] forKey:@"ThreadShouldExitNow"];
+        _rssThread = nil;
+    }
+}
+
+- (void)fetchFeed {
+    // FIXME: lots of HARDCODE here
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    BOOL exitNow = NO;
+    _rssThread = [NSThread currentThread];
+    NSMutableDictionary *threadDict = [_rssThread threadDictionary];
+    [threadDict setValue:[NSNumber numberWithBool:exitNow] forKey:@"ThreadShouldExitNow"];
+    YLConnection *connection = [_telnetView frontMostConnection];
+    YLTerminal *terminal = [connection terminal];
+    unsigned int column = [terminal _column];
+    unsigned int row = [terminal _row];
+    NSString *siteName = [[connection site] name];
+    // locate the cache directory
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSAssert([paths count] > 0, @"~/Library/Caches");
+    NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir attributes:nil];
+    NSString *fileName = [[cacheDir stringByAppendingPathComponent:@"rss"] stringByAppendingPathExtension:@"xml"];
+    TYFeedGenerator *feedGenerator = [[TYFeedGenerator alloc] initWithSiteName:siteName];
+    BOOL isFirstLoop = YES;
+    const useconds_t rssInterval = 300000000;
+    const useconds_t refreshInterval = 1000;
+    while (!exitNow) {
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:termKeyLeft];
+        [connection sendText:@"f"];
+        [connection sendText:termKeyRight];
+        while (!exitNow) { // traverse every board
+            NSString *unreadKeyword;
+            while (![[terminal stringFromIndex:0 length:1] isEqualToString:@"["] || [terminal _cursorX] != 1
+                   || [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1]
+                   || ![terminal stringFromIndex:column * [terminal _cursorY] length:column]
+                   || !(unreadKeyword = [terminal stringFromIndex:column * [terminal _cursorY] + 8 length:2])
+                   || !([unreadKeyword isEqualToString:@"◆"] || [unreadKeyword isEqualToString:@"◇"] || [unreadKeyword isEqualToString:@"＋"]))
+                usleep(refreshInterval);
+            while ([unreadKeyword isEqualToString:@"＋"]) {
+                [connection sendText:termKeyDown];
+                while (![terminal stringFromIndex:column * [terminal _cursorY] length:column]
+                       || !(unreadKeyword = [terminal stringFromIndex:column * [terminal _cursorY] + 8 length:2]))
+                    usleep(refreshInterval);
+            }
+            if (![unreadKeyword isEqualToString:@"◆"]) {
+                // no more unread boards
+                NSLog(@"end because unreadKeyword is %@, cursorY is %u, cursorX is %u, whole line is {%@}", unreadKeyword, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                break;
+            }
+            [connection sendText:termKeyRight];
+            [connection sendText:termKeyEnd];
+            [connection sendText:termKeyEnd]; // in case of seeing board memo
+            while ([[terminal stringFromIndex:column length:column] rangeOfString:@"发表"].location == NSNotFound || [terminal _cursorX] != 1
+                || ![terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1])
+                usleep(refreshInterval);
+            BOOL isLastArticle = YES;
+            for (;;) { // traverse every post
+                exitNow = [[threadDict valueForKey:@"ThreadShouldExitNow"] boolValue];
+                if (exitNow)
+                    break;
+                while (![terminal stringFromIndex:column * [terminal _cursorY] length:6])
+                    usleep(refreshInterval);
+                NSString *articleFlag = [terminal stringFromIndex:column * [terminal _cursorY] + 7 length:2];
+                if (!articleFlag || [articleFlag rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"*MGBUO"]].location == NSNotFound) {
+                    // no more unread articles
+                    NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                    break;
+                }
+                BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal _cursorY] length:column] rangeOfString:@"●"].location != NSNotFound);
+                if (isOriginal || isLastArticle) {
+                    isLastArticle = NO;
+                    [connection sendText:termKeyRight];
+                    NSString *moreModeKeyword;
+                    while ([terminal _cursorY] != row - 1 || !(moreModeKeyword = [terminal stringFromIndex:column * (row - 1) length:2])
+                           || [moreModeKeyword isEqualToString:@"时"])
+                        usleep(refreshInterval);
+                    if (isOriginal) {
+                        while (![[terminal stringFromIndex:6 length:1] isEqualToString:@":"]
+                               || ![[terminal stringFromIndex:column * 2 + 6 length:1] isEqualToString:@":"])
+                            usleep(refreshInterval);
+                        int offset = ([[terminal stringFromIndex:column + 6 length:1] isEqualToString:@":"]) ? 0 : column; // in case of long nick + long board name
+                        NSString *title = [terminal stringFromIndex:column + 8 + offset length:column - 8];
+                        NSMutableString *description = [NSMutableString stringWithCapacity:column * (row - 4)];
+                        for (int i = 4; i < row; ++i) {
+                            if (i == row - 1) {
+                                [description appendFormat:@"<br />......"];
+                                break;
+                            }
+                            NSString *nextLine = [terminal stringFromIndex:column * i length:column];
+                            if ([nextLine isEqualToString:@"--"] || [nextLine hasPrefix:@"【 "] || [nextLine hasPrefix:@"※ "]) {
+                                break;
+                            }
+                            if ([description length] != 0) {
+                                [description appendString:@"<br />"];
+                            }
+                            if (nextLine) {
+                                [description appendString:nextLine];
+                            }
+                        }
+                        NSString *author = [terminal stringFromIndex:8 length:column - 8];
+                        NSString *boardName = [author substringFromIndex:[author rangeOfString:@" " options:NSBackwardsSearch].location + 1];
+                        author = [author substringToIndex:[author rangeOfString:@" "].location];
+                        NSString *thirdLine;
+                        while (!(thirdLine = [terminal stringFromIndex:column * 2 + 8 + offset length:column - 8]))
+                            usleep(refreshInterval);
+                        const NSUInteger openParenthesisLocation = [thirdLine rangeOfString:@"("].location;
+                        NSString *dayOfWeek = [thirdLine substringWithRange:NSMakeRange(openParenthesisLocation + 1, 3)];
+                        NSString *month = [thirdLine substringWithRange:NSMakeRange(openParenthesisLocation + 5, 3)];
+                        NSString *day = [thirdLine substringWithRange:NSMakeRange(openParenthesisLocation + 9, 2)];
+                        NSString *time = [thirdLine substringWithRange:NSMakeRange(openParenthesisLocation + 12, 8)];
+                        NSString *year = [thirdLine substringWithRange:NSMakeRange(openParenthesisLocation + 21, 4)];
+                        NSString *pubDate = [NSString stringWithFormat:@"%@, %@ %@ %@ %@ +0800", dayOfWeek, day, month, year, time];
+                        if (!boardName || !title || !dayOfWeek || !day || !month || !year || !time) { // assert
+                            // exception: assertion failed
+                            NSLog(@"Exception in fetchFeed: not-nil assertion failed. %@#%@#%@#%@#%@#%@#%@#%u#%@\n%@\n%@\n%@\n%@", boardName, title, dayOfWeek, day, month, year, time, openParenthesisLocation, thirdLine,
+                                  [terminal stringFromIndex:0 length:column], [terminal stringFromIndex:column length:column],
+                                  [terminal stringFromIndex:column * 2 length:column], [terminal stringFromIndex:column * 4 length:column]);
+                            exitNow = YES;
+                            break;
+                        }
+                        [feedGenerator addItemWithTitle:[[[@"[" stringByAppendingString:boardName] stringByAppendingString:@"] "] stringByAppendingString:title]
+                                            description:description
+                                                 author:author
+                                                pubDate:pubDate];
+                    }
+                    if ([moreModeKeyword isEqualToString:@"下"]) {
+                        [connection sendText:termKeyLeft];
+                    }
+                    [connection sendText:termKeyLeft];
+                    while (![[terminal stringFromIndex:column * (row - 1) length:4] isEqualToString:@"时间"] || [terminal _cursorX] != 1)
+                        usleep(refreshInterval);
+                }
+                const unsigned int previousY = [terminal _cursorY];
+                [connection sendText:termKeyUp];
+                while ([terminal _cursorY] == previousY || [terminal _cursorX] != 1 || ![terminal stringFromIndex:column * [terminal _cursorY] length:column])
+                    usleep(refreshInterval);
+            }
+            [connection sendText:termKeyLeft];
+        }
+        [feedGenerator writeFeedToFile:fileName];
+        if (isFirstLoop) {
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[@"feed:" stringByAppendingString:[[NSURL fileURLWithPath:fileName] absoluteString]]]];
+            isFirstLoop = NO;
+        }
+        if (!exitNow)
+            usleep(rssInterval);
+        exitNow = [[threadDict valueForKey:@"ThreadShouldExitNow"] boolValue];
+    }
+    [feedGenerator release];
+    [pool drain];
 }
 
 #pragma mark -

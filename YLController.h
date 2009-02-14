@@ -19,6 +19,7 @@
 @class YLView, YLTerminal;
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
+@class TYFeedGenerator;
 
 @interface YLController : NSObject {
     /* composeWindow */
@@ -72,6 +73,9 @@
 	
 	// Timer test
 	NSTimer* _scrollTimer;
+    
+    // RSS feed
+    NSThread *_rssThread;
 }
 
 - (IBAction)setEncoding:(id)sender;
@@ -158,6 +162,10 @@
 
 // for resotre
 - (IBAction)restoreSettings:(id)sender;
+
+// for RSS feed
+- (IBAction)openRSS:(id)sender;
+
 // temporary added, should be remove in future!!!
 // by K.O.ed
 - (YLView *) getView;
