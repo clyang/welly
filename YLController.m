@@ -1579,8 +1579,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                            || [moreModeKeyword isEqualToString:@"时"])
                         usleep(refreshInterval);
                     if (isOriginal) {
-                        while (![[terminal stringFromIndex:6 length:2] isEqualToString:@": "]
-                               || ![[terminal stringFromIndex:column * 2 + 6 length:2] isEqualToString:@": "])
+                        while (![[terminal stringFromIndex:6 length:2] isEqualToString:@":"]
+                               || ![[terminal stringFromIndex:column * 2 + 6 length:2] isEqualToString:@":"])
                             usleep(refreshInterval);
                         int offset = ([[terminal stringFromIndex:column + 6 length:1] isEqualToString:@":"]) ? 0 : column; // in case of long nick + long board name
                         NSString *title = [terminal stringFromIndex:column + 8 + offset length:column - 8];
