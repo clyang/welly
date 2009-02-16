@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
+#import "YLTerminal.h"
 
 NSString * const KOButtonNameComposePost;
 NSString * const KOButtonNameDeletePost;
@@ -21,8 +22,10 @@ NSString * const KOButtonNameOriginToNormal;
 NSString * const KOButtonNameSwitchDisplayAllBoards;
 NSString * const KOButtonNameSwitchSortBoards;
 NSString * const KOButtonNameSwitchBoardsNumber;
+NSString * const KOButtonNameDeleteBoard;
 
 typedef struct {
+	int state;
 	NSString *signature;
 	int signatureLengthOfBytes;
 	NSString *buttonName;

@@ -39,6 +39,7 @@ NSString * const KOButtonNameOriginToNormal = @"Origin To Normal";
 NSString * const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
 NSString * const KOButtonNameSwitchSortBoards = @"Sort Boards";
 NSString * const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
+NSString * const KOButtonNameDeleteBoard = @"Delete Board";
 
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
@@ -91,58 +92,41 @@ NSString * const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
 }
 
 - (void) updateButtonAreaForRow:(int)r {
-	const KOButtonDescription ButtonsForBrowseBoard[] = {
-		{@"发表文章[Ctrl-P]", 16, KOButtonNameComposePost, fbComposePost},
-		{@"砍信[d]", 7, KOButtonNameDeletePost, fbDeletePost},
-		{@"备忘录[TAB]", 11, KOButtonNameShowNote, fbShowNote},
-		{@"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
-		{@"[一般模式]", 10, KOButtonNameNormalToDigest, fbNormalToDigest},
-		{@"[文摘模式]", 10, KOButtonNameDigestToThread, fbDigestToThread},
-		{@"[主题模式]", 10, KOButtonNameThreadToMark, fbThreadToMark},
-		{@"[精华模式]", 10, KOButtonNameMarkToOrigin, fbMarkToOrigin},
-		{@"[原作模式]", 10, KOButtonNameOriginToNormal, fbOriginToNormal},
-	};
-	const KOButtonDescription ButtonsForBoardList[] = {
-		{@"列出[y]", 7, KOButtonNameSwitchDisplayAllBoards, fbSwitchDisplayAllBoards},
-		{@"排序[S]", 7, KOButtonNameSwitchSortBoards, fbSwitchSortBoards},
-		{@"切换[c]", 7, KOButtonNameSwitchBoardsNumber, fbSwitchBoardsNumber},
-		{@"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
+	const KOButtonDescription buttonsDefinition[] = {
+		/* BBSBrowseBoard */
+		{BBSBrowseBoard, @"发表文章[Ctrl-P]", 16, KOButtonNameComposePost, fbComposePost},
+		{BBSBrowseBoard, @"砍信[d]", 7, KOButtonNameDeletePost, fbDeletePost},
+		{BBSBrowseBoard, @"备忘录[TAB]", 11, KOButtonNameShowNote, fbShowNote},
+		{BBSBrowseBoard, @"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
+		{BBSBrowseBoard, @"[一般模式]", 10, KOButtonNameNormalToDigest, fbNormalToDigest},
+		{BBSBrowseBoard, @"[文摘模式]", 10, KOButtonNameDigestToThread, fbDigestToThread},
+		{BBSBrowseBoard, @"[主题模式]", 10, KOButtonNameThreadToMark, fbThreadToMark},
+		{BBSBrowseBoard, @"[精华模式]", 10, KOButtonNameMarkToOrigin, fbMarkToOrigin},
+		{BBSBrowseBoard, @"[原作模式]", 10, KOButtonNameOriginToNormal, fbOriginToNormal},
+		/* BBSBoardList */
+		{BBSBoardList, @"列出[y]", 7, KOButtonNameSwitchDisplayAllBoards, fbSwitchDisplayAllBoards},
+		{BBSBoardList, @"排序[S]", 7, KOButtonNameSwitchSortBoards, fbSwitchSortBoards},
+		{BBSBoardList, @"切换[c]", 7, KOButtonNameSwitchBoardsNumber, fbSwitchBoardsNumber},
+		{BBSBoardList, @"删除[d]", 7, KOButtonNameDeleteBoard, fbDeletePost},
+		{BBSBoardList, @"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
 	};
 	YLTerminal *ds = [_view frontMostTerminal];
 	
-	if ([ds bbsState].state == BBSBrowseBoard) {
-		for (int x = 0; x < _maxColumn; ++x) {
-			for (int i = 0; i < sizeof(ButtonsForBrowseBoard) / sizeof(KOButtonDescription); ++i) {
-				KOButtonDescription buttonDescription  = ButtonsForBrowseBoard[i];
-				int length = buttonDescription.signatureLengthOfBytes;
-				if (x < _maxColumn - length) {
-					if ([[ds stringFromIndex:(x + r * _maxColumn) length:length] isEqualToString:buttonDescription.signature]) {
-						[self addButtonArea:buttonDescription.buttonName 
-							commandSequence:buttonDescription.commandSequence 
-									  atRow:r 
-									 column:x 
-									 length:length];
-						x += length - 1;
-						break;
-					}
-				}
-			}
-		}
-	} else if ([ds bbsState].state == BBSBoardList) {
-		for (int x = 0; x < _maxColumn; ++x) {
-			for (int i = 0; i < sizeof(ButtonsForBoardList) / sizeof(KOButtonDescription); ++i) {
-				KOButtonDescription buttonDescription  = ButtonsForBoardList[i];
-				int length = buttonDescription.signatureLengthOfBytes;
-				if (x < _maxColumn - length) {
-					if ([[ds stringFromIndex:(x + r * _maxColumn) length:length] isEqualToString:buttonDescription.signature]) {
-						[self addButtonArea:buttonDescription.buttonName 
-							commandSequence:buttonDescription.commandSequence 
-									  atRow:r 
-									 column:x 
-									 length:length];
-						x += length - 1;
-						break;
-					}
+	for (int x = 0; x < _maxColumn; ++x) {
+		for (int i = 0; i < sizeof(buttonsDefinition) / sizeof(KOButtonDescription); ++i) {
+			KOButtonDescription buttonDescription  = buttonsDefinition[i];
+			if ([ds bbsState].state != buttonDescription.state)
+				continue;
+			int length = buttonDescription.signatureLengthOfBytes;
+			if (x < _maxColumn - length) {
+				if ([[ds stringFromIndex:(x + r * _maxColumn) length:length] isEqualToString:buttonDescription.signature]) {
+					[self addButtonArea:buttonDescription.buttonName 
+						commandSequence:buttonDescription.commandSequence 
+								  atRow:r 
+								 column:x 
+								 length:length];
+					x += length - 1;
+					break;
 				}
 			}
 		}
