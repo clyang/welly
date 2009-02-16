@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
 
-@interface KOAuthorAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
+@interface KOAuthorAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
 
 }
 

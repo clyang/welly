@@ -104,3 +104,7 @@
 /* Tool Tip */
 "Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";
 "Left click for PageDown, right click for End" = "Left click for PageDown, right click for End";
+
+/* Contextual Menu */
+"Info for %@" = "查看%@个人信息";
+"Add %@ as friend" = "添加%@为好友";

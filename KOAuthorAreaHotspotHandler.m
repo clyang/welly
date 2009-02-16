@@ -13,7 +13,13 @@
 #import "KOEffectView.h"
 
 NSString *const KOButtonNameAuthorMode = @"Author: %@";
-NSString *const KOCommandSequenceAuthorMode = @"\07""5\n""%@\n";
+
+NSString *const FBCommandSequenceAuthorMode = @"\07""5\n""%@\n";
+NSString *const FBCommandSequenceAuthorInfo = @"u%@\n";
+NSString *const FBCommandSequenceAddAuthorAsFriend = @"u%@\noY\n\n";
+
+NSString *const KOMenuTitleAuthorInfo = @"Info for %@";
+NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 
 @implementation KOAuthorAreaHotspotHandler
 
@@ -24,7 +30,7 @@ NSString *const KOCommandSequenceAuthorMode = @"\07""5\n""%@\n";
 	if (author == nil) {
 		return;
 	}
-	NSString *commandSequence = [NSString stringWithFormat:KOCommandSequenceAuthorMode, author];
+	NSString *commandSequence = [NSString stringWithFormat:FBCommandSequenceAuthorMode, author];
 	[_view sendText:commandSequence];
 }
 
@@ -46,6 +52,45 @@ NSString *const KOCommandSequenceAuthorMode = @"\07""5\n""%@\n";
 - (void) mouseMoved: (NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
+}
+
+#pragma mark -
+#pragma mark Contextual Menu
+- (IBAction) authorInfo: (id)sender {
+	NSDictionary *userInfo = [sender representedObject];
+	NSString *author = [userInfo objectForKey:KOMouseAuthorUserInfoName];
+	NSString *commandSequence = [NSString stringWithFormat:FBCommandSequenceAuthorInfo, author];
+	[_view sendText:commandSequence];
+}
+
+- (IBAction) addAsFriend: (id)sender {
+	NSDictionary *userInfo = [sender representedObject];
+	NSString *author = [userInfo objectForKey:KOMouseAuthorUserInfoName];
+	NSString *commandSequence = [NSString stringWithFormat:FBCommandSequenceAddAuthorAsFriend, author];
+	[_view sendText:commandSequence];
+}
+
+- (NSMenu *) menuForEvent: (NSEvent *)theEvent {
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	NSString *author = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseAuthorUserInfoName];
+	if (author == nil)
+		return nil;
+	
+	[menu addItemWithTitle:[NSString stringWithFormat: NSLocalizedString(KOMenuTitleAuthorInfo, @"Contextual Menu"), author]
+					action:@selector(authorInfo:)
+			 keyEquivalent:@""];
+	
+	[menu addItemWithTitle:[NSString stringWithFormat: NSLocalizedString(KOMenuTitleAddAsFriend, @"Contextual Menu"), author]
+					action:@selector(addAsFriend:)
+			 keyEquivalent:@""];
+	
+	for (NSMenuItem *item in [menu itemArray]) {
+		if ([item isSeparatorItem])
+			continue;
+		[item setTarget:self];
+		[item setRepresentedObject:_manager.activeTrackingAreaUserInfo];
+	}
+	return menu;
 }
 
 #pragma mark -
