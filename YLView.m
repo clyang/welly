@@ -1814,14 +1814,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_mouseBehaviorDelegate update];
 	return;
 }
-
 @end
 
-@implementation NSObject(NSToolTipOwner)
-- (NSString *) view: (NSView *)view 
-   stringForToolTip: (NSToolTipTag)tag 
-			  point: (NSPoint)point 
-		   userData: (void *)userData {
-	return (NSString *)userData;
-}
-@end
+

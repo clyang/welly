@@ -20,14 +20,12 @@
 #pragma mark -
 #pragma mark Event Handler
 - (void) mouseEntered: (NSEvent *)theEvent {
-	//NSLog(@"KOIPAddrHotspotHandler mouseEntered: ");
 	if([[_view frontMostConnection] connected]) {
 		[[_view effectView] drawIPAddrBox:[[theEvent trackingArea] rect]];
 	}
 }
 
 - (void) mouseExited: (NSEvent *)theEvent {
-	//NSLog(@"KOIPAddrHotspotHandler mouseExited: ");
 	[[_view effectView] clearIPAddrBox];
 }
 
@@ -46,7 +44,7 @@
 	/* ip tooltip */
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
-	[_view addToolTipRect: rect owner: self userData: tooltip];
+	[_view addToolTipRect: rect owner: _manager userData: tooltip];
 	
 	NSDictionary *userInfo = [self userInfo];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo];

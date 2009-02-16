@@ -202,3 +202,12 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 @synthesize activeTrackingAreaUserInfo;
 @synthesize backgroundTrackingAreaUserInfo;
 @end
+
+@implementation NSObject(NSToolTipOwner)
+- (NSString *) view: (NSView *)view 
+   stringForToolTip: (NSToolTipTag)tag 
+			  point: (NSPoint)point 
+		   userData: (void *)userData {
+	return (NSString *)userData;
+}
+@end

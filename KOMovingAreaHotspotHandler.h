@@ -11,7 +11,18 @@
 
 @class YLView;
 
-@interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
+NSString *const KOCommandSequencePageUp;
+NSString *const KOCommandSequencePageDown;
+NSString *const KOCommandSequenceLeftArrow;
+NSString *const KOCommandSequenceHome;
+NSString *const KOCommandSequenceEnd;
 
+NSString *const KOToolTipPageUp;
+NSString *const KOToolTipPageDown;
+
+@interface KOMovingAreaHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
+	NSCursor *_leftArrowCursor;
+	NSCursor *_pageUpCursor;
+	NSCursor *_pageDownCursor;
 }
 @end

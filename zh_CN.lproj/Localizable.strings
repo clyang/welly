@@ -132,3 +132,7 @@
 "Sort Boards" = "排序";
 "Switch Boards Number" = "切换";
 "Delete Board" = "删除版面";
+
+/* Tool Tip */
+"Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";
+"Left click for PageDown, right click for End" = "Left click for PageDown, right click for End";
