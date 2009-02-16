@@ -15,6 +15,7 @@ NSString * const KOMouseCommandSequenceUserInfoName;
 NSString * const KOMouseButtonTypeUserInfoName;
 NSString * const KOMouseButtonTextUserInfoName;
 NSString * const KOMouseCursorUserInfoName;
+NSString * const KOMouseAuthorUserInfoName;
 
 @class YLView, KOEffectView;
 @interface KOMouseBehaviorManager : NSResponder <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {

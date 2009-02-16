@@ -12,6 +12,7 @@
 #import "KOClickEntryHotspotHandler.h"
 #import "KOButtonAreaHotspotHandler.h"
 #import "KOEditingCursorMoveHotspotHandler.h"
+#import "KOAuthorAreaHotspotHandler.h"
 
 #import "YLView.h"
 #import "YLTerminal.h"
@@ -24,6 +25,7 @@ NSString * const KOMouseCommandSequenceUserInfoName = @"Command Sequence";
 NSString * const KOMouseButtonTypeUserInfoName = @"Button Type";
 NSString * const KOMouseButtonTextUserInfoName = @"Button Text";
 NSString * const KOMouseCursorUserInfoName = @"Cursor";
+NSString * const KOMouseAuthorUserInfoName = @"Author";
 
 @implementation KOMouseBehaviorManager
 #pragma mark -
@@ -38,6 +40,7 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 				 [[KOButtonAreaHotspotHandler alloc] initWithManager:self],
 				 [[KOMovingAreaHotspotHandler alloc] initWithManager:self],
 				 [[KOEditingCursorMoveHotspotHandler alloc] initWithManager:self],
+				 [[KOAuthorAreaHotspotHandler alloc] initWithManager:self],
 				 nil];
 	return self;
 }
@@ -94,10 +97,13 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		if ([handler conformsToProtocol:@protocol(KOMouseUpHandler)])
 			[handler mouseUp: theEvent];
-	} else if (backgroundTrackingAreaUserInfo) {
+		return;
+	}
+	if (backgroundTrackingAreaUserInfo) {
 		KOMouseHotspotHandler *handler = [backgroundTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		if ([handler conformsToProtocol:@protocol(KOMouseUpHandler)])
 			[handler mouseUp: theEvent];
+		return;
 	}
 	
 	if ([[_view frontMostTerminal] bbsState].state == BBSWaitingEnter) {
@@ -110,7 +116,8 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		if ([handler conformsToProtocol:@protocol(KOContextualMenuHandler)])
 			return [(NSObject <KOContextualMenuHandler> *)handler menuForEvent: theEvent];
-	} else if (backgroundTrackingAreaUserInfo) {
+	} 
+	if (backgroundTrackingAreaUserInfo) {
 		KOMouseHotspotHandler *handler = [backgroundTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
 		if ([handler conformsToProtocol:@protocol(KOContextualMenuHandler)])
 			return [(NSObject <KOContextualMenuHandler> *)handler menuForEvent: theEvent];
@@ -201,13 +208,4 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 
 @synthesize activeTrackingAreaUserInfo;
 @synthesize backgroundTrackingAreaUserInfo;
-@end
-
-@implementation NSObject(NSToolTipOwner)
-- (NSString *) view: (NSView *)view 
-   stringForToolTip: (NSToolTipTag)tag 
-			  point: (NSPoint)point 
-		   userData: (void *)userData {
-	return (NSString *)userData;
-}
 @end

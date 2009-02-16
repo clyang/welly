@@ -93,10 +93,12 @@
 "Thread To Mark" = "Thread To Mark";
 "Mark To Origin" = "Mark To Origin";
 "Origin To Normal" = "Origin To Normal";
+"Author To Normal" = "Author To Normal";
 "Display All Boards" = "Display All Boards";
 "Sort Boards" = "Sort Boards";
 "Switch Boards Number" = "Switch Boards Number";
 "Delete Board" = "Delete Board";
+"Author: %@" = "同作者: %@";
 
 /* Tool Tip */
 "Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";

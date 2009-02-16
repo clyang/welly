@@ -54,7 +54,7 @@
 - (void) mouseUp: (NSEvent *)theEvent {
 	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
 	if (commandSequence != nil) {
-		[[_view frontMostConnection] sendText: commandSequence];
+		[_view sendText: commandSequence];
 		return;
 	}
 	int moveToRow = [[_manager.activeTrackingAreaUserInfo objectForKey:KOMouseRowUserInfoName] intValue];
@@ -155,6 +155,8 @@
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }
 
+#pragma mark -
+#pragma mark Update State
 - (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
     cell *currRow = [[_view frontMostTerminal] cellsOfRow:row];
     int i = 0, n = [s length];
@@ -166,8 +168,6 @@
     return YES;
 }
 
-#pragma mark -
-#pragma mark Update State
 - (void) updateClickEntryForRow: (int) r {
 	//NSLog(@"KOClickEntryHotspotHandler updateClickEntryForRow:%d", r);
     YLTerminal *ds = [_view frontMostTerminal];

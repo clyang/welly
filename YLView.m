@@ -1815,5 +1815,3 @@ BOOL isSpecialSymbol(unichar ch) {
 	return;
 }
 @end
-
-

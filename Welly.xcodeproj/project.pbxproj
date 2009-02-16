@@ -42,6 +42,7 @@
 		5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */; };
 		5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* KOEffectView.m */; };
 		5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.m */; };
+		5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
@@ -175,6 +176,8 @@
 		5A4B02870E55941D00260486 /* KOEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOEffectView.h; sourceTree = "<group>"; };
 		5A56C3800E342CFF00082312 /* KOPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOPostDownloader.h; sourceTree = "<group>"; };
 		5A56C3810E342CFF00082312 /* KOPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOPostDownloader.m; sourceTree = "<group>"; };
+		5A6A7ED70F497FC000DC952F /* KOAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
+		5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
@@ -534,6 +537,8 @@
 				5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */,
 				5AA6807B0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.h */,
 				5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */,
+				5A6A7ED70F497FC000DC952F /* KOAuthorAreaHotspotHandler.h */,
+				5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */,
 			);
 			name = "Mouse Hotspot Handler";
 			sourceTree = "<group>";
@@ -718,6 +723,7 @@
 				5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */,
 				5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */,
 				18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */,
+				5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

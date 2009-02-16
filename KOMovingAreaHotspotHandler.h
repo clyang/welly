@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "KOMouseHotspotHandler.h"
 
-@class YLView;
-
 NSString *const KOCommandSequencePageUp;
 NSString *const KOCommandSequencePageDown;
 NSString *const KOCommandSequenceLeftArrow;

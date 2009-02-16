@@ -36,10 +36,13 @@ NSString * const KOButtonNameDigestToThread = @"Digest To Thread";
 NSString * const KOButtonNameThreadToMark = @"Thread To Mark";
 NSString * const KOButtonNameMarkToOrigin = @"Mark To Origin";
 NSString * const KOButtonNameOriginToNormal = @"Origin To Normal";
+NSString * const KOButtonNameAuthorToNormal = @"Author To Normal";
 NSString * const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
 NSString * const KOButtonNameSwitchSortBoards = @"Sort Boards";
 NSString * const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
 NSString * const KOButtonNameDeleteBoard = @"Delete Board";
+
+NSString * const FBCommandSequenceAuthorToNormal = @"e";
 
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
@@ -103,6 +106,7 @@ NSString * const KOButtonNameDeleteBoard = @"Delete Board";
 		{BBSBrowseBoard, @"[主题模式]", 10, KOButtonNameThreadToMark, fbThreadToMark},
 		{BBSBrowseBoard, @"[精华模式]", 10, KOButtonNameMarkToOrigin, fbMarkToOrigin},
 		{BBSBrowseBoard, @"[原作模式]", 10, KOButtonNameOriginToNormal, fbOriginToNormal},
+		{BBSBrowseBoard, @"[作者模式]", 10, KOButtonNameAuthorToNormal, FBCommandSequenceAuthorToNormal},
 		/* BBSBoardList */
 		{BBSBoardList, @"列出[y]", 7, KOButtonNameSwitchDisplayAllBoards, fbSwitchDisplayAllBoards},
 		{BBSBoardList, @"排序[S]", 7, KOButtonNameSwitchSortBoards, fbSwitchSortBoards},
