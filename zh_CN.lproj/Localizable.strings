@@ -1,70 +1,36 @@
 ﻿/* Sheet Title */
 "Are you sure you want to quit Welly?" = "您确定要退出 Welly 吗？";
-
-/* Sheet Title */
 "Are you sure you want to close this tab?" = "您确定要关闭这个标签吗？";
-
-/* Sheet Title */
 "Are you sure you want to reconnect?" = "您确定要重新连接吗？";
-
-/* Sheet Title */
 "Are you sure you want to paste?" = "您确定要进行粘贴吗？";
-
-/* Sheet Title */
 "Are you sure you want to open the composer?" = "您确定要使用编辑器吗？";
-
-/* Sheet Title */
 "Site address format error" = "站点地址格式错误";
 
 /* Default Button */
 "Close" = "关闭";
-
-/* Default Button */
 "Confirm" = "确定";
+"Quit" = "退出";
 
 /* Cancel Button */
 "Cancel" = "取消";
 
 /* Menu */
 "Look Up in Dictionary" = "查字典";
-
-/* Menu */
 "Copy" = "复制";
-
-/* Default Button */
-"Quit" = "退出";
 
 /* Sheet Message */
 "There are %d tabs open in Welly. Do you want to quit anyway?" = "还有 %d 个标签正在连接中，您确定要退出 Welly？";
-
-/* Sheet Message */
 "The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?" = "此连接未断开。若您关闭这个标签会强制断开连接。您确定要关闭这个标签吗？";
-
-/* Sheet Message */
 "The connection is still alive. If you reconnect, the current connection will be lost. Do you want to reconnect anyway?" = "此连接未断开。若您重新连接，当前的连接将会强行断开。您确定要重新连接吗？";
-
-/* Sheet Message */
 "It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?" = "您似乎并非在编辑文章。进行粘贴可能会产生难以预料的行为。您确定要进行粘贴吗？";
-
-/* Sheet Message */
 "It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?" = "您似乎并非在编辑文章，此时使用文本编辑器可能会产生难以预料的行为。您确定要继续吗？";
-
-/* Sheet Message */
 "Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections." = "要使用 telnet 连接的自动登录功能，您需要在地址中显式写入您的 BBS 帐号，即“id@”不可省略。";
 
 /* Preferences */
 "General" = "一般";
-
-/* Preferences */
 "Colors" = "颜色";
-
-/* Preferences */
 "Fonts" = "字体";
-
-/* Preferences */
 "Connection" = "连接";
-
-/* Preferences */
 "AutoReply" = "自动应答";
 
 /* IP Seeker */

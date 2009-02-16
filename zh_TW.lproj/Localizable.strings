@@ -1,67 +1,35 @@
 ﻿/* Sheet Title */
 "Are you sure you want to quit Welly?" = "確認要結束 Welly？";
-
-/* Sheet Title */
 "Are you sure you want to close this tab?" = "確認要關閉標籤頁？";
-
-/* Sheet Title */
 "Are you sure you want to reconnect?" = "確認要重新連線？";
-
-/* Sheet Title */
 "Are you sure you want to paste?" = "確認要貼上？";
-
-/* Sheet Title */
 "Are you sure you want to open the composer?" = "確認要使用文本編輯器？";
-
-/* Sheet Title */
 "Site address format error" = "不正確的位址格式";
 
 /* Default Button */
 "Close" = "關閉";
-
-/* Default Button */
 "Confirm" = "確認";
+"Quit" = "結束";
 
 /* Cancel Button */
 "Cancel" = "取消";
 
 /* Menu */
 "Look Up in Dictionary" = "查詢字典";
-
-/* Menu */
 "Copy" = "拷貝";
-
-/* Default Button */
-"Quit" = "結束";
 
 /* Sheet Message */
 "There are %d tabs open in Welly. Do you want to quit anyway?" = "還有 %d 個標籤頁正在連線中，您確認要結束 Welly？";
-
-/* Sheet Message */
 "The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?" = "此連線未結束。若您關閉這個標籤頁會強迫斷線。您確認要關閉這個標籤頁嗎？";
-
-/* Sheet Message */
 "The connection is still alive. If you reconnect, the current connection will be lost. Do you want to reconnect anyway?" = "此連線未結束。若您重新連線，此連線會強迫斷線。您確認要重新連線嗎？";
-
-/* Sheet Message */
 "It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?" = "您似乎並非在編輯文章。在此貼上可能會產生難以預料的行為。您確認要貼上嗎？";
-
-/* Sheet Message */
 "It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?" = "您似乎並非在編輯文章，此時使用文本編輯器可能會產生難以預料的行為。您確認要繼續嗎？";
-
-/* Sheet Message */
 "Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections." = "欲使用 telnet 連線的自動登錄功能，您需要在位址中顯式填入您的 BBS 登錄名，即“id@”不可省略。";
 
 /* Preferences */
 "General" = "一般";
-
-/* Preferences */
 "Colors" = "顏色";
-
-/* Preferences */
 "Fonts" = "字形";
-
-/* Preferences */
 "Connection" = "連線";
 
 /* IP Seeker */
@@ -114,3 +82,22 @@
 /* Restore font */
 "Are you sure you want to restore all your font settings?" = "您真的要恢復所有字體預置麼？";
 "If you proceed, you will lost all your current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?" = "如果繼續，Welly的所有字體預置均將被重置，是否繼續？";
+
+/* Mouse Button */
+"Compose Post" = "Compose Post";
+"Delete Post" = "Delete Post";
+"Show Note" = "Show Note";
+"Show Help" = "Show Help";
+"Normal To Digest" = "Normal To Digest";
+"Digest To Thread" = "Digest To Thread";
+"Thread To Mark" = "Thread To Mark";
+"Mark To Origin" = "Mark To Origin";
+"Origin To Normal" = "Origin To Normal";
+"Display All Boards" = "Display All Boards";
+"Sort Boards" = "Sort Boards";
+"Switch Boards Number" = "Switch Boards Number";
+"Delete Board" = "Delete Board";
+
+/* Tool Tip */
+"Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";
+"Left click for PageDown, right click for End" = "Left click for PageDown, right click for End";
