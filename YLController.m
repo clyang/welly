@@ -1602,7 +1602,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                         if ([moreModeKeyword isEqualToString:@"下"])
                             [description appendFormat:@"<br />......"];
                         NSString *author = [terminal stringFromIndex:8 length:column - 8];
-                        NSString *boardName = [author substringFromIndex:[author rangeOfString:@" " options:NSBackwardsSearch].location + 1];
+                        NSString *boardName = offset ? [terminal stringFromIndex:column length:column] 
+                                                     : [author substringFromIndex:[author rangeOfString:@" " options:NSBackwardsSearch].location + 1];
                         author = [author substringToIndex:[author rangeOfString:@" "].location];
                         NSString *thirdLine;
                         while (!(thirdLine = [terminal stringFromIndex:column * 2 + 8 + offset length:column - 8]))
