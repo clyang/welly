@@ -17,7 +17,7 @@ NSString * const KOMouseButtonTextUserInfoName;
 NSString * const KOMouseCursorUserInfoName;
 
 @class YLView, KOEffectView;
-@interface KOMouseBehaviorManager : NSResponder {
+@interface KOMouseBehaviorManager : NSResponder <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
 	YLView *_view;
 	
 	NSDictionary *activeTrackingAreaUserInfo;

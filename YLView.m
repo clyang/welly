@@ -102,13 +102,6 @@ BOOL isSpecialSymbol(unichar ch) {
     [cursorImage release];
 }
 
-- (NSRect) rectAtRow: (int)r 
-			  column: (int)c 
-			  height: (int)h 
-			   width: (int)w {
-	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
-}
-
 - (void) createSymbolPath {
 	int i = 0;
 	gSymbolBlackSquareRect = NSMakeRect(1.0, 1.0, _fontWidth * 2 - 2, _fontHeight - 2);
@@ -401,6 +394,12 @@ BOOL isSpecialSymbol(unichar ch) {
     return cy * gColumn + cx;
 }
 
+- (NSRect) rectAtRow: (int)r 
+			  column: (int)c 
+			  height: (int)h 
+			   width: (int)w {
+	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
+}
 
 #pragma mark -
 #pragma mark Event Handling
@@ -1265,7 +1264,10 @@ BOOL isSpecialSymbol(unichar ch) {
     if (![self connected])
         return nil;
     NSString *s = [self selectedPlainString];
-    return [YLContextualMenuManager menuWithSelectedString:s];
+	if (s != nil)
+		return [YLContextualMenuManager menuWithSelectedString:s];
+	else
+		return [_mouseBehaviorDelegate menuForEvent: theEvent];
 }
 
 /* Otherwise, it will return the subview. */

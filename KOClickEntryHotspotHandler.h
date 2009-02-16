@@ -12,7 +12,7 @@
 @class YLView;
 @class KOEffectView;
 
-@interface KOClickEntryHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable> {
+@interface KOClickEntryHotspotHandler : KOMouseHotspotHandler <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
 	int _row;
 	NSString *_commandSequence;
 }

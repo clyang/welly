@@ -105,6 +105,20 @@ NSString * const KOMouseCursorUserInfoName = @"Cursor";
 	}
 }
 
+- (NSMenu *) menuForEvent: (NSEvent *) theEvent {
+	if (activeTrackingAreaUserInfo) {
+		KOMouseHotspotHandler *handler = [activeTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
+		if ([handler conformsToProtocol:@protocol(KOContextualMenuHandler)])
+			return [(NSObject <KOContextualMenuHandler> *)handler menuForEvent: theEvent];
+	} else if (backgroundTrackingAreaUserInfo) {
+		KOMouseHotspotHandler *handler = [backgroundTrackingAreaUserInfo valueForKey: KOMouseHandlerUserInfoName];
+		if ([handler conformsToProtocol:@protocol(KOContextualMenuHandler)])
+			return [(NSObject <KOContextualMenuHandler> *)handler menuForEvent: theEvent];
+	}
+	
+	return nil;
+}
+
 #pragma mark -
 #pragma mark Add Tracking Area
 - (BOOL) isMouseInsideRect: (NSRect)rect {

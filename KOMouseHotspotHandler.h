@@ -16,6 +16,11 @@
 - (void) update;
 @end
 
+@protocol KOContextualMenuHandler
+- (NSMenu *) menuForEvent: (NSEvent *)theEvent;
+@end
+
+
 @class YLView, KOMouseBehaviorManager;
 @interface KOMouseHotspotHandler : NSResponder {
 	YLView *_view;

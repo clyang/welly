@@ -8,11 +8,13 @@
 
 #import "KOClickEntryHotspotHandler.h"
 #import "KOMouseBehaviorManager.h"
-#import "YLView.h"
-#import "YLConnection.h"
 #import "KOEffectView.h"
 #import "YLLGlobalConfig.h"
+#import "YLApplication.h"
+#import "YLController.h"
 #import "YLTerminal.h"
+#import "YLView.h"
+#import "YLConnection.h"
 #import "encoding.h"
 
 @implementation KOClickEntryHotspotHandler
@@ -22,28 +24,20 @@
 
 #pragma mark -
 #pragma mark Mouse Event Handler
-- (void) mouseUp: (NSEvent *)theEvent {
-	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
-	if (commandSequence != nil) {
-		[[_view frontMostConnection] sendText: commandSequence];
-		return;
-	}
+- (void) enterEntryAtRow: (int) moveToRow {
 	unsigned char cmd[_maxRow * _maxColumn + 1];
 	unsigned int cmdLength = 0;
 	YLTerminal *ds = [_view frontMostTerminal];
-	int moveToRow = [[_manager.activeTrackingAreaUserInfo objectForKey:KOMouseRowUserInfoName] intValue];
 	int cursorRow = [ds cursorRow];
-	NSLog(@"KOClickEntryHotspotHandler mouseUp: move to %d, cursor at %d", moveToRow, cursorRow);
 	
+	// Moving Command
 	if (moveToRow > cursorRow) {
-		//cmd[cmdLength++] = 0x01;
 		for (int i = cursorRow; i < moveToRow; i++) {
 			cmd[cmdLength++] = 0x1B;
 			cmd[cmdLength++] = 0x4F;
 			cmd[cmdLength++] = 0x42;
 		} 
 	} else if (moveToRow < cursorRow) {
-		//cmd[cmdLength++] = 0x01;
 		for (int i = cursorRow; i > moveToRow; i--) {
 			cmd[cmdLength++] = 0x1B;
 			cmd[cmdLength++] = 0x4F;
@@ -51,9 +45,21 @@
 		} 
 	}
 	
+	// Enter
 	cmd[cmdLength++] = 0x0D;
 	
 	[[_view frontMostConnection] sendBytes: cmd length: cmdLength];
+}
+
+- (void) mouseUp: (NSEvent *)theEvent {
+	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
+	if (commandSequence != nil) {
+		[[_view frontMostConnection] sendText: commandSequence];
+		return;
+	}
+	int moveToRow = [[_manager.activeTrackingAreaUserInfo objectForKey:KOMouseRowUserInfoName] intValue];
+	
+	[self enterEntryAtRow:moveToRow];
 }
 
 - (void) mouseEntered: (NSEvent *)theEvent {
@@ -74,6 +80,48 @@
 - (void) mouseMoved: (NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
+}
+
+#pragma mark -
+#pragma mark Contextual Menu
+- (void) doDownloadPost:(id)sender {
+	NSDictionary *userInfo = [sender representedObject];
+	
+	// Enter the entry
+	int moveToRow = [[userInfo objectForKey:KOMouseRowUserInfoName] intValue];
+	[self enterEntryAtRow:moveToRow];
+	
+	// Wait until state change
+	const int sleepTime = 100000, maxAttempt = 300000;
+	int count = 0;
+	while ([[_view frontMostTerminal] bbsState].state != BBSViewPost && count < maxAttempt) {
+		++count;
+		usleep(sleepTime);
+	}
+	
+	// Do Post Download
+	[(YLController *)[(YLApplication *)NSApp controller] openPostDownload:sender];
+}
+
+- (IBAction) downloadPost:(id)sender {
+	// Do this in new thread to avoid blocking the main thread
+	[NSThread detachNewThreadSelector:@selector(doDownloadPost:) toTarget:self withObject:sender];
+}
+
+- (NSMenu *) menuForEvent: (NSEvent *)theEvent {
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	if ([[_view frontMostTerminal] bbsState].state == BBSBrowseBoard)
+		[menu addItemWithTitle:@"Download"
+						action:@selector(downloadPost:)
+				 keyEquivalent:@""];
+	
+	for (NSMenuItem *item in [menu itemArray]) {
+		if ([item isSeparatorItem])
+			continue;
+		[item setTarget:self];
+		[item setRepresentedObject:_manager.activeTrackingAreaUserInfo];
+	}
+	return menu;
 }
 
 #pragma mark -
