@@ -219,6 +219,54 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
+#pragma mark Conversion
+
+- (int) convertIndexFromPoint: (NSPoint) p {
+	// The following 2 lines: for full screen mode
+	NSRect frame = [self frame];
+	p.y -= 2 * frame.origin.y;
+	
+    if (p.x >= gColumn * _fontWidth) p.x = gColumn * _fontWidth - 0.001;
+    if (p.y >= gRow * _fontHeight) p.y = gRow * _fontHeight - 0.001;
+    if (p.x < 0) p.x = 0;
+    if (p.y < 0) p.y = 0;
+    int cx, cy = 0;
+    cx = (int) ((CGFloat) p.x / _fontWidth);
+    cy = gRow - (int) ((CGFloat) p.y / _fontHeight) - 1;
+    return cy * gColumn + cx;
+}
+
+- (NSRect) rectAtRow: (int)r 
+			  column: (int)c 
+			  height: (int)h 
+			   width: (int)w {
+	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
+}
+
+- (NSRect) selectedRect {
+	if (_selectionLength == 0)
+		return NSZeroRect;
+	int location, length;
+    if (_selectionLength >= 0) {
+        location = _selectionLocation;
+        length = _selectionLength;
+    } else {
+        location = _selectionLocation + _selectionLength;
+        length = 0 - (int)_selectionLength;
+    }
+    int x = location % gColumn;
+    int y = location / gColumn;
+	int w = length % gColumn;
+	int h = length / gColumn;
+	if (x + w > gColumn) {
+		x = (x + w) - gColumn;
+		w = gColumn - w;
+		h = h + 1;
+	}
+	return NSMakeRect(x, y, w, h);
+}
+
+#pragma mark -
 #pragma mark Actions
 
 - (void) copy: (id) sender {
@@ -243,36 +291,96 @@ BOOL isSpecialSymbol(unichar ch) {
     id ds = [self frontMostTerminal];
     int emptyCount = 0;
 
-    for (i = 0; i < length; i++) {
-        int index = location + i;
-        cell *currentRow = [ds cellsOfRow: index / gColumn];
-        
-        if ((index % gColumn == 0) && (index != location)) {
-            buffer[bufferLength].byte = '\n';
-            buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
-            bufferLength++;
-            emptyCount = 0;
-        }
-        if (currentRow[index % gColumn].byte != '\0') {
-            for (j = 0; j < emptyCount; j++) {
-                buffer[bufferLength] = currentRow[index % gColumn];
-                buffer[bufferLength].byte = ' ';
-                buffer[bufferLength].attr.f.doubleByte = 0;
-                buffer[bufferLength].attr.f.url = 0;
-                buffer[bufferLength].attr.f.nothing = 0;
-                bufferLength++;   
-            }
-            buffer[bufferLength] = currentRow[index % gColumn];
-            /* Clear non-ANSI related properties. */
-            buffer[bufferLength].attr.f.doubleByte = 0;
-            buffer[bufferLength].attr.f.url = 0;
-            buffer[bufferLength].attr.f.nothing = 0;
-            bufferLength++;
-            emptyCount = 0;
-        } else {
-            emptyCount++;
-        }
-    }
+	if (!_hasRectangleSelected) {
+		for (i = 0; i < length; i++) {
+			int index = location + i;
+			cell *currentRow = [ds cellsOfRow: index / gColumn];
+			
+			if ((index % gColumn == 0) && (index != location)) {
+				buffer[bufferLength].byte = '\n';
+				buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
+				bufferLength++;
+				emptyCount = 0;
+			}
+			if (currentRow[index % gColumn].byte != '\0') {
+				for (j = 0; j < emptyCount; j++) {
+					buffer[bufferLength] = currentRow[index % gColumn];
+					buffer[bufferLength].byte = ' ';
+					buffer[bufferLength].attr.f.doubleByte = 0;
+					buffer[bufferLength].attr.f.url = 0;
+					buffer[bufferLength].attr.f.nothing = 0;
+					bufferLength++;   
+				}
+				buffer[bufferLength] = currentRow[index % gColumn];
+				/* Clear non-ANSI related properties. */
+				buffer[bufferLength].attr.f.doubleByte = 0;
+				buffer[bufferLength].attr.f.url = 0;
+				buffer[bufferLength].attr.f.nothing = 0;
+				bufferLength++;
+				emptyCount = 0;
+			} else {
+				emptyCount++;
+			}
+		}
+	} else {
+		NSRect selectedRect = [self selectedRect];
+		// Rectangle Selection
+		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
+			cell *currentRow = [ds cellsOfRow: r];
+			// Copy 'selectedRect.size.width' bytes from (r, selectedRect.origin.x)
+			for (int c = selectedRect.origin.x; c < selectedRect.origin.x + selectedRect.size.width; ++c) {
+				if (currentRow[c].byte != '\0') {
+					for (j = 0; j < emptyCount; j++) {
+						buffer[bufferLength] = currentRow[c];
+						buffer[bufferLength].byte = ' ';
+						buffer[bufferLength].attr.f.doubleByte = 0;
+						buffer[bufferLength].attr.f.url = 0;
+						buffer[bufferLength].attr.f.nothing = 0;
+						bufferLength++;   
+					}
+					buffer[bufferLength] = currentRow[c];
+					/* Clear non-ANSI related properties. */
+					buffer[bufferLength].attr.f.doubleByte = 0;
+					buffer[bufferLength].attr.f.url = 0;
+					buffer[bufferLength].attr.f.nothing = 0;
+					bufferLength++;
+					emptyCount = 0;
+				} else {
+					emptyCount++;
+				}
+			}
+			// Check if we should fill remaining empty count:
+			if (emptyCount > 0) {
+				for (int c = selectedRect.origin.x + selectedRect.size.width; c < gColumn; ++c) {
+					if (currentRow[c].byte != '\0') {
+						for (j = 0; j < emptyCount; j++) {
+							buffer[bufferLength] = currentRow[c];
+							buffer[bufferLength].byte = ' ';
+							buffer[bufferLength].attr.f.doubleByte = 0;
+							buffer[bufferLength].attr.f.url = 0;
+							buffer[bufferLength].attr.f.nothing = 0;
+							bufferLength++;   
+						}
+						buffer[bufferLength] = currentRow[c];
+						/* Clear non-ANSI related properties. */
+						buffer[bufferLength].attr.f.doubleByte = 0;
+						buffer[bufferLength].attr.f.url = 0;
+						buffer[bufferLength].attr.f.nothing = 0;
+						bufferLength++;
+						emptyCount = 0;
+						break;
+					}
+				}
+			}
+			// add \n
+			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
+				break;
+			buffer[bufferLength].byte = '\n';
+			buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
+			bufferLength++;
+			emptyCount = 0;
+		}		
+	}
     
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSMutableArray *types = [NSMutableArray arrayWithObjects: NSStringPboardType, ANSIColorPBoardType, nil];
@@ -377,31 +485,6 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
-#pragma mark Conversion
-
-- (int) convertIndexFromPoint: (NSPoint) p {
-	// The following 2 lines: for full screen mode
-	NSRect frame = [self frame];
-	p.y -= 2 * frame.origin.y;
-	
-    if (p.x >= gColumn * _fontWidth) p.x = gColumn * _fontWidth - 0.001;
-    if (p.y >= gRow * _fontHeight) p.y = gRow * _fontHeight - 0.001;
-    if (p.x < 0) p.x = 0;
-    if (p.y < 0) p.y = 0;
-    int cx, cy = 0;
-    cx = (int) ((CGFloat) p.x / _fontWidth);
-    cy = gRow - (int) ((CGFloat) p.y / _fontHeight) - 1;
-    return cy * gColumn + cx;
-}
-
-- (NSRect) rectAtRow: (int)r 
-			  column: (int)c 
-			  height: (int)h 
-			   width: (int)w {
-	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
-}
-
-#pragma mark -
 #pragma mark Event Handling
 - (void)mouseDown:(NSEvent *)theEvent {
 	[[self frontMostConnection] resetMessageCount];
@@ -473,6 +556,7 @@ BOOL isSpecialSymbol(unichar ch) {
     if (_selectionLength <= 0) _selectionLength--;
     if (oldValue != _selectionLength)
         [self setNeedsDisplay: YES];
+	_hasRectangleSelected = _wantRectangleSelection;
     // TODO: Calculate the precise region to redraw
 }
 
@@ -637,6 +721,18 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	}
 	 */
+	// For rectangle selection
+	unsigned int currentFlags = [event modifierFlags];
+	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
+		_wantRectangleSelection = YES;
+		[[NSCursor crosshairCursor] push];
+		_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
+	} else {
+		_wantRectangleSelection = NO;
+		[[NSCursor crosshairCursor] pop];
+		_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
+	}
+	
 	[super flagsChanged: event];
 }
 
@@ -775,17 +871,27 @@ BOOL isSpecialSymbol(unichar ch) {
     int y = location / gColumn;
     [[NSColor colorWithCalibratedRed: 0.6 green: 0.9 blue: 0.6 alpha: 0.4] set];
 
-    while (length > 0) {
-        if (x + length <= gColumn) { // one-line
-            [NSBezierPath fillRect: NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * length, _fontHeight)];
-            length = 0;
-        } else {
-            [NSBezierPath fillRect: NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * (gColumn - x), _fontHeight)];
-            length -= (gColumn - x);
-        }
-        x = 0;
-        y++;
-    }
+	if (_hasRectangleSelected) {
+		// Rectangle
+		NSRect selectedRect = [self selectedRect];
+		NSRect drawingRect = [self rectAtRow:selectedRect.origin.y
+									  column:selectedRect.origin.x
+									  height:selectedRect.size.height
+									   width:selectedRect.size.width];
+		[NSBezierPath fillRect:drawingRect];
+	} else {
+		while (length > 0) {
+			if (x + length <= gColumn) { // one-line
+				[NSBezierPath fillRect: NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * length, _fontHeight)];
+				length = 0;
+			} else {
+				[NSBezierPath fillRect: NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * (gColumn - x), _fontHeight)];
+				length -= (gColumn - x);
+			}
+			x = 0;
+			y++;
+		}
+	}
     [pool release];
 }
 
@@ -1333,7 +1439,20 @@ BOOL isSpecialSymbol(unichar ch) {
         location = _selectionLocation + _selectionLength;
         length = 0 - (int)_selectionLength;
     }
-    return [[self frontMostTerminal] stringFromIndex: location length: length];
+	if (!_hasRectangleSelected)
+		return [[self frontMostTerminal] stringFromIndex: location length: length];
+	else {
+		// Rectangle selection
+		NSRect selectedRect = [self selectedRect];
+		NSMutableString *string = [NSMutableString string];
+		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
+			[string appendString:[[self frontMostTerminal] stringFromIndex:r * gColumn + selectedRect.origin.x length:selectedRect.size.width]];
+			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
+				break;
+			[string appendString:@"\n"];
+		}
+		return string;
+	}
 }
 
 - (BOOL) hasBlinkCell {

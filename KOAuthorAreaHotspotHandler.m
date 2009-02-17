@@ -46,7 +46,7 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])
-		[[NSCursor arrowCursor] set];
+		[_manager restoreNormalCursor];
 }
 
 - (void) mouseMoved: (NSEvent *)theEvent {

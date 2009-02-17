@@ -25,9 +25,14 @@ NSString * const KOMouseAuthorUserInfoName;
 	NSDictionary *backgroundTrackingAreaUserInfo;
 	
 	NSArray *_handlers;
+	
+	NSCursor *normalCursor;
+	
+	BOOL _enabled;
 }
 @property (readwrite, assign) NSDictionary *activeTrackingAreaUserInfo;
 @property (readwrite, assign) NSDictionary *backgroundTrackingAreaUserInfo;
+@property (readwrite, assign) NSCursor *normalCursor;
 
 - (id) initWithView: (YLView *)view;
 - (YLView *) view;
@@ -39,4 +44,9 @@ NSString * const KOMouseAuthorUserInfoName;
 						userInfo: (NSDictionary *)userInfo 
 						  cursor: (NSCursor *)cursor;
 - (void) clearAllTrackingArea;
+
+- (void) restoreNormalCursor;
+
+- (void) enable;
+- (void) disable;
 @end

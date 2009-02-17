@@ -44,12 +44,12 @@ NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for E
 
 - (void) mouseExited: (NSEvent *)theEvent {
 	if ([NSCursor currentCursor] == [_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName])
-		[[NSCursor arrowCursor] set];
+		[_manager restoreNormalCursor];
 	_manager.backgroundTrackingAreaUserInfo = nil;
 }
 
 - (void) mouseMoved: (NSEvent *)theEvent {
-	if ([NSCursor currentCursor] == [NSCursor arrowCursor])
+	if ([NSCursor currentCursor] == _manager.normalCursor)
 		[[_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName] set];
 }
 

@@ -23,6 +23,7 @@ typedef struct {
 		BBSViewPost, 
 		BBSComposePost,
 		BBSWaitingEnter,
+		BBSUserInfo,
 	} state;
 	NSString *boardName;
 } BBSState;

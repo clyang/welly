@@ -390,6 +390,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 	} else {
         _bbsState.state = BBSUnknown;
     }
+	// TODO: identify user info state
 }
 
 # pragma mark -

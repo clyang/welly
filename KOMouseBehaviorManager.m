@@ -47,6 +47,7 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 
 - (id) init {
 	[super init];
+	normalCursor = [NSCursor arrowCursor];
 	return self;
 }
 
@@ -200,12 +201,23 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 	}
 }
 
-#pragma mark button Area
-
 - (YLView *)view {
 	return _view;
 }
 
+- (void) restoreNormalCursor {
+	[normalCursor set];
+}
+
+- (void) enable {
+	_enabled = YES;
+}
+
+- (void) disable {
+	_enabled = NO;
+}
+
 @synthesize activeTrackingAreaUserInfo;
 @synthesize backgroundTrackingAreaUserInfo;
+@synthesize normalCursor;
 @end
