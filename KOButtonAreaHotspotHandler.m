@@ -37,12 +37,32 @@ NSString * const KOButtonNameThreadToMark = @"Thread To Mark";
 NSString * const KOButtonNameMarkToOrigin = @"Mark To Origin";
 NSString * const KOButtonNameOriginToNormal = @"Origin To Normal";
 NSString * const KOButtonNameAuthorToNormal = @"Author To Normal";
+
 NSString * const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
 NSString * const KOButtonNameSwitchSortBoards = @"Sort Boards";
 NSString * const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
 NSString * const KOButtonNameDeleteBoard = @"Delete Board";
 
+NSString * const KOButtonNameChatWithUser = @"Chat";
+NSString * const KOButtonNameMailToUser = @"Mail";
+NSString * const KOButtonNameSendMessageToUser = @"Send Message";
+NSString * const KOButtonNameAddUserToFriendList = @"Add To Friend List";
+NSString * const KOButtonNameRemoveUserFromFriendList = @"Remove From Friend List";
+NSString * const KOButtonNameSwitchUserListMode = @"Switch User List Mode";
+NSString * const KOButtonNameShowUserDescription = @"Show User Description";
+NSString * const KOButtonNamePreviousUser = @"Previous User";
+NSString * const KOButtonNameNextUser = @"Next User";
+
 NSString * const FBCommandSequenceAuthorToNormal = @"e";
+NSString * const FBCommandSequenceChatWithUser = @"t";
+NSString * const FBCommandSequenceMailToUser = @"m";
+NSString * const FBCommandSequenceSendMessageToUser = @"s";
+NSString * const FBCommandSequenceAddUserToFriendList = @"oY\n";
+NSString * const FBCommandSequenceRemoveUserFromFriendList = @"dY\n";
+NSString * const FBCommandSequenceSwitchUserListMode = @"f";
+NSString * const FBCommandSequenceShowUserDescription = @"l";
+NSString * const FBCommandSequencePreviousUser = termKeyUp;
+NSString * const FBCommandSequenceNextUser = termKeyDown;
 
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
@@ -113,6 +133,17 @@ NSString * const FBCommandSequenceAuthorToNormal = @"e";
 		{BBSBoardList, @"切换[c]", 7, KOButtonNameSwitchBoardsNumber, fbSwitchBoardsNumber},
 		{BBSBoardList, @"删除[d]", 7, KOButtonNameDeleteBoard, fbDeletePost},
 		{BBSBoardList, @"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
+		/* BBSUserInfo */
+		{BBSUserInfo, @"寄信[m]", 7, KOButtonNameMailToUser, FBCommandSequenceMailToUser},
+		{BBSUserInfo, @"聊天[t]", 7, KOButtonNameChatWithUser, FBCommandSequenceChatWithUser},
+		{BBSUserInfo, @"送讯息[s]", 9, KOButtonNameSendMessageToUser, FBCommandSequenceSendMessageToUser},
+		{BBSUserInfo, @"加,减朋", 7, KOButtonNameAddUserToFriendList, FBCommandSequenceAddUserToFriendList},
+		{BBSUserInfo, @"友[o,d]", 7, KOButtonNameRemoveUserFromFriendList, FBCommandSequenceRemoveUserFromFriendList},
+		{BBSUserInfo, @"切换模式 [f]", 12, KOButtonNameSwitchUserListMode, FBCommandSequenceSwitchUserListMode},
+		{BBSUserInfo, @"求救[h]", 7, KOButtonNameShowHelp, fbShowHelp},
+		{BBSUserInfo, @"查看说明档[l]", 13, KOButtonNameShowUserDescription, FBCommandSequenceShowUserDescription},
+		{BBSUserInfo, @"选择使用", 8, KOButtonNamePreviousUser, FBCommandSequencePreviousUser},
+		{BBSUserInfo, @"者[↑,↓]", 9, KOButtonNameNextUser, FBCommandSequenceNextUser},
 	};
 	YLTerminal *ds = [_view frontMostTerminal];
 	

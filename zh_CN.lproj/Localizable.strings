@@ -100,6 +100,16 @@
 "Switch Boards Number" = "切换";
 "Delete Board" = "删除版面";
 "Author: %@" = "同作者: %@";
+// User Info
+"Chat" = "聊天";
+"Mail" = "寄信";
+"Send Message" = "送讯息";
+"Add To Friend List" = "加为好友";
+"Remove From Friend List" = "断交";
+"Switch User List Mode" = "切换模式";
+"Show User Description" = "查看说明档";
+"Previous User" = "上一个用户";
+"Next User" = "下一个用户";
 
 /* Tool Tip */
 "Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";

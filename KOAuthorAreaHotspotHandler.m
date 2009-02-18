@@ -129,19 +129,33 @@ BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
         for (int i = 2; i < _maxColumn - 1; ++i) {
 			int db = currRow[i].attr.f.doubleByte;
 			if (db == 0) {
-                if (start == -1) {
+                if (start == -1) {	// User ID should start with a letter
                     if (isLetter(currRow[i].byte))
                         start = i;
                 }
 				if (isLetter(currRow[i].byte) || isNumber(currRow[i].byte))
 					end = i;
-				else if (start != -1)
-					break;
+				else if (start != -1) {
+					if (end > start)
+						break;
+					else {	// User ID should have at least 2 bytes
+						start = end = -1;
+						textBuf[0] = textBuf[1] = 0;
+						bufLength = 0;
+					}
+				}
                 if (start != -1)
                     textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
             } else if (db == 2) {
-				if (start != -1)
-					break;
+				if (start != -1) {
+					if (end > start)
+						break;
+					else {	// User ID should have at least 2 bytes
+						start = end = -1;
+						textBuf[0] = textBuf[1] = 0;
+						bufLength = 0;
+					}
+				}
 			}
 		}
 		

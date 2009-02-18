@@ -99,6 +99,16 @@
 "Switch Boards Number" = "Switch Boards Number";
 "Delete Board" = "Delete Board";
 "Author: %@" = "同作者: %@";
+// User Info
+"Chat" = "Chat";
+"Mail" = "Mail";
+"Send Message" = "Send Message";
+"Add To Friend List" = "Add To Friend List";
+"Remove From Friend List" = "Remove From Friend List";
+"Switch User List Mode" = "Switch User List Mode";
+"Show User Description" = "Show User Description";
+"Previous User" = "Previous User";
+"Next User" = "Next User";
 
 /* Tool Tip */
 "Left click for PageUp, right click for Home" = "Left click for PageUp, right click for Home";

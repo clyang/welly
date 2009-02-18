@@ -198,6 +198,10 @@
     return [[[NSString alloc] initWithCharacters: textBuf length: bufLength] autorelease];
 }
 
+- (NSString *) stringAtRow: (int) row {
+	return [self stringFromIndex:row * _column length:_column];
+}
+
 - (cell *) cellsOfRow: (int) r {
 	return _grid[r];
 }
@@ -350,9 +354,9 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 // WARNING: bunch of hard code
 // 
 - (void)updateBBSState {
-    NSString *topLine = [self stringFromIndex:0 length:_column];	// get the first line from the screen
-    NSString *secondLine = [self stringFromIndex:_column length:_column];
-    NSString *bottomLine = [self stringFromIndex:(_row-1) * _column length:_column];
+    NSString *topLine = [self stringAtRow:0];	// get the first line from the screen
+    NSString *secondLine = [self stringAtRow:1];
+    NSString *bottomLine = [self stringAtRow:_row-1];
     if (NO) {
         // just for align
     } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
@@ -387,10 +391,14 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按 ◆Enter◆ 继续", @"按 <ENTER> 继续", @"按任何键继续", @"上次连线时间为", @"按任意鍵繼續", @"請按空白鍵或是Enter繼續", nil])) {
 		//NSLog(@"按回车继续");
 		_bbsState.state = BBSWaitingEnter;
+	} else if (hasAnyString([self stringAtRow:4], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])
+			   || hasAnyString([self stringAtRow:6], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])) {
+		//NSLog(@"用户信息");
+		_bbsState.state = BBSUserInfo;
 	} else {
+		//NSLog(@"未知状态");
         _bbsState.state = BBSUnknown;
     }
-	// TODO: identify user info state
 }
 
 # pragma mark -

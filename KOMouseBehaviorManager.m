@@ -211,6 +211,7 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 
 - (void) enable {
 	_enabled = YES;
+	[self update];
 }
 
 - (void) disable {
