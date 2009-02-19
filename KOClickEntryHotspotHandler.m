@@ -17,6 +17,17 @@
 #import "YLConnection.h"
 #import "encoding.h"
 
+NSString *const KOMenuTitleDownloadPost = @"Download post";
+NSString *const KOMenuTitleThreadTop = @"Thread top";
+NSString *const KOMenuTitleThreadBottom = @"Thread bottom";
+NSString *const KOMenuTitleSameAuthorReading = @"Same author reading";
+NSString *const KOMenuTitleSameThreadReading = @"Same thread reading";
+
+NSString *const KOCommandSequenceThreadTop = @"=";
+NSString *const KOCommandSequenceThreadBottom = @"\\";
+NSString *const KOCommandSequenceSameThreadReading = @"\030";	// ^X
+NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
+
 @implementation KOClickEntryHotspotHandler
 - (void) dealloc {
 	[super dealloc];
@@ -24,7 +35,7 @@
 
 #pragma mark -
 #pragma mark Mouse Event Handler
-- (void) enterEntryAtRow: (int) moveToRow {
+- (void) moveCursorToRow: (int) moveToRow {
 	unsigned char cmd[_maxRow * _maxColumn + 1];
 	unsigned int cmdLength = 0;
 	YLTerminal *ds = [_view frontMostTerminal];
@@ -44,11 +55,15 @@
 			cmd[cmdLength++] = 0x41;
 		} 
 	}
+
+	[[_view frontMostConnection] sendBytes:cmd length:cmdLength];
+}
+
+- (void) enterEntryAtRow: (int) moveToRow {
+	[self moveCursorToRow:moveToRow];
 	
 	// Enter
-	cmd[cmdLength++] = 0x0D;
-	
-	[[_view frontMostConnection] sendBytes: cmd length: cmdLength];
+	[_view sendText:termKeyEnter];
 }
 
 - (void) mouseUp: (NSEvent *)theEvent {
@@ -108,12 +123,53 @@
 	[NSThread detachNewThreadSelector:@selector(doDownloadPost:) toTarget:self withObject:sender];
 }
 
+- (void) moveCursorBySender: (id)sender {
+	NSDictionary *userInfo = [sender representedObject];
+	
+	// Move the cursor to the entry
+	int moveToRow = [[userInfo objectForKey:KOMouseRowUserInfoName] intValue];
+	[self moveCursorToRow:moveToRow];
+}
+
+- (IBAction) threadTop: (id)sender {
+	[self moveCursorBySender:sender];
+	[_view sendText:KOCommandSequenceThreadTop];
+}
+
+- (IBAction) threadBottom: (id)sender {
+	[self moveCursorBySender:sender];	
+	[_view sendText:KOCommandSequenceThreadBottom];
+}
+
+- (IBAction) sameAuthorReading: (id)sender {
+	[self moveCursorBySender:sender];
+	[_view sendText:KOCommandSequenceSameAuthorReading];
+}
+
+- (IBAction) sameThreadReading: (id)sender {
+	[self moveCursorBySender:sender];	
+	[_view sendText:KOCommandSequenceSameThreadReading];
+}
+
 - (NSMenu *) menuForEvent: (NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-	if ([[_view frontMostTerminal] bbsState].state == BBSBrowseBoard)
-		[menu addItemWithTitle:@"Download"
+	if ([[_view frontMostTerminal] bbsState].state == BBSBrowseBoard) {
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleDownloadPost, @"Contextual Menu")
 						action:@selector(downloadPost:)
 				 keyEquivalent:@""];
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleThreadTop, @"Contextual Menu") 
+						action:@selector(threadTop:) 
+				 keyEquivalent:@""];
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleThreadBottom, @"Contextual Menu") 
+						action:@selector(threadBottom:) 
+				 keyEquivalent:@""];
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleSameAuthorReading, @"Contextual Menu") 
+						action:@selector(sameAuthorReading:) 
+				 keyEquivalent:@""];
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleSameThreadReading, @"Contextual Menu") 
+						action:@selector(sameThreadReading:) 
+				 keyEquivalent:@""];
+	}
 	
 	for (NSMenuItem *item in [menu itemArray]) {
 		if ([item isSeparatorItem])

@@ -118,3 +118,9 @@
 /* Contextual Menu */
 "Info for %@" = "查看%@个人信息";
 "Add %@ as friend" = "添加%@为好友";
+// Click Entry
+"Download post" = "全文下载";
+"Thread top" = "同主题第一篇";
+"Thread bottom" = "同主题最后一篇";
+"Same author reading" = "同作者阅读";
+"Same thread reading" = "同主题阅读";
