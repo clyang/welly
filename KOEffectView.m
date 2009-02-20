@@ -148,8 +148,9 @@
 
 - (void)drawButton: (NSRect) rect withMessage: (NSString *) message {
 	//Initiallize a new CALayer
-	if(buttonLayer)
-		[buttonLayer release];
+	//if (buttonLayer)
+	//	[buttonLayer release];
+	[self clearButton];
 	
 	buttonLayer = [CALayer layer];
 	// Set the colors of the pop-up layer
@@ -226,11 +227,14 @@
 }
 
 - (void)clearButton {
+	if (buttonLayer == nil)
+		return;
 	CATextLayer *textLayer = [[buttonLayer sublayers] lastObject];
 	[textLayer.string release];
 	[textLayer removeFromSuperlayer];
 	[buttonLayer removeAllAnimations];
 	[buttonLayer removeFromSuperlayer];
+	[buttonLayer release];
 }
 
 #pragma mark -
@@ -325,13 +329,6 @@ const CGFloat menuMarginWidth = 20.0;
 }
 
 - (void)removeAllMenuItems {
-	//NSArray *layers = [menuLayer sublayers];
-	// Notice, we must use this style of loop, otherwise it would crash
-	/*
-	for (int i = 0; i < [layers count]; ++i) {
-		CATextLayer *menuItemLayer = [layers objectAtIndex: i];
-		[menuItemLayer removeFromSuperlayer];
-	}*/
 	while ([[menuLayer sublayers] count] > 0) {
 		CATextLayer *menuItemLayer = [[menuLayer sublayers] lastObject];
 		[menuItemLayer.string release];
