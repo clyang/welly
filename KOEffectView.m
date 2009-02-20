@@ -148,9 +148,9 @@
 
 - (void)drawButton: (NSRect) rect withMessage: (NSString *) message {
 	//Initiallize a new CALayer
-	//if (buttonLayer)
-	//	[buttonLayer release];
 	[self clearButton];
+	if (buttonLayer)
+		[buttonLayer release];
 	
 	buttonLayer = [CALayer layer];
 	// Set the colors of the pop-up layer
@@ -234,7 +234,6 @@
 	[textLayer removeFromSuperlayer];
 	[buttonLayer removeAllAnimations];
 	[buttonLayer removeFromSuperlayer];
-	[buttonLayer release];
 }
 
 #pragma mark -
