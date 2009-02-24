@@ -224,6 +224,14 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
     return YES;
 }
 
+BOOL isPostTitleStarter(unichar c) {
+	// smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
+	// free/sjtu: 0x25c6 (solid diamond "◆")
+	// ptt: 0x25a1 (hollow square "□")
+	return (c == 0x25cf || c == 0x251c || c == 0x2514 || c == 0x2605 
+			|| c == 0x25c6 || c == 0x25a1);
+}
+
 - (void) updateClickEntryForRow: (int) r {
 	//NSLog(@"KOClickEntryHotspotHandler updateClickEntryForRow:%d", r);
     YLTerminal *ds = [_view frontMostTerminal];
@@ -257,7 +265,7 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
                 // smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
                 // free/sjtu: 0x25c6 (solid diamond "◆")
                 // ptt: 0x25a1 (hollow square "□")
-                if (start == -1 && ch >= 0x2510 && ch <= 0x260f)
+                if (start == -1 && isPostTitleStarter(ch))//ch >= 0x2510 && ch <= 0x260f)
 					start = i - 1;
 				end = i;
 				if (start != -1)
@@ -311,12 +319,7 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 		// main menu
 		if (r < 3 || r == _maxRow - 1)
 			return;
-		/*
-		 const int ST_START = 0;
-		 const int ST_BRACKET_FOUND = 1;
-		 const int ST_SPACE_FOUND = 2;
-		 const int ST_NON_SPACE_FOUND = 3;
-		 */
+		
 		enum {
 			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND, ST_SINGLE_SPACE_FOUND
 		};
@@ -338,20 +341,11 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 					}
 					break;
 				case ST_BRACKET_FOUND:
-					end = i;/*
-					 if (currRow[i].byte == ' ') {
-					 state = ST_SPACE_FOUND;
-					 }*/
+					end = i;
 					if (db == 1) {
 						state = ST_NON_SPACE_FOUND;
 					}
 					break;
-					/*
-					 case ST_SPACE_FOUND:
-					 end = i;
-					 if (currRow[i].byte != ' ')
-					 state = ST_NON_SPACE_FOUND;
-					 break;*/
 				case ST_NON_SPACE_FOUND:
 					if (currRow[i].byte == ' ' || currRow[i].byte == 0) {
 						state = ST_SINGLE_SPACE_FOUND;

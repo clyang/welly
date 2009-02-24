@@ -37,6 +37,7 @@ NSString * const KOButtonNameThreadToMark = @"Thread To Mark";
 NSString * const KOButtonNameMarkToOrigin = @"Mark To Origin";
 NSString * const KOButtonNameOriginToNormal = @"Origin To Normal";
 NSString * const KOButtonNameAuthorToNormal = @"Author To Normal";
+NSString * const KOButtonNameJumpToMailList = @"Jump To Mail List";
 
 NSString * const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
 NSString * const KOButtonNameSwitchSortBoards = @"Sort Boards";
@@ -63,6 +64,7 @@ NSString * const FBCommandSequenceSwitchUserListMode = @"f";
 NSString * const FBCommandSequenceShowUserDescription = @"l";
 NSString * const FBCommandSequencePreviousUser = termKeyUp;
 NSString * const FBCommandSequenceNextUser = termKeyDown;
+NSString * const FBCommandSequenceJumpToMailList = @"v";
 
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
@@ -127,12 +129,14 @@ NSString * const FBCommandSequenceNextUser = termKeyDown;
 		{BBSBrowseBoard, @"[精华模式]", 10, KOButtonNameMarkToOrigin, fbMarkToOrigin},
 		{BBSBrowseBoard, @"[原作模式]", 10, KOButtonNameOriginToNormal, fbOriginToNormal},
 		{BBSBrowseBoard, @"[作者模式]", 10, KOButtonNameAuthorToNormal, FBCommandSequenceAuthorToNormal},
+		{BBSBrowseBoard, @"[您有信件]", 10, KOButtonNameJumpToMailList, FBCommandSequenceJumpToMailList},
 		/* BBSBoardList */
 		{BBSBoardList, @"列出[y]", 7, KOButtonNameSwitchDisplayAllBoards, fbSwitchDisplayAllBoards},
 		{BBSBoardList, @"排序[S]", 7, KOButtonNameSwitchSortBoards, fbSwitchSortBoards},
 		{BBSBoardList, @"切换[c]", 7, KOButtonNameSwitchBoardsNumber, fbSwitchBoardsNumber},
 		{BBSBoardList, @"删除[d]", 7, KOButtonNameDeleteBoard, fbDeletePost},
 		{BBSBoardList, @"求助[h]", 7, KOButtonNameShowHelp, fbShowHelp},
+		{BBSBoardList, @"[您有信件]", 10, KOButtonNameJumpToMailList, FBCommandSequenceJumpToMailList},
 		/* BBSUserInfo */
 		{BBSUserInfo, @"寄信[m]", 7, KOButtonNameMailToUser, FBCommandSequenceMailToUser},
 		{BBSUserInfo, @"聊天[t]", 7, KOButtonNameChatWithUser, FBCommandSequenceChatWithUser},

@@ -360,7 +360,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     if (NO) {
         // just for align
     } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
-			   || hasAnyString(topLine, [NSArray arrayWithObjects:@"选单", @"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
+			   || hasAnyString(topLine, [NSArray arrayWithObjects:/*@"选单",*/ @"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"讨论区列表", @"个人定制区", @"看板列表", @"板板列表", nil])) {
@@ -382,7 +382,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
         if (_bbsState.boardName == nil)
             _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
         //NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"下面还有喔", @"瀏覽", nil])) {
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"主题阅读", @"同作者阅读", @"下面还有喔", @"瀏覽", nil])) {
         //NSLog(@"阅读文章");
         _bbsState.state = BBSViewPost;
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
