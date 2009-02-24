@@ -469,7 +469,7 @@ BOOL isSpecialSymbol(unichar ch) {
     return YES;
 }
 
-- (void) refreshHiddenRegion {
+- (void)refreshHiddenRegion {
     if (![self connected]) return;
     int i, j;
     for (i = 0; i < gRow; i++) {
@@ -482,6 +482,10 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)sendText: (NSString *)text {
 	[[self frontMostConnection] sendText:text];
+}
+
+- (void)updateMouseHotspot {
+	[_mouseBehaviorDelegate update];
 }
 
 #pragma mark -
@@ -941,7 +945,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) updateBackedImage {
 	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	[_mouseBehaviorDelegate update];
+	[self updateMouseHotspot];
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
@@ -1930,7 +1934,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void) resetCursorRects {
 	[super resetCursorRects];
-	[_mouseBehaviorDelegate update];
+	[self updateMouseHotspot];
 	return;
 }
 @end

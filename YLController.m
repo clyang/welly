@@ -402,6 +402,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
 	[[[_telnetView frontMostConnection] site] setEnableMouse: state];
+	[_telnetView updateMouseHotspot];
 }
 
 - (IBAction) closeMessageWindow: (id) sender {

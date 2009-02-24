@@ -17,8 +17,8 @@ NSString *const KOCommandSequenceLeftArrow = termKeyLeft;
 NSString *const KOCommandSequenceHome = termKeyHome;
 NSString *const KOCommandSequenceEnd = termKeyEnd;
 
-NSString *const KOToolTipPageUp = @"Left click for PageUp, right click for Home";
-NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for End";
+NSString *const KOMenuTitlePressHome = @"Press Home";
+NSString *const KOMenuTitlePressEnd = @"Press End";
 
 @implementation KOMovingAreaHotspotHandler
 - (id) init {
@@ -27,6 +27,15 @@ NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for E
 	_pageUpCursor = [NSCursor resizeUpCursor];
 	_pageDownCursor = [NSCursor resizeDownCursor];
 	return self;
+}
+
+- (BOOL) shouldEnablePageUpDown {
+	YLTerminal *ds = [_view frontMostTerminal];
+	return ([ds bbsState].state == BBSBoardList 
+			|| [ds bbsState].state == BBSBrowseBoard
+			|| [ds bbsState].state == BBSFriendList
+			|| [ds bbsState].state == BBSMailList
+			|| [ds bbsState].state == BBSViewPost);
 }
 
 #pragma mark -
@@ -55,17 +64,32 @@ NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for E
 
 #pragma mark -
 #pragma mark Contextual Menu
+- (IBAction) pressHome: (id)sender {
+	[_view sendText:KOCommandSequenceHome];
+}
+
+- (IBAction) pressEnd: (id)sender {
+	[_view sendText:KOCommandSequenceEnd];
+}
+
 - (NSMenu *) menuForEvent: (NSEvent *)theEvent {
-	NSString *commandSequence = [_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
-	
-	if ([commandSequence isEqualToString:KOCommandSequencePageUp]) {
-		// Press HOME
-		[_view sendText:KOCommandSequenceHome];
-	} else if ([commandSequence isEqualToString:KOCommandSequencePageDown]) {
-		// Press END
-		[_view sendText:KOCommandSequenceEnd];
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	if ([self shouldEnablePageUpDown]) {
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitlePressHome, @"Contextual Menu")
+						action:@selector(pressHome:)
+				 keyEquivalent:@""];
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitlePressEnd, @"Contextual Menu") 
+						action:@selector(pressEnd:) 
+				 keyEquivalent:@""];
 	}
-	return nil;
+	
+	for (NSMenuItem *item in [menu itemArray]) {
+		if ([item isSeparatorItem])
+			continue;
+		[item setTarget:self];
+		[item setRepresentedObject:_manager.backgroundTrackingAreaUserInfo];
+	}
+	return menu;
 }
 
 #pragma mark -
@@ -114,12 +138,7 @@ NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for E
 }
 
 - (void)updatePageUpArea {
-	YLTerminal *ds = [_view frontMostTerminal];
-	if ([ds bbsState].state == BBSBoardList 
-		|| [ds bbsState].state == BBSBrowseBoard
-		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList
-		|| [ds bbsState].state == BBSViewPost) {
+	if ([self shouldEnablePageUpDown]) {
 		[self addPageUpAreaAtRow:0
 						  column:20
 						  height:_maxRow / 2
@@ -142,12 +161,7 @@ NSString *const KOToolTipPageDown = @"Left click for PageDown, right click for E
 }
 
 - (void)updatePageDownArea {
-	YLTerminal *ds = [_view frontMostTerminal];
-	if ([ds bbsState].state == BBSBoardList 
-		|| [ds bbsState].state == BBSBrowseBoard
-		|| [ds bbsState].state == BBSFriendList
-		|| [ds bbsState].state == BBSMailList
-		|| [ds bbsState].state == BBSViewPost) {
+	if ([self shouldEnablePageUpDown]) {
 		[self addPageDownAreaAtRow:_maxRow / 2
 							column:20
 							height:_maxRow / 2

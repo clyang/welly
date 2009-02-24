@@ -99,7 +99,7 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 
 #pragma mark -
 #pragma mark Contextual Menu
-- (void) doDownloadPost:(id)sender {
+- (void) doDownloadPost: (id)sender {
 	NSDictionary *userInfo = [sender representedObject];
 	
 	// Enter the entry
@@ -118,7 +118,7 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 	[(YLController *)[(YLApplication *)NSApp controller] openPostDownload:sender];
 }
 
-- (IBAction) downloadPost:(id)sender {
+- (IBAction) downloadPost: (id)sender {
 	// Do this in new thread to avoid blocking the main thread
 	[NSThread detachNewThreadSelector:@selector(doDownloadPost:) toTarget:self withObject:sender];
 }
