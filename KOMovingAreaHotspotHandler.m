@@ -16,9 +16,11 @@ NSString *const KOCommandSequencePageDown = termKeyPageDown;
 NSString *const KOCommandSequenceLeftArrow = termKeyLeft;
 NSString *const KOCommandSequenceHome = termKeyHome;
 NSString *const KOCommandSequenceEnd = termKeyEnd;
+NSString *const KOCommandSequencePressQ = @"q";
 
 NSString *const KOMenuTitlePressHome = @"Press Home";
 NSString *const KOMenuTitlePressEnd = @"Press End";
+NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 @implementation KOMovingAreaHotspotHandler
 - (id) init {
@@ -72,6 +74,10 @@ NSString *const KOMenuTitlePressEnd = @"Press End";
 	[_view sendText:KOCommandSequenceEnd];
 }
 
+- (IBAction) pressQ: (id)sender {
+	[_view sendText:KOCommandSequencePressQ];
+}
+
 - (NSMenu *) menuForEvent: (NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	if ([self shouldEnablePageUpDown]) {
@@ -83,6 +89,12 @@ NSString *const KOMenuTitlePressEnd = @"Press End";
 				 keyEquivalent:@""];
 	}
 	
+	if ([[_view frontMostTerminal] bbsState].state == BBSBrowseBoard) {
+		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleQuitMode, @"Contextual Menu") 
+						action:@selector(pressQ:) 
+				 keyEquivalent:@""];
+	}
+
 	for (NSMenuItem *item in [menu itemArray]) {
 		if ([item isSeparatorItem])
 			continue;

@@ -101,7 +101,7 @@ static unsigned short gEmptyAttr;
 	[self feedBytes:[data bytes] length:[data length] connection:connection];
 }
 
-- (void)feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection {
+- (void) feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
 	int i, x;

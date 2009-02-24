@@ -115,6 +115,7 @@
 // Moving Area
 "Press Home" = "Press Home";
 "Press End" = "Press End";
+"Quit Mode" = "Quit Mode";
 // Author Button
 "Info for %@" = "Info for %@";
 "Add %@ as friend" = "Add %@ as friend";
