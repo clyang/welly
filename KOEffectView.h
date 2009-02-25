@@ -45,7 +45,9 @@
 - (void)showMenuAtPoint: (NSPoint) pt 
 			withItems: (NSArray *) items;
 - (void)hideMenu;
-- (void)changeSelectedIndex: (int) index;
+- (void)selectMenuItemAtIndex: (int) index;
+- (void)selectPreviousMenuItem;
+- (void)selectNextMenuItem;
 
 // To show pop up message by core animation
 // This method might be changed in future

@@ -292,7 +292,7 @@ const CGFloat menuMarginWidth = 20.0;
     //[self changeSelectedIndex:0];
 }
 
-- (void)changeSelectedIndex: (int) index {
+- (void)selectMenuItemAtIndex: (int) index {
 	// TODO: add code for selecting menu item
 	NSArray *layers = [menuLayer sublayers];
 	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
@@ -326,6 +326,21 @@ const CGFloat menuMarginWidth = 20.0;
 		[menuItemLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
 	}
 }
+
+- (void)selectPreviousMenuItem {
+	int previousItemIndex = selectedItemIndex - 1;
+	if (previousItemIndex < 0)
+		previousItemIndex += [[menuLayer sublayers] count];
+	[self selectMenuItemAtIndex:previousItemIndex];
+}
+
+- (void)selectNextMenuItem {
+	int nextItemIndex = selectedItemIndex + 1;
+	if (nextItemIndex >= [[menuLayer sublayers] count])
+		nextItemIndex -= [[menuLayer sublayers] count];
+	[self selectMenuItemAtIndex:nextItemIndex];
+}
+
 
 - (void)removeAllMenuItems {
 	while ([[menuLayer sublayers] count] > 0) {
@@ -406,7 +421,7 @@ const CGFloat menuMarginWidth = 20.0;
 	
     [menuLayer layoutIfNeeded];
 
-	[self changeSelectedIndex: 0];
+	[self selectMenuItemAtIndex: 0];
 }
 
 - (void)hideMenu {
