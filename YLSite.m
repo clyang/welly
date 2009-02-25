@@ -9,11 +9,22 @@
 #import "YLSite.h"
 #import "YLLGlobalConfig.h"
 
+NSString *const YLSiteNameAttributeName = @"name";
+NSString *const YLSiteAddressAttributeName = @"address";
+NSString *const YLSiteEncodingAttributeName = @"encoding";
+NSString *const YLSiteAnsiColorKeyAttributeName = @"ansicolorkey";
+NSString *const YLSiteDetectDoubleByteAttributeName = @"detectdoublebyte";
+NSString *const YLSiteEnableMouseAttributeName = @"enablemouse";
+NSString *const YLSiteAutoReplyStringAttributeName = @"autoreplystring";
+
+NSString *const KODefaultAutoReplyString = @"DefaultAutoReplyString";
+NSString *const KODefaultSiteName = @"DefaultSiteName";
+
 @implementation YLSite
 
 - (id)init {
     if ([super init]) {
-        [self setName:@"Untitled"];
+        [self setName:NSLocalizedString(KODefaultSiteName, @"Site")];
 
         [self setAddress:@""];
 
@@ -24,7 +35,7 @@
 		//[self setAnsiColorKey:YLEscEscEscANSIColorKey];
         [self setAnsiColorKey: [[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
         [self setAutoReply:NO];
-        [self setAutoReplyString:@"[Welly] Sorry, I am not around."];
+        [self setAutoReplyString:NSLocalizedString(KODefaultAutoReplyString, @"Site")];
     }
     return self;
 }
@@ -35,24 +46,24 @@
 
 + (YLSite *)siteWithDictionary:(NSDictionary *)d {
     YLSite *s = [YLSite site];
-    [s setName: [d valueForKey: @"name"] ?: @""];
-    [s setAddress: [d valueForKey: @"address"] ?: @""];
-    [s setEncoding: (YLEncoding)[[d valueForKey: @"encoding"] unsignedShortValue]];
-    [s setAnsiColorKey: (YLANSIColorKey)[[d valueForKey: @"ansicolorkey"] unsignedShortValue]];
-    [s setDetectDoubleByte: [[d valueForKey: @"detectdoublebyte"] boolValue]];
-	[s setEnableMouse: [[d valueForKey: @"enablemouse"] boolValue]];
+    [s setName: [d valueForKey: YLSiteNameAttributeName] ?: @""];
+    [s setAddress: [d valueForKey: YLSiteAddressAttributeName] ?: @""];
+    [s setEncoding: (YLEncoding)[[d valueForKey: YLSiteEncodingAttributeName] unsignedShortValue]];
+    [s setAnsiColorKey: (YLANSIColorKey)[[d valueForKey: YLSiteAnsiColorKeyAttributeName] unsignedShortValue]];
+    [s setDetectDoubleByte: [[d valueForKey: YLSiteDetectDoubleByteAttributeName] boolValue]];
+	[s setEnableMouse: [[d valueForKey: YLSiteEnableMouseAttributeName] boolValue]];
 	[s setAutoReply: NO];
-	[s setAutoReplyString: [d valueForKey: @"autoreplystring"] ?: @"[Welly] Sorry, I am not around."];
+	[s setAutoReplyString: [d valueForKey: YLSiteAutoReplyStringAttributeName] ?: NSLocalizedString(KODefaultAutoReplyString, @"Site")];
     return s;
 }
 
 - (NSDictionary *)dictionaryOfSite {
-    return [NSDictionary dictionaryWithObjectsAndKeys: [self name] ?: @"", @"name", [self address], @"address",
-            [NSNumber numberWithUnsignedShort: [self encoding]], @"encoding", 
-            [NSNumber numberWithUnsignedShort: [self ansiColorKey]], @"ansicolorkey", 
-            [NSNumber numberWithBool: [self detectDoubleByte]], @"detectdoublebyte",
-			[NSNumber numberWithBool: [self enableMouse]], @"enablemouse",
-			[self autoReplyString] ?: @"", @"autoreplystring", nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [self name] ?: @"",YLSiteNameAttributeName, [self address], YLSiteAddressAttributeName,
+            [NSNumber numberWithUnsignedShort: [self encoding]], YLSiteEncodingAttributeName, 
+            [NSNumber numberWithUnsignedShort: [self ansiColorKey]], YLSiteAnsiColorKeyAttributeName, 
+            [NSNumber numberWithBool: [self detectDoubleByte]], YLSiteDetectDoubleByteAttributeName,
+			[NSNumber numberWithBool: [self enableMouse]], YLSiteEnableMouseAttributeName,
+			[self autoReplyString] ?: @"", YLSiteAutoReplyStringAttributeName, nil];
 }
 
 - (BOOL)empty {

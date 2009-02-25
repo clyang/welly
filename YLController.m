@@ -431,6 +431,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Draw the portal and entering the portal control mode if needed...
 	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"])) {
 		[_telnetView updatePortal];
+		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
 	}
     /*
     YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
@@ -554,13 +555,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
-	[self checkPortal];
 	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
-	[self checkPortal];
 	[self fullScreenPopUp];
 }
 
@@ -569,7 +568,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [_tab selectTabViewItemAtIndex:index-1];
     }
 //	NSLog(@"Select tab %d", index);
-	[self checkPortal];
 }
 
 - (IBAction)closeTab:(id)sender {
@@ -580,7 +578,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	}
 	@catch (NSException * e) {
 	}
-	[self checkPortal];
     /*
     if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
         [self tabView:_telnetView willCloseTabViewItem:sel];
@@ -831,7 +828,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_closeTabMenuItem setKeyEquivalent: @""];
 }
 
-- (void)getUrl:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+- (void) getUrl:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
 	// now you can create an NSURL and grab the necessary parts
     if ([[url lowercaseString] hasPrefix: @"bbs://"])
@@ -890,7 +887,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_telnetView setNeedsDisplay:YES];
 
 	// Added by K.O.ed: 2009.02.04
-	[self checkPortal];
+	[_telnetView checkPortal];
 //    if ([_telnetView layer])
 //        [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];
@@ -1424,13 +1421,6 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 
 - (MultiClickRemoteBehavior*) remoteBehavior {
     return remoteControlBehavior;
-}
-#pragma mark -
-#pragma mark For Portal
-- (void) checkPortal {
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
-		[_telnetView checkPortal];
-	}
 }
 
 #pragma mark -

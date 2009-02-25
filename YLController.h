@@ -158,7 +158,6 @@
 - (IBAction)browseImage:(id)sender;
 - (IBAction) removeSiteImage:(id)sender;
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void)checkPortal;
 
 // for resotre
 - (IBAction)restoreSettings:(id)sender;

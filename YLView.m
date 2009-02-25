@@ -1648,7 +1648,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	return _isInPortalMode;
 }
 // Show the portal, initiallize it if necessary
-- (void)updatePortal {
+- (void) updatePortal {
 	if(_portal) {
 	} else {
 		_portal = [[XIPortal alloc] initWithView: self];
@@ -1660,17 +1660,17 @@ BOOL isSpecialSymbol(unichar ch) {
 	_isInPortalMode = YES;
 }
 // Remove current portal
-- (void)removePortal {
-	//if(_portal) {
+- (void) removePortal {
+	if(_portal) {
 		[_portal removeFromSuperview];
 		[_portal release];
 		_portal = nil;
-	//}
+	}
 	_isInPortalMode = NO;
 }
 
 // Reset a new portal
-- (void)resetPortal {
+- (void) resetPortal {
 	// Remove it at first...
 	if(_isInPortalMode)
 		if(_portal)
@@ -1684,17 +1684,17 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 // Set the portal in right state...
-- (void)checkPortal {
-	if(![[[self frontMostConnection] site] empty] && _isInPortalMode) {
+- (void) checkPortal {
+	if (_isInPortalMode && ![[[self frontMostConnection] site] empty]) {
 		[self removePortal];
 	}
-	else if([[[self frontMostConnection] site] empty] && !_isInPortalMode) {
+	else if ([[[self frontMostConnection] site] empty] && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
 		[self updatePortal];
 	}
 }
 
-- (void)addPortalPicture: (NSString *) source 
-				 forSite: (NSString *) siteName {
+- (void) addPortalPicture: (NSString *) source 
+				  forSite: (NSString *) siteName {
 	[_portal addPortalPicture:source forSite:siteName];
 }
 
