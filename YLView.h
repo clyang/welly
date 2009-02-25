@@ -102,7 +102,9 @@
 
 - (void)insertText:(id)aString withDelay:(int)microsecond;
 /* Url Menu */
-
+- (BOOL) isInUrlState;
+- (void) switchURL;
+- (void) exitURL;
 /* Portal */
 - (void)updatePortal;
 - (void)removePortal;

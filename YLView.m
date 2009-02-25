@@ -637,23 +637,16 @@ BOOL isSpecialSymbol(unichar ch) {
         }
         return;
     }
-	
-	// Url menu
+	// URL
 	if(_isInUrlMode) {
-		NSLog(@"!");
-		switch (c) {
-			case NSUpArrowFunctionKey:
-				NSLog(@"Select prev url");
+		switch(c) {
+			// Add up and down arrows' event handling here.
+			case 27:	// esc
+				[self exitURL];
 				break;
-			case NSDownArrowFunctionKey:
-				NSLog(@"Select next url");
-				break;
-			default:
-				NSLog(@"%d, %d, %d", c, NSUpArrowFunctionKey, NSDownArrowFunctionKey);
 		}
-		return;
 	}
-
+	
     [self clearSelection];
 	unsigned char arrow[6] = {0x1B, 0x4F, 0x00, 0x1B, 0x4F, 0x00};
 	unsigned char buf[10];
@@ -704,32 +697,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void) flagsChanged: (NSEvent *) event {
-	/*
 	unsigned int currentFlags = [event modifierFlags];
-	// for Url menu
-	if((currentFlags & NSShiftKeyMask) && (currentFlags & NSControlKeyMask) && !_isInUrlMode) {
-		NSLog(@"URL Mode");
-		_isInUrlMode = YES;
-		NSPoint p;
-		p.x = 320;
-		p.y = 320;
-		// For Test
-		KOMenuItem *item = [KOMenuItem initWithName: @"TEST"];
-		KOMenuItem *item2 = [KOMenuItem initWithName: @"TEST2"];
-		[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: item, item2, nil]];
-		
-		[super flagsChanged:event];
-		return;
-	} else if (_isInUrlMode) {
-		_isInUrlMode = NO;
-		[_effectView hideMenu];
-		NSLog(@"Exit Url state");
-		[super flagsChanged:event];
-		return;
-	}
-	 */
 	// For rectangle selection
-	unsigned int currentFlags = [event modifierFlags];
 	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
 		_wantRectangleSelection = YES;
 		[[NSCursor crosshairCursor] push];
@@ -1537,7 +1506,9 @@ BOOL isSpecialSymbol(unichar ch) {
             [ds attrAtRow: [ds cursorRow] column: [ds cursorColumn] + 1].f.doubleByte == 2)
             len += 4;
         [[self frontMostConnection] sendBytes: ch length: len];
-    } else {
+    } else if (aSelector == @selector(insertTabIgnoringFieldEditor:)) { // Now do URL mode switching
+		[self switchURL];
+	} else {
         NSLog(@"Unprocessed selector: %s", aSelector);
     }
 }
@@ -1640,6 +1611,32 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Url Menu
 - (BOOL) isInUrlState {
 	return _isInUrlMode;
+}
+
+// Here I hijacked the option-tab key mapping...
+// by gtCarrera, for URL menu
+- (void) switchURL {
+	// Now, just return...
+	return;
+	// If not in URL mode, turn this mode on
+	if(!_isInUrlMode) {
+		NSLog(@"URL Mode");
+		_isInUrlMode = YES;
+		NSPoint p;
+		p.x = 320;
+		p.y = 320;
+		// For Test
+		KOMenuItem *item = [KOMenuItem initWithName: @"TEST"];
+		KOMenuItem *item2 = [KOMenuItem initWithName: @"TEST2"];
+		[_effectView showMenuAtPoint: p withItems: [NSArray arrayWithObjects: item, item2, nil]];
+	} else {
+		// Choose the next URL...
+	}
+}
+
+- (void) exitURL {
+	_isInUrlMode = NO;
+	[_effectView hideMenu];
 }
 
 #pragma mark -
