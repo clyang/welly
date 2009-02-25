@@ -641,6 +641,12 @@ BOOL isSpecialSymbol(unichar ch) {
 	if(_isInUrlMode) {
 		switch(c) {
 			// Add up and down arrows' event handling here.
+			case NSUpArrowFunctionKey:
+				[_effectView selectPreviousMenuItem];
+				break;
+			case NSDownArrowFunctionKey:
+				[_effectView selectNextMenuItem];
+				break;
 			case 27:	// esc
 				[self exitURL];
 				break;
@@ -1620,7 +1626,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	return;
 	// If not in URL mode, turn this mode on
 	if(!_isInUrlMode) {
-		NSLog(@"URL Mode");
 		_isInUrlMode = YES;
 		NSPoint p;
 		p.x = 320;
