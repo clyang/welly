@@ -602,15 +602,18 @@ BOOL isSpecialSymbol(unichar ch) {
             [_portal moveSelection:-1];
         else if ([theEvent deltaX] < 0)
             [_portal moveSelection:+1];
+		else if ([theEvent deltaY] > 0)
+            [_portal moveSelection:-1];
+        else if ([theEvent deltaY] < 0)
+            [_portal moveSelection:+1];
     }
 	// Connected terminal
-	if([[[self frontMostTerminal] connection] connected]) {
+	if ([[[self frontMostTerminal] connection] connected]) {
 		// For Y-Axis
-		if([theEvent deltaY] < 0)
+		if ([theEvent deltaY] < 0)
 			[[self frontMostConnection] sendText:termKeyDown];
-		else if([theEvent deltaY] > 0) {
+		else if ([theEvent deltaY] > 0)
 			[[self frontMostConnection] sendText:termKeyUp];
-		}
 	}
 }
 
