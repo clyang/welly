@@ -204,6 +204,8 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLength = 0;
         _selectionLocation = 0;
 		_isInPortalMode = NO;
+		_isInUrlMode = NO;
+		_mouseActive = YES;
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
 		[self setDelegate: _mouseBehaviorDelegate];
@@ -504,7 +506,8 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 
     if (![self connected]) return;
-
+	// Disable the mouse if we cancelled any selection
+	if(abs(_selectionLength) > 0) _mouseActive = NO;
     _selectionLocation = [self convertIndexFromPoint: p];
     _selectionLength = 0;
     
@@ -576,7 +579,7 @@ BOOL isSpecialSymbol(unichar ch) {
     // open url
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
-    if (abs(_selectionLength) <= 1) {
+    if (abs(_selectionLength) <= 1 && _mouseActive) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
         if (url != nil) {
@@ -588,11 +591,12 @@ BOOL isSpecialSymbol(unichar ch) {
 				// open with previewer
 				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
 			}
+			_mouseActive = YES;
 			return;	// click on url should not invoke hot spot
 		}
-
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }
+	_mouseActive = YES;
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -721,6 +725,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) clearSelection {
     if (_selectionLength != 0) {
         _selectionLength = 0;
+		_mouseActive = NO;
         [self setNeedsDisplay: YES];
     }
 }
