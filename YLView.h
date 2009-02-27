@@ -121,6 +121,8 @@
 - (void)performPaste;
 - (void)performPasteWrap;
 - (void)performPasteColor;
+// Mouse operation
+- (void)deactivateMouse;
 
 - (int) convertIndexFromPoint: (NSPoint)aPoint;
 @end

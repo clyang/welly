@@ -1937,6 +1937,12 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
+#pragma mark mouse operation
+- (void)deactivateMouse {
+	_mouseActive = NO;
+}
+
+#pragma mark -
 #pragma mark Test for effect views
 - (KOEffectView *) effectView {
 	return _effectView;

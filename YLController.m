@@ -807,7 +807,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark Window Delegation
-
 - (BOOL) windowShouldClose: (id) window {
     [_mainWindow orderOut: self];
     return NO;
@@ -819,6 +818,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void) windowDidBecomeKey: (NSNotification *) notification {
+	[_telnetView deactivateMouse];
     [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask | NSShiftKeyMask];
     [_closeTabMenuItem setKeyEquivalent: @"w"];
 }
