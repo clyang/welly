@@ -205,6 +205,8 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLocation = 0;
 		_isInPortalMode = NO;
 		_isInUrlMode = NO;
+		_isKeying = NO;
+		_isMouseDown = NO;
 		_mouseActive = YES;
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
@@ -493,6 +495,8 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Event Handling
 - (void)mouseDown:(NSEvent *)theEvent {
+	_mouseActive = YES;
+	_isMouseDown = YES;
 	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
 
@@ -579,6 +583,13 @@ BOOL isSpecialSymbol(unichar ch) {
     // open url
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
+	
+	/*if(_isKeying && _isMouseDown) {
+		_isKeying = NO;
+		_isMouseDown = NO;
+		return;
+	}*/
+
     if (abs(_selectionLength) <= 1 && _mouseActive) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
@@ -597,6 +608,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }
 	_mouseActive = YES;
+	_isKeying = NO;
+	_isMouseDown = NO;
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -1939,7 +1952,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark mouse operation
 - (void)deactivateMouse {
-	_mouseActive = NO;
+	_isKeying = YES;
 }
 
 #pragma mark -

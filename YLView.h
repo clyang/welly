@@ -43,6 +43,8 @@
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
 	BOOL _mouseActive;
+	BOOL _isKeying;
+	BOOL _isMouseDown;
 	
 	KOMouseBehaviorManager *_mouseBehaviorDelegate;
 }
