@@ -270,12 +270,12 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
     // boost: pool (leaks), check nil (crash), readable values
     CGImageSourceRef exifSource = CGImageSourceCreateWithURL((CFURLRef)([NSURL fileURLWithPath:_path]), nil);
     if (exifSource) {
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         NSDictionary *metaData = (NSDictionary*) CGImageSourceCopyPropertiesAtIndex(exifSource, 0, nil);
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-        NSMutableString *props = [NSMutableString string];
+		[metaData autorelease];
+		NSMutableString *props = [NSMutableString string];
         NSDictionary *exifData = [metaData objectForKey:(NSString *)kCGImagePropertyExifDictionary];
-        if (exifData) {
+		if (exifData) {
             NSString *dateTime = [exifData objectForKey:(NSString *)kCGImagePropertyExifDateTimeOriginal];
             NSNumber *eTime = [exifData objectForKey:(NSString *)kCGImagePropertyExifExposureTime];
             NSNumber *fLength = [exifData objectForKey:(NSString *)kCGImagePropertyExifFocalLength];
