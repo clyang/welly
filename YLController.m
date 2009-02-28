@@ -818,7 +818,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void) windowDidBecomeKey: (NSNotification *) notification {
-	[_telnetView deactivateMouse];
+	[_telnetView deactivateMouseForKeying];
     [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask | NSShiftKeyMask];
     [_closeTabMenuItem setKeyEquivalent: @"w"];
 }
@@ -1373,20 +1373,20 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 			case kRemoteButtonPlus_Hold:
 				// Enable timer!
 				[self disableTimer];
-				_scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
+				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
 									  target:self 
 									  selector:@selector(doScrollUp:)
 									  userInfo:nil
-									  repeats:YES] retain];
+									  repeats:YES];
 				break;
 			case kRemoteButtonMinus_Hold:
 				// Enable timer!
 				[self disableTimer];
-				_scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
+				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
 									  target:self 
 									  selector:@selector(doScrollDown:)
 									  userInfo:nil
-									  repeats:YES] retain];
+									  repeats:YES];
 				break;
 			case kRemoteButtonMenu_Hold:
 				[self fullScreenMode:nil];

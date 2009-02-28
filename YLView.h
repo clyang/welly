@@ -16,6 +16,8 @@
 @class XIPortal;
 @class KOMouseBehaviorManager;
 
+#define disableMouseByKeyingTimerInterval 0.3
+
 @interface YLView : NSTabView <NSTextInput> {	
 	CGFloat _fontWidth;
 	CGFloat _fontHeight;
@@ -42,9 +44,8 @@
 	
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
-	BOOL _mouseActive;
+	BOOL _isNotCancelingSelection;
 	BOOL _isKeying;
-	BOOL _isMouseDown;
 	
 	KOMouseBehaviorManager *_mouseBehaviorDelegate;
 }
@@ -124,7 +125,8 @@
 - (void)performPasteWrap;
 - (void)performPasteColor;
 // Mouse operation
-- (void)deactivateMouse;
+- (void)deactivateMouseForKeying;
+- (void)activateMouseForKeying:(NSTimer*)timer;
 
 - (int) convertIndexFromPoint: (NSPoint)aPoint;
 @end

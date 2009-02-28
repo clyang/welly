@@ -206,8 +206,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		_isInPortalMode = NO;
 		_isInUrlMode = NO;
 		_isKeying = NO;
-		_isMouseDown = NO;
-		_mouseActive = YES;
+		_isNotCancelingSelection = YES;
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
 		[self setDelegate: _mouseBehaviorDelegate];
@@ -495,8 +494,6 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Event Handling
 - (void)mouseDown:(NSEvent *)theEvent {
-	_mouseActive = YES;
-	_isMouseDown = YES;
 	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
 
@@ -511,7 +508,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
     if (![self connected]) return;
 	// Disable the mouse if we cancelled any selection
-	if(abs(_selectionLength) > 0) _mouseActive = NO;
+	if(abs(_selectionLength) > 0) _isNotCancelingSelection = NO;
     _selectionLocation = [self convertIndexFromPoint: p];
     _selectionLength = 0;
     
@@ -583,14 +580,8 @@ BOOL isSpecialSymbol(unichar ch) {
     // open url
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
-	
-	/*if(_isKeying && _isMouseDown) {
-		_isKeying = NO;
-		_isMouseDown = NO;
-		return;
-	}*/
 
-    if (abs(_selectionLength) <= 1 && _mouseActive) {
+    if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying) {
         int index = [self convertIndexFromPoint:p];
         NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
         if (url != nil) {
@@ -602,14 +593,12 @@ BOOL isSpecialSymbol(unichar ch) {
 				// open with previewer
 				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
 			}
-			_mouseActive = YES;
+			_isNotCancelingSelection = YES;
 			return;	// click on url should not invoke hot spot
 		}
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }
-	_mouseActive = YES;
-	_isKeying = NO;
-	_isMouseDown = NO;
+	_isNotCancelingSelection = YES;
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
@@ -738,7 +727,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void) clearSelection {
     if (_selectionLength != 0) {
         _selectionLength = 0;
-		_mouseActive = NO;
+		_isNotCancelingSelection = NO;
         [self setNeedsDisplay: YES];
     }
 }
@@ -1951,8 +1940,17 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark mouse operation
-- (void)deactivateMouse {
+- (void)deactivateMouseForKeying {
 	_isKeying = YES;
+	[NSTimer scheduledTimerWithTimeInterval:disableMouseByKeyingTimerInterval
+									 target:self 
+								   selector:@selector(activateMouseForKeying:)
+								   userInfo:nil
+									repeats:NO];
+}
+
+- (void)activateMouseForKeying:(NSTimer*)timer {
+	_isKeying = NO;
 }
 
 #pragma mark -
