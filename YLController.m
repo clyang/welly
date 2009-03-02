@@ -1182,7 +1182,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         [writeBuffer appendString:escString];
         [writeBuffer appendString:@"[m"];
     }
-    [writeBuffer appendString:@"\030"]; // ctrl-x
+    // [writeBuffer appendString:@"\030"]; // ctrl-x
     [[_telnetView frontMostConnection] sendText:writeBuffer];
     
     [_composeWindow endEditingFor: nil];
@@ -1463,6 +1463,18 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 #pragma mark -
 #pragma mark For RSS feed
 - (IBAction)openRSS:(id)sender {
+    NSBeginAlertSheet(@"Sorry, RSS mode is not available yet.",
+                      nil,
+                      nil,
+                      nil,
+                      _mainWindow,
+                      self,
+                      nil,
+                      nil,
+                      nil,
+                      @"Please pay attention to our future versions. Thanks for your cooperation.");
+    return;
+    // TODO: uncomment the following code to enable RSS mode.
     if (![_telnetView connected]) return;
     if (!_rssThread) {
         [NSThread detachNewThreadSelector:@selector(fetchFeed) toTarget:self withObject:nil];
