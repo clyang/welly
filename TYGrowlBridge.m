@@ -26,8 +26,8 @@ typedef struct TYClickContext {
 }
 
 + (void)notifyWithTitle:(NSString *)title
-			 description:(NSString *)description
-		notificationName:(NSString *)notifName {
+			description:(NSString *)description
+	   notificationName:(NSString *)notifName {
     [GrowlApplicationBridge notifyWithTitle:title
                                 description:description
                            notificationName:notifName

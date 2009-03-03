@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-31.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -21,12 +21,12 @@ NSString * const KOMouseAuthorUserInfoName;
 @interface KOMouseBehaviorManager : NSResponder <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
 	YLView *_view;
 	
-	NSDictionary *activeTrackingAreaUserInfo;
-	NSDictionary *backgroundTrackingAreaUserInfo;
+	NSDictionary *_activeTrackingAreaUserInfo;
+	NSDictionary *_backgroundTrackingAreaUserInfo;
 	
 	NSArray *_handlers;
 	
-	NSCursor *normalCursor;
+	NSCursor *_normalCursor;
 	
 	BOOL _enabled;
 }
@@ -34,19 +34,19 @@ NSString * const KOMouseAuthorUserInfoName;
 @property (readwrite, assign) NSDictionary *backgroundTrackingAreaUserInfo;
 @property (readwrite, assign) NSCursor *normalCursor;
 
-- (id) initWithView: (YLView *)view;
-- (YLView *) view;
+- (id)initWithView:(YLView *)view;
+- (YLView *)view;
 
-- (void) update;
-- (void) addTrackingAreaWithRect: (NSRect) rect 
-						userInfo: (NSDictionary *)userInfo;
-- (void) addTrackingAreaWithRect: (NSRect) rect 
-						userInfo: (NSDictionary *)userInfo 
-						  cursor: (NSCursor *)cursor;
-- (void) clearAllTrackingArea;
+- (void)update;
+- (void)addTrackingAreaWithRect:(NSRect) rect 
+					   userInfo:(NSDictionary *)userInfo;
+- (void)addTrackingAreaWithRect:(NSRect) rect 
+					   userInfo:(NSDictionary *)userInfo 
+						 cursor:(NSCursor *)cursor;
+- (void)clearAllTrackingArea;
 
-- (void) restoreNormalCursor;
+- (void)restoreNormalCursor;
 
-- (void) enable;
-- (void) disable;
+- (void)enable;
+- (void)disable;
 @end

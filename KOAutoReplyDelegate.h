@@ -25,7 +25,7 @@
 - (id) initWithConnection: (YLConnection *)connection;
 - (void) dealloc;
 - (void) setConnection: (YLConnection *)connection;
-- (void) newMessage : (NSString *)message
+- (void) hasNewMessage : (NSString *)message
 		 fromCaller : (NSString *)callerName;
 - (void) showUnreadMessagesOnTextView : (NSTextView *) textView;
 - (int) unreadCount;

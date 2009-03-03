@@ -12,7 +12,7 @@
 
 @implementation KOAutoReplyDelegate
 
-- (id) init {
+- (id)init {
 	self = [super init];
 	if (self != nil) {
 		_unreadMessage = [[NSMutableString alloc] init];
@@ -22,46 +22,46 @@
 	return self;
 }
 
-- (id) initWithConnection: (YLConnection *)connection {
+- (id)initWithConnection:(YLConnection *)connection {
 	[self init];
 	[self setConnection: connection];
 	return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
 	[_unreadMessage dealloc];
 	[super dealloc];
 }
 
-- (void) setConnection: (YLConnection *)connection {
+- (void)setConnection:(YLConnection *)connection {
 	_connection = connection;
 	_site = [connection site];
 }
 
-- (void) newMessage : (NSString *)message
-		 fromCaller : (NSString *)callerName {
+- (void)hasNewMessage:(NSString *)message
+		   fromCaller:(NSString *)callerName {
 	if ([[_connection site] autoReply]) {
 		// enclose the autoReplyString with two '\r'
-		NSString *aString = [NSString stringWithFormat: @"\r%@\r", [[_connection site] autoReplyString]];
+		NSString *aString = [NSString stringWithFormat:@"\r%@\r", [[_connection site] autoReplyString]];
 		
 		// send to the connection
-		[_connection sendText: aString];
+		[_connection sendText:aString];
 		
 		// now record this message
-		[_unreadMessage appendFormat : @"%@\r%@\r\r", callerName, message];
+		[_unreadMessage appendFormat:@"%@\r%@\r\r", callerName, message];
 		_unreadCount++;
 	}
 }
 
-- (void) showUnreadMessagesOnTextView : (NSTextView *) textView {
-	[[textView window] setTitle: [NSString stringWithFormat: NSLocalizedString(@"MessageWindowTitle", @"Auto Reply"), _unreadCount]];
-	[textView setString: _unreadMessage];
-	[textView setTextColor: [NSColor whiteColor]];
-	[_unreadMessage setString: @""];
+- (void)showUnreadMessagesOnTextView:(NSTextView *)textView {
+	[[textView window] setTitle:[NSString stringWithFormat:NSLocalizedString(@"MessageWindowTitle", @"Auto Reply"), _unreadCount]];
+	[textView setString:_unreadMessage];
+	[textView setTextColor:[NSColor whiteColor]];
+	[_unreadMessage setString:@""];
 	_unreadCount = 0;
 }
 
-- (int) unreadCount {
+- (int)unreadCount {
 	return _unreadCount;
 }
 @end

@@ -3,21 +3,21 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-12.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
 
 @protocol KOMouseUpHandler
-- (void) mouseUp: (NSEvent *)theEvent;
+- (void)mouseUp:(NSEvent *)theEvent;
 @end
 
 @protocol KOUpdatable
-- (void) update;
+- (void)update;
 @end
 
 @protocol KOContextualMenuHandler
-- (NSMenu *) menuForEvent: (NSEvent *)theEvent;
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent;
 @end
 
 
@@ -29,7 +29,7 @@
 	int _maxRow, _maxColumn;
 }
 
-- (id) initWithView: (YLView *)view;
-- (id) initWithManager: (KOMouseBehaviorManager *)manager;
-- (void) mouseEntered: (NSEvent *)theEvent;
+- (id)initWithView:(YLView *)view;
+- (id)initWithManager:(KOMouseBehaviorManager *)manager;
+- (void)mouseEntered:(NSEvent *)theEvent;
 @end

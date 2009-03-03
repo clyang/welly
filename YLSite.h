@@ -20,9 +20,9 @@
 	NSString *_autoReplyString;
 }
 
-+ (YLSite *) site;
-+ (YLSite *) siteWithDictionary: (NSDictionary *) d ;
-- (NSDictionary *) dictionaryOfSite ;
++ (YLSite *)site;
++ (YLSite *)siteWithDictionary:(NSDictionary *)d;
+- (NSDictionary *)dictionaryOfSite ;
 
 - (BOOL)empty;
 

@@ -15,44 +15,45 @@
 @class YLView;
 
 @interface KOEffectView : NSView {
-    CALayer *mainLayer;
+    CALayer *_mainLayer;
 	
-	IBOutlet YLView *mainView;
+	IBOutlet YLView *_mainView;
 	
-	CALayer *ipAddrLayer;
-	CALayer *clickEntryLayer;
-	CALayer *popUpLayer;
-	CALayer *buttonLayer;
+	CALayer *_ipAddrLayer;
+	CALayer *_clickEntryLayer;
+	CALayer *_popUpLayer;
+	CALayer *_buttonLayer;
 	
-	CALayer *menuLayer;
-	CALayer *selectionLayer;
+	CALayer *_menuLayer;
+	CALayer *_selectionLayer;
 	int selectedItemIndex;
 }
 
 // for ip seeker
-- (void)drawIPAddrBox: (NSRect) rect;
+- (void)drawIPAddrBox:(NSRect)rect;
 - (void)clearIPAddrBox;
 
 // for post view
-- (void)drawClickEntry: (NSRect) rect;
+- (void)drawClickEntry:(NSRect)rect;
 - (void)clearClickEntry;
 
 // for button
-- (void)drawButton: (NSRect) rect withMessage: (NSString *) message;
+- (void)drawButton:(NSRect)rect 
+	   withMessage:(NSString *)message;
 - (void)clearButton;
 
 // for menu
-- (void)showMenuAtPoint: (NSPoint) pt 
-			withItems: (NSArray *) items;
+- (void)showMenuAtPoint:(NSPoint)pt 
+			  withItems:(NSArray *)items;
 - (void)hideMenu;
-- (void)selectMenuItemAtIndex: (int) index;
+- (void)selectMenuItemAtIndex:(int)index;
 - (void)selectPreviousMenuItem;
 - (void)selectNextMenuItem;
 
 // To show pop up message by core animation
 // This method might be changed in future
 // by gtCarrera @ 9#
-- (void)drawPopUpMessage:(NSString*) message;
+- (void)drawPopUpMessage:(NSString*)message;
 - (void)removePopUpMessage;
 
 - (void)resize;

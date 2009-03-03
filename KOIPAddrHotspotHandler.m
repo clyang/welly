@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-27.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOIPAddrHotspotHandler.h"
@@ -19,28 +19,28 @@
 @implementation KOIPAddrHotspotHandler
 #pragma mark -
 #pragma mark Event Handler
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	if([[_view frontMostConnection] connected]) {
 		[[_view effectView] drawIPAddrBox:[[theEvent trackingArea] rect]];
 	}
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	[[_view effectView] clearIPAddrBox];
 }
 
 #pragma mark -
 #pragma mark Generate User Info
-- (NSDictionary *) userInfo {
+- (NSDictionary *)userInfo {
 	return [NSDictionary dictionaryWithObject:self forKey:KOMouseHandlerUserInfoName];
 }
 
 #pragma mark -
 #pragma mark Update State
-- (void)addIPRect: (const char *)ip
-			  row: (int)r
-		   column: (int)c
-		   length: (int)length {
+- (void)addIPRect:(const char *)ip
+			  row:(int)r
+		   column:(int)c
+		   length:(int)length {
 	/* ip tooltip */
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
@@ -50,7 +50,7 @@
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo];
 }
 
-- (void) updateIPStateForRow: (int) r {
+- (void)updateIPStateForRow:(int)r {
 	cell *currRow = [[_view frontMostTerminal] cellsOfRow: r];
 	int state = 0;
 	char ip[4] = {0};
@@ -109,7 +109,7 @@
 	}
 }
 
-- (void) update {
+- (void)update {
 	for (int r = 0; r < _maxRow; ++r)
 	{
 		[self updateIPStateForRow:r];
@@ -118,10 +118,10 @@
 @end
 
 @implementation NSObject(NSToolTipOwner)
-- (NSString *) view: (NSView *)view 
-   stringForToolTip: (NSToolTipTag)tag 
-			  point: (NSPoint)point 
-		   userData: (void *)userData {
+- (NSString *)view:(NSView *)view 
+  stringForToolTip:(NSToolTipTag)tag 
+			 point:(NSPoint)point 
+		  userData:(void *)userData {
 	return (NSString *)userData;
 }
 @end

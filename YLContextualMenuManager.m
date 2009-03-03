@@ -9,15 +9,16 @@
 
 #import "YLContextualMenuManager.h"
 #import "YLView.h"
+#import "YLTerminal.h"
 #import "YLController.h"
 #import "YLApplication.h"
 #import "Carbon/Carbon.h"
 
-/*
 @interface YLContextualMenuManager ()
 + (NSString *)extractShortURL:(NSString *)s;
 @end
 
+@implementation YLContextualMenuManager
 + (NSString *)extractShortURL:(NSString *)s {
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [s length]; i++) {
@@ -29,36 +30,36 @@
     }
     return result;
 }
-*/
-
-@implementation YLContextualMenuManager
 
 + (NSMenu *)menuWithSelectedString:(NSString*)s {
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 
-/* comment: why not just using the url recognition?
-
-    NSString *shortURL = [self extractShortURL:s];
-    NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-
-    if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
-        if (![longURL hasPrefix:@"http://"])
-            longURL = [@"http://" stringByAppendingString:longURL];
-        [menu addItemWithTitle:longURL
-                        action:@selector(openURL:)
-                 keyEquivalent:@""];
-    }
-    
-    if ([shortURL length] > 0 && [shortURL length] < 8) {
-        [menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString: shortURL]
-                        action:@selector(openURL:)
-                 keyEquivalent:@""];
-    
-        [menu addItemWithTitle:[@"tinyurl.com/" stringByAppendingString:shortURL]
-                        action:@selector(openURL:)
-                 keyEquivalent:@""];
-    }
-*/
+	/* comment: why not just using the url recognition? */
+    YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+	if ([[view frontMostTerminal] bbsType] == TYMaple) {
+		// Firebird BBS seldom use these
+		NSString *shortURL = [self extractShortURL:s];
+		NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+		
+		if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
+			if (![longURL hasPrefix:@"http://"])
+				longURL = [@"http://" stringByAppendingString:longURL];
+			[menu addItemWithTitle:longURL
+							action:@selector(openURL:)
+					 keyEquivalent:@""];
+		}
+		
+		if ([shortURL length] > 0 && [shortURL length] < 8) {
+			[menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString: shortURL]
+							action:@selector(openURL:)
+					 keyEquivalent:@""];
+			
+			[menu addItemWithTitle:[@"tinyurl.com/" stringByAppendingString:shortURL]
+							action:@selector(openURL:)
+					 keyEquivalent:@""];
+		}
+	}
+/* */
     if ([s length] > 0) {
     
         [menu addItemWithTitle:@"Search in Spotlight"
@@ -120,7 +121,7 @@
 }
 
 + (IBAction)copy:(id)sender {
-    YLView *view = [[((YLApplication *)NSApp) controller] getView];
+    YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
     [view copy:sender];
 }
 

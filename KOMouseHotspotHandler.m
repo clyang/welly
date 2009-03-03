@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-27.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 #import "KOMouseHotspotHandler.h"
 #import "YLView.h"
@@ -12,7 +12,7 @@
 #import "KOMouseBehaviorManager.h"
 
 @implementation KOMouseHotspotHandler
-- (id) initWithView: (YLView *)view {
+- (id)initWithView:(YLView *)view {
 	[self init];
 	_view = view;
 	_maxRow = [[YLLGlobalConfig sharedInstance] row];
@@ -20,12 +20,12 @@
 	return self;
 }
 
-- (id) initWithManager: (KOMouseBehaviorManager *)manager {
+- (id)initWithManager:(KOMouseBehaviorManager *)manager {
 	_manager = manager;
-	return [self initWithView: [_manager view]];
+	return [self initWithView:[_manager view]];
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	// Do nothing, just a virtual function
 }
 

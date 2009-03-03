@@ -40,6 +40,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 @end
 
 @implementation YLController
+@synthesize telnetView = _telnetView;
 
 - (id)init {
     if (self = [super init]) {
@@ -235,7 +236,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [connection setProtocol:nil];
     } else {
 		// Close the portal
-		if ([_telnetView isInPortalState]) {
+		if ([_telnetView isInPortalMode]) {
 			[_telnetView removePortal];
 		}
         // new terminal
@@ -527,7 +528,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction) reconnect: (id) sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
 		// Close the portal
-		if ([_telnetView isInPortalState] && ![[[_telnetView frontMostConnection] site] empty] 
+		if ([_telnetView isInPortalMode] && ![[[_telnetView frontMostConnection] site] empty] 
 			&& [_telnetView numberOfTabViewItems] > 0) {
 			[_telnetView removePortal];
 		}
@@ -746,7 +747,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark Application Delegation
-- (BOOL) validateMenuItem: (NSMenuItem *) item {
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
     SEL action = [item action];
     if ((action == @selector(addSites:) ||
          action == @selector(reconnect:) ||
@@ -760,7 +761,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return YES;
 }
 
-- (BOOL) applicationShouldHandleReopen: (id) s hasVisibleWindows: (BOOL) b {
+- (BOOL)applicationShouldHandleReopen:(id)s 
+					hasVisibleWindows:(BOOL)b {
     [_mainWindow makeKeyAndOrderFront: self];
     return NO;
 } 
@@ -795,40 +797,44 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return NSTerminateLater;
 }
 
-- (void) confirmSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)confirmSheetDidEnd:(NSWindow *)sheet 
+				returnCode:(int)returnCode 
+			   contextInfo:(void  *)contextInfo {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [NSApp replyToApplicationShouldTerminate: (returnCode == NSAlertDefaultReturn)];
+    [NSApp replyToApplicationShouldTerminate:(returnCode == NSAlertDefaultReturn)];
 }
 
-- (void) confirmSheetDidDismiss:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)confirmSheetDidDismiss:(NSWindow *)sheet
+					returnCode:(int)returnCode 
+				   contextInfo:(void *)contextInfo {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [NSApp replyToApplicationShouldTerminate: (returnCode == NSAlertDefaultReturn)];
+    [NSApp replyToApplicationShouldTerminate:(returnCode == NSAlertDefaultReturn)];
 }
 
 #pragma mark -
 #pragma mark Window Delegation
-- (BOOL) windowShouldClose: (id) window {
-    [_mainWindow orderOut: self];
+- (BOOL)windowShouldClose:(id)window {
+    [_mainWindow orderOut:self];
     return NO;
 }
 
-- (BOOL) windowWillClose: (id) window {
+- (BOOL)windowWillClose:(id)window {
 //    [NSApp terminate: self];
     return NO;
 }
 
-- (void) windowDidBecomeKey: (NSNotification *) notification {
+- (void)windowDidBecomeKey:(NSNotification *)notification {
 	[_telnetView deactivateMouseForKeying];
     [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask | NSShiftKeyMask];
     [_closeTabMenuItem setKeyEquivalent: @"w"];
 }
 
-- (void) windowDidResignKey: (NSNotification *) notification {
+- (void)windowDidResignKey:(NSNotification *)notification {
     [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask];
     [_closeTabMenuItem setKeyEquivalent: @""];
 }
 
-- (void) getUrl:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+- (void)getUrl:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
 	// now you can create an NSURL and grab the necessary parts
     if ([[url lowercaseString] hasPrefix: @"bbs://"])
@@ -888,8 +894,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 	// Added by K.O.ed: 2009.02.04
 	[_telnetView checkPortal];
-//    if ([_telnetView layer])
-//        [_telnetView setWantsLayer:[site empty]];
     [self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
     [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
@@ -967,7 +971,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [NSThread exit];
 }
 
-- (IBAction) openCompose: (id) sender {
+- (IBAction)openCompose:(id)sender {
     if([[_telnetView frontMostTerminal] bbsState].state != BBSComposePost) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
                                          defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
@@ -1070,7 +1074,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     }
 }
 
-- (IBAction) commitCompose: (id) sender {
+- (IBAction)commitCompose:(id)sender {
     //[[_telnetView frontMostConnection] sendText: [_composeText string]];
     NSString *escString;
     YLSite *s = [[_telnetView frontMostConnection] site];
@@ -1182,21 +1186,22 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         [writeBuffer appendString:escString];
         [writeBuffer appendString:@"[m"];
     }
+	// TODO(K.O.ed): shall we send ^X?
     // [writeBuffer appendString:@"\030"]; // ctrl-x
     [[_telnetView frontMostConnection] sendText:writeBuffer];
     
-    [_composeWindow endEditingFor: nil];
-    [NSApp endSheet: _composeWindow];
-    [_composeWindow orderOut: self];
+    [_composeWindow endEditingFor:nil];
+    [NSApp endSheet:_composeWindow];
+    [_composeWindow orderOut:self];
 }
 
-- (IBAction) cancelCompose: (id) sender {
-    [_composeWindow endEditingFor: nil];
-    [NSApp endSheet: _composeWindow];
-    [_composeWindow orderOut: self];
+- (IBAction)cancelCompose:(id)sender {
+    [_composeWindow endEditingFor:nil];
+    [NSApp endSheet:_composeWindow];
+    [_composeWindow orderOut:self];
 }
 
-- (IBAction) setUnderline: (id) sender {
+- (IBAction)setUnderline:(id) sender {
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
 	// get the underline style attribute of the first character in the text view
@@ -1208,7 +1213,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 		[storage addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: NSUnderlineStyleNone] range: selectedRange];
 }
 
-- (IBAction) setBlink: (id) sender {
+- (IBAction)setBlink:(id) sender {
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
 	NSFontManager *fontManager = [NSFontManager sharedFontManager];
@@ -1217,14 +1222,14 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 	NSFontTraitMask traits = [fontManager traitsOfFont: font];
 	NSFont *newFont;
 	if (traits & NSBoldFontMask)
-		newFont = [fontManager convertFont: font toNotHaveTrait: NSBoldFontMask];
+		newFont = [fontManager convertFont:font toNotHaveTrait:NSBoldFontMask];
 	else
-		newFont = [fontManager convertFont: font toHaveTrait: NSBoldFontMask];
+		newFont = [fontManager convertFont:font toHaveTrait:NSBoldFontMask];
 		
-	[storage addAttribute: NSFontAttributeName value: newFont range: [_composeText selectedRange]];
+	[storage addAttribute:NSFontAttributeName value:newFont range:[_composeText selectedRange]];
 }
 
-- (IBAction) changeBackgroundColor: (id) sender {
+- (IBAction)changeBackgroundColor:(id)sender {
     [[_composeText textStorage] addAttribute:NSBackgroundColorAttributeName
                                        value:[sender color]
                                        range:[_composeText selectedRange]];
@@ -1448,7 +1453,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 						 informativeTextWithFormat:NSLocalizedString(@"If you proceed, you will lost all your current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?", @"Sheet Message")];
 	if ([alert runModal] != NSAlertDefaultReturn)
 		return;
-	if([_telnetView isInPortalState]) {
+	if([_telnetView isInPortalMode]) {
 		return;
 	}
 	// Set the font settings
@@ -1509,8 +1514,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     [threadDict setValue:[NSNumber numberWithBool:exitNow] forKey:@"ThreadShouldExitNow"];
     YLConnection *connection = [_telnetView frontMostConnection];
     YLTerminal *terminal = [connection terminal];
-    unsigned int column = [terminal _column];
-    unsigned int row = [terminal _row];
+    unsigned int column = [terminal column];
+    unsigned int row = [terminal row];
     NSString *siteName = [[connection site] name];
     // locate the cache directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -1537,48 +1542,48 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         [connection sendText:termKeyRight];
         while (!exitNow) { // traverse every board
             NSString *unreadKeyword;
-            while (![[terminal stringFromIndex:0 length:1] isEqualToString:@"["] || [terminal _cursorX] != 1
-                   || [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1]
-                   || ![terminal stringFromIndex:column * [terminal _cursorY] length:column]
-                   || !(unreadKeyword = [terminal stringFromIndex:column * [terminal _cursorY] + 8 length:2])
+            while (![[terminal stringFromIndex:0 length:1] isEqualToString:@"["] || [terminal cursorX] != 1
+                   || [terminal stringFromIndex:column * [terminal cursorY] + 10 length:1]
+                   || ![terminal stringFromIndex:column * [terminal cursorY] length:column]
+                   || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorY] + 8 length:2])
                    || !([unreadKeyword isEqualToString:@"◆"] || [unreadKeyword isEqualToString:@"◇"] || [unreadKeyword isEqualToString:@"＋"]))
                 usleep(refreshInterval);
             while ([unreadKeyword isEqualToString:@"＋"]) {
                 [connection sendText:termKeyDown];
-                while (![terminal stringFromIndex:column * [terminal _cursorY] length:column]
-                       || !(unreadKeyword = [terminal stringFromIndex:column * [terminal _cursorY] + 8 length:2]))
+                while (![terminal stringFromIndex:column * [terminal cursorY] length:column]
+                       || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorY] + 8 length:2]))
                     usleep(refreshInterval);
             }
             if (![unreadKeyword isEqualToString:@"◆"]) {
                 // no more unread boards
-                // NSLog(@"end because unreadKeyword is %@, cursorY is %u, cursorX is %u, whole line is {%@}", unreadKeyword, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                // NSLog(@"end because unreadKeyword is %@, cursorY is %u, cursorX is %u, whole line is {%@}", unreadKeyword, [terminal cursorY], [terminal cursorX], [terminal stringFromIndex:column * [terminal cursorY] length:column]);
                 break;
             }
             [connection sendText:termKeyRight];
             [connection sendText:termKeyEnd];
             [connection sendText:termKeyEnd]; // in case of seeing board memo
-            while ([[terminal stringFromIndex:column length:column] rangeOfString:@"发表"].location == NSNotFound || [terminal _cursorX] != 1
-                || ![terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1])
+            while ([[terminal stringFromIndex:column length:column] rangeOfString:@"发表"].location == NSNotFound || [terminal cursorX] != 1
+                || ![terminal stringFromIndex:column * [terminal cursorY] + 10 length:1])
                 usleep(refreshInterval);
             BOOL isLastArticle = YES;
             for (;;) { // traverse every post
                 exitNow = [[threadDict valueForKey:@"ThreadShouldExitNow"] boolValue];
                 if (exitNow)
                     break;
-                while (![terminal stringFromIndex:column * [terminal _cursorY] length:6])
+                while (![terminal stringFromIndex:column * [terminal cursorY] length:6])
                     usleep(refreshInterval);
-                NSString *articleFlag = [terminal stringFromIndex:column * [terminal _cursorY] + 7 length:2];
+                NSString *articleFlag = [terminal stringFromIndex:column * [terminal cursorY] + 7 length:2];
                 if (!articleFlag || [articleFlag rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"*MGBUO"]].location == NSNotFound) {
                     // no more unread articles
-                    // NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal _cursorY], [terminal _cursorX], [terminal stringFromIndex:column * [terminal _cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal _cursorY] length:column]);
+                    // NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal cursorY], [terminal cursorX], [terminal stringFromIndex:column * [terminal cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal cursorY] length:column]);
                     break;
                 }
-                BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal _cursorY] length:column] rangeOfString:@"●"].location != NSNotFound);
+                BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal cursorY] length:column] rangeOfString:@"●"].location != NSNotFound);
                 if (isOriginal || isLastArticle) {
                     isLastArticle = NO;
                     [connection sendText:termKeyRight];
                     NSString *moreModeKeyword;
-                    while ([terminal _cursorY] != row - 1 || !(moreModeKeyword = [terminal stringFromIndex:column * (row - 1) length:2])
+                    while ([terminal cursorY] != row - 1 || !(moreModeKeyword = [terminal stringFromIndex:column * (row - 1) length:2])
                            || [moreModeKeyword isEqualToString:@"时"])
                         usleep(refreshInterval);
                     if (isOriginal) {
@@ -1635,12 +1640,12 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                         [connection sendText:termKeyLeft];
                     }
                     [connection sendText:termKeyLeft];
-                    while (![[terminal stringFromIndex:column * (row - 1) length:4] isEqualToString:@"时间"] || [terminal _cursorX] != 1)
+                    while (![[terminal stringFromIndex:column * (row - 1) length:4] isEqualToString:@"时间"] || [terminal cursorX] != 1)
                         usleep(refreshInterval);
                 }
-                const unsigned int previousY = [terminal _cursorY];
+                const unsigned int previousY = [terminal cursorY];
                 [connection sendText:termKeyUp];
-                while ([terminal _cursorY] == previousY || [terminal _cursorX] != 1 || ![terminal stringFromIndex:column * [terminal _cursorY] length:column])
+                while ([terminal cursorY] == previousY || [terminal cursorX] != 1 || ![terminal stringFromIndex:column * [terminal cursorY] length:column])
                     usleep(refreshInterval);
             }
             [connection sendText:termKeyLeft];
@@ -1690,10 +1695,6 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     [_sitesController removeObjectAtArrangedObjectIndex:dragRow];
     // done
     return YES;
-}
-
-- (YLView *) getView {
-	return _telnetView;
 }
 
 // for portal
@@ -1748,5 +1749,4 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 		[_telnetView addPortalPicture:source forSite:siteName];
 	}
 }
-
 @end

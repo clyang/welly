@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-26.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOMovingAreaHotspotHandler.h"
@@ -23,7 +23,7 @@ NSString *const KOMenuTitlePressEnd = @"Press End";
 NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 @implementation KOMovingAreaHotspotHandler
-- (id) init {
+- (id)init {
 	[super init];
 	_leftArrowCursor = [NSCursor resizeLeftCursor];
 	_pageUpCursor = [NSCursor resizeUpCursor];
@@ -31,7 +31,7 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 	return self;
 }
 
-- (BOOL) shouldEnablePageUpDown {
+- (BOOL)shouldEnablePageUpDown {
 	YLTerminal *ds = [_view frontMostTerminal];
 	return ([ds bbsState].state == BBSBoardList 
 			|| [ds bbsState].state == BBSBrowseBoard
@@ -42,43 +42,43 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 #pragma mark -
 #pragma mark Mouse Event Handler
-- (void) mouseUp: (NSEvent *)theEvent {
+- (void)mouseUp:(NSEvent *)theEvent {
 	NSString *commandSequence = [_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
-	[_view sendText: commandSequence];
+	[_view sendText:commandSequence];
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	if([[_view frontMostConnection] connected]) {
 		_manager.backgroundTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 	}
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] == [_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName])
 		[_manager restoreNormalCursor];
 	_manager.backgroundTrackingAreaUserInfo = nil;
 }
 
-- (void) mouseMoved: (NSEvent *)theEvent {
+- (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] == _manager.normalCursor)
 		[[_manager.backgroundTrackingAreaUserInfo objectForKey:KOMouseCursorUserInfoName] set];
 }
 
 #pragma mark -
 #pragma mark Contextual Menu
-- (IBAction) pressHome: (id)sender {
+- (IBAction)pressHome:(id)sender {
 	[_view sendText:KOCommandSequenceHome];
 }
 
-- (IBAction) pressEnd: (id)sender {
+- (IBAction)pressEnd:(id)sender {
 	[_view sendText:KOCommandSequenceEnd];
 }
 
-- (IBAction) pressQ: (id)sender {
+- (IBAction)pressQ:(id)sender {
 	[_view sendText:KOCommandSequencePressQ];
 }
 
-- (NSMenu *) menuForEvent: (NSEvent *)theEvent {
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	if ([self shouldEnablePageUpDown]) {
 		[menu addItemWithTitle:NSLocalizedString(KOMenuTitlePressHome, @"Contextual Menu")
@@ -109,10 +109,10 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 #pragma mark Exit Area
 
-- (void)addExitAreaAtRow: (int)r 
-				  column: (int)c 
-				  height: (int)h 
-				   width: (int)w {
+- (void)addExitAreaAtRow:(int)r 
+				  column:(int)c 
+				  height:(int)h 
+				   width:(int)w {
 	//NSLog(@"Exit Area added");	
 	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
 	// Generate User Info
@@ -136,17 +136,15 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 #pragma mark pgUp/Down Area
 
-- (void)addPageUpAreaAtRow: (int)r 
-					column: (int)c 
-					height: (int)h 
-					 width: (int)w {
+- (void)addPageUpAreaAtRow:(int)r 
+					column:(int)c 
+					height:(int)h 
+					 width:(int)w {
 	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
 	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects: self, KOCommandSequencePageUp, _pageUpCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _pageUpCursor];
-	// Add tool tip
-	//[_view addToolTipRect:rect owner:self userData:KOToolTipPageUp];
 }
 
 - (void)updatePageUpArea {
@@ -158,18 +156,16 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 	}
 }
 
-- (void)addPageDownAreaAtRow: (int)r 
-					  column: (int)c 
-					  height: (int)h 
-					   width: (int)w {
+- (void)addPageDownAreaAtRow:(int)r 
+					  column:(int)c 
+					  height:(int)h 
+					   width:(int)w {
 	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
 	// Generate User Info
 	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects: self, KOCommandSequencePageDown, _pageDownCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _pageDownCursor];
-	// Add tool tip
-	//[_view addToolTipRect:rect owner:self userData:KOToolTipPageDown];
 }
 
 - (void)updatePageDownArea {
@@ -181,7 +177,7 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 	}
 }
 
-- (void) update {
+- (void)update {
 	// For the mouse preference
 	if (![_view mouseEnabled]) 
 		return;
@@ -190,20 +186,4 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 	[self updatePageDownArea];
 }
 
-@end
-
-@implementation KOMovingAreaHotspotHandler(NSToolTipOwner)
-- (NSString *) view: (NSView *)view 
-   stringForToolTip: (NSToolTipTag)tag 
-			  point: (NSPoint)point 
-		   userData: (void *)userData {
-	NSLog(@"tooltip:%@", userData);
-	NSString *str = (NSString *)userData;
-	if ([str isEqualToString:KOToolTipPageUp] && [NSCursor currentCursor] == _pageUpCursor) {
-		return NSLocalizedString(KOToolTipPageUp, @"Tool Tip");
-	} else if ([str isEqualToString:KOToolTipPageDown] && [NSCursor currentCursor] == _pageDownCursor) {
-		return NSLocalizedString(KOToolTipPageDown, @"Tool Tip");
-	}
-	return nil;
-}
 @end

@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-2-16.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOAuthorAreaHotspotHandler.h"
@@ -25,7 +25,7 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 
 #pragma mark -
 #pragma mark Event Handle
-- (void) mouseUp: (NSEvent *)theEvent {
+- (void)mouseUp:(NSEvent *)theEvent {
 	NSString *author = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseAuthorUserInfoName];
 	if (author == nil) {
 		return;
@@ -34,14 +34,14 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 	[_view sendText:commandSequence];
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedString(KOButtonNameAuthorMode, @"Mouse Button"), [userInfo objectForKey:KOMouseAuthorUserInfoName]];
 	[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage: buttonTitle];
 	_manager.activeTrackingAreaUserInfo = userInfo;
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	[[_view effectView] clearButton];
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
@@ -49,28 +49,28 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 		[_manager restoreNormalCursor];
 }
 
-- (void) mouseMoved: (NSEvent *)theEvent {
+- (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
 }
 
 #pragma mark -
 #pragma mark Contextual Menu
-- (IBAction) authorInfo: (id)sender {
+- (IBAction)authorInfo:(id)sender {
 	NSDictionary *userInfo = [sender representedObject];
 	NSString *author = [userInfo objectForKey:KOMouseAuthorUserInfoName];
 	NSString *commandSequence = [NSString stringWithFormat:FBCommandSequenceAuthorInfo, author];
 	[_view sendText:commandSequence];
 }
 
-- (IBAction) addAsFriend: (id)sender {
+- (IBAction)addAsFriend:(id)sender {
 	NSDictionary *userInfo = [sender representedObject];
 	NSString *author = [userInfo objectForKey:KOMouseAuthorUserInfoName];
 	NSString *commandSequence = [NSString stringWithFormat:FBCommandSequenceAddAuthorAsFriend, author];
 	[_view sendText:commandSequence];
 }
 
-- (NSMenu *) menuForEvent: (NSEvent *)theEvent {
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	NSString *author = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseAuthorUserInfoName];
 	if (author == nil)
@@ -98,20 +98,24 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 BOOL isLetter(unsigned char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c<= 'Z'); }
 BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
 
-- (void) addAuthorArea: (NSString *)author 
-				   row: (int)row 
-				column: (int)column 
-				length: (int)length {
+- (void)addAuthorArea:(NSString *)author 
+				  row:(int)row 
+			   column:(int)column 
+			   length:(int)length {
 	NSRect rect = [_view rectAtRow:row column:column height:1 width:length];
 	// Generate User Info
 	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseAuthorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects: self, author, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	// Add into manager
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: [NSCursor pointingHandCursor]];	
+	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];	
 }
 
-- (void) updateAuthorAreaForRow: (int)r {
+- (void)updateAuthorAreaForRow:(int)r {
+	// TODO: enable this for Maple BBS
+	if ([[_view frontMostTerminal] bbsType] == TYMaple)
+		return;
+	
 	YLTerminal *ds = [_view frontMostTerminal];
     cell *currRow = [ds cellsOfRow:r];
 	
@@ -162,15 +166,15 @@ BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
 		if (start == -1)
 			return;
 		
-		[self addAuthorArea: [NSString stringWithCharacters:textBuf length:bufLength]
-						row: r
-					 column: start
-					 length: end - start + 1];
+		[self addAuthorArea:[NSString stringWithCharacters:textBuf length:bufLength]
+						row:r
+					 column:start
+					 length:end - start + 1];
 		
 	}
 }
 
-- (void) update {
+- (void)update {
 	// For the mouse preference
 	if (![_view mouseEnabled]) 
 		return;

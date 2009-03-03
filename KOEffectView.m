@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 08-8-15.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Welly Group. All rights reserved.
 //
 
 #import "KOEffectView.h"
@@ -19,7 +19,7 @@
 - (id)initWithView:(YLView *)view {
 	self = [self initWithFrame:[view frame]];
 	if (self) {
-		mainView = [view retain];
+		_mainView = [view retain];
 		[self setWantsLayer:YES];
 		[self setupLayer];
 	}
@@ -37,25 +37,25 @@
 }
 
 - (void)dealloc {
-	[mainLayer release];
-	[ipAddrLayer release];
-	[popUpLayer release];
+	[_mainLayer release];
+	[_ipAddrLayer release];
+	[_popUpLayer release];
 	[super dealloc];
 }
 
 - (void)setupLayer
 {
-	NSRect contentFrame = [mainView frame];
+	NSRect contentFrame = [_mainView frame];
 	[self setFrame: contentFrame];
 	
     // mainLayer is the layer that gets scaled. All of its sublayers
     // are automatically scaled with it.
-    mainLayer = [CALayer layer];
-    mainLayer.frame = NSRectToCGRect(contentFrame);
-    [self setLayer:mainLayer];
+    _mainLayer = [CALayer layer];
+    _mainLayer.frame = NSRectToCGRect(contentFrame);
+    [self setLayer:_mainLayer];
     // Make the background color to be a dark gray with a 50% alpha similar to
     // the real Dashbaord.
-    mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
+    _mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
 }
 
 - (void) clear {
@@ -70,7 +70,7 @@
 }
 
 -(void) resize {
-	[self setFrameSize:[mainView frame].size];
+	[self setFrameSize:[_mainView frame].size];
 	[self setFrameOrigin: NSMakePoint(0, 0)];
 }
 
@@ -79,20 +79,20 @@
 }
 
 - (void) setIPAddrBox {
-	ipAddrLayer = [CALayer layer];
+	_ipAddrLayer = [CALayer layer];
     
 	// Set up the box
-	ipAddrLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
-	ipAddrLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
-	ipAddrLayer.borderWidth = 1.4;
-	ipAddrLayer.cornerRadius = 6.0;
+	_ipAddrLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
+	_ipAddrLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+	_ipAddrLayer.borderWidth = 1.4;
+	_ipAddrLayer.cornerRadius = 6.0;
 	
     // Insert the layer into the root layer
-	[mainLayer addSublayer: [ipAddrLayer retain]];
+	[_mainLayer addSublayer: [_ipAddrLayer retain]];
 }
 
 - (void) drawIPAddrBox: (NSRect) rect {
-	if (!ipAddrLayer)
+	if (!_ipAddrLayer)
 		[self setIPAddrBox];
 	
 	rect.origin.x -= 1.0;
@@ -101,31 +101,31 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    ipAddrLayer.frame = NSRectToCGRect(rect);
+    _ipAddrLayer.frame = NSRectToCGRect(rect);
     
     // Set the opacity to make the layer appear
-	ipAddrLayer.opacity = 1.0f;
+	_ipAddrLayer.opacity = 1.0f;
 }
 
 - (void) clearIPAddrBox {
-	ipAddrLayer.opacity = 0.0f;
+	_ipAddrLayer.opacity = 0.0f;
 }
 
 #pragma mark Click Entry
 - (void) setClickEntry {
-	clickEntryLayer = [CALayer layer];
+	_clickEntryLayer = [CALayer layer];
     
-	clickEntryLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
-	clickEntryLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
-	clickEntryLayer.borderWidth = 0;
-	clickEntryLayer.cornerRadius = 6.0;
+	_clickEntryLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
+	_clickEntryLayer.borderColor = CGColorCreateGenericRGB(0.8f, 0.8f, 0.8f, 0.8f);
+	_clickEntryLayer.borderWidth = 0;
+	_clickEntryLayer.cornerRadius = 6.0;
 	
     // Insert the layer into the root layer
-	[mainLayer addSublayer: [clickEntryLayer retain]];
+	[_mainLayer addSublayer: [_clickEntryLayer retain]];
 }
 
 - (void) drawClickEntry: (NSRect) rect {
-	if (!clickEntryLayer)
+	if (!_clickEntryLayer)
 		[self setClickEntry];
 	
 	rect.origin.x -= 1.0;
@@ -134,14 +134,14 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    clickEntryLayer.frame = NSRectToCGRect(rect);
+    _clickEntryLayer.frame = NSRectToCGRect(rect);
     
     // Set the opacity to make the layer appear
-	clickEntryLayer.opacity = 1.0f;
+	_clickEntryLayer.opacity = 1.0f;
 }
 
 - (void)clearClickEntry {
-	clickEntryLayer.opacity = 0.0f;
+	_clickEntryLayer.opacity = 0.0f;
 }
 
 #pragma mark Welly Buttons
@@ -149,19 +149,19 @@
 - (void)drawButton: (NSRect) rect withMessage: (NSString *) message {
 	//Initiallize a new CALayer
 	[self clearButton];
-	if (buttonLayer)
-		[buttonLayer release];
+	if (_buttonLayer)
+		[_buttonLayer release];
 	
-	buttonLayer = [CALayer layer];
+	_buttonLayer = [CALayer layer];
 	// Set the colors of the pop-up layer
 	CGColorRef myColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
-	buttonLayer.backgroundColor = myColor;
+	_buttonLayer.backgroundColor = myColor;
 	CGColorRelease(myColor);
 	myColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
-	buttonLayer.borderColor = myColor;
+	_buttonLayer.borderColor = myColor;
 	CGColorRelease(myColor);
-	buttonLayer.borderWidth = 0.0;
-	buttonLayer.cornerRadius = 10.0;
+	_buttonLayer.borderWidth = 0.0;
+	_buttonLayer.cornerRadius = 10.0;
 	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
@@ -214,26 +214,26 @@
 	textLayer.frame = NSRectToCGRect(textRect);
 	
     // Set the layer frame to our rectangle.
-    buttonLayer.frame = NSRectToCGRect(finalRect);
+    _buttonLayer.frame = NSRectToCGRect(finalRect);
 	//buttonLayer.cornerRadius = finalRect.size.height/5;
-	[buttonLayer addSublayer:[textLayer retain]];
+	[_buttonLayer addSublayer:[textLayer retain]];
 	
 	CATransition * buttonTrans = [CATransition new];
 	buttonTrans.type = kCATransitionReveal;
-	[buttonLayer addAnimation: buttonTrans forKey: kCATransition];
+	[_buttonLayer addAnimation: buttonTrans forKey: kCATransition];
     [buttonTrans autorelease];
     // Insert the layer into the root layer
-	[mainLayer addSublayer:[buttonLayer retain]];
+	[_mainLayer addSublayer:[_buttonLayer retain]];
 }
 
 - (void)clearButton {
-	if (buttonLayer == nil)
+	if (_buttonLayer == nil)
 		return;
-	CATextLayer *textLayer = [[buttonLayer sublayers] lastObject];
+	CATextLayer *textLayer = [[_buttonLayer sublayers] lastObject];
 	[textLayer.string release];
 	[textLayer removeFromSuperlayer];
-	[buttonLayer removeAllAnimations];
-	[buttonLayer removeFromSuperlayer];
+	[_buttonLayer removeAllAnimations];
+	[_buttonLayer removeFromSuperlayer];
 }
 
 #pragma mark -
@@ -246,35 +246,34 @@ const CGFloat menuItemPadding = 5.0;
 const CGFloat menuMarginHeight = 5.0;
 const CGFloat menuMarginWidth = 20.0;
 
--(void)setupMenuLayer;
-{
+-(void)setupMenuLayer {
     //[[self window] makeFirstResponder:self];
     
 	// create menu layer
-    menuLayer = [CALayer layer];
-    menuLayer.frame = mainLayer.bounds;
-    menuLayer.layoutManager =[CAConstraintLayoutManager layoutManager];
+    _menuLayer = [CALayer layer];
+    _menuLayer.frame = _mainLayer.bounds;
+    _menuLayer.layoutManager =[CAConstraintLayoutManager layoutManager];
 	
 	// set border style
-	menuLayer.borderWidth = 2.0;
-    menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
-	menuLayer.cornerRadius = 5.0;
+	_menuLayer.borderWidth = 2.0;
+    _menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+	_menuLayer.cornerRadius = 5.0;
 	
-    [mainLayer addSublayer: menuLayer];
+    [_mainLayer addSublayer: _menuLayer];
     
 	// set selection layer
-    selectionLayer = [CALayer layer];
-    selectionLayer.bounds = CGRectMake(0.0, 0.0, menuWidth, menuHeight);
-    selectionLayer.borderWidth = 2.0;
-    selectionLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
-    selectionLayer.cornerRadius = menuHeight / 2;
+    _selectionLayer = [CALayer layer];
+    _selectionLayer.bounds = CGRectMake(0.0, 0.0, menuWidth, menuHeight);
+    _selectionLayer.borderWidth = 2.0;
+    _selectionLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
+    _selectionLayer.cornerRadius = menuHeight / 2;
     
     CIFilter *filter = [CIFilter filterWithName:@"CIBloom"];
     [filter setDefaults];
     [filter setValue:[NSNumber numberWithFloat:5.0] forKey:@"inputRadius"];
     [filter setName:@"pulseFilter"];
     
-    [selectionLayer setFilters:[NSArray arrayWithObject:filter]];
+    [_selectionLayer setFilters:[NSArray arrayWithObject:filter]];
     
     CABasicAnimation* pulseAnimation = [CABasicAnimation animation];
     pulseAnimation.keyPath = @"filters.pulseFilter.inputIntensity";
@@ -285,7 +284,7 @@ const CGFloat menuMarginWidth = 20.0;
     pulseAnimation.autoreverses = YES;
     pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	
-    [selectionLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
+    [_selectionLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
 	
     //[mainLayer addSublayer:selectionLayer];
     
@@ -294,7 +293,7 @@ const CGFloat menuMarginWidth = 20.0;
 
 - (void)selectMenuItemAtIndex: (int) index {
 	// TODO: add code for selecting menu item
-	NSArray *layers = [menuLayer sublayers];
+	NSArray *layers = [_menuLayer sublayers];
 	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
 		CALayer *menuItemLayer = [layers objectAtIndex: selectedItemIndex];
 		[menuItemLayer setFilters: nil];
@@ -330,32 +329,32 @@ const CGFloat menuMarginWidth = 20.0;
 - (void)selectPreviousMenuItem {
 	int previousItemIndex = selectedItemIndex - 1;
 	if (previousItemIndex < 0)
-		previousItemIndex += [[menuLayer sublayers] count];
+		previousItemIndex += [[_menuLayer sublayers] count];
 	[self selectMenuItemAtIndex:previousItemIndex];
 }
 
 - (void)selectNextMenuItem {
 	int nextItemIndex = selectedItemIndex + 1;
-	if (nextItemIndex >= [[menuLayer sublayers] count])
-		nextItemIndex -= [[menuLayer sublayers] count];
+	if (nextItemIndex >= [[_menuLayer sublayers] count])
+		nextItemIndex -= [[_menuLayer sublayers] count];
 	[self selectMenuItemAtIndex:nextItemIndex];
 }
 
 
 - (void)removeAllMenuItems {
-	while ([[menuLayer sublayers] count] > 0) {
-		CATextLayer *menuItemLayer = [[menuLayer sublayers] lastObject];
+	while ([[_menuLayer sublayers] count] > 0) {
+		CATextLayer *menuItemLayer = [[_menuLayer sublayers] lastObject];
 		[menuItemLayer.string release];
 		[menuItemLayer removeFromSuperlayer];
 	}
 	
 	selectedItemIndex = -1;
-	[menuLayer layoutIfNeeded];
+	[_menuLayer layoutIfNeeded];
 }
 
-- (void)showMenuAtPoint: (NSPoint) pt 
-			  withItems: (NSArray *)items {
-	if (!menuLayer)
+- (void)showMenuAtPoint:(NSPoint)pt 
+			  withItems:(NSArray *)items {
+	if (!_menuLayer)
 		[self setupMenuLayer];
 	
 	[self removeAllMenuItems];
@@ -404,11 +403,11 @@ const CGFloat menuMarginWidth = 20.0;
 																  attribute: kCAConstraintMidX]];
 		
 		// insert this menu item
-		[menuLayer addSublayer: [menuItemLayer retain]];
+		[_menuLayer addSublayer: [menuItemLayer retain]];
     }
 	CGFloat totalHeight = height + menuMarginHeight;
 	CGFloat totalWidth = width + menuMarginWidth * 2;
-	menuLayer.cornerRadius = totalHeight / 5;
+	_menuLayer.cornerRadius = totalHeight / 5;
 	
 	CGRect rect = CGRectZero;
 	rect.size.width = totalWidth;
@@ -416,16 +415,16 @@ const CGFloat menuMarginWidth = 20.0;
 	rect.origin = NSPointToCGPoint(pt);
 	rect.origin.y -= totalHeight;
 	
-	menuLayer.frame = rect;
-	menuLayer.opacity = 1.0f;
+	_menuLayer.frame = rect;
+	_menuLayer.opacity = 1.0f;
 	
-    [menuLayer layoutIfNeeded];
+    [_menuLayer layoutIfNeeded];
 
 	[self selectMenuItemAtIndex: 0];
 }
 
 - (void)hideMenu {
-	menuLayer.opacity = 0;
+	_menuLayer.opacity = 0;
 }
 
 #pragma mark Pop-Up Message
@@ -436,13 +435,13 @@ const CGFloat menuMarginWidth = 20.0;
 	// Remove previous message
 	[self removePopUpMessage];
 	//Initiallize a new CALayer
-	if(!popUpLayer){
-		popUpLayer = [CALayer layer];
+	if(!_popUpLayer){
+		_popUpLayer = [CALayer layer];
 
 		// Set the colors of the pop-up layer
-		popUpLayer.backgroundColor = CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f);
-		popUpLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
-		popUpLayer.borderWidth = 2.0;
+		_popUpLayer.backgroundColor = CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f);
+		_popUpLayer.borderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+		_popUpLayer.borderWidth = 2.0;
     }	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
@@ -485,20 +484,20 @@ const CGFloat menuMarginWidth = 20.0;
 	textLayer.frame = NSRectToCGRect(textRect);
 	
     // Set the layer frame to our rectangle.
-    popUpLayer.frame = NSRectToCGRect(rect);
-	popUpLayer.cornerRadius = rect.size.height/5;
-	[popUpLayer addSublayer:[textLayer retain]];
+    _popUpLayer.frame = NSRectToCGRect(rect);
+	_popUpLayer.cornerRadius = rect.size.height/5;
+	[_popUpLayer addSublayer:[textLayer retain]];
     
     // Insert the layer into the root layer
-	[mainLayer addSublayer:[popUpLayer retain]];
+	[_mainLayer addSublayer:[_popUpLayer retain]];
 	// NSLog(@"Pop message @ (%f, %f)", rect.origin.x, rect.origin.y);
 }
 
 - (void)removePopUpMessage {
-	if(popUpLayer) {
-		[popUpLayer removeFromSuperlayer];
-		[popUpLayer release];
-		popUpLayer = nil;
+	if(_popUpLayer) {
+		[_popUpLayer removeFromSuperlayer];
+		[_popUpLayer release];
+		_popUpLayer = nil;
 	}
 }
 @end

@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-12.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOClickEntryHotspotHandler.h"
@@ -29,13 +29,13 @@ NSString *const KOCommandSequenceSameThreadReading = @"\030";	// ^X
 NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 
 @implementation KOClickEntryHotspotHandler
-- (void) dealloc {
+- (void)dealloc {
 	[super dealloc];
 }
 
 #pragma mark -
 #pragma mark Mouse Event Handler
-- (void) moveCursorToRow: (int) moveToRow {
+- (void)moveCursorToRow:(int)moveToRow {
 	unsigned char cmd[_maxRow * _maxColumn + 1];
 	unsigned int cmdLength = 0;
 	YLTerminal *ds = [_view frontMostTerminal];
@@ -59,14 +59,14 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 	[[_view frontMostConnection] sendBytes:cmd length:cmdLength];
 }
 
-- (void) enterEntryAtRow: (int) moveToRow {
+- (void)enterEntryAtRow:(int)moveToRow {
 	[self moveCursorToRow:moveToRow];
 	
 	// Enter
 	[_view sendText:termKeyEnter];
 }
 
-- (void) mouseUp: (NSEvent *)theEvent {
+- (void)mouseUp:(NSEvent *)theEvent {
 	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
 	if (commandSequence != nil) {
 		[_view sendText: commandSequence];
@@ -77,13 +77,13 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 	[self enterEntryAtRow:moveToRow];
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	//NSLog(@"mouseEntered: ");
 	[[_view effectView] drawClickEntry: [[theEvent trackingArea] rect]];
 	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	//NSLog(@"mouseExited: ");
 	[[_view effectView] clearClickEntry];
 	_manager.activeTrackingAreaUserInfo = nil;
@@ -92,14 +92,14 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 		[_manager restoreNormalCursor];
 }
 
-- (void) mouseMoved: (NSEvent *)theEvent {
+- (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
 }
 
 #pragma mark -
 #pragma mark Contextual Menu
-- (void) doDownloadPost: (id)sender {
+- (void)doDownloadPost:(id)sender {
 	NSDictionary *userInfo = [sender representedObject];
 	
 	// Enter the entry
@@ -118,12 +118,12 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 	[(YLController *)[(YLApplication *)NSApp controller] openPostDownload:sender];
 }
 
-- (IBAction) downloadPost: (id)sender {
+- (IBAction)downloadPost:(id)sender {
 	// Do this in new thread to avoid blocking the main thread
 	[NSThread detachNewThreadSelector:@selector(doDownloadPost:) toTarget:self withObject:sender];
 }
 
-- (void) moveCursorBySender: (id)sender {
+- (void)moveCursorBySender:(id)sender {
 	NSDictionary *userInfo = [sender representedObject];
 	
 	// Move the cursor to the entry
@@ -131,27 +131,27 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 	[self moveCursorToRow:moveToRow];
 }
 
-- (IBAction) threadTop: (id)sender {
+- (IBAction)threadTop:(id)sender {
 	[self moveCursorBySender:sender];
 	[_view sendText:KOCommandSequenceThreadTop];
 }
 
-- (IBAction) threadBottom: (id)sender {
+- (IBAction)threadBottom:(id)sender {
 	[self moveCursorBySender:sender];	
 	[_view sendText:KOCommandSequenceThreadBottom];
 }
 
-- (IBAction) sameAuthorReading: (id)sender {
+- (IBAction)sameAuthorReading:(id)sender {
 	[self moveCursorBySender:sender];
 	[_view sendText:KOCommandSequenceSameAuthorReading];
 }
 
-- (IBAction) sameThreadReading: (id)sender {
+- (IBAction)sameThreadReading:(id)sender {
 	[self moveCursorBySender:sender];	
 	[_view sendText:KOCommandSequenceSameThreadReading];
 }
 
-- (NSMenu *) menuForEvent: (NSEvent *)theEvent {
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	if ([[_view frontMostTerminal] bbsState].state == BBSBrowseBoard) {
 		[menu addItemWithTitle:NSLocalizedString(KOMenuTitleDownloadPost, @"Contextual Menu")
@@ -182,16 +182,16 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 
 #pragma mark -
 #pragma mark Add Tracking Areas
-- (void)addClickEntryRect: (NSString *)title
-					  row: (int)r
-				   column: (int)c
-				   length: (int)length {
+- (void)addClickEntryRect:(NSString *)title
+					  row:(int)r
+				   column:(int)c
+				   length:(int)length {
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	// Generate User Info
 	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseRowUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects: self, [NSNumber numberWithInt:r], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: [NSCursor pointingHandCursor]];
+	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -199,21 +199,23 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
     [self addClickEntryRect:title row:r column:c length:length];
 }
 
-- (void)addMainMenuClickEntry: (NSString *)cmd 
-						  row: (int)r
-					   column: (int)c 
-					   length: (int)len {
+- (void)addMainMenuClickEntry:(NSString *)cmd 
+						  row:(int)r
+					   column:(int)c 
+					   length:(int)len {
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:len];
 	// Generate User Info
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, cmd, nil];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, cmd, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }
 
 #pragma mark -
 #pragma mark Update State
-- (BOOL)startsAtRow:(int)row column:(int)column with:(NSString *)s {
+- (BOOL)startsAtRow:(int)row 
+			 column:(int)column 
+			   with:(NSString *)s {
     cell *currRow = [[_view frontMostTerminal] cellsOfRow:row];
     int i = 0, n = [s length];
     for (; i < n && column < _maxColumn - 1; ++i, ++column)
@@ -232,7 +234,7 @@ BOOL isPostTitleStarter(unichar c) {
 			|| c == 0x25c6 || c == 0x25a1);
 }
 
-- (void) updateClickEntryForRow: (int) r {
+- (void)updateClickEntryForRow:(int)r {
 	//NSLog(@"KOClickEntryHotspotHandler updateClickEntryForRow:%d", r);
     YLTerminal *ds = [_view frontMostTerminal];
     cell *currRow = [ds cellsOfRow:r];
@@ -276,10 +278,10 @@ BOOL isPostTitleStarter(unichar c) {
 		if (start == -1)
 			return;
 		
-		[self addClickEntryRect: [NSString stringWithCharacters:textBuf length:bufLength]
-							row: r
-						 column: start
-						 length: end - start + 1];
+		[self addClickEntryRect:[NSString stringWithCharacters:textBuf length:bufLength]
+							row:r
+						 column:start
+						 length:end - start + 1];
 		
 	} else if ([ds bbsState].state == BBSBoardList) {
         // watching board list
@@ -374,7 +376,7 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 }
 
-- (void) update {
+- (void)update {
 	// For the mouse preference
 	if (![_view mouseEnabled]) 
 		return;

@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-1-27.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOButtonAreaHotspotHandler.h"
@@ -69,45 +69,45 @@ NSString * const FBCommandSequenceJumpToMailList = @"v";
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
 #pragma mark Mouse Event Handler
-- (void) mouseUp: (NSEvent *)theEvent {
-	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
+- (void)mouseUp:(NSEvent *)theEvent {
+	NSString *commandSequence = [[_manager activeTrackingAreaUserInfo] objectForKey:KOMouseCommandSequenceUserInfoName];
 	if (commandSequence != nil) {
-		[[_view frontMostConnection] sendText: commandSequence];
+		[[_view frontMostConnection] sendText:commandSequence];
 		return;
 	}
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	//NSLog(@"mouseEntered: ");
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonText = [userInfo objectForKey:KOMouseButtonTextUserInfoName];
 	if([[_view frontMostConnection] connected]) {
 		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
-		_manager.activeTrackingAreaUserInfo = userInfo;
+		[_manager setActiveTrackingAreaUserInfo:userInfo];
 	}
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	//NSLog(@"mouseExited: ");
 	[[_view effectView] clearButton];
-	_manager.activeTrackingAreaUserInfo = nil;
+	[_manager setActiveTrackingAreaUserInfo:nil];
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])
 		[_manager restoreNormalCursor];
 }
 
-- (void) mouseMoved: (NSEvent *)theEvent {
+- (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
 }
 
 #pragma mark -
 #pragma mark Update State
-- (void) addButtonArea: (NSString *)buttonName
-	   commandSequence: (NSString *)cmd 
-				 atRow: (int)r 
-				column: (int)c 
-				length: (int)len {
+- (void)addButtonArea:(NSString *)buttonName
+	  commandSequence:(NSString *)cmd 
+				atRow:(int)r 
+			   column:(int)c 
+			   length:(int)len {
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:len];
 	// Generate User Info
 	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseButtonTextUserInfoName, nil];
@@ -116,7 +116,7 @@ NSString * const FBCommandSequenceJumpToMailList = @"v";
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }
 
-- (void) updateButtonAreaForRow:(int)r {
+- (void)updateButtonAreaForRow:(int)r {
 	const KOButtonDescription buttonsDefinition[] = {
 		/* BBSBrowseBoard */
 		{BBSBrowseBoard, @"发表文章[Ctrl-P]", 16, KOButtonNameComposePost, fbComposePost},
@@ -172,12 +172,12 @@ NSString * const FBCommandSequenceJumpToMailList = @"v";
 	}
 }
 
-- (void) update {
+- (void)update {
 	// For the mouse preference
 	if (![_view mouseEnabled]) 
 		return;
 	for (int r = 0; r < _maxRow; ++r) {
-		[self updateButtonAreaForRow: r];
+		[self updateButtonAreaForRow:r];
 	}
 }
 @end

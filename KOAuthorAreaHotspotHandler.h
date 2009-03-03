@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-2-16.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>

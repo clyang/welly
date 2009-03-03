@@ -59,7 +59,7 @@ ASCII_CODE asciiCodeFamily(unsigned char c) {
 
 static unsigned short gEmptyAttr;
 
-- (id) init {
+- (id)init {
 	if (self = [super init]) {
 		_hasNewMessage = NO;
         _savedCursorX = _savedCursorY = -1;
@@ -79,7 +79,7 @@ static unsigned short gEmptyAttr;
 	return self;
 }
 
-- (id) initWithConnection: (YLConnection *) connection {
+- (id)initWithConnection:(YLConnection *)connection {
 	if (self == [self init]) {
 		_connection = connection;
 	}
@@ -97,11 +97,14 @@ static unsigned short gEmptyAttr;
 
 # pragma mark -
 # pragma mark Input Interface
-- (void) feedData:(NSData *)data connection:(id)connection {
+- (void)feedData:(NSData *)data 
+	  connection:(id)connection {
 	[self feedBytes:[data bytes] length:[data length] connection:connection];
 }
 
-- (void) feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection {
+- (void)feedBytes:(const void *)bytes 
+		   length:(NSUInteger)len 
+	   connection:(id)connection {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
 	int i, x;
@@ -451,7 +454,7 @@ static unsigned short gEmptyAttr;
     [pool release];
 }
 
-- (void) setTerminal: (YLTerminal *) terminal {
+- (void)setTerminal:(YLTerminal *)terminal {
 	_terminal = terminal;
 	[_terminal setConnection: _connection];
 }
@@ -497,11 +500,13 @@ static unsigned short gEmptyAttr;
         _csArg = [[XIIntegerArray integerArray] retain];
 }
 
-- (void) clearRow: (int) r {
+- (void)clearRow:(int)r {
     [self clearRow: r fromStart: 0 toEnd: _column - 1];
 }
 
-- (void) clearRow: (int) r fromStart: (int) s toEnd: (int) e {
+- (void)clearRow:(int)r 
+	   fromStart:(int)s 
+		   toEnd:(int)e {
     int i;
     for (i = s; i <= e; i++) {
         _grid[r][i].byte = '\0';
@@ -511,7 +516,7 @@ static unsigned short gEmptyAttr;
     }
 }
 
-- (cell *) cellsOfRow: (int) r {
+- (cell *)cellsOfRow:(int)r {
 	return _grid[r];
 }
 

@@ -77,6 +77,7 @@
     // RSS feed
     NSThread *_rssThread;
 }
+@property (readonly) YLView *telnetView;
 
 - (IBAction)setEncoding:(id)sender;
 - (IBAction)setDetectDoubleByteAction:(id)sender;
@@ -100,20 +101,20 @@
 - (void)newConnectionWithSite:(YLSite *)site;
 
 /* emoticon actions */
-- (IBAction) closeEmoticons: (id) sender;
-- (IBAction) inputEmoticons: (id) sender;
-- (IBAction) openEmoticonsWindow: (id) sender;
+- (IBAction)closeEmoticons:(id)sender;
+- (IBAction)inputEmoticons:(id)sender;
+- (IBAction)openEmoticonsWindow:(id)sender;
 
-- (IBAction) closeMessageWindow: (id) sender;
+- (IBAction)closeMessageWindow:(id)sender;
 
 /* compose actions */
-- (IBAction) openCompose: (id) sender;
-- (IBAction) commitCompose: (id) sender;
-- (IBAction) cancelCompose: (id) sender;
-- (IBAction) setUnderline: (id) sender;
-- (IBAction) setBlink: (id) sender;
-- (IBAction) changeBackgroundColor: (id) sender;
-- (void) prepareCompose: (id) param;
+- (IBAction)openCompose:(id)sender;
+- (IBAction)commitCompose:(id)sender;
+- (IBAction)cancelCompose:(id)sender;
+- (IBAction)setUnderline:(id)sender;
+- (IBAction)setBlink:(id)sender;
+- (IBAction)changeBackgroundColor:(id)sender;
+- (void)prepareCompose:(id)param;
 
 /* post download actions */
 - (IBAction)openPostDownload:(id)sender;
@@ -128,45 +129,47 @@
 - (NSArray *)sites;
 - (unsigned)countOfSites;
 - (id)objectInSitesAtIndex:(unsigned)index;
-- (void)getSites:(id *)objects range:(NSRange)range;
-- (void)insertObject:(id)anObject inSitesAtIndex:(unsigned)index;
+- (void)getSites:(id *)objects 
+		   range:(NSRange)range;
+- (void)insertObject:(id)anObject 
+	  inSitesAtIndex:(unsigned)index;
 - (void)removeObjectFromSitesAtIndex:(unsigned)index;
-- (void)replaceObjectInSitesAtIndex:(unsigned)index withObject:(id)anObject;
+- (void)replaceObjectInSitesAtIndex:(unsigned)index 
+						 withObject:(id)anObject;
 
 // emoticons accessors
 - (NSArray *)emoticons;
 - (unsigned)countOfEmoticons;
 - (id)objectInEmoticonsAtIndex:(unsigned)theIndex;
-- (void)getEmoticons:(id *)objsPtr range:(NSRange)range;
-- (void)insertObject:(id)obj inEmoticonsAtIndex:(unsigned)theIndex;
+- (void)getEmoticons:(id *)objsPtr 
+			   range:(NSRange)range;
+- (void)insertObject:(id)obj 
+  inEmoticonsAtIndex:(unsigned)theIndex;
 - (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex;
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
 
 // for bindings access
-- (RemoteControl*) remoteControl;
-- (MultiClickRemoteBehavior*) remoteBehavior;
+- (RemoteControl*)remoteControl;
+- (MultiClickRemoteBehavior*)remoteBehavior;
 
 // for full screen
-- (IBAction) fullScreenMode: (id) sender;
+- (IBAction)fullScreenMode:(id)sender;
 
 // for timer
-- (void) doScrollUp:(NSTimer*) timer;
-- (void) doScrollDown:(NSTimer*) timer;
-- (void) disableTimer;
+- (void)doScrollUp:(NSTimer*)timer;
+- (void)doScrollDown:(NSTimer*)timer;
+- (void)disableTimer;
 
 // for portal
 - (IBAction)browseImage:(id)sender;
-- (IBAction) removeSiteImage:(id)sender;
-- (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (IBAction)removeSiteImage:(id)sender;
+- (void)openPanelDidEnd:(NSOpenPanel *)sheet 
+			 returnCode:(int)returnCode 
+			contextInfo:(void *)contextInfo;
 
 // for resotre
 - (IBAction)restoreSettings:(id)sender;
 
 // for RSS feed
 - (IBAction)openRSS:(id)sender;
-
-// temporary added, should be remove in future!!!
-// by K.O.ed
-- (YLView *) getView;
-
 @end

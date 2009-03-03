@@ -39,7 +39,7 @@ NSString* L(NSString* key) {
 	return s_instance;
 }
 
-- (id) init {
+- (id)init {
 	self = [super init];
 	if(self) {
 		m_cache = [[NSMutableDictionary dictionary] retain];
@@ -60,7 +60,7 @@ NSString* L(NSString* key) {
 	return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
 	[m_cache release];
 	[m_file closeFile];
 	[m_file release];

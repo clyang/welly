@@ -3,7 +3,7 @@
 //  Welly
 //
 //  Created by K.O.ed on 09-2-13.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Welly Group. All rights reserved.
 //
 
 #import "KOEditingCursorMoveHotspotHandler.h"
@@ -58,7 +58,7 @@ static NSCursor *gMoveCursor = nil;
 
 #pragma mark -
 #pragma mark Event Handle
-- (void) mouseUp: (NSEvent *)theEvent {
+- (void)mouseUp:(NSEvent *)theEvent {
 	// click to move cursor
 	NSPoint p = [_view convertPoint:[theEvent locationInWindow] fromView:nil];
 	int _selectionLocation = [_view convertIndexFromPoint: p];

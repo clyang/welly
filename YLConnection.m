@@ -335,10 +335,10 @@
 - (void) newMessage: (NSString *)message
 		 fromCaller: (NSString *)caller {
 	// If there is a new message, we should notify the auto-reply delegate.
-	[_autoReplyDelegate newMessage: message
+	[_autoReplyDelegate hasNewMessage: message
 						fromCaller: caller];
 	
-	YLView *view = [[((YLApplication *)NSApp) controller] getView];
+	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
 	if (self != [view frontMostConnection] || ![NSApp isActive] || [_site autoReply]) {
 		// not in focus
 		[self increaseMessageCount: 1];
@@ -362,7 +362,7 @@
 - (void)didClickGrowlNewMessage:(id)connection {
     // bring the window to front
     [NSApp activateIgnoringOtherApps:YES];
-	YLView *view = [[((YLApplication *)NSApp) controller] getView];
+	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
     [[view window] makeKeyAndOrderFront:nil];
     // select the tab
     [view selectTabViewItemWithIdentifier:connection];

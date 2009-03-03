@@ -11,13 +11,13 @@
 
 KOEffectView * _effectView;
 
-@interface LLPopUpMessage : NSObject {
+@interface LLPopUpMessage:NSObject {
 }
 
-+ (void)showPopUpMessage: (NSString*) message 
-				duration: (CGFloat) duration 
-			  effectView: (KOEffectView *) effectView;
++ (void)showPopUpMessage:(NSString*)message 
+				duration:(CGFloat)duration 
+			  effectView:(KOEffectView *)effectView;
 
-+ (void) hidePopUpMessage;
++ (void)hidePopUpMessage;
 
 @end

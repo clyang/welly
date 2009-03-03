@@ -12,15 +12,15 @@
 @implementation LLPopUpMessage
 
 #pragma mark Class methods
-+ (void) hidePopUpMessage {
++ (void)hidePopUpMessage {
 	if(_effectView) {
 		[_effectView removePopUpMessage];
 	}
 }
 
-+ (void)showPopUpMessage: (NSString*) message 
-				duration: (CGFloat) duration 
-			  effectView: (KOEffectView *) effectView {
++ (void)showPopUpMessage:(NSString*)message 
+				duration:(CGFloat)duration 
+			  effectView:(KOEffectView *)effectView {
 	[effectView drawPopUpMessage:message];
 	_effectView = [effectView retain];
 	[NSTimer scheduledTimerWithTimeInterval:duration 

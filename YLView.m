@@ -31,7 +31,6 @@ static int gColumn;
 static NSImage *gLeftImage;
 static CGSize *gSingleAdvance;
 static CGSize *gDoubleAdvance;
-static NSCursor *gMoveCursor = nil;
 
 NSString *ANSIColorPBoardType = @"ANSIColorPBoardType";
 
@@ -69,38 +68,10 @@ BOOL isSpecialSymbol(unichar ch) {
 @end
 
 @implementation YLView
-
-+ (void) initialize {
-    NSImage *cursorImage = [[NSImage alloc] initWithSize: NSMakeSize(11.0, 20.0)];
-    [cursorImage lockFocus];
-    [[NSColor clearColor] set];
-    NSRectFill(NSMakeRect(0, 0, 11, 20));
-    [[NSColor whiteColor] set];
-    NSBezierPath *path = [NSBezierPath bezierPath];
-    [path setLineCapStyle: NSRoundLineCapStyle];
-    [path moveToPoint: NSMakePoint(1.5, 1.5)];
-    [path lineToPoint: NSMakePoint(2.5, 1.5)];
-    [path lineToPoint: NSMakePoint(5.5, 4.5)];
-    [path lineToPoint: NSMakePoint(8.5, 1.5)];
-    [path lineToPoint: NSMakePoint(9.5, 1.5)];
-    [path moveToPoint: NSMakePoint(5.5, 4.5)];
-    [path lineToPoint: NSMakePoint(5.5, 15.5)];
-    [path lineToPoint: NSMakePoint(2.5, 18.5)];
-    [path lineToPoint: NSMakePoint(1.5, 18.5)];
-    [path moveToPoint: NSMakePoint(5.5, 15.5)];
-    [path lineToPoint: NSMakePoint(8.5, 18.5)];
-    [path lineToPoint: NSMakePoint(9.5, 18.5)];
-    [path moveToPoint: NSMakePoint(3.5, 9.5)];
-    [path lineToPoint: NSMakePoint(7.5, 9.5)];
-    [path setLineWidth: 3];
-    [path stroke];
-    [path setLineWidth: 1];
-    [[NSColor blackColor] set];
-    [path stroke];
-    [cursorImage unlockFocus];
-    gMoveCursor = [[NSCursor alloc] initWithImage: cursorImage hotSpot: NSMakePoint(5.5, 9.5)];
-    [cursorImage release];
-}
+@synthesize isInPortalMode = _isInPortalMode;
+@synthesize isInUrlMode = _isInUrlMode;
+//@synthesize x = _x;
+//@synthesize y = _y;
 
 - (void) createSymbolPath {
 	int i = 0;
@@ -224,7 +195,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Conversion
 
-- (int) convertIndexFromPoint: (NSPoint) p {
+- (int)convertIndexFromPoint:(NSPoint)p {
 	// The following 2 lines: for full screen mode
 	NSRect frame = [self frame];
 	p.y -= 2 * frame.origin.y;
@@ -239,10 +210,10 @@ BOOL isSpecialSymbol(unichar ch) {
     return cy * gColumn + cx;
 }
 
-- (NSRect) rectAtRow: (int)r 
-			  column: (int)c 
-			  height: (int)h 
-			   width: (int)w {
+- (NSRect)rectAtRow:(int)r 
+			 column:(int)c 
+			 height:(int)h 
+			  width:(int)w {
 	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
 }
 
@@ -272,7 +243,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark -
 #pragma mark Actions
 
-- (void) copy: (id) sender {
+- (void)copy:(id)sender {
     if (![self connected]) return;
     if (_selectionLength == 0) return;
 
@@ -394,7 +365,7 @@ BOOL isSpecialSymbol(unichar ch) {
     free(buffer);
 }
 
-- (void) pasteColor: (id) sender {
+- (void)pasteColor:(id)sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
@@ -413,7 +384,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
-- (void) paste: (id) sender {
+- (void)paste:(id)sender {
     if (![self connected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
@@ -451,14 +422,14 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
-- (void) selectAll: (id) sender {
+- (void)selectAll:(id)sender {
     if (![self connected]) return;
     _selectionLocation = 0;
     _selectionLength = gRow * gColumn;
     [self setNeedsDisplay: YES];
 }
 
-- (BOOL) validateMenuItem: (NSMenuItem *) item {
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
     SEL action = [item action];
     if (action == @selector(copy:) && (![self connected] || _selectionLength == 0)) {
         return NO;
@@ -483,7 +454,7 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 }
 
-- (void)sendText: (NSString *)text {
+- (void)sendText:(NSString *)text {
 	[[self frontMostConnection] sendText:text];
 }
 
@@ -549,7 +520,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//    [super mouseDown: e];
 }
 
-- (void)mouseDragged: (NSEvent *) e {
+- (void)mouseDragged:(NSEvent *)e {
 	// portal
     if (_isInPortalMode) {
 		[_portal mouseDragged:e];
@@ -708,7 +679,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self interpretKeyEvents:[NSArray arrayWithObject:theEvent]];
 }
 
-- (void) flagsChanged: (NSEvent *) event {
+- (void)flagsChanged:(NSEvent *)event {
 	unsigned int currentFlags = [event modifierFlags];
 	// For rectangle selection
 	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
@@ -724,7 +695,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[super flagsChanged: event];
 }
 
-- (void) clearSelection {
+- (void)clearSelection {
     if (_selectionLength != 0) {
         _selectionLength = 0;
 		_isNotCancelingSelection = NO;
@@ -734,12 +705,11 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Drawing
-
-- (void) displayCellAtRow: (int) r column: (int) c {
+- (void)displayCellAtRow:(int)r column:(int)c {
     [self setNeedsDisplayInRect: NSMakeRect(c * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth, _fontHeight)];
 }
 
-- (void) tick: (NSArray *) a {
+- (void)tick:(NSArray *)a {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	[self updateBackedImage];
     YLTerminal *ds = [self frontMostTerminal];
@@ -818,7 +788,7 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
-- (void) drawBlink {
+- (void)drawBlink {
     if (![gConfig blinkTicker]) return;
 
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
@@ -1324,16 +1294,15 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Override
-
-- (BOOL) isFlipped {
+- (BOOL)isFlipped {
 	return NO;
 }
 
-- (BOOL) isOpaque {
+- (BOOL)isOpaque {
 	return YES;
 }
 
-- (BOOL) acceptsFirstResponder {
+- (BOOL)acceptsFirstResponder {
 	return YES;
 }
 
@@ -1351,45 +1320,28 @@ BOOL isSpecialSymbol(unichar ch) {
     [super removeTabViewItem:tabViewItem];
 }
 */
-+ (NSMenu *) defaultMenu {
++ (NSMenu *)defaultMenu {
     return [[[NSMenu alloc] init] autorelease];
 }
 
-- (NSMenu *) menuForEvent: (NSEvent *) theEvent {
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
     if (![self connected])
         return nil;
     NSString *s = [self selectedPlainString];
 	if (s != nil)
 		return [YLContextualMenuManager menuWithSelectedString:s];
 	else
-		return [_mouseBehaviorDelegate menuForEvent: theEvent];
+		return [_mouseBehaviorDelegate menuForEvent:theEvent];
 }
 
 /* Otherwise, it will return the subview. */
-- (NSView *) hitTest: (NSPoint) p {
+- (NSView *)hitTest:(NSPoint)p {
     return self;
 }
 
 #pragma mark -
 #pragma mark Accessor
-
-- (int)x {
-    return _x;
-}
-
-- (void)setX:(int)value {
-    _x = value;
-}
-
-- (int) y {
-    return _y;
-}
-
-- (void) setY: (int) value {
-    _y = value;
-}
-
-- (float) fontWidth {
+- (float)fontWidth {
     return _fontWidth;
 }
 
@@ -1397,28 +1349,28 @@ BOOL isSpecialSymbol(unichar ch) {
     _fontWidth = value;
 }
 
-- (float) fontHeight {
+- (float)fontHeight {
     return _fontHeight;
 }
 
-- (void) setFontHeight:(float)value {
+- (void)setFontHeight:(float)value {
     _fontHeight = value;
 }
 
-- (BOOL) connected {
+- (BOOL)connected {
 	return [[self frontMostConnection] connected];
 }
 
-- (YLTerminal *) frontMostTerminal {
+- (YLTerminal *)frontMostTerminal {
     return (YLTerminal *)[[self frontMostConnection] terminal];
 }
 
-- (YLConnection *) frontMostConnection {
+- (YLConnection *)frontMostConnection {
     id identifier = [[self selectedTabViewItem] identifier];
     return (YLConnection *) identifier;
 }
 
-- (NSString *) selectedPlainString {
+- (NSString *)selectedPlainString {
     if (_selectionLength == 0) return nil;
     int location, length;
     if (_selectionLength >= 0) {
@@ -1444,7 +1396,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
-- (BOOL) hasBlinkCell {
+- (BOOL)hasBlinkCell {
     int c, r;
     id ds = [self frontMostTerminal];
     if (!ds) return NO;
@@ -1622,10 +1574,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Url Menu
-- (BOOL) isInUrlState {
-	return _isInUrlMode;
-}
-
 // Here I hijacked the option-tab key mapping...
 // by gtCarrera, for URL menu
 - (void) switchURL {
@@ -1653,9 +1601,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Portal
-- (BOOL) isInPortalState {
-	return _isInPortalMode;
-}
 // Show the portal, initiallize it if necessary
 - (void) updatePortal {
 	if(_portal) {

@@ -3,15 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>IBFramework Version</key>
-	<string>670</string>
+	<string>677</string>
 	<key>IBLastKnownRelativeProjectPath</key>
 	<string>../Welly.xcodeproj</string>
 	<key>IBOldestOS</key>
 	<integer>5</integer>
 	<key>IBOpenObjects</key>
-	<array>
-		<integer>1224</integer>
-	</array>
+	<array/>
 	<key>IBSystem Version</key>
 	<string>9G55</string>
 	<key>targetFramework</key>

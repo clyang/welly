@@ -31,7 +31,7 @@ typedef struct {
 
 @interface YLTerminal : NSObject {	
 	TYBBSType _bbsType;
-	NSMutableString * currURL;
+	NSMutableString * _currURL;
 @public
     unsigned int _row;
     unsigned int _column;
@@ -60,14 +60,19 @@ typedef struct {
 - (void)clearAll;
 
 /* Dirty */
-- (BOOL)isDirtyAtRow:(int)r column:(int)c;
+- (BOOL)isDirtyAtRow:(int)r 
+			  column:(int)c;
 - (void)setAllDirty;
-- (void)setDirty:(BOOL)d atRow:(int)r column:(int)c;
+- (void)setDirty:(BOOL)d 
+		   atRow:(int)r 
+		  column:(int)c;
 - (void)setDirtyForRow:(int)r;
 
 /* Access Data */
-- (attribute)attrAtRow:(int)r column:(int)c ;
-- (NSString *)stringFromIndex:(int)begin length:(int)length;
+- (attribute)attrAtRow:(int)r 
+				column:(int)c ;
+- (NSString *)stringFromIndex:(int)begin 
+					   length:(int)length;
 - (cell *)cellsOfRow:(int)r;
 
 /* Update State */
@@ -86,21 +91,21 @@ typedef struct {
 - (BBSState)bbsState;
 - (TYBBSType)bbsType;
 - (void)setBbsType:(TYBBSType)bbsType;
-- (NSMutableArray *) urlList;
+- (NSMutableArray *)urlList;
 
 /* Input Interface */
-- (void)feedGrid: (cell **)grid;
-- (void)setCursorX: (int) cursorX
-				 Y: (int) cursorY;
+- (void)feedGrid:(cell **)grid;
+- (void)setCursorX:(int)cursorX
+				 Y:(int)cursorY;
 @property (retain) NSMutableString * currURL;
-@property unsigned int _row;
-@property unsigned int _column;
-@property unsigned int _cursorX;
-@property unsigned int _cursorY;
-@property unsigned int _offset;
-@property (retain,getter=urlList) NSMutableArray * _currentURLList;
-@property cell **_grid;
-@property char *_dirty;
-@property (retain) YLView *_view;
-@property (assign,getter=connection,setter=setConnection:) YLConnection *_connection;
+@property unsigned int row;
+@property unsigned int column;
+@property unsigned int cursorX;
+@property unsigned int cursorY;
+@property unsigned int offset;
+@property (retain,getter=urlList) NSMutableArray * currentURLList;
+@property cell **grid;
+@property char *dirty;
+@property (retain) YLView *view;
+@property (assign,getter=connection,setter=setConnection:) YLConnection *connection;
 @end

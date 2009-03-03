@@ -57,7 +57,7 @@
 	[self setFont:YES];
 	
 	// And reset portal if necessary...
-	if([_myView isInPortalState]) {
+	if([_myView isInPortalMode]) {
 		[_myView resetPortal];
 		needResetPortal = YES;
 	}
@@ -72,7 +72,7 @@
 	[self setFont:NO];
 	
 	// ...
-	if(needResetPortal || [_myView isInPortalState]) {
+	if(needResetPortal || [_myView isInPortalMode]) {
 		[_myView resetPortal];
 		needResetPortal = NO;
 	}

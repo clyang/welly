@@ -13,8 +13,8 @@
 	NSString *_name;	
 }
 
-+ (KOMenuItem *) initWithName: (NSString *) name;
++ (KOMenuItem *)initWithName:(NSString *)name;
 
-- (NSString *) name;
+- (NSString *)name;
 
 @end

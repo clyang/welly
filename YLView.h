@@ -49,6 +49,10 @@
 	
 	KOMouseBehaviorManager *_mouseBehaviorDelegate;
 }
+@property BOOL isInPortalMode;
+@property BOOL isInUrlMode;
+//@property int x;
+//@property int y;
 
 - (void)configure;
 
@@ -70,52 +74,47 @@
 - (YLConnection *)frontMostConnection;
 - (BOOL)connected;
 
-- (void) extendBottomFrom: (int) start to: (int) end;
-- (void) extendTopFrom: (int) start to: (int) end ;
+- (void)extendBottomFrom:(int)start 
+					  to:(int)end;
+- (void)extendTopFrom:(int)start 
+				   to:(int)end ;
 
-- (void) drawStringForRow: (int) r context: (CGContextRef) myCGContext ;
-- (void) updateBackgroundForRow: (int) r from: (int) start to: (int) end ;
+- (void)drawStringForRow:(int)r 
+				 context:(CGContextRef)myCGContext ;
+- (void)updateBackgroundForRow:(int)r 
+						  from:(int)start 
+							to:(int)end;
 
-- (int)x;
-- (void)setX:(int)value;
+- (float)fontWidth;
+- (void)setFontWidth:(float)value;
 
-- (int)y;
-- (void)setY:(int)value;
+- (float)fontHeight;
+- (void)setFontHeight:(float)value;
 
-- (float) fontWidth;
-- (void) setFontWidth:(float)value;
+- (NSRect)rectAtRow:(int)r 
+			 column:(int)c 
+			 height:(int)h 
+			  width:(int)w;
 
-- (float) fontHeight;
-- (void) setFontHeight:(float)value;
+- (KOEffectView *)effectView ;
 
-- (NSRect) rectAtRow: (int)r 
-			  column: (int)c 
-			  height: (int)h 
-			   width: (int)w;
-
-- (BOOL) isInPortalState;
-- (BOOL) isInUrlState;
-
-- (KOEffectView *) effectView ;
-
-- (void)sendText: (NSString *)text;
+- (void)sendText:(NSString *)text;
 - (BOOL)mouseEnabled;
 
-- (NSString *) selectedPlainString ;
-- (BOOL) hasBlinkCell ;
+- (NSString *)selectedPlainString ;
+- (BOOL)hasBlinkCell ;
 
 - (void)insertText:(id)aString withDelay:(int)microsecond;
 /* Url Menu */
-- (BOOL) isInUrlState;
-- (void) switchURL;
-- (void) exitURL;
+- (void)switchURL;
+- (void)exitURL;
 /* Portal */
 - (void)updatePortal;
 - (void)removePortal;
 - (void)checkPortal;
 - (void)resetPortal;
-- (void)addPortalPicture: (NSString *) source 
-				 forSite: (NSString *) siteName;
+- (void)addPortalPicture:(NSString *)source
+				 forSite:(NSString *)siteName;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -128,5 +127,5 @@
 - (void)deactivateMouseForKeying;
 - (void)activateMouseForKeying:(NSTimer*)timer;
 
-- (int) convertIndexFromPoint: (NSPoint)aPoint;
+- (int)convertIndexFromPoint:(NSPoint)aPoint;
 @end

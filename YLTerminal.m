@@ -16,6 +16,16 @@
 #import "LLUrlData.h"
 
 @implementation YLTerminal
+@synthesize currURL = _currURL;
+@synthesize row = _row;
+@synthesize column = _column;
+@synthesize cursorX = _cursorX;
+@synthesize cursorY = _cursorY;
+@synthesize offset = _offset;
+@synthesize currentURLList = _currentURLList;
+@synthesize grid = _grid;
+@synthesize dirty = _dirty;
+@synthesize view = _view;
 
 + (YLTerminal *)terminalWithView:(YLView *)view {
     YLTerminal *terminal = [[YLTerminal alloc] init];
@@ -23,7 +33,7 @@
 	return [terminal autorelease];
 }
 
-- (id) init {
+- (id)init {
 	if (self = [super init]) {
         _row = [[YLLGlobalConfig sharedInstance] row];
 		_column = [[YLLGlobalConfig sharedInstance] column];
@@ -40,7 +50,7 @@
 		// Initiallize url list
 		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
 		// Ready to store current url
-		currURL = [[NSMutableString alloc] initWithCapacity:40];
+		_currURL = [[NSMutableString alloc] initWithCapacity:40];
 	}
 	return self;
 }
@@ -50,13 +60,13 @@
         free(_grid[i]);
     free(_grid);
 	[_currentURLList release];
-	[currURL release];
+	[_currURL release];
     [super dealloc];
 }
 
 #pragma mark -
 #pragma mark input interface
-- (void)feedGrid: (cell **)grid {
+- (void)feedGrid:(cell **)grid {
 	// Clear the url list
 	for(LLUrlData * data in _currentURLList) {
 		//NSLog(@"%@", [data url]);
@@ -70,8 +80,8 @@
 	}
 	
 	for (int i = 0; i < _row; i++) {
-        [self updateDoubleByteStateForRow: i];
-        [self updateURLStateForRow: i];
+        [self updateDoubleByteStateForRow:i];
+        [self updateURLStateForRow:i];
     }
 //	NSLog(@"Begin");
 //	for(NSString * url in _currentURLList) {
@@ -79,13 +89,13 @@
 //	}
 //	NSLog(@"End");
 	[self updateBBSState];
-    [_view performSelector: @selector(tick:)
-				withObject: nil
-				afterDelay: 0.07];
+    [_view performSelector:@selector(tick:)
+				withObject:nil
+				afterDelay:0.07];
 }
 
-- (void)setCursorX: (int) cursorX
-				 Y: (int) cursorY {
+- (void)setCursorX:(int)cursorX
+				 Y:(int)cursorY {
 	_cursorX = cursorX;
 	_cursorY = cursorY;
 }
@@ -93,13 +103,13 @@
 # pragma mark -
 # pragma mark Start / Stop
 
-- (void) startConnection {
+- (void)startConnection {
     [self clearAll];
     [_view updateBackedImage];
 	[_view setNeedsDisplay: YES];
 }
 
-- (void) closeConnection {
+- (void)closeConnection {
 	[_view setNeedsDisplay: YES];
 }
 
@@ -131,34 +141,39 @@
 # pragma mark -
 # pragma mark Dirty
 
-- (void) setAllDirty {
+- (void)setAllDirty {
 	int i, end = _column * _row;
 	for (i = 0; i < end; i++)
 		_dirty[i] = YES;
 }
 
-- (void) setDirtyForRow: (int) r {
+- (void)setDirtyForRow:(int)r {
 	int i, end = _column * _row;
 	for (i = r * _column; i < end; i++)
 		_dirty[i] = YES;
 }
 
-- (BOOL) isDirtyAtRow: (int) r column:(int) c {
+- (BOOL)isDirtyAtRow:(int)r 
+			  column:(int)c {
 	return _dirty[(r) * _column + (c)];
 }
 
-- (void) setDirty: (BOOL) d atRow: (int) r column: (int) c {
+- (void)setDirty:(BOOL)d
+		   atRow:(int)r
+		  column:(int)c {
 	_dirty[(r) * _column + (c)] = d;
 }
 
 # pragma mark -
 # pragma mark Access Data
 
-- (attribute) attrAtRow: (int) r column: (int) c {
+- (attribute)attrAtRow:(int)r 
+				column:(int)c {
 	return _grid[r][c].attr;
 }
 
-- (NSString *) stringFromIndex: (int) begin length: (int) length {
+- (NSString *)stringFromIndex:(int)begin 
+					   length:(int)length {
     int i, j;
     unichar textBuf[_row * (_column + 1) + 1];
     unichar firstByte = 0;
@@ -195,20 +210,20 @@
         }
     }
     if (bufLength == 0) return nil;
-    return [[[NSString alloc] initWithCharacters: textBuf length: bufLength] autorelease];
+    return [[[NSString alloc] initWithCharacters:textBuf length:bufLength] autorelease];
 }
 
-- (NSString *) stringAtRow: (int) row {
+- (NSString *)stringAtRow:(int)row {
 	return [self stringFromIndex:row * _column length:_column];
 }
 
-- (cell *) cellsOfRow: (int) r {
+- (cell *)cellsOfRow:(int)r {
 	return _grid[r];
 }
 
 # pragma mark -
 # pragma mark Update State
-- (void) updateDoubleByteStateForRow: (int) r {
+- (void)updateDoubleByteStateForRow:(int)r {
 	cell *currRow = _grid[r];
 	int i, db = 0;
 	for (i = 0; i < _column; i++) {
@@ -222,7 +237,7 @@
 	}
 }
 
-- (void) updateURLStateForRow: (int) r {
+- (void)updateURLStateForRow:(int)r {
 	cell *currRow = _grid[r];
     /* TODO: use DFA to reduce the computation  */
     char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
@@ -238,7 +253,7 @@
         if (urlState) {
 			// Push current char in!
             unsigned char c = currRow[i].byte;
-			[currURL appendFormat:@"%c", c];
+			[_currURL appendFormat:@"%c", c];
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
 				//NSLog(@"URL: %@", currURL);
 				// Here we store the row and column number in the NSPoint
@@ -247,11 +262,11 @@
 				NSPoint cp;
 				cp.x = i;
 				cp.y = r;
-				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
-																	name:currURL 
+				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:_currURL 
+																	name:_currURL 
 																position:cp];
 				[_currentURLList addObject: currUrlData];
-				[currURL setString:@""];
+				[_currURL setString:@""];
                 urlState = NO;
 			}
             else if (c == '(')
@@ -262,11 +277,11 @@
 					NSPoint cp;
 					cp.x = i;
 					cp.y = r;
-					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
-																		name:currURL 
+					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:_currURL 
+																		name:_currURL 
 																	position:cp];
 					[_currentURLList addObject: currUrlData];
-					[currURL setString:@""];
+					[_currURL setString:@""];
                     urlState = NO;
 				}
             }
@@ -282,7 +297,7 @@
                 
                 if (match) {
 					// Push current prefix into current url
-					[currURL appendFormat:@"%c", protocols[p][0]];
+					[_currURL appendFormat:@"%c", protocols[p][0]];
                     urlState = YES;
                     break;
                 }
@@ -298,7 +313,8 @@
 	}
 }
 
-- (NSString *) urlStringAtRow: (int) r column: (int) c {
+- (NSString *)urlStringAtRow:(int)r 
+					  column:(int)c {
     if (!_grid[r][c].attr.f.url) return nil;
 
     while (_grid[r][c].attr.f.url) {
@@ -404,11 +420,11 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 # pragma mark -
 # pragma mark Accessor
 
-- (int) cursorRow {
+- (int)cursorRow {
     return _cursorY;
 }
 
-- (int) cursorColumn {
+- (int)cursorColumn {
     return _cursorX;
 }
 
@@ -424,7 +440,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     return _connection;
 }
 
-- (NSMutableArray *) urlList {
+- (NSMutableArray *)urlList {
 	return _currentURLList;
 }
 
@@ -446,15 +462,4 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 - (void)setBbsType:(TYBBSType)bbsType {
 	_bbsType = bbsType;
 }
-
-@synthesize currURL;
-@synthesize _row;
-@synthesize _column;
-@synthesize _cursorX;
-@synthesize _cursorY;
-@synthesize _offset;
-@synthesize _currentURLList;
-@synthesize _grid;
-@synthesize _dirty;
-@synthesize _view;
 @end

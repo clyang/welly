@@ -44,7 +44,7 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>mainView</key>
+				<key>_mainView</key>
 				<string>YLView</string>
 			</dict>
 			<key>SUPERCLASS</key>
