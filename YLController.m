@@ -140,6 +140,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // restore connections
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
         [self loadLastConnections];
+	
+	// Ask window to receive mouseMoved
+	[_mainWindow setAcceptsMouseMovedEvents:YES];
 }
 
 - (void)updateSitesMenu {
@@ -1379,19 +1382,19 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 				// Enable timer!
 				[self disableTimer];
 				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
-									  target:self 
-									  selector:@selector(doScrollUp:)
-									  userInfo:nil
-									  repeats:YES];
+																target:self 
+															  selector:@selector(doScrollUp:)
+															  userInfo:nil
+															   repeats:YES];
 				break;
 			case kRemoteButtonMinus_Hold:
 				// Enable timer!
 				[self disableTimer];
 				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
-									  target:self 
-									  selector:@selector(doScrollDown:)
-									  userInfo:nil
-									  repeats:YES];
+																target:self 
+															  selector:@selector(doScrollDown:)
+															  userInfo:nil
+															   repeats:YES];
 				break;
 			case kRemoteButtonMenu_Hold:
 				[self fullScreenMode:nil];
@@ -1420,11 +1423,11 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 }
 
 // for bindings access
-- (RemoteControl*) remoteControl {
+- (RemoteControl*)remoteControl {
     return remoteControl;
 }
 
-- (MultiClickRemoteBehavior*) remoteBehavior {
+- (MultiClickRemoteBehavior*)remoteBehavior {
     return remoteControlBehavior;
 }
 
@@ -1457,12 +1460,12 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 		return;
 	}
 	// Set the font settings
-	[[YLLGlobalConfig sharedInstance] setCellWidth: 12];
-	[[YLLGlobalConfig sharedInstance] setCellHeight: 24];
-	[[YLLGlobalConfig sharedInstance] setChineseFontName: @"STHeiti"];
-	[[YLLGlobalConfig sharedInstance] setEnglishFontName: @"Monaco"];
-	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 22];
-	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 18];
+	[[YLLGlobalConfig sharedInstance] setCellWidth:12];
+	[[YLLGlobalConfig sharedInstance] setCellHeight:24];
+	[[YLLGlobalConfig sharedInstance] setChineseFontName:@"STHeiti"];
+	[[YLLGlobalConfig sharedInstance] setEnglishFontName:@"Monaco"];
+	[[YLLGlobalConfig sharedInstance] setChineseFontSize:22];
+	[[YLLGlobalConfig sharedInstance] setEnglishFontSize:18];
 }
 
 #pragma mark -

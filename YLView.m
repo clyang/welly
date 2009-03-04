@@ -24,6 +24,7 @@
 #include "encoding.h"
 #include <math.h>
 
+const float KOActivityCheckingTimeInteval = 5.0;
 
 static YLLGlobalConfig *gConfig;
 static int gRow;
@@ -70,10 +71,9 @@ BOOL isSpecialSymbol(unichar ch) {
 @implementation YLView
 @synthesize isInPortalMode = _isInPortalMode;
 @synthesize isInUrlMode = _isInUrlMode;
-//@synthesize x = _x;
-//@synthesize y = _y;
+@synthesize isMouseActive = _isMouseActive;
 
-- (void) createSymbolPath {
+- (void)createSymbolPath {
 	int i = 0;
 	gSymbolBlackSquareRect = NSMakeRect(1.0, 1.0, _fontWidth * 2 - 2, _fontHeight - 2);
 	gSymbolBlackSquareRect1 = NSMakeRect(1.0, 1.0, _fontWidth - 1, _fontHeight - 2); 
@@ -132,7 +132,7 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 }
 
-- (void) configure {
+- (void)configure {
     if (!gConfig) gConfig = [YLLGlobalConfig sharedInstance];
 	gColumn = [gConfig column];
 	gRow = [gConfig row];
@@ -142,16 +142,16 @@ BOOL isSpecialSymbol(unichar ch) {
     NSRect frame = [self frame];
 	frame.size = NSMakeSize(gColumn * [gConfig cellWidth], gRow * [gConfig cellHeight]);
     frame.origin = NSZeroPoint;
-    [self setFrame: frame];
+    [self setFrame:frame];
 
     [self createSymbolPath];
 
     [_backedImage release];
-    _backedImage = [[NSImage alloc] initWithSize: frame.size];
-    [_backedImage setFlipped: NO];
+    _backedImage = [[NSImage alloc] initWithSize:frame.size];
+    [_backedImage setFlipped:NO];
 
     [gLeftImage release]; 
-    gLeftImage = [[NSImage alloc] initWithSize: NSMakeSize(_fontWidth, _fontHeight)];			
+    gLeftImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth, _fontHeight)];			
 
     if (!gSingleAdvance) gSingleAdvance = (CGSize *) malloc(sizeof(CGSize) * gColumn);
     if (!gDoubleAdvance) gDoubleAdvance = (CGSize *) malloc(sizeof(CGSize) * gColumn);
@@ -178,9 +178,15 @@ BOOL isSpecialSymbol(unichar ch) {
 		_isInUrlMode = NO;
 		_isKeying = NO;
 		_isNotCancelingSelection = YES;
+		_isMouseActive = YES;
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
-		[self setDelegate: _mouseBehaviorDelegate];
+		[self setDelegate:_mouseBehaviorDelegate];
+		_activityCheckingTimer = [NSTimer scheduledTimerWithTimeInterval:KOActivityCheckingTimeInteval
+																  target:self 
+																selector:@selector(checkActivity:)
+																userInfo:nil
+																 repeats:YES];
     }
     return self;
 }
@@ -217,7 +223,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	return NSMakeRect(c * _fontWidth, (gRow - h - r) * _fontHeight, _fontWidth * w, _fontHeight * h);
 }
 
-- (NSRect) selectedRect {
+- (NSRect)selectedRect {
 	if (_selectionLength == 0)
 		return NSZeroRect;
 	int location, length;
@@ -463,8 +469,32 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
+#pragma mark Active Timer
+#pragma mark -
+#pragma mark Timer
+- (void)setMouseAsActive {
+	_isMouseActive = YES;
+}
+
+- (void)checkActivity:(NSTimer *)timer {
+	//NSLog(@"checkActivity");
+	if (_isMouseActive) {
+		//NSLog(@"active");
+		_isMouseActive = NO;
+		return;
+	} else {
+		//NSLog(@"inactive");
+		// Hide the cursor
+		[NSCursor setHiddenUntilMouseMoves:YES];
+		// Remove effects
+		[_effectView clear];
+	}
+}
+
+#pragma mark -
 #pragma mark Event Handling
 - (void)mouseDown:(NSEvent *)theEvent {
+	[self setMouseAsActive];
 	[[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
 
@@ -521,6 +551,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDragged:(NSEvent *)e {
+	[self setMouseAsActive];
 	// portal
     if (_isInPortalMode) {
 		[_portal mouseDragged:e];
@@ -540,6 +571,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
+	[self setMouseAsActive];
 	// portal
     if (_isInPortalMode) {
         //[_portal clickAtPoint:p count:[theEvent clickCount]];
@@ -572,7 +604,13 @@ BOOL isSpecialSymbol(unichar ch) {
 	_isNotCancelingSelection = YES;
 }
 
+- (void)mouseMoved:(NSEvent *)theEvent {
+	//NSLog(@"mouseMoved:");
+	[self setMouseAsActive];
+}
+
 - (void)scrollWheel:(NSEvent *)theEvent {
+	[self setMouseAsActive];
     // portal
     if (_isInPortalMode) {
         if ([theEvent deltaX] > 0)
@@ -1311,7 +1349,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (BOOL)becomeFirstResponder {
-	NSLog(@"becomeFirstResponder");
+	//NSLog(@"becomeFirstResponder");
 	return YES;
 }
 /* commented out by boost @ 9#: why not using the delegate...

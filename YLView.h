@@ -46,11 +46,15 @@
 	BOOL _isInUrlMode;
 	BOOL _isNotCancelingSelection;
 	BOOL _isKeying;
+	BOOL _isMouseActive;
+	
+	NSTimer *_activityCheckingTimer;
 	
 	KOMouseBehaviorManager *_mouseBehaviorDelegate;
 }
 @property BOOL isInPortalMode;
 @property BOOL isInUrlMode;
+@property BOOL isMouseActive;
 //@property int x;
 //@property int y;
 

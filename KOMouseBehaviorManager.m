@@ -33,7 +33,7 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 @synthesize normalCursor = _normalCursor;
 #pragma mark -
 #pragma mark Initialization
-- (id) initWithView: (YLView *)view {
+- (id)initWithView: (YLView *)view {
 	[self init];
 	_view = view;
 	
@@ -146,7 +146,7 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 														  owner:self
 													   userInfo:userInfo];
 	[_view addTrackingArea:area];
-	if ([self isMouseInsideRect:rect]) {
+	if ([_view isMouseActive] && [self isMouseInsideRect:rect]) {
 		NSEvent *event = [NSEvent enterExitEventWithType:NSMouseEntered 
 												location:[NSEvent mouseLocation] 
 										   modifierFlags:NSMouseEnteredMask 
