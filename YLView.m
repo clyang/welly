@@ -674,7 +674,8 @@ BOOL isSpecialSymbol(unichar ch) {
 
     YLTerminal *ds = [self frontMostTerminal];
 
-    if ([theEvent modifierFlags] & NSControlKeyMask) {
+    if (([theEvent modifierFlags] & NSControlKeyMask) &&
+	   (([theEvent modifierFlags] & NSAlternateKeyMask) == 0 )) {
         buf[0] = c;
         [[self frontMostConnection] sendBytes:buf length:1];
         return;
