@@ -110,8 +110,8 @@ NSString * const FBCommandSequenceJumpToMailList = @"v";
 			   length:(int)len {
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:len];
 	// Generate User Info
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseButtonTextUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, cmd, NSLocalizedString(buttonName, @"Mouse Button"), nil];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseButtonTextUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, cmd, NSLocalizedString(buttonName, @"Mouse Button"), nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }

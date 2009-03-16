@@ -140,11 +140,11 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 					column:(int)c 
 					height:(int)h 
 					 width:(int)w {
-	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, KOCommandSequencePageUp, _pageUpCursor, nil];
+	NSRect rect = [_view rectAtRow:r column:c height:h width:w];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, KOCommandSequencePageUp, _pageUpCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _pageUpCursor];
+	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageUpCursor];
 }
 
 - (void)updatePageUpArea {

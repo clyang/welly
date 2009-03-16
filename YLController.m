@@ -196,7 +196,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)antiIdle:(NSTimer *)timer {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: @"AntiIdle"]) return;
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AntiIdle"]) return;
     NSArray *a = [_telnetView tabViewItems];
     for (NSTabViewItem *item in a) {
         YLConnection *connection = [item identifier];
@@ -335,13 +335,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self updateSitesMenu];
 }
 
-- (void) loadEmoticons {
+- (void)loadEmoticons {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey: @"Emoticons"];
     for (NSDictionary *d in a)
         [self insertObject: [YLEmoticon emoticonWithDictionary: d] inEmoticonsAtIndex: [self countOfEmoticons]];
 }
 
-- (void) saveEmoticons {
+- (void)saveEmoticons {
     NSMutableArray *a = [NSMutableArray array];
     for (YLEmoticon *e in _emoticons) 
         [a addObject: [e dictionaryOfEmoticon]];
@@ -349,14 +349,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void) loadLastConnections {
+- (void)loadLastConnections {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey: @"LastConnections"];
     for (NSDictionary *d in a) {
         [self newConnectionWithSite: [YLSite siteWithDictionary: d]];
     }    
 }
 
-- (void) saveLastConnections {
+- (void)saveLastConnections {
     int tabNumber = [_telnetView numberOfTabViewItems];
     int i;
     NSMutableArray *a = [NSMutableArray array];
@@ -371,7 +371,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 #pragma mark -
 #pragma mark Actions
-- (IBAction) setDetectDoubleByteAction: (id) sender {
+- (IBAction)setDetectDoubleByteAction:(id)sender {
     BOOL ddb = [sender state];
     if ([sender isKindOfClass: [NSMenuItem class]])
         ddb = !ddb;
@@ -380,7 +380,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_detectDoubleByteMenuItem setState: ddb ? NSOnState : NSOffState];
 }
 
-- (IBAction) setAutoReplyAction: (id) sender {
+- (IBAction)setAutoReplyAction:(id)sender {
 	BOOL ar = [sender state];
 	if ([sender isKindOfClass: [NSMenuItem class]])
 		ar = !ar;
@@ -391,12 +391,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		// when user is to close auto reply, 
 		if ([[[_telnetView frontMostConnection] autoReplyDelegate] unreadCount] > 0) {
 			// we should inform him with the unread messages
-			[[[_telnetView frontMostConnection] autoReplyDelegate] showUnreadMessagesOnTextView: _unreadMessageTextView];
-			[_messageWindow makeKeyAndOrderFront: self];
+			[[[_telnetView frontMostConnection] autoReplyDelegate] showUnreadMessagesOnTextView:_unreadMessageTextView];
+			[_messageWindow makeKeyAndOrderFront:self];
 		}
 	}
 	
-	[[[_telnetView frontMostConnection] site] setAutoReply: ar];
+	[[[_telnetView frontMostConnection] site] setAutoReply:ar];
 }
 
 - (IBAction)setMouseAction:(id)sender {
@@ -405,15 +405,15 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
-	[[[_telnetView frontMostConnection] site] setEnableMouse: state];
+	[[[_telnetView frontMostConnection] site] setEnableMouse:state];
 	[_telnetView updateMouseHotspot];
 }
 
-- (IBAction) closeMessageWindow: (id) sender {
+- (IBAction)closeMessageWindow:(id)sender {
 	[_messageWindow orderOut: self];
 }
 
-- (IBAction) setEncoding: (id) sender {
+- (IBAction)setEncoding:(id)sender {
     //int index = [[_encodingMenuItem submenu] indexOfItem: sender];
 	YLEncoding encoding = YLGBKEncoding;
 	if ([[sender title] rangeOfString:@"GBK"].location != NSNotFound)
@@ -451,7 +451,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     //[_mainWindow makeFirstResponder:_addressBar];
 }
 
-- (IBAction) connect: (id) sender {
+- (IBAction)connect:(id)sender {
 	[sender abortEditing];
 	[[_telnetView window] makeFirstResponder: _telnetView];
     BOOL ssh = NO;
@@ -468,7 +468,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     NSMutableArray *matchedSites = [NSMutableArray array];
     YLSite *s;
         
-    if ([name rangeOfString: @"."].location != NSNotFound) { /* Normal address */        
+    if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
         for (YLSite *site in _sites) 
             if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
                 [matchedSites addObject:site];
@@ -482,14 +482,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         }
     } else { /* Short Address? */
         for (YLSite *site in _sites) 
-            if ([[site name] rangeOfString: name].location != NSNotFound) 
+            if ([[site name] rangeOfString:name].location != NSNotFound) 
                 [matchedSites addObject:site];
         [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
         if ([matchedSites count] == 0) {
             for (YLSite *site in _sites) 
-                if ([[site address] rangeOfString: name].location != NSNotFound)
+                if ([[site address] rangeOfString:name].location != NSNotFound)
                     [matchedSites addObject:site];
-            [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
+            [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
         } 
         if ([matchedSites count] > 0) {
             s = [[[matchedSites objectAtIndex:0] copy] autorelease];
@@ -522,13 +522,15 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return NO;
 }
 
-- (void) confirmReconnect:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void  *)contextInfo {
+- (void)confirmReconnect:(NSWindow *)sheet 
+			  returnCode:(int)returnCode 
+			 contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
 		[[_telnetView frontMostConnection] reconnect];
     }
 }
 
-- (IBAction) reconnect: (id) sender {
+- (IBAction)reconnect:(id)sender {
     if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
 		// Close the portal
 		if ([_telnetView isInPortalMode] && ![[[_telnetView frontMostConnection] site] empty] 
@@ -590,34 +592,34 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     */
 }
 
-- (IBAction) editSites: (id) sender {
-    [NSApp beginSheet: _sitesWindow
-       modalForWindow: _mainWindow
-        modalDelegate: nil
-       didEndSelector: NULL
-          contextInfo: nil];
-	[_sitesWindow setLevel:	floatWindowLevel];
+- (IBAction)editSites:(id)sender {
+    [NSApp beginSheet:_sitesWindow
+       modalForWindow:_mainWindow
+        modalDelegate:nil
+       didEndSelector:NULL
+          contextInfo:nil];
+	[_sitesWindow setLevel:floatWindowLevel];
 }
 
-- (IBAction) openSites: (id) sender {
+- (IBAction)openSites:(id)sender {
     NSArray *a = [_sitesController selectedObjects];
-    [self closeSites: sender];
+    [self closeSites:sender];
     
     if ([a count] == 1) {
-        YLSite *s = [a objectAtIndex: 0];
-        [self newConnectionWithSite: [[s copy] autorelease]];
+        YLSite *s = [a objectAtIndex:0];
+        [self newConnectionWithSite:[[s copy] autorelease]];
     }
 }
 
-- (IBAction) openSiteMenu: (id) sender {
+- (IBAction)openSiteMenu:(id)sender {
     YLSite *s = [sender representedObject];
     [self newConnectionWithSite: s];
 }
 
-- (IBAction) closeSites: (id) sender {
-    [_sitesWindow endEditingFor: nil];
-    [NSApp endSheet: _sitesWindow];
-    [_sitesWindow orderOut: self];
+- (IBAction)closeSites:(id)sender {
+    [_sitesWindow endEditingFor:nil];
+    [NSApp endSheet:_sitesWindow];
+    [_sitesWindow orderOut:self];
     [self saveSites];
 }
 
@@ -639,42 +641,42 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 
 
-- (IBAction) showHiddenText: (id) sender {
+- (IBAction)showHiddenText:(id)sender {
     BOOL show = ([sender state] == NSOnState);
-    if ([sender isKindOfClass: [NSMenuItem class]]) {
+    if ([sender isKindOfClass:[NSMenuItem class]]) {
         show = !show;
     }
 
-    [[YLLGlobalConfig sharedInstance] setShowHiddenText: show];
+    [[YLLGlobalConfig sharedInstance] setShowHiddenText:show];
     [_telnetView refreshHiddenRegion];
     [_telnetView updateBackedImage];
-    [_telnetView setNeedsDisplay: YES];
+    [_telnetView setNeedsDisplay:YES];
 }
 
-- (IBAction) openPreferencesWindow: (id) sender {
+- (IBAction)openPreferencesWindow:(id)sender {
     [[DBPrefsWindowController sharedPrefsWindowController] showWindow:nil];
 }
 
-- (IBAction) openEmoticonsWindow: (id) sender {
-    [_emoticonsWindow makeKeyAndOrderFront: self];
+- (IBAction)openEmoticonsWindow:(id)sender {
+    [_emoticonsWindow makeKeyAndOrderFront:self];
 }
 
-- (IBAction) closeEmoticons: (id) sender {
-    [_emoticonsWindow endEditingFor: nil];
-    [_emoticonsWindow makeFirstResponder: _emoticonsWindow];
-    [_emoticonsWindow orderOut: self];
+- (IBAction)closeEmoticons:(id)sender {
+    [_emoticonsWindow endEditingFor:nil];
+    [_emoticonsWindow makeFirstResponder:_emoticonsWindow];
+    [_emoticonsWindow orderOut:self];
     [self saveEmoticons];
 }
 
-- (IBAction) inputEmoticons: (id) sender {
-    [self closeEmoticons: sender];
+- (IBAction)inputEmoticons:(id)sender {
+    [self closeEmoticons:sender];
     
     if ([[_telnetView frontMostConnection] connected]) {
         NSArray *a = [_emoticonsController selectedObjects];
         
         if ([a count] == 1) {
-            YLEmoticon *e = [a objectAtIndex: 0];
-            [_telnetView insertText: [e content]];
+            YLEmoticon *e = [a objectAtIndex:0];
+            [_telnetView insertText:[e content]];
         }
     }
 }
@@ -696,11 +698,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return [_sites objectAtIndex:index];
 }
 
-- (void)getSites:(id *)objects range:(NSRange)range {
+- (void)getSites:(id *)objects 
+		   range:(NSRange)range {
     [_sites getObjects:objects range:range];
 }
 
-- (void)insertObject:(id)anObject inSitesAtIndex:(unsigned)index {
+- (void)insertObject:(id)anObject 
+	  inSitesAtIndex:(unsigned)index {
     [_sites insertObject:anObject atIndex:index];
 }
 
@@ -708,7 +712,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_sites removeObjectAtIndex:index];
 }
 
-- (void)replaceObjectInSitesAtIndex:(unsigned)index withObject:(id)anObject {
+- (void)replaceObjectInSitesAtIndex:(unsigned)index 
+						 withObject:(id)anObject {
     [_sites replaceObjectAtIndex:index withObject:anObject];
 }
 
@@ -727,11 +732,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return [_emoticons objectAtIndex:theIndex];
 }
 
-- (void)getEmoticons:(id *)objsPtr range:(NSRange)range {
+- (void)getEmoticons:(id *)objsPtr 
+			   range:(NSRange)range {
     [_emoticons getObjects:objsPtr range:range];
 }
 
-- (void)insertObject:(id)obj inEmoticonsAtIndex:(unsigned)theIndex {
+- (void)insertObject:(id)obj 
+  inEmoticonsAtIndex:(unsigned)theIndex {
     [_emoticons insertObject:obj atIndex:theIndex];
 }
 
@@ -802,7 +809,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void)confirmSheetDidEnd:(NSWindow *)sheet 
 				returnCode:(int)returnCode 
-			   contextInfo:(void  *)contextInfo {
+			   contextInfo:(void *)contextInfo {
     [[NSUserDefaults standardUserDefaults] synchronize];
     [NSApp replyToApplicationShouldTerminate:(returnCode == NSAlertDefaultReturn)];
 }
@@ -837,13 +844,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_closeTabMenuItem setKeyEquivalent: @""];
 }
 
-- (void)getUrl:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
+- (void)getUrl:(NSAppleEventDescriptor *)event 
+withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
 	// now you can create an NSURL and grab the necessary parts
-    if ([[url lowercaseString] hasPrefix: @"bbs://"])
-        url = [url substringFromIndex: 6];
-    [_addressBar setStringValue: url];
-    [self connect: _addressBar];
+    if ([[url lowercaseString] hasPrefix:@"bbs://"])
+        url = [url substringFromIndex:6];
+    [_addressBar setStringValue:url];
+    [self connect:_addressBar];
 }
 
 #pragma mark -
@@ -1714,7 +1722,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 	//[openPanel setLevel:floatWindowLevel + 1];
 }
 
-- (void) removeImage {
+- (void)removeImage {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	// Get the destination dir
 	NSString *destination = [[[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"]
@@ -1731,7 +1739,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 	}
 }
 
-- (IBAction) removeSiteImage:(id)sender {
+- (IBAction)removeSiteImage:(id)sender {
 	[_sitesWindow setAlphaValue:0];
 	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to delete the cover?", @"Sheet Title")
 									 defaultButton:NSLocalizedString(@"Delete", @"Default Button")

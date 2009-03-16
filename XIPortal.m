@@ -492,7 +492,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     }
 }
 
-- (NSImage *)imageForDraggingAtIndex: (NSUInteger)index {
+- (NSImage *)imageForDraggingAtIndex:(NSUInteger)index {
 	NSString *imageFilePath = [[_images objectAtIndex:index] path];
 	NSImage *dragImage = [[NSWorkspace sharedWorkspace] iconForFile:imageFilePath];
 	return dragImage;//[_images objectAtIndex:_selectedImageIndex];
@@ -624,8 +624,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 #pragma mark -
 #pragma mark Manage Portal Images
-- (NSString *) portalImageFilePathForSite: (NSString *) siteName 
-							withExtention: (BOOL)withExtention {
+- (NSString *)portalImageFilePathForSite:(NSString *)siteName 
+						   withExtention:(BOOL)withExtention {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	// Create the dir if necessary
 	// by gtCarrera
@@ -648,7 +648,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	}
 }
 
-- (void)removePortalPictureForSite: (NSString *) siteName {
+- (void)removePortalPictureForSite:(NSString *)siteName {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	// Remove all existing picture for this site
@@ -659,13 +659,13 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	[(YLView *)_mainView resetPortal];
 }
 
-- (void)removePortalPictureAtIndex: (NSUInteger) index {
+- (void)removePortalPictureAtIndex:(NSUInteger)index {
 	NSString *siteName = [[self siteAtIndex:index] name];
 	[self removePortalPictureForSite:siteName];
 }
 
-- (void)addPortalPicture: (NSString *) source 
-				 forSite: (NSString *) siteName {
+- (void)addPortalPicture:(NSString *)source 
+				 forSite:(NSString *)siteName {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	
 	[self removePortalPictureForSite:siteName];
@@ -675,8 +675,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
 #pragma mark -
 #pragma mark Drag & Drop
-- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
-{
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
 	// Check if site is available
 	if ([self selectedSite] == NULL)
 		return NSDragOperationNone;
@@ -698,7 +697,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	NSString *filename = [files objectAtIndex: 0];
 	NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
 	NSArray *suffixes = supportedCoverExtensions;
-	if ([filename hasSuffix: @"/"] || ![suffixes containsObject: [suffix lowercaseString]])
+	if ([filename hasSuffix: @"/"] || ![suffixes containsObject:[suffix lowercaseString]])
 		return NSDragOperationNone;;
 	
 	// Passed all check points
@@ -734,13 +733,14 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	NSString *filename = [files objectAtIndex: 0];
 	NSString *suffix = [[filename componentsSeparatedByString:@"."] lastObject];
 	NSArray *suffixes = supportedCoverExtensions;
-	assert(![filename hasSuffix: @"/"] && [suffixes containsObject: [suffix lowercaseString]]);
+	assert(![filename hasSuffix: @"/"] && [suffixes containsObject:[suffix lowercaseString]]);
 	[self addPortalPicture:filename forSite:[site name]];
 	
     return YES;
 }
 
-- (void) draggedImage: (NSImage *)image movedTo: (NSPoint)screenPoint {
+- (void)draggedImage:(NSImage *)image
+			 movedTo:(NSPoint)screenPoint {
 	// Convert screen point to the coordination in '_clickedLayer'
 	screenPoint = [[self window] convertScreenToBase:screenPoint];
 	screenPoint = [self convertPoint:screenPoint toView:nil];
@@ -758,7 +758,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	}
 }
 
-- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation {
+- (void)draggedImage:(NSImage *)image 
+			 endedAt:(NSPoint)screenPoint 
+		   operation:(NSDragOperation)operation {
 	// Convert screen point to the coordination in '_clickedLayer'
 	screenPoint = [[self window] convertScreenToBase:screenPoint];
 	screenPoint = [self convertPoint:screenPoint toView:nil];

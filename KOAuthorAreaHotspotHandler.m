@@ -37,7 +37,7 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 - (void)mouseEntered:(NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedString(KOButtonNameAuthorMode, @"Mouse Button"), [userInfo objectForKey:KOMouseAuthorUserInfoName]];
-	[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage: buttonTitle];
+	[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonTitle];
 	_manager.activeTrackingAreaUserInfo = userInfo;
 }
 

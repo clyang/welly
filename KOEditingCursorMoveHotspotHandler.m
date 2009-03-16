@@ -91,7 +91,7 @@ static NSCursor *gMoveCursor = nil;
 			} 			
 		} 
 		
-		cell *currRow = [[_view frontMostTerminal] cellsOfRow: moveToRow];
+		cell *currRow = [[_view frontMostTerminal] cellsOfRow:moveToRow];
 		if (home) {
 			for (int i = 0; i < moveToCol; i++) {
 				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] detectDoubleByte]) {

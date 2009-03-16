@@ -58,7 +58,7 @@
     _mainLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
 }
 
-- (void) clear {
+- (void)clear {
 	[self clearIPAddrBox];
 	[self clearClickEntry];
 	[self clearButton];
@@ -69,7 +69,7 @@
 	// Drawing code here.
 }
 
--(void) resize {
+- (void)resize {
 	[self setFrameSize:[_mainView frame].size];
 	[self setFrameOrigin: NSMakePoint(0, 0)];
 }
@@ -78,7 +78,7 @@
 	[self setupLayer];
 }
 
-- (void) setIPAddrBox {
+- (void)setIPAddrBox {
 	_ipAddrLayer = [CALayer layer];
     
 	// Set up the box
@@ -91,7 +91,7 @@
 	[_mainLayer addSublayer: [_ipAddrLayer retain]];
 }
 
-- (void) drawIPAddrBox: (NSRect) rect {
+- (void)drawIPAddrBox:(NSRect)rect {
 	if (!_ipAddrLayer)
 		[self setIPAddrBox];
 	
@@ -107,12 +107,12 @@
 	_ipAddrLayer.opacity = 1.0f;
 }
 
-- (void) clearIPAddrBox {
+- (void)clearIPAddrBox {
 	_ipAddrLayer.opacity = 0.0f;
 }
 
 #pragma mark Click Entry
-- (void) setClickEntry {
+- (void)setClickEntry {
 	_clickEntryLayer = [CALayer layer];
     
 	_clickEntryLayer.backgroundColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
@@ -124,7 +124,7 @@
 	[_mainLayer addSublayer: [_clickEntryLayer retain]];
 }
 
-- (void) drawClickEntry: (NSRect) rect {
+- (void)drawClickEntry:(NSRect)rect {
 	if (!_clickEntryLayer)
 		[self setClickEntry];
 	
@@ -146,7 +146,8 @@
 
 #pragma mark Welly Buttons
 
-- (void)drawButton: (NSRect) rect withMessage: (NSString *) message {
+- (void)drawButton:(NSRect)rect 
+	   withMessage:(NSString *)message {
 	//Initiallize a new CALayer
 	[self clearButton];
 	if (_buttonLayer)
@@ -291,18 +292,18 @@ const CGFloat menuMarginWidth = 20.0;
     //[self changeSelectedIndex:0];
 }
 
-- (void)selectMenuItemAtIndex: (int) index {
+- (void)selectMenuItemAtIndex:(int)index {
 	// TODO: add code for selecting menu item
 	NSArray *layers = [_menuLayer sublayers];
 	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
-		CALayer *menuItemLayer = [layers objectAtIndex: selectedItemIndex];
+		CALayer *menuItemLayer = [layers objectAtIndex:selectedItemIndex];
 		[menuItemLayer setFilters: nil];
 		[menuItemLayer removeAllAnimations];
 	}
 	
 	selectedItemIndex = index;
 	if (selectedItemIndex >= 0 && selectedItemIndex < [layers count]) {
-		CALayer *menuItemLayer = [layers objectAtIndex: selectedItemIndex];
+		CALayer *menuItemLayer = [layers objectAtIndex:selectedItemIndex];
 		
 		// Add bloom
 		CIFilter *filter = [CIFilter filterWithName:@"CIBloom"];
@@ -315,8 +316,8 @@ const CGFloat menuMarginWidth = 20.0;
 		// Add pulse animation
 		CABasicAnimation* pulseAnimation = [CABasicAnimation animation];
 		pulseAnimation.keyPath = @"filters.pulseFilter.inputIntensity";
-		pulseAnimation.fromValue = [NSNumber numberWithFloat: 0.0];
-		pulseAnimation.toValue = [NSNumber numberWithFloat: 1.5];
+		pulseAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+		pulseAnimation.toValue = [NSNumber numberWithFloat:1.5];
 		pulseAnimation.duration = 1.0;
 		pulseAnimation.repeatCount = 1e100f;
 		pulseAnimation.autoreverses = YES;
@@ -364,7 +365,7 @@ const CGFloat menuMarginWidth = 20.0;
 	CGFloat itemHeight = 0.0;
 	// Add menu items
     for (int i = 0; i < [items count]; i++) {
-		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex: i];
+		KOMenuItem *item = (KOMenuItem *)[items objectAtIndex:i];
 		NSString *name = [item name];
 		
 		CATextLayer *menuItemLayer = [CATextLayer layer];
@@ -394,13 +395,13 @@ const CGFloat menuMarginWidth = 20.0;
 		itemHeight = messageSize.height;
 		
 		// Set the layer's constraint
-		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMaxY
-																 relativeTo: @"superlayer"
-																  attribute: kCAConstraintMaxY
-																	 offset: -height + itemHeight]];
-		[menuItemLayer addConstraint: [CAConstraint constraintWithAttribute: kCAConstraintMidX
-																 relativeTo: @"superlayer"
-																  attribute: kCAConstraintMidX]];
+		[menuItemLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY
+																relativeTo:@"superlayer"
+																 attribute:kCAConstraintMaxY
+																	offset:-height + itemHeight]];
+		[menuItemLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX
+																relativeTo:@"superlayer"
+																 attribute:kCAConstraintMidX]];
 		
 		// insert this menu item
 		[_menuLayer addSublayer: [menuItemLayer retain]];
@@ -420,7 +421,7 @@ const CGFloat menuMarginWidth = 20.0;
 	
     [_menuLayer layoutIfNeeded];
 
-	[self selectMenuItemAtIndex: 0];
+	[self selectMenuItemAtIndex:0];
 }
 
 - (void)hideMenu {
@@ -431,7 +432,7 @@ const CGFloat menuMarginWidth = 20.0;
 
 // Just similiar to the code of "addNewLayer"...
 // by gtCarrera @ 9#
-- (void)drawPopUpMessage:(NSString*) message {
+- (void)drawPopUpMessage:(NSString*)message {
 	// Remove previous message
 	[self removePopUpMessage];
 	//Initiallize a new CALayer

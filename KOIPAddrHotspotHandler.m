@@ -44,7 +44,7 @@
 	/* ip tooltip */
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
-	[_view addToolTipRect: rect owner: _manager userData: tooltip];
+	[_view addToolTipRect:rect owner:_manager userData:tooltip];
 	
 	NSDictionary *userInfo = [self userInfo];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo];
