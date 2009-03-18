@@ -17,7 +17,7 @@ static NSCursor *gMoveCursor = nil;
 
 @implementation KOEditingCursorMoveHotspotHandler
 
-+ (void) initialize {
++ (void)initialize {
     NSImage *cursorImage = [[NSImage alloc] initWithSize: NSMakeSize(11.0, 20.0)];
     [cursorImage lockFocus];
     [[NSColor clearColor] set];

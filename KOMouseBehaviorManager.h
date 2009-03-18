@@ -16,6 +16,10 @@ NSString * const KOMouseButtonTypeUserInfoName;
 NSString * const KOMouseButtonTextUserInfoName;
 NSString * const KOMouseCursorUserInfoName;
 NSString * const KOMouseAuthorUserInfoName;
+NSString * const KOURLUserInfoName;
+NSString * const KORangeLocationUserInfoName;
+NSString * const KORangeLengthUserInfoName;
+
 
 @class YLView, KOEffectView;
 @interface KOMouseBehaviorManager : NSResponder <KOMouseUpHandler, KOUpdatable, KOContextualMenuHandler> {
@@ -24,7 +28,7 @@ NSString * const KOMouseAuthorUserInfoName;
 	NSDictionary *_activeTrackingAreaUserInfo;
 	NSDictionary *_backgroundTrackingAreaUserInfo;
 	
-	NSArray *_handlers;
+	NSMutableArray *_handlers;
 	
 	NSCursor *_normalCursor;
 	
@@ -49,4 +53,6 @@ NSString * const KOMouseAuthorUserInfoName;
 
 - (void)enable;
 - (void)disable;
+
+- (void)addHandler:(KOMouseHotspotHandler *)handler;
 @end

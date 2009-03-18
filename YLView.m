@@ -20,6 +20,7 @@
 #import "KOEffectView.h"
 #import "KOMenuItem.h"
 #import "KOMouseBehaviorManager.h"
+#import "LLURLManager.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -74,6 +75,8 @@ BOOL isSpecialSymbol(unichar ch) {
 @synthesize isInPortalMode = _isInPortalMode;
 @synthesize isInUrlMode = _isInUrlMode;
 @synthesize isMouseActive = _isMouseActive;
+@synthesize fontWidth = _fontWidth;
+@synthesize fontHeight = _fontHeight;
 
 - (void)createSymbolPath {
 	int i = 0;
@@ -183,7 +186,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		_isMouseActive = YES;
 		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
-		[self setDelegate:_mouseBehaviorDelegate];
+		//[self setDelegate:_mouseBehaviorDelegate];
+		_urlManager = [[LLURLManager alloc] initWithView:self];
+		[_mouseBehaviorDelegate addHandler:_urlManager];
 		_activityCheckingTimer = [NSTimer scheduledTimerWithTimeInterval:KOActivityCheckingTimeInteval
 																  target:self 
 																selector:@selector(checkActivity:)
@@ -246,6 +251,10 @@ BOOL isSpecialSymbol(unichar ch) {
 		h = h + 1;
 	}
 	return NSMakeRect(x, y, w, h);
+}
+
+- (NSPoint)mouseLocationInView {
+	return [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
 }
 
 #pragma mark -
@@ -587,20 +596,20 @@ BOOL isSpecialSymbol(unichar ch) {
     p = [self convertPoint:p toView:nil];
 
     if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying) {
-        int index = [self convertIndexFromPoint:p];
-        NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
-        if (url != nil) {
-			if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
-				// click while holding shift key or navigate web pages
-				// open the URL with browser
-				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-			} else {
-				// open with previewer
-				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
-			}
-			_isNotCancelingSelection = YES;
-			return;	// click on url should not invoke hot spot
-		}
+        //int index = [self convertIndexFromPoint:p];
+//        NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
+//        if (url != nil) {
+//			if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
+//				// click while holding shift key or navigate web pages
+//				// open the URL with browser
+//				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+//			} else {
+//				// open with previewer
+//				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+//			}
+//			_isNotCancelingSelection = YES;
+//			return;	// click on url should not invoke hot spot
+//		}
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }
 	_isNotCancelingSelection = YES;
@@ -765,7 +774,7 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
-- (NSRect) cellRectForRect: (NSRect) r {
+- (NSRect)cellRectForRect:(NSRect)r {
 	int originx = r.origin.x / _fontWidth;
 	int originy = r.origin.y / _fontHeight;
 	int width = ((r.size.width + r.origin.x) / _fontWidth) - originx + 1;
@@ -793,20 +802,21 @@ BOOL isSpecialSymbol(unichar ch) {
         [self drawBlink];
         
         /* Draw the url underline */
-        int c, r;
-        [[NSColor orangeColor] set];
-        [NSBezierPath setDefaultLineWidth: 1.0];
-        for (r = 0; r < gRow; r++) {
-            cell *currRow = [ds cellsOfRow:r];
-            for (c = 0; c < gColumn; c++) {
-                int start;
-                for (start = c; c < gColumn && currRow[c].attr.f.url; c++) ;
-                if (c != start) {
-                    [NSBezierPath strokeLineFromPoint:NSMakePoint(start * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5) 
-                                              toPoint:NSMakePoint(c * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5)];
-                }
-            }
-        }
+//        int c, r;
+//        [[NSColor orangeColor] set];
+//        [NSBezierPath setDefaultLineWidth: 1.0];
+//        for (r = 0; r < gRow; r++) {
+//            cell *currRow = [ds cellsOfRow:r];
+//            for (c = 0; c < gColumn; c++) {
+//                int start;
+//                for (start = c; c < gColumn && currRow[c].attr.f.url; c++) ;
+//                if (c != start) {
+////                    [NSBezierPath strokeLineFromPoint:NSMakePoint(start * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5) 
+////                                              toPoint:NSMakePoint(c * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5)];
+//					//[self drawURLUnderlineAtRow:r fromColumn:start toColumn:c];
+//                }
+//            }
+//        }
         
 		/* Draw the cursor */
 		[[NSColor whiteColor] set];
@@ -830,6 +840,26 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
+- (void)drawURLUnderlineAtRow:(int)r 
+				   fromColumn:(int)start 
+					 toColumn:(int)end {
+	//NSLog(@"[drawURLUnderlineAtRow:%d fromColumn:%d toColumn:%d];", r, start, end);
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	
+	[NSGraphicsContext saveGraphicsState];
+	
+	// ...Draw content using NS APIs...
+	[[NSColor orangeColor] set];
+	[NSBezierPath setDefaultLineWidth: 1.0];
+	
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(start * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5) 
+							  toPoint:NSMakePoint(end * _fontWidth, (gRow - r - 1) * _fontHeight + 0.5)];
+	
+	[NSGraphicsContext restoreGraphicsState];
+
+	[pool release];
+}
+
 - (void)drawBlink {
     if (![gConfig blinkTicker]) return;
 
@@ -846,8 +876,8 @@ BOOL isSpecialSymbol(unichar ch) {
                 BOOL bold = currRow[c].attr.f.reverse ? currRow[c].attr.f.bold : NO;
 				
 				// Modified by K.O.ed: All background color use same alpha setting.
-				NSColor *bgColor = [gConfig colorAtIndex: bgColorIndex hilite: bold];
-				bgColor = [bgColor colorWithAlphaComponent: [[gConfig colorBG] alphaComponent]];
+				NSColor *bgColor = [gConfig colorAtIndex:bgColorIndex hilite:bold];
+				bgColor = [bgColor colorWithAlphaComponent:[[gConfig colorBG] alphaComponent]];
 				[bgColor set];
                 //[[gConfig colorAtIndex: bgColorIndex hilite: bold] set];
                 NSRectFill(NSMakeRect(c * _fontWidth, (gRow - r - 1) * _fontHeight, _fontWidth, _fontHeight));
@@ -858,7 +888,7 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
-- (void) drawSelection {
+- (void)drawSelection {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     int location, length;
     if (_selectionLength >= 0) {
@@ -905,7 +935,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		DDDDDDDDDDD			...........
  
  */
-- (void) extendBottomFrom: (int) start to: (int) end {
+- (void)extendBottomFrom:(int)start
+					  to:(int)end {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	[_backedImage lockFocus];
 	[_backedImage compositeToPoint:NSMakePoint(0, (gRow - end) * _fontHeight) 
@@ -926,7 +957,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		CCCCCCCCCCC   ->	BBBBBBBBBBB
 		DDDDDDDDDDD			CCCCCCCCCCC
  */
-- (void) extendTopFrom: (int) start to: (int) end {
+- (void)extendTopFrom:(int)start 
+				   to:(int)end {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [_backedImage lockFocus];
 	[_backedImage compositeToPoint:NSMakePoint(0, (gRow - end - 1) * _fontHeight) 
@@ -939,10 +971,9 @@ BOOL isSpecialSymbol(unichar ch) {
     [pool release];
 }
 
-- (void) updateBackedImage {
+- (void)updateBackedImage {
 	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	[self updateMouseHotspot];
 	int x, y;
     YLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
@@ -977,14 +1008,15 @@ BOOL isSpecialSymbol(unichar ch) {
         [[NSColor clearColor] set];
         CGContextFillRect(myCGContext, CGRectMake(0, 0, gColumn * _fontWidth, gRow * _fontHeight));
     }
-
+	
+	[self updateMouseHotspot];
 	[_backedImage unlockFocus];
     [pool release];
 	return;
 }
 
-- (void) drawStringForRow:(int)r
-				  context:(CGContextRef)myCGContext {
+- (void)drawStringForRow:(int)r
+				 context:(CGContextRef)myCGContext {
 	int i, c, x;
 	int start, end;
 	unichar textBuf[gColumn];
@@ -1045,7 +1077,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			}
             // FIXME: why?
 			if (x == start)
-				[self setNeedsDisplayInRect: NSMakeRect((x - 1) * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth, _fontHeight)];
+				[self setNeedsDisplayInRect:NSMakeRect((x - 1) * _fontWidth, (gRow - 1 - r) * _fontHeight, _fontWidth, _fontHeight)];
 		}
 	}
 
@@ -1100,7 +1132,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		CFDictionaryRef attrDict = CTRunGetAttributes(run);
 		CTFontRef runFont = (CTFontRef)CFDictionaryGetValue(attrDict,  kCTFontAttributeName);
 		CGFontRef cgFont = CTFontCopyGraphicsFont(runFont, NULL);
-		NSColor *runColor = (NSColor *) CFDictionaryGetValue(attrDict, kCTForegroundColorAttributeName);
+		NSColor *runColor = (NSColor *)CFDictionaryGetValue(attrDict, kCTForegroundColorAttributeName);
 		        
 		CGContextSetFont(myCGContext, cgFont);
 		CGContextSetFontSize(myCGContext, CTFontGetSize(runFont));
@@ -1180,7 +1212,10 @@ BOOL isSpecialSymbol(unichar ch) {
                 
                 CGContextShowGlyphsAtPoint(tempContext, cPaddingLeft, CTFontGetDescent(gConfig->_cCTFont) + cPaddingBottom, &glyph, 1);
                 [gLeftImage unlockFocus];
-                [gLeftImage drawAtPoint: NSMakePoint(index * _fontWidth, (gRow - 1 - r) * _fontHeight) fromRect: rect operation: NSCompositeCopy fraction: 1.0];
+                [gLeftImage drawAtPoint:NSMakePoint(index * _fontWidth, (gRow - 1 - r) * _fontHeight)
+							   fromRect:rect
+							  operation:NSCompositeCopy
+							   fraction:1.0];
             }
 		}
 		glyphOffset += runGlyphCount;
@@ -1202,8 +1237,8 @@ BOOL isSpecialSymbol(unichar ch) {
                     break;
             }
             [[gConfig colorAtIndex:beginColor hilite:beginBold] set];
-            [NSBezierPath strokeLineFromPoint: NSMakePoint(begin * _fontWidth, (gRow - 1 - r) * _fontHeight + 0.5) 
-                                      toPoint: NSMakePoint(x * _fontWidth, (gRow - 1 - r) * _fontHeight + 0.5)];
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(begin * _fontWidth, (gRow - 1 - r) * _fontHeight + 0.5) 
+                                      toPoint:NSMakePoint(x * _fontWidth, (gRow - 1 - r) * _fontHeight + 0.5)];
             x--;
         }
     }
@@ -1627,10 +1662,11 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Url Menu
 // Here I hijacked the option-tab key mapping...
 // by gtCarrera, for URL menu
-- (void) switchURL {
+- (void)switchURL {
 	// Now, just return...
 	return;
 	// If not in URL mode, turn this mode on
+	/*
 	if(!_isInUrlMode) {
 		_isInUrlMode = YES;
 		NSPoint p;
@@ -1642,7 +1678,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_effectView showMenuAtPoint: p withItems:[NSArray arrayWithObjects: item, item2, nil]];
 	} else {
 		// Choose the next URL...
-	}
+	}*/
+	[_effectView showIndicatorAtPoint:[self mouseLocationInView]];
 }
 
 - (void)exitURL {

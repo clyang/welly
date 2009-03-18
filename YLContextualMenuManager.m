@@ -36,19 +36,20 @@
 
 	/* comment: why not just using the url recognition? */
     YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+	
+	NSString *shortURL = [self extractShortURL:s];
+	NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+	
+	if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
+		if (![longURL hasPrefix:@"http://"])
+			longURL = [@"http://" stringByAppendingString:longURL];
+		[menu addItemWithTitle:longURL
+						action:@selector(openURL:)
+				 keyEquivalent:@""];
+	}
+	
 	if ([[view frontMostTerminal] bbsType] == TYMaple) {
-		// Firebird BBS seldom use these
-		NSString *shortURL = [self extractShortURL:s];
-		NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-		
-		if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
-			if (![longURL hasPrefix:@"http://"])
-				longURL = [@"http://" stringByAppendingString:longURL];
-			[menu addItemWithTitle:longURL
-							action:@selector(openURL:)
-					 keyEquivalent:@""];
-		}
-		
+		// Firebird BBS seldom use these	
 		if ([shortURL length] > 0 && [shortURL length] < 8) {
 			[menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString: shortURL]
 							action:@selector(openURL:)

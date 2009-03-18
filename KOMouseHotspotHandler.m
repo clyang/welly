@@ -12,6 +12,7 @@
 #import "KOMouseBehaviorManager.h"
 
 @implementation KOMouseHotspotHandler
+@synthesize manager = _manager;
 - (id)initWithView:(YLView *)view {
 	[self init];
 	_view = view;

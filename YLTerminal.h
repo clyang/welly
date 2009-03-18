@@ -33,12 +33,12 @@ typedef struct {
 	TYBBSType _bbsType;
 	NSMutableString * _currURL;
 @public
-    unsigned int _row;
-    unsigned int _column;
+    unsigned int _maxRow;
+    unsigned int _maxColumn;
     unsigned int _cursorX;
     unsigned int _cursorY;
     unsigned int _offset;
-	NSMutableArray * _currentURLList;
+	//NSMutableArray * _currentURLList;
 	
     cell **_grid;
     char *_dirty;
@@ -74,11 +74,12 @@ typedef struct {
 - (NSString *)stringFromIndex:(int)begin 
 					   length:(int)length;
 - (cell *)cellsOfRow:(int)r;
+- (cell)cellAtIndex:(int)index;
 
 /* Update State */
-- (void)updateURLStateForRow:(int)r;
+//- (void)updateURLStateForRow:(int)r;
 - (void)updateDoubleByteStateForRow:(int)r;
-- (NSString *)urlStringAtRow:(int)r column:(int)c;
+//- (NSString *)urlStringAtRow:(int)r column:(int)c;
 - (void)updateBBSState;
 
 /* Accessor */
@@ -91,7 +92,7 @@ typedef struct {
 - (BBSState)bbsState;
 - (TYBBSType)bbsType;
 - (void)setBbsType:(TYBBSType)bbsType;
-- (NSMutableArray *)urlList;
+//- (NSMutableArray *)urlList;
 
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;
@@ -103,7 +104,7 @@ typedef struct {
 @property unsigned int cursorX;
 @property unsigned int cursorY;
 @property unsigned int offset;
-@property (retain,getter=urlList) NSMutableArray * currentURLList;
+//@property (retain,getter=urlList) NSMutableArray * currentURLList;
 @property cell **grid;
 @property char *dirty;
 @property (retain) YLView *view;

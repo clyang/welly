@@ -221,7 +221,7 @@
 	
 	CATransition * buttonTrans = [CATransition new];
 	buttonTrans.type = kCATransitionReveal;
-	[_buttonLayer addAnimation: buttonTrans forKey: kCATransition];
+	[_buttonLayer addAnimation:buttonTrans forKey:kCATransition];
     [buttonTrans autorelease];
     // Insert the layer into the root layer
 	[_mainLayer addSublayer:[_buttonLayer retain]];
@@ -341,7 +341,6 @@ const CGFloat menuMarginWidth = 20.0;
 	[self selectMenuItemAtIndex:nextItemIndex];
 }
 
-
 - (void)removeAllMenuItems {
 	while ([[_menuLayer sublayers] count] > 0) {
 		CATextLayer *menuItemLayer = [[_menuLayer sublayers] lastObject];
@@ -426,6 +425,53 @@ const CGFloat menuMarginWidth = 20.0;
 
 - (void)hideMenu {
 	_menuLayer.opacity = 0;
+}
+
+#pragma mark -
+#pragma mark URL drawing
+- (void)setURLLineLayer {
+	
+}
+
+- (void)drawURLUnderlineAtRow:(int)r
+				   fromColumn:(int)start 
+					 toColumn:(int)end {
+	
+}
+
+- (CGImageRef)indicatorImage { 
+	if (_urlIndicatorImage == NULL) { 
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"indicator" 
+														 ofType:@"png"]; 
+		NSURL *imageURL = [NSURL fileURLWithPath:path]; 
+		CGImageSourceRef src = CGImageSourceCreateWithURL((CFURLRef)imageURL, NULL); 
+		if (NULL != src) { 
+			_urlIndicatorImage = CGImageSourceCreateImageAtIndex(src, 0, NULL); 
+			CFRelease(src); 
+		} 
+	} 
+	return _urlIndicatorImage; 
+} 
+
+- (void)setURLIndicatorLayer {
+	_urlIndicatorLayer = [CALayer layer];
+	//[[NSBundle mainBundle] pathForResource:@"Background" ofType:@"qtz"]
+	//NSImage *indicatorImage = [NSImage imageNamed:@"indicator.png"];
+	//CGImageRef imageRef = (CGImageRef)indicatorImage;
+	//[_urlIndicatorLayer setContents:[self indicatorImage]];
+	[_urlIndicatorLayer setContents:(id)[self indicatorImage]];
+
+	[_urlIndicatorLayer setFrame:CGRectMake(0, 0, 65, 66)];
+	[_mainLayer addSublayer:_urlIndicatorLayer];
+}
+
+- (void)showIndicatorAtPoint:(NSPoint)point {
+	if (_urlIndicatorLayer == nil)
+		[self setURLIndicatorLayer];
+	//[_urlIndicatorLayer setOpacity:0.0];
+	CGRect rect = [_urlIndicatorLayer frame];
+	rect.origin = NSPointToCGPoint(point);
+	[_urlIndicatorLayer setFrame:rect];
 }
 
 #pragma mark Pop-Up Message

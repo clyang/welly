@@ -28,6 +28,7 @@
 	KOMouseBehaviorManager *_manager;
 	int _maxRow, _maxColumn;
 }
+@property (readwrite, assign) KOMouseBehaviorManager *manager;
 
 - (id)initWithView:(YLView *)view;
 - (id)initWithManager:(KOMouseBehaviorManager *)manager;

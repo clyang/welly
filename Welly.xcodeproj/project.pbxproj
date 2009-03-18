@@ -30,6 +30,7 @@
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
 		18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* TYFeedGenerator.m */; };
 		5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.m */; };
+		5A1BA6F60F6EA8BA003489CF /* LLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */; };
 		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
@@ -55,6 +56,7 @@
 		5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */; };
 		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
 		5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1C0030E18F3870094C370 /* CoreData.framework */; };
+		5AB748170F6FC69100CE5F4C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB748160F6FC69100CE5F4C /* indicator.png */; };
 		5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */; };
@@ -177,6 +179,8 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Welly_Prefix.pch; sourceTree = "<group>"; };
 		5A09016C0DBCDD1600AC08F4 /* YLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLController.m; sourceTree = "<group>"; };
+		5A1BA6F40F6EA8BA003489CF /* LLURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLURLManager.h; sourceTree = "<group>"; };
+		5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLURLManager.m; sourceTree = "<group>"; };
 		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A309A7A0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A309A7B0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
@@ -215,6 +219,7 @@
 		5AB1BFEF0E18F3260094C370 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlContainer.h; sourceTree = "<group>"; };
 		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
 		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		5AB748160F6FC69100CE5F4C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		5AC743FA0F34681100177CA1 /* KOMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseBehaviorManager.h; sourceTree = "<group>"; };
 		5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMouseBehaviorManager.m; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOClickEntryHotspotHandler.h; sourceTree = "<group>"; };
@@ -425,6 +430,7 @@
 				85137B320D02192800833909 /* Credits.rtf */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
+				5AB748160F6FC69100CE5F4C /* indicator.png */,
 				5A91BAED0E1E1E6A007538E5 /* WellyHelp */,
 				85EA93210D0791180098C94B /* Preferences.nib */,
 				29B97318FDCFA39411CA2CEA /* MainMenu.nib */,
@@ -555,6 +561,8 @@
 				5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */,
 				5A6A7ED70F497FC000DC952F /* KOAuthorAreaHotspotHandler.h */,
 				5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */,
+				5A1BA6F40F6EA8BA003489CF /* LLURLManager.h */,
+				5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */,
 			);
 			name = "Mouse Hotspot Handler";
 			sourceTree = "<group>";
@@ -686,6 +694,7 @@
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
 				185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */,
+				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -747,6 +756,7 @@
 				5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */,
 				18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */,
 				5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */,
+				5A1BA6F60F6EA8BA003489CF /* LLURLManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

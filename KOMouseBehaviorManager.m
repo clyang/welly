@@ -13,6 +13,7 @@
 #import "KOButtonAreaHotspotHandler.h"
 #import "KOEditingCursorMoveHotspotHandler.h"
 #import "KOAuthorAreaHotspotHandler.h"
+#import "LLURLManager.h"
 
 #import "YLView.h"
 #import "YLTerminal.h"
@@ -26,6 +27,9 @@ NSString * const KOMouseButtonTypeUserInfoName = @"Button Type";
 NSString * const KOMouseButtonTextUserInfoName = @"Button Text";
 NSString * const KOMouseCursorUserInfoName = @"Cursor";
 NSString * const KOMouseAuthorUserInfoName = @"Author";
+NSString * const KOURLUserInfoName = @"URL";
+NSString * const KORangeLocationUserInfoName = @"RangeLocation";
+NSString * const KORangeLengthUserInfoName = @"RangeLength";
 
 @implementation KOMouseBehaviorManager
 @synthesize activeTrackingAreaUserInfo = _activeTrackingAreaUserInfo;
@@ -37,7 +41,7 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 	[self init];
 	_view = view;
 	
-	_handlers = [[NSArray alloc] initWithObjects:
+	_handlers = [[NSMutableArray alloc] initWithObjects:
 				 [[KOIPAddrHotspotHandler alloc] initWithManager:self],
 				 [[KOClickEntryHotspotHandler alloc] initWithManager:self],
 				 [[KOButtonAreaHotspotHandler alloc] initWithManager:self],
@@ -204,6 +208,8 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 	}
 }
 
+#pragma mark -
+#pragma mark Accessor
 - (YLView *)view {
 	return _view;
 }
@@ -219,5 +225,10 @@ NSString * const KOMouseAuthorUserInfoName = @"Author";
 
 - (void)disable {
 	_enabled = NO;
+}
+
+- (void)addHandler:(KOMouseHotspotHandler *)handler {
+	[_handlers addObject:handler];
+	[handler setManager:self];
 }
 @end

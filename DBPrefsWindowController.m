@@ -44,7 +44,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 #pragma mark -
 #pragma mark Setup & Teardown
 
-- (void) setupMenuOfURLScheme: (NSString *) scheme forPopUpButton: (NSPopUpButton *) button {
+- (void)setupMenuOfURLScheme:(NSString *)scheme 
+			  forPopUpButton:(NSPopUpButton *)button {
     NSString *wellyIdentifier = [[[NSBundle mainBundle] bundleIdentifier] lowercaseString];
     NSMutableArray *array = [NSMutableArray arrayWithArray: [DBPrefsWindowController applicationIdentifierArrayForURLScheme: scheme]];
     NSWorkspace *ws = [NSWorkspace sharedWorkspace];
@@ -67,9 +68,9 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
                 CFRelease(appNameInCFString);
                 
                 if (wellyCount > 1 && [[appId lowercaseString] isEqualToString: wellyIdentifier])
-                    appName = [NSString stringWithFormat: @"%@ (%@)", appName, [[[NSBundle bundleWithPath: appPath] infoDictionary] objectForKey: @"CFBundleVersion"]];
+                    appName = [NSString stringWithFormat:@"%@ (%@)", appName, [[[NSBundle bundleWithPath: appPath] infoDictionary] objectForKey: @"CFBundleVersion"]];
                 
-                NSImage *appIcon = [ws iconForFile: appPath];
+                NSImage *appIcon = [ws iconForFile:appPath];
                 [appIcon setSize: NSMakeSize(16, 16)];
                 
                 NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle: (NSString *)appName action: NULL keyEquivalent: @""] autorelease];

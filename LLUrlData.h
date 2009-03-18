@@ -16,16 +16,16 @@
 }
 
 // Constructor
-- (id) initWithUrl: (NSString *) url 
-			  name: (NSString *) name 
-		  position: (NSPoint) position;
+- (id) initWithUrl:(NSString *)url 
+			  name:(NSString *)name 
+		  position:(NSPoint)position;
 
 - (id) init;
 
 // Accessor
-- (NSString *) url;
-- (NSString *) name;
-- (NSPoint) pos;
-- (void) setName: (NSString *) name;
+- (NSString *)url;
+- (NSString *)name;
+- (NSPoint)pos;
+- (void)setName:(NSString *)name;
 
 @end

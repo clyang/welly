@@ -69,7 +69,7 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 - (void)mouseUp:(NSEvent *)theEvent {
 	NSString *commandSequence = [_manager.activeTrackingAreaUserInfo objectForKey:KOMouseCommandSequenceUserInfoName];
 	if (commandSequence != nil) {
-		[_view sendText: commandSequence];
+		[_view sendText:commandSequence];
 		return;
 	}
 	int moveToRow = [[_manager.activeTrackingAreaUserInfo objectForKey:KOMouseRowUserInfoName] intValue];
@@ -78,13 +78,11 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	//NSLog(@"mouseEntered: ");
-	[[_view effectView] drawClickEntry: [[theEvent trackingArea] rect]];
+	[[_view effectView] drawClickEntry:[[theEvent trackingArea] rect]];
 	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	//NSLog(@"mouseExited: ");
 	[[_view effectView] clearClickEntry];
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
@@ -188,8 +186,8 @@ NSString *const KOCommandSequenceSameAuthorReading = @"\025";	// ^U
 				   length:(int)length {
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	// Generate User Info
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseRowUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, [NSNumber numberWithInt:r], nil];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseRowUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, [NSNumber numberWithInt:r], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 }

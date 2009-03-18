@@ -15,6 +15,7 @@
 @class KOEffectView;
 @class XIPortal;
 @class KOMouseBehaviorManager;
+@class LLURLManager;
 
 #define disableMouseByKeyingTimerInterval 0.3
 
@@ -51,10 +52,13 @@
 	NSTimer *_activityCheckingTimer;
 	
 	KOMouseBehaviorManager *_mouseBehaviorDelegate;
+	LLURLManager *_urlManager;
 }
 @property BOOL isInPortalMode;
 @property BOOL isInUrlMode;
 @property BOOL isMouseActive;
+@property CGFloat fontWidth;
+@property CGFloat fontHeight;
 //@property int x;
 //@property int y;
 
@@ -84,7 +88,10 @@
 				   to:(int)end ;
 
 - (void)drawStringForRow:(int)r 
-				 context:(CGContextRef)myCGContext ;
+				 context:(CGContextRef)myCGContext;
+- (void)drawURLUnderlineAtRow:(int)r 
+				   fromColumn:(int)start 
+					 toColumn:(int)end;
 - (void)updateBackgroundForRow:(int)r 
 						  from:(int)start 
 							to:(int)end;
@@ -132,4 +139,5 @@
 - (void)activateMouseForKeying:(NSTimer*)timer;
 
 - (int)convertIndexFromPoint:(NSPoint)aPoint;
+- (NSPoint)mouseLocationInView;
 @end

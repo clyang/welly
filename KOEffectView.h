@@ -26,6 +26,9 @@
 	
 	CALayer *_menuLayer;
 	CALayer *_selectionLayer;
+	CALayer *_urlLineLayer;
+	CGImageRef _urlIndicatorImage;
+	CALayer *_urlIndicatorLayer;
 	int selectedItemIndex;
 }
 
@@ -49,6 +52,12 @@
 - (void)selectMenuItemAtIndex:(int)index;
 - (void)selectPreviousMenuItem;
 - (void)selectNextMenuItem;
+
+// for URL
+- (void)drawURLUnderlineAtRow:(int)r
+				   fromColumn:(int)start 
+					 toColumn:(int)end;
+- (void)showIndicatorAtPoint:(NSPoint)point;
 
 // To show pop up message by core animation
 // This method might be changed in future
