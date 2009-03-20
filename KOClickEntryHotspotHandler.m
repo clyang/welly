@@ -274,7 +274,7 @@ BOOL isPostTitleStarter(unichar c) {
 		[self addClickEntryRect:[NSString stringWithCharacters:textBuf length:bufLength]
 							row:r
 						 column:start
-						 length:end - start + 1];
+						 length:((end - start + 1) > 30) ? (end - start + 1) : 30];
 	}
 }
 
