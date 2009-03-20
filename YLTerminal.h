@@ -25,20 +25,19 @@ typedef struct {
 		BBSWaitingEnter,
 		BBSUserInfo,
 		BBSConfirmPost,
+		BBSBrowseExcerption,
 	} state;
 	NSString *boardName;
 } BBSState;
 
 @interface YLTerminal : NSObject {	
 	TYBBSType _bbsType;
-	//NSMutableString * _currURL;
 	
     unsigned int _maxRow;
     unsigned int _maxColumn;
-    unsigned int _cursorX;
-    unsigned int _cursorY;
+    unsigned int _cursorColumn;
+    unsigned int _cursorRow;
     unsigned int _offset;
-	//NSMutableArray * _currentURLList;
 	
     cell **_grid;
     char *_dirty;
@@ -51,10 +50,12 @@ typedef struct {
 }
 @property unsigned int maxRow;
 @property unsigned int maxColumn;
-@property unsigned int cursorX;
-@property unsigned int cursorY;
+@property unsigned int cursorColumn;
+@property unsigned int cursorRow;
 @property cell **grid;
-@property (assign,getter=connection,setter=setConnection:) YLConnection *connection;
+@property (assign, setter=setConnection:) YLConnection *connection;
+@property (assign, readwrite) TYBBSType bbsType;
+@property (readonly) BBSState bbsState;
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
 
@@ -89,16 +90,17 @@ typedef struct {
 - (void)updateBBSState;
 
 /* Accessor */
-- (int)cursorRow;
-- (int)cursorColumn;
+//- (int)cursorRow;
+//- (int)cursorColumn;
 - (YLEncoding)encoding;
 - (void)setEncoding:(YLEncoding) encoding;
 - (YLConnection *)connection;
 - (void)setConnection:(YLConnection *)value;
+/*
 - (BBSState)bbsState;
 - (TYBBSType)bbsType;
 - (void)setBbsType:(TYBBSType)bbsType;
-
+*/
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;
 - (void)setCursorX:(int)cursorX

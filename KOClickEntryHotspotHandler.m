@@ -232,15 +232,10 @@ BOOL isPostTitleStarter(unichar c) {
 			|| c == 0x25c6 || c == 0x25a1);
 }
 
-- (void)updateClickEntryForRow:(int)r {
-	//NSLog(@"KOClickEntryHotspotHandler updateClickEntryForRow:%d", r);
+- (void)updatePostClickEntry {
     YLTerminal *ds = [_view frontMostTerminal];
-    cell *currRow = [ds cellsOfRow:r];
-    if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
-        // browsing a board
-		// header/footer
-		if (r < 3 || r == _maxRow - 1)
-			return;
+	for (int r = 3; r < _maxRow - 1; ++r) {
+		cell *currRow = [ds cellsOfRow:r];
 		
 		int start = -1, end = -1;
 		unichar textBuf[_maxColumn + 1];
@@ -274,20 +269,21 @@ BOOL isPostTitleStarter(unichar c) {
 		}
 		
 		if (start == -1)
-			return;
+			continue;
 		
 		[self addClickEntryRect:[NSString stringWithCharacters:textBuf length:bufLength]
 							row:r
 						 column:start
 						 length:end - start + 1];
+	}
+}
+
+- (void)updateBoardClickEntry {
+    YLTerminal *ds = [_view frontMostTerminal];
+	for (int r = 3; r < _maxRow - 1; ++r) {
+		cell *currRow = [ds cellsOfRow:r];
 		
-	} else if ([ds bbsState].state == BBSBoardList) {
-        // watching board list
-		// header/footer
-		if (r < 3 || r == _maxRow - 1)
-			return;
-		
-        // TODO: fix magic numbers
+		// TODO: fix magic numbers
         if (currRow[12].byte != 0 && currRow[12].byte != ' ' && (currRow[11].byte == ' ' || currRow[11].byte == '*'))
             [self addClickEntryRectAtRow:r column:12 length:80-28]; // smth
         else if (currRow[10].byte != 0 && currRow[10].byte != ' ' && currRow[7].byte == ' ' && currRow[27].byte == ' ')
@@ -306,19 +302,25 @@ BOOL isPostTitleStarter(unichar c) {
             [self addClickEntryRectAtRow:r column:8 length:80-26]; // wdbbs
         else if (currRow[8].byte != 0 && currRow[8].byte != ' ' && currRow[7].byte == ' ' && currRow[20].byte == ' ')
             [self addClickEntryRectAtRow:r column:8 length:80-36]; // cia
-    } else if ([ds bbsState].state == BBSFriendList) {
-		// header/footer
-		if (r < 3 || r == _maxRow - 1)
-			return;
+	}
+}
+
+- (void)updateFriendClickEntry {
+	YLTerminal *ds = [_view frontMostTerminal];
+	for (int r = 3; r < _maxRow - 1; ++r) {
+		cell *currRow = [ds cellsOfRow:r];
 		
-        // TODO: fix magic numbers
+		// TODO: fix magic numbers
         if (currRow[7].byte == 0 || currRow[7].byte == ' ')
-            return;
+            continue;
         [self addClickEntryRectAtRow:r column:7 length:80-13];
-	} else if ([ds bbsState].state == BBSMainMenu || [ds bbsState].state == BBSMailMenu) {
-		// main menu
-		if (r < 3 || r == _maxRow - 1)
-			return;
+	}
+}
+
+- (void)updateMenuClickEntry {
+	YLTerminal *ds = [_view frontMostTerminal];
+	for (int r = 3; r < _maxRow - 1; ++r) {
+		cell *currRow = [ds cellsOfRow:r];
 		
 		enum {
 			ST_START, ST_BRACKET_FOUND, ST_SPACE_FOUND, ST_NON_SPACE_FOUND, ST_SINGLE_SPACE_FOUND
@@ -374,12 +376,50 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 }
 
+- (void)updateExcerptionClickEntry {
+    YLTerminal *ds = [_view frontMostTerminal];
+	// Parse the table title line to get ranges
+	NSRange postRange;
+	int c = 0;
+	for (; c < _maxColumn - 2; ++c) {
+		if ([[ds stringFromIndex:c + 2 * _maxColumn length:2] isEqualToString:@"标"]) {
+			postRange.location = c;
+			c += 2;
+			break;
+		}
+	}
+	for (; c < _maxColumn - 2; ++c) {
+		if ([[ds stringFromIndex:c + 2 * _maxColumn length:2] isEqualToString:@"整"]) {
+			postRange.length = c - postRange.location - 1;
+			break;
+		}
+	}
+	
+	// Parse each line
+	for (int r = 3; r < _maxRow - 1; ++r) {
+		cell *currRow = [ds cellsOfRow:r];
+		
+        if (currRow[postRange.location].byte == 0 || currRow[postRange.location].byte == ' ')
+            continue;
+        [self addClickEntryRectAtRow:r column:postRange.location length:postRange.length];
+	}
+}
+
 - (void)update {
 	// For the mouse preference
 	if (![_view mouseEnabled]) 
 		return;
-	for (int r = 0; r < _maxRow; ++r) {
-		[self updateClickEntryForRow:r];
+	YLTerminal *ds = [_view frontMostTerminal];
+	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
+		[self updatePostClickEntry];
+	} else if ([ds bbsState].state == BBSBoardList) {
+		[self updateBoardClickEntry];
+	} else if ([ds bbsState].state == BBSFriendList) {
+		[self updateFriendClickEntry];
+	} else if ([ds bbsState].state == BBSMainMenu || [ds bbsState].state == BBSMailMenu) {
+		[self updateMenuClickEntry];
+	} else if ([ds bbsState].state == BBSBrowseExcerption) {
+		[self updateExcerptionClickEntry];
 	}
 }
 

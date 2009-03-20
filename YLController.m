@@ -1553,16 +1553,16 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         [connection sendText:termKeyRight];
         while (!exitNow) { // traverse every board
             NSString *unreadKeyword;
-            while (![[terminal stringFromIndex:0 length:1] isEqualToString:@"["] || [terminal cursorX] != 1
-                   || [terminal stringFromIndex:column * [terminal cursorY] + 10 length:1]
-                   || ![terminal stringFromIndex:column * [terminal cursorY] length:column]
-                   || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorY] + 8 length:2])
+            while (![[terminal stringFromIndex:0 length:1] isEqualToString:@"["] || [terminal cursorColumn] != 1
+                   || [terminal stringFromIndex:column * [terminal cursorRow] + 10 length:1]
+                   || ![terminal stringFromIndex:column * [terminal cursorRow] length:column]
+                   || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorRow] + 8 length:2])
                    || !([unreadKeyword isEqualToString:@"◆"] || [unreadKeyword isEqualToString:@"◇"] || [unreadKeyword isEqualToString:@"＋"]))
                 usleep(refreshInterval);
             while ([unreadKeyword isEqualToString:@"＋"]) {
                 [connection sendText:termKeyDown];
-                while (![terminal stringFromIndex:column * [terminal cursorY] length:column]
-                       || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorY] + 8 length:2]))
+                while (![terminal stringFromIndex:column * [terminal cursorRow] length:column]
+                       || !(unreadKeyword = [terminal stringFromIndex:column * [terminal cursorRow] + 8 length:2]))
                     usleep(refreshInterval);
             }
             if (![unreadKeyword isEqualToString:@"◆"]) {
@@ -1573,28 +1573,28 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
             [connection sendText:termKeyRight];
             [connection sendText:termKeyEnd];
             [connection sendText:termKeyEnd]; // in case of seeing board memo
-            while ([[terminal stringFromIndex:column length:column] rangeOfString:@"发表"].location == NSNotFound || [terminal cursorX] != 1
-                || ![terminal stringFromIndex:column * [terminal cursorY] + 10 length:1])
+            while ([[terminal stringFromIndex:column length:column] rangeOfString:@"发表"].location == NSNotFound || [terminal cursorColumn] != 1
+                || ![terminal stringFromIndex:column * [terminal cursorRow] + 10 length:1])
                 usleep(refreshInterval);
             BOOL isLastArticle = YES;
             for (;;) { // traverse every post
                 exitNow = [[threadDict valueForKey:@"ThreadShouldExitNow"] boolValue];
                 if (exitNow)
                     break;
-                while (![terminal stringFromIndex:column * [terminal cursorY] length:6])
+                while (![terminal stringFromIndex:column * [terminal cursorRow] length:6])
                     usleep(refreshInterval);
-                NSString *articleFlag = [terminal stringFromIndex:column * [terminal cursorY] + 7 length:2];
+                NSString *articleFlag = [terminal stringFromIndex:column * [terminal cursorRow] + 7 length:2];
                 if (!articleFlag || [articleFlag rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"*MGBUO"]].location == NSNotFound) {
                     // no more unread articles
                     // NSLog(@"break because articleFlag is %@, cursorY is %u, cursorX is %u, +10 is %@, whole line is {%@}", articleFlag, [terminal cursorY], [terminal cursorX], [terminal stringFromIndex:column * [terminal cursorY] + 10 length:1], [terminal stringFromIndex:column * [terminal cursorY] length:column]);
                     break;
                 }
-                BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal cursorY] length:column] rangeOfString:@"●"].location != NSNotFound);
+                BOOL isOriginal = ([[terminal stringFromIndex:column * [terminal cursorRow] length:column] rangeOfString:@"●"].location != NSNotFound);
                 if (isOriginal || isLastArticle) {
                     isLastArticle = NO;
                     [connection sendText:termKeyRight];
                     NSString *moreModeKeyword;
-                    while ([terminal cursorY] != row - 1 || !(moreModeKeyword = [terminal stringFromIndex:column * (row - 1) length:2])
+                    while ([terminal cursorRow] != row - 1 || !(moreModeKeyword = [terminal stringFromIndex:column * (row - 1) length:2])
                            || [moreModeKeyword isEqualToString:@"时"])
                         usleep(refreshInterval);
                     if (isOriginal) {
@@ -1651,12 +1651,12 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                         [connection sendText:termKeyLeft];
                     }
                     [connection sendText:termKeyLeft];
-                    while (![[terminal stringFromIndex:column * (row - 1) length:4] isEqualToString:@"时间"] || [terminal cursorX] != 1)
+                    while (![[terminal stringFromIndex:column * (row - 1) length:4] isEqualToString:@"时间"] || [terminal cursorColumn] != 1)
                         usleep(refreshInterval);
                 }
-                const unsigned int previousY = [terminal cursorY];
+                const unsigned int previousY = [terminal cursorRow];
                 [connection sendText:termKeyUp];
-                while ([terminal cursorY] == previousY || [terminal cursorX] != 1 || ![terminal stringFromIndex:column * [terminal cursorY] length:column])
+                while ([terminal cursorRow] == previousY || [terminal cursorColumn] != 1 || ![terminal stringFromIndex:column * [terminal cursorRow] length:column])
                     usleep(refreshInterval);
             }
             [connection sendText:termKeyLeft];

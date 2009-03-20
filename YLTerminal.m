@@ -18,9 +18,12 @@
 @implementation YLTerminal
 @synthesize maxRow = _maxRow;
 @synthesize maxColumn = _maxColumn;
-@synthesize cursorX = _cursorX;
-@synthesize cursorY = _cursorY;
+@synthesize cursorColumn = _cursorColumn;
+@synthesize cursorRow = _cursorRow;
 @synthesize grid = _grid;
+@synthesize bbsType = _bbsType;
+@synthesize bbsState = _bbsState;
+@synthesize connection = _connection;
 
 + (YLTerminal *)terminalWithView:(YLView *)view {
     YLTerminal *terminal = [[YLTerminal alloc] init];
@@ -91,8 +94,8 @@
 
 - (void)setCursorX:(int)cursorX
 				 Y:(int)cursorY {
-	_cursorX = cursorX;
-	_cursorY = cursorY;
+	_cursorColumn = cursorX;
+	_cursorRow = cursorY;
 }
 
 # pragma mark -
@@ -112,7 +115,7 @@
 # pragma mark Clear
 
 - (void)clearAll {
-    _cursorX = _cursorY = 0;
+    _cursorColumn = _cursorRow = 0;
 	
     attribute t;
     t.f.fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
@@ -412,6 +415,9 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 			   || hasAnyString([self stringAtRow:6], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])) {
 		//NSLog(@"用户信息");
 		_bbsState.state = BBSUserInfo;
+	} else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"[功能键]", @"[版  主]", nil])) {
+		//NSLog(@"浏览精华区");
+		_bbsState.state = BBSBrowseExcerption;
 	} else {
 		//NSLog(@"未知状态");
         _bbsState.state = BBSUnknown;
@@ -420,15 +426,6 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 
 # pragma mark -
 # pragma mark Accessor
-
-- (int)cursorRow {
-    return _cursorY;
-}
-
-- (int)cursorColumn {
-    return _cursorX;
-}
-
 - (YLEncoding)encoding {
     return [[[self connection] site] encoding];
 }
@@ -437,30 +434,16 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     [[[self connection] site] setEncoding: encoding];
 }
 
+/*
 - (YLConnection *)connection {
     return _connection;
 }
-
-//- (NSMutableArray *)urlList {
-//	return _currentURLList;
-//}
+ */
 
 - (void)setConnection:(YLConnection *)value {
     _connection = value;
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
 	// remove #import "YLSite.h" when fixed.
 	[self setBbsType:[[_connection site] ansiColorKey] == YLCtrlUANSIColorKey ? TYMaple : TYFirebird];
-}
-
-- (BBSState)bbsState {
-	return _bbsState;
-}
-
-- (TYBBSType)bbsType {
-	return _bbsType;
-}
-
-- (void)setBbsType:(TYBBSType)bbsType {
-	_bbsType = bbsType;
 }
 @end
