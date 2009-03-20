@@ -16,16 +16,11 @@
 #import "LLUrlData.h"
 
 @implementation YLTerminal
-@synthesize currURL = _currURL;
-@synthesize row = _maxRow;
-@synthesize column = _maxColumn;
+@synthesize maxRow = _maxRow;
+@synthesize maxColumn = _maxColumn;
 @synthesize cursorX = _cursorX;
 @synthesize cursorY = _cursorY;
-@synthesize offset = _offset;
-//@synthesize currentURLList = _currentURLList;
 @synthesize grid = _grid;
-@synthesize dirty = _dirty;
-@synthesize view = _view;
 
 + (YLTerminal *)terminalWithView:(YLView *)view {
     YLTerminal *terminal = [[YLTerminal alloc] init];

@@ -1525,8 +1525,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     [threadDict setValue:[NSNumber numberWithBool:exitNow] forKey:@"ThreadShouldExitNow"];
     YLConnection *connection = [_telnetView frontMostConnection];
     YLTerminal *terminal = [connection terminal];
-    unsigned int column = [terminal column];
-    unsigned int row = [terminal row];
+    unsigned int column = [terminal maxColumn];
+    unsigned int row = [terminal maxRow];
     NSString *siteName = [[connection site] name];
     // locate the cache directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);

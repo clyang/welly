@@ -31,8 +31,8 @@ typedef struct {
 
 @interface YLTerminal : NSObject {	
 	TYBBSType _bbsType;
-	NSMutableString * _currURL;
-@public
+	//NSMutableString * _currURL;
+	
     unsigned int _maxRow;
     unsigned int _maxColumn;
     unsigned int _cursorX;
@@ -49,6 +49,12 @@ typedef struct {
 	
 	BBSState _bbsState;
 }
+@property unsigned int maxRow;
+@property unsigned int maxColumn;
+@property unsigned int cursorX;
+@property unsigned int cursorY;
+@property cell **grid;
+@property (assign,getter=connection,setter=setConnection:) YLConnection *connection;
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
 
@@ -92,21 +98,9 @@ typedef struct {
 - (BBSState)bbsState;
 - (TYBBSType)bbsType;
 - (void)setBbsType:(TYBBSType)bbsType;
-//- (NSMutableArray *)urlList;
 
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;
 - (void)setCursorX:(int)cursorX
 				 Y:(int)cursorY;
-@property (retain) NSMutableString * currURL;
-@property unsigned int row;
-@property unsigned int column;
-@property unsigned int cursorX;
-@property unsigned int cursorY;
-@property unsigned int offset;
-//@property (retain,getter=urlList) NSMutableArray * currentURLList;
-@property cell **grid;
-@property char *dirty;
-@property (retain) YLView *view;
-@property (assign,getter=connection,setter=setConnection:) YLConnection *connection;
 @end
