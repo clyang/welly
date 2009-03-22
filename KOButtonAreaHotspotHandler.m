@@ -27,44 +27,46 @@
 #define fbSwitchSortBoards @"S"
 #define fbSwitchBoardsNumber @"c"
 
-NSString * const KOButtonNameComposePost = @"Compose Post";
-NSString * const KOButtonNameDeletePost = @"Delete Post";
-NSString * const KOButtonNameShowNote = @"Show Note";
-NSString * const KOButtonNameShowHelp = @"Show Help";
-NSString * const KOButtonNameNormalToDigest = @"Normal To Digest";
-NSString * const KOButtonNameDigestToThread = @"Digest To Thread";
-NSString * const KOButtonNameThreadToMark = @"Thread To Mark";
-NSString * const KOButtonNameMarkToOrigin = @"Mark To Origin";
-NSString * const KOButtonNameOriginToNormal = @"Origin To Normal";
-NSString * const KOButtonNameAuthorToNormal = @"Author To Normal";
-NSString * const KOButtonNameJumpToMailList = @"Jump To Mail List";
+NSString *const KOButtonNameComposePost = @"Compose Post";
+NSString *const KOButtonNameDeletePost = @"Delete Post";
+NSString *const KOButtonNameShowNote = @"Show Note";
+NSString *const KOButtonNameShowHelp = @"Show Help";
+NSString *const KOButtonNameNormalToDigest = @"Normal To Digest";
+NSString *const KOButtonNameDigestToThread = @"Digest To Thread";
+NSString *const KOButtonNameThreadToMark = @"Thread To Mark";
+NSString *const KOButtonNameMarkToOrigin = @"Mark To Origin";
+NSString *const KOButtonNameOriginToNormal = @"Origin To Normal";
+NSString *const KOButtonNameAuthorToNormal = @"Author To Normal";
+NSString *const KOButtonNameJumpToMailList = @"Jump To Mail List";
+NSString *const KOButtonNameEnterExcerption = @"Enter Excerption";
 
-NSString * const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
-NSString * const KOButtonNameSwitchSortBoards = @"Sort Boards";
-NSString * const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
-NSString * const KOButtonNameDeleteBoard = @"Delete Board";
+NSString *const KOButtonNameSwitchDisplayAllBoards = @"Display All Boards";
+NSString *const KOButtonNameSwitchSortBoards = @"Sort Boards";
+NSString *const KOButtonNameSwitchBoardsNumber = @"Switch Boards Number";
+NSString *const KOButtonNameDeleteBoard = @"Delete Board";
 
-NSString * const KOButtonNameChatWithUser = @"Chat";
-NSString * const KOButtonNameMailToUser = @"Mail";
-NSString * const KOButtonNameSendMessageToUser = @"Send Message";
-NSString * const KOButtonNameAddUserToFriendList = @"Add To Friend List";
-NSString * const KOButtonNameRemoveUserFromFriendList = @"Remove From Friend List";
-NSString * const KOButtonNameSwitchUserListMode = @"Switch User List Mode";
-NSString * const KOButtonNameShowUserDescription = @"Show User Description";
-NSString * const KOButtonNamePreviousUser = @"Previous User";
-NSString * const KOButtonNameNextUser = @"Next User";
+NSString *const KOButtonNameChatWithUser = @"Chat";
+NSString *const KOButtonNameMailToUser = @"Mail";
+NSString *const KOButtonNameSendMessageToUser = @"Send Message";
+NSString *const KOButtonNameAddUserToFriendList = @"Add To Friend List";
+NSString *const KOButtonNameRemoveUserFromFriendList = @"Remove From Friend List";
+NSString *const KOButtonNameSwitchUserListMode = @"Switch User List Mode";
+NSString *const KOButtonNameShowUserDescription = @"Show User Description";
+NSString *const KOButtonNamePreviousUser = @"Previous User";
+NSString *const KOButtonNameNextUser = @"Next User";
 
-NSString * const FBCommandSequenceAuthorToNormal = @"e";
-NSString * const FBCommandSequenceChatWithUser = @"t";
-NSString * const FBCommandSequenceMailToUser = @"m";
-NSString * const FBCommandSequenceSendMessageToUser = @"s";
-NSString * const FBCommandSequenceAddUserToFriendList = @"oY\n";
-NSString * const FBCommandSequenceRemoveUserFromFriendList = @"dY\n";
-NSString * const FBCommandSequenceSwitchUserListMode = @"f";
-NSString * const FBCommandSequenceShowUserDescription = @"l";
-NSString * const FBCommandSequencePreviousUser = termKeyUp;
-NSString * const FBCommandSequenceNextUser = termKeyDown;
-NSString * const FBCommandSequenceJumpToMailList = @"v";
+NSString *const FBCommandSequenceAuthorToNormal = @"e";
+NSString *const FBCommandSequenceChatWithUser = @"t";
+NSString *const FBCommandSequenceMailToUser = @"m";
+NSString *const FBCommandSequenceSendMessageToUser = @"s";
+NSString *const FBCommandSequenceAddUserToFriendList = @"oY\n";
+NSString *const FBCommandSequenceRemoveUserFromFriendList = @"dY\n";
+NSString *const FBCommandSequenceSwitchUserListMode = @"f";
+NSString *const FBCommandSequenceShowUserDescription = @"l";
+NSString *const FBCommandSequencePreviousUser = termKeyUp;
+NSString *const FBCommandSequenceNextUser = termKeyDown;
+NSString *const FBCommandSequenceJumpToMailList = @"v";
+NSString *const FBCommandSequenceEnterExcerption = @"x";
 
 @implementation KOButtonAreaHotspotHandler
 #pragma mark -
@@ -130,6 +132,7 @@ NSString * const FBCommandSequenceJumpToMailList = @"v";
 		{BBSBrowseBoard, @"[原作模式]", 10, KOButtonNameOriginToNormal, fbOriginToNormal},
 		{BBSBrowseBoard, @"[作者模式]", 10, KOButtonNameAuthorToNormal, FBCommandSequenceAuthorToNormal},
 		{BBSBrowseBoard, @"[您有信件]", 10, KOButtonNameJumpToMailList, FBCommandSequenceJumpToMailList},
+		{BBSBrowseBoard, @"阅读[→,r]", 10, KOButtonNameEnterExcerption, FBCommandSequenceEnterExcerption},
 		/* BBSBoardList */
 		{BBSBoardList, @"列出[y]", 7, KOButtonNameSwitchDisplayAllBoards, fbSwitchDisplayAllBoards},
 		{BBSBoardList, @"排序[S]", 7, KOButtonNameSwitchSortBoards, fbSwitchSortBoards},

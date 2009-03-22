@@ -399,9 +399,11 @@ BOOL isPostTitleStarter(unichar c) {
 	for (int r = 3; r < _maxRow - 1; ++r) {
 		cell *currRow = [ds cellsOfRow:r];
 		
-        if (currRow[postRange.location].byte == 0 || currRow[postRange.location].byte == ' ')
-            continue;
-        [self addClickEntryRectAtRow:r column:postRange.location length:postRange.length];
+		for (int c = postRange.location; c < postRange.location + postRange.length; ++c)
+			if (currRow[c].byte != 0 && currRow[c].byte != ' ') {
+				[self addClickEntryRectAtRow:r column:postRange.location length:postRange.length];
+				break;
+			}
 	}
 }
 
