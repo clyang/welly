@@ -179,6 +179,7 @@ BOOL isSpecialSymbol(unichar ch) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
+		_currentSelectedURLIndex = 0;
 		_isInPortalMode = NO;
 		_isInUrlMode = NO;
 		_isKeying = NO;
@@ -1666,19 +1667,17 @@ BOOL isSpecialSymbol(unichar ch) {
 	// Now, just return...
 	return;
 	// If not in URL mode, turn this mode on
-	/*
+	
 	if(!_isInUrlMode) {
 		_isInUrlMode = YES;
+		// For Test
 		NSPoint p;
 		p.x = 320;
 		p.y = 320;
-		// For Test
-		KOMenuItem *item = [KOMenuItem initWithName:@"TEST"];
-		KOMenuItem *item2 = [KOMenuItem initWithName:@"TEST2"];
-		[_effectView showMenuAtPoint: p withItems:[NSArray arrayWithObjects: item, item2, nil]];
+		[_effectView showIndicatorAtPoint:p];
 	} else {
 		// Choose the next URL...
-	}*/
+	}
 	[_effectView showIndicatorAtPoint:[self mouseLocationInView]];
 }
 

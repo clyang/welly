@@ -38,6 +38,7 @@
     
     int _selectionLocation;
     int _selectionLength;
+	int _currentSelectedURLIndex;
 	BOOL _wantRectangleSelection;
 	BOOL _hasRectangleSelected;
     

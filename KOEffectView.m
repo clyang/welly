@@ -62,7 +62,6 @@
 	[self clearIPAddrBox];
 	[self clearClickEntry];
 	[self clearButton];
-	[self removePopUpMessage];
 }
 
 - (void)drawRect:(NSRect)rect {
