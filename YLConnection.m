@@ -264,6 +264,9 @@
                 [self sendBytes:"\r" length:1];
             }
         }
+    } else if (_feeder->_grid[_feeder->_cursorY][_feeder->_cursorX - 2].byte == '?') {
+        [self sendBytes:"yes\r" length:4];
+        sleep(1);
     }
     // send password
     const char *service = "Welly";
