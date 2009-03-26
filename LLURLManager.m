@@ -12,6 +12,8 @@
 #import "YLTerminal.h"
 #import "XIPreviewController.h"
 
+NSString *const KOMenuTitleCopyURL = @"Copy URL";
+
 @implementation LLURLManager
 #pragma mark -
 #pragma mark Mouse Event Handler
@@ -48,6 +50,34 @@
 - (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != [NSCursor pointingHandCursor])
 		[[NSCursor pointingHandCursor] set];
+}
+
+#pragma mark -
+#pragma mark Contextual Menu
+- (IBAction)copyURL:(id)sender {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+    NSMutableArray *types = [NSMutableArray arrayWithObjects: NSStringPboardType, NSURLPboardType, nil];
+    [pb declareTypes:types owner:self];
+	
+	NSDictionary *userInfo = [sender representedObject];
+	NSString *urlString = [userInfo objectForKey:KOURLUserInfoName];
+    [pb setString:urlString forType:NSStringPboardType];
+	[pb setString:urlString forType:NSURLPboardType];
+}
+
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	[menu addItemWithTitle:NSLocalizedString(KOMenuTitleCopyURL, @"Contextual Menu")
+					action:@selector(copyURL:)
+			 keyEquivalent:@""];
+	
+	for (NSMenuItem *item in [menu itemArray]) {
+		if ([item isSeparatorItem])
+			continue;
+		[item setTarget:self];
+		[item setRepresentedObject:_manager.activeTrackingAreaUserInfo];
+	}
+	return menu;
 }
 
 #pragma mark -
@@ -93,7 +123,7 @@
 	[_currentURLList removeAllObjects];
 	
 	YLTerminal *ds = [_view frontMostTerminal];
-	cell **grid = [ds grid];
+	//cell **grid = [ds grid];
 	BOOL isReadingURL = NO;
 	char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
 	int protocolNum = 7;
@@ -171,14 +201,16 @@
                 }
             }
 		}
-		
+		/*		
 		int row = index / _maxColumn;
 		int column = index % _maxColumn;
+
 		if (grid[row][column].attr.f.url != isReadingURL) {
             grid[row][column].attr.f.url = isReadingURL;
             [ds setDirty:YES atRow:row column:column];
-            /* TODO: Do not regenerate the region. Draw the url line instead. */
+            // TODO: Do not regenerate the region. Draw the url line instead.
         }
+		 */
 	}
 }
 

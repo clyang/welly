@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <KOMouseHotspotHandler.h>
 
-@interface LLURLManager : KOMouseHotspotHandler <KOUpdatable, KOMouseUpHandler> {
+@interface LLURLManager : KOMouseHotspotHandler <KOUpdatable, KOMouseUpHandler, KOContextualMenuHandler> {
 	NSMutableArray * _currentURLList;
 }
 

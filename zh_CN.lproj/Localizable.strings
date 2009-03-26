@@ -16,7 +16,7 @@
 
 /* Menu */
 "Look Up in Dictionary" = "查字典";
-"Copy" = "复制";
+"Copy" = "拷贝";
 
 /* Sheet Message */
 "There are %d tabs open in Welly. Do you want to quit anyway?" = "还有 %d 个标签正在连接中，您确定要退出 Welly？";
@@ -130,3 +130,5 @@
 "Thread bottom" = "同主题最后一篇\t\\";
 "Same author reading" = "同作者阅读\t\t^U";
 "Same thread reading" = "同主题阅读\t\t^X";
+// URL
+"Copy URL" = "拷贝URL";

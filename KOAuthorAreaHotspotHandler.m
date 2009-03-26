@@ -76,11 +76,11 @@ NSString *const KOMenuTitleAddAsFriend = @"Add %@ as friend";
 	if (author == nil)
 		return nil;
 	
-	[menu addItemWithTitle:[NSString stringWithFormat: NSLocalizedString(KOMenuTitleAuthorInfo, @"Contextual Menu"), author]
+	[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedString(KOMenuTitleAuthorInfo, @"Contextual Menu"), author]
 					action:@selector(authorInfo:)
 			 keyEquivalent:@""];
 	
-	[menu addItemWithTitle:[NSString stringWithFormat: NSLocalizedString(KOMenuTitleAddAsFriend, @"Contextual Menu"), author]
+	[menu addItemWithTitle:[NSString stringWithFormat:NSLocalizedString(KOMenuTitleAddAsFriend, @"Contextual Menu"), author]
 					action:@selector(addAsFriend:)
 			 keyEquivalent:@""];
 	
