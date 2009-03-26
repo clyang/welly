@@ -11,11 +11,16 @@
 #import "YLView.h"
 #import "YLTerminal.h"
 #import "XIPreviewController.h"
+#import "YLLGlobalConfig.h"
 
 NSString *const KOMenuTitleCopyURL = @"Copy URL";
 NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 
 @implementation LLURLManager
+- (void)dealloc {
+	[_currentURLList release];
+    [super dealloc];
+}
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -92,12 +97,67 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 #pragma mark -
+#pragma mark URL indicator
+- (NSPoint) currentSelectedURLPos {
+	NSPoint ret;
+	ret.x = -1.0;
+	ret.y = -1.0;
+	// Return if there's no url in current terminal
+	if([_currentURLList count] < 1)
+		return ret;
+	// Get current URL info
+	NSDictionary *urlInfo = [_currentURLList objectAtIndex:_currentSelectedURLIndex];
+	int index = [[urlInfo objectForKey:KORangeLocationUserInfoName] intValue];
+	int length = [[urlInfo objectForKey:KORangeLengthUserInfoName] intValue];
+	int column_start = index % _maxColumn;
+	int row_start = index / _maxColumn;
+	int column_end = (index + length) % _maxColumn;
+	int row_end = (index + length) / _maxColumn;
+	float col_in_grid = (column_start + column_end) / 2.0f;
+	float row_in_grid = (row_start + row_end) / 2.0f;
+	ret.x = col_in_grid * [[YLLGlobalConfig sharedInstance] cellWidth];
+	ret.y = (_maxRow - row_in_grid - 0.6) * [[YLLGlobalConfig sharedInstance] cellHeight];
+	return ret;
+}
+
+- (NSPoint) moveNext {
+	_currentSelectedURLIndex = (_currentSelectedURLIndex + 1) % [_currentURLList count];
+	return [self currentSelectedURLPos];
+}
+
+- (NSPoint) movePrev {
+	_currentSelectedURLIndex = (_currentSelectedURLIndex - 1 + [_currentURLList count]) % [_currentURLList count];
+	return [self currentSelectedURLPos];
+}
+
+- (BOOL) openCurrentURL: (NSEvent *) theEvent {
+	NSDictionary *urlInfo = [_currentURLList objectAtIndex:_currentSelectedURLIndex];
+	NSString *url = [urlInfo objectForKey:KOURLUserInfoName];
+	if (url != nil) {
+		if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
+			// click while holding shift key or navigate web pages
+			// open the URL with browser
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+		} else {
+			// open with previewer
+			[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+		}
+	}
+	if([_currentURLList count] > 2)
+		return NO;
+	else
+		return YES;
+}
+
+#pragma mark -
 #pragma mark Update State
 - (void)addURL:(NSString *)urlString 
 	   AtIndex:(int)index 
 		length:(int)length {
 	//NSLog(@"[LLURLManager addURL:%@ AtIndex:%d length:%d]", urlString, index, length);
-	
+	// If there's no url before, make the pointer point to the first URL element
+	if(_currentSelectedURLIndex < 0)
+		_currentSelectedURLIndex = 1;
 	// Generate User Info
 	NSRange range;
 	range.location = index;
@@ -131,7 +191,11 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 
 - (void)update {
 	// REVIEW: this might lead to leak, check it
+	if(!_currentURLList)
+		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
 	[_currentURLList removeAllObjects];
+	// Resotre the url list pointer
+	_currentSelectedURLIndex = 0;
 	
 	YLTerminal *ds = [_view frontMostTerminal];
 	//cell **grid = [ds grid];

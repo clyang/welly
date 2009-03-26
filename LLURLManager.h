@@ -11,6 +11,12 @@
 
 @interface LLURLManager : KOMouseHotspotHandler <KOUpdatable, KOMouseUpHandler, KOContextualMenuHandler> {
 	NSMutableArray * _currentURLList;
+	int _currentSelectedURLIndex;
 }
+- (void)dealloc;
+- (NSPoint) currentSelectedURLPos;
+- (BOOL) openCurrentURL:(NSEvent *) event;
+- (NSPoint) moveNext;
+- (NSPoint) movePrev;
 
 @end

@@ -58,6 +58,7 @@
 				   fromColumn:(int)start 
 					 toColumn:(int)end;
 - (void)showIndicatorAtPoint:(NSPoint)point;
+- (void)removeIndicator;
 
 // To show pop up message by core animation
 // This method might be changed in future

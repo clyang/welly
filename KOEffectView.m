@@ -459,18 +459,24 @@ const CGFloat menuMarginWidth = 20.0;
 	//CGImageRef imageRef = (CGImageRef)indicatorImage;
 	//[_urlIndicatorLayer setContents:[self indicatorImage]];
 	[_urlIndicatorLayer setContents:(id)[self indicatorImage]];
-
-	[_urlIndicatorLayer setFrame:CGRectMake(0, 0, 65, 66)];
+	//[_urlIndicatorLayer setBorderWidth:2.0];
+	//[_urlIndicatorLayer setBorderColor:CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f)];
+	[_urlIndicatorLayer setFrame:CGRectMake(0, 0, 79, 90)];
 	[_mainLayer addSublayer:_urlIndicatorLayer];
 }
 
 - (void)showIndicatorAtPoint:(NSPoint)point {
-	if (_urlIndicatorLayer == nil)
+	if (!_urlIndicatorLayer)
 		[self setURLIndicatorLayer];
-	//[_urlIndicatorLayer setOpacity:0.0];
+	[_urlIndicatorLayer setOpacity:0.9];
 	CGRect rect = [_urlIndicatorLayer frame];
 	rect.origin = NSPointToCGPoint(point);
 	[_urlIndicatorLayer setFrame:rect];
+}
+
+- (void)removeIndicator {
+	if(_urlIndicatorLayer)
+		[_urlIndicatorLayer setOpacity:0.0f];
 }
 
 #pragma mark Pop-Up Message

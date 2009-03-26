@@ -21,6 +21,7 @@
 #import "KOMenuItem.h"
 #import "KOMouseBehaviorManager.h"
 #import "LLURLManager.h"
+#import "LLPopUpMessage.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -179,7 +180,6 @@ BOOL isSpecialSymbol(unichar ch) {
         [self configure];
         _selectionLength = 0;
         _selectionLocation = 0;
-		_currentSelectedURLIndex = 0;
 		_isInPortalMode = NO;
 		_isInUrlMode = NO;
 		_isKeying = NO;
@@ -596,7 +596,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
 
-    if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying) {
+    if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying && !_isInUrlMode) {
         //int index = [self convertIndexFromPoint:p];
 //        NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
 //        if (url != nil) {
@@ -666,18 +666,29 @@ BOOL isSpecialSymbol(unichar ch) {
     }
 	// URL
 	if(_isInUrlMode) {
+		BOOL shouldExit;
 		switch(c) {
 			// Add up and down arrows' event handling here.
+			case NSLeftArrowFunctionKey:
 			case NSUpArrowFunctionKey:
-				[_effectView selectPreviousMenuItem];
+				[_effectView showIndicatorAtPoint:[_urlManager movePrev]];
 				break;
+			case '\t':
+			case NSRightArrowFunctionKey:
 			case NSDownArrowFunctionKey:
-				[_effectView selectNextMenuItem];
+				[_effectView showIndicatorAtPoint:[_urlManager moveNext]];
 				break;
 			case 27:	// esc
 				[self exitURL];
 				break;
+			case ' ':
+			case '\r':
+				shouldExit = [_urlManager openCurrentURL:theEvent];
+				if(shouldExit)
+					[self exitURL];
+				break;
 		}
+		return;
 	}
 	
     [self clearSelection];
@@ -1665,25 +1676,33 @@ BOOL isSpecialSymbol(unichar ch) {
 // by gtCarrera, for URL menu
 - (void)switchURL {
 	// Now, just return...
-	return;
+	// return;
 	// If not in URL mode, turn this mode on
 	
 	if(!_isInUrlMode) {
 		_isInUrlMode = YES;
+		[LLPopUpMessage showPopUpMessage:NSLocalizedString(@"URL Mode", @"URL Mode") 
+								duration:0.5
+							  effectView:_effectView];
 		// For Test
-		NSPoint p;
-		p.x = 320;
-		p.y = 320;
+		NSPoint p = [_urlManager currentSelectedURLPos];
+		if(p.x < 0 || p.y < 0) { // No urls available
+			[self exitURL];
+			return;
+		}
 		[_effectView showIndicatorAtPoint:p];
 	} else {
-		// Choose the next URL...
+		// Move next
+		[_effectView showIndicatorAtPoint:[_urlManager moveNext]];
 	}
-	[_effectView showIndicatorAtPoint:[self mouseLocationInView]];
 }
 
 - (void)exitURL {
+	[_effectView removeIndicator];
+	[LLPopUpMessage showPopUpMessage:NSLocalizedString(@"Normal Mode", @"Normal Mode")
+							duration:0.5
+						  effectView:_effectView];
 	_isInUrlMode = NO;
-	[_effectView hideMenu];
 }
 
 #pragma mark -
