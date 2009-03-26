@@ -264,12 +264,12 @@ Boolean GetSOCKSProxySetting(char *host, size_t hostSize, UInt16 *port)
     }
     GetHTTPSProxySetting(host, hostSize, &port);
     if (*host) {
-        if (port == 0) port = 80;
+        if (port == 0) port = 443;
         return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
     }
     GetSOCKSProxySetting(host, hostSize, &port);
     if (*host) {
-        if (port == 0) port = 80;
+        if (port == 0) port = 1080;
         return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -x %s:%hu %%h %%p", host, port];
     }
     return nil;
