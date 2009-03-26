@@ -22,6 +22,7 @@
 #include <termios.h>
 #import "YLLGlobalConfig.h"
 #import "XIPTY.h"
+#import "TYProxy.h"
 
 #define CTRLKEY(c)   ((c)-'A'+1)
 
@@ -134,12 +135,18 @@
     _pid = forkpty(&_fd, slaveName, &term, &size);
     if (_pid == 0) { /* child */
         NSArray *a = [[XIPTY parse:addr] componentsSeparatedByString:@" "];
+        if ([(NSString *)[a objectAtIndex:0] hasSuffix:@"ssh"]) {
+            NSString *proxyCommand = [TYProxy proxyCommand];
+            if (proxyCommand) {
+                a = [[a arrayByAddingObject:@"-o"] arrayByAddingObject:proxyCommand];
+            }
+        }
         int n = [a count];
         char *argv[n+1];
         for (int i = 0; i < n; ++i)
             argv[i] = (char *)[[a objectAtIndex:i] UTF8String];
         argv[n] = NULL;
-        execvp(argv[0], argv); 
+        execvp(argv[0], argv);
         fprintf(stderr, "fork error");
     } else { /* parent */
         int one = 1;
