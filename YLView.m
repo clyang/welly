@@ -686,6 +686,8 @@ BOOL isSpecialSymbol(unichar ch) {
 				shouldExit = [_urlManager openCurrentURL:theEvent];
 				if(shouldExit)
 					[self exitURL];
+				else
+					[_effectView showIndicatorAtPoint:[_urlManager moveNext]];
 				break;
 		}
 		return;
