@@ -13,6 +13,7 @@
 #import "XIPreviewController.h"
 
 NSString *const KOMenuTitleCopyURL = @"Copy URL";
+NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 
 @implementation LLURLManager
 #pragma mark -
@@ -65,10 +66,20 @@ NSString *const KOMenuTitleCopyURL = @"Copy URL";
 	[pb setString:urlString forType:NSURLPboardType];
 }
 
+- (IBAction)openWithBrower:(id)sender {
+	NSDictionary *userInfo = [sender representedObject];
+	NSString *urlString = [userInfo objectForKey:KOURLUserInfoName];
+	
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:urlString]];
+}
+
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	[menu addItemWithTitle:NSLocalizedString(KOMenuTitleCopyURL, @"Contextual Menu")
 					action:@selector(copyURL:)
+			 keyEquivalent:@""];
+	[menu addItemWithTitle:NSLocalizedString(KOMenuTitleOpenWithBrowser, @"Contextual Menu")
+					action:@selector(openWithBrower:)
 			 keyEquivalent:@""];
 	
 	for (NSMenuItem *item in [menu itemArray]) {
