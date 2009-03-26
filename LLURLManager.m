@@ -113,7 +113,17 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 	int row_start = index / _maxColumn;
 	int column_end = (index + length) % _maxColumn;
 	int row_end = (index + length) / _maxColumn;
-	float col_in_grid = (column_start + column_end) / 2.0f;
+	// Here, the x pos of the indicator should have 3 different conditions
+	float col_in_grid;
+	// For the urls over two lines, we make the indicator in the center of the "full" lines
+	if(length >= (2 * _maxColumn - column_start))
+		col_in_grid = (_maxColumn / 2.0f);
+	// For the urls over one line, make the indicator in the "main" part of the url
+	else if(length >= (_maxColumn - column_start))
+		col_in_grid = ((_maxColumn - column_start) >= (length + column_start - _maxColumn)) ? (column_start + _maxColumn) / 2 : (length + column_start - _maxColumn) / 2;
+	// Fot the urls no more than one line, it is easy...
+	else
+		col_in_grid = (column_start + column_end) / 2.0f;
 	float row_in_grid = (row_start + row_end) / 2.0f;
 	ret.x = col_in_grid * [[YLLGlobalConfig sharedInstance] cellWidth];
 	ret.y = (_maxRow - row_in_grid - 0.6) * [[YLLGlobalConfig sharedInstance] cellHeight];
