@@ -264,6 +264,9 @@
                 [self sendBytes:"\r" length:1];
             }
         }
+    } else if (_feeder->_grid[_feeder->_cursorY][_feeder->_cursorX - 2].byte == '?') {
+        [self sendBytes:"yes\r" length:4];
+        sleep(1);
     }
     // send password
     const char *service = "Welly";
@@ -284,15 +287,6 @@
         &len, &pass,
         nil);
     if (len) {
-        while (_feeder->_grid[_feeder->_cursorY][_feeder->_cursorX - 2].byte == '?') {
-            if (_feeder->_grid[_feeder->_cursorY][_feeder->_cursorX - 4].byte == 'N')
-                [self sendBytes:"n\r" length:2];
-            else
-                [self sendBytes:"yes\r" length:4];
-            do {
-                sleep(1);
-            } while (_feeder->_cursorX == 0);
-        }
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
         SecKeychainItemFreeContent(nil, pass);
