@@ -98,7 +98,7 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 
 #pragma mark -
 #pragma mark URL indicator
-- (NSPoint) currentSelectedURLPos {
+- (NSPoint)currentSelectedURLPos {
 	NSPoint ret;
 	ret.x = -1.0;
 	ret.y = -1.0;
@@ -130,17 +130,17 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 	return ret;
 }
 
-- (NSPoint) moveNext {
+- (NSPoint)moveNext {
 	_currentSelectedURLIndex = (_currentSelectedURLIndex + 1) % [_currentURLList count];
 	return [self currentSelectedURLPos];
 }
 
-- (NSPoint) movePrev {
+- (NSPoint)movePrev {
 	_currentSelectedURLIndex = (_currentSelectedURLIndex - 1 + [_currentURLList count]) % [_currentURLList count];
 	return [self currentSelectedURLPos];
 }
 
-- (BOOL) openCurrentURL: (NSEvent *) theEvent {
+- (BOOL)openCurrentURL:(NSEvent *)theEvent {
 	NSDictionary *urlInfo = [_currentURLList objectAtIndex:_currentSelectedURLIndex];
 	NSString *url = [urlInfo objectForKey:KOURLUserInfoName];
 	if (url != nil) {
@@ -199,11 +199,29 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 	}
 }
 
+- (void)clearAllURL {
+	for (NSDictionary *urlInfo in _currentURLList) {
+		int index = [[urlInfo objectForKey:KORangeLocationUserInfoName] intValue];
+		int length = [[urlInfo objectForKey:KORangeLengthUserInfoName] intValue];
+		
+		YLTerminal *ds = [_view frontMostTerminal];
+		// Set all involved row to be dirty. Reduce the number of [ds setDirty] call.
+		while (length > 0) {
+			int row = index / _maxColumn;
+			[ds setDirtyForRow:row];
+			index += _maxColumn;
+			length -= _maxColumn;
+		}
+	}
+	[_currentURLList removeAllObjects];
+}
+
 - (void)update {
 	// REVIEW: this might lead to leak, check it
 	if(!_currentURLList)
 		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
-	[_currentURLList removeAllObjects];
+	[self clearAllURL];
+	
 	// Resotre the url list pointer
 	_currentSelectedURLIndex = 0;
 	

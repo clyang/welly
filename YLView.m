@@ -482,20 +482,15 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Active Timer
-#pragma mark -
-#pragma mark Timer
 - (void)hasMouseActivity {
 	_isMouseActive = YES;
 }
 
 - (void)checkActivity:(NSTimer *)timer {
-	//NSLog(@"checkActivity");
 	if (_isMouseActive) {
-		//NSLog(@"active");
 		_isMouseActive = NO;
 		return;
 	} else {
-		//NSLog(@"inactive");
 		// Hide the cursor
 		[NSCursor setHiddenUntilMouseMoves:YES];
 		// Remove effects
@@ -871,6 +866,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	[NSGraphicsContext restoreGraphicsState];
 
+	[self setNeedsDisplay:YES];
 	[pool release];
 }
 

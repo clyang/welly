@@ -31,7 +31,7 @@
 	
     cell **_grid;
 	
-    enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL } _state;
+    enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL, TP_SCS } _state;
 	
     XIIntegerArray *_csBuf;
     XIIntegerArray *_csArg;
@@ -44,23 +44,30 @@
 	YLConnection *_connection;
 	
 	BOOL _hasNewMessage;	// to determine if a growl notification is needed
+	
+    enum { VT100, VT102 } _emustd;
+	
+    BOOL _modeScreenReverse;  // reverse (true), not reverse (false, default)
+	BOOL _modeOriginRelative; // relative origin (true), absolute origin (false, default)
+    BOOL _modeWraptext;       // autowrap (true, default), wrap disabled (false)
+    BOOL _modeLNM;            // line feed (true, default), new line (false)
+    BOOL _modeIRM;            // insert (true), replace (false, default)
 }
 
 - (id)init;
-- (id)initWithConnection: (YLConnection *) connection;
+- (id)initWithConnection:(YLConnection *)connection;
 - (void)dealloc;
 
 /* Input Interface */
-//- (void)feedData:(NSData *)data connection:(id)connection;
 - (void)feedData:(NSData *)data connection:(id)connection;
-- (void)feedBytes:(const void *)bytes length:(NSUInteger)len connection:(id)connection;
+- (void)feedBytes:(const unsigned char*)bytes 
+		   length:(NSUInteger)len 
+	   connection:(id)connection;
 
 - (void)setTerminal:(YLTerminal *)terminal;
 
 /* Clear */
-- (void)clearRow:(int)r;
-- (void)clearRow:(int)r fromStart:(int)s toEnd:(int)e;
 - (void)clearAll;
 
-- (cell *) cellsOfRow: (int) r;
+- (cell *)cellsOfRow:(int)r;
 @end
