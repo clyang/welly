@@ -261,25 +261,25 @@ Boolean GetSOCKSProxySetting(char *host, size_t hostSize, UInt16 *port)
     GetSOCKSProxySetting(host, hostSize, &port);
     if (*host) {
         if (port == 0) port = 1080;
-        printf("Do you want to use SOCKS proxy %s:%hu (Y/n)? ", host, port);
+        printf("Do you want to use SOCKS proxy %s:%hu (y/N)? ", host, port);
         fgets(answer, 10, stdin);
-        if (!(*answer == 'N' || *answer == 'n'))
+        if (*answer == 'Y' || *answer == 'y')
             return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -x %s:%hu %%h %%p", host, port];
     }
     GetHTTPProxySetting(host, hostSize, &port);
     if (*host) {
         if (port == 0) port = 80;
-        printf("Do you want to use HTTP proxy %s:%hu (Y/n)? ", host, port);
+        printf("Do you want to use HTTP proxy %s:%hu (y/N)? ", host, port);
         fgets(answer, 10, stdin);
-        if (!(*answer == 'N' || *answer == 'n'))
+        if (*answer == 'Y' || *answer == 'y')
             return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
     }
     GetHTTPSProxySetting(host, hostSize, &port);
     if (*host) {
         if (port == 0) port = 443;
-        printf("Do you want to use HTTPS proxy %s:%hu (Y/n)? ", host, port);
+        printf("Do you want to use HTTPS proxy %s:%hu (y/N)? ", host, port);
         fgets(answer, 10, stdin);
-        if (!(*answer == 'N' || *answer == 'n'))
+        if (*answer == 'Y' || *answer == 'y')
             return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
     }
     return nil;
