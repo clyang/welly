@@ -525,10 +525,10 @@ const CGFloat menuMarginWidth = 20.0;
 	// Set it to an appropriate position of the whole view
     NSRect rect = textRect;
 	NSRect screenRect = [self frame];
-	rect.origin.x = screenRect.size.width / 2 - textRect.size.width / 2;
-	rect.origin.y = screenRect.size.height / 5;
 	rect.size.height += 10;
 	rect.size.width += 50;
+	rect.origin.x = screenRect.size.width / 2 - rect.size.width / 2;
+	rect.origin.y = screenRect.size.height / 5;
 	
 	// Move the origin point of the message layer, so the message can be 
 	// displayed in the center of the background layer
