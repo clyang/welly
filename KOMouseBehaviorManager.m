@@ -31,6 +31,8 @@ NSString * const KOURLUserInfoName = @"URL";
 NSString * const KORangeLocationUserInfoName = @"RangeLocation";
 NSString * const KORangeLengthUserInfoName = @"RangeLength";
 
+const float KOHorizontalScrollReactivateTimeInteval = 1.0;
+
 @implementation KOMouseBehaviorManager
 @synthesize activeTrackingAreaUserInfo = _activeTrackingAreaUserInfo;
 @synthesize backgroundTrackingAreaUserInfo = _backgroundTrackingAreaUserInfo;
@@ -49,6 +51,12 @@ NSString * const KORangeLengthUserInfoName = @"RangeLength";
 				 [[KOEditingCursorMoveHotspotHandler alloc] initWithManager:self],
 				 [[KOAuthorAreaHotspotHandler alloc] initWithManager:self],
 				 nil];
+	_horizontalScrollReactivateTimer = [NSTimer scheduledTimerWithTimeInterval:KOHorizontalScrollReactivateTimeInteval
+																		target:self 
+																	  selector:@selector(reactiveHorizontalScroll:)
+																	  userInfo:nil
+																	   repeats:YES];
+	_isHorizontalScrollEnabled = YES;
 	return self;
 }
 
@@ -116,6 +124,27 @@ NSString * const KORangeLengthUserInfoName = @"RangeLength";
 	
 	if ([[_view frontMostTerminal] bbsState].state == BBSWaitingEnter) {
 		[_view sendText:termKeyEnter];
+	}
+}
+
+- (void)scrollWheel:(NSEvent *)theEvent {
+	const int KOScrollWheelHorizontalThreshold = 3;
+	if ([[[_view frontMostTerminal] connection] connected]) {
+		// For Y-Axis
+		if ([theEvent deltaY] < 0)
+			[_view sendText:termKeyDown];
+		else if ([theEvent deltaY] > 0)
+			[_view sendText:termKeyUp];
+		else if (_isHorizontalScrollEnabled && [theEvent deltaX] > KOScrollWheelHorizontalThreshold) {
+			// Disable horizontal scroll, in order to prevent multiple action
+			_isHorizontalScrollEnabled = NO;
+			[_view sendText:termKeyLeft];
+		}
+		else if (_isHorizontalScrollEnabled && [theEvent deltaX] < -KOScrollWheelHorizontalThreshold){
+			// Disable horizontal scroll, in order to prevent multiple action
+			_isHorizontalScrollEnabled = NO;
+			[_view sendText:termKeyRight];
+		}
 	}
 }
 
@@ -230,5 +259,9 @@ NSString * const KORangeLengthUserInfoName = @"RangeLength";
 - (void)addHandler:(KOMouseHotspotHandler *)handler {
 	[_handlers addObject:handler];
 	[handler setManager:self];
+}
+
+- (void)reactiveHorizontalScroll:(id)sender {
+	_isHorizontalScrollEnabled = YES;
 }
 @end

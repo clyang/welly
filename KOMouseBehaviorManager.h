@@ -33,6 +33,9 @@ NSString * const KORangeLengthUserInfoName;
 	NSCursor *_normalCursor;
 	
 	BOOL _enabled;
+	
+	BOOL _isHorizontalScrollEnabled;
+	NSTimer *_horizontalScrollReactivateTimer;
 }
 @property (readwrite, assign) NSDictionary *activeTrackingAreaUserInfo;
 @property (readwrite, assign) NSDictionary *backgroundTrackingAreaUserInfo;

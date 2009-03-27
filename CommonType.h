@@ -73,3 +73,12 @@ int fgBoldOfAttribute(attribute a) ;
 #define titleGBK @"SetEncodingGBK"
 
 #define supportedCoverExtensions ([NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", nil])
+
+enum {
+	WLWhitespaceCharacter = ' ',
+	WLTabCharacter = '\t',
+	WLEscapeCharacter = 27,
+	WLReturnCharacter = '\r',
+	WLNewlineCharacter = '\n',
+	WLNullTerminator = '\0',	
+};

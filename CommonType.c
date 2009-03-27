@@ -9,6 +9,12 @@
 
 #import "CommonType.h"
 
+#pragma mark -
+#pragma mark Constants
+
+
+#pragma mark -
+#pragma mark Functions
 int isHiddenAttribute(attribute a) {
     return (!a.f.bold && ((a.f.fgColor == a.f.bgColor) ||
                           (a.f.fgColor == 0 && a.f.bgColor == 9))); 
