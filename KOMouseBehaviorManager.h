@@ -34,7 +34,9 @@ NSString * const KORangeLengthUserInfoName;
 	
 	BOOL _enabled;
 	
-	BOOL _isHorizontalScrollEnabled;
+	enum {
+		KOHorizontalScrollLeft, KOHorizontalScrollRight, KOHorizontalScrollNone
+	} _lastHorizontalScrollDirection;
 	NSTimer *_horizontalScrollReactivateTimer;
 }
 @property (readwrite, assign) NSDictionary *activeTrackingAreaUserInfo;

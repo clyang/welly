@@ -56,7 +56,7 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 																	  selector:@selector(reactiveHorizontalScroll:)
 																	  userInfo:nil
 																	   repeats:YES];
-	_isHorizontalScrollEnabled = YES;
+	_lastHorizontalScrollDirection = KOHorizontalScrollNone;
 	return self;
 }
 
@@ -135,14 +135,14 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 			[_view sendText:termKeyDown];
 		else if ([theEvent deltaY] > 0)
 			[_view sendText:termKeyUp];
-		else if (_isHorizontalScrollEnabled && [theEvent deltaX] > KOScrollWheelHorizontalThreshold) {
+		else if (_lastHorizontalScrollDirection != KOHorizontalScrollLeft && [theEvent deltaX] > KOScrollWheelHorizontalThreshold) {
 			// Disable horizontal scroll, in order to prevent multiple action
-			_isHorizontalScrollEnabled = NO;
+			_lastHorizontalScrollDirection = KOHorizontalScrollLeft;
 			[_view sendText:termKeyLeft];
 		}
-		else if (_isHorizontalScrollEnabled && [theEvent deltaX] < -KOScrollWheelHorizontalThreshold){
+		else if (_lastHorizontalScrollDirection != KOHorizontalScrollRight && [theEvent deltaX] < -KOScrollWheelHorizontalThreshold){
 			// Disable horizontal scroll, in order to prevent multiple action
-			_isHorizontalScrollEnabled = NO;
+			_lastHorizontalScrollDirection = KOHorizontalScrollRight;
 			[_view sendText:termKeyRight];
 		}
 	}
@@ -262,6 +262,6 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (void)reactiveHorizontalScroll:(id)sender {
-	_isHorizontalScrollEnabled = YES;
+	_lastHorizontalScrollDirection = KOHorizontalScrollNone;
 }
 @end
