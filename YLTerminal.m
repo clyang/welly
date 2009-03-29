@@ -377,6 +377,7 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *topLine = [self stringAtRow:0];	// get the first line from the screen
     NSString *secondLine = [self stringAtRow:1];
     NSString *bottomLine = [self stringAtRow:_maxRow-1];
+	NSString *wholePage = [self stringFromIndex:0 length:_maxRow * _maxColumn];
     if (NO) {
         // just for align
     } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
@@ -408,9 +409,6 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
         //NSLog(@"发表文章");
         _bbsState.state = BBSComposePost;
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按 ◆Enter◆ 继续", @"按 <ENTER> 继续", @"按任何键继续", @"上次连线时间为", @"按任意鍵繼續", @"請按空白鍵或是Enter繼續", nil])) {
-		//NSLog(@"按回车继续");
-		_bbsState.state = BBSWaitingEnter;
 	} else if (hasAnyString([self stringAtRow:4], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])
 			   || hasAnyString([self stringAtRow:6], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])) {
 		//NSLog(@"用户信息");
@@ -418,6 +416,9 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 	} else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"[功能键]", @"[版  主]", nil])) {
 		//NSLog(@"浏览精华区");
 		_bbsState.state = BBSBrowseExcerption;
+    } else if (hasAnyString(wholePage, [NSArray arrayWithObjects:@"按任意键继续", @"按回车键", @"按 [RETURN] 继续", @"按 ◆Enter◆ 继续", @"按 <ENTER> 继续", @"按任何键继续", @"上次连线时间为", @"按任意鍵繼續", @"請按空白鍵或是Enter繼續", nil])) {
+		//NSLog(@"按回车继续");
+		_bbsState.state = BBSWaitingEnter;
 	} else {
 		//NSLog(@"未知状态");
         _bbsState.state = BBSUnknown;

@@ -37,7 +37,6 @@ static CGSize *gSingleAdvance;
 static CGSize *gDoubleAdvance;
 
 NSString *const ANSIColorPBoardType = @"ANSIColorPBoardType";
-NSString *const YLCoverFlowModeEnabledKeyName = @"Portal";
 
 static NSRect gSymbolBlackSquareRect;
 static NSRect gSymbolBlackSquareRect1;
@@ -1740,7 +1739,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	if (_isInPortalMode && ![[[self frontMostConnection] site] empty]) {
 		[self removePortal];
 	}
-	else if ([[[self frontMostConnection] site] empty] && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:YLCoverFlowModeEnabledKeyName]) {
+	else if ([[[self frontMostConnection] site] empty] && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
 		[self updatePortal];
 	}
 }

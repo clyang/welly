@@ -60,7 +60,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // Register URL
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(getUrl:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
     
-    NSArray *observeKeys = [NSArray arrayWithObjects: @"shouldSmoothFonts", @"showHiddenText", @"messageCount", @"cellWidth", @"cellHeight", 
+    NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showHiddenText", @"messageCount", @"cellWidth", @"cellHeight", 
                             @"chineseFontName", @"chineseFontSize", @"chineseFontPaddingLeft", @"chineseFontPaddingBottom",
                             @"englishFontName", @"englishFontSize", @"englishFontPaddingLeft", @"englishFontPaddingBottom", 
                             @"colorBlack", @"colorBlackHilite", @"colorRed", @"colorRedHilite", @"colorGreen", @"colorGreenHilite",
@@ -100,7 +100,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     // post download
     [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
 	// set remote control
-	if([[NSUserDefaults standardUserDefaults] boolForKey: @"RemoteSupport"]) {
+	if([[NSUserDefaults standardUserDefaults] boolForKey:@"RemoteSupport"]) {
 		// 1. instantiate the desired behavior for the remote control device
 		remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
 		// 2. configure the behavior
@@ -131,14 +131,14 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     // open the portal
     // the switch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
 		[_telnetView updatePortal];
     }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
 	[_tab setMainController:[self retain]];
     
     // restore connections
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RestoreConnection"]) 
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self loadLastConnections];
 	
 	// Ask window to receive mouseMoved
@@ -168,7 +168,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
     // Reset portal if necessary
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"]) {
+	if([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
 		[_telnetView resetPortal];
 	}
 }
@@ -196,7 +196,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)antiIdle:(NSTimer *)timer {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AntiIdle"]) return;
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AntiIdle"]) 
+		return;
     NSArray *a = [_telnetView tabViewItems];
     for (NSTabViewItem *item in a) {
         YLConnection *connection = [item identifier];
@@ -433,7 +434,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self newConnectionWithSite:[YLSite site]];
 	
 	// Draw the portal and entering the portal control mode if needed...
-	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:@"Portal"])) {
+	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])) {
 		[_telnetView updatePortal];
 		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
 	}
@@ -773,7 +774,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (BOOL)applicationShouldHandleReopen:(id)s 
 					hasVisibleWindows:(BOOL)b {
-    [_mainWindow makeKeyAndOrderFront: self];
+    [_mainWindow makeKeyAndOrderFront:self];
     return NO;
 } 
 
@@ -781,10 +782,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Restore from full screen firstly
 	[_fullScreenController releaseFullScreen];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"RestoreConnection"]) 
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self saveLastConnections];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ConfirmOnClose"]) 
         return YES;
     
     int tabNumber = [_telnetView numberOfTabViewItems];
@@ -799,7 +800,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                       NSLocalizedString(@"Quit", @"Default Button"), 
                       NSLocalizedString(@"Cancel", @"Cancel Button"), 
                       nil, 
-                      _mainWindow, self, 
+                      _mainWindow,
+					  self, 
                       @selector(confirmSheetDidEnd:returnCode:contextInfo:), 
                       @selector(confirmSheetDidDismiss:returnCode:contextInfo:), nil, 
                       [NSString stringWithFormat:NSLocalizedString(@"There are %d tabs open in Welly. Do you want to quit anyway?", @"Sheet Message"),
@@ -863,22 +865,12 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	
     if (![[tabViewItem identifier] connected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
-    /* commented out by boost @ 9#: modal makes more sense
-    NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title"), 
-                      NSLocalizedString(@"Close", @"Default Button"), 
-                      NSLocalizedString(@"Cancel", @"Cancel Button"), 
-                      nil, 
-                      _mainWindow, self, 
-                      @selector(didShouldCloseTabViewItem:returnCode:contextInfo:), 
-                      NULL, 
-                      tabViewItem, 
-                      NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message"));
-    */
+
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
-                              defaultButton:NSLocalizedString(@"Close", @"Default Button")
-                              alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
-                              otherButton:nil
-                              informativeTextWithFormat:NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message")];
+									 defaultButton:NSLocalizedString(@"Close", @"Default Button")
+								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+									   otherButton:nil
+						 informativeTextWithFormat:NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message")];
     if ([alert runModal] == NSAlertDefaultReturn)
         return YES;
     return NO;
@@ -919,12 +911,8 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
         if ([_sites count]) {
-//            if ([_telnetView layer])
-//                [_telnetView setWantsLayer:YES];
             [_mainWindow makeFirstResponder:_telnetView];
         } else {
-//            if ([_telnetView layer])
-//                [_telnetView setWantsLayer:NO];
             [_mainWindow makeFirstResponder:_addressBar];
         }
     }
@@ -943,6 +931,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 #pragma mark -
 #pragma mark Compose
+// TODO: Move all these code into independent controller class
 /* compose actions */
 - (void)prepareCompose:(id)param {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
@@ -1212,7 +1201,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     [_composeWindow orderOut:self];
 }
 
-- (IBAction)setUnderline:(id) sender {
+- (IBAction)setUnderline:(id)sender {
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
 	// get the underline style attribute of the first character in the text view
@@ -1224,7 +1213,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 		[storage addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: NSUnderlineStyleNone] range: selectedRange];
 }
 
-- (IBAction)setBlink:(id) sender {
+- (IBAction)setBlink:(id)sender {
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
 	NSFontManager *fontManager = [NSFontManager sharedFontManager];
@@ -1248,7 +1237,6 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 
 #pragma mark -
 #pragma mark Post Download
-
 - (void)preparePostDownload:(id)param {
     // clear s
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
@@ -1272,7 +1260,6 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 
 #pragma mark -
 #pragma mark Password Window
-
 - (IBAction)openPassword:(id)sender {
     NSString *siteAddress = [_siteAddressField stringValue];
     if ([siteAddress length] == 0)
@@ -1332,9 +1319,9 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 #pragma mark -
 #pragma mark Remote Control
 /* Remote Control */
-- (void) remoteButton: (RemoteControlEventIdentifier) buttonIdentifier 
-		  pressedDown: (BOOL) pressedDown 
-		   clickCount: (unsigned int) clickCount {
+- (void)remoteButton:(RemoteControlEventIdentifier)buttonIdentifier 
+		 pressedDown:(BOOL)pressedDown 
+		  clickCount:(unsigned int)clickCount {
 	NSString *cmd = nil;
 
 	if (!pressedDown) {	// release
@@ -1684,16 +1671,20 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     return YES;
 }
 
-- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info
-                   proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op {
+- (NSDragOperation)tableView:(NSTableView*)tv 
+				validateDrop:(id <NSDraggingInfo>)info
+				 proposedRow:(int)row 
+	   proposedDropOperation:(NSTableViewDropOperation)op {
     // don't hover
     if (op == NSTableViewDropOn)
         return NSDragOperationNone;
     return NSDragOperationEvery;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id <NSDraggingInfo>)info
-        row:(int)row dropOperation:(NSTableViewDropOperation)op {
+- (BOOL)tableView:(NSTableView *)aTableView 
+	   acceptDrop:(id <NSDraggingInfo>)info
+			  row:(int)row 
+	dropOperation:(NSTableViewDropOperation)op {
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:SiteTableViewDataType];
     NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];

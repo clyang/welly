@@ -11,6 +11,9 @@
 #import <ApplicationServices/ApplicationServices.h>
 #define NUM_COLOR 10
 
+NSString *const WLCoverFlowModeEnabledKeyName;
+NSString *const WLRestoreConnectionKeyName;
+
 @interface YLLGlobalConfig : NSObject {
 @public
     int _messageCount;
@@ -52,9 +55,9 @@
 	CFDictionaryRef _eCTAttribute[2][NUM_COLOR];
 }
 
-+ (YLLGlobalConfig *) sharedInstance;
++ (YLLGlobalConfig *)sharedInstance;
 
-- (void) refreshFont;
+- (void)refreshFont;
 
 - (int)messageCount;
 - (void)setMessageCount:(int)value;
@@ -83,10 +86,11 @@
 - (YLANSIColorKey)defaultANSIColorKey;
 - (void)setDefaultANSIColorKey:(YLANSIColorKey)value;
 
-
-
-- (NSColor *) colorAtIndex: (int) i hilite: (BOOL) h ;
-- (void) setColor: (NSColor *) c hilite: (BOOL) h atIndex: (int) i ;
+- (NSColor *)colorAtIndex:(int)i 
+				   hilite:(BOOL)h;
+- (void)setColor:(NSColor *)c 
+		  hilite:(BOOL)h 
+		 atIndex:(int)i;
 
 - (BOOL)blinkTicker;
 - (void)setBlinkTicker:(BOOL)value;
@@ -117,49 +121,49 @@
 - (void)setEnglishFontName:(NSString *)value;
 
 /* Color */
-- (NSColor *) colorBlack ;
-- (void) setColorBlack: (NSColor *) c;
-- (NSColor *) colorBlackHilite ;
-- (void) setColorBlackHilite: (NSColor *) c;
+- (NSColor *)colorBlack;
+- (void)setColorBlack:(NSColor *)c;
+- (NSColor *)colorBlackHilite;
+- (void)setColorBlackHilite:(NSColor *)c;
 
-- (NSColor *) colorRed ;
-- (void) setColorRed: (NSColor *) c;
-- (NSColor *) colorRedHilite ;
-- (void) setColorRedHilite: (NSColor *) c;
+- (NSColor *)colorRed;
+- (void)setColorRed:(NSColor *)c;
+- (NSColor *)colorRedHilite;
+- (void)setColorRedHilite:(NSColor *)c;
 
-- (NSColor *) colorGreen ;
-- (void) setColorGreen: (NSColor *) c;
-- (NSColor *) colorGreenHilite ;
-- (void) setColorGreenHilite: (NSColor *) c;
+- (NSColor *)colorGreen;
+- (void)setColorGreen:(NSColor *)c;
+- (NSColor *)colorGreenHilite;
+- (void)setColorGreenHilite:(NSColor *)c;
 
-- (NSColor *) colorYellow ;
-- (void) setColorYellow: (NSColor *) c;
-- (NSColor *) colorYellowHilite ;
-- (void) setColorYellowHilite: (NSColor *) c;
+- (NSColor *)colorYellow;
+- (void)setColorYellow:(NSColor *)c;
+- (NSColor *)colorYellowHilite;
+- (void)setColorYellowHilite:(NSColor *)c;
 
-- (NSColor *) colorBlue ;
-- (void) setColorBlue: (NSColor *) c;
-- (NSColor *) colorBlueHilite ;
-- (void) setColorBlueHilite: (NSColor *) c;
+- (NSColor *)colorBlue;
+- (void)setColorBlue:(NSColor *)c;
+- (NSColor *)colorBlueHilite;
+- (void)setColorBlueHilite:(NSColor *)c;
 
-- (NSColor *) colorMagenta ;
-- (void) setColorMagenta: (NSColor *) c;
-- (NSColor *) colorMagentaHilite ;
-- (void) setColorMagentaHilite: (NSColor *) c;
+- (NSColor *)colorMagenta;
+- (void)setColorMagenta:(NSColor *)c;
+- (NSColor *)colorMagentaHilite;
+- (void)setColorMagentaHilite:(NSColor *)c;
 
-- (NSColor *) colorCyan ;
-- (void) setColorCyan: (NSColor *) c;
-- (NSColor *) colorCyanHilite ;
-- (void) setColorCyanHilite: (NSColor *) c;
+- (NSColor *)colorCyan;
+- (void)setColorCyan:(NSColor *)c;
+- (NSColor *)colorCyanHilite;
+- (void)setColorCyanHilite:(NSColor *)c;
 
-- (NSColor *) colorWhite ;
-- (void) setColorWhite: (NSColor *) c;
-- (NSColor *) colorWhiteHilite;
-- (void) setColorWhiteHilite: (NSColor *) c;
+- (NSColor *)colorWhite;
+- (void)setColorWhite:(NSColor *)c;
+- (NSColor *)colorWhiteHilite;
+- (void)setColorWhiteHilite:(NSColor *)c;
 
-- (NSColor *) colorBG ;
-- (void) setColorBG: (NSColor *) c;
-- (NSColor *) colorBGHilite ;
-- (void) setColorBGHilite: (NSColor *) c;
+- (NSColor *)colorBG;
+- (void)setColorBG:(NSColor *)c;
+- (NSColor *)colorBGHilite;
+- (void)setColorBGHilite:(NSColor *)c;
 
 @end

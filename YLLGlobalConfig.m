@@ -8,6 +8,13 @@
 
 #import "YLLGlobalConfig.h"
 
+#pragma mark -
+#pragma mark Constants
+NSString *const WLCoverFlowModeEnabledKeyName = @"Portal";
+NSString *const WLRestoreConnectionKeyName = @"RestoreConnection";
+
+#pragma mark -
+#pragma mark Class Define
 static YLLGlobalConfig *sSharedInstance;
 
 @interface NSUserDefaults(myColorSupport)
