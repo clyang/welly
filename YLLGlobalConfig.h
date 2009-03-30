@@ -15,23 +15,19 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 NSString *const WLRestoreConnectionKeyName;
 
 @interface YLLGlobalConfig : NSObject {
-@public
     int _messageCount;
 	int _row;
 	int _column;
 	CGFloat _cellWidth;
 	CGFloat _cellHeight;
     
-    int _bgColorIndex;
-    int _fgColorIndex;
-    
-    BOOL _showHiddenText;
+    BOOL _showsHiddenText;
 	BOOL _blinkTicker;
     BOOL _shouldSmoothFonts;
-    BOOL _detectDoubleByte;
-	BOOL _enableMouse;
-	BOOL _autoReply;
-    BOOL _repeatBounce;
+    BOOL _shouldDetectDoubleByte;
+	BOOL _shouldEnableMouse;
+	BOOL _shouldAutoReply;
+    BOOL _shouldRepeatBounce;
     YLEncoding _defaultEncoding;
     YLANSIColorKey _defaultANSIColorKey;
     
@@ -43,48 +39,46 @@ NSString *const WLRestoreConnectionKeyName;
     CGFloat _englishFontPaddingBottom;
     NSString *_chineseFontName;
     NSString *_englishFontName;
-    
+	
+@public   
+    int _bgColorIndex;
+    int _fgColorIndex;
+	
 	CTFontRef _cCTFont;
 	CTFontRef _eCTFont;
 	CGFontRef _cCGFont;
 	CGFontRef _eCGFont;
-    
+
 	NSColor *_colorTable[2][NUM_COLOR];
 
 	CFDictionaryRef _cCTAttribute[2][NUM_COLOR];
 	CFDictionaryRef _eCTAttribute[2][NUM_COLOR];
 }
+@property (readwrite, assign) int messageCount;
+@property (readwrite, assign) int row;
+@property (readwrite, assign) int column;
+@property (readwrite, assign) CGFloat cellWidth;
+@property (readwrite, assign) CGFloat cellHeight;
+@property (readwrite, assign) BOOL showsHiddenText;
+@property (readwrite, assign) BOOL shouldSmoothFonts;
+@property (readwrite, assign) BOOL shouldDetectDoubleByte;
+@property (readwrite, assign) BOOL shouldEnableMouse;
+@property (readwrite, assign) BOOL shouldRepeatBounce;
+@property (readwrite, assign) YLEncoding defaultEncoding;
+@property (readwrite, assign) YLANSIColorKey defaultANSIColorKey;
+@property (readwrite, assign) BOOL blinkTicker;
+@property (readwrite, assign) CGFloat chineseFontSize;
+@property (readwrite, assign) CGFloat englishFontSize;
+@property (readwrite, assign) CGFloat chineseFontPaddingLeft;
+@property (readwrite, assign) CGFloat englishFontPaddingLeft;
+@property (readwrite, assign) CGFloat chineseFontPaddingBottom;
+@property (readwrite, assign) CGFloat englishFontPaddingBottom;
+@property (readwrite, copy) NSString *chineseFontName;
+@property (readwrite, copy) NSString *englishFontName;
 
 + (YLLGlobalConfig *)sharedInstance;
 
 - (void)refreshFont;
-
-- (int)messageCount;
-- (void)setMessageCount:(int)value;
-
-- (int)row;
-- (void)setRow:(int)value;
-- (int)column;
-- (void)setColumn:(int)value;
-- (CGFloat)cellWidth;
-- (void)setCellWidth:(CGFloat)value;
-- (CGFloat)cellHeight;
-- (void)setCellHeight:(CGFloat)value;
-
-- (BOOL)showHiddenText;
-- (void)setShowHiddenText:(BOOL)value;
-- (BOOL)shouldSmoothFonts;
-- (void)setShouldSmoothFonts:(BOOL)value;
-- (BOOL)detectDoubleByte;
-- (void)setDetectDoubleByte:(BOOL)value;
-- (BOOL)enableMouse;
-- (void)setEnableMouse:(BOOL)value;
-- (BOOL)repeatBounce;
-- (void)setRepeatBounce:(BOOL)value;
-- (YLEncoding)defaultEncoding;
-- (void)setDefaultEncoding:(YLEncoding)value;
-- (YLANSIColorKey)defaultANSIColorKey;
-- (void)setDefaultANSIColorKey:(YLANSIColorKey)value;
 
 - (NSColor *)colorAtIndex:(int)i 
 				   hilite:(BOOL)h;
@@ -92,33 +86,7 @@ NSString *const WLRestoreConnectionKeyName;
 		  hilite:(BOOL)h 
 		 atIndex:(int)i;
 
-- (BOOL)blinkTicker;
-- (void)setBlinkTicker:(BOOL)value;
 - (void)updateBlinkTicker;
-
-- (CGFloat)chineseFontSize;
-- (void)setChineseFontSize:(CGFloat)value;
-
-- (CGFloat)englishFontSize;
-- (void)setEnglishFontSize:(CGFloat)value;
-
-- (CGFloat)chineseFontPaddingLeft;
-- (void)setChineseFontPaddingLeft:(CGFloat)value;
-
-- (CGFloat)englishFontPaddingLeft;
-- (void)setEnglishFontPaddingLeft:(CGFloat)value;
-
-- (CGFloat)chineseFontPaddingBottom;
-- (void)setChineseFontPaddingBottom:(CGFloat)value;
-
-- (CGFloat)englishFontPaddingBottom;
-- (void)setEnglishFontPaddingBottom:(CGFloat)value;
-
-- (NSString *)chineseFontName;
-- (void)setChineseFontName:(NSString *)value;
-
-- (NSString *)englishFontName;
-- (void)setEnglishFontName:(NSString *)value;
 
 /* Color */
 - (NSColor *)colorBlack;

@@ -2163,10 +2163,10 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>encodingNameArray</string>
 					<string>encodingArrayName</string>
 					<string>ANSIColorKey</string>
-					<string>detectDoubleByte</string>
+					<string>shouldDetectDoubleByte</string>
 					<string>ansiColorKey</string>
 					<string>autoReplyString</string>
-					<string>enableMouse</string>
+					<string>shouldEnableMouse</string>
 				</object>
 				<string key="NSObjectClassName">YLSite</string>
 				<bool key="NSEditable">YES</bool>
@@ -4621,15 +4621,15 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.detectDoubleByte</string>
+						<string key="label">value: selection.shouldDetectDoubleByte</string>
 						<reference key="source" ref="459256841"/>
 						<reference key="destination" ref="448993837"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="459256841"/>
 							<reference key="NSDestination" ref="448993837"/>
-							<string key="NSLabel">value: selection.detectDoubleByte</string>
+							<string key="NSLabel">value: selection.shouldDetectDoubleByte</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.detectDoubleByte</string>
+							<string key="NSKeyPath">selection.shouldDetectDoubleByte</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -4997,15 +4997,15 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.enableMouse</string>
+						<string key="label">value: selection.shouldEnableMouse</string>
 						<reference key="source" ref="630800437"/>
 						<reference key="destination" ref="448993837"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="630800437"/>
 							<reference key="NSDestination" ref="448993837"/>
-							<string key="NSLabel">value: selection.enableMouse</string>
+							<string key="NSLabel">value: selection.shouldEnableMouse</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.enableMouse</string>
+							<string key="NSKeyPath">selection.shouldEnableMouse</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>

@@ -94,7 +94,7 @@ static NSCursor *gMoveCursor = nil;
 		cell *currRow = [[_view frontMostTerminal] cellsOfRow:moveToRow];
 		if (home) {
 			for (int i = 0; i < moveToCol; i++) {
-				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] detectDoubleByte]) {
+				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] shouldDetectDoubleByte]) {
 					cmd[cmdLength++] = 0x1B;
 					cmd[cmdLength++] = 0x4F;
 					cmd[cmdLength++] = 0x43;                    
@@ -102,7 +102,7 @@ static NSCursor *gMoveCursor = nil;
 			}
 		} else if (moveToCol > [ds cursorColumn]) {
 			for (int i = [ds cursorColumn]; i < moveToCol; i++) {
-				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] detectDoubleByte]) {
+				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] shouldDetectDoubleByte]) {
 					cmd[cmdLength++] = 0x1B;
 					cmd[cmdLength++] = 0x4F;
 					cmd[cmdLength++] = 0x43;
@@ -110,7 +110,7 @@ static NSCursor *gMoveCursor = nil;
 			}
 		} else if (moveToCol < [ds cursorColumn]) {
 			for (int i = [ds cursorColumn]; i > moveToCol; i--) {
-				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] detectDoubleByte]) {
+				if (currRow[i].attr.f.doubleByte != 2 || [[[_view frontMostConnection] site] shouldDetectDoubleByte]) {
 					cmd[cmdLength++] = 0x1B;
 					cmd[cmdLength++] = 0x4F;
 					cmd[cmdLength++] = 0x44;
@@ -135,7 +135,7 @@ static NSCursor *gMoveCursor = nil;
 				}
 				if (i % _maxColumn <= lastEffectiveChar
 					&& ([ds attrAtRow:i / _maxColumn column:i % _maxColumn].f.doubleByte != 2
-						|| [[[_view frontMostConnection] site] detectDoubleByte])) {
+						|| [[[_view frontMostConnection] site] shouldDetectDoubleByte])) {
 					cmd[cmdLength++] = 0x1B;
 					cmd[cmdLength++] = 0x4F;
 					cmd[cmdLength++] = 0x43;                    
@@ -154,7 +154,7 @@ static NSCursor *gMoveCursor = nil;
 				}
 				if (i % _maxColumn <= lastEffectiveChar
 					&& ([ds attrAtRow:i / _maxColumn column:i % _maxColumn].f.doubleByte != 2
-						|| [[[_view frontMostConnection] site] detectDoubleByte])) {
+						|| [[[_view frontMostConnection] site] shouldDetectDoubleByte])) {
 					cmd[cmdLength++] = 0x1B;
 					cmd[cmdLength++] = 0x4F;
 					cmd[cmdLength++] = 0x44;                    
@@ -168,7 +168,7 @@ static NSCursor *gMoveCursor = nil;
 
 - (void) mouseEntered: (NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
-	if([[_view frontMostConnection] connected]) {
+	if([[_view frontMostConnection] isConnected]) {
 		_manager.activeTrackingAreaUserInfo = userInfo;
 	}
 }

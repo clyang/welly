@@ -45,6 +45,7 @@
 /* Auto Reply */
 "DefaultAutoReplyString" = "[Welly] 我现在不在，请稍后再联系";
 "MessageWindowTitle" = "您有 %d 条未读消息，请查收";
+"AutoReplyGrowlTipFormat" = "%@\n(已自动回复)";
 
 /* Preview */
 "Connecting" = "连接中";

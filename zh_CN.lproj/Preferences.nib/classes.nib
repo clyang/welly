@@ -68,6 +68,42 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>setChineseFont</key>
+				<string>id</string>
+				<key>setDefaultSSHClient</key>
+				<string>id</string>
+				<key>setDefaultTelnetClient</key>
+				<string>id</string>
+				<key>setEnglishFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DBPrefsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_autoReplyPrefView</key>
+				<string>NSView</string>
+				<key>_colorsPrefView</key>
+				<string>NSView</string>
+				<key>_connectionPrefView</key>
+				<string>NSView</string>
+				<key>_fontsPrefView</key>
+				<string>NSView</string>
+				<key>_generalPrefView</key>
+				<string>NSView</string>
+				<key>_sshPopUpButton</key>
+				<string>NSPopUpButton</string>
+				<key>_telnetPopUpButton</key>
+				<string>NSPopUpButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
 				<key>addSites</key>
 				<string>id</string>
 				<key>browseImage</key>
@@ -212,42 +248,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>setChineseFont</key>
-				<string>id</string>
-				<key>setDefaultSSHClient</key>
-				<string>id</string>
-				<key>setDefaultTelnetClient</key>
-				<string>id</string>
-				<key>setEnglishFont</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>DBPrefsWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_autoReplyPrefView</key>
-				<string>NSView</string>
-				<key>_colorsPrefView</key>
-				<string>NSView</string>
-				<key>_connectionPrefView</key>
-				<string>NSView</string>
-				<key>_fontsPrefView</key>
-				<string>NSView</string>
-				<key>_generalPrefView</key>
-				<string>NSView</string>
-				<key>_sshPopUpButton</key>
-				<string>NSPopUpButton</string>
-				<key>_telnetPopUpButton</key>
-				<string>NSPopUpButton</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>

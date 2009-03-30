@@ -66,7 +66,6 @@
 		5AF8CA5D0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOAutoReplyDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
-		8155E2480F03DFE700F3144A /* LLUrlData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8155E2470F03DFE700F3144A /* LLUrlData.m */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
 		819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* LLTelnetProcessor.m */; };
 		81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* LLPopUpMessage.m */; };
@@ -239,8 +238,6 @@
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81208EBD0EF8D94D005FD459 /* default_site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_site.png; sourceTree = "<group>"; };
-		8155E2460F03DFE700F3144A /* LLUrlData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLUrlData.h; sourceTree = "<group>"; };
-		8155E2470F03DFE700F3144A /* LLUrlData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLUrlData.m; sourceTree = "<group>"; };
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		819586600E5183E200AFBFCE /* LLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTelnetProcessor.h; sourceTree = "<group>"; };
 		819586610E5183E200AFBFCE /* LLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTelnetProcessor.m; sourceTree = "<group>"; };
@@ -600,8 +597,6 @@
 				16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */,
 				81E307200E79031B0024C47E /* LLPopUpMessage.h */,
 				81E307210E79031B0024C47E /* LLPopUpMessage.m */,
-				8155E2460F03DFE700F3144A /* LLUrlData.h */,
-				8155E2470F03DFE700F3144A /* LLUrlData.m */,
 			);
 			name = "Constant & Utilities";
 			sourceTree = "<group>";
@@ -754,7 +749,6 @@
 				5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */,
 				81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */,
 				5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */,
-				8155E2480F03DFE700F3144A /* LLUrlData.m in Sources */,
 				186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */,
 				5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */,
 				5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */,

@@ -83,7 +83,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	//NSLog(@"mouseEntered: ");
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonText = [userInfo objectForKey:KOMouseButtonTextUserInfoName];
-	if([[_view frontMostConnection] connected]) {
+	if([[_view frontMostConnection] isConnected]) {
 		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
 		[_manager setActiveTrackingAreaUserInfo:userInfo];
 	}

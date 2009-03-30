@@ -10,6 +10,7 @@
 #import "KOMouseBehaviorManager.h"
 #import "YLView.h"
 #import "YLTerminal.h"
+#import "YLConnection.h"
 
 NSString *const KOCommandSequencePageUp = termKeyPageUp;
 NSString *const KOCommandSequencePageDown = termKeyPageDown;
@@ -48,7 +49,7 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	if([[_view frontMostConnection] connected]) {
+	if([[_view frontMostConnection] isConnected]) {
 		_manager.backgroundTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 	}
 }
@@ -108,16 +109,15 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 #pragma mark Update State
 
 #pragma mark Exit Area
-
 - (void)addExitAreaAtRow:(int)r 
 				  column:(int)c 
 				  height:(int)h 
 				   width:(int)w {
 	//NSLog(@"Exit Area added");	
-	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
+	NSRect rect = [_view rectAtRow:r column:c height:h width:w];
 	// Generate User Info
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, KOCommandSequenceLeftArrow, _leftArrowCursor, nil];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, KOCommandSequenceLeftArrow, _leftArrowCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _leftArrowCursor];
 }
@@ -135,7 +135,6 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 }
 
 #pragma mark pgUp/Down Area
-
 - (void)addPageUpAreaAtRow:(int)r 
 					column:(int)c 
 					height:(int)h 
@@ -160,12 +159,12 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 					  column:(int)c 
 					  height:(int)h 
 					   width:(int)w {
-	NSRect rect = [_view rectAtRow:r	column:c height:h width:w];
+	NSRect rect = [_view rectAtRow:r column:c height:h width:w];
 	// Generate User Info
-	NSArray *keys = [NSArray arrayWithObjects: KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects: self, KOCommandSequencePageDown, _pageDownCursor, nil];
+	NSArray *keys = [NSArray arrayWithObjects:KOMouseHandlerUserInfoName, KOMouseCommandSequenceUserInfoName, KOMouseCursorUserInfoName, nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, KOCommandSequencePageDown, _pageDownCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _pageDownCursor];
+	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageDownCursor];
 }
 
 - (void)updatePageDownArea {

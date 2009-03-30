@@ -9,10 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-//@class YLController
 @class YLConnection;
 @class YLSite;
-//@class YLEncoding;
 
 @interface KOAutoReplyDelegate : NSObject {
 	YLConnection *_connection;
@@ -20,26 +18,13 @@
 	NSMutableString *_unreadMessage;
 	int _unreadCount;
 }
+@property (readonly) int unreadCount;
 
-- (id) init;
-- (id) initWithConnection: (YLConnection *)connection;
-- (void) dealloc;
-- (void) setConnection: (YLConnection *)connection;
-- (void) hasNewMessage : (NSString *)message
-		 fromCaller : (NSString *)callerName;
-- (void) showUnreadMessagesOnTextView : (NSTextView *) textView;
-- (int) unreadCount;
-@end
-
-@interface NSObject (YLConnection)
-	- (YLSite *) site;
-	- (void) sendMessage: (NSData *) msg;
-	- (void) sendText: (id) aString;
-	- (void) sendText: (id) aString withDelay: (int) microsecond;
-@end
-
-@interface NSObject (YLSite)
-	- (YLEncoding) encoding;
-	- (BOOL) autoReply;
-	- (NSString *) autoReplyString;
+- (id)init;
+- (id)initWithConnection:(YLConnection *)connection;
+- (void)dealloc;
+- (void)setConnection:(YLConnection *)connection;
+- (void)connectionDidReceiveNewMessage:(NSString *)message
+		   fromCaller:(NSString *)callerName;
+- (void)showUnreadMessagesOnTextView:(NSTextView *)textView;
 @end

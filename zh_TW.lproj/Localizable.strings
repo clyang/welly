@@ -44,6 +44,7 @@
 /* Auto Reply */
 "DefaultAutoReplyString" = "[Welly] 我現在不在，請稍後再聯絡";
 "MessageWindowTitle" = "您有 %d 條未讀訊息，請查收";
+"AutoReplyGrowlTipFormat" = "%@\n(已自動應答)";
 
 /* Preview */
 "Connecting" = "連線中";

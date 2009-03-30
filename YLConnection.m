@@ -16,15 +16,27 @@
 #import "YLController.h"
 #import "YLView.h"
 
+NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
+
 @interface YLConnection ()
 - (void)login;
 @end
 
 @implementation YLConnection
+@synthesize site = _site;
+@synthesize terminal = _terminal;
+@synthesize terminalFeeder = _feeder;
+@synthesize protocol = _protocol;
+@synthesize isConnected = _connected;
+@synthesize icon = _icon;
+@synthesize isProcessing = _isProcessing;
+@synthesize objectCount = _objectCount;
+@synthesize lastTouchDate = _lastTouchDate;
+@synthesize messageCount = _messageCount;
+@synthesize autoReplyDelegate = _autoReplyDelegate;
 
 - (id)init {
-    if (self == [super initWithContent:self]) {
-    }
+	[super initWithContent:self];
     return self;
 }
 
@@ -49,55 +61,15 @@
     [super dealloc];
 }
 
-- (YLSite *)site {
-    return _site;
-}
-
-- (void)setSite:(YLSite *)value {
-    if (_site != value) {
-        [_site release];
-        _site = [value retain];
-    }
-}
-
-- (YLTerminal *)terminal {
-	return _terminal;
-}
-
-- (void) setTerminal:(YLTerminal *)value {
+#pragma mark -
+#pragma mark Accessor
+- (void)setTerminal:(YLTerminal *)value {
 	if (_terminal != value) {
 		[_terminal release];
 		_terminal = [value retain];
         [_terminal setConnection:self];
-		[_feeder setTerminal: _terminal];
+		[_feeder setTerminal:_terminal];
 	}
-}
-
-- (KOTerminalFeeder *)terminalFeeder {
-	return _feeder;
-}
-
-- (void) setTerminalFeeder:(KOTerminalFeeder *)value {
-	if (_feeder != value) {
-		[_feeder release];
-		_feeder = [value retain];
-        //[_feeder setConnection:self];
-	}
-}
-
-- (id)protocol {
-    return _protocol;
-}
-
-- (void)setProtocol:(id)value {
-    if (_protocol != value) {
-        [_protocol release];
-        _protocol = [value retain];
-    }
-}
-
-- (BOOL)connected {
-    return _connected;
 }
 
 - (void)setConnected:(BOOL)value {
@@ -110,38 +82,6 @@
     }
 }
 
-- (NSImage *)icon {
-    return _icon;
-}
-
-- (void)setIcon:(NSImage *)value {
-    if (_icon != value) {
-        [_icon release];
-        _icon = [value retain];
-    }
-}
-
-- (BOOL)isProcessing {
-    return _processing;
-}
-
-- (void)setIsProcessing:(BOOL)value {
-    if (_processing != value)
-        _processing = value;
-}
-
-- (int)objectCount {
-    return _objectCount;
-}
-
-- (void)setObjectCount:(int)value {
-    _objectCount = value;
-}
-
-- (NSDate *)lastTouchDate {
-    return _lastTouchDate;
-}
-
 - (void)setLastTouchDate {
     [_lastTouchDate release];
     _lastTouchDate = [[NSDate date] retain];
@@ -151,38 +91,38 @@
 #pragma mark XIProtocol delegate methods
 
 - (void)protocolWillConnect:(id)protocol {
-    [self setIsProcessing:YES];
+    [self setProcessing:YES];
     [self setConnected:NO];
 	// TODO: Set a connecting icon here
 	[self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
 }
 
 - (void)protocolDidConnect:(id)protocol {
-    [self setIsProcessing:NO];
+    [self setProcessing:NO];
     [self setConnected:YES];
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
     //[self login];
 }
 
-- (void)protocolDidRecv:(id)protocol data:(NSData*)data {
-    //[_terminal feedData:data connection:self];
+- (void)protocolDidRecv:(id)protocol 
+				   data:(NSData*)data {
 	[_feeder feedData:data connection:self];
 }
 
-- (void)protocolWillSend:(id)protocol data:(NSData*)data {
+- (void)protocolWillSend:(id)protocol 
+					data:(NSData*)data {
     [self setLastTouchDate];
 }
 
 - (void)protocolDidClose:(id)protocol {
-    [self setIsProcessing:NO];
+    [self setProcessing:NO];
     [self setConnected:NO];
 	[_feeder clearAll];
     [_terminal clearAll];
 }
 
 #pragma mark -
-#pragma mark network
-
+#pragma mark Network
 - (void)close {
     [_protocol close];
 }
@@ -197,7 +137,8 @@
     [_protocol send:msg];
 }
 
-- (void)sendBytes:(const void *)msg length:(NSInteger)length {
+- (void)sendBytes:(const void *)msg 
+		   length:(NSInteger)length {
     [_protocol send:[NSData dataWithBytes:msg length:length]];
 }
 
@@ -205,7 +146,8 @@
     [self sendText:s withDelay:0];
 }
 
-- (void)sendText:(NSString *)text withDelay:(int)microsecond {
+- (void)sendText:(NSString *)text 
+	   withDelay:(int)microsecond {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
     // replace all '\n' with '\r' 
@@ -296,15 +238,7 @@
 }
 
 #pragma mark -
-#pragma mark message
-- (KOAutoReplyDelegate *)autoReplyDelegate {
-	return _autoReplyDelegate;
-}
-
-- (int)messageCount {
-	return _messageCount;
-}
-
+#pragma mark Message
 - (void)increaseMessageCount:(int)value {
 	// increase the '_messageCount' by 'value'
 	if (value <= 0)
@@ -313,15 +247,12 @@
 	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
 	
 	// we should let the icon on the deck bounce
-	[NSApp requestUserAttention: ([config repeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
+	[NSApp requestUserAttention: ([config shouldRepeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
 	//if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
 	//[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
-	[config setMessageCount: [config messageCount] + value];
+	[config setMessageCount:[config messageCount] + value];
 	_messageCount += value;
     [self setObjectCount:_messageCount];
-	//} else {
-	//	_hasMessage = NO;
-	//}
 }
 
 - (void)resetMessageCount {
@@ -335,19 +266,19 @@
     [self setObjectCount:_messageCount];
 }
 
-- (void) newMessage: (NSString *)message
-		 fromCaller: (NSString *)caller {
+- (void)didReceiveNewMessage:(NSString *)message
+				  fromCaller:(NSString *)caller {
 	// If there is a new message, we should notify the auto-reply delegate.
-	[_autoReplyDelegate hasNewMessage: message
-						fromCaller: caller];
+	[_autoReplyDelegate connectionDidReceiveNewMessage:message
+											fromCaller:caller];
 	
 	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
-	if (self != [view frontMostConnection] || ![NSApp isActive] || [_site autoReply]) {
+	if (self != [view frontMostConnection] || ![NSApp isActive] || [_site shouldAutoReply]) {
 		// not in focus
 		[self increaseMessageCount: 1];
 		// notify auto replied
-		if ([_site autoReply]) {
-			message = [NSString stringWithFormat: @"%@\n(已自动回复)", message];
+		if ([_site shouldAutoReply]) {
+			message = [NSString stringWithFormat:NSLocalizedString(KOAutoReplyGrowlTipFormat, @"Auto Reply"), message];
 		}
 		// should invoke growl notification
 		[TYGrowlBridge notifyWithTitle:caller

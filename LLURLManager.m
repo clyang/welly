@@ -10,6 +10,7 @@
 #import "KOMouseBehaviorManager.h"
 #import "YLView.h"
 #import "YLTerminal.h"
+#import "YLConnection.h"
 #import "XIPreviewController.h"
 #import "YLLGlobalConfig.h"
 
@@ -40,7 +41,7 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 - (void)mouseEntered:(NSEvent *)theEvent {
 	//NSLog(@"mouseEntered: ");
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
-	if([[_view frontMostConnection] connected]) {
+	if([[_view frontMostConnection] isConnected]) {
 		[_manager setActiveTrackingAreaUserInfo:userInfo];
 	}
 }

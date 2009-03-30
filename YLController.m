@@ -82,7 +82,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     _telnetView = (YLView *)[_tab tabView];
 	
     // Trigger the KVO to update the information properly.
-    [[YLLGlobalConfig sharedInstance] setShowHiddenText:[[YLLGlobalConfig sharedInstance] showHiddenText]];
+    [[YLLGlobalConfig sharedInstance] setShowsHiddenText:[[YLLGlobalConfig sharedInstance] showsHiddenText]];
     [[YLLGlobalConfig sharedInstance] setCellWidth:[[YLLGlobalConfig sharedInstance] cellWidth]];
     
     [self loadSites];
@@ -201,7 +201,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     NSArray *a = [_telnetView tabViewItems];
     for (NSTabViewItem *item in a) {
         YLConnection *connection = [item identifier];
-        if ([connection connected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
+        if ([connection isConnected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
             unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
             [connection sendBytes:msg length:6];
@@ -255,11 +255,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 
     [self updateEncodingMenu];
-    [_detectDoubleByteButton setState:[site detectDoubleByte] ? NSOnState : NSOffState];
-    [_detectDoubleByteMenuItem setState:[site detectDoubleByte] ? NSOnState : NSOffState];
-    [_autoReplyButton setState:[site autoReply] ? NSOnState : NSOffState];
-    [_autoReplyMenuItem setState:[site autoReply] ? NSOnState : NSOffState];
-    [_mouseButton setState:[site enableMouse] ? NSOnState : NSOffState];
+    [_detectDoubleByteButton setState:[site shouldDetectDoubleByte] ? NSOnState : NSOffState];
+    [_detectDoubleByteMenuItem setState:[site shouldDetectDoubleByte] ? NSOnState : NSOffState];
+    [_autoReplyButton setState:[site shouldAutoReply] ? NSOnState : NSOffState];
+    [_autoReplyMenuItem setState:[site shouldAutoReply] ? NSOnState : NSOffState];
+    [_mouseButton setState:[site shouldEnableMouse] ? NSOnState : NSOffState];
 
     [pool release];
 }
@@ -272,7 +272,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                         change:(NSDictionary *)change
                        context:(void *)context {
     if ([keyPath isEqualToString:@"showHiddenText"]) {
-        if ([[YLLGlobalConfig sharedInstance] showHiddenText]) 
+        if ([[YLLGlobalConfig sharedInstance] showsHiddenText]) 
             [_showHiddenTextMenuItem setState:NSOnState];
         else
             [_showHiddenTextMenuItem setState:NSOffState];        
@@ -376,7 +376,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     BOOL ddb = [sender state];
     if ([sender isKindOfClass: [NSMenuItem class]])
         ddb = !ddb;
-    [[[_telnetView frontMostConnection] site] setDetectDoubleByte: ddb];
+    [[[_telnetView frontMostConnection] site] setShouldDetectDoubleByte: ddb];
     [_detectDoubleByteButton setState: ddb ? NSOnState : NSOffState];
     [_detectDoubleByteMenuItem setState: ddb ? NSOnState : NSOffState];
 }
@@ -388,7 +388,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// set the state of the button and menuitem
 	[_autoReplyButton setState: ar ? NSOnState : NSOffState];
 	[_autoReplyMenuItem setState: ar ? NSOnState : NSOffState];
-	if (!ar && ar != [[[_telnetView frontMostConnection] site] autoReply]) {
+	if (!ar && ar != [[[_telnetView frontMostConnection] site] shouldAutoReply]) {
 		// when user is to close auto reply, 
 		if ([[[_telnetView frontMostConnection] autoReplyDelegate] unreadCount] > 0) {
 			// we should inform him with the unread messages
@@ -397,7 +397,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		}
 	}
 	
-	[[[_telnetView frontMostConnection] site] setAutoReply:ar];
+	[[[_telnetView frontMostConnection] site] setShouldAutoReply:ar];
 }
 
 - (IBAction)setMouseAction:(id)sender {
@@ -406,7 +406,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
-	[[[_telnetView frontMostConnection] site] setEnableMouse:state];
+	[[[_telnetView frontMostConnection] site] setShouldEnableMouse:state];
 	[_telnetView updateMouseHotspot];
 }
 
@@ -509,7 +509,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (BOOL)shouldReconnect {
-	if (![[_telnetView frontMostConnection] connected]) return YES;
+	if (![[_telnetView frontMostConnection] isConnected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
                       NSLocalizedString(@"Confirm", @"Default Button"), 
@@ -532,7 +532,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction)reconnect:(id)sender {
-    if (![[_telnetView frontMostConnection] connected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
+    if (![[_telnetView frontMostConnection] isConnected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
 		// Close the portal
 		if ([_telnetView isInPortalMode] && ![[[_telnetView frontMostConnection] site] empty] 
 			&& [_telnetView numberOfTabViewItems] > 0) {
@@ -648,7 +648,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         show = !show;
     }
 
-    [[YLLGlobalConfig sharedInstance] setShowHiddenText:show];
+    [[YLLGlobalConfig sharedInstance] setShowsHiddenText:show];
     [_telnetView refreshHiddenRegion];
     [_telnetView updateBackedImage];
     [_telnetView setNeedsDisplay:YES];
@@ -672,7 +672,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (IBAction)inputEmoticons:(id)sender {
     [self closeEmoticons:sender];
     
-    if ([[_telnetView frontMostConnection] connected]) {
+    if ([[_telnetView frontMostConnection] isConnected]) {
         NSArray *a = [_emoticonsController selectedObjects];
         
         if ([a count] == 1) {
@@ -792,7 +792,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	int connectedConnection = 0;
     for (int i = 0; i < tabNumber; i++) {
         id connection = [[_telnetView tabViewItemAtIndex:i] identifier];
-        if ([connection connected])
+        if ([connection isConnected])
             ++connectedConnection;
     }
     if (connectedConnection == 0) return YES;
@@ -863,7 +863,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	// Restore from full screen firstly
 	[_fullScreenController releaseFullScreen];
 	
-    if (![[tabViewItem identifier] connected]) return YES;
+    if (![[tabViewItem identifier] isConnected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
 
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
@@ -899,11 +899,11 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	[_telnetView checkPortal];
     [self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
-    [_detectDoubleByteButton setState:CELLSTATE([site detectDoubleByte])];
-    [_detectDoubleByteMenuItem setState:CELLSTATE([site detectDoubleByte])];
-    [_autoReplyButton setState:CELLSTATE([site autoReply])];
-	[_autoReplyMenuItem setState:CELLSTATE([site autoReply])];
-	[_mouseButton setState:CELLSTATE([site enableMouse])];
+    [_detectDoubleByteButton setState:CELLSTATE([site shouldDetectDoubleByte])];
+    [_detectDoubleByteMenuItem setState:CELLSTATE([site shouldDetectDoubleByte])];
+    [_autoReplyButton setState:CELLSTATE([site shouldAutoReply])];
+	[_autoReplyMenuItem setState:CELLSTATE([site shouldAutoReply])];
+	[_mouseButton setState:CELLSTATE([site shouldEnableMouse])];
 #undef CELLSTATE
 }
 

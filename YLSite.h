@@ -14,40 +14,23 @@
     NSString *_address;
     YLEncoding _encoding;
     YLANSIColorKey _ansiColorKey;
-    BOOL _detectDoubleByte;
-	BOOL _autoReply;
-	BOOL _enableMouse;
+    BOOL _shouldDetectDoubleByte;
+	BOOL _shouldAutoReply;
+	BOOL _shouldEnableMouse;
 	NSString *_autoReplyString;
 }
+@property (readwrite, copy) NSString *name;
+@property (readwrite, copy) NSString *address;
+@property (readwrite, assign) YLEncoding encoding;
+@property (readwrite, assign) YLANSIColorKey ansiColorKey;
+@property (readwrite, assign) BOOL shouldDetectDoubleByte;
+@property (readwrite, assign) BOOL shouldAutoReply;
+@property (readwrite, copy) NSString *autoReplyString;
+@property (readwrite, assign) BOOL shouldEnableMouse;
 
 + (YLSite *)site;
 + (YLSite *)siteWithDictionary:(NSDictionary *)d;
 - (NSDictionary *)dictionaryOfSite ;
 
 - (BOOL)empty;
-
-- (NSString *)name;
-- (void)setName:(NSString *)value;
-
-- (NSString *)address;
-- (void)setAddress:(NSString *)value;
-
-- (YLEncoding)encoding;
-- (void)setEncoding:(YLEncoding)encoding;
-
-- (YLANSIColorKey)ansiColorKey;
-- (void)setAnsiColorKey:(YLANSIColorKey)value;
-
-- (BOOL)detectDoubleByte;
-- (void)setDetectDoubleByte:(BOOL)value;
-
-- (BOOL)autoReply;
-- (void)setAutoReply:(BOOL)value;
-
-- (BOOL)enableMouse;
-- (void)setEnableMouse:(BOOL)value;
-
-- (NSString *)autoReplyString;
-- (void)setAutoReplyString:(NSString *)value;
-
 @end

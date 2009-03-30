@@ -17,6 +17,7 @@
 
 #import "YLView.h"
 #import "YLTerminal.h"
+#import "YLConnection.h"
 #import "YLSite.h"
 #import "KOEffectView.h"
 
@@ -129,7 +130,7 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 
 - (void)scrollWheel:(NSEvent *)theEvent {
 	const int KOScrollWheelHorizontalThreshold = 3;
-	if ([[[_view frontMostTerminal] connection] connected]) {
+	if ([[[_view frontMostTerminal] connection] isConnected]) {
 		// For Y-Axis
 		if ([theEvent deltaY] < 0)
 			[_view sendText:termKeyDown];
@@ -228,7 +229,7 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 	// Clear it...
 	[self clearAllTrackingArea];
 	
-	if(![[_view frontMostConnection] connected])
+	if(![[_view frontMostConnection] isConnected])
 		return;
 	
 	for (NSObject *obj in _handlers) {

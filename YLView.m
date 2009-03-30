@@ -707,7 +707,7 @@ BOOL isSpecialSymbol(unichar ch) {
         [ds updateDoubleByteStateForRow:[ds cursorRow]];
         if ((c == NSRightArrowFunctionKey && [ds attrAtRow:[ds cursorRow] column:[ds cursorColumn]].f.doubleByte == 1) || 
             (c == NSLeftArrowFunctionKey && [ds cursorColumn] > 0 && [ds attrAtRow:[ds cursorRow] column:[ds cursorColumn] - 1].f.doubleByte == 2))
-            if ([[[self frontMostConnection] site] detectDoubleByte]) {
+            if ([[[self frontMostConnection] site] shouldDetectDoubleByte]) {
                 [[self frontMostConnection] sendBytes:arrow length:6];
                 return;
             }
@@ -720,7 +720,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		//buf[0] = buf[1] = NSBackspaceCharacter;
 		// Modified by K.O.ed: using 0x7F instead of 0x08
 		buf[0] = buf[1] = NSDeleteCharacter;
-        if ([[[self frontMostConnection] site] detectDoubleByte] &&
+        if ([[[self frontMostConnection] site] shouldDetectDoubleByte] &&
             [ds cursorColumn] > 0 && [ds attrAtRow:[ds cursorRow] column:[ds cursorColumn] - 1].f.doubleByte == 2)
             [[self frontMostConnection] sendBytes:buf length:2];
         else
@@ -994,7 +994,7 @@ BOOL isSpecialSymbol(unichar ch) {
         }
         CGContextSaveGState(myCGContext);
         CGContextSetShouldSmoothFonts(myCGContext, 
-                                      gConfig->_shouldSmoothFonts == YES ? true : false);
+                                      [gConfig shouldSmoothFonts] ? true : false);
         
         /* Draw String row by row */
         for (y = 0; y < gRow; y++) {
@@ -1155,14 +1155,14 @@ BOOL isSpecialSymbol(unichar ch) {
         for (runGlyphIndex = 0; runGlyphIndex <= runGlyphCount; runGlyphIndex++) {
             int index = bufIndex[glyphOffset + runGlyphIndex];
             if (runGlyphIndex == runGlyphCount || 
-                (gConfig->_showHiddenText && isHiddenAttribute(currRow[index].attr) != hidden) ||
+                ([gConfig showsHiddenText] && isHiddenAttribute(currRow[index].attr) != hidden) ||
                 (isDoubleByte[runGlyphIndex + glyphOffset] && index != lastIndex + 2) ||
                 (!isDoubleByte[runGlyphIndex + glyphOffset] && index != lastIndex + 1) ||
                 (isDoubleByte[runGlyphIndex + glyphOffset] != lastDoubleByte)) {
                 lastDoubleByte = isDoubleByte[runGlyphIndex + glyphOffset];
                 int len = runGlyphIndex - location;
                 
-                CGContextSetTextDrawingMode(myCGContext, ([gConfig showHiddenText] && hidden) ? kCGTextStroke : kCGTextFill);
+                CGContextSetTextDrawingMode(myCGContext, ([gConfig showsHiddenText] && hidden) ? kCGTextStroke : kCGTextFill);
                 CGGlyph glyph[gColumn];
                 CFRange glyphRange = CFRangeMake(location, len);
                 CTRunGetGlyphs(run, glyphRange, glyph);
@@ -1202,7 +1202,7 @@ BOOL isSpecialSymbol(unichar ch) {
                 
                 CGContextRef tempContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
                 
-                CGContextSetShouldSmoothFonts(tempContext, gConfig->_shouldSmoothFonts == YES ? true : false);
+                CGContextSetShouldSmoothFonts(tempContext, [gConfig shouldSmoothFonts] ? true : false);
                 
                 NSColor *tempColor = [gConfig colorAtIndex: fgColor hilite: fgBoldOfAttribute(currRow[index].attr)];
                 CGContextSetFont(tempContext, cgFont);
@@ -1445,7 +1445,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (BOOL)connected {
-	return [[self frontMostConnection] connected];
+	return [[self frontMostConnection] isConnected];
 }
 
 - (YLTerminal *)frontMostTerminal {
@@ -1498,7 +1498,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (BOOL)mouseEnabled {
-	return [[[self frontMostConnection] site] enableMouse];
+	return [[[self frontMostConnection] site] shouldEnableMouse];
 }
 
 #pragma mark -
@@ -1554,7 +1554,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		ch[4] = 0x1B; ch[5] = '['; ch[6] = '3'; ch[7] = '~';
         int len = 4;
         id ds = [self frontMostTerminal];
-        if ([[[self frontMostConnection] site] detectDoubleByte] && 
+        if ([[[self frontMostConnection] site] shouldDetectDoubleByte] && 
             [ds cursorColumn] < (gColumn - 1) && 
             [ds attrAtRow:[ds cursorRow] column:[ds cursorColumn] + 1].f.doubleByte == 2)
             len += 4;

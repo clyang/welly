@@ -966,7 +966,7 @@ static unsigned short gEmptyAttr;
 			NSString *callerName = [_terminal stringFromIndex: ((_row - 1) * _column + 2) length: (splitPoint - 2)];
 			NSString *messageString = [_terminal stringFromIndex: ((_row - 1) * _column + splitPoint + 1) length: (i - splitPoint - 2)];
 			
-			[connection newMessage:messageString fromCaller:callerName];
+			[connection didReceiveNewMessage:messageString fromCaller:callerName];
 			_hasNewMessage = NO;
 		} else if ([_terminal bbsType] == TYFirebird && _grid[0][0].attr.f.bgColor != 9) {
 			// for firebird bbs (e.g. smth)
@@ -974,7 +974,7 @@ static unsigned short gEmptyAttr;
 			NSString *callerName = [_terminal stringFromIndex: 0 length: _column];
 			NSString *messageString = [_terminal stringFromIndex: _column length: (i - 1) * _column];
 			
-			[connection newMessage:messageString fromCaller:callerName];
+			[connection didReceiveNewMessage:messageString fromCaller:callerName];
 		}
     }
 	

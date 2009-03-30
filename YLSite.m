@@ -21,6 +21,14 @@ NSString *const KODefaultAutoReplyString = @"DefaultAutoReplyString";
 NSString *const KODefaultSiteName = @"DefaultSiteName";
 
 @implementation YLSite
+@synthesize name = _name;
+@synthesize address = _address;
+@synthesize encoding = _encoding;
+@synthesize ansiColorKey = _ansiColorKey;
+@synthesize shouldDetectDoubleByte = _shouldDetectDoubleByte;
+@synthesize shouldAutoReply = _shouldAutoReply;
+@synthesize autoReplyString = _autoReplyString;
+@synthesize shouldEnableMouse = _shouldEnableMouse;
 
 - (id)init {
     if ([super init]) {
@@ -28,13 +36,11 @@ NSString *const KODefaultSiteName = @"DefaultSiteName";
 
         [self setAddress:@""];
 
-        //[self setEncoding:YLGBKEncoding];
         [self setEncoding:[[YLLGlobalConfig sharedInstance] defaultEncoding]];
-        [self setDetectDoubleByte:[[YLLGlobalConfig sharedInstance] detectDoubleByte]];
-        [self setEnableMouse:[[YLLGlobalConfig sharedInstance] enableMouse]];
-		//[self setAnsiColorKey:YLEscEscEscANSIColorKey];
+        [self setShouldDetectDoubleByte:[[YLLGlobalConfig sharedInstance] shouldDetectDoubleByte]];
+        [self setShouldEnableMouse:[[YLLGlobalConfig sharedInstance] shouldEnableMouse]];
         [self setAnsiColorKey:[[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
-        [self setAutoReply:NO];
+        [self setShouldAutoReply:NO];
         [self setAutoReplyString:NSLocalizedString(KODefaultAutoReplyString, @"Site")];
     }
     return self;
@@ -46,14 +52,14 @@ NSString *const KODefaultSiteName = @"DefaultSiteName";
 
 + (YLSite *)siteWithDictionary:(NSDictionary *)d {
     YLSite *s = [YLSite site];
-    [s setName:[d valueForKey: YLSiteNameAttributeName] ?: @""];
-    [s setAddress:[d valueForKey: YLSiteAddressAttributeName] ?: @""];
-    [s setEncoding:(YLEncoding)[[d valueForKey: YLSiteEncodingAttributeName] unsignedShortValue]];
-    [s setAnsiColorKey:(YLANSIColorKey)[[d valueForKey: YLSiteAnsiColorKeyAttributeName] unsignedShortValue]];
-    [s setDetectDoubleByte:[[d valueForKey: YLSiteDetectDoubleByteAttributeName] boolValue]];
-	[s setEnableMouse:[[d valueForKey: YLSiteEnableMouseAttributeName] boolValue]];
-	[s setAutoReply:NO];
-	[s setAutoReplyString:[d valueForKey: YLSiteAutoReplyStringAttributeName] ?: NSLocalizedString(KODefaultAutoReplyString, @"Site")];
+    [s setName:[d valueForKey:YLSiteNameAttributeName] ?: @""];
+    [s setAddress:[d valueForKey:YLSiteAddressAttributeName] ?: @""];
+    [s setEncoding:(YLEncoding)[[d valueForKey:YLSiteEncodingAttributeName] unsignedShortValue]];
+    [s setAnsiColorKey:(YLANSIColorKey)[[d valueForKey:YLSiteAnsiColorKeyAttributeName] unsignedShortValue]];
+    [s setShouldDetectDoubleByte:[[d valueForKey:YLSiteDetectDoubleByteAttributeName] boolValue]];
+	[s setShouldEnableMouse:[[d valueForKey:YLSiteEnableMouseAttributeName] boolValue]];
+	[s setShouldAutoReply:NO];
+	[s setAutoReplyString:[d valueForKey:YLSiteAutoReplyStringAttributeName] ?: NSLocalizedString(KODefaultAutoReplyString, @"Site")];
     return s;
 }
 
@@ -61,86 +67,13 @@ NSString *const KODefaultSiteName = @"DefaultSiteName";
     return [NSDictionary dictionaryWithObjectsAndKeys:[self name] ?: @"",YLSiteNameAttributeName, [self address], YLSiteAddressAttributeName,
             [NSNumber numberWithUnsignedShort:[self encoding]], YLSiteEncodingAttributeName, 
             [NSNumber numberWithUnsignedShort:[self ansiColorKey]], YLSiteAnsiColorKeyAttributeName, 
-            [NSNumber numberWithBool:[self detectDoubleByte]], YLSiteDetectDoubleByteAttributeName,
-			[NSNumber numberWithBool:[self enableMouse]], YLSiteEnableMouseAttributeName,
+            [NSNumber numberWithBool:[self shouldDetectDoubleByte]], YLSiteDetectDoubleByteAttributeName,
+			[NSNumber numberWithBool:[self shouldEnableMouse]], YLSiteEnableMouseAttributeName,
 			[self autoReplyString] ?: @"", YLSiteAutoReplyStringAttributeName, nil];
 }
 
 - (BOOL)empty {
     return [_address length] == 0;
-}
-
-- (NSString *)name {
-    return [[_name retain] autorelease];
-}
-
-- (void)setName:(NSString *)value {
-    if (_name != value) {
-        [_name release];
-        _name = [value copy];
-    }
-}
-
-- (NSString *)address {
-    return [[_address retain] autorelease];
-}
-
-- (void)setAddress:(NSString *)value {
-    if (_address != value) {
-        [_address release];
-        _address = [value copy];
-    }
-}
-
-- (YLEncoding)encoding {
-    return _encoding;
-}
-
-- (void)setEncoding:(YLEncoding)encoding {
-    _encoding = encoding;
-}
-
-- (YLANSIColorKey)ansiColorKey {
-    return _ansiColorKey;
-}
-
-- (void)setAnsiColorKey:(YLANSIColorKey)value {
-    _ansiColorKey = value;
-}
-
-- (BOOL)detectDoubleByte {
-    return _detectDoubleByte;
-}
-
-- (void)setDetectDoubleByte:(BOOL)value {
-    _detectDoubleByte = value;
-}
-
-- (BOOL)enableMouse {
-    return _enableMouse;
-}
-
-- (void)setEnableMouse:(BOOL)value {
-    _enableMouse = value;
-}
-
-- (BOOL)autoReply {
-	return _autoReply;
-}
-
-- (void)setAutoReply:(BOOL)value {
-	_autoReply = value;
-}
-
-- (NSString *)autoReplyString {
-    return [[_autoReplyString retain] autorelease];
-}
-
-- (void)setAutoReplyString:(NSString *)value {
-    if (_autoReplyString != value) {
-        [_autoReplyString release];
-        _autoReplyString = [value copy];
-    }
 }
 
 - (NSString *)description {
@@ -153,10 +86,10 @@ NSString *const KODefaultSiteName = @"DefaultSiteName";
     [s setAddress:[self address]];
     [s setEncoding:[self encoding]];
     [s setAnsiColorKey:[self ansiColorKey]];
-    [s setDetectDoubleByte:[self detectDoubleByte]];
-	[s setAutoReply:NO];
+    [s setShouldDetectDoubleByte:[self shouldDetectDoubleByte]];
+	[s setShouldAutoReply:NO];
 	[s setAutoReplyString:[self autoReplyString]];
-	[s setEnableMouse:[self enableMouse]];
+	[s setShouldEnableMouse:[self shouldEnableMouse]];
     return s;
 }
 

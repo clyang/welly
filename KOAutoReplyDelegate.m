@@ -8,15 +8,18 @@
 
 
 #import "KOAutoReplyDelegate.h"
+#import "YLConnection.h"
+#import "YLSite.h"
 #import "encoding.h"
 
 @implementation KOAutoReplyDelegate
+@synthesize unreadCount = _unreadCount;
 
 - (id)init {
 	self = [super init];
 	if (self != nil) {
 		_unreadMessage = [[NSMutableString alloc] init];
-		[_unreadMessage setString: @""];
+		[_unreadMessage setString:@""];
 		_unreadCount = 0;
 	}
 	return self;
@@ -24,7 +27,7 @@
 
 - (id)initWithConnection:(YLConnection *)connection {
 	[self init];
-	[self setConnection: connection];
+	[self setConnection:connection];
 	return self;
 }
 
@@ -38,9 +41,9 @@
 	_site = [connection site];
 }
 
-- (void)hasNewMessage:(NSString *)message
-		   fromCaller:(NSString *)callerName {
-	if ([[_connection site] autoReply]) {
+- (void)connectionDidReceiveNewMessage:(NSString *)message
+						  fromCaller:(NSString *)callerName {
+	if ([[_connection site] shouldAutoReply]) {
 		// enclose the autoReplyString with two '\r'
 		NSString *aString = [NSString stringWithFormat:@"\r%@\r", [[_connection site] autoReplyString]];
 		
@@ -59,9 +62,5 @@
 	[textView setTextColor:[NSColor whiteColor]];
 	[_unreadMessage setString:@""];
 	_unreadCount = 0;
-}
-
-- (int)unreadCount {
-	return _unreadCount;
 }
 @end

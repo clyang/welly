@@ -13,7 +13,6 @@
 #import "XIIntegerArray.h"
 #import "encoding.h"
 #import "YLSite.h"
-#import "LLUrlData.h"
 
 @implementation YLTerminal
 @synthesize maxRow = _maxRow;
@@ -45,10 +44,6 @@
 		_dirty = (char *) malloc(sizeof(char) * (_maxRow * _maxColumn));
 		
         [self clearAll];
-//		// Initiallize url list
-//		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
-//		// Ready to store current url
-//		_currURL = [[NSMutableString alloc] initWithCapacity:40];
 	}
 	return self;
 }
@@ -57,8 +52,6 @@
     for (int i = 0; i < _maxRow; i++)
         free(_grid[i]);
     free(_grid);
-//	[_currentURLList release];
-//	[_currURL release];
     [super dealloc];
 }
 
@@ -66,26 +59,14 @@
 #pragma mark input interface
 - (void)feedGrid:(cell **)grid {
 	// Clear the url list
-//	for(LLUrlData * data in _currentURLList) {
-//		//NSLog(@"%@", [data url]);
-//		[data release];
-//	}
-
-//	[_currentURLList removeAllObjects];
-	
 	for (int i = 0; i < _maxRow; i++) {
 		memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
 	}
 	
 	for (int i = 0; i < _maxRow; i++) {
         [self updateDoubleByteStateForRow:i];
-        //[self updateURLStateForRow:i];
     }
-//	NSLog(@"Begin");
-//	for(NSString * url in _currentURLList) {
-//		NSLog(@"%@", url);
-//	}
-//	NSLog(@"End");
+	
 	[self updateBBSState];
     [_view performSelector:@selector(tick:)
 				withObject:nil
@@ -104,11 +85,11 @@
 - (void)startConnection {
     [self clearAll];
     [_view updateBackedImage];
-	[_view setNeedsDisplay: YES];
+	[_view setNeedsDisplay:YES];
 }
 
 - (void)closeConnection {
-	[_view setNeedsDisplay: YES];
+	[_view setNeedsDisplay:YES];
 }
 
 # pragma mark -
@@ -241,116 +222,6 @@
 	}
 }
 
-//- (void)updateURLStateForRow:(int)r {
-//	cell *currRow = _grid[r];
-//    /* TODO: use DFA to reduce the computation  */
-//    char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
-//    int protocolNum = 7;
-//    
-//    BOOL urlState = NO;
-//
-//    if (r > 0) 
-//        urlState = _grid[r - 1][_maxColumn - 1].attr.f.url;
-//    // for URL that contains "()", esp. M$ sites
-//    int par = 0;
-//    for (int i = 0; i < _maxColumn; i++) {
-//        if (urlState) {
-//			// Push current char in!
-//            unsigned char c = currRow[i].byte;
-//			[_currURL appendFormat:@"%c", c];
-//            if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
-//				//NSLog(@"URL: %@", currURL);
-//				// Here we store the row and column number in the NSPoint
-//				// to convert it to an actual pos, see
-//				// NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * length, _fontHeight);
-//				NSPoint cp;
-//				cp.x = i;
-//				cp.y = r;
-//				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:_currURL 
-//																	name:_currURL 
-//																position:cp];
-//				[_currentURLList addObject:currUrlData];
-//				[_currURL setString:@""];
-//                urlState = NO;
-//			}
-//            else if (c == '(')
-//                ++par;
-//            else if (c == ')') {
-//                if (--par < 0) {
-//					//NSLog(@"URL: %@", currURL);
-//					NSPoint cp;
-//					cp.x = i;
-//					cp.y = r;
-//					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:_currURL 
-//																		name:_currURL 
-//																	position:cp];
-//					[_currentURLList addObject:currUrlData];
-//					[_currURL setString:@""];
-//                    urlState = NO;
-//				}
-//            }
-//        } else {
-//            for (int p = 0; p < protocolNum; p++) {
-//                int len = strlen(protocols[p]);
-//                BOOL match = YES;
-//                for (int s = 0; s < len; s++) 
-//                    if (currRow[i + s].byte != protocols[p][s] || currRow[i + s].attr.f.doubleByte) {
-//                        match = NO;
-//                        break;
-//                    }
-//                
-//                if (match) {
-//					// Push current prefix into current url
-//					[_currURL appendFormat:@"%c", protocols[p][0]];
-//                    urlState = YES;
-//                    break;
-//                }
-//            }
-//        }            
-//        
-//        if (currRow[i].attr.f.url != urlState) {
-//            currRow[i].attr.f.url = urlState;
-//            [self setDirty:YES atRow:r column:i];
-//            //            [_view displayCellAtRow: r column: i];
-//            /* TODO: Do not regenerate the region. Draw the url line instead. */
-//        }
-//	}
-//}
-
-//- (NSString *)urlStringAtRow:(int)r 
-//					  column:(int)c {
-//    if (!_grid[r][c].attr.f.url) return nil;
-//
-//    while (_grid[r][c].attr.f.url) {
-//        c--;
-//        if (c < 0) {
-//            c = _maxColumn - 1;
-//            r--;
-//        }
-//        if (r < 0) 
-//            break;
-//    }
-//    
-//    c++;
-//    if (c >= _maxColumn) {
-//        c = 0;
-//        r++;
-//    }
-//    
-//    NSMutableString *urlString = [NSMutableString string];
-//    while (_grid[r][c].attr.f.url) {
-//        [urlString appendFormat:@"%c", _grid[r][c].byte];
-//        c++;
-//        if (c >= _maxColumn) {
-//            c = 0;
-//            r++;
-//        }
-//        if (r >= _maxRow) 
-//            break;
-//    }
-//    return urlString;
-//}
-
 static NSString *extractString(NSString *row, NSString *start, NSString *end) {
     NSRange rs = [row rangeOfString:start], re = [row rangeOfString:end];
     if (rs.length == 0 || re.length == 0 || re.location <= rs.location)
@@ -432,14 +303,8 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 }
 
 - (void)setEncoding:(YLEncoding)encoding {
-    [[[self connection] site] setEncoding: encoding];
+    [[[self connection] site] setEncoding:encoding];
 }
-
-/*
-- (YLConnection *)connection {
-    return _connection;
-}
- */
 
 - (void)setConnection:(YLConnection *)value {
     _connection = value;

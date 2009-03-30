@@ -84,23 +84,13 @@ typedef struct {
 - (cell)cellAtIndex:(int)index;
 
 /* Update State */
-//- (void)updateURLStateForRow:(int)r;
 - (void)updateDoubleByteStateForRow:(int)r;
-//- (NSString *)urlStringAtRow:(int)r column:(int)c;
 - (void)updateBBSState;
 
 /* Accessor */
-//- (int)cursorRow;
-//- (int)cursorColumn;
 - (YLEncoding)encoding;
 - (void)setEncoding:(YLEncoding) encoding;
-- (YLConnection *)connection;
-- (void)setConnection:(YLConnection *)value;
-/*
-- (BBSState)bbsState;
-- (TYBBSType)bbsType;
-- (void)setBbsType:(TYBBSType)bbsType;
-*/
+
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;
 - (void)setCursorX:(int)cursorX
