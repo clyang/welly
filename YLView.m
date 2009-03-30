@@ -1960,7 +1960,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[writeBuffer appendBytes: "[m" length: 2];
 	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
 	for (i = 0; i < [writeBuffer length]; i++) {
-		[[self frontMostConnection] sendBytes: buf + i length: 1];
+		[[self frontMostConnection] sendBytes:buf + i length:1];
 		usleep(100);
 	}
 }

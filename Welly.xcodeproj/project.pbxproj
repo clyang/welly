@@ -62,7 +62,6 @@
 		5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */; };
-		5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* KOMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
@@ -231,8 +230,6 @@
 		5AD4B7150F2D8F8200BF2F87 /* KOMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B9B00F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMovingAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOAutoReplyRule.h; sourceTree = "<group>"; };
-		5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAutoReplyRule.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* KOMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMessageDelegate.h; sourceTree = "<group>"; };
 		5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMessageDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
@@ -518,8 +515,6 @@
 				18A685A70D9414D900CA423A /* TYGrowlBridge.m */,
 				5AF8CA5B0D9CDB0000DFB5AB /* KOMessageDelegate.h */,
 				5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */,
-				5AE273210DD3F25D00C7A8FE /* KOAutoReplyRule.h */,
-				5AE273220DD3F25D00C7A8FE /* KOAutoReplyRule.m */,
 				1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */,
 				1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */,
 				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
@@ -726,7 +721,6 @@
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* KOMessageDelegate.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */,
-				5AE273230DD3F25D00C7A8FE /* KOAutoReplyRule.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
 				5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */,

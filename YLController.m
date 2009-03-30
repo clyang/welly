@@ -337,7 +337,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)loadEmoticons {
-    NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey: @"Emoticons"];
+    NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Emoticons"];
     for (NSDictionary *d in a)
         [self insertObject: [YLEmoticon emoticonWithDictionary: d] inEmoticonsAtIndex: [self countOfEmoticons]];
 }
@@ -346,12 +346,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     NSMutableArray *a = [NSMutableArray array];
     for (YLEmoticon *e in _emoticons) 
         [a addObject: [e dictionaryOfEmoticon]];
-    [[NSUserDefaults standardUserDefaults] setObject: a forKey: @"Emoticons"];    
+    [[NSUserDefaults standardUserDefaults] setObject: a forKey:@"Emoticons"];    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loadLastConnections {
-    NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey: @"LastConnections"];
+    NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"LastConnections"];
     for (NSDictionary *d in a) {
         [self newConnectionWithSite: [YLSite siteWithDictionary: d]];
     }    
@@ -366,7 +366,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         if ([connection terminal]) // not empty tab
             [a addObject: [[connection site] dictionaryOfSite]];
     }
-    [[NSUserDefaults standardUserDefaults] setObject: a forKey: @"LastConnections"];
+    [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"LastConnections"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -376,9 +376,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     BOOL ddb = [sender state];
     if ([sender isKindOfClass: [NSMenuItem class]])
         ddb = !ddb;
-    [[[_telnetView frontMostConnection] site] setShouldDetectDoubleByte: ddb];
-    [_detectDoubleByteButton setState: ddb ? NSOnState : NSOffState];
-    [_detectDoubleByteMenuItem setState: ddb ? NSOnState : NSOffState];
+    [[[_telnetView frontMostConnection] site] setShouldDetectDoubleByte:ddb];
+    [_detectDoubleByteButton setState:(ddb ? NSOnState : NSOffState)];
+    [_detectDoubleByteMenuItem setState:(ddb ? NSOnState : NSOffState)];
 }
 
 - (IBAction)setAutoReplyAction:(id)sender {
@@ -425,7 +425,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [[_telnetView frontMostTerminal] setEncoding: encoding];
         [[_telnetView frontMostTerminal] setAllDirty];
         [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay: YES];
+        [_telnetView setNeedsDisplay:YES];
         [self updateEncodingMenu];
     }
 }
