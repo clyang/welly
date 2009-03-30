@@ -10,15 +10,11 @@
 
 
 @implementation KOMenuItem
+@synthesize name = _name;
 
 + (KOMenuItem *)initWithName:(NSString *)name {
 	KOMenuItem *item = [[KOMenuItem alloc] init];
 	item->_name = name;
 	return item;
 }
-
-- (NSString *)name {
-	return _name;
-}
-
 @end

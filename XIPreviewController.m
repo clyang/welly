@@ -54,7 +54,7 @@ static NSString *sCacheDir;
     [XIQuickLookBridge orderFront];
 }
 
-+ (NSURLDownload *)dowloadWithURL:(NSURL *)URL {
++ (NSURLDownload *)downloadWithURL:(NSURL *)URL {
     // already downloading
     if ([sURLs containsObject:URL])
         return nil;
@@ -218,7 +218,7 @@ static NSString * stringFromFileSize(long long size) {
 	// by gtCarrera @ 9#
 	NSString *fileType = [[_filename pathExtension] lowercaseString];
 	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
-	Boolean canView = [allowedTypes containsObject: fileType];
+	Boolean canView = [allowedTypes containsObject:fileType];
 	if (!canView) {
 		// Close the progress bar window
 		[_window close];

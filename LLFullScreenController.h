@@ -13,7 +13,7 @@
 @interface LLFullScreenController : NSObject {
 	// Object to resize the target view and its super view
 	// This design follows the strategy pattern...
-	LLFullScreenProcessor * _myProcessor;
+	LLFullScreenProcessor * _processor;
 	
 	// The views necessary for full screen and reset
 	NSView * _targetView;
@@ -24,19 +24,20 @@
 	NSWindow* _originalWindow;
 	
 	// State variable
-	bool _isFullScreen;
+	BOOL _isInFullScreen;
 }
+@property (readonly) BOOL isInFullScreen;
+@property (readwrite, retain) LLFullScreenProcessor *processor;
 
 // Init functions
-- (id) initWithProcessor:(LLFullScreenProcessor*)pro targetView:(NSView*)tview superView:(NSView*)sview
-		  originalWindow:(NSWindow*) owin;
-- (id) initWithoutProcessor:(NSView*)tview superView:(NSView*)sview
-			 originalWindow:(NSWindow*) owin;
+- (id)initWithProcessor:(LLFullScreenProcessor*)pro 
+			 targetView:(NSView*)tview 
+			  superView:(NSView*)sview
+		 originalWindow:(NSWindow*)owin;
+- (id)initWithoutProcessor:(NSView*)tview 
+				 superView:(NSView*)sview
+			originalWindow:(NSWindow*)owin;
 // Handle functions
-- (void) handleFullScreen;
-- (void) releaseFullScreen;
-// Accessor
-- (void) setProcessor:(LLFullScreenProcessor*) myPro;
-- (LLFullScreenProcessor*) getProcessor;
-- (BOOL) isInFullScreen;
+- (void)handleFullScreen;
+- (void)releaseFullScreen;
 @end

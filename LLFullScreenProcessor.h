@@ -13,7 +13,7 @@
 
 // A full screen processor shoule have the following methods
 // TODO: How can I define them in a C++ style like "pure virtual"?
-- (void) processBeforeEnter;
-- (void) processBeforeExit;
+- (void)processBeforeEnter;
+- (void)processBeforeExit;
 
 @end

@@ -10,6 +10,7 @@
 #import "YLController.h"
 
 @implementation YLApplication
+@synthesize controller = _controller;
 
 + (void)initialize {
     [NSColor setIgnoresAlpha:NO];
@@ -44,9 +45,4 @@
 
     [pool release];
 }
-
-- (YLController *)controller {
-    return _controller;
-}
-
 @end

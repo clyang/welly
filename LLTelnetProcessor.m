@@ -9,11 +9,11 @@
 #import "LLTelnetProcessor.h"
 #import "XIPortal.h"
 
-
 @implementation LLTelnetProcessor
-
 // Constructor
-- (id) initByView:(YLView*) view myTabView:(NSView*) tView  effectView:(KOEffectView*) eView {
+- (id)initWithView:(YLView*)view 
+		 myTabView:(NSView*)tView 
+		effectView:(KOEffectView*)eView {
 	if (self = [super init]) {
 		needResetPortal = NO;
         _screenRatio = 0.0f;
@@ -25,12 +25,12 @@
 }
 
 // Set and reset font size
-- (void) setFont:(bool)isSet {
+- (void)setFont:(BOOL)isEnteringFullScreen {
 	// In case of some stupid uses...
 	if(_screenRatio == 0.0f)
 		return;
 	// Decide whether to set or to reset the font size
-	CGFloat currRatio = (isSet ? _screenRatio : (1.0f / _screenRatio));
+	CGFloat currRatio = (isEnteringFullScreen ? _screenRatio : (1.0f / _screenRatio));
 	// And do it..
 	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
 	 [[YLLGlobalConfig sharedInstance] englishFontSize] * currRatio];
@@ -43,7 +43,7 @@
 }
 
 // Overrided functions
-- (void) processBeforeEnter {
+- (void)processBeforeEnter {
 	// Get the fittest ratio for the expansion
 	NSRect screenRect = [[NSScreen mainScreen] frame];
 	CGFloat ratioH = screenRect.size.height / [_myView frame].size.height;
@@ -63,7 +63,7 @@
 	}
 }
 
-- (void) processBeforeExit {
+- (void)processBeforeExit {
 	// Set the tab view back...
 	[[_myView superview] addSubview:_tabView];
 	//[[_myView superview] addSubview:_effectView];
@@ -77,5 +77,4 @@
 		needResetPortal = NO;
 	}
 }
-
 @end

@@ -12,7 +12,5 @@
 @interface YLApplication : NSApplication {
     IBOutlet YLController *_controller;
 }
-
-- (YLController *)controller;
-
+@property (readonly) YLController *controller;
 @end

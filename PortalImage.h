@@ -53,21 +53,21 @@ extern NSString *desktopImageImageDidLoadNotification;
 
 @interface DesktopImage : NSObject
 {
-	NSString *_name, *_path;
+	NSString *_name;
+	NSString *_path;
 	CGImageRef _image;
 	CGSize _imageSize;
 	bool _imageFailed :1;
 	bool _requestedImage :1;
 	bool _markedImage :1;
 }
+@property (readonly) NSString *name;
+@property (readonly) NSString *path;
 
 - (id)initWithPath:(NSString *)path;
 
-- (NSString *)name;
-
 - (bool)requestImageOfSize:(CGSize)sz;
 - (CGImageRef)imageOfSize:(CGSize)sz;
-- (NSString *)path;
 
 + (void)sweepImageQueue;
 

@@ -33,7 +33,7 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 		} else {
 			// open with previewer
-			[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+			[XIPreviewController downloadWithURL:[NSURL URLWithString:url]];
 		}
 	}
 }
@@ -151,7 +151,7 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 		} else {
 			// open with previewer
-			[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
+			[XIPreviewController downloadWithURL:[NSURL URLWithString:url]];
 		}
 	}
 	if([_currentURLList count] > 2)

@@ -13,7 +13,8 @@
 // suppress warnings
 @interface PSMTabBarControl ()
 - (NSArray *)cells;
-- (id)cellForPoint:(NSPoint)mousePt cellFrame:(NSRect *)cellFrame;
+- (id)cellForPoint:(NSPoint)mousePt 
+		 cellFrame:(NSRect *)cellFrame;
 - (void)closeTabClick:(id)sender;
 @end
 
@@ -118,14 +119,13 @@
 }
 
 #pragma mark -
-
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
     int index = [self indexOfTabViewItem:tabViewItem];
     [self closeTabClick:[[self cells] objectAtIndex:index]];
 }
 
 #pragma mark - Set main controller
-- (void)setMainController:(YLController *)view {
-	_currMainController = view;
+- (void)setMainController:(YLController *)controller {
+	_currMainController = controller;
 }
 @end

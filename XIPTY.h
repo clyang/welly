@@ -15,8 +15,5 @@
     id _delegate;
     BOOL _connecting;
 }
-
-- (id)delegate;
-- (void)setDelegate:(id)delegate;
-
+@property (readwrite, assign) id delegate;
 @end

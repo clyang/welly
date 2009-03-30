@@ -11,7 +11,7 @@
 
 @class YLController;
 @interface XITabBarControl : PSMTabBarControl {
-	YLController * _currMainController;
+	YLController *_currMainController;
 }
 
 // select
@@ -25,6 +25,6 @@
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem;	
 
 // Set main controller
-- (void)setMainController:(YLController *)view;
+- (void)setMainController:(YLController *)controller;
 
 @end

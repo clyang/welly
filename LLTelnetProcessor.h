@@ -16,18 +16,17 @@
 	BOOL needResetPortal;
 	CGFloat _screenRatio;
 	NSRect _viewRect;
-	YLView * _myView;
-	NSView * _tabView;
-	KOEffectView * _effectView;
+	YLView *_myView;
+	NSView *_tabView;
+	KOEffectView *_effectView;
 }
 
 // Constructor
-- (id) initByView:(YLView*) view myTabView:(NSView*) tView effectView:(KOEffectView*) eView;
-// Private functions to access font sizes
-- (void) setFont:(bool)isSet;
+- (id)initWithView:(YLView*)view 
+		 myTabView:(NSView*)tView 
+		effectView:(KOEffectView*)eView;
 
 // Overrided functions
-- (void) processBeforeEnter;
-- (void) processBeforeExit;
-
+- (void)processBeforeEnter;
+- (void)processBeforeExit;
 @end

@@ -17,20 +17,9 @@
 	CGFloat _lineHeight;
 	NSPoint _destination;
 }
-
-- (NSAttributedString *)string;
-- (void)setString:(NSAttributedString *)value;
-
-- (NSRange)markedRange;
-- (void)setMarkedRange:(NSRange)value;
-
-- (NSRange)selectedRange;
-- (void)setSelectedRange:(NSRange)value;
-
-- (NSFont *)defaultFont;
-- (void)setDefaultFont:(NSFont *)value;
-
-- (NSPoint)destination;
-- (void)setDestination:(NSPoint)value;
-
+@property (readwrite, copy) NSAttributedString *string;
+@property (readwrite, assign) NSRange markedRange;
+@property (readwrite, assign) NSRange selectedRange;
+@property (readwrite, copy) NSFont *defaultFont;
+@property (readwrite, assign) NSPoint destination;
 @end

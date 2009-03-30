@@ -11,13 +11,11 @@
 
 @implementation TYFeedGenerator
 
-- (id)init
-{
+- (id)init {
     return [self initWithSiteName:@""];
 }
 
-- (id)initWithSiteName:(NSString *)siteName
-{
+- (id)initWithSiteName:(NSString *)siteName {
     [super init];
     [siteName retain];
     [_siteName release];
@@ -35,15 +33,16 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [_xmlDoc release];
     [_siteName release];
     [super dealloc];
 }
 
-- (void)addItemWithTitle:(NSString *)aTitle description:(NSString *)aDescription author:(NSString *)anAuthor pubDate:(NSString *)aPubDate
-{
+- (void)addItemWithTitle:(NSString *)aTitle 
+			 description:(NSString *)aDescription 
+				  author:(NSString *)anAuthor 
+				 pubDate:(NSString *)aPubDate {
     NSXMLElement *item = (NSXMLElement *)[NSXMLNode elementWithName:@"item"];
     [item addChild:[NSXMLNode elementWithName:@"title" stringValue:aTitle]];
     [item addChild:[NSXMLNode elementWithName:@"description" stringValue:aDescription]];
@@ -52,8 +51,7 @@
     [(NSXMLElement *)[[_xmlDoc rootElement] childAtIndex:0] addChild:item];
 }
 
-- (BOOL)writeFeedToFile:(NSString *)fileName
-{
+- (BOOL)writeFeedToFile:(NSString *)fileName {
     return [[_xmlDoc XMLDataWithOptions:NSXMLNodePrettyPrint] writeToFile:fileName atomically:YES];
 }
 

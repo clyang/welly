@@ -10,11 +10,16 @@
 
 
 @implementation YLMarkedTextView
+@synthesize string = _string;
+@synthesize markedRange = _markedRange;
+@synthesize selectedRange = _selectedRange;
+@synthesize defaultFont = _defaultFont;
+@synthesize destination = _destination;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		[self setDefaultFont: [NSFont fontWithName: @"Lucida Grande" size: 20]];
+		[self setDefaultFont:[NSFont fontWithName:@"Lucida Grande" size:20]];
     }
     return self;
 }
@@ -108,35 +113,25 @@
 	CGContextRestoreGState(context);
 }
 
-
-
-- (NSAttributedString *)string {
-    return [[_string retain] autorelease];
-}
-
 - (void)setString:(NSAttributedString *)value {
 	NSMutableAttributedString *as = [[NSMutableAttributedString alloc] initWithAttributedString: value];
-	[as addAttribute: NSFontAttributeName 
-			   value: _defaultFont
-			   range: NSMakeRange(0, [value length])];
-	[as addAttribute: NSForegroundColorAttributeName 
-			   value: [NSColor whiteColor]
-			   range: NSMakeRange(0, [value length])];
+	[as addAttribute:NSFontAttributeName 
+			   value:_defaultFont
+			   range:NSMakeRange(0, [value length])];
+	[as addAttribute:NSForegroundColorAttributeName 
+			   value:[NSColor whiteColor]
+			   range:NSMakeRange(0, [value length])];
 	[_string release];
 	_string = as;
-	[self setNeedsDisplay: YES];
+	[self setNeedsDisplay:YES];
 
-	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef) _string);
+	CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)_string);
 	double w = CTLineGetTypographicBounds(line, NULL, NULL, NULL) ;
 	NSSize size = [self frame].size;
 	size.width = w + 12;
 	size.height = _lineHeight + 8 + 5;
-	[self setFrameSize: size];
+	[self setFrameSize:size];
 	CFRelease(line);
-}
-
-- (NSRange)markedRange {
-    return _markedRange;
 }
 
 - (void)setMarkedRange:(NSRange)value {
@@ -144,17 +139,9 @@
 	[self setNeedsDisplay: YES];
 }
 
-- (NSRange)selectedRange {
-    return _selectedRange;
-}
-
 - (void)setSelectedRange:(NSRange)value {
 	_selectedRange = value;
 	[self setNeedsDisplay: YES];
-}
-
-- (NSFont *)defaultFont {
-    return [[_defaultFont retain] autorelease];
 }
 
 - (void)setDefaultFont:(NSFont *)value {
@@ -166,16 +153,7 @@
 	[self setNeedsDisplay: YES];
 }
 
-- (NSPoint)destination {
-    return _destination;
-}
-
-- (void)setDestination:(NSPoint)value {
-        _destination = value;
-}
-
-
-- (BOOL) isOpaque {
+- (BOOL)isOpaque {
 	return NO;
 }
 

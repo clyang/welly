@@ -70,6 +70,7 @@ extern NSString *desktopImageIndex;
 
 + (id)layoutManager;
 - (float)positionOfSelectedImageInLayer:(CALayer *)layer;
-- (NSPointerArray *)imageIndicesOfLayer:(CALayer *)l inRect:(CGRect)r;
+- (NSPointerArray *)imageIndicesOfLayer:(CALayer *)l 
+								 inRect:(CGRect)r;
 
 @end

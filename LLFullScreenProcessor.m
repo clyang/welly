@@ -9,11 +9,11 @@
 
 @implementation LLFullScreenProcessor
 
-- (void) processBeforeEnter {
+- (void)processBeforeEnter {
 	// Simply do nothing here...
 	NSLog(@"Processor enter: Base class!");
 }
-- (void) processBeforeExit {
+- (void)processBeforeExit {
 	//Simply do nothing here
 	NSLog(@"Processor exit: Base class!");
 }

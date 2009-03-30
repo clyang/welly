@@ -13,6 +13,6 @@
 }
 
 - (IBAction)openPreview:(id)sender;
-+ (NSURLDownload *)dowloadWithURL:(NSURL *)URL;
++ (NSURLDownload *)downloadWithURL:(NSURL *)URL;
 
 @end

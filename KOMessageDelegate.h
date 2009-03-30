@@ -20,9 +20,8 @@
 }
 @property (readonly) int unreadCount;
 
-- (id)init;
 - (id)initWithConnection:(YLConnection *)connection;
-- (void)dealloc;
+
 - (void)setConnection:(YLConnection *)connection;
 - (void)connectionDidReceiveNewMessage:(NSString *)message
 		   fromCaller:(NSString *)callerName;

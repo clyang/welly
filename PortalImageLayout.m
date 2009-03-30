@@ -99,7 +99,8 @@ static DesktopImageLayout *sharedLayoutManager;
     return x;
 }
 
-- (NSPointerArray *)imageIndicesOfLayer:(CALayer *)layer inRect:(CGRect)r {
+- (NSPointerArray *)imageIndicesOfLayer:(CALayer *)layer 
+								 inRect:(CGRect)r {
     CGSize size = [layer bounds].size;
     NSSize margin = [[layer valueForKey:@"margin"] sizeValue];
     NSSize spacing = [[layer valueForKey:@"spacing"] sizeValue];

@@ -571,10 +571,10 @@
 		81F8ECFB0E5006660022FA65 /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
+				81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */,
 				81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */,
 				81F8ECF00E5005190022FA65 /* LLFullScreenController.h */,
 				81F8ECF10E5005190022FA65 /* LLFullScreenController.m */,
-				81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */,
 				819586600E5183E200AFBFCE /* LLTelnetProcessor.h */,
 				819586610E5183E200AFBFCE /* LLTelnetProcessor.m */,
 			);

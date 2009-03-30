@@ -12,9 +12,7 @@
 @interface KOMenuItem : NSObject {
 	NSString *_name;	
 }
+@property (readonly) NSString *name;
 
 + (KOMenuItem *)initWithName:(NSString *)name;
-
-- (NSString *)name;
-
 @end

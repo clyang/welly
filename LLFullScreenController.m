@@ -12,20 +12,21 @@
 #import <Quartz/Quartz.h>
 
 @implementation LLFullScreenController
-
+@synthesize isInFullScreen = _isInFullScreen;
+@synthesize processor = _processor;
 #pragma mark -
 #pragma mark Init
 // Initiallize the controller with a given processor
-- (id) initWithProcessor:(LLFullScreenProcessor*)pro 
-			  targetView:(NSView*)tview 
-			   superView:(NSView*)sview
-		  originalWindow:(NSWindow*) owin {
-	if(self = [super init]) {
-		_myProcessor = [pro retain];
+- (id)initWithProcessor:(LLFullScreenProcessor*)pro 
+			 targetView:(NSView*)tview 
+			  superView:(NSView*)sview
+		 originalWindow:(NSWindow*)owin {
+	if (self = [super init]) {
+		_processor = [pro retain];
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
-		_isFullScreen = false;
+		_isInFullScreen = NO;
 	}
 	return self;
 }
@@ -35,13 +36,13 @@
 // screen but cannot resize it
 - (id) initWithoutProcessor:(NSView*)tview 
 				  superView:(NSView*)sview
-			 originalWindow:(NSWindow*) owin {
-	if(self = [super init]) {
-		_myProcessor = nil;
+			 originalWindow:(NSWindow*)owin {
+	if (self = [super init]) {
+		_processor = nil;
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
-		_isFullScreen = false;
+		_isInFullScreen = NO;
 	}
 	return self;
 }
@@ -57,9 +58,9 @@
 #pragma mark Handle functions
 // The main control function of this object
 - (void) handleFullScreen {
-	if (!_isFullScreen) {
+	if (!_isInFullScreen) {
 		// Set current state
-		_isFullScreen = true;
+		_isInFullScreen = YES;
 		// Init the window and show
 		NSRect screenRect = [[NSScreen mainScreen] frame];
 		_fullScreenWindow = [[NSWindow alloc] initWithContentRect:screenRect
@@ -87,15 +88,15 @@
 
 // Make the view out of the full screen state
 - (void) releaseFullScreen {
-	if(_isFullScreen) {
+	if(_isInFullScreen) {
 		// Change the state
-		_isFullScreen = false;
+		_isInFullScreen = false;
 		// Set the super view back
 		[_superView addSubview:_targetView];
 		// Pre-process if necessary
 		// Do not move it to else where!
-		if(_myProcessor != nil) {
-			[_myProcessor processBeforeExit];
+		if(_processor != nil) {
+			[_processor processBeforeExit];
 		}
 		[_fullScreenWindow.animator setAlphaValue:0];
 		// Change UI mode by carbon
@@ -107,8 +108,9 @@
 
 #pragma mark -
 #pragma mark Delegate function
-- (void)animationDidStop:(CAAnimation *)animation finished:(BOOL)flag {
-	if(!_isFullScreen) { 
+- (void)animationDidStop:(CAAnimation *)animation 
+				finished:(BOOL)flag {
+	if(!_isInFullScreen) { 
 		// Close the window!
 		[_fullScreenWindow close];
 		// Show the main window
@@ -117,8 +119,8 @@
 		// Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 		// Pre-process if necessary
-		if(_myProcessor != nil) {
-			[_myProcessor processBeforeEnter];
+		if(_processor != nil) {
+			[_processor processBeforeEnter];
 		}
 		// Record new origin
 		NSRect screenRect = [[NSScreen mainScreen] frame];
@@ -131,20 +133,5 @@
         // Move the origin point
         [[_fullScreenWindow contentView] setFrameOrigin:newOP];
 	}
-}
-
-// Accessor
-- (void) setProcessor:(LLFullScreenProcessor*) myPro {
-	_myProcessor = [myPro retain];
-}
-
-#pragma mark -
-#pragma mark Accessors
-- (LLFullScreenProcessor*) getProcessor {
-	return _myProcessor;
-}
-
-- (BOOL) isInFullScreen {
-	return _isFullScreen;
 }
 @end

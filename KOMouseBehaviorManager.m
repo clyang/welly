@@ -40,7 +40,7 @@ const float KOHorizontalScrollReactivateTimeInteval = 1.0;
 @synthesize normalCursor = _normalCursor;
 #pragma mark -
 #pragma mark Initialization
-- (id)initWithView: (YLView *)view {
+- (id)initWithView:(YLView *)view {
 	[self init];
 	_view = view;
 	

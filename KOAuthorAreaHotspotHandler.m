@@ -170,7 +170,6 @@ BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
 						row:r
 					 column:start
 					 length:end - start + 1];
-		
 	}
 }
 

@@ -56,13 +56,15 @@
 NSString *desktopImageImageDidLoadNotification = @"desktopImageImageDidLoadNotification";
 
 @implementation DesktopImage
+@synthesize name = _name;
+@synthesize path = _path;
 
 - (id)initWithPath:(NSString *)path {
     self = [super init];
     if (self == nil)
         return nil;
     _path = [path copy];
-    _name = [[[path lastPathComponent] stringByDeletingPathExtension] retain];
+    _name = [[[path lastPathComponent] stringByDeletingPathExtension] copy];
     return self;
 }
 
@@ -71,14 +73,6 @@ NSString *desktopImageImageDidLoadNotification = @"desktopImageImageDidLoadNotif
     [_path release];
     CGImageRelease(_image);
     [super dealloc];
-}
-
-- (NSString *)name {
-    return _name;
-}
-
-- (NSString *)path {
-    return _path;
 }
 
 - (CGImageRef)imageOfSize:(CGSize)sz {

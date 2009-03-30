@@ -32,7 +32,7 @@
 }
 
 + (CGColorRef)color:(int)name;
-- initWithView:(NSView *)view;
+- (id)initWithView:(NSView *)view;
 - (BOOL)needsInit;
 - (void)loadCovers;
 - (void)moveSelection:(int)dx;

@@ -1433,8 +1433,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 // A "processor" here will resize the NSViews and do some necessary work before full
 // screen
 - (IBAction)fullScreenMode:(id)sender {
-	if([_fullScreenController getProcessor] == nil) {
-		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initByView:_telnetView 
+	if([_fullScreenController processor] == nil) {
+		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initWithView:_telnetView 
 															   myTabView:_tab 
 															  effectView:((KOEffectView*)[_telnetView effectView])];
 		[_fullScreenController setProcessor:myPro];

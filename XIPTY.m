@@ -27,6 +27,7 @@
 #define CTRLKEY(c)   ((c)-'A'+1)
 
 @implementation XIPTY
+@synthesize delegate = _delegate;
 
 + (NSString *)parse:(NSString *)addr {
     // command, not "URL"
@@ -263,13 +264,4 @@
     [pool release];
     [NSThread exit];
 }
-
-- (id)delegate {
-    return _delegate;
-}
-
-- (void)setDelegate:(id)delegate {
-    _delegate = delegate;
-}
-
 @end
