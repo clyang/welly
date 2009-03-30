@@ -316,6 +316,7 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
         }
 		 */
 	}
+	[currURL release];
 }
 
 @end
