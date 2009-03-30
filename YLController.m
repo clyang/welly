@@ -437,6 +437,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])) {
 		[_telnetView updatePortal];
 		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
+	} else {
+		// let user input
+		[_mainWindow makeFirstResponder:_addressBar];
 	}
     /*
     YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
@@ -448,8 +451,6 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
     [_mainWindow makeKeyAndOrderFront:self];
     */
-    // let user input
-    //[_mainWindow makeFirstResponder:_addressBar];
 }
 
 - (IBAction)connect:(id)sender {
