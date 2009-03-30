@@ -179,18 +179,15 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 	[_currentURLList addObject:userInfo];
 	
 	// Calculate rects to add, notice that we might have multiline url
-	//NSRect rect = [_view rectAtRow:r column:c height:1 width:len];
 	while (length > 0) {
 		int column = index % _maxColumn;
 		int row = index / _maxColumn;
 		if (column + length < _maxColumn) {
-			//NSLog(@"add rect at row:%d, column:%d, length:%d", row, column, length);
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:length];
 			[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:column + length];
 			break;
 		} else {
-			//NSLog(@"add rect at row:%d, column:%d, length:%d", row, column, _maxColumn - column);
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:_maxColumn - column];
 			[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:_maxColumn];
@@ -241,19 +238,6 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
 			// Push current char in!
             unsigned char c = [ds cellAtIndex:index].byte;
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
-				//NSLog(@"URL: %@", currURL);
-				// Here we store the row and column number in the NSPoint
-				// to convert it to an actual pos, see
-				// NSMakeRect(x * _fontWidth, (gRow - y - 1) * _fontHeight, _fontWidth * length, _fontHeight);
-				/*
-				NSPoint cp;
-				cp.x = index;
-				cp.y = row;
-				LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:currURL 
-																	name:currURL 
-																position:cp];
-				 [_currentURLList addObject:currUrlData];
-				 */
 				// Not URL anymore, add previous one
 				[self addURL:currURL AtIndex:startIndex length:urlLength];
 				[currURL setString:@""];
@@ -263,16 +247,6 @@ NSString *const KOMenuTitleOpenWithBrowser = @"Open With Browser";
                 ++par;
             else if (c == ')') {
                 if (--par < 0) {
-					//NSLog(@"URL: %@", currURL);
-					/*
-					NSPoint cp;
-					cp.x = i;
-					cp.y = r;
-					LLUrlData * currUrlData = [[LLUrlData alloc] initWithUrl:_currURL 
-																		name:_currURL 
-																	position:cp];
-					[_currentURLList addObject:currUrlData];
-					 */
 					// Not URL anymore, add previous one
 					[self addURL:currURL AtIndex:startIndex length:urlLength];
 					[currURL setString:@""];

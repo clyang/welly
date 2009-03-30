@@ -390,9 +390,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	[_autoReplyMenuItem setState: ar ? NSOnState : NSOffState];
 	if (!ar && ar != [[[_telnetView frontMostConnection] site] shouldAutoReply]) {
 		// when user is to close auto reply, 
-		if ([[[_telnetView frontMostConnection] autoReplyDelegate] unreadCount] > 0) {
+		if ([[[_telnetView frontMostConnection] messageDelegate] unreadCount] > 0) {
 			// we should inform him with the unread messages
-			[[[_telnetView frontMostConnection] autoReplyDelegate] showUnreadMessagesOnTextView:_unreadMessageTextView];
+			[[[_telnetView frontMostConnection] messageDelegate] showUnreadMessagesOnTextView:_unreadMessageTextView];
 			[_messageWindow makeKeyAndOrderFront:self];
 		}
 	}
@@ -1478,7 +1478,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
                       @"Please pay attention to our future versions. Thanks for your cooperation.");
     return;
     // TODO: uncomment the following code to enable RSS mode.
-    if (![_telnetView connected]) return;
+    if (![_telnetView isConnected]) return;
     if (!_rssThread) {
         [NSThread detachNewThreadSelector:@selector(fetchFeed) toTarget:self withObject:nil];
         NSBeginAlertSheet(@"Welly is now working in RSS mode. (Experimental)",

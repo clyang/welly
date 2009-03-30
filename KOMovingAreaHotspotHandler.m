@@ -178,7 +178,7 @@ NSString *const KOMenuTitleQuitMode = @"Quit Mode";
 
 - (void)update {
 	// For the mouse preference
-	if (![_view mouseEnabled]) 
+	if (![_view shouldEnableMouse]) 
 		return;
 	[self updateExitArea];
 	[self updatePageUpArea];

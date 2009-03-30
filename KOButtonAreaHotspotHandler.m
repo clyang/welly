@@ -177,7 +177,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 
 - (void)update {
 	// For the mouse preference
-	if (![_view mouseEnabled]) 
+	if (![_view shouldEnableMouse]) 
 		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];

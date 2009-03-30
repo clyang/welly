@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "XITabBarControl.h"
 #import "YLSite.h"
-#import "KOAutoReplyDelegate.h"
+#import "KOMessageDelegate.h"
 #import "LLFullScreenController.h"
 #import "LLTelnetProcessor.h"
 

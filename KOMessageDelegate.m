@@ -7,12 +7,22 @@
 //
 
 
-#import "KOAutoReplyDelegate.h"
+#import "KOMessageDelegate.h"
 #import "YLConnection.h"
 #import "YLSite.h"
+#import "YLView.h"
+#import "YLApplication.h"
+#import "YLController.h"
 #import "encoding.h"
+#import "TYGrowlBridge.h"
 
-@implementation KOAutoReplyDelegate
+NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
+@interface KOMessageDelegate ()
+- (void)didClickGrowlNewMessage:(id)connection;
+@end
+
+
+@implementation KOMessageDelegate
 @synthesize unreadCount = _unreadCount;
 
 - (id)init {
@@ -42,7 +52,7 @@
 }
 
 - (void)connectionDidReceiveNewMessage:(NSString *)message
-						  fromCaller:(NSString *)callerName {
+							fromCaller:(NSString *)callerName {
 	if ([[_connection site] shouldAutoReply]) {
 		// enclose the autoReplyString with two '\r'
 		NSString *aString = [NSString stringWithFormat:@"\r%@\r", [[_connection site] autoReplyString]];
@@ -54,6 +64,26 @@
 		[_unreadMessage appendFormat:@"%@\r%@\r\r", callerName, message];
 		_unreadCount++;
 	}
+	
+	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [_site shouldAutoReply]) {
+		// not in focus
+		[_connection increaseMessageCount:1];
+		// notify auto replied
+		if ([_site shouldAutoReply]) {
+			message = [NSString stringWithFormat:NSLocalizedString(KOAutoReplyGrowlTipFormat, @"Auto Reply"), message];
+		}
+		// should invoke growl notification
+		[TYGrowlBridge notifyWithTitle:callerName
+						   description:message
+					  notificationName:@"New Message Received"
+							  iconData:[NSData data]
+							  priority:0
+							  isSticky:NO
+						  clickContext:self
+						 clickSelector:@selector(didClickGrowlNewMessage:)
+							identifier:_connection];
+	}
 }
 
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView {
@@ -62,5 +92,15 @@
 	[textView setTextColor:[NSColor whiteColor]];
 	[_unreadMessage setString:@""];
 	_unreadCount = 0;
+}
+
+- (void)didClickGrowlNewMessage:(id)connection {
+    // bring the window to front
+    [NSApp activateIgnoringOtherApps:YES];
+	
+	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+    [[view window] makeKeyAndOrderFront:nil];
+    // select the tab
+    [view selectTabViewItemWithIdentifier:connection];
 }
 @end

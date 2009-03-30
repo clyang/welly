@@ -77,6 +77,7 @@ BOOL isSpecialSymbol(unichar ch) {
 @synthesize isMouseActive = _isMouseActive;
 @synthesize fontWidth = _fontWidth;
 @synthesize fontHeight = _fontHeight;
+@synthesize effectView = _effectView;
 
 - (void)createSymbolPath {
 	int i = 0;
@@ -261,7 +262,7 @@ BOOL isSpecialSymbol(unichar ch) {
 #pragma mark Actions
 
 - (void)copy:(id)sender {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
     if (_selectionLength == 0) return;
 
     NSString *s = [self selectedPlainString];
@@ -383,7 +384,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)pasteColor:(id)sender {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
@@ -402,7 +403,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)paste:(id)sender {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
@@ -421,7 +422,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)pasteWrap:(id)sender {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
 	YLTerminal *terminal = [self frontMostTerminal];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
 		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
@@ -440,7 +441,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)selectAll:(id)sender {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
     _selectionLocation = 0;
     _selectionLength = gRow * gColumn;
     [self setNeedsDisplay: YES];
@@ -448,20 +449,20 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
     SEL action = [item action];
-    if (action == @selector(copy:) && (![self connected] || _selectionLength == 0)) {
+    if (action == @selector(copy:) && (![self isConnected] || _selectionLength == 0)) {
         return NO;
     } else if ((action == @selector(paste:) || 
                 action == @selector(pasteWrap:) || 
-                action == @selector(pasteColor:)) && ![self connected]) {
+                action == @selector(pasteColor:)) && ![self isConnected]) {
         return NO;
-    } else if (action == @selector(selectAll:)  && ![self connected]) {
+    } else if (action == @selector(selectAll:)  && ![self isConnected]) {
         return NO;
     } 
     return YES;
 }
 
 - (void)refreshHiddenRegion {
-    if (![self connected]) return;
+    if (![self isConnected]) return;
     int i, j;
     for (i = 0; i < gRow; i++) {
         cell *currRow = [[self frontMostTerminal] cellsOfRow:i];
@@ -513,7 +514,7 @@ BOOL isSpecialSymbol(unichar ch) {
         return;
     }
 
-    if (![self connected]) return;
+    if (![self isConnected]) return;
 	// Disable the mouse if we cancelled any selection
 	if(abs(_selectionLength) > 0) _isNotCancelingSelection = NO;
     _selectionLocation = [self convertIndexFromPoint: p];
@@ -563,7 +564,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal mouseDragged:e];
         return;
     }
-    if (![self connected]) return;
+    if (![self isConnected]) return;
     NSPoint p = [e locationInWindow];
     p = [self convertPoint:p toView:nil];
     int index = [self convertIndexFromPoint:p];
@@ -585,7 +586,7 @@ BOOL isSpecialSymbol(unichar ch) {
         return;
     }
 	
-    if (![self connected]) return;
+    if (![self isConnected]) return;
     // open url
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
@@ -787,7 +788,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)drawRect:(NSRect)rect {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     YLTerminal *ds = [self frontMostTerminal];
-	if ([self connected]) {
+	if ([self isConnected]) {
 		// NSLog(@"connected");
 		// Modified by gtCarrera
 		// Draw the background color first!!!
@@ -1412,7 +1413,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    if (![self connected])
+    if (![self isConnected])
         return nil;
     NSString *s = [self selectedPlainString];
 	if (s != nil)
@@ -1428,23 +1429,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Accessor
-- (float)fontWidth {
-    return _fontWidth;
-}
-
-- (void)setFontWidth:(float)value {
-    _fontWidth = value;
-}
-
-- (float)fontHeight {
-    return _fontHeight;
-}
-
-- (void)setFontHeight:(float)value {
-    _fontHeight = value;
-}
-
-- (BOOL)connected {
+- (BOOL)isConnected {
 	return [[self frontMostConnection] isConnected];
 }
 
@@ -1497,7 +1482,7 @@ BOOL isSpecialSymbol(unichar ch) {
     return NO;
 }
 
-- (BOOL)mouseEnabled {
+- (BOOL)shouldEnableMouse {
 	return [[[self frontMostConnection] site] shouldEnableMouse];
 }
 
@@ -1513,7 +1498,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		 withDelay:(int)microsecond {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     
-    [_textField setHidden: YES];
+    [_textField setHidden:YES];
     [_markedText release];
     _markedText = nil;	
 	
@@ -1996,12 +1981,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 #pragma mark -
-#pragma mark Test for effect views
-- (KOEffectView *) effectView {
-	return _effectView;
-}
-
-- (void) resetCursorRects {
+#pragma mark For effect views
+- (void)resetCursorRects {
 	[super resetCursorRects];
 	[self updateMouseHotspot];
 	return;

@@ -11,12 +11,7 @@
 #import "KOTerminalFeeder.h"
 #import "encoding.h"
 #import "YLLGlobalConfig.h"
-#import "YLApplication.h"
-#import "TYGrowlBridge.h"
-#import "YLController.h"
-#import "YLView.h"
-
-NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
+#import "KOMessageDelegate.h"
 
 @interface YLConnection ()
 - (void)login;
@@ -33,7 +28,7 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 @synthesize objectCount = _objectCount;
 @synthesize lastTouchDate = _lastTouchDate;
 @synthesize messageCount = _messageCount;
-@synthesize autoReplyDelegate = _autoReplyDelegate;
+@synthesize messageDelegate = _messageDelegate;
 
 - (id)init {
 	[super initWithContent:self];
@@ -44,8 +39,8 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
     if (self == [super initWithContent:self]) {
         [self setSite:site];
         [self setTerminalFeeder:[[KOTerminalFeeder alloc] initWithConnection:self]];
-        _autoReplyDelegate = [[KOAutoReplyDelegate alloc] init];
-        [_autoReplyDelegate setConnection: self];
+        _messageDelegate = [[KOMessageDelegate alloc] init];
+        [_messageDelegate setConnection: self];
     }
     return self;
 }
@@ -56,7 +51,7 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
     [_terminal release];
     [_feeder release];
     [_protocol release];
-    [_autoReplyDelegate release];
+    [_messageDelegate release];
     [_site release];
     [super dealloc];
 }
@@ -200,13 +195,13 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
                 if (*ps == ' ' || *ps == '/')
                     break;
             if (ps != pe) {
-                while (_feeder->_cursorY <= 3)
+                while ([_feeder cursorY] <= 3)
                     sleep(1);
                 [self sendBytes:ps+1 length:pe-ps-1];
                 [self sendBytes:"\r" length:1];
             }
         }
-    } else if (_feeder->_grid[_feeder->_cursorY][_feeder->_cursorX - 2].byte == '?') {
+    } else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
         [self sendBytes:"yes\r" length:4];
         sleep(1);
     }
@@ -248,8 +243,6 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	
 	// we should let the icon on the deck bounce
 	[NSApp requestUserAttention: ([config shouldRepeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
-	//if (_connection != [[_view selectedTabViewItem] identifier] || ![NSApp isActive]) { /* Not selected tab */
-	//[_connection setIcon: [NSImage imageNamed: @"message.pdf"]];
 	[config setMessageCount:[config messageCount] + value];
 	_messageCount += value;
     [self setObjectCount:_messageCount];
@@ -269,37 +262,8 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 - (void)didReceiveNewMessage:(NSString *)message
 				  fromCaller:(NSString *)caller {
 	// If there is a new message, we should notify the auto-reply delegate.
-	[_autoReplyDelegate connectionDidReceiveNewMessage:message
+	[_messageDelegate connectionDidReceiveNewMessage:message
 											fromCaller:caller];
-	
-	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
-	if (self != [view frontMostConnection] || ![NSApp isActive] || [_site shouldAutoReply]) {
-		// not in focus
-		[self increaseMessageCount: 1];
-		// notify auto replied
-		if ([_site shouldAutoReply]) {
-			message = [NSString stringWithFormat:NSLocalizedString(KOAutoReplyGrowlTipFormat, @"Auto Reply"), message];
-		}
-		// should invoke growl notification
-		[TYGrowlBridge notifyWithTitle:caller
-						   description:message
-					  notificationName:@"New Message Received"
-							  iconData:[NSData data]
-							  priority:0
-							  isSticky:NO
-						  clickContext:self
-						 clickSelector:@selector(didClickGrowlNewMessage:)
-							identifier:self];
-	}
-}
-
-- (void)didClickGrowlNewMessage:(id)connection {
-    // bring the window to front
-    [NSApp activateIgnoringOtherApps:YES];
-	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
-    [[view window] makeKeyAndOrderFront:nil];
-    // select the tab
-    [view selectTabViewItemWithIdentifier:connection];
 }
 
 @end

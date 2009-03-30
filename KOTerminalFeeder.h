@@ -12,7 +12,6 @@
 @class YLConnection, XIIntegerArray, YLTerminal;
 
 @interface KOTerminalFeeder : NSObject {
-@public
     unsigned int _row;
     unsigned int _column;
     unsigned int _cursorX;
@@ -53,6 +52,9 @@
     BOOL _modeLNM;            // line feed (true, default), new line (false)
     BOOL _modeIRM;            // insert (true), replace (false, default)
 }
+@property unsigned int cursorX;
+@property unsigned int cursorY;
+@property cell **grid;
 
 - (id)init;
 - (id)initWithConnection:(YLConnection *)connection;

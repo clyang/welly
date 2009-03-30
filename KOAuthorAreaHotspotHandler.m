@@ -176,7 +176,7 @@ BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
 
 - (void)update {
 	// For the mouse preference
-	if (![_view mouseEnabled]) 
+	if (![_view shouldEnableMouse]) 
 		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateAuthorAreaForRow:r];

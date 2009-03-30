@@ -59,8 +59,7 @@
 @property BOOL isMouseActive;
 @property CGFloat fontWidth;
 @property CGFloat fontHeight;
-//@property int x;
-//@property int y;
+@property (readonly) KOEffectView *effectView;
 
 - (void)configure;
 
@@ -80,7 +79,7 @@
 
 - (YLTerminal *)frontMostTerminal;
 - (YLConnection *)frontMostConnection;
-- (BOOL)connected;
+- (BOOL)isConnected;
 
 - (void)extendBottomFrom:(int)start 
 					  to:(int)end;
@@ -96,21 +95,14 @@
 						  from:(int)start 
 							to:(int)end;
 
-- (float)fontWidth;
-- (void)setFontWidth:(float)value;
-
-- (float)fontHeight;
-- (void)setFontHeight:(float)value;
-
 - (NSRect)rectAtRow:(int)r 
 			 column:(int)c 
 			 height:(int)h 
 			  width:(int)w;
 
-- (KOEffectView *)effectView ;
+- (BOOL)shouldEnableMouse;
 
 - (void)sendText:(NSString *)text;
-- (BOOL)mouseEnabled;
 
 - (NSString *)selectedPlainString ;
 - (BOOL)hasBlinkCell ;

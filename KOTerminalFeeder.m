@@ -152,8 +152,10 @@
 - (void)reverseAll;
 @end
 
-
 @implementation KOTerminalFeeder
+@synthesize cursorX = _cursorX;
+@synthesize cursorY = _cursorY;
+@synthesize grid = _grid;
 
 #define CURSOR_MOVETO(x, y)		do {\
 _cursorX = (x); _cursorY = (y); \

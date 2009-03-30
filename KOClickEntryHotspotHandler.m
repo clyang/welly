@@ -409,7 +409,7 @@ BOOL isPostTitleStarter(unichar c) {
 
 - (void)update {
 	// For the mouse preference
-	if (![_view mouseEnabled]) 
+	if (![_view shouldEnableMouse]) 
 		return;
 	YLTerminal *ds = [_view frontMostTerminal];
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
