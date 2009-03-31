@@ -28,7 +28,7 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 - (id)init {
 	self = [super init];
 	if (self != nil) {
-		_unreadMessage = [[NSMutableString alloc] init];
+		_unreadMessage = [[NSMutableString alloc] initWithCapacity:400];
 		[_unreadMessage setString:@""];
 		_unreadCount = 0;
 	}
@@ -42,13 +42,12 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 }
 
 - (void)dealloc {
-	[_unreadMessage dealloc];
+	[_unreadMessage release];
 	[super dealloc];
 }
 
 - (void)setConnection:(YLConnection *)connection {
 	_connection = connection;
-	_site = [connection site];
 }
 
 - (void)connectionDidReceiveNewMessage:(NSString *)message
@@ -66,16 +65,19 @@ NSString *const KOAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	}
 	
 	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
-	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [_site shouldAutoReply]) {
+	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [[_connection site] shouldAutoReply]) {
 		// not in focus
 		[_connection increaseMessageCount:1];
+		NSString *description;
 		// notify auto replied
-		if ([_site shouldAutoReply]) {
-			message = [NSString stringWithFormat:NSLocalizedString(KOAutoReplyGrowlTipFormat, @"Auto Reply"), message];
+		if ([[_connection site] shouldAutoReply]) {
+			description = [NSString stringWithFormat:NSLocalizedString(KOAutoReplyGrowlTipFormat, @"Auto Reply"), message];
+		} else {
+			description = message;
 		}
 		// should invoke growl notification
 		[TYGrowlBridge notifyWithTitle:callerName
-						   description:message
+						   description:description 
 					  notificationName:@"New Message Received"
 							  iconData:[NSData data]
 							  priority:0

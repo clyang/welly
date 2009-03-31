@@ -254,7 +254,7 @@
 		return;
 	
 	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
-	[config setMessageCount: [config messageCount] - _messageCount];
+	[config setMessageCount:[config messageCount] - _messageCount];
 	_messageCount = 0;
     [self setObjectCount:_messageCount];
 }
@@ -263,7 +263,7 @@
 				  fromCaller:(NSString *)caller {
 	// If there is a new message, we should notify the auto-reply delegate.
 	[_messageDelegate connectionDidReceiveNewMessage:message
-											fromCaller:caller];
+										  fromCaller:caller];
 }
 
 @end

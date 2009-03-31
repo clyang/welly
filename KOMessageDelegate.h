@@ -14,7 +14,6 @@
 
 @interface KOMessageDelegate : NSObject {
 	YLConnection *_connection;
-	YLSite *_site;
 	NSMutableString *_unreadMessage;
 	int _unreadCount;
 }
