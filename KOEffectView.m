@@ -116,6 +116,7 @@
     
 	[_clickEntryLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f)];
 	[_clickEntryLayer setBorderWidth:0];
+	[_clickEntryLayer setCornerRadius:6.0];
 	
     // Insert the layer into the root layer
 	[_mainLayer addSublayer:[_clickEntryLayer retain]];
