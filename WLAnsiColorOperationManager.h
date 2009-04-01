@@ -20,4 +20,6 @@
 							   inRect:(NSRect)rect;
 + (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
 					  forANSIColorKey:(YLANSIColorKey)ansiColorKey;
++ (NSString *)ansiCodeStringFromAttributedString:(NSAttributedString *)storage
+								 forANSIColorKey:(YLANSIColorKey)ansiColorKey;
 @end

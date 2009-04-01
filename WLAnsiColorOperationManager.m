@@ -222,4 +222,180 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	
 	return writeBuffer;
 }
+
+static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground) {
+    if (!rawColor)
+        return nil;
+    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    if ([rawColor isEqual:[config colorBG]] ||
+        [rawColor isEqual:[config colorBlack]] ||
+        [rawColor isEqual:[config colorRed]] ||
+        [rawColor isEqual:[config colorGreen]] ||
+        [rawColor isEqual:[config colorYellow]] ||
+        [rawColor isEqual:[config colorBlue]] ||
+        [rawColor isEqual:[config colorMagenta]] ||
+        [rawColor isEqual:[config colorCyan]] ||
+        [rawColor isEqual:[config colorWhite]] ||
+        [rawColor isEqual:[config colorBGHilite]] ||
+        [rawColor isEqual:[config colorBlackHilite]] ||
+        [rawColor isEqual:[config colorRedHilite]] ||
+        [rawColor isEqual:[config colorGreenHilite]] ||
+        [rawColor isEqual:[config colorYellowHilite]] ||
+        [rawColor isEqual:[config colorBlueHilite]] ||
+        [rawColor isEqual:[config colorMagentaHilite]] ||
+        [rawColor isEqual:[config colorCyanHilite]] ||
+        [rawColor isEqual:[config colorWhiteHilite]])
+        return rawColor;
+    CGFloat h, s, b;
+    [[rawColor colorUsingColorSpaceName:@"NSCalibratedRGBColorSpace"] getHue:&h saturation:&s brightness:&b alpha:nil];
+    if (s < 0.05) {
+        if (isBackground)
+            return [config colorBG];
+        if (!isBackground && b < 0.05)
+            return [config colorWhite];
+        switch ((int)(b * 4)) {
+            case 0:
+                return [config colorBlack];
+            case 1:
+                return [config colorBlackHilite];
+            case 2:
+                return [config colorWhite];
+            default:
+                return [config colorWhiteHilite];
+        }
+    }
+    if (b < 0.05)
+        return [config colorBlack];
+    switch ((int)((h + 1.0/6/2) * 6)) {
+        case 0:
+        case 6:
+            return (b < 0.5) ? [config colorRed] : [config colorRedHilite];
+        case 1:
+            return (b < 0.5) ? [config colorYellow] : [config colorYellowHilite];
+        case 2:
+            return (b < 0.5) ? [config colorGreen] : [config colorGreenHilite];
+        case 3:
+            return (b < 0.5) ? [config colorCyan] : [config colorCyanHilite];
+        case 4:
+            return (b < 0.5) ? [config colorBlue] : [config colorBlueHilite];
+        case 5:
+            return (b < 0.5) ? [config colorMagenta] : [config colorMagentaHilite];
+        default:
+            return [config colorWhite];
+    }
+}
+
++ (NSString *)ansiCodeStringFromAttributedString:(NSAttributedString *)storage
+								 forANSIColorKey:(YLANSIColorKey)ansiColorKey {
+	NSString *escString;
+    if (ansiColorKey == YLCtrlUANSIColorKey) {
+        escString = @"\x15";
+    } else if (ansiColorKey == YLEscEscANSIColorKey) {
+        escString = @"\x1B\x1B";
+    } else {
+        escString = @"\x1B";
+    }
+    
+    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    NSMutableString *writeBuffer = [NSMutableString string];
+    NSString *rawString = [storage string];
+    BOOL underline, preUnderline = NO;
+    BOOL blink, preBlink = NO;
+    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    NSColor *color, *preColor = [config colorWhite];
+    NSColor *bgColor, *preBgColor = nil;
+    BOOL hasColor = NO;
+    
+    for (int i = 0; i < [storage length]; ++i) {
+        char tmp[100] = "";
+        // get attributes of i-th character
+        
+        underline = ([[storage attribute:NSUnderlineStyleAttributeName atIndex:i effectiveRange:nil] intValue] != NSUnderlineStyleNone);
+        blink = [fontManager traitsOfFont:[storage attribute:NSFontAttributeName atIndex:i effectiveRange:nil]] & NSBoldFontMask;
+        color = colorUsingNearestAnsiColor([storage attribute:NSForegroundColorAttributeName atIndex:i effectiveRange:nil], NO);
+        bgColor = colorUsingNearestAnsiColor([storage attribute:NSBackgroundColorAttributeName atIndex:i effectiveRange:nil], YES);
+        
+        /* Add attributes */
+        if ((underline != preUnderline) || 
+            (blink != preBlink) ||
+            (color != preColor) ||
+            (bgColor && ![bgColor isEqual:preBgColor]) || (!bgColor && preBgColor)) {
+            // pre-calculate background color
+            char bgColorCode[4] = "";
+            if (!bgColor || [bgColor isEqual:[config colorBG]] || [bgColor isEqual:[config colorBGHilite]])
+			/* do nothing */;
+            else if ([bgColor isEqual:[config colorBlack]] || [bgColor isEqual:[config colorBlackHilite]])
+                strcpy(bgColorCode, ";40");
+            else if ([bgColor isEqual:[config colorRed]] || [bgColor isEqual:[config colorRedHilite]])
+                strcpy(bgColorCode, ";41");
+            else if ([bgColor isEqual:[config colorGreen]] || [bgColor isEqual:[config colorGreenHilite]])
+                strcpy(bgColorCode, ";42");
+            else if ([bgColor isEqual:[config colorYellow]] || [bgColor isEqual:[config colorYellowHilite]])
+                strcpy(bgColorCode, ";43");
+            else if ([bgColor isEqual:[config colorBlue]] || [bgColor isEqual:[config colorBlueHilite]])
+                strcpy(bgColorCode, ";44");
+            else if ([bgColor isEqual:[config colorMagenta]] || [bgColor isEqual:[config colorMagentaHilite]])
+                strcpy(bgColorCode, ";45");
+            else if ([bgColor isEqual:[config colorCyan]] || [bgColor isEqual:[config colorCyanHilite]])
+                strcpy(bgColorCode, ";46");
+            else if ([bgColor isEqual:[config colorWhite]] || [bgColor isEqual:[config colorWhiteHilite]])
+                strcpy(bgColorCode, ";47");
+            // merge foreground color, underline, blink and background color
+            if (color == [config colorBlack])
+                sprintf(tmp, "[0;%s%s30%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorRed])
+                sprintf(tmp, "[0;%s%s31%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorGreen])
+                sprintf(tmp, "[0;%s%s32%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorYellow])
+                sprintf(tmp, "[0;%s%s33%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorBlue])
+                sprintf(tmp, "[0;%s%s34%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorMagenta])
+                sprintf(tmp, "[0;%s%s35%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorCyan])
+                sprintf(tmp, "[0;%s%s36%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorWhite])
+                sprintf(tmp, "[0;%s%s37%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorBlackHilite])
+                sprintf(tmp, "[0;1;%s%s30%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorRedHilite])
+                sprintf(tmp, "[0;1;%s%s31%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorGreenHilite])
+                sprintf(tmp, "[0;1;%s%s32%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorYellowHilite])
+                sprintf(tmp, "[0;1;%s%s33%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorBlueHilite])
+                sprintf(tmp, "[0;1;%s%s34%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorMagentaHilite])
+                sprintf(tmp, "[0;1;%s%s35%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorCyanHilite])
+                sprintf(tmp, "[0;1;%s%s36%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else if (color == [config colorWhiteHilite])
+                sprintf(tmp, "[0;1;%s%s37%sm", underline ? "4;" : "", blink ? "5;" : "", bgColorCode);
+            else
+                sprintf(tmp, "[%s%s%s%sm", (underline || blink || *bgColorCode) ? "0" : "", underline ? ";4" : "", blink ? ";5" : "", bgColorCode);
+            [writeBuffer appendString:escString];
+            [writeBuffer appendString:[NSString stringWithCString:tmp]];
+            preUnderline = underline;
+            preBlink = blink;
+            preColor = color;
+            preBgColor = bgColor;
+            hasColor = YES;
+        }
+        
+        // get i-th character
+        unichar ch = [rawString characterAtIndex:i];
+        
+        // write to the buffer
+        [writeBuffer appendString:[NSString stringWithCharacters:&ch length:1]];
+    }
+    
+    if (hasColor) {
+        [writeBuffer appendString:escString];
+        [writeBuffer appendString:@"[m"];
+    }
+	
+	return writeBuffer;
+}
 @end

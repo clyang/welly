@@ -1903,7 +1903,24 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)performPasteColor {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
 	NSArray *types = [pb types];
-	if (![types containsObject:ANSIColorPBoardType]) {
+	if ([types containsObject:ANSIColorPBoardType]) {
+		NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
+																  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
+		unsigned char *buf = (unsigned char *)[ansiCode bytes];
+		
+		for (int i = 0; i < [ansiCode length]; i++) {
+			[[self frontMostConnection] sendBytes:buf + i length:1];
+			usleep(100);
+		}
+		return;
+	} else if ([types containsObject:NSRTFPboardType]) {
+		NSAttributedString *rtfString = [[NSAttributedString alloc]
+										 initWithRTF:[pb dataForType:NSRTFPboardType] 
+										 documentAttributes:nil];
+		NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:rtfString 
+																			 forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
+		[[self frontMostConnection] sendText:ansiCode];
+	} else {
 		[self performPaste];
 		return;
 	}
@@ -1996,15 +2013,7 @@ BOOL isSpecialSymbol(unichar ch) {
 //	[writeBuffer appendData:escData];
 //	[writeBuffer appendBytes:"[m" length:2];
 //	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
-	
-	NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
-															  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
-	unsigned char *buf = (unsigned char *)[ansiCode bytes];
-	
-	for (int i = 0; i < [ansiCode length]; i++) {
-		[[self frontMostConnection] sendBytes:buf + i length:1];
-		usleep(100);
-	}
+
 }
 
 #pragma mark -
