@@ -1081,7 +1081,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     YLSite *s = [[_telnetView frontMostConnection] site];
     if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
         escString = @"\x15";
-    } else if ([s ansiColorKey] == YLEscEscEscANSIColorKey) {
+    } else if ([s ansiColorKey] == YLEscEscANSIColorKey) {
         escString = @"\x1B\x1B";
     } else {
         escString = @"\x1B";

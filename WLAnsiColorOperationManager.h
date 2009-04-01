@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CommonType.h"
 
 @class YLTerminal;
 @interface WLAnsiColorOperationManager : NSObject {
@@ -17,4 +18,6 @@
 							   length:(int)length;
 + (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
 							   inRect:(NSRect)rect;
++ (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
+					  forANSIColorKey:(YLANSIColorKey)ansiColorKey;
 @end

@@ -37,7 +37,7 @@ typedef enum YLEncoding {
 
 typedef enum YLANSIColorKey {
     YLCtrlUANSIColorKey = 1, 
-    YLEscEscEscANSIColorKey = 0
+    YLEscEscANSIColorKey = 0
 } YLANSIColorKey;
 
 typedef enum {

@@ -21,7 +21,7 @@ inline void clearNonANSIAttribute(cell *aCell) {
 const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 
 + (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
-							 atLocation:(int)location 
+						   atLocation:(int)location 
 							   length:(int)length {
 	int maxRow = [[YLLGlobalConfig sharedInstance] row];
 	int maxColumn = [[YLLGlobalConfig sharedInstance] column];
@@ -121,5 +121,105 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	NSData *returnValue = [NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)];
 	free(buffer);
 	return returnValue;
+}
+
++ (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
+					  forANSIColorKey:(YLANSIColorKey)ansiColorKey {
+	NSData *escData;
+	if (ansiColorKey == YLCtrlUANSIColorKey) {
+		escData = [NSData dataWithBytes:"\x15" length:1];
+	} else if (ansiColorKey == YLEscEscANSIColorKey) {
+		escData = [NSData dataWithBytes:"\x1B\x1B" length:2];
+	} else {
+		escData = [NSData dataWithBytes:"\x1B" length:1];
+	}
+	
+	cell *buffer = (cell *)[ansiColorData bytes];
+	int bufferLength = [ansiColorData length] / sizeof(cell);
+	
+	attribute defaultANSI;
+	unsigned int bgColorIndex = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
+	unsigned int fgColorIndex = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
+	defaultANSI.f.bgColor = bgColorIndex;
+	defaultANSI.f.fgColor = fgColorIndex;
+	defaultANSI.f.blink = 0;
+	defaultANSI.f.bold = 0;
+	defaultANSI.f.underline = 0;
+	defaultANSI.f.reverse = 0;
+	
+	attribute previousANSI = defaultANSI;
+	NSMutableData *writeBuffer = [NSMutableData data];
+	
+	int i;
+	for (i = 0; i < bufferLength; i++) {
+		if (buffer[i].byte == '\n' ) {
+			previousANSI = defaultANSI;
+			[writeBuffer appendData:escData];
+			[writeBuffer appendBytes:"[m\r" length:3];
+			continue;
+		}
+		
+		attribute currentANSI = buffer[i].attr;
+		
+		char tmp[100];
+		tmp[0] = '\0';
+		
+		/* Unchanged */
+		if ((currentANSI.f.blink == previousANSI.f.blink) &&
+			(currentANSI.f.bold == previousANSI.f.bold) &&
+			(currentANSI.f.underline == previousANSI.f.underline) &&
+			(currentANSI.f.reverse == previousANSI.f.reverse) &&
+			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
+			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
+			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
+			continue;
+		}
+		
+		/* Clear */        
+		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
+			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
+			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
+			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
+			(currentANSI.f.bgColor ==  bgColorIndex && previousANSI.f.reverse != bgColorIndex) ) {
+			strcpy(tmp, "[0");
+			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
+			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
+			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
+			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
+			if (currentANSI.f.fgColor != fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
+			if (currentANSI.f.bgColor != bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
+			strcat(tmp, "m");
+			[writeBuffer appendData:escData];
+			[writeBuffer appendBytes:tmp length:strlen(tmp)];
+			[writeBuffer appendBytes:&(buffer[i].byte) length:1];
+			previousANSI = currentANSI;
+			continue;
+		}
+		
+		/* Add attribute */
+		strcpy(tmp, "[");
+		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) 
+			strcat(tmp, "5;");
+		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) 
+			strcat(tmp, "1;");
+		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) 
+			strcat(tmp, "4;");
+		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) 
+			strcat(tmp, "7;");
+		if (currentANSI.f.fgColor != previousANSI.f.fgColor) 
+			sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
+		if (currentANSI.f.bgColor != previousANSI.f.bgColor) 
+			sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
+		tmp[strlen(tmp) - 1] = 'm';
+		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
+		[writeBuffer appendData:escData];
+		[writeBuffer appendBytes:tmp length:strlen(tmp)];
+		previousANSI = currentANSI;
+		continue;
+	}
+	[writeBuffer appendData:escData];
+	[writeBuffer appendBytes:"[m" length:2];
+	
+	return writeBuffer;
 }
 @end

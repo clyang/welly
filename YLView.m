@@ -1908,95 +1908,100 @@ BOOL isSpecialSymbol(unichar ch) {
 		return;
 	}
 	
-	NSData *escData;
-	YLSite *s = [[self frontMostConnection] site];
-	if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
-		escData = [NSData dataWithBytes:"\x15" length:1];
-	} else if ([s ansiColorKey] == YLEscEscEscANSIColorKey) {
-		escData = [NSData dataWithBytes:"\x1B\x1B" length:2];
-	} else {
-		escData = [NSData dataWithBytes:"\x1B" length:1];
-	}
+	//NSData *escData;
+//	YLSite *s = [[self frontMostConnection] site];
+//	if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
+//		escData = [NSData dataWithBytes:"\x15" length:1];
+//	} else if ([s ansiColorKey] == YLEscEscANSIColorKey) {
+//		escData = [NSData dataWithBytes:"\x1B\x1B" length:2];
+//	} else {
+//		escData = [NSData dataWithBytes:"\x1B" length:1];
+//	}
+//	
+//	cell *buffer = (cell *) [[pb dataForType:ANSIColorPBoardType] bytes];
+//	int bufferLength = [[pb dataForType:ANSIColorPBoardType] length] / sizeof(cell);
+//	
+//	attribute defaultANSI;
+//	defaultANSI.f.bgColor = gConfig->_bgColorIndex;
+//	defaultANSI.f.fgColor = gConfig->_fgColorIndex;
+//	defaultANSI.f.blink = 0;
+//	defaultANSI.f.bold = 0;
+//	defaultANSI.f.underline = 0;
+//	defaultANSI.f.reverse = 0;
+//	
+//	attribute previousANSI = defaultANSI;
+//	NSMutableData *writeBuffer = [NSMutableData data];
+//	
+//	int i;
+//	for (i = 0; i < bufferLength; i++) {
+//		if (buffer[i].byte == '\n' ) {
+//			previousANSI = defaultANSI;
+//			[writeBuffer appendData:escData];
+//			[writeBuffer appendBytes:"[m\r" length:3];
+//			continue;
+//		}
+//		
+//		attribute currentANSI = buffer[i].attr;
+//		
+//		char tmp[100];
+//		tmp[0] = '\0';
+//		
+//		/* Unchanged */
+//		if ((currentANSI.f.blink == previousANSI.f.blink) &&
+//			(currentANSI.f.bold == previousANSI.f.bold) &&
+//			(currentANSI.f.underline == previousANSI.f.underline) &&
+//			(currentANSI.f.reverse == previousANSI.f.reverse) &&
+//			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
+//			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
+//			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
+//			continue;
+//		}
+//		
+//		/* Clear */        
+//		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
+//			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
+//			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
+//			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
+//			(currentANSI.f.bgColor ==  gConfig->_bgColorIndex && previousANSI.f.reverse != gConfig->_bgColorIndex) ) {
+//			strcpy(tmp, "[0");
+//			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
+//			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
+//			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
+//			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
+//			if (currentANSI.f.fgColor != gConfig->_fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
+//			if (currentANSI.f.bgColor != gConfig->_bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
+//			strcat(tmp, "m");
+//			[writeBuffer appendData: escData];
+//			[writeBuffer appendBytes: tmp length: strlen(tmp)];
+//			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
+//			previousANSI = currentANSI;
+//			continue;
+//		}
+//		
+//		/* Add attribute */
+//		strcpy(tmp, "[");
+//		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) strcat(tmp, "5;");
+//		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) strcat(tmp, "1;");
+//		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) strcat(tmp, "4;");
+//		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) strcat(tmp, "7;");
+//		if (currentANSI.f.fgColor != previousANSI.f.fgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
+//		if (currentANSI.f.bgColor != previousANSI.f.bgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
+//		tmp[strlen(tmp) - 1] = 'm';
+//		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
+//		[writeBuffer appendData:escData];
+//		[writeBuffer appendBytes:tmp length:strlen(tmp)];
+//		previousANSI = currentANSI;
+//		continue;
+//	}
+//	[writeBuffer appendData:escData];
+//	[writeBuffer appendBytes:"[m" length:2];
+//	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
 	
-	cell *buffer = (cell *) [[pb dataForType:ANSIColorPBoardType] bytes];
-	int bufferLength = [[pb dataForType:ANSIColorPBoardType] length] / sizeof(cell);
+	NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
+															  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
+	unsigned char *buf = (unsigned char *)[ansiCode bytes];
 	
-	attribute defaultANSI;
-	defaultANSI.f.bgColor = gConfig->_bgColorIndex;
-	defaultANSI.f.fgColor = gConfig->_fgColorIndex;
-	defaultANSI.f.blink = 0;
-	defaultANSI.f.bold = 0;
-	defaultANSI.f.underline = 0;
-	defaultANSI.f.reverse = 0;
-	
-	attribute previousANSI = defaultANSI;
-	NSMutableData *writeBuffer = [NSMutableData data];
-	
-	int i;
-	for (i = 0; i < bufferLength; i++) {
-		if (buffer[i].byte == '\n' ) {
-			previousANSI = defaultANSI;
-			[writeBuffer appendData: escData];
-			[writeBuffer appendBytes: "[m\r" length: 3];
-			continue;
-		}
-		
-		attribute currentANSI = buffer[i].attr;
-		
-		char tmp[100];
-		tmp[0] = '\0';
-		
-		/* Unchanged */
-		if ((currentANSI.f.blink == previousANSI.f.blink) &&
-			(currentANSI.f.bold == previousANSI.f.bold) &&
-			(currentANSI.f.underline == previousANSI.f.underline) &&
-			(currentANSI.f.reverse == previousANSI.f.reverse) &&
-			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
-			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
-			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-			continue;
-		}
-		
-		/* Clear */        
-		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
-			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
-			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
-			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
-			(currentANSI.f.bgColor ==  gConfig->_bgColorIndex && previousANSI.f.reverse != gConfig->_bgColorIndex) ) {
-			strcpy(tmp, "[0");
-			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
-			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
-			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
-			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
-			if (currentANSI.f.fgColor != gConfig->_fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
-			if (currentANSI.f.bgColor != gConfig->_bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
-			strcat(tmp, "m");
-			[writeBuffer appendData: escData];
-			[writeBuffer appendBytes: tmp length: strlen(tmp)];
-			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-			previousANSI = currentANSI;
-			continue;
-		}
-		
-		/* Add attribute */
-		strcpy(tmp, "[");
-		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) strcat(tmp, "5;");
-		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) strcat(tmp, "1;");
-		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) strcat(tmp, "4;");
-		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) strcat(tmp, "7;");
-		if (currentANSI.f.fgColor != previousANSI.f.fgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
-		if (currentANSI.f.bgColor != previousANSI.f.bgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
-		tmp[strlen(tmp) - 1] = 'm';
-		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
-		[writeBuffer appendData: escData];
-		[writeBuffer appendBytes: tmp length: strlen(tmp)];
-		previousANSI = currentANSI;
-		continue;
-	}
-	[writeBuffer appendData:escData];
-	[writeBuffer appendBytes:"[m" length:2];
-	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
-	for (i = 0; i < [writeBuffer length]; i++) {
+	for (int i = 0; i < [ansiCode length]; i++) {
 		[[self frontMostConnection] sendBytes:buf + i length:1];
 		usleep(100);
 	}
