@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLView, YLConnection, KOMessageDelegate, XIIntegerArray;
+@class YLView, YLConnection, WLMessageDelegate, WLIntegerArray;
 
 typedef struct {
 	enum {

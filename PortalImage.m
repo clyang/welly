@@ -48,7 +48,7 @@
 
 #import "PortalImage.h"
 
-#import "XIPortal.h"
+#import "WLPortal.h"
 
 #import <pthread.h>
 #import <QuartzCore/QuartzCore.h>
@@ -131,9 +131,9 @@ static void * imageThread (void *arg) {
 
         CGContextSetInterpolationQuality(ctx, kCGInterpolationHigh);
         // draw the frame
-        CGContextSetFillColorWithColor(ctx, [XIPortal color:3]);
+        CGContextSetFillColorWithColor(ctx, [WLPortal color:3]);
         CGContextFillRect(ctx, r);
-        CGContextSetStrokeColorWithColor(ctx, [XIPortal color:0]);
+        CGContextSetStrokeColorWithColor(ctx, [WLPortal color:0]);
         CGContextStrokeRect(ctx, r);
 
         { //if (image) {

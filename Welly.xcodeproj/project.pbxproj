@@ -9,48 +9,48 @@
 /* Begin PBXBuildFile section */
 		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
-		1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */; };
+		1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1600D7AE0E51C2B100496E3E /* WLTerminalFeeder.m */; };
 		160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160D6D4A0EE2E5B900CDC416 /* Security.framework */; };
-		1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */; };
-		1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */; };
-		166D62AD0E2E17A900514885 /* XIPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D62AC0E2E17A900514885 /* XIPortal.m */; };
+		1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */; };
+		1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */; };
+		166D62AD0E2E17A900514885 /* WLPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D62AC0E2E17A900514885 /* WLPortal.m */; };
 		166D639F0E2E232600514885 /* PortalImageLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 166D639E0E2E232600514885 /* PortalImageLayout.m */; };
 		166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D63B20E2E255A00514885 /* QuartzCore.framework */; };
 		1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* PortalImage.m */; };
 		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
-		16BF97BD0E3D9B7600ED990A /* XIIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */; };
+		16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */; };
 		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
-		16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* XIPTY.m */; };
+		16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* WLPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
-		16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* XITabBarControl.m */; };
+		16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* WLTabBarControl.m */; };
 		1841E6A80F7BCFBF002DCBA8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */; };
-		1841E73E0F7BD280002DCBA8 /* TYProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* TYProxy.m */; };
+		1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* WLProxy.m */; };
 		185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* Passwords Small.tif */; };
-		186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* TYComposeDelegate.m */; };
-		18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* TYGrowlBridge.m */; };
+		186E810F0F218C10007D73BC /* WLComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* WLComposeDelegate.m */; };
+		18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* WLGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
-		18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* TYFeedGenerator.m */; };
+		18F813960F45A93A002FF48C /* WLFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* WLFeedGenerator.m */; };
 		5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* YLController.m */; };
-		5A1BA6F60F6EA8BA003489CF /* LLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */; };
+		5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */; };
 		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
 		5A3922BA0E1E042400D9ABC1 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */; };
-		5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ACCDE0EED5BE200FC4543 /* KOMenuItem.m */; };
-		5A43E8750F2E9B570002116B /* KOButtonAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */; };
-		5A43E87F0F2E9D270002116B /* KOMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* KOMouseHotspotHandler.m */; };
-		5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */; };
-		5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* KOEffectView.m */; };
-		5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* KOPostDownloader.m */; };
-		5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */; };
+		5A3ACCDF0EED5BE200FC4543 /* WLMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */; };
+		5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */; };
+		5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */; };
+		5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */; };
+		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
+		5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloader.m */; };
+		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
 		5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
-		5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */; };
+		5AA6807D0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6807C0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m */; };
 		5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1BDBE0E18F26C0094C370 /* System.framework */; };
 		5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */; };
 		5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE50E18F3260094C370 /* RemoteControl.m */; };
@@ -60,17 +60,17 @@
 		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
 		5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1C0030E18F3870094C370 /* CoreData.framework */; };
 		5AB748170F6FC69100CE5F4C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB748160F6FC69100CE5F4C /* indicator.png */; };
-		5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */; };
-		5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */; };
-		5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */; };
-		5AF8CA5D0D9CDB0000DFB5AB /* KOMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */; };
+		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
+		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
+		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
+		5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
-		819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* LLTelnetProcessor.m */; };
-		81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* LLPopUpMessage.m */; };
-		81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* LLFullScreenController.m */; };
-		81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */; };
+		819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* WLTelnetProcessor.m */; };
+		81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* WLPopUpMessage.m */; };
+		81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* WLFullScreenController.m */; };
+		81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */; };
 		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
 		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
@@ -140,77 +140,77 @@
 		07B370790D6840B20035E87D /* HMBlkAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HMBlkAppKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1600D7AD0E51C2B100496E3E /* KOTerminalFeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOTerminalFeeder.h; sourceTree = "<group>"; };
-		1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOTerminalFeeder.m; sourceTree = "<group>"; };
+		1600D7AD0E51C2B100496E3E /* WLTerminalFeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTerminalFeeder.h; sourceTree = "<group>"; };
+		1600D7AE0E51C2B100496E3E /* WLTerminalFeeder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTerminalFeeder.m; sourceTree = "<group>"; };
 		160D6D4A0EE2E5B900CDC416 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIQuickLookBridge.m; sourceTree = "<group>"; };
-		1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIQuickLookBridge.h; sourceTree = "<group>"; };
-		1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPreviewController.h; sourceTree = "<group>"; };
-		1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPreviewController.m; sourceTree = "<group>"; };
-		166D62AB0E2E17A900514885 /* XIPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPortal.h; sourceTree = "<group>"; };
-		166D62AC0E2E17A900514885 /* XIPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPortal.m; sourceTree = "<group>"; };
+		1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLQuickLookBridge.m; sourceTree = "<group>"; };
+		1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLQuickLookBridge.h; sourceTree = "<group>"; };
+		1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPreviewController.h; sourceTree = "<group>"; };
+		1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPreviewController.m; sourceTree = "<group>"; };
+		166D62AB0E2E17A900514885 /* WLPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortal.h; sourceTree = "<group>"; };
+		166D62AC0E2E17A900514885 /* WLPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortal.m; sourceTree = "<group>"; };
 		166D639D0E2E232600514885 /* PortalImageLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalImageLayout.h; sourceTree = "<group>"; };
 		166D639E0E2E232600514885 /* PortalImageLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortalImageLayout.m; sourceTree = "<group>"; };
 		166D63B20E2E255A00514885 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		1680A7EB0E2F0F8300A2E175 /* PortalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortalImage.h; sourceTree = "<group>"; };
 		1680A7EC0E2F0F8300A2E175 /* PortalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PortalImage.m; sourceTree = "<group>"; };
 		169A2ED40EDDA871009770ED /* mouse.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mouse.pdf; sourceTree = "<group>"; };
-		16BF97BB0E3D9B7500ED990A /* XIIntegerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIIntegerArray.h; sourceTree = "<group>"; };
-		16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIIntegerArray.m; sourceTree = "<group>"; };
+		16BF97BB0E3D9B7500ED990A /* WLIntegerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLIntegerArray.h; sourceTree = "<group>"; };
+		16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLIntegerArray.m; sourceTree = "<group>"; };
 		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
-		16C0C90A0E294BAA00B576C5 /* XIProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIProtocol.h; sourceTree = "<group>"; };
-		16C0C90D0E294C2700B576C5 /* XIPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XIPTY.h; sourceTree = "<group>"; };
-		16C0C90E0E294C2700B576C5 /* XIPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XIPTY.m; sourceTree = "<group>"; };
+		16C0C90A0E294BAA00B576C5 /* WLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProtocol.h; sourceTree = "<group>"; };
+		16C0C90D0E294C2700B576C5 /* WLPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPTY.h; sourceTree = "<group>"; };
+		16C0C90E0E294C2700B576C5 /* WLPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPTY.m; sourceTree = "<group>"; };
 		16DC3D080E3338B70060E8F0 /* online.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = online.pdf; sourceTree = "<group>"; };
-		16FEC31F0E2A80B50035DADD /* XITabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XITabBarControl.h; sourceTree = "<group>"; };
-		16FEC3200E2A80B50035DADD /* XITabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XITabBarControl.m; sourceTree = "<group>"; };
+		16FEC31F0E2A80B50035DADD /* WLTabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabBarControl.h; sourceTree = "<group>"; };
+		16FEC3200E2A80B50035DADD /* WLTabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBarControl.m; sourceTree = "<group>"; };
 		1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1841E73C0F7BD280002DCBA8 /* TYProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYProxy.h; sourceTree = "<group>"; };
-		1841E73D0F7BD280002DCBA8 /* TYProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYProxy.m; sourceTree = "<group>"; };
+		1841E73C0F7BD280002DCBA8 /* WLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProxy.h; sourceTree = "<group>"; };
+		1841E73D0F7BD280002DCBA8 /* WLProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLProxy.m; sourceTree = "<group>"; };
 		185680E50F25E23B00A1F4F3 /* Passwords Small.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Passwords Small.tif"; sourceTree = "<group>"; };
-		186E810D0F218C10007D73BC /* TYComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYComposeDelegate.h; sourceTree = "<group>"; };
-		186E810E0F218C10007D73BC /* TYComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYComposeDelegate.m; sourceTree = "<group>"; };
-		18A685A60D9414D900CA423A /* TYGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYGrowlBridge.h; sourceTree = "<group>"; };
-		18A685A70D9414D900CA423A /* TYGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYGrowlBridge.m; sourceTree = "<group>"; };
+		186E810D0F218C10007D73BC /* WLComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLComposeDelegate.h; sourceTree = "<group>"; };
+		186E810E0F218C10007D73BC /* WLComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLComposeDelegate.m; sourceTree = "<group>"; };
+		18A685A60D9414D900CA423A /* WLGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGrowlBridge.h; sourceTree = "<group>"; };
+		18A685A70D9414D900CA423A /* WLGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGrowlBridge.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
 		18BB9B850D98ECE500387145 /* IPSeeker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSeeker.h; sourceTree = "<group>"; };
 		18BB9B860D98ECE500387145 /* IPSeeker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSeeker.m; sourceTree = "<group>"; };
-		18F813940F45A93A002FF48C /* TYFeedGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYFeedGenerator.h; sourceTree = "<group>"; };
-		18F813950F45A93A002FF48C /* TYFeedGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYFeedGenerator.m; sourceTree = "<group>"; };
+		18F813940F45A93A002FF48C /* WLFeedGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFeedGenerator.h; sourceTree = "<group>"; };
+		18F813950F45A93A002FF48C /* WLFeedGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFeedGenerator.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Welly_Prefix.pch; sourceTree = "<group>"; };
 		5A09016C0DBCDD1600AC08F4 /* YLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLController.m; sourceTree = "<group>"; };
-		5A1BA6F40F6EA8BA003489CF /* LLURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLURLManager.h; sourceTree = "<group>"; };
-		5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLURLManager.m; sourceTree = "<group>"; };
+		5A1BA6F40F6EA8BA003489CF /* WLURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLURLManager.h; sourceTree = "<group>"; };
+		5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLURLManager.m; sourceTree = "<group>"; };
 		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A309A7A0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5A309A7B0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; explicitFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		5A309A7C0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/Preferences.nib; sourceTree = "<group>"; };
 		5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
-		5A3ACCDD0EED5BE200FC4543 /* KOMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMenuItem.h; sourceTree = "<group>"; };
-		5A3ACCDE0EED5BE200FC4543 /* KOMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMenuItem.m; sourceTree = "<group>"; };
-		5A43E8730F2E9B570002116B /* KOButtonAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOButtonAreaHotspotHandler.h; sourceTree = "<group>"; };
-		5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOButtonAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5A43E87E0F2E9D270002116B /* KOMouseHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMouseHotspotHandler.m; sourceTree = "<group>"; };
-		5A43E9C00F2EA8450002116B /* KOIPAddrHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOIPAddrHotspotHandler.h; sourceTree = "<group>"; };
-		5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOIPAddrHotspotHandler.m; sourceTree = "<group>"; };
-		5A4A50180E5956EE007E16E6 /* KOEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOEffectView.m; sourceTree = "<group>"; };
-		5A4B02870E55941D00260486 /* KOEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOEffectView.h; sourceTree = "<group>"; };
-		5A56C3800E342CFF00082312 /* KOPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOPostDownloader.h; sourceTree = "<group>"; };
-		5A56C3810E342CFF00082312 /* KOPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOPostDownloader.m; sourceTree = "<group>"; };
-		5A6A7ED70F497FC000DC952F /* KOAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
-		5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
+		5A3ACCDD0EED5BE200FC4543 /* WLMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMenuItem.h; sourceTree = "<group>"; };
+		5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMenuItem.m; sourceTree = "<group>"; };
+		5A43E8730F2E9B570002116B /* WLButtonAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLButtonAreaHotspotHandler.h; sourceTree = "<group>"; };
+		5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLButtonAreaHotspotHandler.m; sourceTree = "<group>"; };
+		5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMouseHotspotHandler.m; sourceTree = "<group>"; };
+		5A43E9C00F2EA8450002116B /* WLIPAddrHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLIPAddrHotspotHandler.h; sourceTree = "<group>"; };
+		5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLIPAddrHotspotHandler.m; sourceTree = "<group>"; };
+		5A4A50180E5956EE007E16E6 /* WLEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEffectView.m; sourceTree = "<group>"; };
+		5A4B02870E55941D00260486 /* WLEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEffectView.h; sourceTree = "<group>"; };
+		5A56C3800E342CFF00082312 /* WLPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloader.h; sourceTree = "<group>"; };
+		5A56C3810E342CFF00082312 /* WLPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloader.m; sourceTree = "<group>"; };
+		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
+		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
 		5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		5AA6807B0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOEditingCursorMoveHotspotHandler.h; sourceTree = "<group>"; };
-		5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOEditingCursorMoveHotspotHandler.m; sourceTree = "<group>"; };
+		5AA6807B0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEditingCursorMoveHotspotHandler.h; sourceTree = "<group>"; };
+		5AA6807C0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEditingCursorMoveHotspotHandler.m; sourceTree = "<group>"; };
 		5AB1BDBE0E18F26C0094C370 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
 		5AB1BFE10E18F3260094C370 /* MultiClickRemoteBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiClickRemoteBehavior.h; sourceTree = "<group>"; };
 		5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiClickRemoteBehavior.m; sourceTree = "<group>"; };
@@ -226,27 +226,27 @@
 		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
 		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		5AB748160F6FC69100CE5F4C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
-		5AC743FA0F34681100177CA1 /* KOMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseBehaviorManager.h; sourceTree = "<group>"; };
-		5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMouseBehaviorManager.m; sourceTree = "<group>"; };
-		5AD4B7130F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOClickEntryHotspotHandler.h; sourceTree = "<group>"; };
-		5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOClickEntryHotspotHandler.m; sourceTree = "<group>"; };
-		5AD4B7150F2D8F8200BF2F87 /* KOMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMouseHotspotHandler.h; sourceTree = "<group>"; };
-		5AD4B9B00F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMovingAreaHotspotHandler.h; sourceTree = "<group>"; };
-		5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5AF8CA5B0D9CDB0000DFB5AB /* KOMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOMessageDelegate.h; sourceTree = "<group>"; };
-		5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOMessageDelegate.m; sourceTree = "<group>"; };
+		5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseBehaviorManager.h; sourceTree = "<group>"; };
+		5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMouseBehaviorManager.m; sourceTree = "<group>"; };
+		5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLClickEntryHotspotHandler.h; sourceTree = "<group>"; };
+		5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLClickEntryHotspotHandler.m; sourceTree = "<group>"; };
+		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; };
+		5AD4B9B00F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMovingAreaHotspotHandler.h; sourceTree = "<group>"; };
+		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
+		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
+		5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMessageDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81208EBD0EF8D94D005FD459 /* default_site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_site.png; sourceTree = "<group>"; };
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		819586600E5183E200AFBFCE /* LLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLTelnetProcessor.h; sourceTree = "<group>"; };
-		819586610E5183E200AFBFCE /* LLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLTelnetProcessor.m; sourceTree = "<group>"; };
-		81E307200E79031B0024C47E /* LLPopUpMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPopUpMessage.h; sourceTree = "<group>"; };
-		81E307210E79031B0024C47E /* LLPopUpMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPopUpMessage.m; sourceTree = "<group>"; };
-		81F8ECF00E5005190022FA65 /* LLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenController.h; sourceTree = "<group>"; };
-		81F8ECF10E5005190022FA65 /* LLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenController.m; sourceTree = "<group>"; };
-		81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLFullScreenProcessor.h; sourceTree = "<group>"; };
-		81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLFullScreenProcessor.m; sourceTree = "<group>"; };
+		819586600E5183E200AFBFCE /* WLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTelnetProcessor.h; sourceTree = "<group>"; };
+		819586610E5183E200AFBFCE /* WLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTelnetProcessor.m; sourceTree = "<group>"; };
+		81E307200E79031B0024C47E /* WLPopUpMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPopUpMessage.h; sourceTree = "<group>"; };
+		81E307210E79031B0024C47E /* WLPopUpMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPopUpMessage.m; sourceTree = "<group>"; };
+		81F8ECF00E5005190022FA65 /* WLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenController.h; sourceTree = "<group>"; };
+		81F8ECF10E5005190022FA65 /* WLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenController.m; sourceTree = "<group>"; };
+		81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenProcessor.h; sourceTree = "<group>"; };
+		81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenProcessor.m; sourceTree = "<group>"; };
 		81FEAD310EFE91BD0051C867 /* waiting.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = waiting.pdf; sourceTree = "<group>"; };
 		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -340,8 +340,8 @@
 				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
-				1631E84C0E2C8D5600B87A38 /* XIPreviewController.h */,
-				1631E84D0E2C8D5600B87A38 /* XIPreviewController.m */,
+				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
+				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -454,8 +454,8 @@
 		5A2B3CFF0EB95649007773F8 /* Portal */ = {
 			isa = PBXGroup;
 			children = (
-				166D62AB0E2E17A900514885 /* XIPortal.h */,
-				166D62AC0E2E17A900514885 /* XIPortal.m */,
+				166D62AB0E2E17A900514885 /* WLPortal.h */,
+				166D62AC0E2E17A900514885 /* WLPortal.m */,
 				1680A7EB0E2F0F8300A2E175 /* PortalImage.h */,
 				1680A7EC0E2F0F8300A2E175 /* PortalImage.m */,
 				166D639D0E2E232600514885 /* PortalImageLayout.h */,
@@ -510,24 +510,24 @@
 		5AC33B7B0DA477AB0006AA09 /* Nally9only */ = {
 			isa = PBXGroup;
 			children = (
-				18F813940F45A93A002FF48C /* TYFeedGenerator.h */,
-				18F813950F45A93A002FF48C /* TYFeedGenerator.m */,
+				18F813940F45A93A002FF48C /* WLFeedGenerator.h */,
+				18F813950F45A93A002FF48C /* WLFeedGenerator.m */,
 				18BB9B850D98ECE500387145 /* IPSeeker.h */,
 				18BB9B860D98ECE500387145 /* IPSeeker.m */,
-				18A685A60D9414D900CA423A /* TYGrowlBridge.h */,
-				18A685A70D9414D900CA423A /* TYGrowlBridge.m */,
-				5AF8CA5B0D9CDB0000DFB5AB /* KOMessageDelegate.h */,
-				5AF8CA5C0D9CDB0000DFB5AB /* KOMessageDelegate.m */,
-				1631E8210E2C674300B87A38 /* XIQuickLookBridge.h */,
-				1631E81F0E2C672700B87A38 /* XIQuickLookBridge.m */,
-				16FEC31F0E2A80B50035DADD /* XITabBarControl.h */,
-				16FEC3200E2A80B50035DADD /* XITabBarControl.m */,
-				5A56C3800E342CFF00082312 /* KOPostDownloader.h */,
-				5A56C3810E342CFF00082312 /* KOPostDownloader.m */,
-				186E810D0F218C10007D73BC /* TYComposeDelegate.h */,
-				186E810E0F218C10007D73BC /* TYComposeDelegate.m */,
-				1841E73C0F7BD280002DCBA8 /* TYProxy.h */,
-				1841E73D0F7BD280002DCBA8 /* TYProxy.m */,
+				18A685A60D9414D900CA423A /* WLGrowlBridge.h */,
+				18A685A70D9414D900CA423A /* WLGrowlBridge.m */,
+				5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */,
+				5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */,
+				1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */,
+				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
+				16FEC31F0E2A80B50035DADD /* WLTabBarControl.h */,
+				16FEC3200E2A80B50035DADD /* WLTabBarControl.m */,
+				5A56C3800E342CFF00082312 /* WLPostDownloader.h */,
+				5A56C3810E342CFF00082312 /* WLPostDownloader.m */,
+				186E810D0F218C10007D73BC /* WLComposeDelegate.h */,
+				186E810E0F218C10007D73BC /* WLComposeDelegate.m */,
+				1841E73C0F7BD280002DCBA8 /* WLProxy.h */,
+				1841E73D0F7BD280002DCBA8 /* WLProxy.m */,
 				5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */,
 				5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */,
 			);
@@ -540,8 +540,8 @@
 				5A2B3CFF0EB95649007773F8 /* Portal */,
 				858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */,
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
-				5A4B02870E55941D00260486 /* KOEffectView.h */,
-				5A4A50180E5956EE007E16E6 /* KOEffectView.m */,
+				5A4B02870E55941D00260486 /* WLEffectView.h */,
+				5A4A50180E5956EE007E16E6 /* WLEffectView.m */,
 				8570AD5D0A3923A900838442 /* YLView.h */,
 				8570AD5E0A3923A900838442 /* YLView.m */,
 			);
@@ -551,24 +551,24 @@
 		5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */ = {
 			isa = PBXGroup;
 			children = (
-				5AD4B7130F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.h */,
-				5AD4B7140F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m */,
-				5AD4B7150F2D8F8200BF2F87 /* KOMouseHotspotHandler.h */,
-				5A43E87E0F2E9D270002116B /* KOMouseHotspotHandler.m */,
-				5AD4B9B00F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.h */,
-				5AD4B9B10F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m */,
-				5A43E8730F2E9B570002116B /* KOButtonAreaHotspotHandler.h */,
-				5A43E8740F2E9B570002116B /* KOButtonAreaHotspotHandler.m */,
-				5A43E9C00F2EA8450002116B /* KOIPAddrHotspotHandler.h */,
-				5A43E9C10F2EA8450002116B /* KOIPAddrHotspotHandler.m */,
-				5AC743FA0F34681100177CA1 /* KOMouseBehaviorManager.h */,
-				5AC743FB0F34681100177CA1 /* KOMouseBehaviorManager.m */,
-				5AA6807B0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.h */,
-				5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */,
-				5A6A7ED70F497FC000DC952F /* KOAuthorAreaHotspotHandler.h */,
-				5A6A7ED80F497FC000DC952F /* KOAuthorAreaHotspotHandler.m */,
-				5A1BA6F40F6EA8BA003489CF /* LLURLManager.h */,
-				5A1BA6F50F6EA8BA003489CF /* LLURLManager.m */,
+				5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */,
+				5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */,
+				5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */,
+				5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */,
+				5AD4B9B00F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.h */,
+				5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */,
+				5A43E8730F2E9B570002116B /* WLButtonAreaHotspotHandler.h */,
+				5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */,
+				5A43E9C00F2EA8450002116B /* WLIPAddrHotspotHandler.h */,
+				5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */,
+				5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */,
+				5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */,
+				5AA6807B0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.h */,
+				5AA6807C0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m */,
+				5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */,
+				5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */,
+				5A1BA6F40F6EA8BA003489CF /* WLURLManager.h */,
+				5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */,
 			);
 			name = "Mouse Hotspot Handler";
 			sourceTree = "<group>";
@@ -576,12 +576,12 @@
 		81F8ECFB0E5006660022FA65 /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
-				81F8ECF80E50065F0022FA65 /* LLFullScreenProcessor.h */,
-				81F8ED1D0E500E9F0022FA65 /* LLFullScreenProcessor.m */,
-				81F8ECF00E5005190022FA65 /* LLFullScreenController.h */,
-				81F8ECF10E5005190022FA65 /* LLFullScreenController.m */,
-				819586600E5183E200AFBFCE /* LLTelnetProcessor.h */,
-				819586610E5183E200AFBFCE /* LLTelnetProcessor.m */,
+				81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */,
+				81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */,
+				81F8ECF00E5005190022FA65 /* WLFullScreenController.h */,
+				81F8ECF10E5005190022FA65 /* WLFullScreenController.m */,
+				819586600E5183E200AFBFCE /* WLTelnetProcessor.h */,
+				819586610E5183E200AFBFCE /* WLTelnetProcessor.m */,
 			);
 			name = FullScreen;
 			sourceTree = "<group>";
@@ -593,10 +593,10 @@
 				856CDB250C9650550025C754 /* encoding.c */,
 				852E798A0C96E7A90027751F /* CommonType.h */,
 				85ED52280D0920E6003296D4 /* CommonType.m */,
-				16BF97BB0E3D9B7500ED990A /* XIIntegerArray.h */,
-				16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */,
-				81E307200E79031B0024C47E /* LLPopUpMessage.h */,
-				81E307210E79031B0024C47E /* LLPopUpMessage.m */,
+				16BF97BB0E3D9B7500ED990A /* WLIntegerArray.h */,
+				16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */,
+				81E307200E79031B0024C47E /* WLPopUpMessage.h */,
+				81E307210E79031B0024C47E /* WLPopUpMessage.m */,
 			);
 			name = "Constant & Utilities";
 			sourceTree = "<group>";
@@ -604,17 +604,17 @@
 		85F701440C895C8600E27A1E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5A3ACCDD0EED5BE200FC4543 /* KOMenuItem.h */,
-				5A3ACCDE0EED5BE200FC4543 /* KOMenuItem.m */,
+				5A3ACCDD0EED5BE200FC4543 /* WLMenuItem.h */,
+				5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */,
 				85ED53200D092B5F003296D4 /* YLConnection.h */,
 				85ED53210D092B5F003296D4 /* YLConnection.m */,
-				16C0C90A0E294BAA00B576C5 /* XIProtocol.h */,
-				16C0C90D0E294C2700B576C5 /* XIPTY.h */,
-				16C0C90E0E294C2700B576C5 /* XIPTY.m */,
+				16C0C90A0E294BAA00B576C5 /* WLProtocol.h */,
+				16C0C90D0E294C2700B576C5 /* WLPTY.h */,
+				16C0C90E0E294C2700B576C5 /* WLPTY.m */,
 				85145AAC0AB40192009FC710 /* YLTerminal.h */,
 				85145AAD0AB40192009FC710 /* YLTerminal.m */,
-				1600D7AD0E51C2B100496E3E /* KOTerminalFeeder.h */,
-				1600D7AE0E51C2B100496E3E /* KOTerminalFeeder.m */,
+				1600D7AD0E51C2B100496E3E /* WLTerminalFeeder.h */,
+				1600D7AE0E51C2B100496E3E /* WLTerminalFeeder.m */,
 				8579CA280CF21D3D005A8353 /* YLSite.h */,
 				8579CA290CF21D3D005A8353 /* YLSite.m */,
 				85E7825A0D057E8400BDA3FB /* YLEmoticon.h */,
@@ -722,9 +722,9 @@
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
 				85ED53220D092B5F003296D4 /* YLConnection.m in Sources */,
-				18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */,
+				18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
-				5AF8CA5D0D9CDB0000DFB5AB /* KOMessageDelegate.m in Sources */,
+				5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* YLController.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
@@ -732,34 +732,34 @@
 				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
-				16C0C90F0E294C2700B576C5 /* XIPTY.m in Sources */,
-				16FEC3210E2A80B50035DADD /* XITabBarControl.m in Sources */,
-				1631E8200E2C672700B87A38 /* XIQuickLookBridge.m in Sources */,
-				1631E84E0E2C8D5600B87A38 /* XIPreviewController.m in Sources */,
-				166D62AD0E2E17A900514885 /* XIPortal.m in Sources */,
+				16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */,
+				16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */,
+				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
+				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
+				166D62AD0E2E17A900514885 /* WLPortal.m in Sources */,
 				166D639F0E2E232600514885 /* PortalImageLayout.m in Sources */,
 				1680A7ED0E2F0F8300A2E175 /* PortalImage.m in Sources */,
-				5A56C3820E342CFF00082312 /* KOPostDownloader.m in Sources */,
-				16BF97BD0E3D9B7600ED990A /* XIIntegerArray.m in Sources */,
-				81F8ECF20E5005190022FA65 /* LLFullScreenController.m in Sources */,
-				81F8ED1E0E500E9F0022FA65 /* LLFullScreenProcessor.m in Sources */,
-				819586620E5183E200AFBFCE /* LLTelnetProcessor.m in Sources */,
-				1600D7AF0E51C2B100496E3E /* KOTerminalFeeder.m in Sources */,
-				5A4A50190E5956EE007E16E6 /* KOEffectView.m in Sources */,
-				81E307220E79031B0024C47E /* LLPopUpMessage.m in Sources */,
-				5A3ACCDF0EED5BE200FC4543 /* KOMenuItem.m in Sources */,
-				186E810F0F218C10007D73BC /* TYComposeDelegate.m in Sources */,
-				5AD4B7160F2D8F8200BF2F87 /* KOClickEntryHotspotHandler.m in Sources */,
-				5AD4B9B20F2DF0BD00BF2F87 /* KOMovingAreaHotspotHandler.m in Sources */,
-				5A43E8750F2E9B570002116B /* KOButtonAreaHotspotHandler.m in Sources */,
-				5A43E87F0F2E9D270002116B /* KOMouseHotspotHandler.m in Sources */,
-				5A43E9C20F2EA8450002116B /* KOIPAddrHotspotHandler.m in Sources */,
-				5AC743FC0F34681100177CA1 /* KOMouseBehaviorManager.m in Sources */,
-				5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */,
-				18F813960F45A93A002FF48C /* TYFeedGenerator.m in Sources */,
-				5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */,
-				5A1BA6F60F6EA8BA003489CF /* LLURLManager.m in Sources */,
-				1841E73E0F7BD280002DCBA8 /* TYProxy.m in Sources */,
+				5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */,
+				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
+				81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */,
+				81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */,
+				819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */,
+				1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */,
+				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
+				81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */,
+				5A3ACCDF0EED5BE200FC4543 /* WLMenuItem.m in Sources */,
+				186E810F0F218C10007D73BC /* WLComposeDelegate.m in Sources */,
+				5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */,
+				5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */,
+				5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */,
+				5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */,
+				5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */,
+				5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */,
+				5AA6807D0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m in Sources */,
+				18F813960F45A93A002FF48C /* WLFeedGenerator.m in Sources */,
+				5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */,
+				5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */,
+				1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */,
 				5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,21 +13,19 @@
 #import "YLLGLobalConfig.h"
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
-#import "XIPreviewController.h"
-#import "XIPortal.h"
-#import "XIIntegerArray.h"
+#import "WLPreviewController.h"
+#import "WLPortal.h"
+#import "WLIntegerArray.h"
 #import "IPSeeker.h"
-#import "KOEffectView.h"
-#import "KOMenuItem.h"
-#import "KOMouseBehaviorManager.h"
-#import "LLURLManager.h"
-#import "LLPopUpMessage.h"
+#import "WLMouseBehaviorManager.h"
+#import "WLURLManager.h"
+#import "WLPopUpMessage.h"
 #import "WLAnsiColorOperationManager.h"
 
 #include "encoding.h"
 #include <math.h>
 
-const float KOActivityCheckingTimeInteval = 5.0;
+const float WLActivityCheckingTimeInteval = 5.0;
 
 
 static YLLGlobalConfig *gConfig;
@@ -190,12 +188,12 @@ BOOL isSpecialSymbol(unichar ch) {
 		_isKeying = NO;
 		_isNotCancelingSelection = YES;
 		_isMouseActive = YES;
-		//_effectView = [[KOEffectView alloc] initWithFrame:frame];
-		_mouseBehaviorDelegate = [[KOMouseBehaviorManager alloc] initWithView:self];
+		//_effectView = [[WLEffectView alloc] initWithFrame:frame];
+		_mouseBehaviorDelegate = [[WLMouseBehaviorManager alloc] initWithView:self];
 		//[self setDelegate:_mouseBehaviorDelegate];
-		_urlManager = [[LLURLManager alloc] initWithView:self];
+		_urlManager = [[WLURLManager alloc] initWithView:self];
 		[_mouseBehaviorDelegate addHandler:_urlManager];
-		_activityCheckingTimer = [NSTimer scheduledTimerWithTimeInterval:KOActivityCheckingTimeInteval
+		_activityCheckingTimer = [NSTimer scheduledTimerWithTimeInterval:WLActivityCheckingTimeInteval
 																  target:self 
 																selector:@selector(checkActivity:)
 																userInfo:nil
@@ -1696,7 +1694,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	if(!_isInUrlMode) {
 		_isInUrlMode = YES;
-		[LLPopUpMessage showPopUpMessage:NSLocalizedString(@"URL Mode", @"URL Mode") 
+		[WLPopUpMessage showPopUpMessage:NSLocalizedString(@"URL Mode", @"URL Mode") 
 								duration:0.5
 							  effectView:_effectView];
 		// For Test
@@ -1714,7 +1712,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)exitURL {
 	[_effectView removeIndicator];
-	[LLPopUpMessage showPopUpMessage:NSLocalizedString(@"Normal Mode", @"Normal Mode")
+	[WLPopUpMessage showPopUpMessage:NSLocalizedString(@"Normal Mode", @"Normal Mode")
 							duration:0.5
 						  effectView:_effectView];
 	_isInUrlMode = NO;
@@ -1726,7 +1724,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)updatePortal {
 	if(_portal) {
 	} else {
-		_portal = [[XIPortal alloc] initWithView:self];
+		_portal = [[WLPortal alloc] initWithView:self];
 		[_portal setFrame:[self frame]];
 	}
 	[_effectView clear];
@@ -1810,8 +1808,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	NSString *str = [pb stringForType:NSStringPboardType];
 	int i, j, LINE_WIDTH = 66, LPADDING = 4;
-	XIIntegerArray *word = [XIIntegerArray integerArray],
-	*text = [XIIntegerArray integerArray];
+	WLIntegerArray *word = [WLIntegerArray integerArray],
+	*text = [WLIntegerArray integerArray];
 	int word_width = 0, line_width = 0;
 	[text push_back:0x000d];
 	for (i = 0; i < LPADDING; i++)

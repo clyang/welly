@@ -5,14 +5,6 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
-			<key>CLASS</key>
-			<string>YLMarkedTextView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>selectFirstTabViewItem</key>
@@ -25,7 +17,7 @@
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
-			<string>XITabBarControl</string>
+			<string>WLTabBarControl</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
@@ -33,13 +25,15 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSObject</string>
+			<string>YLMarkedTextView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>KOEffectView</string>
+			<string>WLEffectView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
@@ -49,6 +43,12 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -64,6 +64,42 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>setChineseFont</key>
+				<string>id</string>
+				<key>setDefaultSSHClient</key>
+				<string>id</string>
+				<key>setDefaultTelnetClient</key>
+				<string>id</string>
+				<key>setEnglishFont</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DBPrefsWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>_autoReplyPrefView</key>
+				<string>NSView</string>
+				<key>_colorsPrefView</key>
+				<string>NSView</string>
+				<key>_connectionPrefView</key>
+				<string>NSView</string>
+				<key>_fontsPrefView</key>
+				<string>NSView</string>
+				<key>_generalPrefView</key>
+				<string>NSView</string>
+				<key>_sshPopUpButton</key>
+				<string>NSPopUpButton</string>
+				<key>_telnetPopUpButton</key>
+				<string>NSPopUpButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -202,7 +238,7 @@
 				<key>_sitesWindow</key>
 				<string>NSPanel</string>
 				<key>_tab</key>
-				<string>XITabBarControl</string>
+				<string>WLTabBarControl</string>
 				<key>_tableView</key>
 				<string>NSTableView</string>
 				<key>_telnetView</key>
@@ -212,42 +248,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>setChineseFont</key>
-				<string>id</string>
-				<key>setDefaultSSHClient</key>
-				<string>id</string>
-				<key>setDefaultTelnetClient</key>
-				<string>id</string>
-				<key>setEnglishFont</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>DBPrefsWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>_autoReplyPrefView</key>
-				<string>NSView</string>
-				<key>_colorsPrefView</key>
-				<string>NSView</string>
-				<key>_connectionPrefView</key>
-				<string>NSView</string>
-				<key>_fontsPrefView</key>
-				<string>NSView</string>
-				<key>_generalPrefView</key>
-				<string>NSView</string>
-				<key>_sshPopUpButton</key>
-				<string>NSPopUpButton</string>
-				<key>_telnetPopUpButton</key>
-				<string>NSPopUpButton</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -268,7 +268,7 @@
 			<key>OUTLETS</key>
 			<dict>
 				<key>_effectView</key>
-				<string>KOEffectView</string>
+				<string>WLEffectView</string>
 				<key>_textField</key>
 				<string>YLMarkedTextView</string>
 			</dict>

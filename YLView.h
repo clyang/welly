@@ -12,10 +12,10 @@
 @class YLTerminal;
 @class YLConnection;
 @class YLMarkedTextView;
-@class KOEffectView;
-@class XIPortal;
-@class KOMouseBehaviorManager;
-@class LLURLManager;
+@class WLEffectView;
+@class WLPortal;
+@class WLMouseBehaviorManager;
+@class WLURLManager;
 
 #define disableMouseByKeyingTimerInterval 0.3
 
@@ -34,14 +34,14 @@
 	NSRange _markedRange;
 	
 	IBOutlet YLMarkedTextView *_textField;
-	IBOutlet KOEffectView *_effectView;
+	IBOutlet WLEffectView *_effectView;
     
     int _selectionLocation;
     int _selectionLength;
 	BOOL _wantsRectangleSelection;
 	BOOL _hasRectangleSelected;
     
-    XIPortal *_portal;
+    WLPortal *_portal;
 	
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
@@ -51,15 +51,15 @@
 	
 	NSTimer *_activityCheckingTimer;
 	
-	KOMouseBehaviorManager *_mouseBehaviorDelegate;
-	LLURLManager *_urlManager;
+	WLMouseBehaviorManager *_mouseBehaviorDelegate;
+	WLURLManager *_urlManager;
 }
 @property BOOL isInPortalMode;
 @property BOOL isInUrlMode;
 @property BOOL isMouseActive;
 @property CGFloat fontWidth;
 @property CGFloat fontHeight;
-@property (readonly) KOEffectView *effectView;
+@property (readonly) WLEffectView *effectView;
 
 - (void)configure;
 

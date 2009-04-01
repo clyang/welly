@@ -9,11 +9,11 @@
 #import "YLTerminal.h"
 #import "YLView.h"
 #import "YLConnection.h"
-#import "XIPTY.h"
+#import "WLPTY.h"
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
-#import "KOPostDownloader.h"
+#import "WLPostDownloader.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -22,10 +22,10 @@
 #import "MultiClickRemoteBehavior.h"
 
 // for RSS
-#import "TYFeedGenerator.h"
+#import "WLFeedGenerator.h"
 
 // Test code by gtCarrera
-#import "LLPopUpMessage.h"
+#import "WLPopUpMessage.h"
 // End
 #import <Carbon/Carbon.h>
 
@@ -121,7 +121,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		[pool release];
 	}
 	// For full screen, initiallize the full screen controller
-	_fullScreenController = [[LLFullScreenController alloc] 
+	_fullScreenController = [[WLFullScreenController alloc] 
 							 initWithoutProcessor:_telnetView 
 							 superView:[_telnetView superview] 
 							 originalWindow:_mainWindow];
@@ -248,7 +248,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [connection setTerminal:terminal];
 
         // XIPTY as the default protocol (a proxy)
-        XIPTY *protocol = [[XIPTY new] autorelease];
+        WLPTY *protocol = [[WLPTY new] autorelease];
         [connection setProtocol:protocol];
         [protocol setDelegate:connection];
         [protocol connect:[site address]];
@@ -556,9 +556,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (void) fullScreenPopUp {
 	NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
-	[LLPopUpMessage showPopUpMessage:currSiteName 
+	[WLPopUpMessage showPopUpMessage:currSiteName 
 							duration:1.2
-						  effectView:((KOEffectView*)[_telnetView effectView])];
+						  effectView:((WLEffectView*)[_telnetView effectView])];
 }
 
 - (IBAction)selectNextTab:(id)sender {
@@ -1241,7 +1241,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 - (void)preparePostDownload:(id)param {
     // clear s
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
-    NSString *s = [KOPostDownloader downloadPostFromConnection:[_telnetView frontMostConnection]];
+    NSString *s = [WLPostDownloader downloadPostFromConnection:[_telnetView frontMostConnection]];
     [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:TRUE];
     [pool release];
 }
@@ -1434,9 +1434,9 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
 // screen
 - (IBAction)fullScreenMode:(id)sender {
 	if([_fullScreenController processor] == nil) {
-		LLTelnetProcessor* myPro = [[LLTelnetProcessor alloc] initWithView:_telnetView 
+		WLTelnetProcessor* myPro = [[WLTelnetProcessor alloc] initWithView:_telnetView 
 															   myTabView:_tab 
-															  effectView:((KOEffectView*)[_telnetView effectView])];
+															  effectView:((WLEffectView*)[_telnetView effectView])];
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];
@@ -1522,7 +1522,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
     [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir attributes:nil];
     NSString *fileName = [[cacheDir stringByAppendingPathComponent:@"rss"] stringByAppendingPathExtension:@"xml"];
-    TYFeedGenerator *feedGenerator = [[TYFeedGenerator alloc] initWithSiteName:siteName];
+    WLFeedGenerator *feedGenerator = [[WLFeedGenerator alloc] initWithSiteName:siteName];
     BOOL isFirstLoop = YES;
     const useconds_t rssInterval = 300000000;
     const useconds_t refreshInterval = 1000;

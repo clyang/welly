@@ -780,7 +780,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
-									<string key="NSClassName">KOEffectView</string>
+									<string key="NSClassName">WLEffectView</string>
 								</object>
 							</object>
 							<string key="NSFrame">{{1, 0}, {960, 576}}</string>
@@ -793,7 +793,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{0, 576}, {962, 22}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<string key="NSClassName">XITabBarControl</string>
+							<string key="NSClassName">WLTabBarControl</string>
 						</object>
 					</object>
 					<string key="NSFrameSize">{960, 598}</string>
@@ -3762,10 +3762,10 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 				<string key="NSClassName">SUUpdater</string>
 			</object>
 			<object class="NSCustomObject" id="277799298">
-				<string key="NSClassName">XIPreviewController</string>
+				<string key="NSClassName">WLPreviewController</string>
 			</object>
 			<object class="NSCustomObject" id="869585858">
-				<string key="NSClassName">TYComposeDelegate</string>
+				<string key="NSClassName">WLComposeDelegate</string>
 			</object>
 			<object class="NSWindowTemplate" id="41017426">
 				<int key="NSWindowStyleMask">17</int>
@@ -7866,18 +7866,6 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">KOEffectView</string>
-					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_mainView</string>
-						<string key="NS.object.0">YLView</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">KOEffectView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSMenuItem</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7958,31 +7946,43 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">TYComposeDelegate</string>
+					<string key="className">WLComposeDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_bgColorWell</string>
 						<string key="NS.object.0">NSColorWell</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">TYComposeDelegate.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">XIPreviewController</string>
+					<string key="className">WLEffectView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_mainView</string>
+						<string key="NS.object.0">YLView</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLPreviewController</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">openPreview:</string>
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">XIPreviewController.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">XITabBarControl</string>
+					<string key="className">WLTabBarControl</string>
 					<string key="superclassName">PSMTabBarControl</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -8002,8 +8002,8 @@ Z1s6cG9ydF0</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">XITabBarControl.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -8169,7 +8169,7 @@ Z1s6cG9ydF0</string>
 							<string>NSArrayController</string>
 							<string>NSMenuItem</string>
 							<string>NSPanel</string>
-							<string>XITabBarControl</string>
+							<string>WLTabBarControl</string>
 							<string>NSTableView</string>
 							<string>YLView</string>
 							<string>NSTextView</string>
@@ -8241,7 +8241,7 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>KOEffectView</string>
+							<string>WLEffectView</string>
 							<string>YLMarkedTextView</string>
 						</object>
 					</object>

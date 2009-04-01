@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "XIProtocol.h"
+#import "WLProtocol.h"
 
-@class YLSite, YLTerminal, KOTerminalFeeder, KOMessageDelegate;
+@class YLSite, YLTerminal, WLTerminalFeeder, WLMessageDelegate;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
@@ -23,24 +23,24 @@
     NSDate *_lastTouchDate;
     
     YLTerminal *_terminal;
-	KOTerminalFeeder *_feeder;
-    NSObject <XIProtocol> *_protocol;
+	WLTerminalFeeder *_feeder;
+    NSObject <WLProtocol> *_protocol;
     YLSite * _site;
 	
-	KOMessageDelegate *_messageDelegate;
+	WLMessageDelegate *_messageDelegate;
 	int _messageCount;
 }
 @property (readwrite, retain) YLSite *site;
 @property (readwrite, retain, setter=setTerminal:) YLTerminal *terminal;
-@property (readwrite, retain) KOTerminalFeeder *terminalFeeder;
-@property (readwrite, retain) NSObject <XIProtocol> *protocol;
+@property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
+@property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:) BOOL isConnected;
 @property (readwrite, retain) NSImage *icon;
 @property (readwrite, assign, setter=setProcessing:) BOOL isProcessing;
 @property (readwrite, assign) int objectCount;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) int messageCount;
-@property (readonly) KOMessageDelegate *messageDelegate;
+@property (readonly) WLMessageDelegate *messageDelegate;
 
 - (id)initWithSite:(YLSite *)site;
 

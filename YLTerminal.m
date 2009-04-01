@@ -10,7 +10,6 @@
 #import "YLLGlobalConfig.h"
 #import "YLView.h"
 #import "YLConnection.h"
-#import "XIIntegerArray.h"
 #import "encoding.h"
 #import "YLSite.h"
 

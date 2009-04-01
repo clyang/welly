@@ -5,14 +5,6 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
-			<key>CLASS</key>
-			<string>YLMarkedTextView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>selectFirstTabViewItem</key>
@@ -25,7 +17,7 @@
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
-			<string>XITabBarControl</string>
+			<string>WLTabBarControl</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
@@ -33,13 +25,15 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSObject</string>
+			<string>YLMarkedTextView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>KOEffectView</string>
+			<string>WLEffectView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
@@ -49,6 +43,12 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -238,7 +238,7 @@
 				<key>_sitesWindow</key>
 				<string>NSPanel</string>
 				<key>_tab</key>
-				<string>XITabBarControl</string>
+				<string>WLTabBarControl</string>
 				<key>_tableView</key>
 				<string>NSTableView</string>
 				<key>_telnetView</key>
@@ -268,7 +268,7 @@
 			<key>OUTLETS</key>
 			<dict>
 				<key>_effectView</key>
-				<string>KOEffectView</string>
+				<string>WLEffectView</string>
 				<key>_textField</key>
 				<string>YLMarkedTextView</string>
 			</dict>

@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "XITabBarControl.h"
+#import "WLTabBarControl.h"
 #import "YLSite.h"
-#import "KOMessageDelegate.h"
-#import "LLFullScreenController.h"
-#import "LLTelnetProcessor.h"
+#import "WLMessageDelegate.h"
+#import "WLFullScreenController.h"
+#import "WLTelnetProcessor.h"
 
 #define scrollTimerInterval 0.12
 #define floatWindowLevel kCGStatusWindowLevel+1
@@ -19,7 +19,7 @@
 @class YLView, YLTerminal;
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
-@class TYFeedGenerator;
+@class WLFeedGenerator;
 
 @interface YLController : NSObject {
     /* composeWindow */
@@ -44,7 +44,7 @@
     IBOutlet id _mouseButton;
 
     IBOutlet YLView *_telnetView;
-    IBOutlet XITabBarControl *_tab;
+    IBOutlet WLTabBarControl *_tab;
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
     IBOutlet NSMenuItem *_closeWindowMenuItem;
     IBOutlet NSMenuItem *_closeTabMenuItem;
@@ -69,7 +69,7 @@
 	MultiClickRemoteBehavior *remoteControlBehavior;
 	
 	// Full Screen
-	LLFullScreenController* _fullScreenController;
+	WLFullScreenController* _fullScreenController;
 	
 	// Timer test
 	NSTimer* _scrollTimer;

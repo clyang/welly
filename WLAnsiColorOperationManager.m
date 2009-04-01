@@ -65,7 +65,6 @@ inline void clearNonANSIAttribute(cell *aCell) {
 
 + (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
 							   inRect:(NSRect)rect {
-	NSLog(@"copy rect!");
 	int maxRow = [[YLLGlobalConfig sharedInstance] row];
 	int maxColumn = [[YLLGlobalConfig sharedInstance] column];
 	cell *buffer = (cell *)malloc(((rect.size.height * rect.size.width) + maxRow + maxColumn + 1) * sizeof(cell));

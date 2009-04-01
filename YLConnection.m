@@ -8,10 +8,10 @@
 
 #import "YLConnection.h"
 #import "YLTerminal.h"
-#import "KOTerminalFeeder.h"
+#import "WLTerminalFeeder.h"
 #import "encoding.h"
 #import "YLLGlobalConfig.h"
-#import "KOMessageDelegate.h"
+#import "WLMessageDelegate.h"
 
 @interface YLConnection ()
 - (void)login;
@@ -38,8 +38,8 @@
 - (id)initWithSite:(YLSite *)site {
     if (self == [super initWithContent:self]) {
         [self setSite:site];
-        [self setTerminalFeeder:[[KOTerminalFeeder alloc] initWithConnection:self]];
-        _messageDelegate = [[KOMessageDelegate alloc] init];
+        [self setTerminalFeeder:[[WLTerminalFeeder alloc] initWithConnection:self]];
+        _messageDelegate = [[WLMessageDelegate alloc] init];
         [_messageDelegate setConnection: self];
     }
     return self;
@@ -83,7 +83,7 @@
 }
 
 #pragma mark -
-#pragma mark XIProtocol delegate methods
+#pragma mark WLProtocol delegate methods
 
 - (void)protocolWillConnect:(id)protocol {
     [self setProcessing:YES];
