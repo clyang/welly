@@ -18,6 +18,8 @@ inline void clearNonANSIAttribute(cell *aCell) {
 	aCell->attr.f.nothing = 0;
 }
 
+const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
+
 + (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
 							 atLocation:(int)location 
 							   length:(int)length {
@@ -40,11 +42,8 @@ inline void clearNonANSIAttribute(cell *aCell) {
 		}
 		if (!isEmptyCell(currentRow[index % maxColumn])) {
 			for (j = 0; j < emptyCount; j++) {
-				buffer[bufferLength] = currentRow[index % maxColumn];
-				buffer[bufferLength].byte = WLWhitespaceCharacter;
-				
-				clearNonANSIAttribute(&buffer[bufferLength]);
-				bufferLength++;   
+				buffer[bufferLength] = WLWhiteSpaceCell;
+				bufferLength++;
 			}
 			buffer[bufferLength] = currentRow[index % maxColumn];
 			if (buffer[bufferLength].byte == WLNullTerminator)
@@ -77,10 +76,7 @@ inline void clearNonANSIAttribute(cell *aCell) {
 		for (int c = rect.origin.x; c < rect.origin.x + rect.size.width; ++c) {
 			if (!isEmptyCell(currentRow[c])) {
 				for (j = 0; j < emptyCount; j++) {
-					buffer[bufferLength] = currentRow[c];
-					buffer[bufferLength].byte = WLWhitespaceCharacter;
-					
-					clearNonANSIAttribute(&buffer[bufferLength]);
+					buffer[bufferLength] = WLWhiteSpaceCell;
 					bufferLength++;   
 				}
 				buffer[bufferLength] = currentRow[c];
@@ -99,10 +95,7 @@ inline void clearNonANSIAttribute(cell *aCell) {
 			for (int c = rect.origin.x + rect.size.width; c < maxColumn; ++c) {
 				if (!isEmptyCell(currentRow[c])) {
 					for (j = 0; j < emptyCount; j++) {
-						buffer[bufferLength] = currentRow[c];
-						buffer[bufferLength].byte = WLWhitespaceCharacter;
-						
-						clearNonANSIAttribute(&buffer[bufferLength]);
+						buffer[bufferLength] = WLWhiteSpaceCell;
 						bufferLength++;   
 					}
 					buffer[bufferLength] = currentRow[c];

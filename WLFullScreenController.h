@@ -34,7 +34,7 @@
 			 targetView:(NSView*)tview 
 			  superView:(NSView*)sview
 		 originalWindow:(NSWindow*)owin;
-- (id)initWithoutProcessor:(NSView*)tview 
+- (id)initWithTargetView:(NSView*)tview 
 				 superView:(NSView*)sview
 			originalWindow:(NSWindow*)owin;
 // Handle functions

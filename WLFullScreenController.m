@@ -34,9 +34,9 @@
 // Initiallize the controller with non-processor
 // This function ONLY makes the target view showed in full
 // screen but cannot resize it
-- (id) initWithoutProcessor:(NSView*)tview 
-				  superView:(NSView*)sview
-			 originalWindow:(NSWindow*)owin {
+- (id)initWithTargetView:(NSView*)tview 
+			   superView:(NSView*)sview
+		  originalWindow:(NSWindow*)owin {
 	if (self = [super init]) {
 		_processor = nil;
 		_targetView = [tview retain];
@@ -57,7 +57,7 @@
 #pragma mark -
 #pragma mark Handle functions
 // The main control function of this object
-- (void) handleFullScreen {
+- (void)handleFullScreen {
 	if (!_isInFullScreen) {
 		// Set current state
 		_isInFullScreen = YES;
@@ -87,7 +87,7 @@
 }
 
 // Make the view out of the full screen state
-- (void) releaseFullScreen {
+- (void)releaseFullScreen {
 	if(_isInFullScreen) {
 		// Change the state
 		_isInFullScreen = false;

@@ -122,7 +122,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	}
 	// For full screen, initiallize the full screen controller
 	_fullScreenController = [[WLFullScreenController alloc] 
-							 initWithoutProcessor:_telnetView 
+							 initWithTargetView:_telnetView 
 							 superView:[_telnetView superview] 
 							 originalWindow:_mainWindow];
 	
