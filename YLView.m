@@ -262,30 +262,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	int width = (endColumn - column) + 1;
 	
 	return NSMakeRect(column, row, width, height);
-	/*
-	 int location, length;
-	 if (_selectionLength >= 0) {
-	 location = _selectionLocation;
-	 length = _selectionLength;
-	 } else {
-	 location = _selectionLocation + _selectionLength;
-	 length = 0 - _selectionLength;
-	 }
-	 */
-	
-	/*
-    int x = location % gColumn;
-    int y = location / gColumn;
-	
-	int w = length % gColumn;
-	int h = length / gColumn;
-	if (x + w > gColumn) {
-		x = (x + w) - gColumn;
-		w = gColumn - w;
-		h = h + 1;
-	}
-	
-	return NSMakeRect(x, y, w, h);*/
 }
 
 - (NSPoint)mouseLocationInView {
@@ -294,7 +270,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Actions
-
 - (void)copy:(id)sender {
     if (![self isConnected]) return;
     if (_selectionLength == 0) return;
@@ -310,110 +285,12 @@ BOOL isSpecialSymbol(unichar ch) {
         location = _selectionLocation + _selectionLength;
         length = 0 - (int)_selectionLength;
     }
-
-    //cell *buffer = (cell *)malloc((length + gRow + gColumn + 1) * sizeof(cell));
-//    int i, j;
-//    int bufferLength = 0;
-//    id ds = [self frontMostTerminal];
-//    int emptyCount = 0;
-//
-//	if (!_hasRectangleSelected) {
-//		for (i = 0; i < length; i++) {
-//			int index = location + i;
-//			cell *currentRow = [ds cellsOfRow:index / gColumn];
-//			
-//			if ((index % gColumn == 0) && (index != location)) {
-//				buffer[bufferLength].byte = WLNewlineCharacter;
-//				buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
-//				bufferLength++;
-//				emptyCount = 0;
-//			}
-//			if (currentRow[index % gColumn].byte != '\0') {
-//				for (j = 0; j < emptyCount; j++) {
-//					buffer[bufferLength] = currentRow[index % gColumn];
-//					buffer[bufferLength].byte = WLWhitespaceCharacter;
-//					buffer[bufferLength].attr.f.doubleByte = 0;
-//					buffer[bufferLength].attr.f.url = 0;
-//					buffer[bufferLength].attr.f.nothing = 0;
-//					bufferLength++;   
-//				}
-//				buffer[bufferLength] = currentRow[index % gColumn];
-//				/* Clear non-ANSI related properties. */
-//				buffer[bufferLength].attr.f.doubleByte = 0;
-//				buffer[bufferLength].attr.f.url = 0;
-//				buffer[bufferLength].attr.f.nothing = 0;
-//				bufferLength++;
-//				emptyCount = 0;
-//			} else {
-//				emptyCount++;
-//			}
-//		}
-//	} else {
-//		NSRect selectedRect = [self selectedRect];
-//		// Rectangle Selection
-//		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
-//			cell *currentRow = [ds cellsOfRow:r];
-//			// Copy 'selectedRect.size.width' bytes from (r, selectedRect.origin.x)
-//			for (int c = selectedRect.origin.x; c < selectedRect.origin.x + selectedRect.size.width; ++c) {
-//				if (currentRow[c].byte != WLNullTerminator) {
-//					for (j = 0; j < emptyCount; j++) {
-//						buffer[bufferLength] = currentRow[c];
-//						buffer[bufferLength].byte = WLWhitespaceCharacter;
-//						buffer[bufferLength].attr.f.doubleByte = 0;
-//						buffer[bufferLength].attr.f.url = 0;
-//						buffer[bufferLength].attr.f.nothing = 0;
-//						bufferLength++;   
-//					}
-//					buffer[bufferLength] = currentRow[c];
-//					/* Clear non-ANSI related properties. */
-//					buffer[bufferLength].attr.f.doubleByte = 0;
-//					buffer[bufferLength].attr.f.url = 0;
-//					buffer[bufferLength].attr.f.nothing = 0;
-//					bufferLength++;
-//					emptyCount = 0;
-//				} else {
-//					emptyCount++;
-//				}
-//			}
-//			// Check if we should fill remaining empty count:
-//			if (emptyCount > 0) {
-//				for (int c = selectedRect.origin.x + selectedRect.size.width; c < gColumn; ++c) {
-//					if (currentRow[c].byte != WLNullTerminator) {
-//						for (j = 0; j < emptyCount; j++) {
-//							buffer[bufferLength] = currentRow[c];
-//							buffer[bufferLength].byte = WLWhitespaceCharacter;
-//							buffer[bufferLength].attr.f.doubleByte = 0;
-//							buffer[bufferLength].attr.f.url = 0;
-//							buffer[bufferLength].attr.f.nothing = 0;
-//							bufferLength++;   
-//						}
-//						buffer[bufferLength] = currentRow[c];
-//						/* Clear non-ANSI related properties. */
-//						buffer[bufferLength].attr.f.doubleByte = 0;
-//						buffer[bufferLength].attr.f.url = 0;
-//						buffer[bufferLength].attr.f.nothing = 0;
-//						bufferLength++;
-//						emptyCount = 0;
-//						break;
-//					}
-//				}
-//			}
-//			// add \n
-//			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
-//				break;
-//			buffer[bufferLength].byte = WLNewlineCharacter;
-//			buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
-//			bufferLength++;
-//			emptyCount = 0;
-//		}		
-//	}
     
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSMutableArray *types = [NSMutableArray arrayWithObjects:NSStringPboardType, ANSIColorPBoardType, nil];
     if (!s) s = @"";
     [pb declareTypes:types owner:self];
     [pb setString:s forType:NSStringPboardType];
-    //[pb setData:[NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)] forType:ANSIColorPBoardType];
 	if (_hasRectangleSelected) {
 		[pb setData:[WLAnsiColorOperationManager ansiColorDataFromTerminal:[self frontMostTerminal] 
 																	inRect:[self selectedRect]] 
@@ -424,7 +301,6 @@ BOOL isSpecialSymbol(unichar ch) {
 																	length:length] 
 			forType:ANSIColorPBoardType];
 	}
-    //free(buffer);
 }
 
 - (void)pasteColor:(id)sender {
@@ -1924,96 +1800,6 @@ BOOL isSpecialSymbol(unichar ch) {
 		[self performPaste];
 		return;
 	}
-	
-	//NSData *escData;
-//	YLSite *s = [[self frontMostConnection] site];
-//	if ([s ansiColorKey] == YLCtrlUANSIColorKey) {
-//		escData = [NSData dataWithBytes:"\x15" length:1];
-//	} else if ([s ansiColorKey] == YLEscEscANSIColorKey) {
-//		escData = [NSData dataWithBytes:"\x1B\x1B" length:2];
-//	} else {
-//		escData = [NSData dataWithBytes:"\x1B" length:1];
-//	}
-//	
-//	cell *buffer = (cell *) [[pb dataForType:ANSIColorPBoardType] bytes];
-//	int bufferLength = [[pb dataForType:ANSIColorPBoardType] length] / sizeof(cell);
-//	
-//	attribute defaultANSI;
-//	defaultANSI.f.bgColor = gConfig->_bgColorIndex;
-//	defaultANSI.f.fgColor = gConfig->_fgColorIndex;
-//	defaultANSI.f.blink = 0;
-//	defaultANSI.f.bold = 0;
-//	defaultANSI.f.underline = 0;
-//	defaultANSI.f.reverse = 0;
-//	
-//	attribute previousANSI = defaultANSI;
-//	NSMutableData *writeBuffer = [NSMutableData data];
-//	
-//	int i;
-//	for (i = 0; i < bufferLength; i++) {
-//		if (buffer[i].byte == '\n' ) {
-//			previousANSI = defaultANSI;
-//			[writeBuffer appendData:escData];
-//			[writeBuffer appendBytes:"[m\r" length:3];
-//			continue;
-//		}
-//		
-//		attribute currentANSI = buffer[i].attr;
-//		
-//		char tmp[100];
-//		tmp[0] = '\0';
-//		
-//		/* Unchanged */
-//		if ((currentANSI.f.blink == previousANSI.f.blink) &&
-//			(currentANSI.f.bold == previousANSI.f.bold) &&
-//			(currentANSI.f.underline == previousANSI.f.underline) &&
-//			(currentANSI.f.reverse == previousANSI.f.reverse) &&
-//			(currentANSI.f.bgColor == previousANSI.f.bgColor) &&
-//			(currentANSI.f.fgColor == previousANSI.f.fgColor)) {
-//			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-//			continue;
-//		}
-//		
-//		/* Clear */        
-//		if ((currentANSI.f.blink == 0 && previousANSI.f.blink == 1) ||
-//			(currentANSI.f.bold == 0 && previousANSI.f.bold == 1) ||
-//			(currentANSI.f.underline == 0 && previousANSI.f.underline == 1) ||
-//			(currentANSI.f.reverse == 0 && previousANSI.f.reverse == 1) ||
-//			(currentANSI.f.bgColor ==  gConfig->_bgColorIndex && previousANSI.f.reverse != gConfig->_bgColorIndex) ) {
-//			strcpy(tmp, "[0");
-//			if (currentANSI.f.blink == 1) strcat(tmp, ";5");
-//			if (currentANSI.f.bold == 1) strcat(tmp, ";1");
-//			if (currentANSI.f.underline == 1) strcat(tmp, ";4");
-//			if (currentANSI.f.reverse == 1) strcat(tmp, ";7");
-//			if (currentANSI.f.fgColor != gConfig->_fgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.fgColor + 30);
-//			if (currentANSI.f.bgColor != gConfig->_bgColorIndex) sprintf(tmp, "%s;%d", tmp, currentANSI.f.bgColor + 40);
-//			strcat(tmp, "m");
-//			[writeBuffer appendData: escData];
-//			[writeBuffer appendBytes: tmp length: strlen(tmp)];
-//			[writeBuffer appendBytes: &(buffer[i].byte) length: 1];
-//			previousANSI = currentANSI;
-//			continue;
-//		}
-//		
-//		/* Add attribute */
-//		strcpy(tmp, "[");
-//		if (currentANSI.f.blink == 1 && previousANSI.f.blink == 0) strcat(tmp, "5;");
-//		if (currentANSI.f.bold == 1 && previousANSI.f.bold == 0) strcat(tmp, "1;");
-//		if (currentANSI.f.underline == 1 && previousANSI.f.underline == 0) strcat(tmp, "4;");
-//		if (currentANSI.f.reverse == 1 && previousANSI.f.reverse == 0) strcat(tmp, "7;");
-//		if (currentANSI.f.fgColor != previousANSI.f.fgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.fgColor + 30);
-//		if (currentANSI.f.bgColor != previousANSI.f.bgColor) sprintf(tmp, "%s%d;", tmp, currentANSI.f.bgColor + 40);
-//		tmp[strlen(tmp) - 1] = 'm';
-//		sprintf(tmp, "%s%c", tmp, buffer[i].byte);
-//		[writeBuffer appendData:escData];
-//		[writeBuffer appendBytes:tmp length:strlen(tmp)];
-//		previousANSI = currentANSI;
-//		continue;
-//	}
-//	[writeBuffer appendData:escData];
-//	[writeBuffer appendBytes:"[m" length:2];
-//	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
-
 }
 
 #pragma mark -
