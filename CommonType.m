@@ -41,3 +41,15 @@ int bgBoldOfAttribute(attribute a) {
 int fgBoldOfAttribute(attribute a) {
     return (!a.f.reverse && a.f.bold);
 }
+
+inline BOOL isEmptyCell(cell aCell) {
+	if (aCell.byte != WLNullTerminator)
+		return NO;
+	if (aCell.attr.f.bgColor != 9)
+		return NO;
+	if (aCell.attr.f.underline != 0)
+		return NO;
+	if (aCell.attr.f.reverse != 0)
+		return NO;
+	return YES;
+}

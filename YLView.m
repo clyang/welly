@@ -22,6 +22,7 @@
 #import "KOMouseBehaviorManager.h"
 #import "LLURLManager.h"
 #import "LLPopUpMessage.h"
+#import "WLAnsiColorOperationManager.h"
 
 #include "encoding.h"
 #include <math.h>
@@ -68,7 +69,11 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 @interface YLView ()
-- (void) drawSpecialSymbol:(unichar)ch forRow:(int)r column:(int)c leftAttribute:(attribute)attr1 rightAttribute:(attribute)attr2;
+- (void) drawSpecialSymbol:(unichar)ch 
+					forRow:(int)r 
+					column:(int)c 
+			 leftAttribute:(attribute)attr1 
+			rightAttribute:(attribute)attr2;
 @end
 
 @implementation YLView
@@ -234,16 +239,46 @@ BOOL isSpecialSymbol(unichar ch) {
 - (NSRect)selectedRect {
 	if (_selectionLength == 0)
 		return NSZeroRect;
-	int location, length;
-    if (_selectionLength >= 0) {
-        location = _selectionLocation;
-        length = _selectionLength;
-    } else {
-        location = _selectionLocation + _selectionLength;
-        length = 0 - (int)_selectionLength;
-    }
+	
+	int startIndex = _selectionLocation;
+	int endIndex = startIndex + _selectionLength;
+	if (_selectionLength > 0)
+		--endIndex;
+	
+	int row = startIndex / gColumn;
+	int column = startIndex % gColumn;
+	int endRow = endIndex / gColumn;
+	int endColumn = endIndex % gColumn;
+	
+	if (endRow < row) {
+		int temp = row;
+		row = endRow;
+		endRow = temp - 1;
+	}
+	if (endColumn < column) {
+		int temp = column;
+		column = endColumn;
+		endColumn = temp - 1;
+	}
+	int height = (endRow - row) + 1;
+	int width = (endColumn - column) + 1;
+	
+	return NSMakeRect(column, row, width, height);
+	/*
+	 int location, length;
+	 if (_selectionLength >= 0) {
+	 location = _selectionLocation;
+	 length = _selectionLength;
+	 } else {
+	 location = _selectionLocation + _selectionLength;
+	 length = 0 - _selectionLength;
+	 }
+	 */
+	
+	/*
     int x = location % gColumn;
     int y = location / gColumn;
+	
 	int w = length % gColumn;
 	int h = length / gColumn;
 	if (x + w > gColumn) {
@@ -251,7 +286,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		w = gColumn - w;
 		h = h + 1;
 	}
-	return NSMakeRect(x, y, w, h);
+	
+	return NSMakeRect(x, y, w, h);*/
 }
 
 - (NSPoint)mouseLocationInView {
@@ -277,110 +313,120 @@ BOOL isSpecialSymbol(unichar ch) {
         length = 0 - (int)_selectionLength;
     }
 
-    cell *buffer = (cell *) malloc((length + gRow + gColumn + 1) * sizeof(cell));
-    int i, j;
-    int bufferLength = 0;
-    id ds = [self frontMostTerminal];
-    int emptyCount = 0;
-
-	if (!_hasRectangleSelected) {
-		for (i = 0; i < length; i++) {
-			int index = location + i;
-			cell *currentRow = [ds cellsOfRow:index / gColumn];
-			
-			if ((index % gColumn == 0) && (index != location)) {
-				buffer[bufferLength].byte = WLNewlineCharacter;
-				buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
-				bufferLength++;
-				emptyCount = 0;
-			}
-			if (currentRow[index % gColumn].byte != '\0') {
-				for (j = 0; j < emptyCount; j++) {
-					buffer[bufferLength] = currentRow[index % gColumn];
-					buffer[bufferLength].byte = WLWhitespaceCharacter;
-					buffer[bufferLength].attr.f.doubleByte = 0;
-					buffer[bufferLength].attr.f.url = 0;
-					buffer[bufferLength].attr.f.nothing = 0;
-					bufferLength++;   
-				}
-				buffer[bufferLength] = currentRow[index % gColumn];
-				/* Clear non-ANSI related properties. */
-				buffer[bufferLength].attr.f.doubleByte = 0;
-				buffer[bufferLength].attr.f.url = 0;
-				buffer[bufferLength].attr.f.nothing = 0;
-				bufferLength++;
-				emptyCount = 0;
-			} else {
-				emptyCount++;
-			}
-		}
-	} else {
-		NSRect selectedRect = [self selectedRect];
-		// Rectangle Selection
-		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
-			cell *currentRow = [ds cellsOfRow:r];
-			// Copy 'selectedRect.size.width' bytes from (r, selectedRect.origin.x)
-			for (int c = selectedRect.origin.x; c < selectedRect.origin.x + selectedRect.size.width; ++c) {
-				if (currentRow[c].byte != WLNullTerminator) {
-					for (j = 0; j < emptyCount; j++) {
-						buffer[bufferLength] = currentRow[c];
-						buffer[bufferLength].byte = WLWhitespaceCharacter;
-						buffer[bufferLength].attr.f.doubleByte = 0;
-						buffer[bufferLength].attr.f.url = 0;
-						buffer[bufferLength].attr.f.nothing = 0;
-						bufferLength++;   
-					}
-					buffer[bufferLength] = currentRow[c];
-					/* Clear non-ANSI related properties. */
-					buffer[bufferLength].attr.f.doubleByte = 0;
-					buffer[bufferLength].attr.f.url = 0;
-					buffer[bufferLength].attr.f.nothing = 0;
-					bufferLength++;
-					emptyCount = 0;
-				} else {
-					emptyCount++;
-				}
-			}
-			// Check if we should fill remaining empty count:
-			if (emptyCount > 0) {
-				for (int c = selectedRect.origin.x + selectedRect.size.width; c < gColumn; ++c) {
-					if (currentRow[c].byte != WLNullTerminator) {
-						for (j = 0; j < emptyCount; j++) {
-							buffer[bufferLength] = currentRow[c];
-							buffer[bufferLength].byte = WLWhitespaceCharacter;
-							buffer[bufferLength].attr.f.doubleByte = 0;
-							buffer[bufferLength].attr.f.url = 0;
-							buffer[bufferLength].attr.f.nothing = 0;
-							bufferLength++;   
-						}
-						buffer[bufferLength] = currentRow[c];
-						/* Clear non-ANSI related properties. */
-						buffer[bufferLength].attr.f.doubleByte = 0;
-						buffer[bufferLength].attr.f.url = 0;
-						buffer[bufferLength].attr.f.nothing = 0;
-						bufferLength++;
-						emptyCount = 0;
-						break;
-					}
-				}
-			}
-			// add \n
-			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
-				break;
-			buffer[bufferLength].byte = WLNewlineCharacter;
-			buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
-			bufferLength++;
-			emptyCount = 0;
-		}		
-	}
+    //cell *buffer = (cell *)malloc((length + gRow + gColumn + 1) * sizeof(cell));
+//    int i, j;
+//    int bufferLength = 0;
+//    id ds = [self frontMostTerminal];
+//    int emptyCount = 0;
+//
+//	if (!_hasRectangleSelected) {
+//		for (i = 0; i < length; i++) {
+//			int index = location + i;
+//			cell *currentRow = [ds cellsOfRow:index / gColumn];
+//			
+//			if ((index % gColumn == 0) && (index != location)) {
+//				buffer[bufferLength].byte = WLNewlineCharacter;
+//				buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
+//				bufferLength++;
+//				emptyCount = 0;
+//			}
+//			if (currentRow[index % gColumn].byte != '\0') {
+//				for (j = 0; j < emptyCount; j++) {
+//					buffer[bufferLength] = currentRow[index % gColumn];
+//					buffer[bufferLength].byte = WLWhitespaceCharacter;
+//					buffer[bufferLength].attr.f.doubleByte = 0;
+//					buffer[bufferLength].attr.f.url = 0;
+//					buffer[bufferLength].attr.f.nothing = 0;
+//					bufferLength++;   
+//				}
+//				buffer[bufferLength] = currentRow[index % gColumn];
+//				/* Clear non-ANSI related properties. */
+//				buffer[bufferLength].attr.f.doubleByte = 0;
+//				buffer[bufferLength].attr.f.url = 0;
+//				buffer[bufferLength].attr.f.nothing = 0;
+//				bufferLength++;
+//				emptyCount = 0;
+//			} else {
+//				emptyCount++;
+//			}
+//		}
+//	} else {
+//		NSRect selectedRect = [self selectedRect];
+//		// Rectangle Selection
+//		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
+//			cell *currentRow = [ds cellsOfRow:r];
+//			// Copy 'selectedRect.size.width' bytes from (r, selectedRect.origin.x)
+//			for (int c = selectedRect.origin.x; c < selectedRect.origin.x + selectedRect.size.width; ++c) {
+//				if (currentRow[c].byte != WLNullTerminator) {
+//					for (j = 0; j < emptyCount; j++) {
+//						buffer[bufferLength] = currentRow[c];
+//						buffer[bufferLength].byte = WLWhitespaceCharacter;
+//						buffer[bufferLength].attr.f.doubleByte = 0;
+//						buffer[bufferLength].attr.f.url = 0;
+//						buffer[bufferLength].attr.f.nothing = 0;
+//						bufferLength++;   
+//					}
+//					buffer[bufferLength] = currentRow[c];
+//					/* Clear non-ANSI related properties. */
+//					buffer[bufferLength].attr.f.doubleByte = 0;
+//					buffer[bufferLength].attr.f.url = 0;
+//					buffer[bufferLength].attr.f.nothing = 0;
+//					bufferLength++;
+//					emptyCount = 0;
+//				} else {
+//					emptyCount++;
+//				}
+//			}
+//			// Check if we should fill remaining empty count:
+//			if (emptyCount > 0) {
+//				for (int c = selectedRect.origin.x + selectedRect.size.width; c < gColumn; ++c) {
+//					if (currentRow[c].byte != WLNullTerminator) {
+//						for (j = 0; j < emptyCount; j++) {
+//							buffer[bufferLength] = currentRow[c];
+//							buffer[bufferLength].byte = WLWhitespaceCharacter;
+//							buffer[bufferLength].attr.f.doubleByte = 0;
+//							buffer[bufferLength].attr.f.url = 0;
+//							buffer[bufferLength].attr.f.nothing = 0;
+//							bufferLength++;   
+//						}
+//						buffer[bufferLength] = currentRow[c];
+//						/* Clear non-ANSI related properties. */
+//						buffer[bufferLength].attr.f.doubleByte = 0;
+//						buffer[bufferLength].attr.f.url = 0;
+//						buffer[bufferLength].attr.f.nothing = 0;
+//						bufferLength++;
+//						emptyCount = 0;
+//						break;
+//					}
+//				}
+//			}
+//			// add \n
+//			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
+//				break;
+//			buffer[bufferLength].byte = WLNewlineCharacter;
+//			buffer[bufferLength].attr = buffer[bufferLength - 1].attr;
+//			bufferLength++;
+//			emptyCount = 0;
+//		}		
+//	}
     
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSMutableArray *types = [NSMutableArray arrayWithObjects:NSStringPboardType, ANSIColorPBoardType, nil];
     if (!s) s = @"";
     [pb declareTypes:types owner:self];
     [pb setString:s forType:NSStringPboardType];
-    [pb setData:[NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)] forType:ANSIColorPBoardType];
-    free(buffer);
+    //[pb setData:[NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)] forType:ANSIColorPBoardType];
+	if (_hasRectangleSelected) {
+		[pb setData:[WLAnsiColorOperationManager ansiColorDataFromTerminal:[self frontMostTerminal] 
+																	inRect:[self selectedRect]] 
+			forType:ANSIColorPBoardType];
+	} else {
+		[pb setData:[WLAnsiColorOperationManager ansiColorDataFromTerminal:[self frontMostTerminal] 
+																atLocation:location 
+																	length:length] 
+			forType:ANSIColorPBoardType];
+	}
+    //free(buffer);
 }
 
 - (void)pasteColor:(id)sender {
@@ -514,10 +560,12 @@ BOOL isSpecialSymbol(unichar ch) {
         return;
     }
 
-    if (![self isConnected]) return;
+    if (![self isConnected]) 
+		return;
 	// Disable the mouse if we cancelled any selection
-	if(abs(_selectionLength) > 0) _isNotCancelingSelection = NO;
-    _selectionLocation = [self convertIndexFromPoint: p];
+	if(abs(_selectionLength) > 0) 
+		_isNotCancelingSelection = NO;
+    _selectionLocation = [self convertIndexFromPoint:p];
     _selectionLength = 0;
     
     if (([theEvent modifierFlags] & NSCommandKeyMask) == 0x00 &&
@@ -570,10 +618,11 @@ BOOL isSpecialSymbol(unichar ch) {
     int index = [self convertIndexFromPoint:p];
     int oldValue = _selectionLength;
     _selectionLength = index - _selectionLocation + 1;
-    if (_selectionLength <= 0) _selectionLength--;
+    if (_selectionLength <= 0) 
+		_selectionLength--;
     if (oldValue != _selectionLength)
         [self setNeedsDisplay:YES];
-	_hasRectangleSelected = _wantRectangleSelection;
+	_hasRectangleSelected = _wantsRectangleSelection;
     // TODO: Calculate the precise region to redraw
 }
 
@@ -581,7 +630,6 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self hasMouseActivity];
 	// portal
     if (_isInPortalMode) {
-        //[_portal clickAtPoint:p count:[theEvent clickCount]];
 		[_portal mouseUp:theEvent];
         return;
     }
@@ -592,20 +640,6 @@ BOOL isSpecialSymbol(unichar ch) {
     p = [self convertPoint:p toView:nil];
 
     if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying && !_isInUrlMode) {
-        //int index = [self convertIndexFromPoint:p];
-//        NSString *url = [[self frontMostTerminal] urlStringAtRow:(index / gColumn) column:(index % gColumn)];
-//        if (url != nil) {
-//			if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
-//				// click while holding shift key or navigate web pages
-//				// open the URL with browser
-//				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-//			} else {
-//				// open with previewer
-//				[XIPreviewController dowloadWithURL:[NSURL URLWithString:url]];
-//			}
-//			_isNotCancelingSelection = YES;
-//			return;	// click on url should not invoke hot spot
-//		}
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }
 	_isNotCancelingSelection = YES;
@@ -736,11 +770,11 @@ BOOL isSpecialSymbol(unichar ch) {
 	unsigned int currentFlags = [event modifierFlags];
 	// For rectangle selection
 	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
-		_wantRectangleSelection = YES;
+		_wantsRectangleSelection = YES;
 		[[NSCursor crosshairCursor] push];
 		_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
 	} else {
-		_wantRectangleSelection = NO;
+		_wantsRectangleSelection = NO;
 		[[NSCursor crosshairCursor] pop];
 		_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
 	}
@@ -1045,13 +1079,15 @@ BOOL isSpecialSymbol(unichar ch) {
     // find the first dirty position in this row
 	for (x = 0; x < gColumn && ![ds isDirtyAtRow:r column:x]; x++) ;
 	// all clean? great!
-    if (x == gColumn) return; 
+    if (x == gColumn) 
+		return; 
     
 	start = x;
 
     // update the information array
 	for (x = start; x < gColumn; x++) {
-		if (![ds isDirtyAtRow:r column:x]) continue;
+		if (![ds isDirtyAtRow:r column:x]) 
+			continue;
 		end = x;
 		int db = (currRow + x)->attr.f.doubleByte;
 
@@ -1453,13 +1489,16 @@ BOOL isSpecialSymbol(unichar ch) {
         length = 0 - (int)_selectionLength;
     }
 	if (!_hasRectangleSelected)
-		return [[self frontMostTerminal] stringFromIndex: location length: length];
+		return [[self frontMostTerminal] stringFromIndex:location length:length];
 	else {
 		// Rectangle selection
 		NSRect selectedRect = [self selectedRect];
 		NSMutableString *string = [NSMutableString string];
 		for (int r = selectedRect.origin.y; r < selectedRect.origin.y + selectedRect.size.height; ++r) {
-			[string appendString:[[self frontMostTerminal] stringFromIndex:r * gColumn + selectedRect.origin.x length:selectedRect.size.width]];
+			NSString *str = [[self frontMostTerminal] stringFromIndex:(r * gColumn + selectedRect.origin.x) 
+															   length:selectedRect.size.width];
+			if (str)
+				[string appendString:str];
 			if (r == selectedRect.origin.y + selectedRect.size.height - 1)
 				break;
 			[string appendString:@"\n"];
@@ -1500,7 +1539,7 @@ BOOL isSpecialSymbol(unichar ch) {
     
     [_textField setHidden:YES];
     [_markedText release];
-    _markedText = nil;	
+    _markedText = nil;
 	
     [[self frontMostConnection] sendText:aString withDelay:microsecond];
 
@@ -1760,7 +1799,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSArray *types = [pb types];
 	if ([types containsObject: NSStringPboardType]) {
 		NSString *str = [pb stringForType: NSStringPboardType];
-		[self insertText: str withDelay: 100];
+		[self insertText:str withDelay:100];
 	}
 }
 
@@ -1956,8 +1995,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		previousANSI = currentANSI;
 		continue;
 	}
-	[writeBuffer appendData: escData];
-	[writeBuffer appendBytes: "[m" length: 2];
+	[writeBuffer appendData:escData];
+	[writeBuffer appendBytes:"[m" length:2];
 	unsigned char *buf = (unsigned char *)[writeBuffer bytes];
 	for (i = 0; i < [writeBuffer length]; i++) {
 		[[self frontMostConnection] sendBytes:buf + i length:1];

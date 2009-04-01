@@ -38,7 +38,7 @@
     
     int _selectionLocation;
     int _selectionLength;
-	BOOL _wantRectangleSelection;
+	BOOL _wantsRectangleSelection;
 	BOOL _hasRectangleSelected;
     
     XIPortal *_portal;

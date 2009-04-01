@@ -47,6 +47,7 @@
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
 		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
+		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
 		5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
 		5AA6807D0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */; };
@@ -91,7 +92,7 @@
 		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
 		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
 		85EA93230D0791180098C94B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85EA93210D0791180098C94B /* Preferences.nib */; };
-		85ED52290D0920E6003296D4 /* CommonType.c in Sources */ = {isa = PBXBuildFile; fileRef = 85ED52280D0920E6003296D4 /* CommonType.c */; };
+		85ED52290D0920E6003296D4 /* CommonType.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ED52280D0920E6003296D4 /* CommonType.m */; };
 		85ED53220D092B5F003296D4 /* YLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ED53210D092B5F003296D4 /* YLConnection.m */; };
 		85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F702660D033FF90035F600 /* DBPrefsWindowController.m */; };
 		85F7F2090B06EE36000C4CDF /* YLLGlobalConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */; };
@@ -205,6 +206,8 @@
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
 		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
+		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
+		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
 		5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		5AA6807B0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOEditingCursorMoveHotspotHandler.h; sourceTree = "<group>"; };
 		5AA6807C0F45780B004753E2 /* KOEditingCursorMoveHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOEditingCursorMoveHotspotHandler.m; sourceTree = "<group>"; };
@@ -278,7 +281,7 @@
 		85EA93240D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		85EA93250D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		85EA93270D0791240098C94B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		85ED52280D0920E6003296D4 /* CommonType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CommonType.c; sourceTree = "<group>"; };
+		85ED52280D0920E6003296D4 /* CommonType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonType.m; sourceTree = "<group>"; };
 		85ED53200D092B5F003296D4 /* YLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLConnection.h; sourceTree = "<group>"; };
 		85ED53210D092B5F003296D4 /* YLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLConnection.m; sourceTree = "<group>"; };
 		85F702660D033FF90035F600 /* DBPrefsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBPrefsWindowController.m; sourceTree = "<group>"; };
@@ -525,6 +528,8 @@
 				186E810E0F218C10007D73BC /* TYComposeDelegate.m */,
 				1841E73C0F7BD280002DCBA8 /* TYProxy.h */,
 				1841E73D0F7BD280002DCBA8 /* TYProxy.m */,
+				5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */,
+				5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */,
 			);
 			name = Nally9only;
 			sourceTree = "<group>";
@@ -587,7 +592,7 @@
 				856CDB240C9650550025C754 /* encoding.h */,
 				856CDB250C9650550025C754 /* encoding.c */,
 				852E798A0C96E7A90027751F /* CommonType.h */,
-				85ED52280D0920E6003296D4 /* CommonType.c */,
+				85ED52280D0920E6003296D4 /* CommonType.m */,
 				16BF97BB0E3D9B7500ED990A /* XIIntegerArray.h */,
 				16BF97BC0E3D9B7600ED990A /* XIIntegerArray.m */,
 				81E307200E79031B0024C47E /* LLPopUpMessage.h */,
@@ -715,7 +720,7 @@
 				859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */,
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
-				85ED52290D0920E6003296D4 /* CommonType.c in Sources */,
+				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
 				85ED53220D092B5F003296D4 /* YLConnection.m in Sources */,
 				18A685A80D9414D900CA423A /* TYGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
@@ -755,6 +760,7 @@
 				5A6A7ED90F497FC000DC952F /* KOAuthorAreaHotspotHandler.m in Sources */,
 				5A1BA6F60F6EA8BA003489CF /* LLURLManager.m in Sources */,
 				1841E73E0F7BD280002DCBA8 /* TYProxy.m in Sources */,
+				5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

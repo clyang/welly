@@ -162,7 +162,7 @@
         int x = i % _maxColumn;
         int y = i / _maxColumn;
         if (x == 0 && i != begin && i - 1 < begin + length) { // newline
-            [self updateDoubleByteStateForRow: y];
+            [self updateDoubleByteStateForRow:y];
             unichar cr = 0x000D;
             textBuf[bufLength++] = cr;
             spacebuf = 0;

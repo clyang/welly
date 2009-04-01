@@ -6,6 +6,7 @@
  *  Copyright 2007 yllan.org. All rights reserved.
  *
  */
+#import <Cocoa/Cocoa.h>
 
 typedef union {
 	unsigned short v;
@@ -46,15 +47,16 @@ typedef enum {
 #ifdef __cplusplus
 extern "C" {
 #endif
-int isHiddenAttribute(attribute a) ;
-int isBlinkCell(cell c) ;
-int bgColorIndexOfAttribute(attribute a) ;
-int fgColorIndexOfAttribute(attribute a) ;
-int bgBoldOfAttribute(attribute a) ;
-int fgBoldOfAttribute(attribute a) ;
+	int isHiddenAttribute(attribute a) ;
+	int isBlinkCell(cell c) ;
+	int bgColorIndexOfAttribute(attribute a) ;
+	int fgColorIndexOfAttribute(attribute a) ;
+	int bgBoldOfAttribute(attribute a) ;
+	int fgBoldOfAttribute(attribute a) ;
 #ifdef __cplusplus
 }
 #endif
+BOOL isEmptyCell(cell c);
 
 #define keyStringRight @"\uF703"
 #define keyStringLeft @"\uF702"
