@@ -109,12 +109,6 @@
 
 /* compose actions */
 - (IBAction)openCompose:(id)sender;
-- (IBAction)commitCompose:(id)sender;
-- (IBAction)cancelCompose:(id)sender;
-- (IBAction)setUnderline:(id)sender;
-- (IBAction)setBlink:(id)sender;
-- (IBAction)changeBackgroundColor:(id)sender;
-- (void)prepareCompose:(id)param;
 
 /* post download actions */
 - (IBAction)openPostDownload:(id)sender;

@@ -10,14 +10,16 @@
 #import "YLTerminal.h"
 #import "YLLGlobalConfig.h"
 
-@implementation WLAnsiColorOperationManager
-inline void clearNonANSIAttribute(cell *aCell) {
+inline void clearNonANSIAttribute(cell *aCell);
+
+void clearNonANSIAttribute(cell *aCell) {
 	/* Clear non-ANSI related properties. */
 	aCell->attr.f.doubleByte = 0;
 	aCell->attr.f.url = 0;
 	aCell->attr.f.nothing = 0;
 }
 
+@implementation WLAnsiColorOperationManager
 const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 
 + (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
