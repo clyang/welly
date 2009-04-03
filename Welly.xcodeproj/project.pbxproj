@@ -323,6 +323,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5A1A49720F8605C200BBCD01 /* Controller */,
 				5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */,
 				81F8ECFB0E5006660022FA65 /* FullScreen */,
 				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
@@ -334,14 +335,8 @@
 				859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */,
 				85899C790CEED4E40031907F /* YLApplication.h */,
 				85899C7A0CEED4E40031907F /* YLApplication.m */,
-				85ABEB7F0C966FEF008227D6 /* YLController.h */,
-				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
 				85F7F2070B06EE36000C4CDF /* YLLGlobalConfig.h */,
 				85F7F2080B06EE36000C4CDF /* YLLGlobalConfig.m */,
-				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
-				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
-				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
-				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -451,6 +446,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5A1A49720F8605C200BBCD01 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
+				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
+				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
+				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
+				186E810D0F218C10007D73BC /* WLComposeDelegate.h */,
+				186E810E0F218C10007D73BC /* WLComposeDelegate.m */,
+				85ABEB7F0C966FEF008227D6 /* YLController.h */,
+				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		5A2B3CFF0EB95649007773F8 /* Portal */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,8 +534,6 @@
 				16FEC3200E2A80B50035DADD /* WLTabBarControl.m */,
 				5A56C3800E342CFF00082312 /* WLPostDownloader.h */,
 				5A56C3810E342CFF00082312 /* WLPostDownloader.m */,
-				186E810D0F218C10007D73BC /* WLComposeDelegate.h */,
-				186E810E0F218C10007D73BC /* WLComposeDelegate.m */,
 				1841E73C0F7BD280002DCBA8 /* WLProxy.h */,
 				1841E73D0F7BD280002DCBA8 /* WLProxy.m */,
 				5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */,
