@@ -35,12 +35,13 @@
 @property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:) BOOL isConnected;
-@property (readwrite, retain) NSImage *icon;
-@property (readwrite, assign, setter=setProcessing:) BOOL isProcessing;
-@property (readwrite, assign) int objectCount;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) int messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;
+// for PSMTabBarControl
+@property (readwrite, retain) NSImage *icon;
+@property (readwrite, assign) BOOL isProcessing;
+@property (readwrite, assign) int objectCount;
 
 - (id)initWithSite:(YLSite *)site;
 

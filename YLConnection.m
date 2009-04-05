@@ -86,14 +86,14 @@
 #pragma mark WLProtocol delegate methods
 
 - (void)protocolWillConnect:(id)protocol {
-    [self setProcessing:YES];
+    [self setIsProcessing:YES];
     [self setConnected:NO];
 	// TODO: Set a connecting icon here
 	[self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
 }
 
 - (void)protocolDidConnect:(id)protocol {
-    [self setProcessing:NO];
+    [self setIsProcessing:NO];
     [self setConnected:YES];
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
     //[self login];
@@ -110,7 +110,7 @@
 }
 
 - (void)protocolDidClose:(id)protocol {
-    [self setProcessing:NO];
+    [self setIsProcessing:NO];
     [self setConnected:NO];
 	[_feeder clearAll];
     [_terminal clearAll];
