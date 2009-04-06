@@ -564,11 +564,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
+	[_telnetView exitURL];
 	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
+	[_telnetView exitURL];
 	[self fullScreenPopUp];
 }
 
@@ -576,6 +578,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if (index > 0 && index <= [_telnetView numberOfTabViewItems]) {
         [_tab selectTabViewItemAtIndex:index-1];
     }
+	[_telnetView exitURL];
 //	NSLog(@"Select tab %d", index);
 }
 
@@ -584,6 +587,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Here, sometimes it may throw a exception...
 	@try {
 		[_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
+		[_telnetView exitURL];
 	}
 	@catch (NSException * e) {
 	}

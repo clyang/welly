@@ -1587,6 +1587,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)exitURL {
+	if(!_isInUrlMode)
+		return;
 	[_effectView removeIndicator];
 	[WLPopUpMessage showPopUpMessage:NSLocalizedString(@"Normal Mode", @"Normal Mode")
 							duration:0.5
