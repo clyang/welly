@@ -5266,6 +5266,30 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1318</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyAddressField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="894562964"/>
+					</object>
+					<int key="connectionID">1319</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyTypeButton</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="183872590"/>
+					</object>
+					<int key="connectionID">1320</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">proxyTypeDidChange:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="183872590"/>
+					</object>
+					<int key="connectionID">1321</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -8033,7 +8057,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1318</int>
+			<int key="maxID">1321</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8287,6 +8311,7 @@ Z1s6cG9ydF0</string>
 							<string>openPreferencesWindow:</string>
 							<string>openRSS:</string>
 							<string>openSites:</string>
+							<string>proxyTypeDidChange:</string>
 							<string>reconnect:</string>
 							<string>removeSiteImage:</string>
 							<string>restoreSettings:</string>
@@ -8300,6 +8325,7 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -8359,6 +8385,8 @@ Z1s6cG9ydF0</string>
 							<string>_passwordWindow</string>
 							<string>_postText</string>
 							<string>_postWindow</string>
+							<string>_proxyAddressField</string>
+							<string>_proxyTypeButton</string>
 							<string>_showHiddenTextMenuItem</string>
 							<string>_siteAddressField</string>
 							<string>_siteNameField</string>
@@ -8393,6 +8421,8 @@ Z1s6cG9ydF0</string>
 							<string>NSPanel</string>
 							<string>NSTextView</string>
 							<string>NSPanel</string>
+							<string>NSTextField</string>
+							<string>NSPopUpButton</string>
 							<string>NSMenuItem</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>

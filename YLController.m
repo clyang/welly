@@ -1383,6 +1383,12 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 #pragma mark -
+#pragma mark For proxy
+- (IBAction)proxyTypeDidChange:(id)sender {
+    [_proxyAddressField setEnabled:([_proxyTypeButton indexOfSelectedItem] >= 2)];
+}
+
+#pragma mark -
 #pragma mark Site View Drag & Drop
 - (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
     // copy to the pasteboard.

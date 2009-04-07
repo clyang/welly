@@ -63,7 +63,11 @@
 	IBOutlet NSMenuItem *_fullScreenMenuItem;
 	
 	IBOutlet NSTextView *_unreadMessageTextView;
-	
+
+	// Proxy
+    IBOutlet NSPopUpButton *_proxyTypeButton;
+    IBOutlet NSTextField *_proxyAddressField;
+
 	// Remote Control
 	RemoteControl *remoteControl;
 	MultiClickRemoteBehavior *remoteControlBehavior;
@@ -166,4 +170,7 @@
 
 // for RSS feed
 - (IBAction)openRSS:(id)sender;
+
+// for proxy
+- (IBAction)proxyTypeDidChange:(id)sender;
 @end
