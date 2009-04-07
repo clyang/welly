@@ -119,13 +119,6 @@
 - (void)addPortalPicture:(NSString *)source
 				 forSite:(NSString *)siteName;
 
-// safe_paste
-- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void)performPaste;
-- (void)performPasteWrap;
-- (void)performPasteColor;
 // Mouse operation
 - (void)deactivateMouseForKeying;
 - (void)activateMouseForKeying:(NSTimer*)timer;

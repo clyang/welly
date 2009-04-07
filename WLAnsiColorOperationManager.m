@@ -8,7 +8,10 @@
 
 #import "WLAnsiColorOperationManager.h"
 #import "YLTerminal.h"
+#import "YLConnection.h"
+#import "YLSite.h"
 #import "YLLGlobalConfig.h"
+#import "encoding.h"
 
 inline void clearNonANSIAttribute(cell *aCell);
 
@@ -17,6 +20,42 @@ void clearNonANSIAttribute(cell *aCell) {
 	aCell->attr.f.doubleByte = 0;
 	aCell->attr.f.url = 0;
 	aCell->attr.f.nothing = 0;
+}
+
+unsigned short doubleByteToEncodingCode(unsigned char left, unsigned char right) {
+	return (left << 8) + right - 0x8000;
+}
+
+unsigned char encodingCodeToLeftByte(unsigned short code) {
+	return code >> 8;
+}
+
+unsigned char encodingCodeToRightByte(unsigned short code) {
+	return code & 0xFF;
+}
+
+void convertToUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
+	for (int i = 0; i < bufferLength; ++i) {
+		if (buffer[i].attr.f.doubleByte == 1) {
+			unsigned short code = doubleByteToEncodingCode(buffer[i].byte, buffer[i+1].byte);
+			unichar ch = (encoding == YLBig5Encoding) ? B2U[code] : G2U[code];
+			buffer[i].byte = encodingCodeToLeftByte(ch);
+			buffer[i+1].byte = encodingCodeToRightByte(ch);
+			++i;	// Skip next one
+		}
+	}
+}
+
+void convertFromUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
+	for (int i = 0; i < bufferLength; ++i) {
+		if (buffer[i].attr.f.doubleByte == 1) {
+			unsigned short code = doubleByteToEncodingCode(buffer[i].byte, buffer[i+1].byte) + 0x8000;
+			unichar ch = (encoding == YLBig5Encoding) ? U2B[code] : U2G[code];
+			buffer[i].byte = encodingCodeToLeftByte(ch);
+			buffer[i+1].byte = encodingCodeToRightByte(ch);
+			++i;	// Skip next one
+		}
+	}
 }
 
 @implementation WLAnsiColorOperationManager
@@ -51,7 +90,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 			if (buffer[bufferLength].byte == WLNullTerminator)
 				buffer[bufferLength].byte = WLWhitespaceCharacter;
 
-			clearNonANSIAttribute(&buffer[bufferLength]);
+			//clearNonANSIAttribute(&buffer[bufferLength]);
 			bufferLength++;
 			emptyCount = 0;
 		} else {
@@ -59,6 +98,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 		}
 	}
 	
+	convertToUTF8(buffer, bufferLength, [[[terminal connection] site] encoding]);
 	NSData *returnValue = [NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)];
 	free(buffer);
 	return returnValue;
@@ -85,7 +125,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 				if (buffer[bufferLength].byte == WLNullTerminator)
 					buffer[bufferLength].byte = WLWhitespaceCharacter;
 				
-				clearNonANSIAttribute(&buffer[bufferLength]);
+				//clearNonANSIAttribute(&buffer[bufferLength]);
 				bufferLength++;
 				emptyCount = 0;
 			} else {
@@ -104,7 +144,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 					if (buffer[bufferLength].byte == WLNullTerminator)
 						buffer[bufferLength].byte = WLWhitespaceCharacter;
 					
-					clearNonANSIAttribute(&buffer[bufferLength]);
+					//clearNonANSIAttribute(&buffer[bufferLength]);
 					bufferLength++;
 					emptyCount = 0;
 					break;
@@ -120,13 +160,15 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 		emptyCount = 0;
 	}
 	
+	convertToUTF8(buffer, bufferLength, [[[terminal connection] site] encoding]);
 	NSData *returnValue = [NSData dataWithBytes:buffer length:bufferLength * sizeof(cell)];
 	free(buffer);
 	return returnValue;
 }
 
 + (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
-					  forANSIColorKey:(YLANSIColorKey)ansiColorKey {
+					  forANSIColorKey:(YLANSIColorKey)ansiColorKey 
+							 encoding:(YLEncoding)encoding {
 	NSData *escData;
 	if (ansiColorKey == YLCtrlUANSIColorKey) {
 		escData = [NSData dataWithBytes:"\x15" length:1];
@@ -138,6 +180,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	
 	cell *buffer = (cell *)[ansiColorData bytes];
 	int bufferLength = [ansiColorData length] / sizeof(cell);
+	convertFromUTF8(buffer, bufferLength, encoding);
 	
 	attribute defaultANSI;
 	unsigned int bgColorIndex = [YLLGlobalConfig sharedInstance]->_bgColorIndex;

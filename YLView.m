@@ -72,6 +72,14 @@ BOOL isSpecialSymbol(unichar ch) {
 					column:(int)c 
 			 leftAttribute:(attribute)attr1 
 			rightAttribute:(attribute)attr2;
+
+// safe_paste
+- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)performPaste;
+- (void)performPasteWrap;
+- (void)performPasteColor;
 @end
 
 @implementation YLView
@@ -188,9 +196,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		_isKeying = NO;
 		_isNotCancelingSelection = YES;
 		_isMouseActive = YES;
-		//_effectView = [[WLEffectView alloc] initWithFrame:frame];
 		_mouseBehaviorDelegate = [[WLMouseBehaviorManager alloc] initWithView:self];
-		//[self setDelegate:_mouseBehaviorDelegate];
 		_urlManager = [[WLURLManager alloc] initWithView:self];
 		[_mouseBehaviorDelegate addHandler:_urlManager];
 		_activityCheckingTimer = [NSTimer scheduledTimerWithTimeInterval:WLActivityCheckingTimeInteval
@@ -266,6 +272,162 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (NSPoint)mouseLocationInView {
 	return [self convertPoint:[[self window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+}
+
+#pragma mark -
+#pragma mark safe_paste
+
+- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPaste];
+    }
+}
+
+- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPasteWrap];
+    }
+}
+
+- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    if (returnCode == NSAlertDefaultReturn) {
+		[self performPasteColor];
+    }
+}
+
+- (void)performPaste {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if ([types containsObject: NSStringPboardType]) {
+		NSString *str = [pb stringForType: NSStringPboardType];
+		[self insertText:str withDelay:100];
+	}
+}
+
+- (void)performPasteWrap {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if (![types containsObject:NSStringPboardType]) return;
+	
+	NSString *str = [pb stringForType:NSStringPboardType];
+	int i, j, LINE_WIDTH = 66, LPADDING = 4;
+	WLIntegerArray *word = [WLIntegerArray integerArray],
+	*text = [WLIntegerArray integerArray];
+	int word_width = 0, line_width = 0;
+	[text push_back:0x000d];
+	for (i = 0; i < LPADDING; i++)
+		[text push_back:0x0020];
+	line_width = LPADDING;
+	for (i = 0; i < [str length]; i++) {
+		unichar c = [str characterAtIndex:i];
+		if (c == 0x0020 || c == 0x0009) { // space
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			line_width += word_width;
+			word_width = 0;
+			if (line_width >= LINE_WIDTH + LPADDING) {
+				[text push_back:0x000d];
+				for (j = 0; j < LPADDING; j++)
+					[text push_back:0x0020];
+				line_width = LPADDING;
+			}
+			int repeat = (c == 0x0020) ? 1 : 4;
+			for (j = 0; j < repeat ; j++)
+				[text push_back:0x0020];
+			line_width += repeat;
+		} else if (c == 0x000a || c == 0x000d) {
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			[text push_back:0x000d];
+			//            [text push_back:0x000d];
+			for (j = 0; j < LPADDING; j++)
+				[text push_back:0x0020];
+			line_width = LPADDING;
+			word_width = 0;
+		} else if (c > 0x0020 && c < 0x0100) {
+			[word push_back:c];
+			word_width++;
+			if (c >= 0x0080) word_width++;
+		} else if (c >= 0x1000){
+			for (j = 0; j < [word size]; j++)
+				[text push_back:[word at:j]];
+			[word clear];
+			line_width += word_width;
+			word_width = 0;
+			if (line_width >= LINE_WIDTH + LPADDING) {
+				[text push_back:0x000d];
+				for (j = 0; j < LPADDING; j++)
+					[text push_back:0x0020];
+				line_width = LPADDING;
+			}
+			[text push_back:c];
+			line_width += 2;
+		} else {
+			[word push_back:c];
+		}
+		if (line_width + word_width > LINE_WIDTH + LPADDING) {
+			[text push_back:0x000d];
+			for (j = 0; j < LPADDING; j++)
+				[text push_back:0x0020];
+			line_width = LPADDING;
+		}
+		if (word_width > LINE_WIDTH) {
+			int acc_width = 0;
+			while (![word empty]) {
+				int w = ([word front] < 0x0080) ? 1 : 2;
+				if (acc_width + w <= LINE_WIDTH) {
+					[text push_back:[word front]];
+					acc_width += w;
+					[word pop_front];
+				} else {
+					[text push_back:0x000d];
+					for (j = 0; j < LPADDING; j++)
+						[text push_back:0x0020];
+					line_width = LPADDING;
+					word_width -= acc_width;
+				}
+			}
+		}
+	}
+	while (![word empty]) {
+		[text push_back:[word front]];
+		[word pop_front];
+	}
+	unichar *carray = (unichar *)malloc(sizeof(unichar) * [text size]);
+	for (i = 0; i < [text size]; i++)
+		carray[i] = [text at:i];
+	NSString *mStr = [NSString stringWithCharacters:carray length:[text size]];
+	free(carray);
+	[self insertText:mStr withDelay:100];		
+}
+
+- (void)performPasteColor {
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *types = [pb types];
+	if ([types containsObject:ANSIColorPBoardType]) {
+		NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
+																  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey] 
+																		 encoding:[[[self frontMostConnection] site] encoding]];
+		unsigned char *buf = (unsigned char *)[ansiCode bytes];
+		
+		for (int i = 0; i < [ansiCode length]; i++) {
+			[[self frontMostConnection] sendBytes:buf + i length:1];
+			usleep(100);
+		}
+		return;
+	} else if ([types containsObject:NSRTFPboardType]) {
+		NSAttributedString *rtfString = [[NSAttributedString alloc]
+										 initWithRTF:[pb dataForType:NSRTFPboardType] 
+										 documentAttributes:nil];
+		NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:rtfString 
+																			 forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
+		[[self frontMostConnection] sendText:ansiCode];
+	} else {
+		[self performPaste];
+		return;
+	}
 }
 
 #pragma mark -
@@ -1354,17 +1516,18 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (NSString *)selectedPlainString {
     if (_selectionLength == 0) return nil;
-    int location, length;
-    if (_selectionLength >= 0) {
-        location = _selectionLocation;
-        length = _selectionLength;
-    } else {
-        location = _selectionLocation + _selectionLength;
-        length = 0 - (int)_selectionLength;
-    }
-	if (!_hasRectangleSelected)
+    
+	if (!_hasRectangleSelected) {
+		int location, length;
+		if (_selectionLength >= 0) {
+			location = _selectionLocation;
+			length = _selectionLength;
+		} else {
+			location = _selectionLocation + _selectionLength;
+			length = 0 - (int)_selectionLength;
+		}
 		return [[self frontMostTerminal] stringFromIndex:location length:length];
-	else {
+	} else {
 		// Rectangle selection
 		NSRect selectedRect = [self selectedRect];
 		NSMutableString *string = [NSMutableString string];
@@ -1647,161 +1810,6 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)addPortalPicture:(NSString *)source 
 				 forSite:(NSString *)siteName {
 	[_portal addPortalPicture:source forSite:siteName];
-}
-
-#pragma mark -
-#pragma mark safe_paste
-
-- (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertDefaultReturn) {
-		[self performPaste];
-    }
-}
-
-- (void)confirmPasteWrap:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertDefaultReturn) {
-		[self performPasteWrap];
-    }
-}
-
-- (void)confirmPasteColor:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    if (returnCode == NSAlertDefaultReturn) {
-		[self performPasteColor];
-    }
-}
-
-- (void)performPaste {
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	NSArray *types = [pb types];
-	if ([types containsObject: NSStringPboardType]) {
-		NSString *str = [pb stringForType: NSStringPboardType];
-		[self insertText:str withDelay:100];
-	}
-}
-
-- (void)performPasteWrap {
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	NSArray *types = [pb types];
-	if (![types containsObject:NSStringPboardType]) return;
-	
-	NSString *str = [pb stringForType:NSStringPboardType];
-	int i, j, LINE_WIDTH = 66, LPADDING = 4;
-	WLIntegerArray *word = [WLIntegerArray integerArray],
-	*text = [WLIntegerArray integerArray];
-	int word_width = 0, line_width = 0;
-	[text push_back:0x000d];
-	for (i = 0; i < LPADDING; i++)
-		[text push_back:0x0020];
-	line_width = LPADDING;
-	for (i = 0; i < [str length]; i++) {
-		unichar c = [str characterAtIndex:i];
-		if (c == 0x0020 || c == 0x0009) { // space
-			for (j = 0; j < [word size]; j++)
-				[text push_back:[word at:j]];
-			[word clear];
-			line_width += word_width;
-			word_width = 0;
-			if (line_width >= LINE_WIDTH + LPADDING) {
-				[text push_back:0x000d];
-				for (j = 0; j < LPADDING; j++)
-					[text push_back:0x0020];
-				line_width = LPADDING;
-			}
-			int repeat = (c == 0x0020) ? 1 : 4;
-			for (j = 0; j < repeat ; j++)
-				[text push_back:0x0020];
-			line_width += repeat;
-		} else if (c == 0x000a || c == 0x000d) {
-			for (j = 0; j < [word size]; j++)
-				[text push_back:[word at:j]];
-			[word clear];
-			[text push_back:0x000d];
-			//            [text push_back:0x000d];
-			for (j = 0; j < LPADDING; j++)
-				[text push_back:0x0020];
-			line_width = LPADDING;
-			word_width = 0;
-		} else if (c > 0x0020 && c < 0x0100) {
-			[word push_back:c];
-			word_width++;
-			if (c >= 0x0080) word_width++;
-		} else if (c >= 0x1000){
-			for (j = 0; j < [word size]; j++)
-				[text push_back:[word at:j]];
-			[word clear];
-			line_width += word_width;
-			word_width = 0;
-			if (line_width >= LINE_WIDTH + LPADDING) {
-				[text push_back:0x000d];
-				for (j = 0; j < LPADDING; j++)
-					[text push_back:0x0020];
-				line_width = LPADDING;
-			}
-			[text push_back:c];
-			line_width += 2;
-		} else {
-			[word push_back:c];
-		}
-		if (line_width + word_width > LINE_WIDTH + LPADDING) {
-			[text push_back:0x000d];
-			for (j = 0; j < LPADDING; j++)
-				[text push_back:0x0020];
-			line_width = LPADDING;
-		}
-		if (word_width > LINE_WIDTH) {
-			int acc_width = 0;
-			while (![word empty]) {
-				int w = ([word front] < 0x0080) ? 1 : 2;
-				if (acc_width + w <= LINE_WIDTH) {
-					[text push_back:[word front]];
-					acc_width += w;
-					[word pop_front];
-				} else {
-					[text push_back:0x000d];
-					for (j = 0; j < LPADDING; j++)
-						[text push_back:0x0020];
-					line_width = LPADDING;
-					word_width -= acc_width;
-				}
-			}
-		}
-	}
-	while (![word empty]) {
-		[text push_back:[word front]];
-		[word pop_front];
-	}
-	unichar *carray = (unichar *)malloc(sizeof(unichar) * [text size]);
-	for (i = 0; i < [text size]; i++)
-		carray[i] = [text at:i];
-	NSString *mStr = [NSString stringWithCharacters:carray length:[text size]];
-	free(carray);
-	[self insertText:mStr withDelay:100];		
-}
-
-- (void)performPasteColor {
-	NSPasteboard *pb = [NSPasteboard generalPasteboard];
-	NSArray *types = [pb types];
-	if ([types containsObject:ANSIColorPBoardType]) {
-		NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
-																  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
-		unsigned char *buf = (unsigned char *)[ansiCode bytes];
-		
-		for (int i = 0; i < [ansiCode length]; i++) {
-			[[self frontMostConnection] sendBytes:buf + i length:1];
-			usleep(100);
-		}
-		return;
-	} else if ([types containsObject:NSRTFPboardType]) {
-		NSAttributedString *rtfString = [[NSAttributedString alloc]
-										 initWithRTF:[pb dataForType:NSRTFPboardType] 
-										 documentAttributes:nil];
-		NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:rtfString 
-																			 forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
-		[[self frontMostConnection] sendText:ansiCode];
-	} else {
-		[self performPaste];
-		return;
-	}
 }
 
 #pragma mark -
