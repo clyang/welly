@@ -28,6 +28,8 @@
 
 @implementation WLPTY
 @synthesize delegate = _delegate;
+@synthesize proxyType = _proxyType;
+@synthesize proxyAddress = _proxyAddress;
 
 + (NSString *)parse:(NSString *)addr {
     // command, not "URL"
@@ -137,7 +139,7 @@
     if (_pid == 0) { /* child */
         NSArray *a = [[WLPTY parse:addr] componentsSeparatedByString:@" "];
         if ([(NSString *)[a objectAtIndex:0] hasSuffix:@"ssh"]) {
-            NSString *proxyCommand = [WLProxy proxyCommand];
+            NSString *proxyCommand = [WLProxy proxyCommandWithAddress:_proxyAddress type:_proxyType];
             if (proxyCommand) {
                 a = [[a arrayByAddingObject:@"-o"] arrayByAddingObject:proxyCommand];
             }

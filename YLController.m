@@ -252,6 +252,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         WLPTY *protocol = [[WLPTY new] autorelease];
         [connection setProtocol:protocol];
         [protocol setDelegate:connection];
+        [protocol setProxyType:[site proxyType]];
+        [protocol setProxyAddress:[site proxyAddress]];
         [protocol connect:[site address]];
     }
 

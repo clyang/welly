@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CommonType.h"
 
 
 @interface WLProxy : NSObject {
 
 }
 
-+ (NSString *)proxyCommand;
++ (NSString *)proxyCommandWithAddress:(NSString *)proxyAddress type:(WLProxyType)proxyType;
 
 @end

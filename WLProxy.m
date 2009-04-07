@@ -96,24 +96,62 @@ Boolean GetProxySetting(const char *protocol, char *host, size_t hostSize, UInt1
     return result;
 }
 
-+ (NSString *)proxyCommand {
++ (NSString *)proxyCommandWithAddress:(NSString *)proxyAddress
+                                 type:(WLProxyType)proxyType {
     const size_t hostSize = 64;
     char host[hostSize];
     UInt16 port;
-    GetProxySetting("SOCKS", host, hostSize, &port);
-    if (*host) {
-        if (port == 0) port = 1080;
-        return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -x %s:%hu %%h %%p", host, port];
+    if (proxyType == WLNoneProxy)
+        return nil;
+    if (proxyType == WLAutoProxy) {
+        GetProxySetting("SOCKS", host, hostSize, &port);
+        if (*host) {
+            if (port == 0) port = 1080;
+            return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -x %s:%hu %%h %%p", host, port];
+        }
+        GetProxySetting("HTTP", host, hostSize, &port);
+        if (*host) {
+            if (port == 0) port = 80;
+            return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
+        }
+        GetProxySetting("HTTPS", host, hostSize, &port);
+        if (*host) {
+            if (port == 0) port = 443;
+            return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
+        }
+        return nil;
     }
-    GetProxySetting("HTTP", host, hostSize, &port);
-    if (*host) {
-        if (port == 0) port = 80;
-        return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
+    NSUInteger colon = [proxyAddress rangeOfString:@":"].location;
+    NSString *hostString, *portString;
+    if (colon == NSNotFound) {
+        if ([proxyAddress length] != 0)
+            hostString = [NSString stringWithString:proxyAddress];
+        else
+            hostString = @"localhost";
+        switch (proxyType) {
+            case WLSocksProxy:
+                portString = @"1080";                
+                break;
+            case WLHttpProxy:
+                portString = @"80";
+                break;
+            case WLHttpsProxy:
+                portString = @"443";
+            default:
+                break;
+        }
+    } else {
+        hostString = [proxyAddress substringToIndex:colon];
+        portString = [proxyAddress substringFromIndex:colon + 1];
     }
-    GetProxySetting("HTTPS", host, hostSize, &port);
-    if (*host) {
-        if (port == 0) port = 443;
-        return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %s:%hu %%h %%p", host, port];
+    switch (proxyType) {
+        case WLSocksProxy:
+            return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -x %@:%@ %%h %%p", hostString, portString];
+        case WLHttpProxy:
+        case WLHttpsProxy:
+            return [NSString stringWithFormat:@"ProxyCommand=/usr/bin/nc -X connect -x %@:%@ %%h %%p", hostString, portString];
+        default:
+            break;
     }
     return nil;
 }

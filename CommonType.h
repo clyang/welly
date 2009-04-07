@@ -40,6 +40,8 @@ typedef enum YLANSIColorKey {
     YLEscEscANSIColorKey = 0
 } YLANSIColorKey;
 
+typedef enum {WLNoneProxy, WLAutoProxy, WLSocksProxy, WLHttpProxy, WLHttpsProxy} WLProxyType;
+
 typedef enum {
 	TYFirebird, TYMaple, TYUnix
 } TYBBSType;
