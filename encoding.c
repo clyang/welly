@@ -8216,5 +8216,7 @@ void init_table() {
 		U2B[B2U[i]] = i + 0x8000;
     for (i = 0; i < 32768; i++) 
 		U2G[G2U[i]] = i + 0x8000;
+	// Hard code some fix
+	U2G[0x2574] = 0xA3DF;
 }
 

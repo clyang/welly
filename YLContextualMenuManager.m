@@ -13,6 +13,9 @@
 #import "YLController.h"
 #import "YLApplication.h"
 #import "Carbon/Carbon.h"
+#ifdef _DEBUG
+#import "encoding.h"
+#endif
 
 @interface YLContextualMenuManager ()
 + (NSString *)extractShortURL:(NSString *)s;
@@ -47,11 +50,22 @@
 						action:@selector(openURL:)
 				 keyEquivalent:@""];
 	}
+#ifdef _DEBUG
+	if ([s length] >= 1) {
+		unichar ch = [s characterAtIndex:0];
+		if (ch >= 0x007F) {
+			unichar u2bCode = U2B[ch];
+			unichar u2gCode = U2G[ch];
+			NSString *str = [NSString stringWithFormat:@"ch = %04x, U2B[ch] = %04x, U2G[ch] = %04x", ch, u2bCode, u2gCode];
+			[menu addItemWithTitle:str action:nil keyEquivalent:@""];
+		}
+	}
+#endif
 	
 	if ([[view frontMostTerminal] bbsType] == TYMaple) {
 		// Firebird BBS seldom use these	
 		if ([shortURL length] > 0 && [shortURL length] < 8) {
-			[menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString: shortURL]
+			[menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString:shortURL]
 							action:@selector(openURL:)
 					 keyEquivalent:@""];
 			

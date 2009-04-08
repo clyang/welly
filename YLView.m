@@ -276,7 +276,6 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark safe_paste
-
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
 		[self performPaste];
@@ -468,20 +467,27 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
+- (void)warnPasteWithSelector:(SEL)didEndSelector {
+	NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
+					  NSLocalizedString(@"Confirm", @"Default Button"),
+					  NSLocalizedString(@"Cancel", @"Cancel Button"),
+					  nil,
+					  [self window],
+					  self,
+					  didEndSelector,
+					  nil,
+					  nil,
+					  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+}
+
+- (BOOL)needsWarnPaste {
+	return [[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [[self frontMostTerminal] bbsState].state != BBSComposePost;
+}
+
 - (void)pasteColor:(id)sender {
     if (![self isConnected]) return;
-	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
-		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
-						  NSLocalizedString(@"Confirm", @"Default Button"),
-						  NSLocalizedString(@"Cancel", @"Cancel Button"),
-						  nil,
-						  [self window],
-						  self,
-						  @selector(confirmPasteColor:returnCode:contextInfo:),
-						  nil,
-						  nil,
-						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	if ([self needsWarnPaste]) {
+		[self warnPasteWithSelector:@selector(confirmPasteColor:returnCode:contextInfo:)];
 	} else {
 		[self performPasteColor];
 	}
@@ -489,18 +495,8 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)paste:(id)sender {
     if (![self isConnected]) return;
-	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
-		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
-						  NSLocalizedString(@"Confirm", @"Default Button"),
-						  NSLocalizedString(@"Cancel", @"Cancel Button"),
-						  nil,
-						  [self window],
-						  self,
-						  @selector(confirmPaste:returnCode:contextInfo:),
-						  nil,
-						  nil,
-						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	if ([self needsWarnPaste]) {
+		[self warnPasteWithSelector:@selector(confirmPaste:returnCode:contextInfo:)];
 	} else {
 		[self performPaste];
 	}
@@ -508,18 +504,8 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)pasteWrap:(id)sender {
     if (![self isConnected]) return;
-	YLTerminal *terminal = [self frontMostTerminal];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [terminal bbsState].state != BBSComposePost) {
-		NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to paste?", @"Sheet Title"),
-						  NSLocalizedString(@"Confirm", @"Default Button"),
-						  NSLocalizedString(@"Cancel", @"Cancel Button"),
-						  nil,
-						  [self window],
-						  self,
-						  @selector(confirmPasteWrap:returnCode:contextInfo:),
-						  nil,
-						  nil,
-						  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
+	if ([self needsWarnPaste]) {
+		[self warnPasteWithSelector:@selector(confirmPasteWrap:returnCode:contextInfo:)];
 	} else {
 		[self performPasteWrap];
 	}
@@ -585,6 +571,39 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Event Handling
+- (void)selectChineseWord:(id)sender {
+	_selectionLength = 2;
+	// TODO(K.O.ed): select whole sentence instead
+}
+
+- (void)selectWord:(id)sender {
+	int r = _selectionLocation / gColumn;
+	int c = _selectionLocation % gColumn;
+	cell *currRow = [[self frontMostTerminal] cellsOfRow:r];
+	[[self frontMostTerminal] updateDoubleByteStateForRow:r];
+	if (currRow[c].attr.f.doubleByte == 1) { // Double Byte
+		[self selectChineseWord:self];
+	} else if (currRow[c].attr.f.doubleByte == 2) {
+		_selectionLocation--;
+		[self selectChineseWord:self];
+	} else if (isEnglishNumberAlphabet(currRow[c].byte)) { // Not Double Byte
+		for (; c >= 0; c--) {
+			if (isEnglishNumberAlphabet(currRow[c].byte) && currRow[c].attr.f.doubleByte == 0) 
+				_selectionLocation = r * gColumn + c;
+			else 
+				break;
+		}
+		for (c = c + 1; c < gColumn; c++) {
+			if (isEnglishNumberAlphabet(currRow[c].byte) && currRow[c].attr.f.doubleByte == 0) 
+				_selectionLength++;
+			else 
+				break;
+		}
+	} else {
+		_selectionLength = 1;
+	}
+}
+
 - (void)mouseDown:(NSEvent *)theEvent {
 	[self hasMouseActivity];
 	[[self frontMostConnection] resetMessageCount];
@@ -613,31 +632,7 @@ BOOL isSpecialSymbol(unichar ch) {
         _selectionLength = gColumn;
     } else if (([theEvent modifierFlags] & NSCommandKeyMask) == 0x00 &&
                [theEvent clickCount] == 2) {
-        int r = _selectionLocation / gColumn;
-        int c = _selectionLocation % gColumn;
-        cell *currRow = [[self frontMostTerminal] cellsOfRow:r];
-        [[self frontMostTerminal] updateDoubleByteStateForRow:r];
-        if (currRow[c].attr.f.doubleByte == 1) { // Double Byte
-            _selectionLength = 2;
-        } else if (currRow[c].attr.f.doubleByte == 2) {
-            _selectionLocation--;
-            _selectionLength = 2;
-        } else if (isEnglishNumberAlphabet(currRow[c].byte)) { // Not Double Byte
-            for (; c >= 0; c--) {
-                if (isEnglishNumberAlphabet(currRow[c].byte) && currRow[c].attr.f.doubleByte == 0) 
-                    _selectionLocation = r * gColumn + c;
-                else 
-                    break;
-            }
-            for (c = c + 1; c < gColumn; c++) {
-                if (isEnglishNumberAlphabet(currRow[c].byte) && currRow[c].attr.f.doubleByte == 0) 
-                    _selectionLength++;
-                else 
-                    break;
-            }
-        } else {
-            _selectionLength = 1;
-        }
+		[self selectWord:self];
     }
     
     [self setNeedsDisplay: YES];
