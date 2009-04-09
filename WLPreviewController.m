@@ -27,9 +27,12 @@
 // current downloading URLs
 static NSMutableSet *sURLs;
 static NSString *sCacheDir;
+// current downloaded URLs
+//static NSMutableDictionary *downloadedURLInfo;
 
 + (void)initialize {
     sURLs = [[NSMutableSet alloc] initWithCapacity:10];
+	//downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
     // locate the cache directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSAssert([paths count] > 0, @"~/Library/Caches");
@@ -259,6 +262,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
+	//[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
     [WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
     [WLGrowlBridge notifyWithTitle:_filename
                        description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
