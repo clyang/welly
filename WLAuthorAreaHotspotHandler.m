@@ -173,6 +173,7 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 
 - (void)clear {
 	[self removeAllTrackingAreas];
+	[[_view effectView] clearButton];
 }
 
 - (void)update {
@@ -180,8 +181,17 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	if (![_view shouldEnableMouse]) 
 		return;
 	
+	// In the same page, do NOT update
+	YLTerminal *ds = [_view frontMostTerminal];
+	BBSState bbsState = [ds bbsState];
+	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) <= 1) {
+		_lastCursorRow = [ds cursorRow];
+		return;
+	}
+	_lastBbsState = bbsState;
+	_lastCursorRow = [ds cursorRow];
+	
 	[self clear];
-	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state != BBSBrowseBoard && bbsState.state != BBSMailList)
 		return;
 	for (int r = 0; r < _maxRow; ++r) {

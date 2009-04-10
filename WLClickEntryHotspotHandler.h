@@ -14,6 +14,5 @@
 
 @interface WLClickEntryHotspotHandler : WLMouseHotspotHandler <WLMouseUpHandler, WLUpdatable, WLContextualMenuHandler> {
 	int _row;
-	NSString *_commandSequence;
 }
 @end

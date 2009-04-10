@@ -417,10 +417,22 @@ BOOL isPostTitleStarter(unichar c) {
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
 		return;
+	
+	// In the same page, do NOT update
+	YLTerminal *ds = [_view frontMostTerminal];
+	BBSState bbsState = [ds bbsState];
+	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) <= 1) {
+		_lastCursorRow = [ds cursorRow];
+		return;
+	}
+	
 	// Clear
 	[self clear];
+	
 	// Update
-	YLTerminal *ds = [_view frontMostTerminal];
+	_lastBbsState = bbsState;
+	_lastCursorRow = [ds cursorRow];
+	
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
 		[self updatePostClickEntry];
 	} else if ([ds bbsState].state == BBSBoardList) {

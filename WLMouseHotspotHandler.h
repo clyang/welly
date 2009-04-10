@@ -31,6 +31,7 @@
 	NSMutableArray *_trackingAreas;
 	
 	BBSState _lastBbsState;
+	int _lastCursorRow;
 }
 @property (readwrite, assign) WLMouseBehaviorManager *manager;
 
