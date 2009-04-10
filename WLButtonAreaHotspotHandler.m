@@ -69,11 +69,6 @@ NSString *const FBCommandSequenceJumpToMailList = @"v";
 NSString *const FBCommandSequenceEnterExcerption = @"x";
 
 @implementation WLButtonAreaHotspotHandler
-- (id)init {
-	[super init];
-	_lastBbsState.state = BBSUnknown;
-	return self;
-}
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -91,6 +86,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	if([[_view frontMostConnection] isConnected]) {
 		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
 		[_manager setActiveTrackingAreaUserInfo:userInfo];
+		[[NSCursor pointingHandCursor] set];
 	}
 }
 
@@ -120,7 +116,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseButtonTextUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, cmd, NSLocalizedString(buttonName, @"Mouse Button"), nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 }
 
 - (void)updateButtonAreaForRow:(int)r {
@@ -196,7 +192,8 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 		return;
 	
 	// Only update when BBS state has been changed
-	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state)
+	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state &&
+		[[_view frontMostTerminal] bbsState].subState == _lastBbsState.subState)
 		return;
 	_lastBbsState = [[_view frontMostTerminal] bbsState];
 	

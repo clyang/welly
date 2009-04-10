@@ -167,7 +167,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 #pragma mark -
 #pragma mark Add Tracking Area
 - (BOOL)isMouseInsideRect:(NSRect)rect {
-	NSPoint mousePos = [_view convertPoint:[[_view window] convertScreenToBase:[NSEvent mouseLocation]] fromView:nil];
+	NSPoint mousePos = [_view mouseLocationInView];
 	return [_view mouse:mousePos inRect:rect];
 }
 

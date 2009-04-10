@@ -46,6 +46,34 @@ typedef enum {
 	TYFirebird, TYMaple, TYUnix
 } TYBBSType;
 
+typedef struct {
+	enum {
+		BBSUnknown, 
+		BBSMainMenu, 
+		BBSMailMenu, 
+		BBSMailList, 
+		BBSBoardList, 
+		BBSFriendList, 
+		BBSBrowseBoard,
+		BBSViewPost, 
+		BBSComposePost,
+		BBSWaitingEnter,
+		BBSUserInfo,
+		BBSConfirmPost,
+		BBSBrowseExcerption,
+	} state;
+	enum {
+		BBSSubStateNone,
+		BBSBrowseBoardNormalMode,
+		BBSBrowseBoardDigestMode,
+		BBSBrowseBoardThreadMode,
+		BBSBrowseBoardMarkMode,
+		BBSBrowseBoardOriginMode,
+		BBSBrowseBoardAuthorMode,
+	} subState;
+	NSString *boardName;
+} BBSState;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

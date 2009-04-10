@@ -80,6 +80,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 - (void)mouseEntered:(NSEvent *)theEvent {
 	[[_view effectView] drawClickEntry:[[theEvent trackingArea] rect]];
 	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
+	[[NSCursor pointingHandCursor] set];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
@@ -189,7 +190,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseRowUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, [NSNumber numberWithInt:r], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -206,7 +207,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, cmd, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 }
 
 #pragma mark -

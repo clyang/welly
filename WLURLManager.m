@@ -50,6 +50,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	if([[_view frontMostConnection] isConnected]) {
 		[_manager setActiveTrackingAreaUserInfo:userInfo];
+		[[NSCursor pointingHandCursor] set];
 	}
 }
 
@@ -190,12 +191,12 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 		int row = index / _maxColumn;
 		if (column + length < _maxColumn) {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:length];
-			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
+			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:column + length];
 			break;
 		} else {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:_maxColumn - column];
-			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
+			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:_maxColumn];
 			index += _maxColumn - column;
 			length -= _maxColumn - column;

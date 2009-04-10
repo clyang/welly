@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "CommonType.h"
 
 @protocol WLMouseUpHandler
 - (void)mouseUp:(NSEvent *)theEvent;
@@ -20,7 +21,6 @@
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent;
 @end
 
-
 @class YLView, WLMouseBehaviorManager;
 @interface WLMouseHotspotHandler : NSResponder {
 	YLView *_view;
@@ -29,6 +29,8 @@
 	int _maxRow, _maxColumn;
 	
 	NSMutableArray *_trackingAreas;
+	
+	BBSState _lastBbsState;
 }
 @property (readwrite, assign) WLMouseBehaviorManager *manager;
 

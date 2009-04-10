@@ -11,25 +11,6 @@
 
 @class YLView, YLConnection, WLMessageDelegate, WLIntegerArray;
 
-typedef struct {
-	enum {
-		BBSUnknown, 
-		BBSMainMenu, 
-		BBSMailMenu, 
-		BBSMailList, 
-		BBSBoardList, 
-		BBSFriendList, 
-		BBSBrowseBoard, 
-		BBSViewPost, 
-		BBSComposePost,
-		BBSWaitingEnter,
-		BBSUserInfo,
-		BBSConfirmPost,
-		BBSBrowseExcerption,
-	} state;
-	NSString *boardName;
-} BBSState;
-
 @interface YLTerminal : NSObject {	
 	TYBBSType _bbsType;
 	

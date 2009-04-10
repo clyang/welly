@@ -245,8 +245,10 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
 - (void)updateBBSState {
     NSString *topLine = [self stringAtRow:0];	// get the first line from the screen
     NSString *secondLine = [self stringAtRow:1];
+	NSString *thirdLine = [self stringAtRow:2];
     NSString *bottomLine = [self stringAtRow:_maxRow-1];
 	NSString *wholePage = [self stringFromIndex:0 length:_maxRow * _maxColumn];
+	_bbsState.subState = BBSSubStateNone;
     if (NO) {
         // just for align
     } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
@@ -271,6 +273,18 @@ static BOOL hasAnyString(NSString *row, NSArray *array) {
         _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
         if (_bbsState.boardName == nil)
             _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
+		if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"一般模式"]))
+			_bbsState.subState = BBSBrowseBoardNormalMode;
+		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"文摘模式"]))
+			_bbsState.subState = BBSBrowseBoardDigestMode;
+		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"主题模式"]))
+			_bbsState.subState = BBSBrowseBoardThreadMode;
+		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"精华模式"]))
+			_bbsState.subState = BBSBrowseBoardMarkMode;
+		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"原作模式"]))
+			_bbsState.subState = BBSBrowseBoardOriginMode;
+		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"作者模式"]))
+			_bbsState.subState = BBSBrowseBoardAuthorMode;
         //NSLog(@"%@, cursor @ row %d", _bbsState.boardName, _bbsState.cursorRow);
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"主题阅读", @"同作者阅读", @"下面还有喔", @"瀏覽", nil])) {
         //NSLog(@"阅读文章");
