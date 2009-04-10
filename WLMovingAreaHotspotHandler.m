@@ -182,8 +182,9 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 
 - (void)update {
 	// For the mouse preference
-	if (![_view shouldEnableMouse]) 
+	if (![_view shouldEnableMouse])
 		return;
+	[self clear];
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];
