@@ -421,7 +421,7 @@ BOOL isPostTitleStarter(unichar c) {
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
-	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) <= 1) {
+	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) == 1) {
 		_lastCursorRow = [ds cursorRow];
 		return;
 	}
