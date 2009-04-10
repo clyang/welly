@@ -110,8 +110,8 @@
 }
 
 - (void)update {
-	for (int r = 0; r < _maxRow; ++r)
-	{
+	[[_view effectView] clearIPAddrBox];
+	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];
 	}
 }

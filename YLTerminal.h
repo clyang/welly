@@ -47,6 +47,8 @@ typedef struct {
     YLConnection *_connection;
 	
 	BBSState _bbsState;
+	
+	unichar *_textBuf;
 }
 @property unsigned int maxRow;
 @property unsigned int maxColumn;

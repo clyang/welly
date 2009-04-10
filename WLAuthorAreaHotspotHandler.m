@@ -95,9 +95,6 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 
 #pragma mark -
 #pragma mark Update State
-BOOL isLetter(unsigned char c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c<= 'Z'); }
-BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
-
 - (void)addAuthorArea:(NSString *)author 
 				  row:(int)row 
 			   column:(int)column 
@@ -176,6 +173,9 @@ BOOL isNumber(unsigned char c) { return (c >= '0' && c <= '9'); }
 - (void)update {
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
+		return;
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
+	if (bbsState.state != BBSBrowseBoard && bbsState.state != BBSMailList)
 		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateAuthorAreaForRow:r];

@@ -33,14 +33,15 @@
 	if (self = [super init]) {
         _maxRow = [[YLLGlobalConfig sharedInstance] row];
 		_maxColumn = [[YLLGlobalConfig sharedInstance] column];
-		_grid = (cell **) malloc(sizeof(cell *) * _maxRow);
+		_grid = (cell **)malloc(sizeof(cell *) * _maxRow);
         int i;
         for (i = 0; i < _maxRow; i++) {
 			// NOTE: in case _cursorX will exceed _column size (at the border of the
 			//		 screen), we allocate one more unit for this array
 			_grid[i] = (cell *) malloc(sizeof(cell) * (_maxColumn + 1));
 		}
-		_dirty = (char *) malloc(sizeof(char) * (_maxRow * _maxColumn));
+		_dirty = (char *)malloc(sizeof(char) * (_maxRow * _maxColumn));
+		_textBuf = (unichar *)malloc(sizeof(unichar) * (_maxRow * _maxColumn + 1));
 		
         [self clearAll];
 	}
@@ -153,7 +154,7 @@
 - (NSString *)stringFromIndex:(int)begin 
 					   length:(int)length {
     int i, j;
-    unichar textBuf[length + 1];
+    //unichar textBuf[length + 1];
     unichar firstByte = 0;
     int bufLength = 0;
     int spacebuf = 0;
@@ -163,7 +164,7 @@
         if (x == 0 && i != begin && i - 1 < begin + length) { // newline
             [self updateDoubleByteStateForRow:y];
             unichar cr = 0x000D;
-            textBuf[bufLength++] = cr;
+            _textBuf[bufLength++] = cr;
             spacebuf = 0;
         }
         int db = _grid[y][x].attr.f.doubleByte;
@@ -172,8 +173,8 @@
                 spacebuf++;
             else {
                 for (j = 0; j < spacebuf; j++)
-                    textBuf[bufLength++] = ' ';
-                textBuf[bufLength++] = _grid[y][x].byte;
+                    _textBuf[bufLength++] = ' ';
+                _textBuf[bufLength++] = _grid[y][x].byte;
                 spacebuf = 0;
             }
         } else if (db == 1) {
@@ -181,14 +182,14 @@
         } else if (db == 2 && firstByte) {
             int index = (firstByte << 8) + _grid[y][x].byte - 0x8000;
             for (j = 0; j < spacebuf; j++)
-                textBuf[bufLength++] = ' ';
-            textBuf[bufLength++] = ([[[self connection] site] encoding] == YLBig5Encoding) ? B2U[index] : G2U[index];
+                _textBuf[bufLength++] = ' ';
+            _textBuf[bufLength++] = ([[[self connection] site] encoding] == YLBig5Encoding) ? B2U[index] : G2U[index];
 			
             spacebuf = 0;
         }
     }
     if (bufLength == 0) return nil;
-    return [[[NSString alloc] initWithCharacters:textBuf length:bufLength] autorelease];
+    return [[[NSString alloc] initWithCharacters:_textBuf length:bufLength] autorelease];
 }
 
 - (NSString *)stringAtRow:(int)row {
@@ -200,9 +201,7 @@
 }
 
 - (cell)cellAtIndex:(int)index {
-	int row = index / _maxColumn;
-	int column = index % _maxColumn;
-	return _grid[row][column];
+	return _grid[index / _maxColumn][index % _maxColumn];
 }
 
 # pragma mark -

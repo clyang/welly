@@ -59,6 +59,8 @@ extern "C" {
 }
 #endif
 BOOL isEmptyCell(cell c);
+BOOL isLetter(unsigned char c);
+BOOL isNumber(unsigned char c);
 
 #define keyStringRight @"\uF703"
 #define keyStringLeft @"\uF702"

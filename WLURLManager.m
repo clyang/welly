@@ -18,8 +18,16 @@ NSString *const WLMenuTitleCopyURL = @"Copy URL";
 NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 
 @implementation WLURLManager
+- (id)init {
+	[super init];
+	_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
+	_currentURLStringBuffer = [[NSMutableString alloc] initWithCapacity:40];
+	return self;
+}
+
 - (void)dealloc {
 	[_currentURLList release];
+	[_currentURLStringBuffer release];
     [super dealloc];
 }
 #pragma mark -
@@ -216,31 +224,29 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 
 - (void)update {
 	// REVIEW: this might lead to leak, check it
-	if(!_currentURLList)
-		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
 	[self clearAllURL];
 	
 	// Resotre the url list pointer
 	_currentSelectedURLIndex = 0;
 	
 	YLTerminal *ds = [_view frontMostTerminal];
-	//cell **grid = [ds grid];
+	cell **grid = [ds grid];
 	BOOL isReadingURL = NO;
-	char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
-	int protocolNum = 7;
-	NSMutableString *currURL = [[NSMutableString alloc] initWithCapacity:40];
+	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
+	const int protocolNum = 7;
 	int startIndex = 0;
 	int par = 0;
 	int urlLength = 0;
+	[_currentURLStringBuffer setString:@""];
 	
 	for (int index = 0; index < _maxRow * _maxColumn; ++index) {
 		if (isReadingURL) {
 			// Push current char in!
-            unsigned char c = [ds cellAtIndex:index].byte;
+            unsigned char c = grid[index/_maxColumn][index%_maxColumn].byte;
             if (0x21 > c || c > 0x7E || c == '"' || c == '\'') {
 				// Not URL anymore, add previous one
-				[self addURL:currURL AtIndex:startIndex length:urlLength];
-				[currURL setString:@""];
+				[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
+				[_currentURLStringBuffer setString:@""];
                 isReadingURL = NO;
 			}
             else if (c == '(')
@@ -248,13 +254,13 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
             else if (c == ')') {
                 if (--par < 0) {
 					// Not URL anymore, add previous one
-					[self addURL:currURL AtIndex:startIndex length:urlLength];
-					[currURL setString:@""];
+					[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
+					[_currentURLStringBuffer setString:@""];
                     isReadingURL = NO;
 				}
             }
 			if (isReadingURL) {
-				[currURL appendFormat:@"%c", c];
+				[_currentURLStringBuffer appendFormat:@"%c", c];
 				urlLength++;
 			}
 		} else {
@@ -263,14 +269,14 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
                 int len = strlen(protocols[p]);
                 BOOL isMatched = YES;
                 for (int s = 0; s < len; s++)
-                    if ([ds cellAtIndex:index + s].byte != protocols[p][s] || [ds cellAtIndex:index + s].attr.f.doubleByte) {
+                    if (grid[(index+s)/_maxColumn][(index+s)%_maxColumn].byte != protocols[p][s] || grid[(index+s)/_maxColumn][(index+s)%_maxColumn].attr.f.doubleByte) {
                         isMatched = NO;
                         break;
                     }
                 
                 if (isMatched) {
 					// Push current prefix into current url
-					[currURL appendFormat:@"%c", protocols[p][0]];
+					[_currentURLStringBuffer appendFormat:@"%c", protocols[p][0]];
                     isReadingURL = YES;
 					startIndex = index;
 					par = 0;
@@ -290,7 +296,6 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
         }
 		 */
 	}
-	[currURL release];
 }
 
 @end

@@ -208,7 +208,10 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
  */
 - (void)clearAllTrackingArea {
 	// Clear effect
-	[[_view effectView] clear];
+	//[[_view effectView] clear];
+	
+	// Do NOT clear effect. This should be decided by handlers themselves
+	
 	// Restore cursor
 	[[NSCursor arrowCursor] set];
 	

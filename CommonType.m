@@ -15,30 +15,38 @@
 
 #pragma mark -
 #pragma mark Functions
-int isHiddenAttribute(attribute a) {
+inline int isHiddenAttribute(attribute a) {
     return (!a.f.bold && ((a.f.fgColor == a.f.bgColor) ||
                           (a.f.fgColor == 0 && a.f.bgColor == 9))); 
 }
 
-int isBlinkCell(cell c) {
+inline int isBlinkCell(cell c) {
     if (c.attr.f.blink && (c.attr.f.doubleByte != 0 || (c.byte != ' ' && c.byte != '\0')))
         return 1;
     return 0;
 }
 
-int bgColorIndexOfAttribute(attribute a) {
+inline BOOL isLetter(unsigned char c) { 
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c<= 'Z'); 
+}
+
+inline BOOL isNumber(unsigned char c) {
+	return (c >= '0' && c <= '9'); 
+}
+
+inline int bgColorIndexOfAttribute(attribute a) {
     return (a.f.reverse ? a.f.fgColor : a.f.bgColor);
 }
 
-int fgColorIndexOfAttribute(attribute a) {
+inline int fgColorIndexOfAttribute(attribute a) {
     return (a.f.reverse ? a.f.bgColor : a.f.fgColor);
 }
 
-int bgBoldOfAttribute(attribute a) {
+inline int bgBoldOfAttribute(attribute a) {
     return (a.f.reverse && a.f.bold);
 }
 
-int fgBoldOfAttribute(attribute a) {
+inline int fgBoldOfAttribute(attribute a) {
     return (!a.f.reverse && a.f.bold);
 }
 

@@ -10,8 +10,10 @@
 #import <WLMouseHotspotHandler.h>
 
 @interface WLURLManager : WLMouseHotspotHandler <WLUpdatable, WLMouseUpHandler, WLContextualMenuHandler> {
-	NSMutableArray * _currentURLList;
+	NSMutableArray *_currentURLList;
 	int _currentSelectedURLIndex;
+	
+	NSMutableString *_currentURLStringBuffer;
 }
 - (void)dealloc;
 - (NSPoint) currentSelectedURLPos;

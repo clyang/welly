@@ -159,8 +159,15 @@
         } else {
             YLEncoding encoding = [_site encoding];
             unichar code = (encoding == YLBig5Encoding ? U2B[ch] : U2G[ch]);
-            buf[0] = code >> 8;
-            buf[1] = code & 0xFF;
+			if (code != 0) {
+				buf[0] = code >> 8;
+				buf[1] = code & 0xFF;
+			} else {
+				if (ch != 0) {
+					buf[0] = ' ';
+					buf[1] = ' ';
+				}
+			}
             [data appendBytes:buf length:2];
         }
     }

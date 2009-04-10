@@ -69,6 +69,11 @@ NSString *const FBCommandSequenceJumpToMailList = @"v";
 NSString *const FBCommandSequenceEnterExcerption = @"x";
 
 @implementation WLButtonAreaHotspotHandler
+- (id)init {
+	[super init];
+	_lastBbsState.state = BBSUnknown;
+	return self;
+}
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -188,6 +193,9 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state)
 		return;
 	_lastBbsState = [[_view frontMostTerminal] bbsState];
+	
+	// Clear
+	[[_view effectView] clearButton];
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];
 	}
