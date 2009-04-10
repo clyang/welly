@@ -47,7 +47,7 @@
 	[_view addToolTipRect:rect owner:_manager userData:tooltip];
 	
 	NSDictionary *userInfo = [self userInfo];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
 }
 
 - (void)updateIPStateForRow:(int)r {
@@ -109,8 +109,13 @@
 	}
 }
 
-- (void)update {
+- (void)clear {
 	[[_view effectView] clearIPAddrBox];
+	[self removeAllTrackingAreas];
+}
+
+- (void)update {
+	[self clear];
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];
 	}

@@ -171,8 +171,9 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 	return [_view mouse:mousePos inRect:rect];
 }
 
-- (void)addTrackingAreaWithRect:(NSRect)rect 
+- (NSTrackingArea *)addTrackingAreaWithRect:(NSRect)rect 
 					   userInfo:(NSDictionary *)userInfo {
+	//NSLog(@"addTrackingAreaWithRect");
 	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:rect 
 														options:(  NSTrackingMouseEnteredAndExited
 																 | NSTrackingMouseMoved
@@ -192,13 +193,14 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 												userData:nil];
 		[self mouseEntered:event];
 	}
+	return area;
 }
 
-- (void)addTrackingAreaWithRect:(NSRect)rect 
+- (NSTrackingArea *)addTrackingAreaWithRect:(NSRect)rect 
 					   userInfo:(NSDictionary *)userInfo 
 						 cursor:(NSCursor *)cursor {
 	[_view addCursorRect:rect cursor:cursor];
-	[self addTrackingAreaWithRect:rect userInfo:userInfo];
+	return [self addTrackingAreaWithRect:rect userInfo:userInfo];
 }
 
 #pragma mark -
@@ -206,7 +208,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 /*
  * clear all tracking rects
  */
-- (void)clearAllTrackingArea {
+- (void)clear {
 	// Clear effect
 	//[[_view effectView] clear];
 	
@@ -221,16 +223,18 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 	
 	_activeTrackingAreaUserInfo = nil;
 	_backgroundTrackingAreaUserInfo = nil;
+	
+	// Do NOT remove tracking areas. This task should be performed by handlers
+	/*
 	for (NSTrackingArea *area in [_view trackingAreas]) {
 		[_view removeTrackingArea:area];
-		if ([area owner] != self)
-			[[area owner] release];
 	}
+	 */
 }
 
 - (void)update {
 	// Clear it...
-	[self clearAllTrackingArea];
+	[self clear];
 	
 	if(![[_view frontMostConnection] isConnected])
 		return;

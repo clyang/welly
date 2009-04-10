@@ -1767,7 +1767,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal setFrame:[self frame]];
 	}
 	[_effectView clear];
-	[_mouseBehaviorDelegate clearAllTrackingArea];
+	[_mouseBehaviorDelegate clear];
 	[self addSubview:_portal];
 	_isInPortalMode = YES;
 }

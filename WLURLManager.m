@@ -47,7 +47,6 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	//NSLog(@"mouseEntered: ");
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	if([[_view frontMostConnection] isConnected]) {
 		[_manager setActiveTrackingAreaUserInfo:userInfo];
@@ -55,7 +54,6 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	//NSLog(@"mouseExited: ");
 	[_manager setActiveTrackingAreaUserInfo:nil];
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == [NSCursor pointingHandCursor])
@@ -192,12 +190,12 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 		int row = index / _maxColumn;
 		if (column + length < _maxColumn) {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:length];
-			[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
+			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:column + length];
 			break;
 		} else {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:_maxColumn - column];
-			[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
+			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:_maxColumn];
 			index += _maxColumn - column;
 			length -= _maxColumn - column;
@@ -222,9 +220,14 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	[_currentURLList removeAllObjects];
 }
 
+- (void)clear {
+	[self removeAllTrackingAreas];
+	[self clearAllURL];
+}
+
 - (void)update {
 	// REVIEW: this might lead to leak, check it
-	[self clearAllURL];
+	[self clear];
 	
 	// Resotre the url list pointer
 	_currentSelectedURLIndex = 0;

@@ -13,6 +13,12 @@
 
 @implementation WLMouseHotspotHandler
 @synthesize manager = _manager;
+- (id)init {
+	self = [super init];
+	_trackingAreas = [[NSMutableArray alloc] initWithCapacity:10];
+	return self;
+}
+
 - (id)initWithView:(YLView *)view {
 	[self init];
 	_view = view;
@@ -26,8 +32,19 @@
 	return [self initWithView:[_manager view]];
 }
 
+- (void)dealloc {
+	[_trackingAreas release];
+	[super dealloc];
+}
+
 - (void)mouseEntered:(NSEvent *)theEvent {
 	// Do nothing, just a virtual function
 }
 
+- (void)removeAllTrackingAreas {
+	for (NSTrackingArea *trackingArea in _trackingAreas) {
+		[_view removeTrackingArea:trackingArea];
+	}
+	[_trackingAreas removeAllObjects];
+}
 @end

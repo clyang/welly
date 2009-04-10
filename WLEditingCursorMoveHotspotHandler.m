@@ -49,7 +49,7 @@ static NSCursor *gMoveCursor = nil;
     [cursorImage release];
 }
 
-- (id) init {
+- (id)init {
 	[super init];
 	if (!gMoveCursor)
 		[WLEditingCursorMoveHotspotHandler initialize];
@@ -163,35 +163,40 @@ static NSCursor *gMoveCursor = nil;
 		}				
 	}
 	if (cmdLength > 0) 
-		[[_view frontMostConnection] sendBytes: cmd length: cmdLength];
+		[[_view frontMostConnection] sendBytes:cmd length:cmdLength];
 }
 
-- (void) mouseEntered: (NSEvent *)theEvent {
+- (void)mouseEntered:(NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	if([[_view frontMostConnection] isConnected]) {
 		_manager.activeTrackingAreaUserInfo = userInfo;
 	}
 }
 
-- (void) mouseExited: (NSEvent *)theEvent {
+- (void)mouseExited:(NSEvent *)theEvent {
 	_manager.activeTrackingAreaUserInfo = nil;
 	// FIXME: Temporally solve the problem in full screen mode.
 	if ([NSCursor currentCursor] == gMoveCursor)
 		[[NSCursor arrowCursor] set];
 }
 
-- (void) mouseMoved: (NSEvent *)theEvent {
+- (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] != gMoveCursor)
 		[[NSCursor IBeamCursor] set];
 }
 
 #pragma mark -
 #pragma mark Update State
-- (void) update {
+- (void)clear {
+	[self removeAllTrackingAreas];
+}
+
+- (void)update {
+	[self clear];
 	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost) {
-		[_manager addTrackingAreaWithRect:[_view frame]
-								 userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
-								   cursor:gMoveCursor];
+		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]
+														   userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
+															 cursor:gMoveCursor]];
 	}
 }
 

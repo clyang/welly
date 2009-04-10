@@ -47,12 +47,12 @@ NSString * const WLRangeLengthUserInfoName;
 - (YLView *)view;
 
 - (void)update;
-- (void)addTrackingAreaWithRect:(NSRect) rect 
+- (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 
 					   userInfo:(NSDictionary *)userInfo;
-- (void)addTrackingAreaWithRect:(NSRect) rect 
+- (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 
 					   userInfo:(NSDictionary *)userInfo 
 						 cursor:(NSCursor *)cursor;
-- (void)clearAllTrackingArea;
+- (void)clear;
 
 - (void)restoreNormalCursor;
 

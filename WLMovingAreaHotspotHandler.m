@@ -119,7 +119,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseCursorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, WLCommandSequenceLeftArrow, _leftArrowCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _leftArrowCursor];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor: _leftArrowCursor]];
 }
 
 - (void)updateExitArea {
@@ -143,7 +143,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseCursorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, WLCommandSequencePageUp, _pageUpCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageUpCursor];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageUpCursor]];
 }
 
 - (void)updatePageUpArea {
@@ -164,7 +164,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseCursorUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, WLCommandSequencePageDown, _pageDownCursor, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageDownCursor];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:_pageDownCursor]];
 }
 
 - (void)updatePageDownArea {
@@ -174,6 +174,10 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 							height:_maxRow / 2
 							 width:_maxColumn - 20];
 	}
+}
+
+- (void)clear {
+	[self removeAllTrackingAreas];
 }
 
 - (void)update {

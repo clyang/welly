@@ -27,10 +27,13 @@
 	
 	WLMouseBehaviorManager *_manager;
 	int _maxRow, _maxColumn;
+	
+	NSMutableArray *_trackingAreas;
 }
 @property (readwrite, assign) WLMouseBehaviorManager *manager;
 
 - (id)initWithView:(YLView *)view;
 - (id)initWithManager:(WLMouseBehaviorManager *)manager;
 - (void)mouseEntered:(NSEvent *)theEvent;
+- (void)removeAllTrackingAreas;
 @end

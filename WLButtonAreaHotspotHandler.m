@@ -120,7 +120,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseButtonTextUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, cmd, NSLocalizedString(buttonName, @"Mouse Button"), nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 }
 
 - (void)updateButtonAreaForRow:(int)r {
@@ -185,17 +185,25 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	}
 }
 
+- (void)clear {
+	[[_view effectView] clearButton];
+	[self removeAllTrackingAreas];
+}
+
 - (void)update {
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
 		return;
+	
 	// Only update when BBS state has been changed
 	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state)
 		return;
 	_lastBbsState = [[_view frontMostTerminal] bbsState];
 	
 	// Clear
-	[[_view effectView] clearButton];
+	[self clear];
+	
+	// Update
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];
 	}

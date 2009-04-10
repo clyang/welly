@@ -189,7 +189,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseRowUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, [NSNumber numberWithInt:r], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
@@ -206,7 +206,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, cmd, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 }
 
 #pragma mark -
@@ -407,10 +407,18 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 }
 
+- (void)clear {
+	[self removeAllTrackingAreas];
+	[[_view effectView] clearClickEntry];
+}
+
 - (void)update {
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
 		return;
+	// Clear
+	[self clear];
+	// Update
 	YLTerminal *ds = [_view frontMostTerminal];
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
 		[self updatePostClickEntry];

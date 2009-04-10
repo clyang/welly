@@ -105,7 +105,7 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	NSArray *objects = [NSArray arrayWithObjects: self, author, nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	// Add into manager
-	[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]];	
+	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo cursor:[NSCursor pointingHandCursor]]];
 }
 
 - (void)updateAuthorAreaForRow:(int)r {
@@ -170,10 +170,16 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	}
 }
 
+- (void)clear {
+	[self removeAllTrackingAreas];
+}
+
 - (void)update {
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
 		return;
+	
+	[self clear];
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state != BBSBrowseBoard && bbsState.state != BBSMailList)
 		return;
