@@ -153,7 +153,7 @@
 - (NSString *)stringFromIndex:(int)begin 
 					   length:(int)length {
     int i, j;
-    unichar textBuf[_maxRow * (_maxColumn + 1) + 1];
+    unichar textBuf[length + 1];
     unichar firstByte = 0;
     int bufLength = 0;
     int spacebuf = 0;

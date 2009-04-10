@@ -35,5 +35,6 @@ typedef struct {
 @class YLView;
 @interface WLButtonAreaHotspotHandler : WLMouseHotspotHandler <WLMouseUpHandler, WLUpdatable> {
 	NSString *_commandSequence;
+	BBSState _lastBbsState;
 }
 @end

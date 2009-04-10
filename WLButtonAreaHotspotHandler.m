@@ -152,12 +152,17 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 		{BBSUserInfo, @"选择使用", 8, WLButtonNamePreviousUser, FBCommandSequencePreviousUser},
 		{BBSUserInfo, @"者[↑,↓]", 9, WLButtonNameNextUser, FBCommandSequenceNextUser},
 	};
+	
+	if (r > 3 && r < _maxRow-1)
+		return;
+	
 	YLTerminal *ds = [_view frontMostTerminal];
+	BBSState bbsState = [ds bbsState];
 	
 	for (int x = 0; x < _maxColumn; ++x) {
 		for (int i = 0; i < sizeof(buttonsDefinition) / sizeof(WLButtonDescription); ++i) {
 			WLButtonDescription buttonDescription  = buttonsDefinition[i];
-			if ([ds bbsState].state != buttonDescription.state)
+			if (bbsState.state != buttonDescription.state)
 				continue;
 			int length = buttonDescription.signatureLengthOfBytes;
 			if (x < _maxColumn - length) {
@@ -179,6 +184,10 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	// For the mouse preference
 	if (![_view shouldEnableMouse]) 
 		return;
+	// Only update when BBS state has been changed
+	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state)
+		return;
+	_lastBbsState = [[_view frontMostTerminal] bbsState];
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];
 	}
