@@ -28,11 +28,11 @@
 static NSMutableSet *sURLs;
 static NSString *sCacheDir;
 // current downloaded URLs
-//static NSMutableDictionary *downloadedURLInfo;
+static NSMutableDictionary *downloadedURLInfo;
 
 + (void)initialize {
     sURLs = [[NSMutableSet alloc] initWithCapacity:10];
-	//downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
+	downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
     // locate the cache directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSAssert([paths count] > 0, @"~/Library/Caches");
@@ -215,6 +215,19 @@ static NSString * stringFromFileSize(long long size) {
     // set local path
     [[NSFileManager defaultManager] createDirectoryAtPath:sCacheDir attributes:nil];
     _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
+	if([downloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
+		// Get local file size
+		NSString * tempPath = [downloadedURLInfo valueForKey:[[[download request] URL] absoluteString]];
+		NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:tempPath traverseLink:YES];
+		long long fileSizeOnDisk = -1;
+		if (fileAttributes != nil)
+			fileSizeOnDisk = [[fileAttributes objectForKey:NSFileSize] longLongValue];
+		if(fileSizeOnDisk == _contentLength) { // If of the same size, use current cache
+			[download cancel];
+			[self downloadDidFinish:download];
+			return;
+		}
+	}
     [download setDestination:_path allowOverwrite:YES];
 
 	// dectect file type to avoid useless download
@@ -262,7 +275,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
-	//[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
+	[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
     [WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
     [WLGrowlBridge notifyWithTitle:_filename
                        description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
