@@ -71,6 +71,11 @@ cp -rp $NibFileName.old.nib/.svn $NibFileName.nib/
 rm $NibFileName.strings
 rm -rf $NibFileName.old.nib
 
-# 8. 完成
+# 8. 清理
+cd zh_CN.lproj
+rm $NibFileName.strings
+rm -rf $NibFileName.old.nib
+
+# 9. 完成
 cd ..
 echo "Finished!"

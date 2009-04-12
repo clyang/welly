@@ -2175,6 +2175,22 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 														<reference key="NSTextColor" ref="31498861"/>
 													</object>
 												</object>
+												<object class="NSTextField" id="397973370">
+													<reference key="NSNextResponder" ref="546204354"/>
+													<int key="NSvFlags">268</int>
+													<string key="NSFrame">{{104, 64}, {179, 14}}</string>
+													<reference key="NSSuperview" ref="546204354"/>
+													<bool key="NSEnabled">YES</bool>
+													<object class="NSTextFieldCell" key="NSCell" id="638509900">
+														<int key="NSCellFlags">67239488</int>
+														<int key="NSCellFlags2">71435264</int>
+														<string key="NSContents">For SSH connections only</string>
+														<reference key="NSSupport" ref="26"/>
+														<reference key="NSControlView" ref="397973370"/>
+														<reference key="NSBackgroundColor" ref="865266528"/>
+														<reference key="NSTextColor" ref="31498861"/>
+													</object>
+												</object>
 												<object class="NSButton" id="667829870">
 													<reference key="NSNextResponder" ref="546204354"/>
 													<int key="NSvFlags">268</int>
@@ -3272,7 +3288,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="765500806">
+																	<object class="NSParagraphStyle" id="590852526">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3480,7 +3496,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="765500806"/>
+																	<reference ref="590852526"/>
 																</object>
 															</object>
 														</object>
@@ -6160,6 +6176,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<reference ref="915459973"/>
 							<reference ref="183872590"/>
 							<reference ref="894562964"/>
+							<reference ref="397973370"/>
 						</object>
 						<reference key="parent" ref="893775230"/>
 					</object>
@@ -7253,6 +7270,20 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="432839494"/>
 						<reference key="parent" ref="894562964"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1322</int>
+						<reference key="object" ref="397973370"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="638509900"/>
+						</object>
+						<reference key="parent" ref="615054395"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1323</int>
+						<reference key="object" ref="638509900"/>
+						<reference key="parent" ref="397973370"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -7378,8 +7409,11 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>1310.IBPluginDependency</string>
 					<string>1311.IBPluginDependency</string>
 					<string>1312.IBPluginDependency</string>
+					<string>1313.IBAttributePlaceholdersKey</string>
 					<string>1313.IBPluginDependency</string>
 					<string>1314.IBPluginDependency</string>
+					<string>1322.IBPluginDependency</string>
+					<string>1323.IBPluginDependency</string>
 					<string>134.IBPluginDependency</string>
 					<string>134.ImportedFromIB2</string>
 					<string>136.IBPluginDependency</string>
@@ -7751,6 +7785,16 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSMutableDictionary">
+						<string key="NS.key.0">ToolTip</string>
+						<object class="IBToolTipAttribute" key="NS.object.0">
+							<string key="name">ToolTip</string>
+							<reference key="object" ref="894562964"/>
+							<string key="toolTip">[proxy.server.address[:port]]</string>
+						</object>
+					</object>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -8069,7 +8113,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1321</int>
+			<int key="maxID">1323</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
