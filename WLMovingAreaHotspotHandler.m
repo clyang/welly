@@ -44,6 +44,16 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	return [self shouldEnablePageUpDownForState:[[_view frontMostTerminal] bbsState]];
 }
 
+- (BOOL)shouldEnableExitAreaForState:(BBSState)bbsState {
+	if (bbsState.state == BBSComposePost || bbsState.state == BBSWaitingEnter)
+		return NO;
+	return YES;
+}
+
+- (BOOL)shouldEnableExitArea {
+	return [self shouldEnableExitAreaForState:[[_view frontMostTerminal] bbsState]];
+}
+
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -126,8 +136,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 }
 
 - (void)updateExitArea {
-	YLTerminal *ds = [_view frontMostTerminal];
-	if ([ds bbsState].state == BBSComposePost || [ds bbsState].state == BBSWaitingEnter) {
+	if (![self shouldEnableExitArea]) {
 		return;
 	} else {
 		[self addExitAreaAtRow:3 
@@ -191,10 +200,20 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 		return;	
 	}
 	
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
+	if (bbsState.state == _lastBbsState.state) {
+		return;
+	}
+	if (([self shouldEnablePageUpDownForState:bbsState] == [self shouldEnablePageUpDownForState:_lastBbsState]) &&
+		([self shouldEnableExitAreaForState:bbsState] == [self shouldEnableExitAreaForState:_lastBbsState])) {
+		_lastBbsState = bbsState;
+		return;
+	}
 	[self clear];
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];
+	_lastBbsState = bbsState;
 }
 
 @end

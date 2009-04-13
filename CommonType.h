@@ -71,7 +71,7 @@ typedef struct {
 		BBSBrowseBoardOriginMode,
 		BBSBrowseBoardAuthorMode,
 	} subState;
-	NSString *boardName;
+//	NSString *boardName;
 } BBSState;
 
 #ifdef __cplusplus

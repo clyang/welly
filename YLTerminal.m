@@ -271,9 +271,9 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(topLine, [NSArray arrayWithObjects:@"版主", @"板主", @"诚征版主中", @"徵求中", nil])) {
         //NSLog(@"版面");
         _bbsState.state = BBSBrowseBoard;
-        _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
-        if (_bbsState.boardName == nil)
-            _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
+//        _bbsState.boardName = extractString(topLine, @"[", @"]");      // smth
+//        if (_bbsState.boardName == nil)
+//            _bbsState.boardName = extractString(topLine, @"《", @"》"); // ptt
 		if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"一般模式"]))
 			_bbsState.subState = BBSBrowseBoardNormalMode;
 		else if (hasAnyString(thirdLine, [NSArray arrayWithObject:@"文摘模式"]))
