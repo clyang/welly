@@ -341,7 +341,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         escString = @"\x1B";
     }
     
-    NSFontManager *fontManager = [NSFontManager sharedFontManager];
+    //NSFontManager *fontManager = [NSFontManager sharedFontManager];
     NSMutableString *writeBuffer = [NSMutableString string];
     NSString *rawString = [storage string];
     BOOL underline, preUnderline = NO;
@@ -356,7 +356,8 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
         // get attributes of i-th character
         
         underline = ([[storage attribute:NSUnderlineStyleAttributeName atIndex:i effectiveRange:nil] intValue] != NSUnderlineStyleNone);
-        blink = [fontManager traitsOfFont:[storage attribute:NSFontAttributeName atIndex:i effectiveRange:nil]] & NSBoldFontMask;
+        //blink = [fontManager traitsOfFont:[storage attribute:NSFontAttributeName atIndex:i effectiveRange:nil]] & NSBoldFontMask;
+		blink = ([storage attribute:NSShadowAttributeName atIndex:i effectiveRange:nil] != nil);
         color = colorUsingNearestAnsiColor([storage attribute:NSForegroundColorAttributeName atIndex:i effectiveRange:nil], NO);
         bgColor = colorUsingNearestAnsiColor([storage attribute:NSBackgroundColorAttributeName atIndex:i effectiveRange:nil], YES);
         

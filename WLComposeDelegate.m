@@ -14,12 +14,14 @@
 #import "YLSite.h"
 
 @implementation WLComposeDelegate
+NSString *const WLComposeFontName = @"iLiHei";
+
 - (void)awakeFromNib {
 	[_composeText setString:@""];
 	[_composeText setBackgroundColor:[NSColor whiteColor]];
     [_composeText setTextColor:[NSColor blackColor]];
     [_composeText setInsertionPointColor:[NSColor blackColor]];
-    [_composeText setFont:[NSFont fontWithName:@"Helvetica" size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
+    [_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 	
 	// Prepare Color Panel
 	[[NSUserDefaults standardUserDefaults] setObject:@"1Welly" forKey:@"NSColorPickerPageableNameListDefaults"];
@@ -45,6 +47,13 @@
     [colorList insertColor:[config colorWhiteHilite] key:NSLocalizedString(@"WhiteHilite", @"Color") atIndex:15];
     [colorPanel attachColorList:colorList];
     [colorList release];
+	
+	_shadowForBlink = [[NSShadow alloc] init];
+	[_shadowForBlink setShadowOffset:NSMakeSize(3.0, -3.0)];
+	[_shadowForBlink setShadowBlurRadius:5.0];
+	
+	// Use a partially transparent color for shapes that overlap.
+	[_shadowForBlink setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.8]];
 }
 
 #pragma mark -
@@ -55,6 +64,7 @@
     [_composeText setString:@""];
 	[_composeText setBackgroundColor:[NSColor whiteColor]];
     [_composeText setTextColor:[NSColor blackColor]];
+	[_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 	// TODO: reset the background color
 }
 
@@ -82,21 +92,32 @@
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
 	// get the underline style attribute of the first character in the text view
-	id underlineStyle = [storage attribute: NSUnderlineStyleAttributeName atIndex: selectedRange.location effectiveRange: nil];
+	id underlineStyle = [storage attribute:NSUnderlineStyleAttributeName atIndex:selectedRange.location effectiveRange:nil];
 	// if already underlined, then the user is meant to remove the line.
-	if ([underlineStyle intValue] == NSUnderlineStyleNone)
-		[storage addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: NSUnderlineStyleSingle] range: selectedRange];
+	if ([underlineStyle intValue] == NSUnderlineStyleNone) {
+		[storage addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleThick] range:selectedRange];
+	}
 	else
-		[storage addAttribute: NSUnderlineStyleAttributeName value: [NSNumber numberWithInt: NSUnderlineStyleNone] range: selectedRange];
+		[storage removeAttribute:NSUnderlineStyleAttributeName range:selectedRange];
 }
 
 - (IBAction)setBlink:(id)sender {
 	NSTextStorage *storage = [_composeText textStorage];
 	NSRange selectedRange = [_composeText selectedRange];
-	NSFontManager *fontManager = [NSFontManager sharedFontManager];
+	
+	NSShadow *shadowAttribute = [storage attribute:NSShadowAttributeName atIndex:selectedRange.location effectiveRange:nil];
+	
+	if (shadowAttribute == nil) {
+		[storage addAttribute:NSShadowAttributeName value:_shadowForBlink range:selectedRange];
+	} else {
+		[storage removeAttribute:NSShadowAttributeName range:selectedRange];
+	}
+	
 	// get the bold style attribute of the first character in the text view
-	NSFont *font = [storage attribute: NSFontAttributeName atIndex: selectedRange.location effectiveRange: nil];
-	NSFontTraitMask traits = [fontManager traitsOfFont: font];
+	/* Commented by K.O.ed: Do not use bold, but use shadow
+	NSFontManager *fontManager = [NSFontManager sharedFontManager];
+	NSFont *font = [storage attribute:NSFontAttributeName atIndex:selectedRange.location effectiveRange:nil];
+	NSFontTraitMask traits = [fontManager traitsOfFont:font];
 	NSFont *newFont;
 	if (traits & NSBoldFontMask)
 		newFont = [fontManager convertFont:font toNotHaveTrait:NSBoldFontMask];
@@ -104,6 +125,7 @@
 		newFont = [fontManager convertFont:font toHaveTrait:NSBoldFontMask];
 	
 	[storage addAttribute:NSFontAttributeName value:newFont range:[_composeText selectedRange]];
+	 */
 }
 
 - (IBAction)changeBackgroundColor:(id)sender {

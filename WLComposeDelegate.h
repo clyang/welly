@@ -19,6 +19,8 @@
     IBOutlet NSPanel *_composeWindow;
 	
     IBOutlet NSWindow *_mainWindow;
+	
+	NSShadow *_shadowForBlink;
 }
 
 /* compose actions */
