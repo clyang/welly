@@ -165,14 +165,14 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 #pragma mark -
-#pragma mark Add Tracking Area
+#pragma mark Add/Remove Tracking Area
 - (BOOL)isMouseInsideRect:(NSRect)rect {
 	NSPoint mousePos = [_view mouseLocationInView];
 	return [_view mouse:mousePos inRect:rect];
 }
 
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect)rect 
-					   userInfo:(NSDictionary *)userInfo {
+								   userInfo:(NSDictionary *)userInfo {
 	//NSLog(@"addTrackingAreaWithRect");
 	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:rect 
 														options:(  NSTrackingMouseEnteredAndExited
@@ -197,47 +197,52 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect)rect 
-					   userInfo:(NSDictionary *)userInfo 
-						 cursor:(NSCursor *)cursor {
+								   userInfo:(NSDictionary *)userInfo 
+									 cursor:(NSCursor *)cursor {
 	[_view addCursorRect:rect cursor:cursor];
 	return [self addTrackingAreaWithRect:rect userInfo:userInfo];
 }
 
+- (void)removeTrackingArea:(NSTrackingArea *)area {
+	NSRect rect = [area rect];
+	if ([self isMouseInsideRect:rect]) {
+		NSEvent *event = [NSEvent enterExitEventWithType:NSMouseExited 
+												location:[NSEvent mouseLocation] 
+										   modifierFlags:NSMouseExitedMask 
+											   timestamp:0
+											windowNumber:[[_view window] windowNumber] 
+												 context:nil
+											 eventNumber:0
+										  trackingNumber:(NSInteger)area
+												userData:nil];
+		[self mouseExited:event];
+	}
+	[_view removeTrackingArea:area];
+	[area release];
+}
+
+- (void)removeAllTrackingAreas {
+	for (WLMouseHotspotHandler *handler in _handlers) {
+		[handler removeAllTrackingAreas];
+	}
+}
 #pragma mark -
 #pragma mark Update State
 /*
  * clear all tracking rects
  */
 - (void)clear {
-	// Clear effect
-	//[[_view effectView] clear];
-	
 	// Do NOT clear effect. This should be decided by handlers themselves
-	
-	// Restore cursor
-	[[NSCursor arrowCursor] set];
-	
-	// remove all tool tips, cursor rects, and tracking areas
-	[_view removeAllToolTips];
-	[_view discardCursorRects];
 	
 	_activeTrackingAreaUserInfo = nil;
 	_backgroundTrackingAreaUserInfo = nil;
 	
 	// Do NOT remove tracking areas. This task should be performed by handlers
-	/*
-	for (NSTrackingArea *area in [_view trackingAreas]) {
-		[_view removeTrackingArea:area];
-	}
-	 */
 }
 
 - (void)update {
 	// Clear it...
 	[self clear];
-	
-	if(![[_view frontMostConnection] isConnected])
-		return;
 	
 	for (NSObject *obj in _handlers) {
 		if ([obj conformsToProtocol:@protocol(WLUpdatable)])

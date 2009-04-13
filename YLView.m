@@ -67,11 +67,11 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 @interface YLView ()
-- (void) drawSpecialSymbol:(unichar)ch 
-					forRow:(int)r 
-					column:(int)c 
-			 leftAttribute:(attribute)attr1 
-			rightAttribute:(attribute)attr2;
+- (void)drawSpecialSymbol:(unichar)ch 
+				   forRow:(int)r 
+				   column:(int)c 
+			leftAttribute:(attribute)attr1 
+		   rightAttribute:(attribute)attr2;
 
 // safe_paste
 - (void)confirmPaste:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
@@ -1497,6 +1497,11 @@ BOOL isSpecialSymbol(unichar ch) {
     return self;
 }
 
+- (void)resetCursorRects {
+	[super resetCursorRects];
+	[self updateMouseHotspot];
+	return;
+}
 #pragma mark -
 #pragma mark Accessor
 - (BOOL)isConnected {
@@ -1767,9 +1772,9 @@ BOOL isSpecialSymbol(unichar ch) {
 		[_portal setFrame:[self frame]];
 	}
 	[_effectView clear];
-	[_mouseBehaviorDelegate clear];
-	[self addSubview:_portal];
 	_isInPortalMode = YES;
+	[_mouseBehaviorDelegate update];
+	[self addSubview:_portal];
 }
 // Remove current portal
 - (void)removePortal {
@@ -1799,8 +1804,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)checkPortal {
 	if (_isInPortalMode && ![[[self frontMostConnection] site] empty]) {
 		[self removePortal];
-	}
-	else if ([[[self frontMostConnection] site] empty] && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
+	} else if (([self numberOfTabViewItems] == 0 || [[[self frontMostConnection] site] empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
 		[self updatePortal];
 	}
 }
@@ -1823,13 +1827,5 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)activateMouseForKeying:(NSTimer*)timer {
 	_isKeying = NO;
-}
-
-#pragma mark -
-#pragma mark For effect views
-- (void)resetCursorRects {
-	[super resetCursorRects];
-	[self updateMouseHotspot];
-	return;
 }
 @end

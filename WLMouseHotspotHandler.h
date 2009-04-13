@@ -39,4 +39,5 @@
 - (id)initWithManager:(WLMouseBehaviorManager *)manager;
 - (void)mouseEntered:(NSEvent *)theEvent;
 - (void)removeAllTrackingAreas;
+- (void)clear;
 @end

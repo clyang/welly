@@ -45,8 +45,9 @@
 
 - (void)removeAllTrackingAreas {
 	for (NSTrackingArea *trackingArea in _trackingAreas) {
-		[_view removeTrackingArea:trackingArea];
-		[trackingArea release];
+		//[_view removeTrackingArea:trackingArea];
+		//[trackingArea release];
+		[_manager removeTrackingArea:trackingArea];
 	}
 	[_trackingAreas removeAllObjects];
 }

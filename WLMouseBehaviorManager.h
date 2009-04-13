@@ -46,13 +46,15 @@ NSString * const WLRangeLengthUserInfoName;
 - (id)initWithView:(YLView *)view;
 - (YLView *)view;
 
+// Add/Remove tracking areas
 - (void)update;
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 
 					   userInfo:(NSDictionary *)userInfo;
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 
 					   userInfo:(NSDictionary *)userInfo 
 						 cursor:(NSCursor *)cursor;
-- (void)clear;
+- (void)removeTrackingArea:(NSTrackingArea *)area;
+- (void)removeAllTrackingAreas;
 
 - (void)restoreNormalCursor;
 

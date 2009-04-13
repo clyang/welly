@@ -408,15 +408,11 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 }
 
-- (void)clear {
-	[self removeAllTrackingAreas];
-	[[_view effectView] clearClickEntry];
-}
-
 - (void)update {
-	// For the mouse preference
-	if (![_view shouldEnableMouse]) 
-		return;
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		[self clear];
+		return;	
+	}
 	
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];

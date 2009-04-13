@@ -162,6 +162,7 @@
         int x = i % _maxColumn;
         int y = i / _maxColumn;
         if (x == 0 && i != begin && i - 1 < begin + length) { // newline
+			// REVIEW: why we need to update double byte state?????
             [self updateDoubleByteStateForRow:y];
             unichar cr = 0x000D;
             _textBuf[bufLength++] = cr;
@@ -189,7 +190,7 @@
         }
     }
     if (bufLength == 0) return nil;
-    return [[[NSString alloc] initWithCharacters:_textBuf length:bufLength] autorelease];
+    return [NSString stringWithCharacters:_textBuf length:bufLength];
 }
 
 - (NSString *)stringAtRow:(int)row {
@@ -227,7 +228,7 @@ static NSString *extractString(NSString *row, NSString *start, NSString *end) {
     return [row substringWithRange:NSMakeRange(rs.location + 1, re.location - rs.location - 1)];    
 }
 
-static BOOL hasAnyString(NSString *row, NSArray *array) {
+inline static BOOL hasAnyString(NSString *row, NSArray *array) {
 	if (row == nil)
 		return NO;
     NSString *s;

@@ -222,12 +222,17 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 - (void)clear {
-	[self removeAllTrackingAreas];
 	[self clearAllURL];
+	
+	[self removeAllTrackingAreas];
 }
 
 - (void)update {
-	// REVIEW: this might lead to leak, check it
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		[self clear];
+		return;	
+	}
+	
 	[self clear];
 	
 	// Resotre the url list pointer

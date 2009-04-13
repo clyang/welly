@@ -32,13 +32,16 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	return self;
 }
 
+- (BOOL)shouldEnablePageUpDownForState:(BBSState)bbsState {
+	return (bbsState.state == BBSBoardList 
+			|| bbsState.state == BBSBrowseBoard
+			|| bbsState.state == BBSFriendList
+			|| bbsState.state == BBSMailList
+			|| bbsState.state == BBSViewPost);
+}
+
 - (BOOL)shouldEnablePageUpDown {
-	YLTerminal *ds = [_view frontMostTerminal];
-	return ([ds bbsState].state == BBSBoardList 
-			|| [ds bbsState].state == BBSBrowseBoard
-			|| [ds bbsState].state == BBSFriendList
-			|| [ds bbsState].state == BBSMailList
-			|| [ds bbsState].state == BBSViewPost);
+	return [self shouldEnablePageUpDownForState:[[_view frontMostTerminal] bbsState]];
 }
 
 #pragma mark -
@@ -177,13 +180,16 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 }
 
 - (void)clear {
+	// Only Moving areas use cursor rects, so just discard them all.
+	[_view discardCursorRects];
 	[self removeAllTrackingAreas];
 }
 
 - (void)update {
-	// For the mouse preference
-	if (![_view shouldEnableMouse])
-		return;
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		[self clear];
+		return;	
+	}
 	
 	[self clear];
 	[self updateExitArea];

@@ -128,13 +128,10 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 							 originalWindow:_mainWindow];
 	
     // drag & drop in site view
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType] ];
+    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
 
     // open the portal
     // the switch
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
-		[_telnetView updatePortal];
-    }
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
 	[_tab setMainController:[self retain]];
     
@@ -437,8 +434,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self newConnectionWithSite:[YLSite site]];
 	
 	// Draw the portal and entering the portal control mode if needed...
-	if([[YLSite site] empty] && ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])) {
-		[_telnetView updatePortal];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
+		[_telnetView checkPortal];
 		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
 	} else {
 		// let user input
@@ -458,7 +455,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (IBAction)connect:(id)sender {
 	[sender abortEditing];
-	[[_telnetView window] makeFirstResponder: _telnetView];
+	[[_telnetView window] makeFirstResponder:_telnetView];
     BOOL ssh = NO;
     
     NSString *name = [sender stringValue];
@@ -776,7 +773,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         return NO;
     } else if (action == @selector(setEncoding:) && [_telnetView numberOfTabViewItems] == 0) {
         return NO;
-    }
+    } else if (action == @selector(setMouseAction:) && (![_telnetView isConnected] || [_telnetView isInPortalMode])) {
+		return NO;
+	}
     return YES;
 }
 
@@ -918,6 +917,8 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 - (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
+		[_telnetView updateMouseHotspot];
+		[_telnetView checkPortal];
         if ([_sites count]) {
             [_mainWindow makeFirstResponder:_telnetView];
         } else {

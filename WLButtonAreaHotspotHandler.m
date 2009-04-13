@@ -80,7 +80,6 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	//NSLog(@"mouseEntered: ");
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 	NSString *buttonText = [userInfo objectForKey:WLMouseButtonTextUserInfoName];
 	if([[_view frontMostConnection] isConnected]) {
@@ -91,7 +90,6 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	//NSLog(@"mouseExited: ");
 	[[_view effectView] clearButton];
 	[_manager setActiveTrackingAreaUserInfo:nil];
 	// FIXME: Temporally solve the problem in full screen mode.
@@ -181,26 +179,21 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	}
 }
 
-- (void)clear {
-	[[_view effectView] clearButton];
-	[self removeAllTrackingAreas];
-}
-
 - (void)update {
-	// For the mouse preference
-	if (![_view shouldEnableMouse]) 
-		return;
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		[self clear];
+		return;	
+	}
 	
 	// Only update when BBS state has been changed
-	if ([[_view frontMostTerminal] bbsState].state == _lastBbsState.state &&
-		[[_view frontMostTerminal] bbsState].subState == _lastBbsState.subState)
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
+	if (bbsState.state == _lastBbsState.state &&
+		bbsState.subState == _lastBbsState.subState)
 		return;
-	_lastBbsState = [[_view frontMostTerminal] bbsState];
+	_lastBbsState = bbsState;
 	
-	// Clear
+	// Clear & Update
 	[self clear];
-	
-	// Update
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];
 	}

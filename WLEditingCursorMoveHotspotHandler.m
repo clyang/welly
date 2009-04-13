@@ -187,17 +187,19 @@ static NSCursor *gMoveCursor = nil;
 
 #pragma mark -
 #pragma mark Update State
-- (void)clear {
-	[self removeAllTrackingAreas];
-}
-
 - (void)update {
+	if (![_view isConnected]) {
+		[self clear];
+		return;	
+	}
+	
 	[self clear];
-	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost) {
+	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost && _lastBbsState.state != BBSComposePost) {
 		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]
 														   userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
 															 cursor:gMoveCursor]];
 	}
+	_lastBbsState = [[_view frontMostTerminal] bbsState];
 }
 
 @end
