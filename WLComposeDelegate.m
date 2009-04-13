@@ -14,7 +14,7 @@
 #import "YLSite.h"
 
 @implementation WLComposeDelegate
-NSString *const WLComposeFontName = @"iLiHei";
+NSString *const WLComposeFontName = @"Helvetica";
 
 - (void)awakeFromNib {
 	[_composeText setString:@""];
@@ -61,6 +61,10 @@ NSString *const WLComposeFontName = @"iLiHei";
 // TODO: Move all these code into independent controller class
 /* compose actions */
 - (void)clearAll {
+    [_composeText setString:@"\n"];
+    [[_composeText textStorage] removeAttribute:NSBackgroundColorAttributeName
+                                          range:NSMakeRange(0, 1)];
+    [_composeText setSelectedRange:NSMakeRange(0, 0)];
     [_composeText setString:@""];
 	[_composeText setBackgroundColor:[NSColor whiteColor]];
     [_composeText setTextColor:[NSColor blackColor]];
