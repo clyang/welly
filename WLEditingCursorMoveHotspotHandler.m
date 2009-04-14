@@ -194,12 +194,20 @@ static NSCursor *gMoveCursor = nil;
 	}
 	
 	[self clear];
-	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost && _lastBbsState.state != BBSComposePost) {
+	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost) {
 		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]
 														   userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
 															 cursor:gMoveCursor]];
 	}
 	_lastBbsState = [[_view frontMostTerminal] bbsState];
+}
+
+#pragma mark -
+#pragma mark Clear
+- (void)clear {
+	// Only Moving areas use cursor rects, so just discard them all.
+	[_view discardCursorRects];
+	[self removeAllTrackingAreas];
 }
 
 @end
