@@ -252,7 +252,10 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
 	_bbsState.subState = BBSSubStateNone;
     if (NO) {
         // just for align
-    } else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
+    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
+        //NSLog(@"发表文章");
+        _bbsState.state = BBSComposePost;
+	} else if (hasAnyString(secondLine, [NSArray arrayWithObjects:@"目前", nil])
 			   || hasAnyString(topLine, [NSArray arrayWithObjects:/*@"选单",*/ @"主功能表", @"聊天說話", @"個人設定", @"工具程式", @"網路遊樂場", @"白色恐怖", nil])) {
         //NSLog(@"主选单");
         _bbsState.state = BBSMainMenu;
@@ -290,10 +293,7 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"阅读文章", @"主题阅读", @"同作者阅读", @"下面还有喔", @"瀏覽", nil])) {
         //NSLog(@"阅读文章");
         _bbsState.state = BBSViewPost;
-    } else if (hasAnyString(bottomLine, [NSArray arrayWithObjects:@"【  】", @"【信】", @"編輯文章", nil])) {
-        //NSLog(@"发表文章");
-        _bbsState.state = BBSComposePost;
-	} else if (hasAnyString([self stringAtRow:4], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])
+    } else if (hasAnyString([self stringAtRow:4], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])
 			   || hasAnyString([self stringAtRow:6], [NSArray arrayWithObjects:@"个人说明档如下", @"没有个人说明档", nil])) {
 		//NSLog(@"用户信息");
 		_bbsState.state = BBSUserInfo;
