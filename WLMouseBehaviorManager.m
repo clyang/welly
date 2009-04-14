@@ -228,22 +228,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 #pragma mark -
 #pragma mark Update State
-/*
- * clear all tracking rects
- */
-- (void)clear {
-	// Do NOT clear effect. This should be decided by handlers themselves
-	
-	_activeTrackingAreaUserInfo = nil;
-	_backgroundTrackingAreaUserInfo = nil;
-	
-	// Do NOT remove tracking areas. This task should be performed by handlers
-}
-
 - (void)update {
-	// Clear it...
-	[self clear];
-	
 	for (NSObject *obj in _handlers) {
 		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
 			[(NSObject <WLUpdatable> *)obj update];
