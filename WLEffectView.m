@@ -149,23 +149,22 @@
 	[self clearButton];
 	if (_buttonLayer)
 		[_buttonLayer release];
-	
 	_buttonLayer = [CALayer layer];
 	// Set the colors of the pop-up layer
-	CGColorRef myColor = CGColorCreateGenericRGB(1, 1, 0.0, 1.0f);
+	CGColorRef myColor = CGColorCreateGenericRGB(0.05, 0.05, 0.05, 0.9f);
 	_buttonLayer.backgroundColor = myColor;
 	CGColorRelease(myColor);
-	myColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+	myColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.9f);
 	_buttonLayer.borderColor = myColor;
 	CGColorRelease(myColor);
-	_buttonLayer.borderWidth = 0.0;
+	_buttonLayer.borderWidth = 2.0;
 	_buttonLayer.cornerRadius = 10.0;
 	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
 	[textLayer autorelease];
 	// Set its foreground color
-	myColor = CGColorCreateGenericRGB(0, 0, 0, 1.0f);
+	myColor = CGColorCreateGenericRGB(1, 1, 1, 1.0f);
     [textLayer setForegroundColor:myColor];
 	CGColorRelease(myColor);
 	
@@ -193,7 +192,7 @@
     // Create a new rectangle with a suitable size for the inner texts.
 	// Set it to an appropriate position of the whole view
 	
-	/* Comment out by K.O.ed: 2002.02.03
+	/* Comment out by K.O.ed: 2009.02.03
 	NSRect finalRect = textRect;
 	finalRect.origin.x = rect.origin.x;// - textRect.size.width / 2;
 	finalRect.origin.y = rect.origin.y;// - textRect.size.height;
@@ -215,6 +214,8 @@
     _buttonLayer.frame = NSRectToCGRect(finalRect);
 	//buttonLayer.cornerRadius = finalRect.size.height/5;
 	[_buttonLayer addSublayer:[textLayer retain]];
+
+	[textLayer setFilters:[NSArray array]];
 	
 	CATransition * buttonTrans = [CATransition new];
 	[buttonTrans setType:kCATransitionReveal];
