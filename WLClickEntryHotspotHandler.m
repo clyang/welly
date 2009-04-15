@@ -78,8 +78,10 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	[[_view effectView] drawClickEntry:[[theEvent trackingArea] rect]];
 	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
+	if ([_view isMouseActive]) {
+		[[_view effectView] drawClickEntry:[[theEvent trackingArea] rect]];
+	}
 	[[NSCursor pointingHandCursor] set];
 }
 

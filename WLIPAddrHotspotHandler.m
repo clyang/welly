@@ -20,7 +20,7 @@
 #pragma mark -
 #pragma mark Event Handler
 - (void)mouseEntered:(NSEvent *)theEvent {
-	if([[_view frontMostConnection] isConnected]) {
+	if([_view isMouseActive]) {
 		[[_view effectView] drawIPAddrBox:[[theEvent trackingArea] rect]];
 	}
 }

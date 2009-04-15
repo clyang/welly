@@ -77,8 +77,9 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 #pragma mark -
 #pragma mark Event Handle
 - (void)mouseEntered:(NSEvent *)theEvent {
-	if ([theEvent trackingArea])
-	{
+	if (![_view isConnected])
+		return;
+	if ([theEvent trackingArea]) {
 		NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 		if (!userInfo)
 			return;
@@ -88,8 +89,9 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	if ([theEvent trackingArea])
-	{
+	if (![_view isConnected])
+		return;
+	if ([theEvent trackingArea]) {
 		NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
 		if (!userInfo)
 			return;
@@ -99,8 +101,9 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-	if (_activeTrackingAreaUserInfo)
-	{
+	if (![_view isConnected])
+		return;
+	if (_activeTrackingAreaUserInfo) {
 		WLMouseHotspotHandler *handler = [_activeTrackingAreaUserInfo valueForKey:WLMouseHandlerUserInfoName];
 		[handler mouseMoved:theEvent];
 	} else if (_backgroundTrackingAreaUserInfo) {
@@ -110,6 +113,8 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
+	if (![_view isConnected])
+		return;
 	if (_activeTrackingAreaUserInfo) {
 		WLMouseHotspotHandler *handler = [_activeTrackingAreaUserInfo valueForKey:WLMouseHandlerUserInfoName];
 		if ([handler conformsToProtocol:@protocol(WLMouseUpHandler)])
@@ -181,7 +186,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 														  owner:self
 													   userInfo:userInfo];
 	[_view addTrackingArea:area];
-	if ([_view isMouseActive] && [self isMouseInsideRect:rect]) {
+	if ([self isMouseInsideRect:rect]) {
 		NSEvent *event = [NSEvent enterExitEventWithType:NSMouseEntered 
 												location:[NSEvent mouseLocation] 
 										   modifierFlags:NSMouseEnteredMask 

@@ -81,12 +81,12 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 
 - (void)mouseEntered:(NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
-	NSString *buttonText = [userInfo objectForKey:WLMouseButtonTextUserInfoName];
-	if([[_view frontMostConnection] isConnected]) {
+	if ([_view isMouseActive]) {
+		NSString *buttonText = [userInfo objectForKey:WLMouseButtonTextUserInfoName];
 		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonText];
-		[_manager setActiveTrackingAreaUserInfo:userInfo];
-		[[NSCursor pointingHandCursor] set];
 	}
+	[_manager setActiveTrackingAreaUserInfo:userInfo];
+	[[NSCursor pointingHandCursor] set];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {

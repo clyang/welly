@@ -36,8 +36,10 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 
 - (void)mouseEntered:(NSEvent *)theEvent {
 	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
-	NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedString(WLButtonNameAuthorMode, @"Mouse Button"), [userInfo objectForKey:WLMouseAuthorUserInfoName]];
-	[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonTitle];
+	if ([_view isMouseActive]) {
+		NSString *buttonTitle = [NSString stringWithFormat:NSLocalizedString(WLButtonNameAuthorMode, @"Mouse Button"), [userInfo objectForKey:WLMouseAuthorUserInfoName]];
+		[[_view effectView] drawButton:[[theEvent trackingArea] rect] withMessage:buttonTitle];
+	}
 	_manager.activeTrackingAreaUserInfo = userInfo;
 	[[NSCursor pointingHandCursor] set];
 }

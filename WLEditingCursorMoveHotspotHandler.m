@@ -167,10 +167,8 @@ static NSCursor *gMoveCursor = nil;
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	NSDictionary *userInfo = [[theEvent trackingArea] userInfo];
-	if([[_view frontMostConnection] isConnected]) {
-		_manager.activeTrackingAreaUserInfo = userInfo;
-	}
+	[[NSCursor IBeamCursor] set];
+	_manager.activeTrackingAreaUserInfo = [[theEvent trackingArea] userInfo];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
@@ -193,13 +191,16 @@ static NSCursor *gMoveCursor = nil;
 		return;	
 	}
 	
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
+	if (_lastBbsState.state == bbsState.state)
+		return;
 	[self clear];
-	if ([[_view frontMostTerminal] bbsState].state == BBSComposePost) {
+	if (bbsState.state == BBSComposePost) {
 		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]
 														   userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
 															 cursor:gMoveCursor]];
 	}
-	_lastBbsState = [[_view frontMostTerminal] bbsState];
+	_lastBbsState = bbsState;
 }
 
 #pragma mark -
