@@ -419,18 +419,20 @@ BOOL isPostTitleStarter(unichar c) {
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
-	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) == 1) {
-		_lastCursorRow = [ds cursorRow];
+	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
 		return;
 	}
+	
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
+	YLTerminal *ds = [_view frontMostTerminal];
 	
 	// Clear
 	[self clear];
 	
 	// Update
-	_lastBbsState = bbsState;
-	_lastCursorRow = [ds cursorRow];
-	
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
 		[self updatePostClickEntry];
 	} else if ([ds bbsState].state == BBSBoardList) {
@@ -443,5 +445,4 @@ BOOL isPostTitleStarter(unichar c) {
 		[self updateExcerptionClickEntry];
 	}
 }
-
 @end

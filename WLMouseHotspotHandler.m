@@ -16,8 +16,6 @@
 - (id)init {
 	self = [super init];
 	_trackingAreas = [[NSMutableArray alloc] initWithCapacity:10];
-	_lastBbsState.state = BBSUnknown;
-	_lastCursorRow = -1;
 	return self;
 }
 

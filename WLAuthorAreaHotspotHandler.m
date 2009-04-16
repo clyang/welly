@@ -182,19 +182,19 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
-	if (bbsState.state == _lastBbsState.state && abs(_lastCursorRow - [ds cursorRow]) == 1) {
-		_lastCursorRow = [ds cursorRow];
+	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
 		return;
 	}
-	_lastBbsState = bbsState;
-	_lastCursorRow = [ds cursorRow];
-	
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	[self clear];
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state != BBSBrowseBoard && bbsState.state != BBSMailList)
 		return;
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateAuthorAreaForRow:r];
 	}
 }
-
 @end

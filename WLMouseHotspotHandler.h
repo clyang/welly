@@ -15,6 +15,7 @@
 
 @protocol WLUpdatable
 - (void)update;
+- (void)forceUpdate;
 @end
 
 @protocol WLContextualMenuHandler
@@ -29,9 +30,6 @@
 	int _maxRow, _maxColumn;
 	
 	NSMutableArray *_trackingAreas;
-	
-	BBSState _lastBbsState;
-	int _lastCursorRow;
 }
 @property (readwrite, assign) WLMouseBehaviorManager *manager;
 

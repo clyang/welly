@@ -187,11 +187,14 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	
 	// Only update when BBS state has been changed
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
-	if (bbsState.state == _lastBbsState.state &&
-		bbsState.subState == _lastBbsState.subState)
+	BBSState lastBbsState = [_manager lastBBSState];
+	if (bbsState.state == lastBbsState.state &&
+		bbsState.subState == lastBbsState.subState)
 		return;
-	_lastBbsState = bbsState;
-	
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	// Clear & Update
 	[self clear];
 	for (int r = 0; r < _maxRow; ++r) {

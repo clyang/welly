@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLMouseHotspotHandler.h"
+#import "CommonType.h"
 
 NSString * const WLMouseHandlerUserInfoName;
 NSString * const WLMouseRowUserInfoName;
@@ -38,10 +39,15 @@ NSString * const WLRangeLengthUserInfoName;
 		WLHorizontalScrollLeft, WLHorizontalScrollRight, WLHorizontalScrollNone
 	} _lastHorizontalScrollDirection;
 	NSTimer *_horizontalScrollReactivateTimer;
+	
+	BBSState _lastBBSState;
+	int _lastCursorRow;
 }
 @property (readwrite, assign) NSDictionary *activeTrackingAreaUserInfo;
 @property (readwrite, assign) NSDictionary *backgroundTrackingAreaUserInfo;
 @property (readwrite, assign) NSCursor *normalCursor;
+@property (readonly) BBSState lastBBSState;
+@property (readonly) int lastCursorRow;
 
 - (id)initWithView:(YLView *)view;
 - (YLView *)view;

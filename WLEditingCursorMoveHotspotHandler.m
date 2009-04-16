@@ -192,15 +192,19 @@ static NSCursor *gMoveCursor = nil;
 	}
 	
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
-	if (_lastBbsState.state == bbsState.state)
+	if ([_manager lastBBSState].state == bbsState.state)
 		return;
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	[self clear];
+	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state == BBSComposePost) {
 		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]
 														   userInfo:[NSDictionary dictionaryWithObject:self forKey:WLMouseHandlerUserInfoName] 
 															 cursor:gMoveCursor]];
 	}
-	_lastBbsState = bbsState;
 }
 
 #pragma mark -

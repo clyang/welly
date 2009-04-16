@@ -1498,8 +1498,9 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)resetCursorRects {
+	NSLog(@"resetCursorRects!");
 	[super resetCursorRects];
-	[self updateMouseHotspot];
+	[_mouseBehaviorDelegate forceUpdate];
 	return;
 }
 #pragma mark -

@@ -122,6 +122,10 @@
 		return;	
 	}
 	
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	[self clear];
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];

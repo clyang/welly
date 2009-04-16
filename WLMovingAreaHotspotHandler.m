@@ -201,19 +201,21 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	}
 	
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
-	if (bbsState.state == _lastBbsState.state) {
+	BBSState lastBBSState = [_manager lastBBSState];
+	if (bbsState.state == lastBBSState.state) {
 		return;
 	}
-	if (([self shouldEnablePageUpDownForState:bbsState] == [self shouldEnablePageUpDownForState:_lastBbsState]) &&
-		([self shouldEnableExitAreaForState:bbsState] == [self shouldEnableExitAreaForState:_lastBbsState])) {
-		_lastBbsState = bbsState;
+	if (([self shouldEnablePageUpDownForState:bbsState] == [self shouldEnablePageUpDownForState:lastBBSState]) &&
+		([self shouldEnableExitAreaForState:bbsState] == [self shouldEnableExitAreaForState:lastBBSState])) {
 		return;
 	}
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	[self clear];
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];
-	_lastBbsState = bbsState;
 }
-
 @end

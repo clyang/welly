@@ -38,6 +38,8 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 @synthesize activeTrackingAreaUserInfo = _activeTrackingAreaUserInfo;
 @synthesize backgroundTrackingAreaUserInfo = _backgroundTrackingAreaUserInfo;
 @synthesize normalCursor = _normalCursor;
+@synthesize lastBBSState = _lastBBSState;
+@synthesize lastCursorRow = _lastCursorRow;
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithView:(YLView *)view {
@@ -58,6 +60,9 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 																	  userInfo:nil
 																	   repeats:YES];
 	_lastHorizontalScrollDirection = WLHorizontalScrollNone;
+	
+	_lastBBSState.state = BBSUnknown;
+	_lastCursorRow = -1;
 	return self;
 }
 
@@ -238,6 +243,19 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
 			[(NSObject <WLUpdatable> *)obj update];
 	}
+	_lastBBSState = [[_view frontMostTerminal] bbsState];
+	_lastCursorRow = [[_view frontMostTerminal] cursorRow];
+}
+
+- (void)forceUpdate {
+	_activeTrackingAreaUserInfo = nil;
+	_backgroundTrackingAreaUserInfo = nil;
+	for (NSObject *obj in _handlers) {
+		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
+			[(NSObject <WLUpdatable> *)obj forceUpdate];
+	}
+	_lastBBSState = [[_view frontMostTerminal] bbsState];
+	_lastCursorRow = [[_view frontMostTerminal] cursorRow];
 }
 
 #pragma mark -

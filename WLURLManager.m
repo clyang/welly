@@ -233,6 +233,10 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 		return;	
 	}
 	
+	[self forceUpdate];
+}
+
+- (void)forceUpdate {
 	[self clear];
 	
 	// Resotre the url list pointer
@@ -294,17 +298,6 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
                 }
             }
 		}
-		/*		
-		int row = index / _maxColumn;
-		int column = index % _maxColumn;
-
-		if (grid[row][column].attr.f.url != isReadingURL) {
-            grid[row][column].attr.f.url = isReadingURL;
-            [ds setDirty:YES atRow:row column:column];
-            // TODO: Do not regenerate the region. Draw the url line instead.
-        }
-		 */
 	}
 }
-
 @end
