@@ -195,10 +195,10 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 }
 
 - (void)update {
-	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
-		return;	
-	}
+//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+//		[self clear];
+//		return;	
+//	}
 	
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	BBSState lastBBSState = [_manager lastBBSState];
@@ -214,6 +214,10 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 
 - (void)forceUpdate {
 	[self clear];
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		[self clear];
+		return;	
+	}
 	[self updateExitArea];
 	[self updatePageUpArea];
 	[self updatePageDownArea];

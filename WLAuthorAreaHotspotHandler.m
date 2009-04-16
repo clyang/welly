@@ -174,10 +174,10 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 }
 
 - (void)update {
-	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
-		return;	
-	}
+//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+//		[self clear];
+//		return;	
+//	}
 	
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];
@@ -190,6 +190,10 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 
 - (void)forceUpdate {
 	[self clear];
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return;	
+	}
+	
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state != BBSBrowseBoard && bbsState.state != BBSMailList)
 		return;

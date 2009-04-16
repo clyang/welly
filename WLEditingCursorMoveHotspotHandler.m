@@ -186,10 +186,10 @@ static NSCursor *gMoveCursor = nil;
 #pragma mark -
 #pragma mark Update State
 - (void)update {
-	if (![_view isConnected]) {
-		[self clear];
-		return;	
-	}
+//	if (![_view isConnected] || [_view isInPortalMode]) {
+//		[self clear];
+//		return;	
+//	}
 	
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if ([_manager lastBBSState].state == bbsState.state)
@@ -199,6 +199,9 @@ static NSCursor *gMoveCursor = nil;
 
 - (void)forceUpdate {
 	[self clear];
+	if (![_view isConnected] || [_view isInPortalMode]) {
+		return;	
+	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state == BBSComposePost) {
 		[_trackingAreas addObject:[_manager addTrackingAreaWithRect:[_view frame]

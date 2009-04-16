@@ -228,17 +228,14 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 - (void)update {
-	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
-		return;	
-	}
-	
 	[self forceUpdate];
 }
 
 - (void)forceUpdate {
 	[self clear];
-	
+	if (![_view isConnected]) {
+		return;	
+	}
 	// Resotre the url list pointer
 	_currentSelectedURLIndex = 0;
 	

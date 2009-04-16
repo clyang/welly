@@ -117,16 +117,16 @@
 }
 
 - (void)update {
-	if (![_view isConnected]) {
-		[self clear];
-		return;	
-	}
-	
 	[self forceUpdate];
 }
 
 - (void)forceUpdate {
 	[self clear];
+	
+	if (![_view isConnected]) {
+		return;	
+	}
+
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];
 	}

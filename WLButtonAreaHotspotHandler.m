@@ -180,10 +180,10 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 }
 
 - (void)update {
-	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
-		return;	
-	}
+//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+//		[self clear];
+//		return;	
+//	}
 	
 	// Only update when BBS state has been changed
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
@@ -197,6 +197,9 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 - (void)forceUpdate {
 	// Clear & Update
 	[self clear];
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return;	
+	}
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateButtonAreaForRow:r];
 	}
