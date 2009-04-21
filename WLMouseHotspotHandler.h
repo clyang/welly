@@ -14,8 +14,8 @@
 @end
 
 @protocol WLUpdatable
+- (BOOL)shouldUpdate;
 - (void)update;
-- (void)forceUpdate;
 @end
 
 @protocol WLContextualMenuHandler

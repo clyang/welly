@@ -410,29 +410,29 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 }
 
-- (void)update {
+- (BOOL)shouldUpdate {
 	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
-		return;	
+		return YES;	
 	}
 	
-	// In the same page, do NOT update
+	// In the same page, do NOT update/clear
 	YLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
 	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
-		return;
+		return NO;
 	}
-	
-	[self forceUpdate];
+	return YES;
 }
 
-- (void)forceUpdate {
-	YLTerminal *ds = [_view frontMostTerminal];
-	
+- (void)update {
 	// Clear
 	[self clear];
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return;	
+	}
 	
 	// Update
+	YLTerminal *ds = [_view frontMostTerminal];
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
 		[self updatePostClickEntry];
 	} else if ([ds bbsState].state == BBSBoardList) {

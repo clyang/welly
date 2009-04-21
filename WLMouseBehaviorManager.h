@@ -54,6 +54,7 @@ NSString * const WLRangeLengthUserInfoName;
 
 // Add/Remove tracking areas
 - (void)update;
+- (void)forceUpdate;
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 
 					   userInfo:(NSDictionary *)userInfo;
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect) rect 

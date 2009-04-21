@@ -227,11 +227,11 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	[self removeAllTrackingAreas];
 }
 
-- (void)update {
-	[self forceUpdate];
+- (BOOL)shouldUpdate {
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	[self clear];
 	if (![_view isConnected]) {
 		return;	

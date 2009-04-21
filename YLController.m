@@ -407,7 +407,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
 	[[[_telnetView frontMostConnection] site] setShouldEnableMouse:state];
-	[_telnetView updateMouseHotspot];
+	[_telnetView refreshMouseHotspot];
 }
 
 - (IBAction)closeMessageWindow:(id)sender {
@@ -917,7 +917,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 - (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
-		[_telnetView updateMouseHotspot];
+		[_telnetView refreshMouseHotspot];
 		[_telnetView checkPortal];
         if ([_sites count]) {
             [_mainWindow makeFirstResponder:_telnetView];

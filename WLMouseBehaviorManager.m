@@ -238,10 +238,18 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 #pragma mark -
 #pragma mark Update State
+- (BOOL)shouldUpdate {
+	return YES;
+}
+
 - (void)update {
 	for (NSObject *obj in _handlers) {
-		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
-			[(NSObject <WLUpdatable> *)obj update];
+		if ([obj conformsToProtocol:@protocol(WLUpdatable)]) {
+			NSObject <WLUpdatable> *updater = (NSObject <WLUpdatable> *)obj;
+			// Ask if should update
+			if ([updater shouldUpdate])
+				[updater update];
+		}
 	}
 	_lastBBSState = [[_view frontMostTerminal] bbsState];
 	_lastCursorRow = [[_view frontMostTerminal] cursorRow];
@@ -252,7 +260,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 	_backgroundTrackingAreaUserInfo = nil;
 	for (NSObject *obj in _handlers) {
 		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
-			[(NSObject <WLUpdatable> *)obj forceUpdate];
+			[(NSObject <WLUpdatable> *)obj update];
 	}
 	_lastBBSState = [[_view frontMostTerminal] bbsState];
 	_lastCursorRow = [[_view frontMostTerminal] cursorRow];

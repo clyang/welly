@@ -73,7 +73,7 @@
 - (void)drawSelection;
 - (void)drawBlink;
 - (void)refreshHiddenRegion;
-- (void)updateMouseHotspot;
+- (void)refreshMouseHotspot;
 
 - (void)clearSelection;
 

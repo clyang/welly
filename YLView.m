@@ -547,8 +547,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	[[self frontMostConnection] sendText:text];
 }
 
-- (void)updateMouseHotspot {
-	[_mouseBehaviorDelegate update];
+- (void)refreshMouseHotspot {
+	[_mouseBehaviorDelegate forceUpdate];
 }
 
 #pragma mark -
@@ -1081,7 +1081,7 @@ BOOL isSpecialSymbol(unichar ch) {
         CGContextFillRect(myCGContext, CGRectMake(0, 0, gColumn * _fontWidth, gRow * _fontHeight));
     }
 	
-	[self updateMouseHotspot];
+	[self refreshMouseHotspot];
 	[_backedImage unlockFocus];
     [pool release];
 	return;
@@ -1498,9 +1498,9 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)resetCursorRects {
-	NSLog(@"resetCursorRects!");
+	//NSLog(@"resetCursorRects!");
 	[super resetCursorRects];
-	[_mouseBehaviorDelegate forceUpdate];
+	[self refreshMouseHotspot];
 	return;
 }
 #pragma mark -

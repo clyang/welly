@@ -194,28 +194,27 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 	[self removeAllTrackingAreas];
 }
 
-- (void)update {
-//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-//		[self clear];
-//		return;	
-//	}
-	
+- (BOOL)shouldUpdate {
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return YES;	
+	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	BBSState lastBBSState = [_manager lastBBSState];
 	if (bbsState.state == lastBBSState.state) {
-		return;
+		return NO;
 	}
+	
 	if (([self shouldEnablePageUpDownForState:bbsState] == [self shouldEnablePageUpDownForState:lastBBSState]) &&
 		([self shouldEnableExitAreaForState:bbsState] == [self shouldEnableExitAreaForState:lastBBSState])) {
-		return;
+		return NO;
 	}
-	[self forceUpdate];
+	
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	[self clear];
 	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-		[self clear];
 		return;	
 	}
 	[self updateExitArea];

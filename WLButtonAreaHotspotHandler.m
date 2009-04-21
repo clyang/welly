@@ -179,22 +179,22 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	}
 }
 
-- (void)update {
-//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-//		[self clear];
-//		return;	
-//	}
+- (BOOL)shouldUpdate {
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return YES;
+	}
 	
 	// Only update when BBS state has been changed
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	BBSState lastBbsState = [_manager lastBBSState];
 	if (bbsState.state == lastBbsState.state &&
 		bbsState.subState == lastBbsState.subState)
-		return;
-	[self forceUpdate];
+		return NO;
+	
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	// Clear & Update
 	[self clear];
 	if (![_view shouldEnableMouse] || ![_view isConnected]) {

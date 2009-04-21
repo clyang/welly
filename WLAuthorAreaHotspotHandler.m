@@ -173,22 +173,21 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	}
 }
 
-- (void)update {
-//	if (![_view shouldEnableMouse] || ![_view isConnected]) {
-//		[self clear];
-//		return;	
-//	}
+- (BOOL)shouldUpdate {
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
+		return YES;	
+	}
 	
 	// In the same page, do NOT update
 	YLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
 	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
-		return;
+		return NO;
 	}
-	[self forceUpdate];
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	[self clear];
 	if (![_view shouldEnableMouse] || ![_view isConnected]) {
 		return;	

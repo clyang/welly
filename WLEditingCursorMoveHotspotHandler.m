@@ -185,22 +185,20 @@ static NSCursor *gMoveCursor = nil;
 
 #pragma mark -
 #pragma mark Update State
-- (void)update {
-//	if (![_view isConnected] || [_view isInPortalMode]) {
-//		[self clear];
-//		return;	
-//	}
-	
+- (BOOL)shouldUpdate {
+	if (![_view isConnected] || [_view isInPortalMode]) {
+		return YES;
+	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if ([_manager lastBBSState].state == bbsState.state)
-		return;
-	[self forceUpdate];
+		return NO;
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	[self clear];
 	if (![_view isConnected] || [_view isInPortalMode]) {
-		return;	
+		return;
 	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
 	if (bbsState.state == BBSComposePost) {

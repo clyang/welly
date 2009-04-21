@@ -116,17 +116,17 @@
 	[self removeAllTrackingAreas];
 }
 
-- (void)update {
-	[self forceUpdate];
+- (BOOL)shouldUpdate {
+	return YES;
 }
 
-- (void)forceUpdate {
+- (void)update {
 	[self clear];
 	
 	if (![_view isConnected]) {
 		return;	
 	}
-
+	
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];
 	}
