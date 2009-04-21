@@ -61,3 +61,7 @@ inline BOOL isEmptyCell(cell aCell) {
 		return NO;
 	return YES;
 }
+
+inline BOOL shouldBeDirty(cell prevCell, cell newCell) {
+	return (prevCell.byte != newCell.byte) || (prevCell.attr.v != newCell.attr.v);
+}

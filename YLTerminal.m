@@ -70,7 +70,7 @@
 	[self updateBBSState];
     [_view performSelector:@selector(tick:)
 				withObject:nil
-				afterDelay:0.07];
+				afterDelay:0.01];
 }
 
 - (void)setCursorX:(int)cursorX

@@ -954,7 +954,17 @@ static unsigned short gEmptyAttr;
 				
 				break;
 		}
-	}
+	}/*
+	cell **prevGrid = [_terminal grid];
+	for (unsigned int r = 0; r < _row; ++r) {
+		for (unsigned int c = 0; c < _column; ++c) {
+			if (shouldBeDirty(prevGrid[r][c], _grid[r][c])) {
+				[_terminal setDirty:YES atRow:r column:c];
+			} else {
+				[_terminal setDirty:NO atRow:r column:c];
+			}
+		}
+	}*/
 	[_terminal setCursorX:_cursorX Y:_cursorY];
 	[_terminal feedGrid:_grid];
 	

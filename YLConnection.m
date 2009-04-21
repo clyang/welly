@@ -150,6 +150,7 @@
 
     // translate into proper encoding of the site
     NSMutableData *data = [NSMutableData data];
+	YLEncoding encoding = [_site encoding];
     for (int i = 0; i < [s length]; i++) {
         unichar ch = [s characterAtIndex:i];
         char buf[2];
@@ -157,7 +158,6 @@
             buf[0] = ch;
             [data appendBytes:buf length:1];
         } else {
-            YLEncoding encoding = [_site encoding];
             unichar code = (encoding == YLBig5Encoding ? U2B[ch] : U2G[ch]);
 			if (code != 0) {
 				buf[0] = code >> 8;
@@ -216,15 +216,7 @@
     const char *service = "Welly";
     UInt32 len = 0;
     void *pass = 0;
-/*
-    len = 8;
-    pass = "password";
-    SecKeychainAddGenericPassword(nil,
-        strlen(service), service,
-        strlen(account), account,
-        len, pass,
-        nil);
-*/
+	
     SecKeychainFindGenericPassword(nil,
         strlen(service), service,
         strlen(account), account,

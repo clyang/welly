@@ -299,7 +299,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	NSArray *types = [pb types];
 	if ([types containsObject: NSStringPboardType]) {
 		NSString *str = [pb stringForType: NSStringPboardType];
-		[self insertText:str withDelay:100];
+		//[self insertText:str withDelay:100];
+		[self insertText:str withDelay:0];
 	}
 }
 
@@ -399,7 +400,8 @@ BOOL isSpecialSymbol(unichar ch) {
 		carray[i] = [text at:i];
 	NSString *mStr = [NSString stringWithCharacters:carray length:[text size]];
 	free(carray);
-	[self insertText:mStr withDelay:100];		
+	//[self insertText:mStr withDelay:100];		
+	[self insertText:mStr withDelay:0];
 }
 
 - (void)performPasteColor {
