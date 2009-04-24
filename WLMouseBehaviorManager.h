@@ -5,6 +5,11 @@
 //  Created by K.O.ed on 09-1-31.
 //  Copyright 2009 Welly Group. All rights reserved.
 //
+/*!
+    @header WLMouseBehaviorManager
+    @abstract   A class deal with all mouse behavior within the YLView
+    @discussion <#description#>
+*/
 
 #import <Cocoa/Cocoa.h>
 #import "WLMouseHotspotHandler.h"
