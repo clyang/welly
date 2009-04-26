@@ -18,6 +18,11 @@ NSString *const WLCommandSequenceEnd;
 NSString *const WLToolTipPageUp;
 NSString *const WLToolTipPageDown;
 
+/*!
+    @class
+    @abstract    A mouse hotspot handler deal with three moving areas.
+    @discussion  The three moving areas includes: an exit area, which lies in the left side of term view; a page up area, which lies at the top of the right side; and a page down area, which lies at the bottom of the right side.
+*/
 @interface WLMovingAreaHotspotHandler : WLMouseHotspotHandler <WLMouseUpHandler, WLUpdatable, WLContextualMenuHandler> {
 	NSCursor *_leftArrowCursor;
 	NSCursor *_pageUpCursor;

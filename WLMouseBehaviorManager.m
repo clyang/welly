@@ -40,6 +40,8 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 @synthesize normalCursor = _normalCursor;
 @synthesize lastBBSState = _lastBBSState;
 @synthesize lastCursorRow = _lastCursorRow;
+@synthesize view = _view;
+
 #pragma mark -
 #pragma mark Initialization
 - (id)initWithView:(YLView *)view {
@@ -183,7 +185,6 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 
 - (NSTrackingArea *)addTrackingAreaWithRect:(NSRect)rect 
 								   userInfo:(NSDictionary *)userInfo {
-	//NSLog(@"addTrackingAreaWithRect");
 	NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:rect 
 														options:(  NSTrackingMouseEnteredAndExited
 																 | NSTrackingMouseMoved
@@ -231,11 +232,6 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 	[area release];
 }
 
-- (void)removeAllTrackingAreas {
-	for (WLMouseHotspotHandler *handler in _handlers) {
-		[handler removeAllTrackingAreas];
-	}
-}
 #pragma mark -
 #pragma mark Update State
 - (BOOL)shouldUpdate {
@@ -268,21 +264,8 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 
 #pragma mark -
 #pragma mark Accessor
-- (YLView *)view {
-	return _view;
-}
-
 - (void)restoreNormalCursor {
 	[_normalCursor set];
-}
-
-- (void)enable {
-	_enabled = YES;
-	[self update];
-}
-
-- (void)disable {
-	_enabled = NO;
 }
 
 - (void)addHandler:(WLMouseHotspotHandler *)handler {

@@ -51,6 +51,8 @@
  There is 2 cases. One is the daily update, the manager would query every updatable objects and ask if <code>shouldUpdate</code>, then call update method of those which return <code>YES</code>. 
  
  The other case is forced update. In this case, the manager would no ask if the object should be updated. Instead, it would call <code>update</code> directly.
+ 
+ Note that, neither the manager nor the view would push its update information. The object who want to be updated need to fetch the update information from the view itself.
 */
 - (void)update;
 @end
@@ -58,12 +60,13 @@
 /*!
     @protocol
     @abstract    Any objects that could provide a contextual menu should implement this protocol.
-    @discussion  
+    @discussion  Contextual menu is supported since Welly 2.2. This protocol is optional for mouse hotspot handlers. However it is recommended to implement this if the handler want to provide variable operations.
 */
 @protocol WLContextualMenuHandler
 /*!
     @method     
     @abstract   Provide a contextual menu.
+	@param		theEvent	The event context.
     @discussion When the <code>YLView</code> receives a right click (without any selection), it would inform <code>WLMouseBehaviourManager</code>. If the active handler implements this protocol, the manager would inform it to provide the contextual menu.
 */
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent;
@@ -93,21 +96,28 @@
 /*!
     @method     
     @abstract   Initialize the handler with a <code>YLView</code> object.
+	@param		view	Relative <code>YLView</code> object.
 	@discussion	This method should be rarely called. In most of time, developers should use @link initWithManager: <code>initWithManager:</code>@/link instead. Using this initializing method requires <code>setManager:</code> manually.
 */
 - (id)initWithView:(YLView *)view;
+
 /*!
     @method     
     @abstract   Initialize the handler with a <code>WLMouseBehaviorManager</code> object.
+	@param		manager	relative <code>WLMouseBehaviorManager</code> object.
     @discussion This method would call <code>initWithView:</code> firstly.
 */
 - (id)initWithManager:(WLMouseBehaviorManager *)manager;
+
 /*!
     @method     
     @abstract   Just a virtual method for subclass to override.
     @discussion Subclass should override this method to customize its own behavior on <code>mouseEntered:</code> event.
+ 
+ Note that tracking areas would not get in charge of mouse clicking event, such as <code>mouseUp:</code> and <code>menuForEvent:</code>. For these who want to get in charge of mouse clicking event, they should call <code>[_manager setActiveTrackingAreaInfo:]</code> in this method, providing relative information in order that the manager can find relevant handler to deal with mouse clicking events.
 */
 - (void)mouseEntered:(NSEvent *)theEvent;
+
 /*!
     @method     
     @abstract   Remove all recorded tracking areas.
@@ -115,6 +125,7 @@
  
  When carrying out the task that removing all tracking areas, the instance would firstly fetch a <code>NSTrackingArea</code> object, say <code>area</code>, from the <code>_trackingArea</code> array, then call <code>[_manager removeTrackingArea:area]</code>. For detailed information, please refer to <code>WLMouseBehaviorManager</code> class reference.
 */
+
 - (void)removeAllTrackingAreas;
 /*!
     @method     

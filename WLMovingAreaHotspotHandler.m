@@ -126,7 +126,6 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 				  column:(int)c 
 				  height:(int)h 
 				   width:(int)w {
-	//NSLog(@"Exit Area added");	
 	NSRect rect = [_view rectAtRow:r column:c height:h width:w];
 	// Generate User Info
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLMouseCommandSequenceUserInfoName, WLMouseCursorUserInfoName, nil];

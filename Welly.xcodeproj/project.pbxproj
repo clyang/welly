@@ -226,12 +226,12 @@
 		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
 		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		5AB748160F6FC69100CE5F4C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
-		5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseBehaviorManager.h; sourceTree = "<group>"; };
+		5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseBehaviorManager.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMouseBehaviorManager.m; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLClickEntryHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLClickEntryHotspotHandler.m; sourceTree = "<group>"; };
 		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
-		5AD4B9B00F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMovingAreaHotspotHandler.h; sourceTree = "<group>"; };
+		5AD4B9B00F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMovingAreaHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
 		5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMessageDelegate.m; sourceTree = "<group>"; };
