@@ -311,8 +311,8 @@ BOOL isSpecialSymbol(unichar ch) {
 	
 	NSString *str = [pb stringForType:NSStringPboardType];
 	int i, j, LINE_WIDTH = 66, LPADDING = 4;
-	WLIntegerArray *word = [WLIntegerArray integerArray],
-	*text = [WLIntegerArray integerArray];
+	WLIntegerArray *word = [WLIntegerArray integerArray];
+	WLIntegerArray *text = [WLIntegerArray integerArray];
 	int word_width = 0, line_width = 0;
 	[text push_back:0x000d];
 	for (i = 0; i < LPADDING; i++)

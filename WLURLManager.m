@@ -180,8 +180,10 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	NSRange range;
 	range.location = index;
 	range.length = length;
+	urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+	urlString = [urlString stringByReplacingOccurrencesOfString:@" " withString:@""];
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLURLUserInfoName, WLRangeLocationUserInfoName, WLRangeLengthUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects:self, [[urlString copy] autorelease], [NSNumber numberWithInt:index], [NSNumber numberWithInt:length], nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, urlString, [NSNumber numberWithInt:index], [NSNumber numberWithInt:length], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_currentURLList addObject:userInfo];
 	
@@ -258,17 +260,27 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 				[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
 				[_currentURLStringBuffer setString:@""];
                 isReadingURL = NO;
-			}
-            else if (c == '(')
+			} else if (c == '(') {
                 ++par;
-            else if (c == ')') {
+			} else if (c == ')') {
                 if (--par < 0) {
 					// Not URL anymore, add previous one
 					[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
 					[_currentURLStringBuffer setString:@""];
                     isReadingURL = NO;
 				}
-            }
+            } else if (c == '\\') {
+				if (_maxColumn - index%_maxColumn <= 2) {
+					// This '\\' is for connecting two lines
+					urlLength += (_maxColumn - index%_maxColumn) - 1;
+					index += (_maxColumn - index%_maxColumn) - 1;
+				} else {
+					// Not URL anymore, add previous one
+					[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
+					[_currentURLStringBuffer setString:@""];
+					isReadingURL = NO;
+				}
+			}
 			if (isReadingURL) {
 				[_currentURLStringBuffer appendFormat:@"%c", c];
 				urlLength++;
