@@ -15,10 +15,9 @@
 	
 	NSMutableString *_currentURLStringBuffer;
 }
-- (void)dealloc;
-- (NSPoint) currentSelectedURLPos;
-- (BOOL) openCurrentURL:(NSEvent *) event;
-- (NSPoint) moveNext;
-- (NSPoint) movePrev;
+- (NSPoint)currentSelectedURLPos;
+- (BOOL)openCurrentURL:(NSEvent *)event;
+- (NSPoint)moveNext;
+- (NSPoint)movePrev;
 
 @end

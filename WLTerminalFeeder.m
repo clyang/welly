@@ -260,7 +260,7 @@ static unsigned short gEmptyAttr;
 	int i, x;
 	unsigned char c;
 	
-	if ([_terminal bbsType] == TYFirebird) {
+	if ([_terminal bbsType] == WLFirebird) {
 		_hasNewMessage = NO;
 	}
 	
@@ -970,7 +970,7 @@ static unsigned short gEmptyAttr;
 	
 	if (_hasNewMessage) {
 		// new incoming message
-		if ([_terminal bbsType] == TYMaple && _grid[_row - 1][0].attr.f.bgColor != 9 && _grid[_row - 1][_column - 2].attr.f.bgColor == 9) {
+		if ([_terminal bbsType] == WLMaple && _grid[_row - 1][0].attr.f.bgColor != 9 && _grid[_row - 1][_column - 2].attr.f.bgColor == 9) {
 			// for maple bbs (e.g. ptt)
 			for (i = 2; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // split callerName and messageString
 			int splitPoint = i++;
@@ -980,7 +980,7 @@ static unsigned short gEmptyAttr;
 			
 			[connection didReceiveNewMessage:messageString fromCaller:callerName];
 			_hasNewMessage = NO;
-		} else if ([_terminal bbsType] == TYFirebird && _grid[0][0].attr.f.bgColor != 9) {
+		} else if ([_terminal bbsType] == WLFirebird && _grid[0][0].attr.f.bgColor != 9) {
 			// for firebird bbs (e.g. smth)
 			for (i = 2; i < _row && _grid[i][0].attr.f.bgColor != 9; ++i);	// determine the end of the message
 			NSString *callerName = [_terminal stringFromIndex:0 length:_column];

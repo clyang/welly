@@ -12,7 +12,7 @@
 @class YLView, YLConnection, WLMessageDelegate, WLIntegerArray;
 
 @interface YLTerminal : NSObject {	
-	TYBBSType _bbsType;
+	WLBBSType _bbsType;
 	
     unsigned int _maxRow;
     unsigned int _maxColumn;
@@ -37,7 +37,7 @@
 @property unsigned int cursorRow;
 @property cell **grid;
 @property (assign, setter=setConnection:) YLConnection *connection;
-@property (assign, readwrite) TYBBSType bbsType;
+@property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
 
 + (YLTerminal *)terminalWithView:(YLView *)view;
@@ -72,7 +72,7 @@
 
 /* Accessor */
 - (YLEncoding)encoding;
-- (void)setEncoding:(YLEncoding) encoding;
+- (void)setEncoding:(YLEncoding)encoding;
 
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;

@@ -66,15 +66,15 @@ NSString *const WLRangeLengthUserInfoName;
 
 // Add/Remove tracking areas
 /*!
-    @method     
-    @abstract   Update all registered <code>WLUpdatable</code> objects
-    @discussion This method would firstly ask every <code>WLUpdatable</code> if they <code>shouldUpdate</code>. For those return <code>YES</code>, their <code>update</code> method would then be called, informing them the view has changed so they can fetch the update info they need.
+ @method     
+ @abstract   Update all registered <code>WLUpdatable</code> objects
+ @discussion This method would firstly ask every <code>WLUpdatable</code> if they <code>shouldUpdate</code>. For those return <code>YES</code>, their <code>update</code> method would then be called, informing them the view has changed so they can fetch the update info they need.
 */
 - (void)update;
 /*!
-    @method     
-    @abstract   Force all registered <code>WLUpdatable</code> objects to update themselves.
-    @discussion Unlike the <code>update</code> method, this method would not ask the updatable objects if they <code>shouldUpdate</code>. Instead, their <code>update</code> method would be called immediately. In additional, calling this method would set the <code>activeTrackingAreaUserInfo</code> and <code>backgroundTrackingAreaUserInfo</code> to be <code>nil</code>.
+ @method     
+ @abstract   Force all registered <code>WLUpdatable</code> objects to update themselves.
+ @discussion Unlike the <code>update</code> method, this method would not ask the updatable objects if they <code>shouldUpdate</code>. Instead, their <code>update</code> method would be called immediately. In additional, calling this method would set the <code>activeTrackingAreaUserInfo</code> and <code>backgroundTrackingAreaUserInfo</code> to be <code>nil</code>.
 */
 - (void)forceUpdate;
 /*!
@@ -102,9 +102,9 @@ NSString *const WLRangeLengthUserInfoName;
 								   userInfo:(NSDictionary *)userInfo
 									 cursor:(NSCursor *)cursor;
 /*!
-    @method     
-    @abstract   Remove a tracking area from the view.
-    @discussion This method would firstly check the mouse's position. If the mouse currently lies inside the tracking area, a <code>mouseExited:</code> method would be firstly sent to the manager, and then dispatch to the area. And then the area would be removed from the view and get released.
+ @method     
+ @abstract   Remove a tracking area from the view.
+ @discussion This method would firstly check the mouse's position. If the mouse currently lies inside the tracking area, a <code>mouseExited:</code> method would be firstly sent to the manager, and then dispatch to the area. And then the area would be removed from the view and get released.
 */
 - (void)removeTrackingArea:(NSTrackingArea *)area;
 

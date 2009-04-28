@@ -102,7 +102,7 @@
     // _string/line may be nil, and CFRelease(line) may crash 
     if (_string != nil) {
         CGContextTranslateCTM(context, 4.0, 3.0);
-        [_string drawAtPoint: NSZeroPoint];
+        [_string drawAtPoint:NSZeroPoint];
         CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)_string);
         CGFloat offset = CTLineGetOffsetForStringIndex(line, _selectedRange.location, NULL);
         [[NSColor whiteColor] set];
@@ -136,21 +136,21 @@
 
 - (void)setMarkedRange:(NSRange)value {
 	_markedRange = value;
-	[self setNeedsDisplay: YES];
+	[self setNeedsDisplay:YES];
 }
 
 - (void)setSelectedRange:(NSRange)value {
 	_selectedRange = value;
-	[self setNeedsDisplay: YES];
+	[self setNeedsDisplay:YES];
 }
 
 - (void)setDefaultFont:(NSFont *)value {
     if (_defaultFont != value) {
         [_defaultFont release];
         _defaultFont = [value copy];
-		_lineHeight = [[[NSLayoutManager new] autorelease] defaultLineHeightForFont: _defaultFont];
+		_lineHeight = [[[NSLayoutManager new] autorelease] defaultLineHeightForFont:_defaultFont];
     }
-	[self setNeedsDisplay: YES];
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)isOpaque {

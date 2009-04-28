@@ -69,7 +69,7 @@ static NSCursor *gMoveCursor = nil;
 	// FIXME: what actually matters is whether the user enables auto-break-line
 	// however, since it is enabled by default in smth (switchible by ctrl-p) and disabled in ptt,
 	// we temporarily use bbsType here...
-	if ([ds bbsType] == TYMaple) { // auto-break-line IS NOT enabled in bbs
+	if ([ds bbsType] == WLMaple) { // auto-break-line IS NOT enabled in bbs
 		int moveToRow = _selectionLocation / _maxColumn;
 		int moveToCol = _selectionLocation % _maxColumn;
 		BOOL home = NO;

@@ -62,7 +62,7 @@
 	}
 #endif
 	
-	if ([[view frontMostTerminal] bbsType] == TYMaple) {
+	if ([[view frontMostTerminal] bbsType] == WLMaple) {
 		// Firebird BBS seldom use these	
 		if ([shortURL length] > 0 && [shortURL length] < 8) {
 			[menu addItemWithTitle:[@"0rz.tw/" stringByAppendingString:shortURL]

@@ -113,7 +113,7 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 
 - (void)updateAuthorAreaForRow:(int)r {
 	// TODO: enable this for Maple BBS
-	if ([[_view frontMostTerminal] bbsType] == TYMaple)
+	if ([[_view frontMostTerminal] bbsType] == WLMaple)
 		return;
 	
 	YLTerminal *ds = [_view frontMostTerminal];
