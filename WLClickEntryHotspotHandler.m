@@ -382,7 +382,7 @@ BOOL isPostTitleStarter(unichar c) {
 - (void)updateExcerptionClickEntry {
     YLTerminal *ds = [_view frontMostTerminal];
 	// Parse the table title line to get ranges
-	NSRange postRange;
+	NSRange postRange = {0, 0};
 	int c = 0;
 	for (; c < _maxColumn - 2; ++c) {
 		if ([[ds stringFromIndex:c + 2 * _maxColumn length:2] isEqualToString:@"标"]) {
