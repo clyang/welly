@@ -183,7 +183,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
 	urlString = [urlString stringByReplacingOccurrencesOfString:@" " withString:@""];
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLURLUserInfoName, WLRangeLocationUserInfoName, WLRangeLengthUserInfoName, nil];
-	NSArray *objects = [NSArray arrayWithObjects:self, urlString, [NSNumber numberWithInt:index], [NSNumber numberWithInt:length], nil];
+	NSArray *objects = [NSArray arrayWithObjects:self, [[urlString copy] autorelease], [NSNumber numberWithInt:index], [NSNumber numberWithInt:length], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 	[_currentURLList addObject:userInfo];
 	
