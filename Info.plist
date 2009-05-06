@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>Welly</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
@@ -38,8 +38,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>2.4 Alpha</string>
 	<key>CFBundleVersion</key>
-	<string>2.3 Release</string>
+	<string>622</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>WellyHelp</string>
 	<key>CFBundleHelpBookName</key>
