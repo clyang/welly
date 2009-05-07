@@ -699,7 +699,7 @@ BOOL isSpecialSymbol(unichar ch) {
         else if ([theEvent deltaY] < 0)
             [_portal moveSelection:+1];
     }
-	
+	[self clearSelection];
 	[_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
