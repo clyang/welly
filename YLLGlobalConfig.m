@@ -10,8 +10,11 @@
 
 #pragma mark -
 #pragma mark Constants
-NSString *const WLCoverFlowModeEnabledKeyName = @"Portal";
 NSString *const WLRestoreConnectionKeyName = @"RestoreConnection";
+NSString *const WLCommandRHotkeyEnabledKeyName = @"CommandRHotkey";
+NSString *const WLConfirmOnCloseEnabledKeyName = @"ConfirmOnClose";
+NSString *const WLSafePasteEnabledKeyName = @"SafePaste";
+NSString *const WLCoverFlowModeEnabledKeyName = @"Portal";
 
 const CGFloat WLDefaultCellWidth = 12;
 const CGFloat WLDefaultCellHeight = 24;
@@ -144,6 +147,18 @@ static YLLGlobalConfig *sSharedInstance;
 
         [defaults synchronize];
         [self refreshFont];
+        
+        // aqua: why not enable these settings by default?
+        if ([defaults objectForKey:WLRestoreConnectionKeyName] == nil)
+            [defaults setBool:YES forKey:WLRestoreConnectionKeyName];
+        if ([defaults objectForKey:WLCommandRHotkeyEnabledKeyName] == nil)
+            [defaults setBool:YES forKey:WLCommandRHotkeyEnabledKeyName];
+        if ([defaults objectForKey:WLConfirmOnCloseEnabledKeyName] == nil)
+            [defaults setBool:YES forKey:WLConfirmOnCloseEnabledKeyName];
+        if ([defaults objectForKey:WLSafePasteEnabledKeyName] == nil)
+            [defaults setBool:YES forKey:WLSafePasteEnabledKeyName];
+        if ([defaults objectForKey:WLCoverFlowModeEnabledKeyName] == nil)
+            [defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
 	}
 	return sSharedInstance;
 }

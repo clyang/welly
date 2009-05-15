@@ -483,7 +483,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (BOOL)needsWarnPaste {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:@"SafePaste"] && [[self frontMostTerminal] bbsState].state != BBSComposePost;
+	return [[NSUserDefaults standardUserDefaults] boolForKey:WLSafePasteEnabledKeyName] && [[self frontMostTerminal] bbsState].state != BBSComposePost;
 }
 
 - (void)pasteColor:(id)sender {

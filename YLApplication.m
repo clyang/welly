@@ -27,7 +27,7 @@
 				   ([event modifierFlags] & NSControlKeyMask) == 0 && 
 				   ([event modifierFlags] & NSShiftKeyMask) == 0 && 
 				   [[event characters] isEqualToString:@"r"] &&
-				   [[NSUserDefaults standardUserDefaults] boolForKey:@"CommandRHotkey"]) {
+				   [[NSUserDefaults standardUserDefaults] boolForKey:WLCommandRHotkeyEnabledKeyName]) {
 			[_controller reconnect:self];
 			event = nil;
 		} else if (([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask && 

@@ -11,8 +11,11 @@
 #import <ApplicationServices/ApplicationServices.h>
 #define NUM_COLOR 10
 
-NSString *const WLCoverFlowModeEnabledKeyName;
 NSString *const WLRestoreConnectionKeyName;
+NSString *const WLCommandRHotkeyEnabledKeyName;
+NSString *const WLConfirmOnCloseEnabledKeyName;
+NSString *const WLSafePasteEnabledKeyName;
+NSString *const WLCoverFlowModeEnabledKeyName;
 
 @interface YLLGlobalConfig : NSObject {
     int _messageCount;

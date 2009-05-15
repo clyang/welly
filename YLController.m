@@ -511,7 +511,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 - (BOOL)shouldReconnect {
 	if (![[_telnetView frontMostConnection] isConnected]) return YES;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
                       NSLocalizedString(@"Confirm", @"Default Button"), 
                       NSLocalizedString(@"Cancel", @"Cancel Button"), 
@@ -533,7 +533,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction)reconnect:(id)sender {
-    if (![[_telnetView frontMostConnection] isConnected] || ![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) {
+    if (![[_telnetView frontMostConnection] isConnected] || ![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) {
 		// Close the portal
 		if ([_telnetView isInPortalMode] && ![[[_telnetView frontMostConnection] site] empty] 
 			&& [_telnetView numberOfTabViewItems] > 0) {
@@ -792,7 +792,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self saveLastConnections];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"ConfirmOnClose"]) 
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) 
         return YES;
     
     int tabNumber = [_telnetView numberOfTabViewItems];
@@ -871,7 +871,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	[_fullScreenController releaseFullScreen];
 	
     if (![[tabViewItem identifier] isConnected]) return YES;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey: @"ConfirmOnClose"]) return YES;
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;
 
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
 									 defaultButton:NSLocalizedString(@"Close", @"Default Button")
