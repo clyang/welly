@@ -64,6 +64,8 @@
 "Are you sure you want to delete the cover?" = "您真的要移除這個封面麼？";
 "Welly will delete this cover file, please confirm." = "Welly即將移除這個站台的封面信息，請您確認";
 "Delete" = "移除";
+"Drag an image file to Welly to set the cover of this site. " = "將圖片檔拖拽至Welly即可為本站台設置封面\n將當前封面拖出即可移除";
+
 
 /* Color */
 "Black" = "黑色";

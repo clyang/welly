@@ -51,7 +51,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	self = [super initWithFrame:[view frame]];
 	_mainView = [view retain];
 	[self setWantsLayer:YES];
-    NSSize cellSpacing = {5, 5}, cellSize = {280, 280};
+    NSSize cellSpacing = {10, 10}, cellSize = {230, 230};
 
     self = [super init];
     if (self == nil)
@@ -68,17 +68,23 @@ static const CGFloat colorValues[C_COUNT][4] = {
     
     // this enables a perspective transform.
     // The value of zDistance affects the sharpness of the transform
-    float zDistance = 420.;
+    float zDistance = 300.;
     _sublayerTransform = CATransform3DIdentity; 
     _sublayerTransform.m34 = 1. / -zDistance;
     
     NSDictionary *textStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithInteger:12], @"cornerRadius",
-        [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
-        //@"BankGothic-Medium", @"font",
-        [NSNumber numberWithFloat:[[YLLGlobalConfig sharedInstance] englishFontSize] * 1.3], @"fontSize",
+       // [NSValue valueWithSize:NSMakeSize(10, 0)], @"margin",
+        @"LucidaGrande-Bold", @"font",
+        [NSNumber numberWithFloat:[[YLLGlobalConfig sharedInstance] englishFontSize] * 1.5], @"fontSize",
         kCAAlignmentCenter, @"alignmentMode",
         nil];
+	NSDictionary *tipStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+							   [NSValue valueWithSize:NSMakeSize(5, 0)], @"margin",
+							   @"LucidaGrande", @"font",
+							   [NSNumber numberWithFloat:12], @"fontSize",
+							   kCAAlignmentCenter, @"alignmentMode",
+							   nil];
     
     // here we set up the hierarchy of layers.
     //   This means child/parent relationships as well as
@@ -93,15 +99,18 @@ static const CGFloat colorValues[C_COUNT][4] = {
 
     // informative header text
     _headerTextLayer = [CATextLayer layer];
-    _headerTextLayer.name = @"header";
+	_headerTextLayer.name = @"header";
     [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
     [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
-    [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"superlayer" attribute:kCAConstraintMaxY offset:-30]];
-    [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"header" attribute:kCAConstraintMaxY offset:-32]];
-    _headerTextLayer.string = @"Loading...";
+    [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"superlayer" attribute:kCAConstraintMaxY offset:-20]];
+    [_headerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"header" attribute:kCAConstraintMaxY offset:-60]];	
+	//[_headerTextLayer setBackgroundColor:CGColorCreateGenericRGB(1.0, 0, 0, 1.0f)];
+	_headerTextLayer.contentsGravity = @"kCAGravityCenter";
+	
+	_headerTextLayer.string = @"Loading...";
     _headerTextLayer.style = textStyle;
-    _headerTextLayer.wrapped = YES;
-    [rootLayer addSublayer:_headerTextLayer];
+    _headerTextLayer.wrapped = YES;	
+	[rootLayer addSublayer: _headerTextLayer];
     
     // the background canvas on which we'll arrange the other layers
     CALayer *containerLayer = [CALayer layer];
@@ -109,35 +118,43 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [containerLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
     [containerLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintWidth relativeTo:@"superlayer" attribute:kCAConstraintWidth offset:-20]];
     [containerLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"status" attribute:kCAConstraintMaxY offset:10]];
-    [containerLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"header" attribute:kCAConstraintMinY offset:-10]];
-    [rootLayer addSublayer:containerLayer];
+    [containerLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"header" attribute:kCAConstraintMinY offset:-5]];
+	   // [containerLayer setBackgroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f)];
+	[rootLayer addSublayer:containerLayer];
     
     // the central scrolling layer; this will contain the images
     _bodyLayer = [CAScrollLayer layer];
     _bodyLayer.scrollMode = kCAScrollHorizontally;
     _bodyLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
     _bodyLayer.layoutManager = [DesktopImageLayout layoutManager];
+	[_bodyLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY]];
     [_bodyLayer setValue:[NSValue valueWithSize:cellSpacing] forKey:@"spacing"];
     [_bodyLayer setValue:[NSValue valueWithSize:cellSize] forKey:@"desktopImageCellSize"];
+	//[_bodyLayer setBackgroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f)];
     [containerLayer addSublayer:_bodyLayer];
     
     // the footer containing status info...
     CALayer *statusLayer = [CALayer layer];
     statusLayer.name = @"status";
     statusLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
+	//[statusLayer setBackgroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f)];
     [statusLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"body" attribute:kCAConstraintMidX]];
     [statusLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintWidth relativeTo:@"body" attribute:kCAConstraintWidth]];
     [statusLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY offset:10]];
-    [statusLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"status" attribute:kCAConstraintMinY offset:32]];
+    [statusLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxY relativeTo:@"status" attribute:kCAConstraintMinY offset:30]];
     [rootLayer addSublayer:statusLayer];
     
     //...such as the image count
     _footerTextLayer = [CATextLayer layer];
     _footerTextLayer.name = @"footer";
-    _footerTextLayer.style = textStyle;
+	//_footerTextLayer.string = @"test";
+    _footerTextLayer.style = tipStyle;
+	_footerTextLayer.string = NSLocalizedString(@"Drag an image file to Welly to set the cover of this site. ", @"Drag an image file to Welly to set the cover of this site. \n Drag the cover out to remove.");
+	[_footerTextLayer setForegroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.7f)];
     [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
+	[_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
     [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
-    [statusLayer addSublayer:_footerTextLayer];
+	[statusLayer addSublayer:_footerTextLayer];
 
     // done
     _imageSize = *(CGSize *)&cellSize;
@@ -153,7 +170,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     CGContextRef context = CGBitmapContextCreate(bitmapData, r.size.width,
                 r.size.height, 8,  bytesPerRow, 
                 CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB), kCGImageAlphaPremultipliedFirst);
-    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0 alpha:.5] endingColor:[NSColor colorWithDeviceWhite:0 alpha:1.]];
+    NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0 alpha:.2] endingColor:[NSColor colorWithDeviceWhite:0 alpha:1.]];
     NSGraphicsContext *nsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:YES];
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:nsContext];
@@ -187,7 +204,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     context = CGBitmapContextCreate(bitmapData, r.size.width,
                 r.size.height, 8,  bytesPerRow, 
                 CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB), kCGImageAlphaPremultipliedFirst);
-    gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0. alpha:1.] endingColor:[NSColor colorWithDeviceWhite:0. alpha:0]];
+    gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0. alpha:0.9] endingColor:[NSColor colorWithDeviceWhite:0. alpha:0]];
     nsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:YES];
     [NSGraphicsContext saveGraphicsState];
     [NSGraphicsContext setCurrentContext:nsContext];
@@ -217,7 +234,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     
     // bottom
     r.size.width = [view frame].size.width;
-    r.size.height = 32;
+    r.size.height = 10;
     bytesPerRow = 4*r.size.width;
     bitmapData = malloc(bytesPerRow * r.size.height);
     context = CGBitmapContextCreate(bitmapData, r.size.width,
@@ -341,8 +358,14 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // we scroll so the selected image is centered, but the layout manager
     //   doesn't know about this--as far as it is concerned everything takes
     //   place in a very wide frame
-    [_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
-    [_headerTextLayer setString:[(DesktopImage *)[layer delegate] name]];
+	[CATransaction begin];
+	[CATransaction setValue:[NSNumber numberWithFloat:0.275f]
+					 forKey:kCATransactionAnimationDuration];
+	// TODO: It might be possible to change the timing function. 
+	// Linear timing's effect is not quite satisfying.
+	[_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
+	[CATransaction commit];
+	[_headerTextLayer setString:[(DesktopImage *)[layer delegate] name]];
 
     [self updateImage];
 }
@@ -419,14 +442,16 @@ static const CGFloat colorValues[C_COUNT][4] = {
         
         if (desktopImageLayer == nil) {
             CALayer *layer = [CALayer layer];
-            desktopImageLayer = [CALayer layer];
+			desktopImageLayer = [CALayer layer];
             [_layerDictionary setObject:layer forKey:desktopImage];
             
             [desktopImageLayer setDelegate:desktopImage];
             
+			float gap = 30.0f;
             // default appearance - will persist until image loads
             CGRect r;
             r.origin = CGPointZero;
+			r.origin.y -= gap;
             r.size = _imageSize;
             [desktopImageLayer setBounds:r];
             [desktopImageLayer setBackgroundColor:[WLPortal color:C_GRAY]];
@@ -439,16 +464,18 @@ static const CGFloat colorValues[C_COUNT][4] = {
             
             // and the desktop image's reflection layer
             CALayer *sublayer = [CALayer layer];
-            r.origin = CGPointMake(0, -r.size.height);
+            r.origin = CGPointMake(0, -r.size.height - gap + 1);
             [sublayer setFrame:r];
             sublayer.name = @"reflection";
             CATransform3D transform = CATransform3DMakeScale(1,-1,1);
             sublayer.transform = transform;
+			// TODO: Perhaps we should add a CIFilter here to process the reflection?
             [sublayer setBackgroundColor:[WLPortal color:C_GRAY]];
             [desktopImageLayer addSublayer:sublayer];
             CALayer *gradientLayer = [CALayer layer];
             gradientLayer.name = @"reflectionGradient";
             r.origin.y += r.size.height;
+			r.origin.y += gap;
             // if the gradient rect is exactly the correct size,
             // antialiasing sometimes gives us a line of bright pixels
             // at the edges
@@ -470,7 +497,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_bodyLayer setSublayers:[NSArray arrayWithObjects:values count:count]];
     free(values);
     //[_footerTextLayer setString:[NSString stringWithFormat:@"%d sites", _totalImages]];
-    [self updateSelection];
+    //[self updateSelection];
 }
 
 - (void)imageDidLoadNotification:(NSNotification *)note {
