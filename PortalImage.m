@@ -55,7 +55,7 @@
 
 NSString *desktopImageImageDidLoadNotification = @"desktopImageImageDidLoadNotification";
 
-@implementation DesktopImage
+@implementation PortalImage
 @synthesize name = _name;
 @synthesize path = _path;
 
@@ -97,7 +97,7 @@ static void * imageThread (void *arg) {
         while ([imageQueue count] == 0)
             pthread_cond_wait(&imageCond, &imageMutex);
 
-        DesktopImage *desktopImage = [[imageQueue objectAtIndex:0] retain];
+        PortalImage *desktopImage = [[imageQueue objectAtIndex:0] retain];
         [imageQueue removeObjectAtIndex:0];
 
         pthread_mutex_unlock(&imageMutex);
@@ -217,6 +217,10 @@ static void * imageThread (void *arg) {
     return true;
 }
 
+- (bool)exists {
+    return [[NSFileManager defaultManager] fileExistsAtPath:_path];
+}
+
 + (void)sweepImageQueue {
     if (imageQueue == nil)
         return;
@@ -225,7 +229,7 @@ static void * imageThread (void *arg) {
 
     size_t count = [imageQueue count];
     for (size_t i = 0; i < count;) {
-        DesktopImage *desktopImage = [imageQueue objectAtIndex:i];
+        PortalImage *desktopImage = [imageQueue objectAtIndex:i];
         if (!desktopImage->_markedImage) {
             [imageQueue removeObjectAtIndex:i];
             count--;

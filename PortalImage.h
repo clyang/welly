@@ -51,7 +51,7 @@
 
 extern NSString *desktopImageImageDidLoadNotification;
 
-@interface DesktopImage : NSObject
+@interface PortalImage : NSObject
 {
 	NSString *_name;
 	NSString *_path;
@@ -68,6 +68,8 @@ extern NSString *desktopImageImageDidLoadNotification;
 
 - (bool)requestImageOfSize:(CGSize)sz;
 - (CGImageRef)imageOfSize:(CGSize)sz;
+
+- (bool)exists;
 
 + (void)sweepImageQueue;
 
