@@ -149,11 +149,12 @@ static const CGFloat colorValues[C_COUNT][4] = {
     _footerTextLayer.name = @"footer";
     _footerTextLayer.style = tipStyle;
     _footerTextLayer.string = NSLocalizedString(@"Drag an image file to Welly to set the cover of this site. ", @"Drag an image file to Welly to set the cover of this site. \n Drag the cover out to remove.");
-	[_footerTextLayer setForegroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.7f)];
+    _footerTextLayer.hidden = true;
+    [_footerTextLayer setForegroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.7f)];
     [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
-	[_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
+    [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
     [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMaxX relativeTo:@"superlayer" attribute:kCAConstraintMaxX]];
-	[statusLayer addSublayer:_footerTextLayer];
+    [statusLayer addSublayer:_footerTextLayer];
 
     // done
     _imageSize = *(CGSize *)&cellSize;
