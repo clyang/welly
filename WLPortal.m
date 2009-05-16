@@ -366,6 +366,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
     [CATransaction commit];
     [_headerTextLayer setString:[portalImage name]];
+    // weird: shouldn't be the inverse?
     [_footerTextLayer setHidden:[portalImage exists]];
 
     [self updateImage];
