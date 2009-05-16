@@ -62,7 +62,7 @@ extern NSString *desktopImageCount;
 extern NSString *selectedDesktopImage;
 extern NSString *desktopImageIndex;
 
-@interface DesktopImageLayout : NSObject {
+@interface PortalImageLayout : NSObject {
 	CATransform3D _leftTransform, _rightTransform;
 	float _zDistance, _zCenterPosition, _zSidePosition;
 	float _sideSpacingFactor, _rowScaleFactor;

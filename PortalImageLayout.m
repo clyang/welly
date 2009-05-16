@@ -56,9 +56,9 @@ NSString *desktopImageCount = @"desktopImageCount";
 NSString *desktopImageIndex = @"desktopImageIndex";
 NSString *selectedDesktopImage = @"selectedDesktopImage";
 
-@implementation DesktopImageLayout
+@implementation PortalImageLayout
 
-static DesktopImageLayout *sharedLayoutManager;
+static PortalImageLayout *sharedLayoutManager;
 
 + (id)layoutManager {
     if (sharedLayoutManager == nil) {
@@ -67,7 +67,7 @@ static DesktopImageLayout *sharedLayoutManager;
     return sharedLayoutManager;
 }
 
-- (DesktopImageLayout *)init {
+- (PortalImageLayout *)init {
     if ([super init]) {
         // there's no math behind these; they just happen to look right
         _zCenterPosition = 100.;
