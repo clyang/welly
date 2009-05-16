@@ -126,7 +126,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     _bodyLayer = [CAScrollLayer layer];
     _bodyLayer.scrollMode = kCAScrollHorizontally;
     _bodyLayer.autoresizingMask = kCALayerWidthSizable | kCALayerHeightSizable;
-    _bodyLayer.layoutManager = [DesktopImageLayout layoutManager];
+    _bodyLayer.layoutManager = [PortalImageLayout layoutManager];
 	[_bodyLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinY relativeTo:@"superlayer" attribute:kCAConstraintMinY]];
     [_bodyLayer setValue:[NSValue valueWithSize:cellSpacing] forKey:@"spacing"];
     [_bodyLayer setValue:[NSValue valueWithSize:cellSize] forKey:@"desktopImageCellSize"];
@@ -147,9 +147,8 @@ static const CGFloat colorValues[C_COUNT][4] = {
     //...such as the image count
     _footerTextLayer = [CATextLayer layer];
     _footerTextLayer.name = @"footer";
-	//_footerTextLayer.string = @"test";
     _footerTextLayer.style = tipStyle;
-	_footerTextLayer.string = NSLocalizedString(@"Drag an image file to Welly to set the cover of this site. ", @"Drag an image file to Welly to set the cover of this site. \n Drag the cover out to remove.");
+    _footerTextLayer.string = NSLocalizedString(@"Drag an image file to Welly to set the cover of this site. ", @"Drag an image file to Welly to set the cover of this site. \n Drag the cover out to remove.");
 	[_footerTextLayer setForegroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.7f)];
     [_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
 	[_footerTextLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMinX relativeTo:@"superlayer" attribute:kCAConstraintMinX]];
@@ -302,7 +301,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 	return _images || _layerDictionary || _mainView;
 }
 
-- (CALayer *)layerForImage:(DesktopImage *)desktopImage {
+- (CALayer *)layerForImage:(PortalImage *)desktopImage {
     // we have to do this sublayer thing because the actual layer
     //   stored for the key is the layer containing both the desktop image
     //   and its reflection.
@@ -310,25 +309,25 @@ static const CGFloat colorValues[C_COUNT][4] = {
     return (CALayer *)[[containerLayer sublayers] objectAtIndex:0];
 }
 
-- (void)updateImageForLayer:(CALayer *)layer fromImage:(DesktopImage *)desktopImage {
+- (void)updateImageForLayer:(CALayer *)layer fromImage:(PortalImage *)portalImage {
     CGSize size = [layer bounds].size;
-    CGImageRef image = [desktopImage imageOfSize:size];
+    CGImageRef image = [portalImage imageOfSize:size];
 
     if (image != NULL) {
         // set the image for the layer...
-        [layer setContents:(id) image];
+        [layer setContents:(id)image];
         // ...and for its shadow (which we know to be the first sublayer)
         NSArray *sublayers = layer.sublayers;
         CALayer *sublayer = (CALayer *)[sublayers objectAtIndex:0];
         [sublayer setContents:(id)image];
         [sublayer setBackgroundColor:NULL];
     } else
-        [desktopImage requestImageOfSize:size];
+        [portalImage requestImageOfSize:size];
 }
 
 - (void)updateImage { 
     CGRect visRect = [_bodyLayer visibleRect];
-    DesktopImageLayout *layout = [_bodyLayer layoutManager];
+    PortalImageLayout *layout = [_bodyLayer layoutManager];
     NSPointerArray *indices = [layout imageIndicesOfLayer:_bodyLayer inRect:visRect];
     
     if (indices != NULL) {
@@ -336,21 +335,22 @@ static const CGFloat colorValues[C_COUNT][4] = {
             int idx = (int)[indices pointerAtIndex:i];
             if (idx >= _totalImages)
                 continue;
-            DesktopImage *image = [_images objectAtIndex:idx];
+            PortalImage *image = [_images objectAtIndex:idx];
             [self updateImageForLayer:[self layerForImage:image] fromImage:image];
         }
     }
-    [DesktopImage sweepImageQueue];
+    [PortalImage sweepImageQueue];
 }
 
 - (void)updateSelection {
-    DesktopImageLayout *layout = [_bodyLayer layoutManager];
+    PortalImageLayout *layout = [_bodyLayer layoutManager];
     [_bodyLayer setValue:[NSNumber numberWithInteger:_selectedImageIndex] forKey:selectedDesktopImage];
 
     // here is where we ask the layout manager to reflect the new selected image
     [_bodyLayer layoutIfNeeded];
 
-    CALayer *layer = [self layerForImage:[_images objectAtIndex:_selectedImageIndex]];
+    PortalImage *portalImage = [_images objectAtIndex:_selectedImageIndex];
+    CALayer *layer = [self layerForImage:portalImage];
     if (layer == nil)
         return;
     
@@ -358,14 +358,15 @@ static const CGFloat colorValues[C_COUNT][4] = {
     // we scroll so the selected image is centered, but the layout manager
     //   doesn't know about this--as far as it is concerned everything takes
     //   place in a very wide frame
-	[CATransaction begin];
-	[CATransaction setValue:[NSNumber numberWithFloat:0.275f]
-					 forKey:kCATransactionAnimationDuration];
-	// TODO: It might be possible to change the timing function. 
-	// Linear timing's effect is not quite satisfying.
-	[_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
-	[CATransaction commit];
-	[_headerTextLayer setString:[(DesktopImage *)[layer delegate] name]];
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:0.275f]
+                     forKey:kCATransactionAnimationDuration];
+    // TODO: It might be possible to change the timing function. 
+    // Linear timing's effect is not quite satisfying.
+    [_bodyLayer scrollToPoint:CGPointMake([layout positionOfSelectedImageInLayer:_bodyLayer], r.origin.y)];
+    [CATransaction commit];
+    [_headerTextLayer setString:[portalImage name]];
+    [_footerTextLayer setHidden:[portalImage exists]];
 
     [self updateImage];
 }
@@ -427,7 +428,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
         // nonexistent file
         if (file == nil)
             file = key;
-        DesktopImage *image = [[DesktopImage alloc] initWithPath:file];
+        PortalImage *image = [[PortalImage alloc] initWithPath:file];
         [_images addObject:image];
         [image release];
     }
@@ -437,7 +438,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     [_images getObjects:values];
     
     for (size_t i = 0; i < count; i++) {
-        DesktopImage *desktopImage = values[i];
+        PortalImage *desktopImage = values[i];
         CALayer *desktopImageLayer = [self layerForImage:desktopImage];
         
         if (desktopImageLayer == nil) {
@@ -501,7 +502,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 - (void)imageDidLoadNotification:(NSNotification *)note {
-    DesktopImage *desktopImage = [note object];
+    PortalImage *desktopImage = [note object];
     CALayer *layer = [self layerForImage:desktopImage];
     if (layer != nil) {
         CGImageRef image = [desktopImage imageOfSize:[layer bounds].size];
