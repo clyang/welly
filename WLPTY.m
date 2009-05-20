@@ -32,6 +32,8 @@
 @synthesize proxyAddress = _proxyAddress;
 
 + (NSString *)parse:(NSString *)addr {
+    // trim whitespaces
+    addr = [addr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     // command, not "URL"
     if ([addr rangeOfString:@" "].length > 0)
         return addr;
