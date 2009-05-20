@@ -156,6 +156,7 @@
     } else { /* parent */
         int one = 1;
         ioctl(_fd, TIOCPKT, &one);
+        [self retain]; // for the thread
         [NSThread detachNewThreadSelector:@selector(readLoop:) toTarget:[self class] withObject:self];
     }
 
@@ -216,6 +217,7 @@
     }
 }
 
+// NOTE: retain pty before starting the thread
 + (void)readLoop:(WLPTY *)pty {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     fd_set readfds, errorfds;
@@ -266,6 +268,7 @@
     }
     
     [pool release];
+    [pty release];
     [NSThread exit];
 }
 @end

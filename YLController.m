@@ -245,7 +245,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
         [connection setTerminal:terminal];
 
-        // XIPTY as the default protocol (a proxy)
+        // WLPTY as the default protocol (a proxy)
         WLPTY *protocol = [[WLPTY new] autorelease];
         [connection setProtocol:protocol];
         [protocol setDelegate:connection];
