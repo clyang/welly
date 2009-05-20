@@ -10,15 +10,16 @@
 #import "WLQuickLookBridge.h"
 #import "WLGrowlBridge.h"
 
-@interface XIDownloadDelegate : NSObject {
+@interface WLDownloadDelegate : NSObject {
     // This progress bar is restored by gtCarrera
     // boost: don't put it in XIPreviewController
     HMBlkProgressIndicator *_indicator;
     NSPanel         *_window;
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
-	NSURLDownload * currDownload;
+    NSURLDownload *_download;
 }
+@property(readwrite, assign) NSURLDownload *download;
 - (void)showLoadingWindow;
 @end
 
@@ -74,8 +75,9 @@ static NSMutableDictionary *downloadedURLInfo;
         NSURLRequest *request = [NSURLRequest requestWithURL:URL
                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                              timeoutInterval:30.0];
-        XIDownloadDelegate *delegate = [[XIDownloadDelegate alloc] init];
+        WLDownloadDelegate *delegate = [[WLDownloadDelegate alloc] init];
         download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
+        [delegate setDownload:download];
         [delegate release];
     }
     if (download == nil)
@@ -88,7 +90,8 @@ static NSMutableDictionary *downloadedURLInfo;
 #pragma mark -
 #pragma mark XIDownloadDelegate
 
-@implementation XIDownloadDelegate
+@implementation WLDownloadDelegate
+@synthesize download = _download;
 
 static NSString * stringFromFileSize(long long size) {
     NSString *fmt;
@@ -167,20 +170,20 @@ static NSString * stringFromFileSize(long long size) {
 
 // Window delegate for _window, finallize the download 
 - (BOOL)windowShouldClose:(id)window {
-	// Show the canceled message
-	[WLGrowlBridge notifyWithTitle:[[[currDownload request] URL] absoluteString]
+    NSURL *URL = [[_download request] URL];
+    // Show the canceled message
+    [WLGrowlBridge notifyWithTitle:[URL absoluteString]
                        description:NSLocalizedString(@"Canceled", @"Download canceled")
                   notificationName:@"File Transfer"
                           isSticky:NO
-                        identifier:currDownload];
-	// Remove current url from the url list
-	NSURL *URL = [[currDownload request] URL];
+                        identifier:_download];
+    // Remove current url from the url list
     [sURLs removeObject:URL];
-	// Cancel the download
-	[currDownload cancel];
-	// Release if necessary
-	[currDownload autorelease];
-	return YES;
+    // Cancel the download
+    [_download cancel];
+    // Release if necessary
+    [_download release];
+    return YES;
 }
 
 - (void)downloadDidBegin:(NSURLDownload *)download {
@@ -189,7 +192,6 @@ static NSString * stringFromFileSize(long long size) {
                   notificationName:@"File Transfer"
                           isSticky:YES
                         identifier:download];
-	currDownload = download;
 }
 
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response { 

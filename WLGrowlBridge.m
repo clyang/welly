@@ -1,5 +1,5 @@
 //
-//  TYGrowlBridge.m
+//  WLGrowlBridge.m
 //  Welly
 //
 //  Created by aqua9 on 20/3/2008.
@@ -10,10 +10,10 @@
 
 #import "WLGrowlBridge.h"
 
-typedef struct TYClickContext {
+typedef struct WLClickContext {
     id context, identifier;
     SEL selector; 
-}TYClickContext;
+}WLClickContext;
 
 @implementation WLGrowlBridge
 
@@ -81,7 +81,7 @@ typedef struct TYClickContext {
            clickContext:(id)clickContext
           clickSelector:(SEL)clickSelector
              identifier:(id)identifier {
-    TYClickContext *c = malloc(sizeof(TYClickContext));
+    WLClickContext *c = malloc(sizeof(WLClickContext));
     c->context = clickContext;
     c->selector = clickSelector;
     c->identifier = identifier;
@@ -100,15 +100,15 @@ typedef struct TYClickContext {
 }
 
 - (void)growlNotificationWasClicked:(id)contextId {
-	// get context
-	TYClickContext *c = (TYClickContext *)[(NSNumber *)contextId longValue];
+    // get context
+    WLClickContext *c = (WLClickContext *)[(NSNumber *)contextId longValue];
     [c->context performSelector:c->selector withObject:c->identifier];
     free(c);
 }
 
 - (void)growlNotificationTimedOut:(id)contextId {
-	// deal with the event that the notification disappear
-    TYClickContext *c = (TYClickContext *)[(NSNumber *)contextId longValue];
+    // deal with the event that the notification disappear
+    WLClickContext *c = (WLClickContext *)[(NSNumber *)contextId longValue];
     free(c);
 }
 
