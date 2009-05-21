@@ -88,7 +88,6 @@
 - (void)protocolWillConnect:(id)protocol {
     [self setIsProcessing:YES];
     [self setConnected:NO];
-	// TODO: Set a connecting icon here
 	[self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
 }
 
