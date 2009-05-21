@@ -88,7 +88,7 @@
 - (void)protocolWillConnect:(id)protocol {
     [self setIsProcessing:YES];
     [self setConnected:NO];
-	[self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
+    [self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
 }
 
 - (void)protocolDidConnect:(id)protocol {
@@ -131,9 +131,11 @@
     [_protocol send:msg];
 }
 
-- (void)sendBytes:(const void *)msg 
+- (void)sendBytes:(const void *)buf 
 		   length:(NSInteger)length {
-    [_protocol send:[NSData dataWithBytes:msg length:length]];
+    NSData *data = [[NSData alloc] initWithBytes:buf length:length];
+    [self sendMessage:data];
+    [data release];
 }
 
 - (void)sendText:(NSString *)s {
@@ -188,7 +190,7 @@
 }
 
 - (void)login {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];

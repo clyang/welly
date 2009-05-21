@@ -411,15 +411,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		NSData *ansiCode = [WLAnsiColorOperationManager ansiCodeFromANSIColorData:[pb dataForType:ANSIColorPBoardType] 
 																  forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey] 
 																		 encoding:[[[self frontMostConnection] site] encoding]];
-		unsigned char *buf = (unsigned char *)[ansiCode bytes];
-		
-		/* Commented by K.O.ed @ 2009.4.7: Why we need to usleep after sending one byte?
-		for (int i = 0; i < [ansiCode length]; i++) {
-			[[self frontMostConnection] sendBytes:buf + i length:1];
-			usleep(100);
-		}
-		 */
-		[[self frontMostConnection] sendBytes:buf length:[ansiCode length]];
+		[[self frontMostConnection] sendMessage:ansiCode];
 		return;
 	} else if ([types containsObject:NSRTFPboardType]) {
 		NSAttributedString *rtfString = [[NSAttributedString alloc]

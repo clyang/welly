@@ -162,7 +162,7 @@ static NSCursor *gMoveCursor = nil;
 			}
 		}				
 	}
-	if (cmdLength > 0) 
+	if (cmdLength > 0)
 		[[_view frontMostConnection] sendBytes:cmd length:cmdLength];
 }
 

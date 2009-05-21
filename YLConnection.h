@@ -48,10 +48,9 @@
 - (void)close;
 - (void)reconnect;
 - (void)sendMessage:(NSData *)msg;
-- (void)sendBytes:(const void *)msg length:(NSInteger)length;
+- (void)sendBytes:(const void *)buf length:(NSInteger)length;
 - (void)sendText:(NSString *)text;
-- (void)sendText:(NSString *)text 
-	   withDelay:(int)microsecond;
+- (void)sendText:(NSString *)text withDelay:(int)microsecond;
 
 /* message */
 - (void)didReceiveNewMessage:(NSString *)message
