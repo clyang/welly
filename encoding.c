@@ -8218,5 +8218,6 @@ void init_table() {
 		U2G[G2U[i]] = i + 0x8000;
 	// Hard code some fix
 	U2G[0x2574] = 0xA3DF;
+	U2G[0x30fb] = 0xA1A4;
 }
 

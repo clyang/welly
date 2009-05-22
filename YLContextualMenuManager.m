@@ -56,8 +56,8 @@
 		if (ch >= 0x007F) {
 			unichar u2bCode = U2B[ch];
 			unichar u2gCode = U2G[ch];
-			NSString *str = [NSString stringWithFormat:@"ch = %04x, U2B[ch] = %04x, U2G[ch] = %04x", ch, u2bCode, u2gCode];
-			[menu addItemWithTitle:str action:nil keyEquivalent:@""];
+			NSString *str = [NSString stringWithFormat:@"%@ : ch = %04x, U2B[ch] = %04x, U2G[ch] = %04x", s, ch, u2bCode, u2gCode];
+			[menu addItemWithTitle:str action:@selector(copyCodeInfo:) keyEquivalent:@""];
 		}
 	}
 #endif
@@ -110,6 +110,17 @@
 
     return menu;
 }
+
+#ifdef _DEBUG
++ (IBAction)copyCodeInfo:(id)sender {
+	NSString *s = [sender title];
+	NSPasteboard *pb = [NSPasteboard generalPasteboard];
+    NSMutableArray *types = [NSMutableArray arrayWithObject:NSStringPboardType];
+    if (!s) s = @"";
+    [pb declareTypes:types owner:self];
+    [pb setString:s forType:NSStringPboardType];
+}
+#endif
 
 + (IBAction)openURL:(id)sender {
     NSString *u = [sender title];
