@@ -38,7 +38,7 @@
 - (id)initWithSite:(YLSite *)site {
     if (self == [super initWithContent:self]) {
         [self setSite:site];
-        [self setTerminalFeeder:[[WLTerminalFeeder alloc] initWithConnection:self]];
+        _feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
         _messageDelegate = [[WLMessageDelegate alloc] init];
         [_messageDelegate setConnection: self];
     }
