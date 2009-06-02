@@ -244,8 +244,9 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	YLTerminal *ds = [_view frontMostTerminal];
 	cell **grid = [ds grid];
 	BOOL isReadingURL = NO;
-	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:"};
-	const int protocolNum = 7;
+	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:", "www."};
+	const int protocolNum = 8;
+    const int realProtocalNum = 7; // only the first 7 protocols are real, the others are fake.
 	int startIndex = 0;
 	int par = 0;
 	int urlLength = 0;
@@ -298,6 +299,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
                 
                 if (isMatched) {
 					// Push current prefix into current url
+                    if (p >= realProtocalNum) [_currentURLStringBuffer appendString:@"http://"];
 					[_currentURLStringBuffer appendFormat:@"%c", protocols[p][0]];
                     isReadingURL = YES;
 					startIndex = index;
