@@ -52,8 +52,8 @@
     BOOL _modeLNM;            // line feed (true, default), new line (false)
     BOOL _modeIRM;            // insert (true), replace (false, default)
 }
-@property unsigned int cursorX;
-@property unsigned int cursorY;
+@property int cursorX;
+@property int cursorY;
 @property cell **grid;
 
 - (id)init;
