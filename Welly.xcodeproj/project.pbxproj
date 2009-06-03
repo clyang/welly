@@ -725,7 +725,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "let VER=1+`svnversion | sed 's/\\([0-9]*\\).*/\\1/'`\nsed -i '' '\n/<key>CFBundleVersion<\\/key>\\s*/ {\n    n\n    s/\\([^<]*<string>\\)[^<]*/\\1'\"$VER\"'/\n}' Info.plist\n";
+			shellScript = "VER=`svnversion | sed -n 's/\\(.*:\\)*\\([0-9]*\\)M/\\2/ p'`\nif [ -n \"$VER\" ]; then\nlet VER=$VER+1\nsed -i '' '\n/<key>CFBundleVersion<\\/key>\\s*/ {\n    n\n    s/\\([^<]*<string>\\)[^<]*/\\1'$VER'/\n}' Info.plist\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
