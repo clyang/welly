@@ -994,8 +994,8 @@ static unsigned short gEmptyAttr;
 }
 
 - (void)setTerminal:(YLTerminal *)terminal {
-	_terminal = terminal;
-	[_terminal setConnection:_connection];
+    _terminal = terminal;
+    [_terminal setConnection:_connection];
 }
 
 
@@ -1046,8 +1046,7 @@ static unsigned short gEmptyAttr;
 - (void)clearRow:(int)r 
 	   fromStart:(int)s 
 		   toEnd:(int)e {
-    int i;
-    for (i = s; i <= e; i++) {
+    for (int i = s; i <= e; i++) {
         _grid[r][i].byte = '\0';
         _grid[r][i].attr.v = gEmptyAttr;
         _grid[r][i].attr.f.bgColor = _bgColor;
@@ -1056,10 +1055,8 @@ static unsigned short gEmptyAttr;
 }
 
 - (void)reverseAll {
-    int j;
-    for (j = 0; j < _row; j++) {
-        int i;
-        for (i = 0; i <= _column - 1; i++) {
+    for (int j = 0; j < _row; j++) {
+        for (int i = 0; i <= _column - 1; i++) {
             int tmpColorIndex = _grid[j][i].attr.f.bgColor;
             _grid[j][i].attr.f.bgColor = _grid[j][i].attr.f.fgColor;
             _grid[j][i].attr.f.fgColor = tmpColorIndex;
