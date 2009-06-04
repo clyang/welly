@@ -41,7 +41,10 @@
     YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
 	
 	NSString *shortURL = [self extractShortURL:s];
+	// Remove all '\n' '\r' ' ' from the URL string
 	NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+	longURL = [longURL stringByReplacingOccurrencesOfString:@"　" withString:@""];
+	longURL = [longURL stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 	
 	if ([[longURL componentsSeparatedByString:@"."] count] > 1) {
 		if (![longURL hasPrefix:@"http://"])

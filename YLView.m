@@ -695,6 +695,16 @@ BOOL isSpecialSymbol(unichar ch) {
 	[_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
+    if (![self isConnected])
+        return nil;
+    NSString *s = [self selectedPlainString];
+	if (s != nil)
+		return [YLContextualMenuManager menuWithSelectedString:s];
+	else
+		return [_mouseBehaviorDelegate menuForEvent:theEvent];
+}
+
 - (void)keyDown:(NSEvent *)theEvent {    
     [[self frontMostConnection] resetMessageCount];
 	
@@ -1474,16 +1484,6 @@ BOOL isSpecialSymbol(unichar ch) {
 */
 + (NSMenu *)defaultMenu {
     return [[[NSMenu alloc] init] autorelease];
-}
-
-- (NSMenu *)menuForEvent:(NSEvent *)theEvent {
-    if (![self isConnected])
-        return nil;
-    NSString *s = [self selectedPlainString];
-	if (s != nil)
-		return [YLContextualMenuManager menuWithSelectedString:s];
-	else
-		return [_mouseBehaviorDelegate menuForEvent:theEvent];
 }
 
 /* Otherwise, it will return the subview. */
