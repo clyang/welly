@@ -199,15 +199,12 @@ static NSString * stringFromFileSize(long long size) {
     _transferredLength = 0;
 
     // extract & fix incorrectly encoded filename (GB18030 only)
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
     _filename = [response suggestedFilename];
+    NSData *data = [_filename dataUsingEncoding:NSISOLatin1StringEncoding allowLossyConversion:YES];
     NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    int length = [_filename length];
-    char data[length+1];
-    data[length] = 0;
-    // drop the byte
-    for (int i = 0; i < length; i++)
-        data[i] = (char)[_filename characterAtIndex:i];
-    _filename = [[NSString stringWithCString:data encoding:encoding] retain];
+    _filename = [[NSString alloc] initWithData:data encoding:encoding];
+    [pool release];
     [WLGrowlBridge notifyWithTitle:_filename
                        description:[self stringFromTransfer]
                   notificationName:@"File Transfer"
