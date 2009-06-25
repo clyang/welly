@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.02">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">670</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1206,6 +1206,34 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSMenu" ref="332582478"/>
 									<string key="NSTitle">Double Bytes Detection</string>
 									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="98338050"/>
+									<reference key="NSMixedImage" ref="638101299"/>
+								</object>
+								<object class="NSMenuItem" id="321321819">
+									<reference key="NSMenu" ref="332582478"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="98338050"/>
+									<reference key="NSMixedImage" ref="638101299"/>
+								</object>
+								<object class="NSMenuItem" id="1006426144">
+									<reference key="NSMenu" ref="332582478"/>
+									<string key="NSTitle">Increase Font Size</string>
+									<string key="NSKeyEquiv">=</string>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="98338050"/>
+									<reference key="NSMixedImage" ref="638101299"/>
+								</object>
+								<object class="NSMenuItem" id="275231730">
+									<reference key="NSMenu" ref="332582478"/>
+									<string key="NSTitle">Decrease Font Size</string>
+									<string key="NSKeyEquiv">-</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="98338050"/>
@@ -3288,7 +3316,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																		<double key="NSSize">1.000000e+01</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="590852526">
+																	<object class="NSParagraphStyle" id="536326583">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3496,7 +3524,7 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="590852526"/>
+																	<reference ref="536326583"/>
 																</object>
 															</object>
 														</object>
@@ -5318,6 +5346,22 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					</object>
 					<int key="connectionID">1321</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">increaseFontSize:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="1006426144"/>
+					</object>
+					<int key="connectionID">1327</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">decreaseFontSize:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="275231730"/>
+					</object>
+					<int key="connectionID">1328</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -5849,6 +5893,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 							<reference ref="148723818"/>
 							<reference ref="274051259"/>
 							<reference ref="1004713283"/>
+							<reference ref="321321819"/>
+							<reference ref="1006426144"/>
+							<reference ref="275231730"/>
 						</object>
 						<reference key="parent" ref="713169941"/>
 					</object>
@@ -7284,6 +7331,21 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 						<reference key="object" ref="638509900"/>
 						<reference key="parent" ref="397973370"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1324</int>
+						<reference key="object" ref="321321819"/>
+						<reference key="parent" ref="332582478"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1325</int>
+						<reference key="object" ref="1006426144"/>
+						<reference key="parent" ref="332582478"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1326</int>
+						<reference key="object" ref="275231730"/>
+						<reference key="parent" ref="332582478"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -7414,6 +7476,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>1314.IBPluginDependency</string>
 					<string>1322.IBPluginDependency</string>
 					<string>1323.IBPluginDependency</string>
+					<string>1324.IBPluginDependency</string>
+					<string>1325.IBPluginDependency</string>
+					<string>1326.IBPluginDependency</string>
 					<string>134.IBPluginDependency</string>
 					<string>134.ImportedFromIB2</string>
 					<string>136.IBPluginDependency</string>
@@ -7798,6 +7863,9 @@ ELIAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
@@ -7901,7 +7969,7 @@ Z1s6cG9ydF0</string>
 					</object>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1, 705}, {357, 20}}</string>
+					<string>{{178, 650}, {357, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{376, 744}, {357, 20}}</string>
@@ -7960,7 +8028,7 @@ Z1s6cG9ydF0</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{162, 592}, {188, 113}}</string>
+					<string>{{339, 487}, {192, 163}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{455, 643}, {167, 93}}</string>
 					<object class="NSMutableDictionary">
@@ -8113,7 +8181,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1323</int>
+			<int key="maxID">1328</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8355,8 +8423,10 @@ Z1s6cG9ydF0</string>
 							<string>closeTab:</string>
 							<string>confirmPassword:</string>
 							<string>connect:</string>
+							<string>decreaseFontSize:</string>
 							<string>editSites:</string>
 							<string>fullScreenMode:</string>
+							<string>increaseFontSize:</string>
 							<string>inputEmoticons:</string>
 							<string>newTab:</string>
 							<string>openCompose:</string>
@@ -8381,6 +8451,8 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

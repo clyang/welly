@@ -37,6 +37,8 @@ cp $NibFileName.strings ../zh_TW.lproj
 # 6.1 编辑strings
 cd ../English.lproj
 echo "Please localize strings for English locale"
+echo "Please delete all the EXISTED items. Just leave the newly added items alone."
+echo "If there's no textmate in your system, try some other text editor. "
 mate $NibFileName.strings
 echo "Press enter to proceed"
 read NotUsed
@@ -72,7 +74,7 @@ rm $NibFileName.strings
 rm -rf $NibFileName.old.nib
 
 # 8. 清理
-cd zh_CN.lproj
+cd ../zh_CN.lproj
 rm $NibFileName.strings
 rm -rf $NibFileName.old.nib
 

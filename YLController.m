@@ -1149,7 +1149,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 #pragma mark -
-#pragma mark For full screen
+#pragma mark For View Menu
 // Here is an example to the newly designed full screen module with a customized processor
 // A "processor" here will resize the NSViews and do some necessary work before full
 // screen
@@ -1161,6 +1161,14 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];
+}
+
+// Increase global font size setting by 10%
+- (IBAction)increaseFontSize:(id)sender {
+}
+
+// Decrease global font size setting by 10%
+- (IBAction)decreaseFontSize:(id)sender {
 }
 
 #pragma mark -

@@ -153,6 +153,10 @@
 // for full screen
 - (IBAction)fullScreenMode:(id)sender;
 
+// for Font size
+- (IBAction)increaseFontSize:(id)sender;
+- (IBAction)decreaseFontSize:(id)sender;
+
 // for timer
 - (void)doScrollUp:(NSTimer*)timer;
 - (void)doScrollDown:(NSTimer*)timer;
