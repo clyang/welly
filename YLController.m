@@ -1163,12 +1163,32 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	[_fullScreenController handleFullScreen];
 }
 
-// Increase global font size setting by 10%
-- (IBAction)increaseFontSize:(id)sender {
+// Set and reset font size
+- (void)setFontSizeRatio:(CGFloat)ratio {
+	// Just do it..
+	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
+	 [[YLLGlobalConfig sharedInstance] englishFontSize] * ratio];
+	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
+	 [[YLLGlobalConfig sharedInstance] chineseFontSize] * ratio];
+	[[YLLGlobalConfig sharedInstance] setCellWidth: 
+	 [[YLLGlobalConfig sharedInstance] cellWidth] * ratio];
+	[[YLLGlobalConfig sharedInstance] setCellHeight: 
+	 [[YLLGlobalConfig sharedInstance] cellHeight] * ratio];
 }
 
-// Decrease global font size setting by 10%
+// Increase global font size setting by 5%
+- (IBAction)increaseFontSize:(id)sender {
+	// Here we use some small trick to provide better user experimence...
+	[_mainWindow setOpaque:NO];
+	[self setFontSizeRatio:1.05f];
+	[_mainWindow setOpaque:YES];
+}
+
+// Decrease global font size setting by 5%
 - (IBAction)decreaseFontSize:(id)sender {
+	[_mainWindow setOpaque:NO];
+	[self setFontSizeRatio:1.0f/1.05f];
+	[_mainWindow setOpaque:YES];
 }
 
 #pragma mark -

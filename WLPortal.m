@@ -197,8 +197,9 @@ static const CGFloat colorValues[C_COUNT][4] = {
     
     // left
     r.origin = CGPointZero;
-    r.size.width = [view frame].size.width;
-    r.size.height = [view frame].size.height;
+    r.size.width = (int)([view frame].size.width + 0.5f);
+    r.size.height = (int)([view frame].size.height + 0.5f);
+	NSLog(@"width=%f, height=%f", r.size.width, r.size.height);
     bytesPerRow = 4*r.size.width;
     bitmapData = malloc(bytesPerRow * r.size.height);
     context = CGBitmapContextCreate(bitmapData, r.size.width,
@@ -233,7 +234,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     free(bitmapData);
     
     // bottom
-    r.size.width = [view frame].size.width;
+    r.size.width = (int)([view frame].size.width + 0.5f);
     r.size.height = 10;
     bytesPerRow = 4*r.size.width;
     bitmapData = malloc(bytesPerRow * r.size.height);
