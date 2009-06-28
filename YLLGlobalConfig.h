@@ -91,6 +91,9 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 
 - (void)updateBlinkTicker;
 
+/* Set font size */
+- (void)setFontSizeRatio:(CGFloat)ratio;
+
 /* Color */
 - (NSColor *)colorBlack;
 - (void)setColorBlack:(NSColor *)c;

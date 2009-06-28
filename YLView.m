@@ -1369,7 +1369,7 @@ BOOL isSpecialSymbol(unichar ch) {
 		if (currentBackgroundColor != lastBackgroundColor || currentBold != lastBold || c == end) {
 			/* Draw Background */
 			NSRect rect = NSMakeRect((c - length) * _fontWidth, (gRow - 1 - r) * _fontHeight,
-								  _fontWidth * length, _fontHeight);
+								  _fontWidth * length + 1, _fontHeight + 1);
 			
 			// Modified by K.O.ed: All background color use same alpha setting.
 			NSColor *bgColor = [gConfig colorAtIndex:lastBackgroundColor hilite:lastBold];

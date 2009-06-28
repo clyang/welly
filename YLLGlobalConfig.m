@@ -167,6 +167,13 @@ static YLLGlobalConfig *sSharedInstance;
 	[super dealloc];
 }
 
+- (void)setFontSizeRatio:(CGFloat)ratio {
+	[self setEnglishFontSize:_englishFontSize * ratio];
+	[self setChineseFontSize:_chineseFontSize * ratio];
+	[self setCellWidth:_cellWidth * ratio];
+	[self setCellHeight:_cellHeight * ratio];
+}
+
 - (void)refreshFont {
     int i, j;
     
@@ -213,12 +220,21 @@ static YLLGlobalConfig *sSharedInstance;
 
 #pragma mark -
 #pragma mark Accessor
+- (CGFloat)cellWidth {
+	return (CGFloat)((int)(_cellWidth + 0.5));
+}
+
 - (void)setCellWidth:(CGFloat)value {
     if (value == 0) 
 		value = WLDefaultCellWidth;
     _cellWidth = value;
     [[NSUserDefaults standardUserDefaults] setFloat:value forKey:@"CellWidth"];
 }
+
+- (CGFloat)cellHeight {
+	return (CGFloat)((int)(_cellHeight + 0.5));
+}
+
 
 - (void)setCellHeight:(CGFloat)value {
     if (value == 0) 
@@ -282,11 +298,19 @@ static YLLGlobalConfig *sSharedInstance;
     [self setBlinkTicker:!_blinkTicker];
 }
 
+- (CGFloat)chineseFontSize {
+	return (CGFloat)((int)(_chineseFontSize + 0.5));
+}
+
 - (void)setChineseFontSize:(CGFloat)value {
     if (value == 0) 
 		value = WLDefaultChineseFontSize;
     _chineseFontSize = value;
     [[NSUserDefaults standardUserDefaults] setFloat:value forKey:@"ChineseFontSize"];
+}
+
+- (CGFloat)englishFontSize {
+	return (CGFloat)((int)(_englishFontSize + 0.5));
 }
 
 - (void)setEnglishFontSize:(CGFloat)value {
