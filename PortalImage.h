@@ -64,7 +64,7 @@ extern NSString *desktopImageImageDidLoadNotification;
 @property (readonly) NSString *name;
 @property (readonly) NSString *path;
 
-- (id)initWithPath:(NSString *)path;
+- (id)initWithPath:(NSString *)path isExist:(BOOL) exist;
 
 - (bool)requestImageOfSize:(CGSize)sz;
 - (CGImageRef)imageOfSize:(CGSize)sz;

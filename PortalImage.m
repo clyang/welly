@@ -59,12 +59,16 @@ NSString *desktopImageImageDidLoadNotification = @"desktopImageImageDidLoadNotif
 @synthesize name = _name;
 @synthesize path = _path;
 
-- (id)initWithPath:(NSString *)path {
+- (id)initWithPath:(NSString *)path isExist:(BOOL)exist {
     self = [super init];
     if (self == nil)
         return nil;
     _path = [path copy];
-    _name = [[[path lastPathComponent] stringByDeletingPathExtension] copy];
+    if(exist)
+		_name = [[[path lastPathComponent] stringByDeletingPathExtension] copy];
+	else
+		_name = [path copy];
+	//NSLog(@"_name = %@", path);
     return self;
 }
 

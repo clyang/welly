@@ -429,9 +429,12 @@ static const CGFloat colorValues[C_COUNT][4] = {
         [[[dir stringByAppendingPathComponent:key] stringByAppendingString:@"."]
             completePathIntoString:&file caseSensitive:NO matchesIntoArray:nil filterTypes:nil];
         // nonexistent file
-        if (file == nil)
+        BOOL exist = YES;
+		if (file == nil) {
             file = key;
-        PortalImage *image = [[PortalImage alloc] initWithPath:file];
+			exist = NO;
+		}
+        PortalImage *image = [[PortalImage alloc] initWithPath:file isExist:exist];
         [_images addObject:image];
         [image release];
     }
