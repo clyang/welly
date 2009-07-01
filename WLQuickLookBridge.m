@@ -36,9 +36,13 @@
     if (self == [super init]) {
         _pid = -1;
         _URLs = [[NSMutableArray alloc] init];
-        // Leopard: "/System/Library/PrivateFrameworks/QuickLookUI.framework"
-        [[NSBundle bundleWithPath:@"/System/…/QuickLookUI.framework"] load];
-        _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
+        SInt32 ver;
+        if (Gestalt(gestaltSystemVersion, &ver) == noErr && ver < 0x1060) {
+            // Leopard: "/System/Library/PrivateFrameworks/QuickLookUI.framework"
+            [[NSBundle bundleWithPath:@"/System/…/QuickLookUI.framework"] load];
+            _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
+        } else
+            _panel = nil;
         // To deal with full screen window level
         // Modified by gtCarrera
         //[_panel setLevel:kCGStatusWindowLevel+1];
