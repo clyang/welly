@@ -334,7 +334,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
     
     if (indices != NULL) {
         for (NSUInteger i = 0; i < [indices count]; ++i) {
-            int idx = (int)[indices pointerAtIndex:i];
+            NSUInteger idx = (NSUInteger)[indices pointerAtIndex:i];
             if (idx >= _totalImages)
                 continue;
             PortalImage *image = [_images objectAtIndex:idx];
@@ -739,7 +739,7 @@ static const CGFloat colorValues[C_COUNT][4] = {
 }
 
 // Work around a bug from 10.2 onwards
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
 	return NSDragOperationEvery;
 }
 

@@ -20,7 +20,7 @@
 
     CGSize _imageSize;
     NSMutableArray *_images;
-    int _totalImages, _selectedImageIndex;
+    NSUInteger _totalImages, _selectedImageIndex;
 
     NSMapTable *_layerDictionary;
 	

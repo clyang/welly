@@ -129,7 +129,7 @@ static PortalImageLayout *sharedLayoutManager;
         return NULL;
 
     NSPointerArray *values = [NSPointerArray pointerArrayWithWeakObjects];
-    for (int x = x0; x <= x1; x++)
+    for (NSUInteger x = x0; x <= x1; x++)
         [values addPointer:(void *)x];
     return values;
 }

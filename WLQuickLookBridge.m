@@ -76,7 +76,7 @@
 + (void)add:(NSURL *)URL {
     NSMutableArray *URLs = [self URLs];
     // check if the url is already under preview
-    unsigned index = [URLs indexOfObject:URL];
+    NSInteger index = [URLs indexOfObject:URL];
     if (index == NSNotFound) {
         [URLs insertObject:URL atIndex:0];
         index = 0;

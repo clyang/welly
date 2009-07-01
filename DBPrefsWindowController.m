@@ -89,7 +89,7 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
     /* Select the default client */
     CFStringRef defaultHandler = LSCopyDefaultHandlerForURLScheme((CFStringRef) scheme);
     if (defaultHandler) {
-        int index = [button indexOfItemWithRepresentedObject: (NSString *) defaultHandler];
+        NSInteger index = [button indexOfItemWithRepresentedObject: (NSString *) defaultHandler];
         if (index != NSNotFound) 
             [button selectItemAtIndex: index];
         CFRelease(defaultHandler);
