@@ -10,12 +10,13 @@
 
 
 @interface WLQuickLookBridge : NSObject {
+    pid_t _pid;
     NSMutableArray *_URLs;
+    id _panel;
 }
 
-+ (id)sharedPanel;
 + (void)orderFront;
 + (void)add:(NSURL *)URL;
-+ (void)removeAll;
+//+ (void)removeAll;
 
 @end
