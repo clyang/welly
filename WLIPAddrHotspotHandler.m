@@ -55,7 +55,7 @@
 	int state = 0;
 	char ip[4] = {0};
 	int seg = 0;
-	int start = 0, length = 0;
+	int start = 0, length = 0, lengthInSeg = 0;
 	for (int i = 0; i < _maxColumn; i++) {
 		unsigned char b = currRow[i].byte;
 		switch (state) {
@@ -93,14 +93,23 @@
                 if (b >= '0' && b <= '9') {	// continue to be numeric
                     seg = seg * 10 + (b - '0');
                     length++;
+					++lengthInSeg;
+					if ((seg < 255) && (i == _maxColumn - 1)) {	// available ip at the end of a row
+                        ip[state-1] = seg & 255;
+                        [self addIPRect:ip row:r column:start length:length];
+					}
                 } else {	// non-numeric, then the string should be finished.
-                    if (b == '*') // for ip address 255.255.255.*
+                    if (b == '*') { // for ip address 255.255.255.*
                         ++length;
+					} else if (lengthInSeg == 0) { // for non-address: Apple released Mac OS 10.5.6.
+						break;
+					}
                     if (seg < 255) {	// available ip
                         ip[state-1] = seg & 255;
                         [self addIPRect:ip row:r column:start length:length];
                     }
                     state = 0;
+					lengthInSeg = 0;
                 }
                 break;
 			default:
