@@ -837,9 +837,9 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     return NO;
 }
 
-- (BOOL)windowWillClose:(id)window {
+- (void)windowWillClose:(id)window {
 //    [NSApp terminate: self];
-    return NO;
+    //return NO;
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {

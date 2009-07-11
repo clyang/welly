@@ -153,7 +153,7 @@ static NSString * stringFromFileSize(long long size) {
                                          styleMask:style
                                            backing:NSBackingStoreBuffered 
                                              defer:NO];
-    [_window setFloatingPanel:NO];
+    [_window setFloatingPanel:YES];
     [_window setDelegate:self];
     [_window setOpaque:YES];
     [_window center];
