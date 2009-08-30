@@ -1,5 +1,5 @@
 //
-//  WLPTY.m
+//  XIPTY.m
 //  Welly
 //
 //  Created by boost @ 9# on 7/13/08.
@@ -152,11 +152,11 @@
             argv[i] = (char *)[[a objectAtIndex:i] UTF8String];
         argv[n] = NULL;
         execvp(argv[0], argv);
-        perror(argv[0]);
-        sleep(-1); // don't bother
+        fprintf(stderr, "fork error");
     } else { /* parent */
         int one = 1;
         ioctl(_fd, TIOCPKT, &one);
+        [self retain]; // for the thread
         [NSThread detachNewThreadSelector:@selector(readLoop:) toTarget:[self class] withObject:self];
     }
 
@@ -171,61 +171,104 @@
         [_delegate protocolDidConnect:self];
     }
     [_delegate protocolDidRecv:self data:data];
+    [data autorelease]; // allocated in the read loop
 }
 
 - (void)send:(NSData *)data {
-    // disable input while disconnected
-    if (_fd < 0 || _connecting)
+    fd_set writefds, errorfds;
+    struct timeval timeout;
+    int chunkSize;
+    
+    if (_fd < 0 || _connecting) // disable input when connecting
         return;
     
     [_delegate protocolWillSend:self data:data];
 
     const char *msg = [data bytes];
     int length = [data length];
-    // TODO: blocking?
-    ssize_t size = write(_fd, msg, length);
-    if (size < length)
-        [self close];
+    while (length > 0) {
+        FD_ZERO(&writefds);
+        FD_ZERO(&errorfds);
+        FD_SET(_fd, &writefds);
+        FD_SET(_fd, &errorfds);
+        
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 100000;
+        
+        int result = select(_fd + 1, NULL, &writefds, &errorfds, &timeout);
+        
+        if (result == 0) {
+            NSLog(@"timeout!");
+            break;
+        } else if (result < 0) { // error
+            [self close];    
+            break;
+        }
+        
+        if (length > 4096) chunkSize = 4096;
+        else chunkSize = length;
+        
+        int size = write(_fd, msg, chunkSize);
+        if (size < 0)
+            break;
+        
+        msg += size;
+        length -= size;
+    }
 }
 
+// NOTE: retain pty before starting the thread
 + (void)readLoop:(WLPTY *)pty {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-
-    fd_set outfds, errfds;
+    fd_set readfds, errorfds;
+    BOOL exit = NO;
     unsigned char buf[4096];
-    for (size_t count = 0; ; ++count) {
-        FD_ZERO(&outfds);
-        FD_ZERO(&errfds);
-        FD_SET(pty->_fd, &outfds);
-        FD_SET(pty->_fd, &errfds);
+    int iterationCount = 0;
+    int result;
+    
+    while (!exit) {
+        iterationCount++;
 
-        int result = select(pty->_fd + 1, &outfds, NULL, &errfds, NULL);
-        if (result < 0) {
-            break;
-        } else if (FD_ISSET(pty->_fd, &errfds)) {
-            if (read(pty->_fd, buf, 1) <= 0)
-                break;
-            continue;
-        } 
+        FD_ZERO(&readfds);
+        FD_ZERO(&errorfds);
+        
+        FD_SET(pty->_fd, &readfds);
+        FD_SET(pty->_fd, &errorfds);
 
-        // assert(FD_ISSET(pty->_fd, &readfds));       
-        ssize_t size = read(pty->_fd, buf, sizeof(buf));
-        if (size <= 0)
+        result = select(pty->_fd + 1, &readfds, NULL, &errorfds, NULL);
+
+        if (result < 0) {       // error
             break;
-        NSData *data = [[[NSData alloc] initWithBytes:buf+1 length:size-1] autorelease];
-        BOOL cleanup = (count >= 5000);
-        [pty performSelectorOnMainThread:@selector(recv:) 
-                              withObject:data
-                           waitUntilDone:cleanup];
-        if (cleanup) {
+        } else if (FD_ISSET(pty->_fd, &errorfds)) {
+            result = read(pty->_fd, buf, 1);
+            if (result == 0) {  // session close
+                exit = YES;
+            }
+        } else if (FD_ISSET(pty->_fd, &readfds)) {
+            result = read(pty->_fd, buf, sizeof(buf));
+            if (result > 1) {
+                [pty performSelectorOnMainThread:@selector(recv:) 
+                                       withObject:[[NSData alloc] initWithBytes:buf+1 length:result-1]
+                                    waitUntilDone:NO];
+            }
+            if (result == 0) {
+                exit = YES;
+            }
+        }
+        
+        if (iterationCount % 5000 == 0) {
             [pool release];
             pool = [NSAutoreleasePool new];
-            count = 0;
+            iterationCount = 1;
         }
     }
 
-    [pty performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:YES];
-
+    if (result >= 0) {
+        [pty performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:NO];
+    }
+    
     [pool release];
+    [pty release];
+    [NSThread exit];
 }
 @end
