@@ -1,5 +1,5 @@
 //
-//  XIPTY.m
+//  WLPTY.m
 //  Welly
 //
 //  Created by boost @ 9# on 7/13/08.
@@ -152,7 +152,8 @@
             argv[i] = (char *)[[a objectAtIndex:i] UTF8String];
         argv[n] = NULL;
         execvp(argv[0], argv);
-        fprintf(stderr, "fork error");
+        perror(argv[0]);
+        sleep(-1); // don't bother
     } else { /* parent */
         int one = 1;
         ioctl(_fd, TIOCPKT, &one);
