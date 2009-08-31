@@ -120,7 +120,9 @@ static NSString * stringFromFileSize(long long size) {
 }
 
 - (NSString *)stringFromTransfer {
-    float p = 100.0f * _transferredLength / _contentLength;
+    float p = 0;
+    if (_contentLength > 0)
+        p = 100.0f * _transferredLength / _contentLength;
     return [NSString stringWithFormat:@"%1.1f%% (%@ of %@)", p,
         stringFromFileSize(_transferredLength),
         stringFromFileSize(_contentLength)];
