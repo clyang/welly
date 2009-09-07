@@ -199,7 +199,7 @@
 		5A56C3810E342CFF00082312 /* WLPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloader.m; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
+		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
