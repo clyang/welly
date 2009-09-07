@@ -12,6 +12,7 @@
 #import "encoding.h"
 #import "YLLGlobalConfig.h"
 #import "WLMessageDelegate.h"
+#import "YLSite.h"
 
 @interface YLConnection ()
 - (void)login;
