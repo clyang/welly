@@ -31,7 +31,7 @@
     if (self) {
         // Initialization code here.
 		[self setFrame:frame];
-		[self setWantsLayer: YES];
+		[self setWantsLayer:YES];
     }
     return self;
 }
