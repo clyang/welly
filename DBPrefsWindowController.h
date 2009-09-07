@@ -43,7 +43,7 @@
 #import <AppKit/NSAnimation.h>
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-@interface DBPrefsWindowController : NSWindowController <NSAnimationDelegate> {
+@interface DBPrefsWindowController : NSWindowController <NSAnimationDelegate, NSToolbarDelegate> {
 #else
 @interface DBPrefsWindowController : NSWindowController {
 #endif
