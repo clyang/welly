@@ -44,7 +44,6 @@
 		5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloader.m */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
-		5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B419A0E229955006C1466 /* PDFKit.framework */; };
 		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
@@ -201,7 +200,6 @@
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework; sourceTree = DEVELOPER_DIR; };
-		5A7B419A0E229955006C1466 /* PDFKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PDFKit.framework; path = SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks/PDFKit.framework; sourceTree = DEVELOPER_DIR; };
 		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
 				5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */,
-				5A7B419B0E229955006C1466 /* PDFKit.framework in Frameworks */,
 				166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
@@ -356,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */,
-				5A7B419A0E229955006C1466 /* PDFKit.framework */,
 				5A7B3F770E2297CD006C1466 /* Quartz.framework */,
 				5AB1C0030E18F3870094C370 /* CoreData.framework */,
 				5AB1BDBE0E18F26C0094C370 /* System.framework */,
@@ -838,8 +834,6 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
-					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
-					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -868,8 +862,6 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SRCROOT)/../../Desktop/Sparkle 1.5b2\"",
-					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks\"",
-					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Quartz.framework/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
