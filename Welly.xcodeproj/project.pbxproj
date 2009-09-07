@@ -13,7 +13,6 @@
 		160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160D6D4A0EE2E5B900CDC416 /* Security.framework */; };
 		1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */; };
-		166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 166D63B20E2E255A00514885 /* QuartzCore.framework */; };
 		1680A7ED0E2F0F8300A2E175 /* WLPortalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* WLPortalImage.m */; };
 		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
 		16B46312105448680085AA37 /* WLPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B46311105448680085AA37 /* WLPortal.m */; };
@@ -143,7 +142,6 @@
 		1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLQuickLookBridge.h; sourceTree = "<group>"; };
 		1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPreviewController.h; sourceTree = "<group>"; };
 		1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPreviewController.m; sourceTree = "<group>"; };
-		166D63B20E2E255A00514885 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		1680A7EB0E2F0F8300A2E175 /* WLPortalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortalImage.h; sourceTree = "<group>"; };
 		1680A7EC0E2F0F8300A2E175 /* WLPortalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortalImage.m; sourceTree = "<group>"; };
 		169A2ED40EDDA871009770ED /* mouse.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mouse.pdf; sourceTree = "<group>"; };
@@ -297,7 +295,6 @@
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
 				5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */,
-				166D63B30E2E255A00514885 /* QuartzCore.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
 				5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */,
@@ -332,13 +329,12 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */,
 				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,
 				160D6D4A0EE2E5B900CDC416 /* Security.framework */,
-				166D63B20E2E255A00514885 /* QuartzCore.framework */,
 				81624CE10E2F8F89009C9987 /* Carbon.framework */,
-				5A39229D0E1E041300D9ABC1 /* Growl-WithInstaller.framework */,
 				850711AA0CA7A347005F4734 /* ApplicationServices.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
