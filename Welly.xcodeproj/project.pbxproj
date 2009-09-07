@@ -68,7 +68,6 @@
 		81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* WLFullScreenController.m */; };
 		81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */; };
 		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
-		850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850711AA0CA7A347005F4734 /* ApplicationServices.framework */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AAE0AB40192009FC710 /* YLTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* YLTerminal.m */; };
 		8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
@@ -238,7 +237,6 @@
 		81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenProcessor.h; sourceTree = "<group>"; };
 		81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenProcessor.m; sourceTree = "<group>"; };
 		81FEAD310EFE91BD0051C867 /* waiting.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = waiting.pdf; sourceTree = "<group>"; };
-		850711AA0CA7A347005F4734 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* YLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLTerminal.h; sourceTree = "<group>"; };
 		85145AAD0AB40192009FC710 /* YLTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLTerminal.m; sourceTree = "<group>"; };
@@ -286,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
 				07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */,
@@ -335,7 +332,6 @@
 				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,
 				160D6D4A0EE2E5B900CDC416 /* Security.framework */,
 				81624CE10E2F8F89009C9987 /* Carbon.framework */,
-				850711AA0CA7A347005F4734 /* ApplicationServices.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
