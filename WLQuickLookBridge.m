@@ -12,17 +12,21 @@
 + (WLQuickLookBridge *)sharedInstance;
 @end
 
-// suppress warnings
 @interface QLPreviewPanel : NSPanel
 + (id)sharedPreviewPanel;
 - (void)close;
-- (void)makeKeyAndOrderFrontWithEffect:(int)flag;
+- (void)makeKeyAndOrderFrontWithEffect:(int)flag canClose:(BOOL)canClose;
+// 10.5 only
 - (void)setURLs:(NSArray *)URLs currentIndex:(unsigned)index preservingDisplayState:(BOOL)flag;
 - (void)setEnableDragNDrop:(BOOL)flag;
+// 10.6 and above
+- (id)sharedPreviewView;
+- (void)reloadDataPreservingDisplayState:(BOOL)flag;
 @end
 
-
 @implementation WLQuickLookBridge
+
+static BOOL isLeopard;
 
 + (WLQuickLookBridge *)sharedInstance {
     static WLQuickLookBridge *instance = nil;
@@ -32,23 +36,29 @@
     return instance;
 }
 
++ (void)initialize {
+    SInt32 ver;
+    isLeopard = Gestalt(gestaltSystemVersion, &ver) == noErr && ver < 0x1060;
+}
+
 - (id)init {
-    if (self == [super init]) {
-        _pid = -1;
-        _URLs = [[NSMutableArray alloc] init];
-        SInt32 ver;
-        if (Gestalt(gestaltSystemVersion, &ver) == noErr && ver < 0x1060) {
-            // Leopard: "/System/Library/PrivateFrameworks/QuickLookUI.framework"
-            [[NSBundle bundleWithPath:@"/System/…/QuickLookUI.framework"] load];
-            _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
-        } else
-            _panel = nil;
-        // To deal with full screen window level
-        // Modified by gtCarrera
-        //[_panel setLevel:kCGStatusWindowLevel+1];
-        // End
-        [[_panel windowController] setDelegate:self];
+    if (self != [super init]) 
+        return nil;
+    _URLs = [[NSMutableArray alloc] init];
+    // 10.5: /System/Library/PrivateFrameworks/QuickLookUI.framework
+    // 10.6: /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/QuickLookUI.framework
+    [[NSBundle bundleWithPath:@"/System/Library/…/QuickLookUI.framework"] load];
+    _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
+    // To deal with full screen window level
+    // Modified by gtCarrera
+    //[_panel setLevel:kCGStatusWindowLevel+1];
+    // End
+    [[_panel windowController] setDelegate:self];
+    if (isLeopard) {
         [_panel setEnableDragNDrop:YES];
+    } else {
+        [[_panel sharedPreviewView] setEnableDragNDrop:YES];
+        [_panel setDataSource:self];
     }
     return self;
 }
@@ -77,33 +87,8 @@
 }
 
 + (void)orderFront {
-    [[self Panel] makeKeyAndOrderFrontWithEffect:2];
-    // 1 = fade in
-    // 2 = zoom in
-    if ([self Panel])
-        return;
-
-    NSUInteger count = [[self URLs] count];
-//    if (count == 0)
-//        return;
-    WLQuickLookBridge *instance = [self sharedInstance];
-    pid_t pid = instance->_pid;
-    if (pid > 0)
-        kill(pid, SIGQUIT);
-    pid = fork();
-    if (pid == 0) {
-        char *argv[count+3];
-        argv[0] = "/usr/bin/qlmanage";
-        argv[1] = "-p";
-        for (NSUInteger i = 0; i < count; ++i) {
-            NSURL *URL = (NSURL *)[[self URLs] objectAtIndex:i];
-            argv[i+2] = (char *)[[URL path] UTF8String];
-        }
-        argv[count+2] = 0;
-        execv("/usr/bin/qlmanage", argv);
-        exit(-1);
-    }
-    instance->_pid = pid;
+    // 1 = fade in, 2 = zoom in
+    [[self Panel] makeKeyAndOrderFrontWithEffect:2 canClose:YES];
 }
 
 + (void)add:(NSURL *)URL {
@@ -115,7 +100,10 @@
         index = 0;
     }
     // update
-    [[self Panel] setURLs:URLs currentIndex:index preservingDisplayState:YES];
+    if (isLeopard)
+        [[self Panel] setURLs:URLs currentIndex:index preservingDisplayState:YES];
+    else
+        [[self Panel] reloadDataPreservingDisplayState:YES];
     [self orderFront];
 }
 /*
@@ -124,5 +112,16 @@
     [[self sharedPanel] close];
     // we don't call setURLs here
 }*/
+
+#pragma mark -
+#pragma mark QLPreviewPanelDataSource protocol
+
+- (NSInteger)numberOfPreviewItemsInPreviewPanel:(id)panel {
+    return [_URLs count];
+}
+
+- (id)previewPanel:(id)panel previewItemAtIndex:(NSInteger)index {
+    return [_URLs objectAtIndex:index];
+}
 
 @end

@@ -10,7 +10,6 @@
 
 
 @interface WLQuickLookBridge : NSObject {
-    pid_t _pid;
     NSMutableArray *_URLs;
     id _panel;
 }
