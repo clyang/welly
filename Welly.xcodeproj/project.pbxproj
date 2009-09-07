@@ -56,7 +56,6 @@
 		5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEA0E18F3260094C370 /* AppleRemote.m */; };
 		5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */; };
 		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
-		5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1C0030E18F3870094C370 /* CoreData.framework */; };
 		5AB748170F6FC69100CE5F4C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB748160F6FC69100CE5F4C /* indicator.png */; };
 		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
@@ -86,7 +85,6 @@
 		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
 		85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A0E73B0D06B72900ACA26F /* Localizable.strings */; };
 		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
-		85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259390D20FD48002BD294 /* libcrypto.dylib */; };
 		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
 		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
 		85EA93230D0791180098C94B /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 85EA93210D0791180098C94B /* Preferences.nib */; };
@@ -219,7 +217,6 @@
 		5AB1BFEC0E18F3260094C370 /* KeyspanFrontRowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyspanFrontRowControl.m; sourceTree = "<group>"; };
 		5AB1BFEF0E18F3260094C370 /* RemoteControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteControlContainer.h; sourceTree = "<group>"; };
 		5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteControlContainer.m; sourceTree = "<group>"; };
-		5AB1C0030E18F3870094C370 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		5AB748160F6FC69100CE5F4C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseBehaviorManager.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMouseBehaviorManager.m; sourceTree = "<group>"; };
@@ -268,7 +265,6 @@
 		85ABEB7F0C966FEF008227D6 /* YLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLController.h; sourceTree = "<group>"; };
 		85AE9DAD0CB15D220045317F /* bookmark.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = bookmark.pdf; sourceTree = "<group>"; };
 		85D258B00D1CE575002BD294 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = zh_TW.lproj/Preferences.nib; sourceTree = "<group>"; };
-		85D259390D20FD48002BD294 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		85D259460D21039D002BD294 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		85E7825A0D057E8400BDA3FB /* YLEmoticon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLEmoticon.h; sourceTree = "<group>"; };
 		85E7825B0D057E8400BDA3FB /* YLEmoticon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLEmoticon.m; sourceTree = "<group>"; };
@@ -294,11 +290,9 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				850711AB0CA7A347005F4734 /* ApplicationServices.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
-				85D2593A0D20FD48002BD294 /* libcrypto.dylib in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
 				07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
-				5AB1C0040E18F3870094C370 /* CoreData.framework in Frameworks */,
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				5A39229E0E1E041300D9ABC1 /* Growl-WithInstaller.framework in Frameworks */,
@@ -338,6 +332,8 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
+				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,
 				160D6D4A0EE2E5B900CDC416 /* Security.framework */,
 				166D63B20E2E255A00514885 /* QuartzCore.framework */,
@@ -354,12 +350,8 @@
 			children = (
 				1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */,
 				5A7B3F770E2297CD006C1466 /* Quartz.framework */,
-				5AB1C0030E18F3870094C370 /* CoreData.framework */,
 				5AB1BDBE0E18F26C0094C370 /* System.framework */,
-				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
 				85D259460D21039D002BD294 /* IOKit.framework */,
-				85D259390D20FD48002BD294 /* libcrypto.dylib */,
-				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 			);
