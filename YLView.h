@@ -112,6 +112,7 @@
 - (void)switchURL;
 - (void)exitURL;
 /* Portal */
+- (NSView *)portalView;
 - (void)updatePortal;
 - (void)removePortal;
 - (void)checkPortal;

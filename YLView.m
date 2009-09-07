@@ -607,8 +607,7 @@ BOOL isSpecialSymbol(unichar ch) {
     p = [self convertPoint:p toView:nil];
     // portal
     if (_isInPortalMode) {
-        //[_portal clickAtPoint:p count:[theEvent clickCount]];
-		[_portal mouseDown:theEvent];
+        //[_portal mouseDown:theEvent];
         return;
     }
 
@@ -637,7 +636,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self hasMouseActivity];
 	// portal
     if (_isInPortalMode) {
-		[_portal mouseDragged:e];
+        //[_portal mouseDragged:e];
         return;
     }
     if (![self isConnected]) return;
@@ -658,7 +657,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	[self hasMouseActivity];
 	// portal
     if (_isInPortalMode) {
-		[_portal mouseUp:theEvent];
+        [_portal mouseUp:theEvent];
         return;
     }
 	
@@ -681,16 +680,8 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)scrollWheel:(NSEvent *)theEvent {
 	[self hasMouseActivity];
     // portal
-    if (_isInPortalMode) {
-        if ([theEvent deltaX] > 0)
-            [_portal moveSelection:-1];
-        else if ([theEvent deltaX] < 0)
-            [_portal moveSelection:+1];
-		else if ([theEvent deltaY] > 0)
-            [_portal moveSelection:-1];
-        else if ([theEvent deltaY] < 0)
-            [_portal moveSelection:+1];
-    }
+    if (_isInPortalMode)
+        [[_portal view] scrollWheel:theEvent];
 	[self clearSelection];
 	[_mouseBehaviorDelegate scrollWheel:theEvent];
 }
@@ -711,18 +702,7 @@ BOOL isSpecialSymbol(unichar ch) {
     unichar c = [[theEvent characters] characterAtIndex:0];
     // portal
     if (_isInPortalMode) {
-        switch (c) {
-        case NSLeftArrowFunctionKey:
-            [_portal moveSelection:-1];
-            break;
-        case NSRightArrowFunctionKey:
-            [_portal moveSelection:+1];
-            break;
-        case WLWhitespaceCharacter:
-        case WLReturnCharacter:
-            [_portal select];
-            break;
-        }
+        [_portal keyDown:theEvent];
         return;
     }
 	// URL
@@ -1759,40 +1739,39 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Portal
+
+- (NSView *)portalView {
+    return [_portal view];
+}
+
 // Show the portal, initiallize it if necessary
 - (void)updatePortal {
-	if(_portal) {
-	} else {
-		_portal = [[WLPortal alloc] initWithView:self];
-		[_portal setFrame:[self frame]];
-	}
-	[_effectView clear];
-	_isInPortalMode = YES;
-	[_mouseBehaviorDelegate update];
-	[self addSubview:_portal];
+    if (_portal == nil) {
+        _portal = [[WLPortal alloc] init];
+        [self addSubview:[_portal view]];
+    }
+    [_effectView clear];
+    _isInPortalMode = YES;
+    [_mouseBehaviorDelegate update];
+    [_portal show];
 }
+
 // Remove current portal
 - (void)removePortal {
-	if(_portal) {
-		[_portal removeFromSuperview];
-		[_portal release];
-		_portal = nil;
-	}
-	_isInPortalMode = NO;
+    [_portal hide];
+    _isInPortalMode = NO;
 }
 
 // Reset a new portal
 - (void)resetPortal {
-	// Remove it at first...
-	if(_isInPortalMode)
-		if(_portal)
-			[_portal removeFromSuperview];
-	[_portal release];
-	_portal = nil;
-	// Update the new portal if necessary...
-	if(_isInPortalMode) {
-		[self updatePortal];
-	}
+    // Remove it at first...
+    if (_isInPortalMode && _portal)
+        [[self portalView] removeFromSuperview];
+    [_portal release];
+    _portal = nil;
+    // Update the new portal if necessary...
+    if (_isInPortalMode)
+        [self updatePortal];
 }
 
 // Set the portal in right state...
@@ -1806,7 +1785,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)addPortalPicture:(NSString *)source 
 				 forSite:(NSString *)siteName {
-	[_portal addPortalPicture:source forSite:siteName];
+    //[_portal addPortalPicture:source forSite:siteName];
 }
 
 #pragma mark -

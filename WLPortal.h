@@ -1,49 +1,24 @@
 //
-//  XIPortal.h
+//  WLPortal.h
 //  Welly
 //
-//  Created by boost @ 9# on 7/16/08.
-//  Copyright 2008 Xi Wang. All rights reserved.
+//  Created by boost on 9/6/09.
+//  Copyright 2009 Xi Wang. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import <QuartzCore/QuartzCore.h>
-#import "YLView.h"
 
-@class YLSite;
-
-@interface WLPortal : NSView {
-    CAScrollLayer *_bodyLayer;
-    CATextLayer *_headerTextLayer, *_footerTextLayer;
-    CATransform3D _sublayerTransform;
-    CGImageRef _shadowImage;
-
-    CGSize _imageSize;
-    NSMutableArray *_images;
-    NSInteger _totalImages, _selectedImageIndex;
-
-    NSMapTable *_layerDictionary;
-	
-	// test...
-	NSView *_mainView;
-	
-	NSUInteger _clickedIndex;
-	CALayer *_clickedLayer;
+@interface WLPortal : NSObject {
+    NSMutableArray * _data;
+    id _view;
 }
 
-+ (CGColorRef)color:(int)name;
-- (id)initWithView:(NSView *)view;
-- (BOOL)needsInit;
-- (void)loadCovers;
-- (void)moveSelection:(int)dx;
-- (void)select;
-- (YLSite *)selectedSite;
-- (void)clickAtPoint:(NSPoint)aPoint 
-			   count:(NSUInteger)count;
+@property (readonly) NSView *view;
 
-- (void)addPortalPicture:(NSString *)source 
-				 forSite:(NSString *)siteName;
+- (void)show;
+- (void)hide;
 
-- (NSString *)portalImageFilePathForSite:(NSString *)siteName 
-						   withExtention:(BOOL)withExtention;
+- (void)keyDown:(NSEvent *)theEvent;
+- (void)mouseUp:(NSEvent *)theEvent;
+
 @end
