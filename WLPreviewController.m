@@ -10,7 +10,11 @@
 #import "WLQuickLookBridge.h"
 #import "WLGrowlBridge.h"
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+@interface WLDownloadDelegate : NSObject <NSWindowDelegate> {
+#else
 @interface WLDownloadDelegate : NSObject {
+#endif
     // This progress bar is restored by gtCarrera
     // boost: don't put it in XIPreviewController
     HMBlkProgressIndicator *_indicator;
