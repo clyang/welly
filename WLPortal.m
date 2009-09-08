@@ -21,8 +21,10 @@ const float xscale = 1, yscale = 0.8;
 - (void)setSelectedIndex:(NSUInteger)index;
 - (NSUInteger)selectedIndex;
 - (NSUInteger)focusedIndex;
+- (NSUInteger)cellIndexAtLocation:(NSPoint)point;
 - (void)setBackgroundColor:(NSColor *)color;
 - (NSColor *)backgroundColor;
+- (void)setDraggingDestinationDelegate:(id)delegate;
 @end
 
 @interface IKCacheManager : NSObject
@@ -67,7 +69,7 @@ const float xscale = 1, yscale = 0.8;
     _view = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:NSZeroRect];
 	[_view setDataSource:self];
     [_view setDelegate:self];
-	//[self setDraggingDestinationDelegate:self];
+    [_view setDraggingDestinationDelegate:self];
     [_contentView addSubview:_view];
     [superview addSubview:_contentView];
     return self;
@@ -78,12 +80,16 @@ const float xscale = 1, yscale = 0.8;
     [_view reloadData];
 }
 
-- (void)loadCovers {
-    [_data removeAllObjects];
-    // cover directory
++ (NSString*)coverDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSAssert([paths count] > 0, @"~/Library/Application Support");
     NSString *dir = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"] stringByAppendingPathComponent:@"Covers"];
+    return dir;
+}
+
+- (void)loadCovers {
+    [_data removeAllObjects];
+    NSString *dir = [[self class] coverDirectory];
     // load sites
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSArray *sites = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
@@ -92,9 +98,12 @@ const float xscale = 1, yscale = 0.8;
         if ([key length] == 0)
             continue;
         // guess the image file name
-        NSString *path = nil;
+        NSArray *paths = nil;
         [[[dir stringByAppendingPathComponent:key] stringByAppendingString:@"."]
-            completePathIntoString:&path caseSensitive:NO matchesIntoArray:nil filterTypes:nil];
+            completePathIntoString:nil caseSensitive:NO matchesIntoArray:&paths filterTypes:nil];
+        NSString *path = nil;
+        if ([paths count])
+            path = [paths objectAtIndex:0];
         WLPortalImage *item = [[WLPortalImage alloc] initWithPath:path title:key];
         [_data addObject:item];
     }
@@ -192,6 +201,7 @@ const float xscale = 1, yscale = 0.8;
 
 #pragma mark -
 #pragma mark NSDraggingSource protocol
+// drag out images (remove covers)
 
 // private
 - (BOOL)draggedOut:(NSPoint)screenPoint {
@@ -219,10 +229,90 @@ const float xscale = 1, yscale = 0.8;
         NSFileManager *fileMgr = [NSFileManager defaultManager];
         NSUInteger index = [_view selectedIndex];
         WLPortalImage *item = [_data objectAtIndex:index];
-        [fileMgr removeItemAtPath:[item path] error:NULL];
+        NSError *error = nil;
+        [fileMgr removeItemAtPath:[item path] error:&error];
+        if (error) {
+            [NSApp presentError:error];
+            return; // cancel
+        }
         [item setPath:nil];
         [self refresh];
     }
+}
+
+#pragma mark -
+#pragma mark NSDraggingDestination protocol
+// drop in images (add covers)
+
+// private
+- (NSUInteger)draggingIndex:(id <NSDraggingInfo>)sender {
+    return [_view cellIndexAtLocation:[sender draggingLocation]];
+}
+
+// private
+- (NSDragOperation)checkSource:(id <NSDraggingInfo>)sender {
+    id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    // only one file supported
+    if ([files count] != 1)
+        return NSDragOperationNone;
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    NSString *path = [files objectAtIndex:0];
+    BOOL isDir;
+    if (![fileMgr fileExistsAtPath:path isDirectory:&isDir] || isDir)
+        return NSDragOperationNone;
+    if (![fileMgr isReadableFileAtPath:path])
+        return NSDragOperationNone;
+    return NSDragOperationCopy;
+}
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    if ([sender draggingSource] == self)
+        return NSDragOperationNone;
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
+    return [self draggingUpdated:sender];
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
+    if ([self draggingIndex:sender] == NSNotFound)
+        return NSDragOperationNone;
+    return [self checkSource:sender];
+}
+
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+    return [self checkSource:sender];
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
+    assert([files count] == 1);
+    WLPortalImage *item = [_data objectAtIndex:[self draggingIndex:sender]];
+    NSString *dir = [[self class] coverDirectory];
+    NSString *src = [files objectAtIndex:0];
+    NSString *dst = [[dir stringByAppendingPathComponent:[item imageTitle]] stringByAppendingPathExtension:[src pathExtension]];
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+
+    // remove the original one first
+    if ([item path])
+        [fileMgr removeItemAtPath:[item path] error:nil];
+    [fileMgr removeItemAtPath:dst error:nil];
+
+    // copy
+    NSError *error = nil;
+    [fileMgr copyItemAtPath:src toPath:dst error:&error];
+    if (error) {
+        [NSApp presentError:error];
+        return NO; // cancel
+    }
+
+    // update
+    [item setPath:dst];
+    return YES;
+}
+
+- (void)concludeDragOperation:(id < NSDraggingInfo >)sender {
+    [self refresh];
 }
 
 @end
