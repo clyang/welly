@@ -17,7 +17,7 @@
 - (void)close;
 - (void)makeKeyAndOrderFrontWithEffect:(int)flag canClose:(BOOL)canClose;
 // 10.5 only
-- (void)setURLs:(NSArray *)URLs currentIndex:(unsigned)index preservingDisplayState:(BOOL)flag;
+- (void)setURLs:(NSArray *)URLs currentIndex:(NSUInteger)index preservingDisplayState:(BOOL)flag;
 - (void)setEnableDragNDrop:(BOOL)flag;
 // 10.6 and above
 - (id)sharedPreviewView;
