@@ -1724,9 +1724,10 @@ BOOL isSpecialSymbol(unichar ch) {
     [_effectView clear];
     _isInPortalMode = YES;
     [_mouseBehaviorDelegate update];
-    if (_portal == nil)
+    if (_portal == nil) {
         _portal = [[WLPortal alloc] initWithView:self];
-    [_portal loadCovers];
+        [_portal loadCovers];
+    }
     [_portal show];
 }
 
@@ -1736,11 +1737,12 @@ BOOL isSpecialSymbol(unichar ch) {
     _isInPortalMode = NO;
 }
 
-
 // Reset a new portal
 - (void)resetPortal {
-    if (_isInPortalMode)
+    [_portal loadCovers];
+    if (_isInPortalMode) {
         [self updatePortal];
+    }
 }
 
 // Set the portal in right state...
