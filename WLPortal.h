@@ -24,6 +24,7 @@
 - (void)loadCovers;
 - (void)show;
 - (void)hide;
+- (BOOL)updateCoverAtIndex:(NSUInteger)index withFile:(NSString*)path;
 
 - (void)keyDown:(NSEvent *)theEvent;
 - (void)mouseDragged:(NSEvent *)theEvent;

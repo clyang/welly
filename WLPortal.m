@@ -31,6 +31,7 @@ const float xscale = 1, yscale = 0.8;
 - (void)freeCache;
 @end
 
+// a container
 @interface BackgroundColorView : NSView {
     NSColor *_color;
 }
@@ -141,6 +142,40 @@ const float xscale = 1, yscale = 0.8;
     [_view setNextResponder:nil];
 }
 
+- (BOOL)updateCoverAtIndex:(NSUInteger)index withFile:(NSString*)src {
+    if ([_data count] <= index)
+        return NO;
+
+    WLPortalImage *item = [_data objectAtIndex:index];
+    if (item == nil)
+        return NO;
+
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    // remove the original one
+    if ([item path])
+        [fileMgr removeItemAtPath:[item path] error:nil];
+
+    NSString *dst = nil;
+    if (src) {
+        NSString *dir = [[self class] coverDirectory];
+        dst = [[dir stringByAppendingPathComponent:[item imageTitle]] stringByAppendingPathExtension:[src pathExtension]];
+        // try to clean up dst first
+        [fileMgr removeItemAtPath:dst error:nil];
+        NSError *error = nil;
+        // copy
+        [fileMgr copyItemAtPath:src toPath:dst error:&error];
+        if (error) {
+            [NSApp presentError:error];
+            return NO;
+        }
+    }
+
+    // update
+    [item setPath:dst];
+    [self refresh];
+    return YES;
+}
+
 - (void)select {
     [self hide];
     YLController *controller = [((YLApplication *)NSApp) controller];
@@ -148,7 +183,7 @@ const float xscale = 1, yscale = 0.8;
     [controller newConnectionWithSite:site];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark IKImageFlowDataSource protocol
 
 - (NSUInteger)numberOfItemsInImageFlow:(id)aFlow {
@@ -220,24 +255,13 @@ const float xscale = 1, yscale = 0.8;
     [[NSCursor arrowCursor] set];
     if (![self draggedOut:screenPoint])
         return;
-	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to delete the cover?", @"Sheet Title")
-									 defaultButton:NSLocalizedString(@"Delete", @"Default Button")
-								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
-									   otherButton:nil
-						 informativeTextWithFormat:NSLocalizedString(@"Welly will delete this cover file, please confirm.", @"Sheet Message")];
-	if ([alert runModal] == NSAlertDefaultReturn) {
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-        NSUInteger index = [_view selectedIndex];
-        WLPortalImage *item = [_data objectAtIndex:index];
-        NSError *error = nil;
-        [fileMgr removeItemAtPath:[item path] error:&error];
-        if (error) {
-            [NSApp presentError:error];
-            return; // cancel
-        }
-        [item setPath:nil];
-        [self refresh];
-    }
+    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to delete the cover?", @"Sheet Title")
+                                     defaultButton:NSLocalizedString(@"Delete", @"Default Button")
+                                   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+                                       otherButton:nil
+                         informativeTextWithFormat:NSLocalizedString(@"Welly will delete this cover file, please confirm.", @"Sheet Message")];
+    if ([alert runModal] == NSAlertDefaultReturn)
+        [self updateCoverAtIndex:[_view selectedIndex] withFile:nil];
 }
 
 #pragma mark -
@@ -287,28 +311,8 @@ const float xscale = 1, yscale = 0.8;
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     assert([files count] == 1);
-    WLPortalImage *item = [_data objectAtIndex:[self draggingIndex:sender]];
-    NSString *dir = [[self class] coverDirectory];
-    NSString *src = [files objectAtIndex:0];
-    NSString *dst = [[dir stringByAppendingPathComponent:[item imageTitle]] stringByAppendingPathExtension:[src pathExtension]];
-    NSFileManager *fileMgr = [NSFileManager defaultManager];
-
-    // remove the original one first
-    if ([item path])
-        [fileMgr removeItemAtPath:[item path] error:nil];
-    [fileMgr removeItemAtPath:dst error:nil];
-
-    // copy
-    NSError *error = nil;
-    [fileMgr copyItemAtPath:src toPath:dst error:&error];
-    if (error) {
-        [NSApp presentError:error];
-        return NO; // cancel
-    }
-
-    // update
-    [item setPath:dst];
-    return YES;
+    NSUInteger index = [self draggingIndex:sender];
+    return [self updateCoverAtIndex:index withFile:[files objectAtIndex:0]];
 }
 
 - (void)concludeDragOperation:(id < NSDraggingInfo >)sender {

@@ -165,14 +165,14 @@
 - (void)doScrollUp:(NSTimer*)timer;
 - (void)doScrollDown:(NSTimer*)timer;
 - (void)disableTimer;
-
+/*
 // for portal
 - (IBAction)browseImage:(id)sender;
 - (IBAction)removeSiteImage:(id)sender;
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet 
 			 returnCode:(int)returnCode 
 			contextInfo:(void *)contextInfo;
-
+*/
 // for resotre
 - (IBAction)restoreSettings:(id)sender;
 

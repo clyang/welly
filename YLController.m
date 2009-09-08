@@ -1447,6 +1447,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 // for portal
+/*
 - (IBAction)browseImage:(id)sender {
 	[_sitesWindow setLevel:0];
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -1498,4 +1499,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 		[_telnetView addPortalImage:source forSite:siteName];
 	}
 }
+*/
+
 @end
