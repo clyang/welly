@@ -115,6 +115,7 @@
 - (NSView *)portalView;
 - (void)updatePortal;
 - (void)removePortal;
+- (void)resetPortal;
 - (void)checkPortal;
 - (void)addPortalImage:(NSString *)source forSite:(NSString *)siteName;
 

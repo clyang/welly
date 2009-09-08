@@ -89,6 +89,7 @@ const float xscale = 1, yscale = 0.8;
         [_data addObject:item];
     }
     [pool release];
+    [_view reloadData];
 }
 
 - (void)show {
@@ -149,7 +150,7 @@ const float xscale = 1, yscale = 0.8;
 }
 
 #pragma mark -
-#pragma mark Event Handler
+#pragma mark Event handler
 
 - (void)keyDown:(NSEvent *)theEvent {
 	switch ([[theEvent charactersIgnoringModifiers] characterAtIndex:0]) {
@@ -160,6 +161,57 @@ const float xscale = 1, yscale = 0.8;
         }
     }
     [_view keyDown:theEvent];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+	WLPortalImage *item = [_data objectAtIndex:[_view selectedIndex]];
+	// Do not allow to drag & drop default image
+	if ([item image] == nil)
+		return;
+    NSString *path = [item path];
+    NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
+	NSPoint pt = [_view convertPoint:[theEvent locationInWindow] fromView:nil];
+    NSSize size = [image size];
+    pt.x -= size.width/2;
+    pt.y -= size.height/2;
+    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+    [pboard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:nil];
+    [pboard setString:path forType:NSFilenamesPboardType];
+    [_view dragImage:image at:pt offset:NSZeroSize 
+        event:theEvent pasteboard:pboard source:self slideBack:NO];
+	return;
+}
+
+#pragma mark -
+#pragma mark NSDraggingSource protocol
+
+// private
+- (BOOL)draggedOut:(NSPoint)screenPoint {
+	NSPoint pt = [[_view window] convertScreenToBase:screenPoint];
+    return ![_view hitTest:pt];
+}
+
+- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint {
+    if ([self draggedOut:screenPoint])
+        [[NSCursor disappearingItemCursor] set];
+    else
+        [[NSCursor arrowCursor] set];
+}
+
+- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation {
+    [[NSCursor arrowCursor] set];
+    if (![self draggedOut:screenPoint])
+        return;
+	NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to delete the cover?", @"Sheet Title")
+									 defaultButton:NSLocalizedString(@"Delete", @"Default Button")
+								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
+									   otherButton:nil
+						 informativeTextWithFormat:NSLocalizedString(@"Welly will delete this cover file, please confirm.", @"Sheet Message")];
+	if ([alert runModal] == NSAlertDefaultReturn) {
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        [fileMgr removeItemAtPath:[[_data objectAtIndex:[_view selectedIndex]] path] error:NULL];
+        [self loadCovers];
+    }
 }
 
 @end

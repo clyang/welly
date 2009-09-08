@@ -57,7 +57,7 @@
 	
 	// And reset portal if necessary...
 	if([_myView isInPortalMode]) {
-		[_myView updatePortal];
+		[_myView resetPortal];
 		needResetPortal = YES;
 	}
 }
@@ -72,7 +72,7 @@
 	
 	// ...
 	if(needResetPortal || [_myView isInPortalMode]) {
-		[_myView updatePortal];
+		[_myView resetPortal];
 		needResetPortal = NO;
 	}
 }

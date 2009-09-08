@@ -167,7 +167,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     
     // Reset portal if necessary
 	if([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
-		[_telnetView updatePortal];
+		[_telnetView resetPortal];
 	}
 }
 

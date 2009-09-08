@@ -627,9 +627,12 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
-    [super mouseDragged:theEvent];
     [self hasMouseActivity];
-    if (![self isConnected]) return;
+    if (_isInPortalMode)
+        [_portal mouseDragged:theEvent];
+    if (![self isConnected])
+        return;
+
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     int index = [self convertIndexFromPoint:p];
@@ -1733,14 +1736,20 @@ BOOL isSpecialSymbol(unichar ch) {
     _isInPortalMode = NO;
 }
 
+
+// Reset a new portal
+- (void)resetPortal {
+    if (_isInPortalMode)
+        [self updatePortal];
+}
+
 // Set the portal in right state...
 - (void)checkPortal {
     YLSite *site = [[self frontMostConnection] site];
-	if (_isInPortalMode && (site && ![site empty])) {
-		[self removePortal];
-	} else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
-		[self updatePortal];
-	}
+    if (_isInPortalMode && (site && ![site empty]))
+        [self removePortal];
+    else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])
+        [self updatePortal];
 }
 
 - (void)addPortalImage:(NSString *)source 

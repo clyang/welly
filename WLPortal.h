@@ -26,5 +26,6 @@
 - (void)hide;
 
 - (void)keyDown:(NSEvent *)theEvent;
+- (void)mouseDragged:(NSEvent *)theEvent;
 
 @end
