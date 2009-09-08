@@ -24,6 +24,27 @@ const float xscale = 1, yscale = 0.8;
 - (NSColor *)backgroundColor;
 @end
 
+@interface BackgroundColorView : NSView {
+    NSColor *_color;
+}
+- (void)setBackgroundColor:(NSColor *)color;
+@end
+
+@implementation BackgroundColorView
+- (void)dealloc {
+    [_color release];
+    [super dealloc];
+}
+- (void)drawRect:(NSRect)rect {
+    [_color set];
+    NSRectFill(rect);
+}
+- (void)setBackgroundColor:(NSColor *)color {
+    _color = [color copy];
+}
+@end
+
+
 @implementation WLPortal
 
 @synthesize view = _view;
@@ -37,16 +58,18 @@ const float xscale = 1, yscale = 0.8;
     if (self != [super init])
         return nil;
     _data = [[NSMutableArray alloc] init];
+    _contentView = [[BackgroundColorView alloc] init];
     _view = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:NSZeroRect];
 	[_view setDataSource:self];
     [_view setDelegate:self];
 	//[self setDraggingDestinationDelegate:self];
-    [superview addSubview:_view];
-    [self loadCovers];
+    [_contentView addSubview:_view];
+    [superview addSubview:_contentView];
     return self;
 }
 
 - (void)loadCovers {
+    [_data removeAllObjects];
     // cover directory
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSAssert([paths count] > 0, @"~/Library/Application Support");
@@ -69,28 +92,33 @@ const float xscale = 1, yscale = 0.8;
 }
 
 - (void)show {
-    NSView *superview = [_view superview];
-    if (superview == nil)
-        return;
+    NSView *superview = [_contentView superview];
     NSRect frame = [superview frame];
+    [_contentView setFrame:frame];
     frame.origin.x += frame.size.width * (1 - xscale) / 2;
     frame.origin.y += frame.size.height * (1 - yscale) / 2;
     frame.size.width *= xscale;
     frame.size.height *= yscale;
     [_view setFrame:frame];
-    [_view setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
-    [_view reloadData];
+    // background
+    NSColor *color = [[YLLGlobalConfig sharedInstance] colorBG];
+    // cover flow doesn't support alpha
+    color = [color colorWithAlphaComponent:1.0];
+    [_contentView setBackgroundColor:color];
+    [_view setBackgroundColor:color];
     // event hanlding
     NSResponder *next = [superview nextResponder];
     if (_view != next) {
         [_view setNextResponder:next];
         [superview setNextResponder:_view];
     }
+    // fresh
+    [_view reloadData];
 }
 
 - (void)hide {
-    [_view setFrame:NSZeroRect];
-    NSView *superview = [_view superview];
+    [_contentView setFrame:NSZeroRect];
+    NSView *superview = [_contentView superview];
     [superview setNextResponder:[_view nextResponder]];
     [_view setNextResponder:nil];
 }

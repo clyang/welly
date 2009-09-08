@@ -599,6 +599,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
+    // weird workaround
     [[self nextResponder] mouseDown:theEvent];
     //[super mouseDown:theEvent];
     [self hasMouseActivity];
@@ -662,9 +663,9 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)scrollWheel:(NSEvent *)theEvent {
     [super scrollWheel:theEvent];
-	[self hasMouseActivity];
-	[self clearSelection];
-	[_mouseBehaviorDelegate scrollWheel:theEvent];
+    [self hasMouseActivity];
+    [self clearSelection];
+    [_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
@@ -1433,16 +1434,6 @@ BOOL isSpecialSymbol(unichar ch) {
     return YES;
 }
 
-- (BOOL)becomeFirstResponder {
-	//NSLog(@"becomeFirstResponder");
-	return YES;
-}
-/* commented out by boost @ 9#: why not using the delegate...
-- (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
-    [[tabViewItem identifier] close];
-    [super removeTabViewItem:tabViewItem];
-}
-*/
 + (NSMenu *)defaultMenu {
     return [[[NSMenu alloc] init] autorelease];
 }
@@ -1727,13 +1718,12 @@ BOOL isSpecialSymbol(unichar ch) {
 
 // Show the portal, initiallize it if necessary
 - (void)updatePortal {
-    if (_portal == nil)
-        _portal = [[WLPortal alloc] initWithView:self];
-    else
-        [_portal loadCovers];
     [_effectView clear];
     _isInPortalMode = YES;
     [_mouseBehaviorDelegate update];
+    if (_portal == nil)
+        _portal = [[WLPortal alloc] initWithView:self];
+    [_portal loadCovers];
     [_portal show];
 }
 
@@ -1745,9 +1735,10 @@ BOOL isSpecialSymbol(unichar ch) {
 
 // Set the portal in right state...
 - (void)checkPortal {
-	if (_isInPortalMode && ![[[self frontMostConnection] site] empty]) {
+    YLSite *site = [[self frontMostConnection] site];
+	if (_isInPortalMode && (site && ![site empty])) {
 		[self removePortal];
-	} else if (([self numberOfTabViewItems] == 0 || [[[self frontMostConnection] site] empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
+	} else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
 		[self updatePortal];
 	}
 }
