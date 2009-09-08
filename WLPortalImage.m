@@ -19,10 +19,8 @@ static NSImage *default_image;
 - (id)initWithPath:(NSString *)path title:(NSString *)title {
     if (self != [super init])
         return nil;
-    _path = [path copy];
+    [self setPath:path];
     _title = [title copy];
-    if (_path)
-        _image = [[NSImage alloc] initByReferencingFile:_path];
     return self;
 }
 
@@ -33,9 +31,14 @@ static NSImage *default_image;
     [super dealloc];
 }
 
-- (void)setImage:(NSImage *)image {
+- (void)setPath:(NSString *)path {
+    [_path release];
     [_image release];
-    _image = [image retain];
+    _path = [path copy];
+    if (_path)
+        _image = [[NSImage alloc] initByReferencingFile:_path];
+    else
+        _image = nil;
 }
 
 - (NSString *)imageUID {

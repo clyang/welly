@@ -17,7 +17,7 @@
 @property (readonly) NSImage *image;
 
 - (id)initWithPath:(NSString *)path title:(NSString *)title;
-- (void)setImage:(NSImage *)image;
+- (void)setPath:(NSString *)path;
 
 #pragma mark -
 #pragma mark IKImageBrowserItem protocol

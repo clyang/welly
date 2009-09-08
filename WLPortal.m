@@ -17,11 +17,16 @@ const float xscale = 1, yscale = 0.8;
 // hack
 @interface IKImageFlowView : NSOpenGLView
 - (void)reloadData;
+- (id)cacheManager;
 - (void)setSelectedIndex:(NSUInteger)index;
 - (NSUInteger)selectedIndex;
 - (NSUInteger)focusedIndex;
 - (void)setBackgroundColor:(NSColor *)color;
 - (NSColor *)backgroundColor;
+@end
+
+@interface IKCacheManager : NSObject
+- (void)freeCache;
 @end
 
 @interface BackgroundColorView : NSView {
@@ -68,6 +73,11 @@ const float xscale = 1, yscale = 0.8;
     return self;
 }
 
+- (void)refresh {
+    [[_view cacheManager] freeCache];
+    [_view reloadData];
+}
+
 - (void)loadCovers {
     [_data removeAllObjects];
     // cover directory
@@ -89,7 +99,7 @@ const float xscale = 1, yscale = 0.8;
         [_data addObject:item];
     }
     [pool release];
-    [_view reloadData];
+    [self refresh];
 }
 
 - (void)show {
@@ -113,8 +123,6 @@ const float xscale = 1, yscale = 0.8;
         [_view setNextResponder:next];
         [superview setNextResponder:_view];
     }
-    // fresh
-    [_view reloadData];
 }
 
 - (void)hide {
@@ -209,8 +217,11 @@ const float xscale = 1, yscale = 0.8;
 						 informativeTextWithFormat:NSLocalizedString(@"Welly will delete this cover file, please confirm.", @"Sheet Message")];
 	if ([alert runModal] == NSAlertDefaultReturn) {
         NSFileManager *fileMgr = [NSFileManager defaultManager];
-        [fileMgr removeItemAtPath:[[_data objectAtIndex:[_view selectedIndex]] path] error:NULL];
-        [self loadCovers];
+        NSUInteger index = [_view selectedIndex];
+        WLPortalImage *item = [_data objectAtIndex:index];
+        [fileMgr removeItemAtPath:[item path] error:NULL];
+        [item setPath:nil];
+        [self refresh];
     }
 }
 
