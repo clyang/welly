@@ -116,9 +116,7 @@
 - (void)updatePortal;
 - (void)removePortal;
 - (void)checkPortal;
-- (void)resetPortal;
-- (void)addPortalPicture:(NSString *)source
-				 forSite:(NSString *)siteName;
+- (void)addPortalImage:(NSString *)source forSite:(NSString *)siteName;
 
 // Mouse operation
 - (void)deactivateMouseForKeying;

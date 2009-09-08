@@ -9,23 +9,33 @@
 #import <Quartz/Quartz.h>
 #import "WLPortalImage.h"
 
-const float imageWidth = 100, imageHeight = 100;
+static NSImage *default_image;
 
 @implementation WLPortalImage
 
-- (id)initWithImage:(NSImage *)image title:(NSString *)title {
-    self = [super init];
-    if (self == nil)
+@synthesize path = _path;
+@synthesize image = _image;
+
+- (id)initWithPath:(NSString *)path title:(NSString *)title {
+    if (self != [super init])
         return nil;
-    _image = [image retain];
+    _path = [path copy];
     _title = [title copy];
+    if (_path)
+        _image = [[NSImage alloc] initByReferencingFile:_path];
     return self;
 }
 
 - (void)dealloc {
-    [_title release];
     [_image release];
+    [_title release];
+    [_path release];
     [super dealloc];
+}
+
+- (void)setImage:(NSImage *)image {
+    [_image release];
+    _image = [image retain];
 }
 
 - (NSString *)imageUID {
@@ -37,6 +47,11 @@ const float imageWidth = 100, imageHeight = 100;
 }
 
 - (id)imageRepresentation {
+    if (_image == nil) {
+        if (default_image == nil)
+            default_image = [NSImage imageNamed:@"default_site.png"];
+        return default_image;
+    }
     return _image;
 }
 

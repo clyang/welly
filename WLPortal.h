@@ -14,15 +14,17 @@
 @interface WLPortal : NSObject {
 #endif
     NSMutableArray * _data;
-    id _view;
+    id _view, _contentView;
 }
 
 @property (readonly) NSView *view;
 
+- (id)initWithView:(NSView *)view;
+
+- (void)loadCovers;
 - (void)show;
 - (void)hide;
 
 - (void)keyDown:(NSEvent *)theEvent;
-- (void)mouseUp:(NSEvent *)theEvent;
 
 @end

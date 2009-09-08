@@ -14,11 +14,6 @@
 
 const float xscale = 1, yscale = 0.8;
 
-// private methods
-@interface WLPortal ()
-- (void)loadCovers;
-@end
-
 // hack
 @interface IKImageFlowView : NSOpenGLView
 - (void)reloadData;
@@ -38,17 +33,16 @@ const float xscale = 1, yscale = 0.8;
     [super dealloc];
 }
 
-- (id)init {
+- (id)initWithView:(NSView *)superview {
     if (self != [super init])
         return nil;
     _data = [[NSMutableArray alloc] init];
-    _view = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)];
-	//[_view setDelegate:self];
+    _view = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:NSZeroRect];
 	[_view setDataSource:self];
+    [_view setDelegate:self];
 	//[self setDraggingDestinationDelegate:self];
-	[_view setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
+    [superview addSubview:_view];
     [self loadCovers];
-    [_view reloadData];
     return self;
 }
 
@@ -65,35 +59,40 @@ const float xscale = 1, yscale = 0.8;
         if ([key length] == 0)
             continue;
         // guess the image file name
-        NSString *file = nil;
+        NSString *path = nil;
         [[[dir stringByAppendingPathComponent:key] stringByAppendingString:@"."]
-            completePathIntoString:&file caseSensitive:NO matchesIntoArray:nil filterTypes:nil];
-        NSImage *image = nil;
-        if (file)
-            image = [[NSImage alloc] initByReferencingFile:file];
-        // no image
-        if (image == nil)
-            image = [NSImage imageNamed:@"default_site.png"];
-        WLPortalImage *item = [[WLPortalImage alloc] initWithImage:image title:key];
+            completePathIntoString:&path caseSensitive:NO matchesIntoArray:nil filterTypes:nil];
+        WLPortalImage *item = [[WLPortalImage alloc] initWithPath:path title:key];
         [_data addObject:item];
     }
     [pool release];
 }
 
 - (void)show {
-    NSView *view = [_view superview];
-    if (view == nil)
+    NSView *superview = [_view superview];
+    if (superview == nil)
         return;
-    NSRect frame = [view frame];
+    NSRect frame = [superview frame];
     frame.origin.x += frame.size.width * (1 - xscale) / 2;
     frame.origin.y += frame.size.height * (1 - yscale) / 2;
     frame.size.width *= xscale;
     frame.size.height *= yscale;
     [_view setFrame:frame];
+    [_view setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
+    [_view reloadData];
+    // event hanlding
+    NSResponder *next = [superview nextResponder];
+    if (_view != next) {
+        [_view setNextResponder:next];
+        [superview setNextResponder:_view];
+    }
 }
 
 - (void)hide {
-    [_view setFrame:NSMakeRect(0, 0, 0, 0)];
+    [_view setFrame:NSZeroRect];
+    NSView *superview = [_view superview];
+    [superview setNextResponder:[_view nextResponder]];
+    [_view setNextResponder:nil];
 }
 
 - (void)select {
@@ -104,7 +103,7 @@ const float xscale = 1, yscale = 0.8;
 }
 
 #pragma mark - 
-#pragma mark IKImageFlowDataSource Protocol
+#pragma mark IKImageFlowDataSource protocol
 
 - (NSUInteger)numberOfItemsInImageFlow:(id)aFlow {
 	return [_data count];
@@ -115,26 +114,24 @@ const float xscale = 1, yscale = 0.8;
 }
 
 #pragma mark -
+#pragma mark IKImageFlowDelegate protocol
+
+- (void)imageFlow:(id)aFlow cellWasDoubleClickedAtIndex:(NSInteger)index {
+    [self select];
+}
+
+#pragma mark -
 #pragma mark Event Handler
 
 - (void)keyDown:(NSEvent *)theEvent {
 	switch ([[theEvent charactersIgnoringModifiers] characterAtIndex:0]) {
-        case NSLeftArrowFunctionKey:
-        case NSRightArrowFunctionKey:
-        case NSUpArrowFunctionKey:
-        case NSDownArrowFunctionKey:
-            [_view keyDown:theEvent];
-            break;
         case WLWhitespaceCharacter:
         case WLReturnCharacter: {
             [self select];
-            break;
+            return;
         }
     }
-}
-
-- (void)mouseUp:(NSEvent *)theEvent {
-    [self select];
+    [_view keyDown:theEvent];
 }
 
 @end

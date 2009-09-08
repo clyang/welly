@@ -9,11 +9,15 @@
 #import <Cocoa/Cocoa.h>
 
 @interface WLPortalImage : NSObject {
-    NSString * _title;
-    NSImage  * _image;
+    NSString *_path, *_title;
+    NSImage  *_image;
 }
 
-- (id)initWithImage:(NSImage *)image title:(NSString *)title;
+@property (readonly) NSString *path;
+@property (readonly) NSImage *image;
+
+- (id)initWithPath:(NSString *)path title:(NSString *)title;
+- (void)setImage:(NSImage *)image;
 
 #pragma mark -
 #pragma mark IKImageBrowserItem protocol

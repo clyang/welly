@@ -167,7 +167,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     
     // Reset portal if necessary
 	if([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
-		[_telnetView resetPortal];
+		[_telnetView updatePortal];
 	}
 }
 
@@ -1495,7 +1495,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	if (returnCode == NSOKButton) {
 		NSString *source = [sheet filename];
 		NSString *siteName = [_siteNameField stringValue];
-		[_telnetView addPortalPicture:source forSite:siteName];
+		[_telnetView addPortalImage:source forSite:siteName];
 	}
 }
 @end

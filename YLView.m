@@ -599,23 +599,17 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
-	[self hasMouseActivity];
-	[[self frontMostConnection] resetMessageCount];
+    [[self nextResponder] mouseDown:theEvent];
+    //[super mouseDown:theEvent];
+    [self hasMouseActivity];
+    [[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
-
-    NSPoint p = [theEvent locationInWindow];
-    p = [self convertPoint:p toView:nil];
-    // portal
-    if (_isInPortalMode) {
-        //[_portal mouseDown:theEvent];
-        return;
-    }
-
     if (![self isConnected]) 
 		return;
 	// Disable the mouse if we cancelled any selection
-	if(abs(_selectionLength) > 0) 
-		_isNotCancelingSelection = NO;
+    if(abs(_selectionLength) > 0) 
+        _isNotCancelingSelection = NO;
+    NSPoint p = [self convertPoint:[theEvent locationInWindow] toView:nil];
     _selectionLocation = [self convertIndexFromPoint:p];
     _selectionLength = 0;
     
@@ -629,18 +623,13 @@ BOOL isSpecialSymbol(unichar ch) {
     }
     
     [self setNeedsDisplay: YES];
-	//    [super mouseDown: e];
 }
 
-- (void)mouseDragged:(NSEvent *)e {
-	[self hasMouseActivity];
-	// portal
-    if (_isInPortalMode) {
-        //[_portal mouseDragged:e];
-        return;
-    }
+- (void)mouseDragged:(NSEvent *)theEvent {
+    [super mouseDragged:theEvent];
+    [self hasMouseActivity];
     if (![self isConnected]) return;
-    NSPoint p = [e locationInWindow];
+    NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
     int index = [self convertIndexFromPoint:p];
     int oldValue = _selectionLength;
@@ -654,13 +643,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
-	[self hasMouseActivity];
-	// portal
-    if (_isInPortalMode) {
-        [_portal mouseUp:theEvent];
-        return;
-    }
-	
+    [self hasMouseActivity];
     if (![self isConnected]) return;
     // open url
 	NSPoint p = [theEvent locationInWindow];
@@ -678,10 +661,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)scrollWheel:(NSEvent *)theEvent {
+    [super scrollWheel:theEvent];
 	[self hasMouseActivity];
-    // portal
-    if (_isInPortalMode)
-        [[_portal view] scrollWheel:theEvent];
 	[self clearSelection];
 	[_mouseBehaviorDelegate scrollWheel:theEvent];
 }
@@ -1746,10 +1727,10 @@ BOOL isSpecialSymbol(unichar ch) {
 
 // Show the portal, initiallize it if necessary
 - (void)updatePortal {
-    if (_portal == nil) {
-        _portal = [[WLPortal alloc] init];
-        [self addSubview:[_portal view]];
-    }
+    if (_portal == nil)
+        _portal = [[WLPortal alloc] initWithView:self];
+    else
+        [_portal loadCovers];
     [_effectView clear];
     _isInPortalMode = YES;
     [_mouseBehaviorDelegate update];
@@ -1762,18 +1743,6 @@ BOOL isSpecialSymbol(unichar ch) {
     _isInPortalMode = NO;
 }
 
-// Reset a new portal
-- (void)resetPortal {
-    // Remove it at first...
-    if (_isInPortalMode && _portal)
-        [[self portalView] removeFromSuperview];
-    [_portal release];
-    _portal = nil;
-    // Update the new portal if necessary...
-    if (_isInPortalMode)
-        [self updatePortal];
-}
-
 // Set the portal in right state...
 - (void)checkPortal {
 	if (_isInPortalMode && ![[[self frontMostConnection] site] empty]) {
@@ -1783,7 +1752,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	}
 }
 
-- (void)addPortalPicture:(NSString *)source 
+- (void)addPortalImage:(NSString *)source 
 				 forSite:(NSString *)siteName {
     //[_portal addPortalPicture:source forSite:siteName];
 }
