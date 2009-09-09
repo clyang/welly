@@ -20,8 +20,16 @@
 - (void)setURLs:(NSArray *)URLs currentIndex:(NSUInteger)index preservingDisplayState:(BOOL)flag;
 - (void)setEnableDragNDrop:(BOOL)flag;
 // 10.6 and above
-- (id)sharedPreviewView;
 - (void)reloadDataPreservingDisplayState:(BOOL)flag;
+@end
+
+@interface QLPreviewView : NSView
+- (void)setEnableDragNDrop:(BOOL)flag;
+- (BOOL)enableDragNDrop;
+@end
+
+@interface QLPreviewPanelController : NSWindowController
+@property(readonly) QLPreviewView *previewView;
 @end
 
 @implementation WLQuickLookBridge
@@ -46,19 +54,20 @@ static BOOL isLeopard;
         return nil;
     _URLs = [[NSMutableArray alloc] init];
     // 10.5: /System/Library/PrivateFrameworks/QuickLookUI.framework
-    // 10.6: /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/QuickLookUI.framework
+    // 10.6: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
     [[NSBundle bundleWithPath:@"/System/Library/…/QuickLookUI.framework"] load];
     _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
     // To deal with full screen window level
     // Modified by gtCarrera
     //[_panel setLevel:kCGStatusWindowLevel+1];
     // End
-    [[_panel windowController] setDelegate:self];
+    id controller = [_panel windowController];
+    [controller setDelegate:self];
     if (isLeopard) {
         [_panel setEnableDragNDrop:YES];
     } else {
-        [[_panel sharedPreviewView] setEnableDragNDrop:YES];
         [_panel setDataSource:self];
+        [[controller previewView] setEnableDragNDrop:YES];
     }
     return self;
 }
