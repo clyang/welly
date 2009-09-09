@@ -647,6 +647,9 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseUp:(NSEvent *)theEvent {
+    // weird too
+    [[self nextResponder] mouseUp:theEvent];
+    //[super mouseDown:theEvent];
     [self hasMouseActivity];
     if (![self isConnected]) return;
     // open url
@@ -1753,12 +1756,12 @@ BOOL isSpecialSymbol(unichar ch) {
     else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])
         [self updatePortal];
 }
-
+/*
 - (void)addPortalImage:(NSString *)source 
 				 forSite:(NSString *)siteName {
     //[_portal addPortalPicture:source forSite:siteName];
 }
-
+*/
 #pragma mark -
 #pragma mark mouse operation
 - (void)deactivateMouseForKeying {
