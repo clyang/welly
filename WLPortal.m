@@ -82,10 +82,17 @@ const float xscale = 1, yscale = 0.8;
 }
 
 + (NSString*)coverDirectory {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSAssert([paths count] > 0, @"~/Library/Application Support");
-    NSString *dir = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"] stringByAppendingPathComponent:@"Covers"];
-    return dir;
+    static NSString *sCoverDir = nil;
+    if (sCoverDir == nil) {
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        NSAssert([paths count] > 0, @"~/Library/Application Support");
+        NSString *dir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
+        [fileMgr createDirectoryAtPath:dir attributes:nil];
+        sCoverDir = [[dir stringByAppendingPathComponent:@"Covers"] retain];
+        [fileMgr createDirectoryAtPath:sCoverDir attributes:nil];
+    }
+    return sCoverDir;
 }
 
 - (void)loadCovers {
@@ -310,7 +317,7 @@ const float xscale = 1, yscale = 0.8;
 
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
-    assert([files count] == 1);
+    NSAssert([files count] == 1, @"only one file supported");
     NSUInteger index = [self draggingIndex:sender];
     return [self updateCoverAtIndex:index withFile:[files objectAtIndex:0]];
 }
