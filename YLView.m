@@ -775,17 +775,21 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)flagsChanged:(NSEvent *)event {
 	unsigned int currentFlags = [event modifierFlags];
 	// For rectangle selection
-	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
-		_wantsRectangleSelection = YES;
-		[[NSCursor crosshairCursor] push];
-		_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
-	} else {
-		_wantsRectangleSelection = NO;
-		[[NSCursor crosshairCursor] pop];
-		_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
+	if (!_isInPortalMode) {
+		// We don't want to do rectangle selection in Portal Mode
+		if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
+			_wantsRectangleSelection = YES;
+			[[NSCursor crosshairCursor] push];
+			_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
+		} else {
+			_wantsRectangleSelection = NO;
+			[[NSCursor crosshairCursor] pop];
+			_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
+		}
+		return;
 	}
 	
-	[super flagsChanged: event];
+	[super flagsChanged:event];
 }
 
 - (void)clearSelection {
