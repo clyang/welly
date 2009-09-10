@@ -277,7 +277,8 @@ const float xscale = 1, yscale = 0.8;
 
 // private
 - (NSUInteger)draggingIndex:(id <NSDraggingInfo>)sender {
-    return [_view cellIndexAtLocation:[sender draggingLocation]];
+    NSPoint pt = [_view convertPoint:[sender draggingLocation] fromView:nil];
+    return [_view cellIndexAtLocation:pt];
 }
 
 // private
