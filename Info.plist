@@ -39,9 +39,9 @@
 		</dict>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4 Release - Farewell Edition</string>
+	<string>2.99 alpha</string>
 	<key>CFBundleVersion</key>
-	<string>704</string>
+	<string>707</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>WellyHelp</string>
 	<key>CFBundleHelpBookName</key>
