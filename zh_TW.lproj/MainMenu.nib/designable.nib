@@ -2789,7 +2789,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 															<reference key="NSSuperview" ref="36993436"/>
 															<reference key="NSTarget" ref="36993436"/>
 															<string key="NSAction">_doScroller:</string>
-															<double key="NSPercent">0.8839285714285714</double>
+															<double key="NSPercent">0.79144385026737973</double>
 														</object>
 														<object class="NSScroller" id="681471120">
 															<reference key="NSNextResponder" ref="36993436"/>
@@ -3272,7 +3272,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																		<double key="NSSize">10</double>
 																		<int key="NSfFlags">16</int>
 																	</object>
-																	<object class="NSParagraphStyle" id="1036197222">
+																	<object class="NSParagraphStyle" id="916396486">
 																		<int key="NSAlignment">3</int>
 																		<object class="NSArray" key="NSTabStops">
 																			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3480,7 +3480,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																	<bool key="EncodedWithXMLCoder">YES</bool>
 																	<reference ref="871131937"/>
 																	<reference ref="25"/>
-																	<reference ref="1036197222"/>
+																	<reference ref="916396486"/>
 																</object>
 															</object>
 														</object>
@@ -5340,6 +5340,46 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="13469874"/>
 					</object>
 					<int key="connectionID">1544</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_autoReplyStringField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="113898846"/>
+					</object>
+					<int key="connectionID">1545</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyAddressField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="619998064"/>
+					</object>
+					<int key="connectionID">1546</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyTypeButton</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="395950730"/>
+					</object>
+					<int key="connectionID">1547</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_siteAddressField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="627535067"/>
+					</object>
+					<int key="connectionID">1549</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_siteNameField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="220111207"/>
+					</object>
+					<int key="connectionID">1550</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8163,7 +8203,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1544</int>
+			<int key="maxID">1550</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -2582,7 +2582,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																<object class="NSTextView" id="489999355">
 																	<reference key="NSNextResponder" ref="84290318"/>
 																	<int key="NSvFlags">2322</int>
-																	<string key="NSFrameSize">{221, 374}</string>
+																	<string key="NSFrameSize">{221, 0}</string>
 																	<reference key="NSSuperview" ref="84290318"/>
 																	<object class="NSTextContainer" key="NSTextContainer" id="268475478">
 																		<object class="NSLayoutManager" key="NSLayoutManager">
@@ -2790,7 +2790,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 															<int key="NSvFlags">256</int>
 															<string key="NSFrame">{{222, 1}, {15, 296}}</string>
 															<reference key="NSSuperview" ref="36993436"/>
-															<bool key="NSEnabled">YES</bool>
 															<reference key="NSTarget" ref="36993436"/>
 															<string key="NSAction">_doScroller:</string>
 															<double key="NSPercent">0.79144385026737973</double>
@@ -2810,7 +2809,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 													<string key="NSFrame">{{4, 1}, {238, 298}}</string>
 													<reference key="NSSuperview" ref="339702001"/>
 													<reference key="NSNextKeyView" ref="84290318"/>
-													<int key="NSsFlags">82</int>
+													<int key="NSsFlags">18</int>
 													<reference key="NSVScroller" ref="605170217"/>
 													<reference key="NSHScroller" ref="681471120"/>
 													<reference key="NSContentView" ref="84290318"/>
@@ -3194,7 +3193,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<object class="NSTextView" id="730193414">
 											<reference key="NSNextResponder" ref="736680793"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{543, 72}</string>
+											<string key="NSFrameSize">{543, 0}</string>
 											<reference key="NSSuperview" ref="736680793"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="953704365">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -3550,7 +3549,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{4, 4}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -3637,7 +3636,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 										<object class="NSTextView" id="404723132">
 											<reference key="NSNextResponder" ref="303907958"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{594, 72}</string>
+											<string key="NSFrameSize">{594, 0}</string>
 											<reference key="NSSuperview" ref="303907958"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="695985615">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -5344,6 +5343,46 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="13469874"/>
 					</object>
 					<int key="connectionID">1544</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_autoReplyStringField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="113898846"/>
+					</object>
+					<int key="connectionID">1545</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyAddressField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="619998064"/>
+					</object>
+					<int key="connectionID">1546</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_proxyTypeButton</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="395950730"/>
+					</object>
+					<int key="connectionID">1547</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_siteAddressField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="627535067"/>
+					</object>
+					<int key="connectionID">1549</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_siteNameField</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="220111207"/>
+					</object>
+					<int key="connectionID">1550</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -8167,7 +8206,7 @@ Z1s6cG9ydF0</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1544</int>
+			<int key="maxID">1550</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
