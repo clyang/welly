@@ -20,16 +20,23 @@
 - (void)setURLs:(NSArray *)URLs currentIndex:(NSUInteger)index preservingDisplayState:(BOOL)flag;
 - (void)setEnableDragNDrop:(BOOL)flag;
 // 10.6 and above
+@property(readonly) id currentController;
+@property NSInteger currentPreviewItemIndex;
+- (void)updateController;
+- (id)sharedPreviewView;
 - (void)reloadDataPreservingDisplayState:(BOOL)flag;
 @end
 
 @interface QLPreviewView : NSView
 - (void)setEnableDragNDrop:(BOOL)flag;
 - (BOOL)enableDragNDrop;
+- (void)setDelegate:(id)delegate;
+- (void)setAutomaticallyMakePreviewFirstResponder:(BOOL)arg1;
 @end
 
 @interface QLPreviewPanelController : NSWindowController
 @property(readonly) QLPreviewView *previewView;
+@property(retain) QLPreviewView *sharedPreviewView; 
 @end
 
 @implementation WLQuickLookBridge
@@ -61,13 +68,16 @@ static BOOL isLeopard;
     // Modified by gtCarrera
     //[_panel setLevel:kCGStatusWindowLevel+1];
     // End
-    id controller = [_panel windowController];
+	id controller = [_panel windowController];
     [controller setDelegate:self];
     if (isLeopard) {
         [_panel setEnableDragNDrop:YES];
     } else {
         [_panel setDataSource:self];
-        [[controller previewView] setEnableDragNDrop:YES];
+		QLPreviewView *view = [controller previewView];
+        [view setEnableDragNDrop:YES];
+        //[view setAutomaticallyMakePreviewFirstResponder:YES];
+		[view setDelegate:self];
     }
     return self;
 }
@@ -85,6 +95,20 @@ static BOOL isLeopard;
     frame.size.width = 1;
     frame.size.height = 1;
     return frame;
+}
+
+- (BOOL)previewView:(id)aView acceptDrop:(id)aObject onPreviewItem:(id)item {
+    return YES;
+}
+
+- (BOOL)previewView:(id)aView writePreviewItem:(id)item toPasteboard:(id)pboard {
+    [pboard declareTypes:[NSArray arrayWithObject:NSURLPboardType] owner:nil];
+    [item writeToPasteboard:pboard];
+    return YES;
+}
+
+- (void)previewView:(id)aView didShowPreviewItem:(id)item {
+    //[aView setEnableDragNDrop:YES];
 }
 
 + (NSMutableArray *)URLs {
@@ -105,14 +129,16 @@ static BOOL isLeopard;
     // check if the url is already under preview
     NSInteger index = [URLs indexOfObject:URL];
     if (index == NSNotFound) {
-        [URLs insertObject:URL atIndex:0];
-        index = 0;
+        index = [URLs count];
+        [URLs addObject:URL];
     }
     // update
     if (isLeopard)
         [[self Panel] setURLs:URLs currentIndex:index preservingDisplayState:YES];
-    else
+    else {
+        [[self Panel] setCurrentPreviewItemIndex:index];
         [[self Panel] reloadDataPreservingDisplayState:YES];
+    }
     [self orderFront];
 }
 /*
