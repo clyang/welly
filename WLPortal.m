@@ -222,15 +222,24 @@ const float xscale = 1, yscale = 0.8;
     [_view keyDown:theEvent];
 }
 
+// private
+- (NSUInteger)draggingIndex:(NSPoint)p {
+    NSPoint pt = [_view convertPoint:p fromView:nil];
+    return [_view cellIndexAtLocation:pt];
+}
+
 - (void)mouseDragged:(NSEvent *)theEvent {
-	WLPortalImage *item = [_data objectAtIndex:[_view selectedIndex]];
-	// Do not allow to drag & drop default image
-	if ([item image] == nil)
-		return;
+    NSUInteger index = [self draggingIndex:[theEvent locationInWindow]];
+    if (index == NSNotFound)
+        return;
+    WLPortalImage *item = [_data objectAtIndex:index];
+    // Do not allow to drag & drop default image
+    if ([item image] == nil)
+        return;
     NSString *path = [item path];
     NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:path];
-	NSPoint pt = [_view convertPoint:[theEvent locationInWindow] fromView:nil];
     NSSize size = [image size];
+    NSPoint pt = [_view convertPoint:[theEvent locationInWindow] fromView:nil];
     pt.x -= size.width/2;
     pt.y -= size.height/2;
     NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
@@ -276,12 +285,6 @@ const float xscale = 1, yscale = 0.8;
 // drop in images (add covers)
 
 // private
-- (NSUInteger)draggingIndex:(id <NSDraggingInfo>)sender {
-    NSPoint pt = [_view convertPoint:[sender draggingLocation] fromView:nil];
-    return [_view cellIndexAtLocation:pt];
-}
-
-// private
 - (NSDragOperation)checkSource:(id <NSDraggingInfo>)sender {
     id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     // only one file supported
@@ -307,7 +310,7 @@ const float xscale = 1, yscale = 0.8;
 }
 
 - (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
-    if ([self draggingIndex:sender] == NSNotFound)
+    if ([self draggingIndex:[sender draggingLocation]] == NSNotFound)
         return NSDragOperationNone;
     return [self checkSource:sender];
 }
@@ -319,7 +322,7 @@ const float xscale = 1, yscale = 0.8;
 - (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
     id files = [[sender draggingPasteboard] propertyListForType:NSFilenamesPboardType];
     NSAssert([files count] == 1, @"only one file supported");
-    NSUInteger index = [self draggingIndex:sender];
+    NSUInteger index = [self draggingIndex:[sender draggingLocation]];
     return [self updateCoverAtIndex:index withFile:[files objectAtIndex:0]];
 }
 

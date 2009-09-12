@@ -627,6 +627,8 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
+    [[self nextResponder] mouseDragged:theEvent];
+    //[super mouseDown:theEvent];
     [self hasMouseActivity];
     if (_isInPortalMode)
         [_portal mouseDragged:theEvent];
