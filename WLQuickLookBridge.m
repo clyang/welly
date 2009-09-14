@@ -127,7 +127,7 @@ static BOOL isLeopard;
 + (void)add:(NSURL *)URL {
     NSMutableArray *URLs = [self URLs];
     // check if the url is already under preview
-    NSInteger index = [URLs indexOfObject:URL];
+    NSUInteger index = [URLs indexOfObject:URL];
     if (index == NSNotFound) {
         index = [URLs count];
         [URLs addObject:URL];
