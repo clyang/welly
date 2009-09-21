@@ -15,6 +15,8 @@
 "Cancel" = "取消";
 
 /* Menu */
+"Search in Spotlight" = "在 Spotlight 中搜索";
+"Search in Google" = "在 Google 中搜索";
 "Look Up in Dictionary" = "查字典";
 "Copy" = "拷贝";
 

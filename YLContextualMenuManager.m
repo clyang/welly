@@ -80,11 +80,11 @@
 /* */
     if ([s length] > 0) {
     
-        [menu addItemWithTitle:@"Search in Spotlight"
+        [menu addItemWithTitle:NSLocalizedString(@"Search in Spotlight", @"Menu")
                         action:@selector(spotlight:)
                  keyEquivalent:@""];
 
-        [menu addItemWithTitle:@"Search in Google"
+        [menu addItemWithTitle:NSLocalizedString(@"Search in Google", @"Menu")
                         action:@selector(google:)
                  keyEquivalent:@""];
         
@@ -127,6 +127,9 @@
 
 + (IBAction)openURL:(id)sender {
     NSString *u = [sender title];
+	if (![u hasPrefix:@"http://"]) {
+		u = [@"http://" stringByAppendingString:[u stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	}
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:u]];
 }
 
