@@ -21,7 +21,8 @@
 }
 
 + (void)initialize {
-    [self setKeys:[NSArray arrayWithObjects:@"content", nil] triggerChangeNotificationsForDependentKey:@"description"];
+	// deprecated: What does this code do?
+    //[self setKeys:[NSArray arrayWithObjects:@"content", nil] triggerChangeNotificationsForDependentKey:@"description"];
 }
 
 - (NSDictionary *)dictionaryOfEmoticon {
@@ -51,7 +52,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@", [[[self content]componentsSeparatedByString:@"\n"] componentsJoinedByString:@""]];
+    return [NSString stringWithFormat:@"%@", [[[self content] componentsSeparatedByString:@"\n"] componentsJoinedByString:@""]];
 }
 
 - (void)setDescription:(NSString *)d { }

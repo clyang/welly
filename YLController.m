@@ -1260,7 +1260,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSAssert([paths count] > 0, @"~/Library/Caches");
     NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir attributes:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
     NSString *fileName = [[cacheDir stringByAppendingPathComponent:@"rss"] stringByAppendingPathExtension:@"xml"];
     WLFeedGenerator *feedGenerator = [[WLFeedGenerator alloc] initWithSiteName:siteName];
     BOOL isFirstLoop = YES;

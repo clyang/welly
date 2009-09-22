@@ -21,11 +21,11 @@
 @class MultiClickRemoteBehavior;
 @class WLFeedGenerator;
 
-//#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-//@interface YLController : NSObject <NSTabViewDelegate> {
-//#else
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+@interface YLController : NSObject <NSTabViewDelegate> {
+#else
 @interface YLController : NSObject {
-//#endif
+#endif
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
     IBOutlet NSPanel *_composeWindow;
