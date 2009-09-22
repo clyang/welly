@@ -55,7 +55,7 @@ static NSMutableDictionary *downloadedURLInfo;
     }
     // no other Welly
     if (!flag)
-        [[NSFileManager defaultManager] removeFileAtPath:sCacheDir handler:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:sCacheDir error:nil];
 }
 
 - (IBAction)openPreview:(id)sender {
@@ -218,12 +218,12 @@ static NSString * stringFromFileSize(long long size) {
                         identifier:download];
 
     // set local path
-    [[NSFileManager defaultManager] createDirectoryAtPath:sCacheDir attributes:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:sCacheDir withIntermediateDirectories:YES attributes:nil error:nil];
     _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
 	if([downloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
 		// Get local file size
 		NSString * tempPath = [downloadedURLInfo valueForKey:[[[download request] URL] absoluteString]];
-		NSDictionary *fileAttributes = [[NSFileManager defaultManager] fileAttributesAtPath:tempPath traverseLink:YES];
+		NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:tempPath error:nil];
 		long long fileSizeOnDisk = -1;
 		if (fileAttributes != nil)
 			fileSizeOnDisk = [[fileAttributes objectForKey:NSFileSize] longLongValue];

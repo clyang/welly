@@ -88,9 +88,9 @@ const float xscale = 1, yscale = 0.8;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         NSAssert([paths count] > 0, @"~/Library/Application Support");
         NSString *dir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
-        [fileMgr createDirectoryAtPath:dir attributes:nil];
+        [fileMgr createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:nil];
         sCoverDir = [[dir stringByAppendingPathComponent:@"Covers"] retain];
-        [fileMgr createDirectoryAtPath:sCoverDir attributes:nil];
+        [fileMgr createDirectoryAtPath:sCoverDir withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return sCoverDir;
 }
