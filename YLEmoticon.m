@@ -20,9 +20,8 @@
     return [e autorelease];    
 }
 
-+ (void)initialize {
-	// deprecated: What does this code do?
-    //[self setKeys:[NSArray arrayWithObjects:@"content", nil] triggerChangeNotificationsForDependentKey:@"description"];
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObjects:@"content", nil];
 }
 
 - (NSDictionary *)dictionaryOfEmoticon {
