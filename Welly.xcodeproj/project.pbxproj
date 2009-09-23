@@ -17,7 +17,6 @@
 		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
 		16B46312105448680085AA37 /* WLPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B46311105448680085AA37 /* WLPortal.m */; };
 		16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */; };
-		16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */; };
 		16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* WLPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
 		16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* WLTabBarControl.m */; };
@@ -148,7 +147,6 @@
 		16B46311105448680085AA37 /* WLPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortal.m; sourceTree = "<group>"; };
 		16BF97BB0E3D9B7500ED990A /* WLIntegerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLIntegerArray.h; sourceTree = "<group>"; };
 		16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLIntegerArray.m; sourceTree = "<group>"; };
-		16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* WLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* WLPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPTY.h; sourceTree = "<group>"; };
 		16C0C90E0E294C2700B576C5 /* WLPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPTY.m; sourceTree = "<group>"; };
@@ -353,7 +351,6 @@
 		16CABD730E2C9DC100AB8252 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				16BFE6490E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -677,7 +674,6 @@
 				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
 				6B3128A60DB36757005D6C32 /* Welly.icns in Resources */,
 				5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */,
-				16BFE64A0E2BC6FF001862E5 /* Growl Registration Ticket.growlRegDict in Resources */,
 				16DC3D090E3338B70060E8F0 /* online.pdf in Resources */,
 				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,

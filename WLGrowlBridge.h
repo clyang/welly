@@ -9,6 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import <Growl-WithInstaller/GrowlApplicationBridge.h>
 
+NSString *const WLGrowlNotificationNameFileTransfer;
+NSString *const WLGrowlNotificationNameEXIFInformation;
+NSString *const WLGrowlNotificationNameNewMessageReceived;
+
+#define kGrowlNotificationNameFileTransfer			NSLocalizedString(WLGrowlNotificationNameFileTransfer, @"Growl Notification Name")
+#define kGrowlNotificationNameEXIFInformation		NSLocalizedString(WLGrowlNotificationNameEXIFInformation, @"Growl Notification Name")
+#define kGrowlNotificationNameNewMessageReceived	NSLocalizedString(WLGrowlNotificationNameNewMessageReceived, @"Growl Notification Name")
+
 @interface WLGrowlBridge : NSObject <GrowlApplicationBridgeDelegate>
 
 // iconData:nil priority:0 isSticky:NO

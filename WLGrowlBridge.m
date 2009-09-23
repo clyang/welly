@@ -10,10 +10,14 @@
 
 #import "WLGrowlBridge.h"
 
+NSString *const WLGrowlNotificationNameFileTransfer = @"File Transfer";
+NSString *const WLGrowlNotificationNameEXIFInformation = @"EXIF Information";
+NSString *const WLGrowlNotificationNameNewMessageReceived = @"New Message Received";
+
 typedef struct WLClickContext {
     id context, identifier;
     SEL selector; 
-}WLClickContext;
+} WLClickContext;
 
 @implementation WLGrowlBridge
 
@@ -23,6 +27,14 @@ typedef struct WLClickContext {
         sTYGrowlBridge = [[WLGrowlBridge alloc] init];
         [GrowlApplicationBridge setGrowlDelegate:sTYGrowlBridge];
     }
+}
+
+- (NSDictionary *)registrationDictionaryForGrowl {
+	NSArray *notifications = [NSArray arrayWithObjects:kGrowlNotificationNameFileTransfer, kGrowlNotificationNameEXIFInformation, kGrowlNotificationNameNewMessageReceived, nil];
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+	[dict setObject:notifications forKey: GROWL_NOTIFICATIONS_ALL];
+	[dict setObject:notifications forKey: GROWL_NOTIFICATIONS_DEFAULT];
+	return dict;
 }
 
 + (void)notifyWithTitle:(NSString *)title

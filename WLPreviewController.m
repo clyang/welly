@@ -180,7 +180,7 @@ static NSString * stringFromFileSize(long long size) {
     // Show the canceled message
     [WLGrowlBridge notifyWithTitle:[URL absoluteString]
                        description:NSLocalizedString(@"Canceled", @"Download canceled")
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:NO
                         identifier:_download];
     // Remove current url from the url list
@@ -195,7 +195,7 @@ static NSString * stringFromFileSize(long long size) {
 - (void)downloadDidBegin:(NSURLDownload *)download {
     [WLGrowlBridge notifyWithTitle:[[[download request] URL] absoluteString]
                        description:NSLocalizedString(@"Connecting", @"Download begin")
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:YES
                         identifier:download];
 }
@@ -213,7 +213,7 @@ static NSString * stringFromFileSize(long long size) {
     [pool release];
     [WLGrowlBridge notifyWithTitle:_filename
                        description:[self stringFromTransfer]
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:YES
                         identifier:download];
 
@@ -262,7 +262,7 @@ static NSString * stringFromFileSize(long long size) {
     _transferredLength += length;
     [WLGrowlBridge notifyWithTitle:_filename
                        description:[self stringFromTransfer]
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:YES
                         identifier:download];
 	// Add the incremented value
@@ -284,7 +284,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
     [WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
     [WLGrowlBridge notifyWithTitle:_filename
                        description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:NO
                         identifier:download];
 
@@ -335,7 +335,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
         if([props length]) 
             [WLGrowlBridge notifyWithTitle:_filename
                                description:props
-                          notificationName:@"File Transfer"
+                          notificationName:kGrowlNotificationNameEXIFInformation
                                   isSticky:NO
                                 identifier:download];
         // release
@@ -352,7 +352,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
     [[NSWorkspace sharedWorkspace] openURL:URL];
     [WLGrowlBridge notifyWithTitle:[URL absoluteString]
                        description:NSLocalizedString(@"Opening browser", "Download failed or unsupported formats")
-                  notificationName:@"File Transfer"
+                  notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:NO
                         identifier:download];
     [download release];

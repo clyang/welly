@@ -78,7 +78,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 		// should invoke growl notification
 		[WLGrowlBridge notifyWithTitle:callerName
 						   description:description 
-					  notificationName:@"New Message Received"
+					  notificationName:kGrowlNotificationNameNewMessageReceived
 							  iconData:[NSData data]
 							  priority:0
 							  isSticky:NO

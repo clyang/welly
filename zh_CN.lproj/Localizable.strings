@@ -139,3 +139,8 @@
 "Open With Browser" = "用浏览器打开";
 "URL Mode" = "URL模式";
 "Normal Mode" = "常规模式";
+
+/* Growl Notification Name */
+"File Transfer" = "文件传输";
+"EXIF Information" = "EXIF 信息";
+"New Message Received" = "收到新消息";
