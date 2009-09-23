@@ -1257,10 +1257,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     unsigned int row = [terminal maxRow];
     NSString *siteName = [[connection site] name];
     // locate the cache directory
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSAssert([paths count] > 0, @"~/Library/Caches");
-    NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
-    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
+    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
     NSString *fileName = [[cacheDir stringByAppendingPathComponent:@"rss"] stringByAppendingPathExtension:@"xml"];
     WLFeedGenerator *feedGenerator = [[WLFeedGenerator alloc] initWithSiteName:siteName];
     BOOL isFirstLoop = YES;

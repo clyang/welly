@@ -70,8 +70,26 @@ static YLLGlobalConfig *sSharedInstance;
 @synthesize englishFontPaddingBottom = _englishFontPaddingBottom;
 @synthesize chineseFontName = _chineseFontName;
 @synthesize englishFontName = _englishFontName;
+
 + (YLLGlobalConfig*)sharedInstance {
-	return sSharedInstance ? : [[YLLGlobalConfig new] autorelease];
+    // clean cache at startup
+    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
+    BOOL flag = NO;
+    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    // detect if another Welly exists
+    for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] launchedApplications]) {
+        if ([[dict objectForKey:@"NSApplicationName"] isEqual:@"Welly"] &&
+            [[dict objectForKey:@"NSApplicationProcessIdentifier"] intValue] != pid) {
+            flag = YES;
+            break;
+        }
+    }
+    // no other Welly
+    if (!flag)
+        [[NSFileManager defaultManager] removeItemAtPath:cacheDir error:nil];
+    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
+
+    return sSharedInstance ? : [[YLLGlobalConfig new] autorelease];
 }
 
 - (id)init {
@@ -535,4 +553,12 @@ static YLLGlobalConfig *sSharedInstance;
     }
     [[NSUserDefaults standardUserDefaults] setMyColor:c forKey:@"ColorBGHilite"];
 }
+
++ (NSString *)cacheDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSAssert([paths count] > 0, @"~/Library/Caches");
+    NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
+    return cacheDir;
+}
+
 @end

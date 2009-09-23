@@ -9,6 +9,7 @@
 #import "WLPreviewController.h"
 #import "WLQuickLookBridge.h"
 #import "WLGrowlBridge.h"
+#import "YLLGlobalConfig.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
 @interface WLDownloadDelegate : NSObject <NSWindowDelegate> {
@@ -31,31 +32,12 @@
 
 // current downloading URLs
 static NSMutableSet *sURLs;
-static NSString *sCacheDir;
 // current downloaded URLs
 static NSMutableDictionary *downloadedURLInfo;
 
 + (void)initialize {
     sURLs = [[NSMutableSet alloc] initWithCapacity:10];
-	downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
-    // locate the cache directory
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSAssert([paths count] > 0, @"~/Library/Caches");
-    sCacheDir = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"] retain];
-    // clean it at startup
-    BOOL flag = NO;
-    int pid = [[NSProcessInfo processInfo] processIdentifier];
-    // detect if another Welly exists
-    for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] launchedApplications]) {
-        if ([[dict objectForKey:@"NSApplicationName"] isEqual:@"Welly"] &&
-            [[dict objectForKey:@"NSApplicationProcessIdentifier"] intValue] != pid) {
-            flag = YES;
-            break;
-        }
-    }
-    // no other Welly
-    if (!flag)
-        [[NSFileManager defaultManager] removeItemAtPath:sCacheDir error:nil];
+    downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
 
 - (IBAction)openPreview:(id)sender {
@@ -218,8 +200,8 @@ static NSString * stringFromFileSize(long long size) {
                         identifier:download];
 
     // set local path
-    [[NSFileManager defaultManager] createDirectoryAtPath:sCacheDir withIntermediateDirectories:YES attributes:nil error:nil];
-    _path = [[sCacheDir stringByAppendingPathComponent:_filename] retain];
+    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
+    _path = [[cacheDir stringByAppendingPathComponent:_filename] retain];
 	if([downloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
 		// Get local file size
 		NSString * tempPath = [downloadedURLInfo valueForKey:[[[download request] URL] absoluteString]];
