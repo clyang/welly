@@ -186,7 +186,7 @@ static NSCursor *gMoveCursor = nil;
 #pragma mark -
 #pragma mark Update State
 - (BOOL)shouldUpdate {
-	if (![_view isConnected] || [_view isInPortalMode]) {
+	if (![_view shouldEnableMouse] || ![_view isConnected] || [_view isInPortalMode]) {
 		return YES;
 	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
@@ -197,7 +197,7 @@ static NSCursor *gMoveCursor = nil;
 
 - (void)update {
 	[self clear];
-	if (![_view isConnected] || [_view isInPortalMode]) {
+	if (![_view shouldEnableMouse] || ![_view isConnected] || [_view isInPortalMode]) {
 		return;
 	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
