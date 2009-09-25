@@ -323,6 +323,6 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     _connection = value;
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
 	// remove #import "YLSite.h" when fixed.
-	[self setBbsType:[[_connection site] ansiColorKey] == YLCtrlUANSIColorKey ? WLMaple : WLFirebird];
+	[self setBbsType:[[_connection site] encoding] == YLBig5Encoding ? WLMaple : WLFirebird];
 }
 @end
