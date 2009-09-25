@@ -25,7 +25,6 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
 
 #pragma mark -
 #pragma mark Class Define
-static YLLGlobalConfig *sSharedInstance;
 
 @interface NSUserDefaults(myColorSupport)
 - (void)setMyColor:(NSColor *)aColor forKey:(NSString *)aKey;
@@ -72,97 +71,101 @@ static YLLGlobalConfig *sSharedInstance;
 @synthesize englishFontName = _englishFontName;
 
 + (YLLGlobalConfig*)sharedInstance {
-    return sSharedInstance ? : [[YLLGlobalConfig new] autorelease];
+    static YLLGlobalConfig *sSharedInstance = nil;
+    if (sSharedInstance == nil) {
+        sSharedInstance = [YLLGlobalConfig new];
+        [self initializeCache];
+    }
+    return sSharedInstance;
 }
 
 - (id)init {
-	if (sSharedInstance) {
-		[self release];
-	} else if (self = sSharedInstance = [[super init] retain]) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (self != [super init])
+        return nil;
 
-        [self setShowsHiddenText:[defaults boolForKey:@"ShowHiddenText"]];
-        [self setShouldSmoothFonts:[defaults boolForKey:@"ShouldSmoothFonts"]];
-        [self setShouldDetectDoubleByte:[defaults boolForKey:@"DetectDoubleByte"]];
-		[self setShouldEnableMouse:[defaults boolForKey:@"EnableMouse"]];
-        [self setDefaultEncoding:(YLEncoding) [defaults integerForKey:@"DefaultEncoding"]];
-        [self setDefaultANSIColorKey:(YLANSIColorKey) [defaults integerForKey:@"DefaultANSIColorKey"]];
-        [self setShouldRepeatBounce:[defaults boolForKey:@"RepeatBounce"]];
-        
-		/* init code */
-		_row = 24;
-		_column = 80;
-        [self setCellWidth:[defaults floatForKey:@"CellWidth"]];
-        [self setCellHeight:[defaults floatForKey:@"CellHeight"]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-        [self setChineseFontName:[defaults stringForKey:@"ChineseFontName"]];
-        [self setEnglishFontName:[defaults stringForKey:@"EnglishFontName"]];
-        [self setChineseFontSize:[defaults floatForKey:@"ChineseFontSize"]];
-        [self setEnglishFontSize:[defaults floatForKey:@"EnglishFontSize"]];
-        
-        if ([defaults objectForKey:@"ChinesePaddingLeft"])
-            [self setChineseFontPaddingLeft:[defaults floatForKey:@"ChinesePaddingLeft"]];
-        else
-            [self setChineseFontPaddingLeft:1.0];
+    [self setShowsHiddenText:[defaults boolForKey:@"ShowHiddenText"]];
+    [self setShouldSmoothFonts:[defaults boolForKey:@"ShouldSmoothFonts"]];
+    [self setShouldDetectDoubleByte:[defaults boolForKey:@"DetectDoubleByte"]];
+    [self setShouldEnableMouse:[defaults boolForKey:@"EnableMouse"]];
+    [self setDefaultEncoding:(YLEncoding) [defaults integerForKey:@"DefaultEncoding"]];
+    [self setDefaultANSIColorKey:(YLANSIColorKey) [defaults integerForKey:@"DefaultANSIColorKey"]];
+    [self setShouldRepeatBounce:[defaults boolForKey:@"RepeatBounce"]];
 
-        if ([defaults objectForKey:@"EnglishPaddingLeft"])
-            [self setEnglishFontPaddingLeft:[defaults floatForKey:@"EnglishPaddingLeft"]];
-        else
-            [self setEnglishFontPaddingLeft:1.0];
-        
-        if ([defaults objectForKey:@"ChinesePaddingBottom"])
-            [self setChineseFontPaddingBottom:[defaults floatForKey:@"ChinesePaddingBottom"]];
-        else
-            [self setChineseFontPaddingBottom:1.0];
-        
-        if ([defaults objectForKey:@"EnglishPaddingBottom"])
-            [self setEnglishFontPaddingBottom:[defaults floatForKey:@"EnglishPaddingBottom"]];
-        else
-            [self setEnglishFontPaddingBottom: 2.0];        
-        
-        [self setColorBlack:[defaults myColorForKey:@"ColorBlack"]];
-        [self setColorBlackHilite:[defaults myColorForKey:@"ColorBlackHilite"]]; 
-        [self setColorRed:[defaults myColorForKey:@"ColorRed"]];
-        [self setColorRedHilite:[defaults myColorForKey:@"ColorRedHilite"]]; 
-        [self setColorBlack:[defaults myColorForKey:@"ColorBlack"]];
-        [self setColorBlackHilite:[defaults myColorForKey:@"ColorBlackHilite"]]; 
-        [self setColorGreen:[defaults myColorForKey:@"ColorGreen"]];
-        [self setColorGreenHilite:[defaults myColorForKey:@"ColorGreenHilite"]]; 
-        [self setColorYellow:[defaults myColorForKey:@"ColorYellow"]];
-        [self setColorYellowHilite:[defaults myColorForKey:@"ColorYellowHilite"]]; 
-        [self setColorBlue:[defaults myColorForKey:@"ColorBlue"]];
-        [self setColorBlueHilite:[defaults myColorForKey:@"ColorBlueHilite"]]; 
-        [self setColorMagenta:[defaults myColorForKey:@"ColorMagenta"]];
-        [self setColorMagentaHilite:[defaults myColorForKey:@"ColorMagentaHilite"]]; 
-        [self setColorCyan:[defaults myColorForKey:@"ColorCyan"]];
-        [self setColorCyanHilite:[defaults myColorForKey:@"ColorCyanHilite"]]; 
-        [self setColorWhite:[defaults myColorForKey:@"ColorWhite"]];
-        [self setColorWhiteHilite:[defaults myColorForKey:@"ColorWhiteHilite"]]; // Foreground Color
-        [self setColorBG:[defaults myColorForKey:@"ColorBG"]];
-        [self setColorBGHilite:[defaults myColorForKey:@"ColorBGHilite"]]; 
-        _colorTable[0][8] = [[NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0] retain];
-        _colorTable[1][8] = [[NSColor colorWithDeviceRed:1.00 green:1.00 blue:1.00 alpha:1.0] retain];
+    // init code
+    _row = 24;
+    _column = 80;
+    [self setCellWidth:[defaults floatForKey:@"CellWidth"]];
+    [self setCellHeight:[defaults floatForKey:@"CellHeight"]];
 
-        _bgColorIndex = 9;
-        _fgColorIndex = 7;
-
-        [defaults synchronize];
-        [self refreshFont];
+    [self setChineseFontName:[defaults stringForKey:@"ChineseFontName"]];
+    [self setEnglishFontName:[defaults stringForKey:@"EnglishFontName"]];
+    [self setChineseFontSize:[defaults floatForKey:@"ChineseFontSize"]];
+    [self setEnglishFontSize:[defaults floatForKey:@"EnglishFontSize"]];
         
-        // aqua: why not enable these settings by default?
-        if ([defaults objectForKey:WLRestoreConnectionKeyName] == nil)
-            [defaults setBool:YES forKey:WLRestoreConnectionKeyName];
-        if ([defaults objectForKey:WLCommandRHotkeyEnabledKeyName] == nil)
-            [defaults setBool:YES forKey:WLCommandRHotkeyEnabledKeyName];
-        if ([defaults objectForKey:WLConfirmOnCloseEnabledKeyName] == nil)
-            [defaults setBool:YES forKey:WLConfirmOnCloseEnabledKeyName];
-        if ([defaults objectForKey:WLSafePasteEnabledKeyName] == nil)
-            [defaults setBool:YES forKey:WLSafePasteEnabledKeyName];
-        if ([defaults objectForKey:WLCoverFlowModeEnabledKeyName] == nil)
-            [defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
-		[YLLGlobalConfig initializeCache];
-	}
-	return sSharedInstance;
+    if ([defaults objectForKey:@"ChinesePaddingLeft"])
+        [self setChineseFontPaddingLeft:[defaults floatForKey:@"ChinesePaddingLeft"]];
+    else
+        [self setChineseFontPaddingLeft:1.0];
+
+    if ([defaults objectForKey:@"EnglishPaddingLeft"])
+        [self setEnglishFontPaddingLeft:[defaults floatForKey:@"EnglishPaddingLeft"]];
+    else
+        [self setEnglishFontPaddingLeft:1.0];
+        
+    if ([defaults objectForKey:@"ChinesePaddingBottom"])
+        [self setChineseFontPaddingBottom:[defaults floatForKey:@"ChinesePaddingBottom"]];
+    else
+        [self setChineseFontPaddingBottom:1.0];
+        
+    if ([defaults objectForKey:@"EnglishPaddingBottom"])
+        [self setEnglishFontPaddingBottom:[defaults floatForKey:@"EnglishPaddingBottom"]];
+    else
+        [self setEnglishFontPaddingBottom:2.0];        
+        
+    [self setColorBlack:[defaults myColorForKey:@"ColorBlack"]];
+    [self setColorBlackHilite:[defaults myColorForKey:@"ColorBlackHilite"]]; 
+    [self setColorRed:[defaults myColorForKey:@"ColorRed"]];
+    [self setColorRedHilite:[defaults myColorForKey:@"ColorRedHilite"]]; 
+    [self setColorBlack:[defaults myColorForKey:@"ColorBlack"]];
+    [self setColorBlackHilite:[defaults myColorForKey:@"ColorBlackHilite"]]; 
+    [self setColorGreen:[defaults myColorForKey:@"ColorGreen"]];
+    [self setColorGreenHilite:[defaults myColorForKey:@"ColorGreenHilite"]]; 
+    [self setColorYellow:[defaults myColorForKey:@"ColorYellow"]];
+    [self setColorYellowHilite:[defaults myColorForKey:@"ColorYellowHilite"]]; 
+    [self setColorBlue:[defaults myColorForKey:@"ColorBlue"]];
+    [self setColorBlueHilite:[defaults myColorForKey:@"ColorBlueHilite"]]; 
+    [self setColorMagenta:[defaults myColorForKey:@"ColorMagenta"]];
+    [self setColorMagentaHilite:[defaults myColorForKey:@"ColorMagentaHilite"]]; 
+    [self setColorCyan:[defaults myColorForKey:@"ColorCyan"]];
+    [self setColorCyanHilite:[defaults myColorForKey:@"ColorCyanHilite"]]; 
+    [self setColorWhite:[defaults myColorForKey:@"ColorWhite"]];
+    [self setColorWhiteHilite:[defaults myColorForKey:@"ColorWhiteHilite"]]; // Foreground Color
+    [self setColorBG:[defaults myColorForKey:@"ColorBG"]];
+    [self setColorBGHilite:[defaults myColorForKey:@"ColorBGHilite"]]; 
+    _colorTable[0][8] = [[NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0] retain];
+    _colorTable[1][8] = [[NSColor colorWithDeviceRed:1.00 green:1.00 blue:1.00 alpha:1.0] retain];
+
+    _bgColorIndex = 9;
+    _fgColorIndex = 7;
+
+    [defaults synchronize];
+    [self refreshFont];
+        
+    // aqua: why not enable these settings by default?
+    if ([defaults objectForKey:WLRestoreConnectionKeyName] == nil)
+        [defaults setBool:YES forKey:WLRestoreConnectionKeyName];
+    if ([defaults objectForKey:WLCommandRHotkeyEnabledKeyName] == nil)
+        [defaults setBool:YES forKey:WLCommandRHotkeyEnabledKeyName];
+    if ([defaults objectForKey:WLConfirmOnCloseEnabledKeyName] == nil)
+        [defaults setBool:YES forKey:WLConfirmOnCloseEnabledKeyName];
+    if ([defaults objectForKey:WLSafePasteEnabledKeyName] == nil)
+        [defaults setBool:YES forKey:WLSafePasteEnabledKeyName];
+    if ([defaults objectForKey:WLCoverFlowModeEnabledKeyName] == nil)
+        [defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
+
+    return self;
 }
 
 - (void)dealloc {	
