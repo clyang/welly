@@ -128,6 +128,8 @@ static NSString * stringFromFileSize(long long size) {
     [_window close];
     [_indicator release];
     [_window release];
+	
+	[_download release];
     [super dealloc];
 }
 
@@ -169,8 +171,11 @@ static NSString * stringFromFileSize(long long size) {
     [sURLs removeObject:URL];
     // Cancel the download
     [_download cancel];
+	
+	// Commented out by K.O.ed: Don't release here, release when the delegate dealloc.
+	// Otherwise this would crash when cancelling a download
     // Release if necessary
-    [_download release];
+    //[_download release];
     return YES;
 }
 
@@ -325,7 +330,8 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
         CFRelease(exifSource);
     }
 
-    [download release];
+	// Commented out by K.O.ed: Don't release here, release when the delegate dealloc.
+    //[download release];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
@@ -337,7 +343,8 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
                   notificationName:kGrowlNotificationNameFileTransfer
                           isSticky:NO
                         identifier:download];
-    [download release];
+	// Commented out by K.O.ed: Don't release here, release when the delegate dealloc.
+    //[download release];
 }
 
 @end
