@@ -1417,7 +1417,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 - (NSDragOperation)tableView:(NSTableView*)tv 
 				validateDrop:(id <NSDraggingInfo>)info
-				 proposedRow:(int)row 
+				 proposedRow:(NSInteger)row 
 	   proposedDropOperation:(NSTableViewDropOperation)op {
     // don't hover
     if (op == NSTableViewDropOn)
@@ -1427,7 +1427,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 - (BOOL)tableView:(NSTableView *)aTableView 
 	   acceptDrop:(id <NSDraggingInfo>)info
-			  row:(int)row 
+			  row:(NSInteger)row 
 	dropOperation:(NSTableViewDropOperation)op {
     NSPasteboard* pboard = [info draggingPasteboard];
     NSData* rowData = [pboard dataForType:SiteTableViewDataType];
