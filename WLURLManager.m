@@ -207,6 +207,11 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 }
 
 - (void)clearAllURL {
+	// If we are in URL mode, exit it first to avoid crash
+	if ([_view isInUrlMode]) {
+		[_view exitURL];
+	}
+	
 	for (NSDictionary *urlInfo in _currentURLList) {
 		int index = [[urlInfo objectForKey:WLRangeLocationUserInfoName] intValue];
 		int length = [[urlInfo objectForKey:WLRangeLengthUserInfoName] intValue];
