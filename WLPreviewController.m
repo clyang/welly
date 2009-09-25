@@ -268,7 +268,13 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
 	[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
-    [WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
+	if ([[_path pathExtension] isEqualToString:@"gif"]) {
+		NSURL *htmlURL = [NSURL fileURLWithPath:[[_path stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
+		[[NSString stringWithFormat:@"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>", [NSURL fileURLWithPath:_path]] writeToURL:htmlURL atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+		[WLQuickLookBridge add:htmlURL];
+	} else {
+		[WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
+	}
     [WLGrowlBridge notifyWithTitle:_filename
                        description:NSLocalizedString(@"Completed", "Download completed; will open previewer")
                   notificationName:kGrowlNotificationNameFileTransfer
