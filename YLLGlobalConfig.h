@@ -140,6 +140,7 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 - (NSColor *)colorBGHilite;
 - (void)setColorBGHilite:(NSColor *)c;
 
++ (void)initializeCache;
 + (NSString *)cacheDirectory;
 
 @end
