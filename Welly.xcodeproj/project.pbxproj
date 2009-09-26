@@ -24,7 +24,7 @@
 		16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* WLTabBarControl.m */; };
 		1841E6A80F7BCFBF002DCBA8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */; };
 		1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* WLProxy.m */; };
-		185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* Passwords Small.tif */; };
+		185680E60F25E23B00A1F4F3 /* password.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* password.tif */; };
 		186E810F0F218C10007D73BC /* WLComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* WLComposeDelegate.m */; };
 		18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* WLGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
@@ -44,7 +44,7 @@
 		5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloader.m */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A7B3F780E2297CD006C1466 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A7B3F770E2297CD006C1466 /* Quartz.framework */; };
-		5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* WellyHelp */; };
+		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
 		5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
@@ -162,7 +162,7 @@
 		1841E6A70F7BCFBF002DCBA8 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1841E73C0F7BD280002DCBA8 /* WLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProxy.h; sourceTree = "<group>"; };
 		1841E73D0F7BD280002DCBA8 /* WLProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLProxy.m; sourceTree = "<group>"; };
-		185680E50F25E23B00A1F4F3 /* Passwords Small.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "Passwords Small.tif"; sourceTree = "<group>"; };
+		185680E50F25E23B00A1F4F3 /* password.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = password.tif; sourceTree = "<group>"; };
 		186E810D0F218C10007D73BC /* WLComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLComposeDelegate.h; sourceTree = "<group>"; };
 		186E810E0F218C10007D73BC /* WLComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLComposeDelegate.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* WLGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGrowlBridge.h; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A7B3F770E2297CD006C1466 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
-		5A91BAED0E1E1E6A007538E5 /* WellyHelp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WellyHelp; sourceTree = SOURCE_ROOT; };
+		5A91BAED0E1E1E6A007538E5 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
 		5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
@@ -348,16 +348,20 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		16CABD730E2C9DC100AB8252 /* Configurations */ = {
+		161DF52D106DDDBB0003E85A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107310486CEB800E47090 /* Info.plist */,
-				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
-				161DF4AB106DD58E0003E85A /* Preferences.xib */,
-				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				185680E50F25E23B00A1F4F3 /* password.tif */,
+				81FEAD310EFE91BD0051C867 /* waiting.pdf */,
+				81208EBD0EF8D94D005FD459 /* default_site.png */,
+				169A2ED40EDDA871009770ED /* mouse.pdf */,
+				85957EAE0CFF1176006E5E08 /* sleep.pdf */,
+				857EAE4E0CF1D89300777C15 /* offline.pdf */,
+				16DC3D080E3338B70060E8F0 /* online.pdf */,
+				85AE9DAD0CB15D220045317F /* bookmark.pdf */,
+				5AB748160F6FC69100CE5F4C /* indicator.png */,
 			);
-			name = Configurations;
+			name = Images;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -373,7 +377,6 @@
 			children = (
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				16CABD730E2C9DC100AB8252 /* Configurations */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -393,20 +396,17 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				185680E50F25E23B00A1F4F3 /* Passwords Small.tif */,
-				81FEAD310EFE91BD0051C867 /* waiting.pdf */,
-				81208EBD0EF8D94D005FD459 /* default_site.png */,
-				169A2ED40EDDA871009770ED /* mouse.pdf */,
-				6B3128A50DB36757005D6C32 /* Welly.icns */,
-				85957EAE0CFF1176006E5E08 /* sleep.pdf */,
-				857EAE4E0CF1D89300777C15 /* offline.pdf */,
-				16DC3D080E3338B70060E8F0 /* online.pdf */,
-				85AE9DAD0CB15D220045317F /* bookmark.pdf */,
 				85137B320D02192800833909 /* Credits.rtf */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
-				5AB748160F6FC69100CE5F4C /* indicator.png */,
-				5A91BAED0E1E1E6A007538E5 /* WellyHelp */,
+				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
+				161DF4AB106DD58E0003E85A /* Preferences.xib */,
+				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				161DF52D106DDDBB0003E85A /* Images */,
+				5A91BAED0E1E1E6A007538E5 /* Help */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -671,12 +671,12 @@
 				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
 				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
 				6B3128A60DB36757005D6C32 /* Welly.icns in Resources */,
-				5A91BB110E1E1E6A007538E5 /* WellyHelp in Resources */,
+				5A91BB110E1E1E6A007538E5 /* Help in Resources */,
 				16DC3D090E3338B70060E8F0 /* online.pdf in Resources */,
 				169A2ED50EDDA871009770ED /* mouse.pdf in Resources */,
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
-				185680E60F25E23B00A1F4F3 /* Passwords Small.tif in Resources */,
+				185680E60F25E23B00A1F4F3 /* password.tif in Resources */,
 				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,

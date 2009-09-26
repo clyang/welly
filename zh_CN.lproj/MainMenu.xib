@@ -2217,7 +2217,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																		<int key="NSButtonFlags2">134</int>
 																		<object class="NSCustomResource" key="NSNormalImage">
 																			<string key="NSClassName">NSImage</string>
-																			<string key="NSResourceName">Passwords Small</string>
+																			<string key="NSResourceName">password</string>
 																		</object>
 																		<string key="NSAlternateContents"/>
 																		<string key="NSKeyEquivalent"/>
