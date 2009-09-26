@@ -9,7 +9,6 @@
 #import "WLPortal.h"
 #import "WLPortalImage.h"
 #import "CommonType.h"
-#import "YLApplication.h"
 #import "YLController.h"
 
 const float xscale = 1, yscale = 0.8;
@@ -185,7 +184,7 @@ const float xscale = 1, yscale = 0.8;
 
 - (void)select {
     [self hide];
-    YLController *controller = [((YLApplication *)NSApp) controller];
+    YLController *controller = [YLController sharedInstance];
     WLSite *site = [controller objectInSitesAtIndex:[_view selectedIndex]];
     [controller newConnectionWithSite:site];
 }

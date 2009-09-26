@@ -10,7 +10,6 @@
 #import "WLMouseBehaviorManager.h"
 #import "WLEffectView.h"
 #import "WLGlobalConfig.h"
-#import "YLApplication.h"
 #import "YLController.h"
 #import "WLTerminal.h"
 #import "YLView.h"
@@ -116,7 +115,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	}
 	
 	// Do Post Download
-	[(YLController *)[(YLApplication *)NSApp controller] openPostDownload:sender];
+	[[YLController sharedInstance] openPostDownload:sender];
 }
 
 - (IBAction)downloadPost:(id)sender {

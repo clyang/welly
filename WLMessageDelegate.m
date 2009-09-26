@@ -11,7 +11,6 @@
 #import "WLConnection.h"
 #import "WLSite.h"
 #import "YLView.h"
-#import "YLApplication.h"
 #import "YLController.h"
 #import "encoding.h"
 #import "WLGrowlBridge.h"
@@ -64,7 +63,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 		_unreadCount++;
 	}
 	
-	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+	YLView *view = [[YLController sharedInstance] telnetView];
 	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [[_connection site] shouldAutoReply]) {
 		// not in focus
 		[_connection increaseMessageCount:1];
@@ -100,7 +99,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
     // bring the window to front
     [NSApp activateIgnoringOtherApps:YES];
 	
-	YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+	YLView *view = [[YLController sharedInstance] telnetView];
     [[view window] makeKeyAndOrderFront:nil];
     // select the tab
     [view selectTabViewItemWithIdentifier:connection];

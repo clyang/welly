@@ -11,7 +11,6 @@
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "YLController.h"
-#import "YLApplication.h"
 #import "Carbon/Carbon.h"
 #ifdef _DEBUG
 #import "encoding.h"
@@ -38,7 +37,7 @@
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 
 	/* comment: why not just using the url recognition? */
-    YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+    YLView *view = [[YLController sharedInstance] telnetView];
 	
 	NSString *shortURL = [self extractShortURL:s];
 	// Remove all '\n' '\r' ' ' from the URL string
@@ -153,7 +152,7 @@
 }
 
 + (IBAction)copy:(id)sender {
-    YLView *view = [[((YLApplication *)NSApp) controller] telnetView];
+    YLView *view = [[YLController sharedInstance] telnetView];
     [view copy:sender];
 }
 

@@ -43,10 +43,19 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 @implementation YLController
 @synthesize telnetView = _telnetView;
 
+static YLController *sInstance;
+
++ (YLController *)sharedInstance {
+    assert(sInstance);
+    return sInstance;
+}
+
 - (id)init {
     if (self = [super init]) {
         _sites = [[NSMutableArray alloc] init];
         _emoticons = [[NSMutableArray alloc] init];
+        assert(sInstance == nil);
+        sInstance = self;
     }
     return self;
 }

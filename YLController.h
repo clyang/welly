@@ -88,6 +88,8 @@
 }
 @property (readonly) YLView *telnetView;
 
++ (YLController *)sharedInstance;
+
 - (IBAction)setEncoding:(id)sender;
 - (IBAction)setDetectDoubleByteAction:(id)sender;
 - (IBAction)setAutoReplyAction:(id)sender;
