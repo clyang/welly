@@ -2376,22 +2376,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_telnetMenu</string>
-						<reference key="source" ref="623833277"/>
-						<reference key="destination" ref="75233779"/>
-					</object>
-					<int key="connectionID">722</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_sshMenu</string>
-						<reference key="source" ref="623833277"/>
-						<reference key="destination" ref="1016504415"/>
-					</object>
-					<int key="connectionID">723</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">_telnetPopUpButton</string>
 						<reference key="source" ref="623833277"/>
 						<reference key="destination" ref="75233779"/>

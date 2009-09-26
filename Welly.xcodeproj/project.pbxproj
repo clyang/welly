@@ -352,6 +352,8 @@
 			isa = PBXGroup;
 			children = (
 				8D1107310486CEB800E47090 /* Info.plist */,
+				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
+				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
@@ -375,8 +377,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
-				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 			);
 			name = MacBlueTelnet;
 			sourceTree = "<group>";

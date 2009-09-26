@@ -2372,22 +2372,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_telnetMenu</string>
-						<reference key="source" ref="569244553"/>
-						<reference key="destination" ref="521780521"/>
-					</object>
-					<int key="connectionID">722</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_sshMenu</string>
-						<reference key="source" ref="569244553"/>
-						<reference key="destination" ref="236973570"/>
-					</object>
-					<int key="connectionID">723</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">_telnetPopUpButton</string>
 						<reference key="source" ref="569244553"/>
 						<reference key="destination" ref="521780521"/>
@@ -3542,6 +3526,7 @@
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="-3.ImportedFromIB2"/>
+				<string key="1.IBEditorWindowLastContentRect">{{59, 337}, {385, 408}}</string>
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="1.ImportedFromIB2"/>
 				<string key="1057.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3552,8 +3537,61 @@
 				<boolean value="YES" key="1114.ImportedFromIB2"/>
 				<string key="1116.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="1116.ImportedFromIB2"/>
+				<string key="1193.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1194.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1195.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1196.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1197.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1198.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1199.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="12.ImportedFromIB2"/>
+				<string key="1200.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1201.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1202.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1203.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1204.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1205.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1207.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1208.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1209.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1210.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1211.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1212.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1213.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1214.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1215.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1216.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1217.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1218.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1219.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1220.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1221.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1222.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1223.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1224.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1225.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1226.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1227.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1228.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1229.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1230.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1232.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1233.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1234.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1235.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1236.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1237.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1238.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1239.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1240.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1241.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1242.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1243.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1244.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1245.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="13.ImportedFromIB2"/>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
