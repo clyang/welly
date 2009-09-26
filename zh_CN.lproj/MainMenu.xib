@@ -935,7 +935,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<object class="NSMenuItem" id="293665161">
 									<reference key="NSMenu" ref="318096741"/>
 									<string key="NSTitle">重新连接</string>
-									<string key="NSKeyEquiv"/>
+									<string key="NSKeyEquiv">r</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="98338050"/>
