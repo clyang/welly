@@ -318,7 +318,7 @@
 						<object class="NSButtonCell" key="NSCell" id="635878504">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Confirm on dangerous pasting</string>
+							<string key="NSContents">Confirm on dangerous posting</string>
 							<reference key="NSSupport" ref="714825187"/>
 							<reference key="NSControlView" ref="17535019"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -362,7 +362,7 @@
 						<object class="NSButtonCell" key="NSCell" id="187717007">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Enable Remote Control support (Needs to restart Welly)</string>
+							<string key="NSContents">Enable Remote Control support (Restart required)</string>
 							<reference key="NSSupport" ref="714825187"/>
 							<reference key="NSControlView" ref="36018171"/>
 							<int key="NSButtonFlags">1211912703</int>
