@@ -12,7 +12,7 @@
 #import "YLView.h"
 #import "WLConnection.h"
 #import "WLTerminal.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "IPSeeker.h"
 #import "WLEffectView.h"
 

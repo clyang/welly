@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLFullScreenProcessor.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 
 @interface WLFullScreenController : NSObject {
 	// Object to resize the target view and its super view

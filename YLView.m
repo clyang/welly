@@ -9,8 +9,8 @@
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
-#import "YLSite.h"
-#import "YLLGLobalConfig.h"
+#import "WLSite.h"
+#import "WLGLobalConfig.h"
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
 #import "WLPreviewController.h"
@@ -28,7 +28,7 @@
 const float WLActivityCheckingTimeInteval = 5.0;
 
 
-static YLLGlobalConfig *gConfig;
+static WLGlobalConfig *gConfig;
 static int gRow;
 static int gColumn;
 static NSImage *gLeftImage;
@@ -150,7 +150,7 @@ BOOL isSpecialSymbol(unichar ch) {
 }
 
 - (void)configure {
-    if (!gConfig) gConfig = [YLLGlobalConfig sharedInstance];
+    if (!gConfig) gConfig = [WLGlobalConfig sharedInstance];
 	gColumn = [gConfig column];
 	gRow = [gConfig row];
     _fontWidth = [gConfig cellWidth];
@@ -1765,7 +1765,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 // Set the portal in right state...
 - (void)checkPortal {
-    YLSite *site = [[self frontMostConnection] site];
+    WLSite *site = [[self frontMostConnection] site];
     if (_isInPortalMode && (site && ![site empty]))
         [self removePortal];
     else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])

@@ -12,7 +12,7 @@
 #import <Cocoa/Cocoa.h>
 #import "WLProtocol.h"
 
-@class YLSite, WLTerminal, WLTerminalFeeder, WLMessageDelegate;
+@class WLSite, WLTerminal, WLTerminalFeeder, WLMessageDelegate;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
@@ -28,12 +28,12 @@
     WLTerminal *_terminal;
 	WLTerminalFeeder *_feeder;
     NSObject <WLProtocol> *_protocol;
-    YLSite * _site;
+    WLSite * _site;
 	
 	WLMessageDelegate *_messageDelegate;
 	int _messageCount;
 }
-@property (readwrite, retain) YLSite *site;
+@property (readwrite, retain) WLSite *site;
 @property (readwrite, retain, setter=setTerminal:) WLTerminal *terminal;
 @property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
@@ -46,7 +46,7 @@
 @property (readwrite, assign) BOOL isProcessing;
 @property (readwrite, assign) int objectCount;
 
-- (id)initWithSite:(YLSite *)site;
+- (id)initWithSite:(WLSite *)site;
 
 - (void)close;
 - (void)reconnect;

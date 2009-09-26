@@ -12,7 +12,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@interface YLSite : NSObject {
+@interface WLSite : NSObject {
     NSString *_name;
     NSString *_address;
     YLEncoding _encoding;
@@ -35,8 +35,8 @@
 @property (readwrite, assign) WLProxyType proxyType;
 @property (readwrite, copy) NSString *proxyAddress;
 
-+ (YLSite *)site;
-+ (YLSite *)siteWithDictionary:(NSDictionary *)d;
++ (WLSite *)site;
++ (WLSite *)siteWithDictionary:(NSDictionary *)d;
 - (NSDictionary *)dictionaryOfSite ;
 
 - (BOOL)empty;

@@ -9,7 +9,7 @@
 #import "WLPreviewController.h"
 #import "WLQuickLookBridge.h"
 #import "WLGrowlBridge.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
 @interface WLDownloadDelegate : NSObject <NSWindowDelegate> {
@@ -205,7 +205,7 @@ static NSString * stringFromFileSize(long long size) {
                         identifier:download];
 
     // set local path
-    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
+    NSString *cacheDir = [WLGlobalConfig cacheDirectory];
     _path = [[cacheDir stringByAppendingPathComponent:_filename] retain];
 	if([downloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
 		// Get local file size

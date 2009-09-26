@@ -12,7 +12,7 @@
 #import "WLTerminal.h"
 #import "WLConnection.h"
 #import "WLPreviewController.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 
 NSString *const WLMenuTitleCopyURL = @"Copy URL";
 NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
@@ -133,8 +133,8 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	else
 		col_in_grid = (column_start + column_end) / 2.0f;
 	float row_in_grid = (row_start + row_end) / 2.0f;
-	ret.x = col_in_grid * [[YLLGlobalConfig sharedInstance] cellWidth];
-	ret.y = (_maxRow - row_in_grid - 0.6) * [[YLLGlobalConfig sharedInstance] cellHeight];
+	ret.x = col_in_grid * [[WLGlobalConfig sharedInstance] cellWidth];
+	ret.y = (_maxRow - row_in_grid - 0.6) * [[WLGlobalConfig sharedInstance] cellHeight];
 	return ret;
 }
 

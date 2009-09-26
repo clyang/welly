@@ -8,7 +8,7 @@
 #import "WLMouseHotspotHandler.h"
 #import "YLView.h"
 #import "WLEffectView.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLMouseBehaviorManager.h"
 
 @implementation WLMouseHotspotHandler
@@ -22,8 +22,8 @@
 - (id)initWithView:(YLView *)view {
 	[self init];
 	_view = view;
-	_maxRow = [[YLLGlobalConfig sharedInstance] row];
-	_maxColumn = [[YLLGlobalConfig sharedInstance] column];
+	_maxRow = [[WLGlobalConfig sharedInstance] row];
+	_maxColumn = [[WLGlobalConfig sharedInstance] column];
 	return self;
 }
 

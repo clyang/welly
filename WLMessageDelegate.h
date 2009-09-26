@@ -10,7 +10,7 @@
 #import "CommonType.h"
 
 @class WLConnection;
-@class YLSite;
+@class WLSite;
 
 @interface WLMessageDelegate : NSObject {
 	WLConnection *_connection;

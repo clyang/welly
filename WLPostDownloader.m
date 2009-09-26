@@ -7,7 +7,7 @@
 //
 
 #import "WLPostDownloader.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLConnection.h"
 #import "WLTerminal.h"
 
@@ -19,10 +19,10 @@
 
     WLTerminal *terminal = [connection terminal];
 
-    const int linesPerPage = [[YLLGlobalConfig sharedInstance] row] - 1;
+    const int linesPerPage = [[WLGlobalConfig sharedInstance] row] - 1;
     NSString *lastPage[linesPerPage], *newPage[linesPerPage];
 
-    NSString *bottomLine = [terminal stringFromIndex:linesPerPage * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
+    NSString *bottomLine = [terminal stringFromIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
     NSString *newBottomLine = bottomLine;
 
     NSMutableString *buf = [NSMutableString string];
@@ -34,7 +34,7 @@
         // read in the whole page, and store in 'newPage' array
         for (; j < linesPerPage; ++j) {
             // read one line
-            NSString *line = [terminal stringFromIndex:j * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
+            NSString *line = [terminal stringFromIndex:j * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
             newPage[j] = line;
             // check the post ending symbol "※"
             // ptt may include the symbol in the middle for re post
@@ -98,7 +98,7 @@
         while ([newBottomLine isEqualToString:bottomLine] && i < maxAttempt) {
             // wait for the screen to refresh
             usleep(sleepTime);
-            newBottomLine = [terminal stringFromIndex:linesPerPage * [[YLLGlobalConfig sharedInstance] column] length:[[YLLGlobalConfig sharedInstance] column]] ?: @"";
+            newBottomLine = [terminal stringFromIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
             ++i;
         }
         bottomLine = newBottomLine;

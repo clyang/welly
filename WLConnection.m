@@ -13,9 +13,9 @@
 #import "WLTerminal.h"
 #import "WLTerminalFeeder.h"
 #import "encoding.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLMessageDelegate.h"
-#import "YLSite.h"
+#import "WLSite.h"
 
 @interface WLConnection ()
 - (void)login;
@@ -39,7 +39,7 @@
     return self;
 }
 
-- (id)initWithSite:(YLSite *)site {
+- (id)initWithSite:(WLSite *)site {
     if (self == [super initWithContent:self]) {
         [self setSite:site];
         _feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
@@ -243,7 +243,7 @@
 	if (value <= 0)
 		return;
 	
-	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+	WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
 	
 	// we should let the icon on the deck bounce
 	[NSApp requestUserAttention: ([config shouldRepeatBounce] ? NSCriticalRequest : NSInformationalRequest)];
@@ -257,7 +257,7 @@
 	if (_messageCount <= 0)
 		return;
 	
-	YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+	WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
 	[config setMessageCount:[config messageCount] - _messageCount];
 	_messageCount = 0;
     [self setObjectCount:_messageCount];

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLTabBarControl.h"
-#import "YLSite.h"
+#import "WLSite.h"
 #import "WLMessageDelegate.h"
 #import "WLFullScreenController.h"
 #import "WLTelnetProcessor.h"
@@ -107,7 +107,7 @@
 - (IBAction)addSites:(id)sender;
 - (IBAction)showHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
-- (void)newConnectionWithSite:(YLSite *)site;
+- (void)newConnectionWithSite:(WLSite *)site;
 
 /* emoticon actions */
 - (IBAction)closeEmoticons:(id)sender;

@@ -1,4 +1,7 @@
 //
+//  WLGlobalConfig.h
+//  Welly
+//
 //  YLLGlobalConfig.m
 //  MacBlueTelnet
 //
@@ -6,7 +9,7 @@
 //  Copyright 2006 yllan.org. All rights reserved.
 //
 
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 
 #pragma mark -
 #pragma mark Constants
@@ -47,7 +50,7 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
 }
 @end
 
-@implementation YLLGlobalConfig
+@implementation WLGlobalConfig
 @synthesize messageCount = _messageCount;
 @synthesize row = _row;
 @synthesize column = _column;
@@ -70,10 +73,10 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
 @synthesize chineseFontName = _chineseFontName;
 @synthesize englishFontName = _englishFontName;
 
-+ (YLLGlobalConfig*)sharedInstance {
-    static YLLGlobalConfig *sSharedInstance = nil;
++ (WLGlobalConfig*)sharedInstance {
+    static WLGlobalConfig *sSharedInstance = nil;
     if (sSharedInstance == nil) {
-        sSharedInstance = [YLLGlobalConfig new];
+        sSharedInstance = [WLGlobalConfig new];
         [self initializeCache];
     }
     return sSharedInstance;
@@ -550,7 +553,7 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
 
 + (void)initializeCache {
     // clean cache at startup
-    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
+    NSString *cacheDir = [WLGlobalConfig cacheDirectory];
     BOOL flag = NO;
     int pid = [[NSProcessInfo processInfo] processIdentifier];
     // detect if another Welly exists

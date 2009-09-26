@@ -127,7 +127,7 @@
         NSPoint newOP = {0, (screenRect.size.height - [_targetView frame].size.height) / 2};
 		// Set the window style
 		[_fullScreenWindow setOpaque:NO];
-        [_fullScreenWindow setBackgroundColor:[[YLLGlobalConfig sharedInstance] colorBG]];
+        [_fullScreenWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
         // Set the view to the full screen window
         [_fullScreenWindow setContentView:_targetView];
         // Move the origin point

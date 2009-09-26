@@ -9,8 +9,8 @@
 #import "WLAnsiColorOperationManager.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
-#import "YLSite.h"
-#import "YLLGlobalConfig.h"
+#import "WLSite.h"
+#import "WLGlobalConfig.h"
 #import "encoding.h"
 
 inline void clearNonANSIAttribute(cell *aCell);
@@ -64,8 +64,8 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 + (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 						   atLocation:(int)location 
 							   length:(int)length {
-	int maxRow = [[YLLGlobalConfig sharedInstance] row];
-	int maxColumn = [[YLLGlobalConfig sharedInstance] column];
+	int maxRow = [[WLGlobalConfig sharedInstance] row];
+	int maxColumn = [[WLGlobalConfig sharedInstance] column];
 	cell *buffer = (cell *)malloc((length + maxRow + maxColumn + 1) * sizeof(cell));
     int i, j;
     int bufferLength = 0;
@@ -106,8 +106,8 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 
 + (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 							   inRect:(NSRect)rect {
-	int maxRow = [[YLLGlobalConfig sharedInstance] row];
-	int maxColumn = [[YLLGlobalConfig sharedInstance] column];
+	int maxRow = [[WLGlobalConfig sharedInstance] row];
+	int maxColumn = [[WLGlobalConfig sharedInstance] column];
 	cell *buffer = (cell *)malloc(((rect.size.height * rect.size.width) + maxRow + maxColumn + 1) * sizeof(cell));
     int j;
     int bufferLength = 0;
@@ -183,8 +183,8 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	convertFromUTF8(buffer, bufferLength, encoding);
 	
 	attribute defaultANSI;
-	unsigned int bgColorIndex = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
-	unsigned int fgColorIndex = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
+	unsigned int bgColorIndex = [WLGlobalConfig sharedInstance]->_bgColorIndex;
+	unsigned int fgColorIndex = [WLGlobalConfig sharedInstance]->_fgColorIndex;
 	defaultANSI.f.bgColor = bgColorIndex;
 	defaultANSI.f.fgColor = fgColorIndex;
 	defaultANSI.f.blink = 0;
@@ -271,7 +271,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground) {
     if (!rawColor)
         return nil;
-    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
     if ([rawColor isEqual:[config colorBG]] ||
         [rawColor isEqual:[config colorBlack]] ||
         [rawColor isEqual:[config colorRed]] ||
@@ -346,7 +346,7 @@ static NSColor* colorUsingNearestAnsiColor(NSColor *rawColor, BOOL isBackground)
     NSString *rawString = [storage string];
     BOOL underline, preUnderline = NO;
     BOOL blink, preBlink = NO;
-    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
     NSColor *color, *preColor = [config colorWhite];
     NSColor *bgColor, *preBgColor = nil;
     BOOL hasColor = NO;

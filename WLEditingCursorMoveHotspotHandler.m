@@ -11,7 +11,7 @@
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
-#import "YLSite.h"
+#import "WLSite.h"
 
 static NSCursor *gMoveCursor = nil;
 

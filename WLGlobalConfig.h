@@ -1,4 +1,7 @@
 //
+//  WLGlobalConfig.h
+//  Welly
+//
 //  YLLGlobalConfig.h
 //  MacBlueTelnet
 //
@@ -17,7 +20,7 @@ NSString *const WLConfirmOnCloseEnabledKeyName;
 NSString *const WLSafePasteEnabledKeyName;
 NSString *const WLCoverFlowModeEnabledKeyName;
 
-@interface YLLGlobalConfig : NSObject {
+@interface WLGlobalConfig : NSObject {
     int _messageCount;
 	int _row;
 	int _column;
@@ -79,7 +82,7 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 @property (readwrite, copy) NSString *chineseFontName;
 @property (readwrite, copy) NSString *englishFontName;
 
-+ (YLLGlobalConfig *)sharedInstance;
++ (WLGlobalConfig *)sharedInstance;
 
 - (void)refreshFont;
 

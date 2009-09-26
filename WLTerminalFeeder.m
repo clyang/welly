@@ -9,7 +9,7 @@
 #import "WLTerminalFeeder.h"
 #import "WLIntegerArray.h"
 #import "WLTerminal.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLConnection.h"
 
 #pragma mark -
@@ -206,8 +206,8 @@ static unsigned short gEmptyAttr;
 	if (self = [super init]) {
 		_hasNewMessage = NO;
         _savedCursorX = _savedCursorY = -1;
-        _row = [[YLLGlobalConfig sharedInstance] row];
-		_column = [[YLLGlobalConfig sharedInstance] column];
+        _row = [[WLGlobalConfig sharedInstance] row];
+		_column = [[WLGlobalConfig sharedInstance] column];
         _scrollBeginRow = 0; _scrollEndRow = _row - 1;
         _modeScreenReverse = NO;
 		_modeOriginRelative = NO;
@@ -1006,8 +1006,8 @@ static unsigned short gEmptyAttr;
     _cursorX = _cursorY = 0;
 	
     attribute t;
-    t.f.fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
-    t.f.bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
+    t.f.fgColor = [WLGlobalConfig sharedInstance]->_fgColorIndex;
+    t.f.bgColor = [WLGlobalConfig sharedInstance]->_bgColorIndex;
     t.f.bold = 0;
     t.f.underline = 0;
     t.f.blink = 0;
@@ -1016,8 +1016,8 @@ static unsigned short gEmptyAttr;
     t.f.nothing = 0;
     gEmptyAttr = t.v;
 	
-    _fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
-    _bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
+    _fgColor = [WLGlobalConfig sharedInstance]->_fgColorIndex;
+    _bgColor = [WLGlobalConfig sharedInstance]->_bgColorIndex;
     _csTemp = 0;
     _state = TP_NORMAL;
     _bold = NO;

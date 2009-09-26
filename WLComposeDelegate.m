@@ -8,10 +8,10 @@
 
 #import "WLComposeDelegate.h"
 #import "WLAnsiColorOperationManager.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "YLView.h"
 #import "WLTerminal.h"
-#import "YLSite.h"
+#import "WLSite.h"
 
 @implementation WLComposeDelegate
 NSString *const WLComposeFontName = @"Helvetica";
@@ -21,11 +21,11 @@ NSString *const WLComposeFontName = @"Helvetica";
 	[_composeText setBackgroundColor:[NSColor whiteColor]];
     [_composeText setTextColor:[NSColor blackColor]];
     [_composeText setInsertionPointColor:[NSColor blackColor]];
-    [_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
+    [_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[WLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 	
 	// Prepare Color Panel
 	[[NSUserDefaults standardUserDefaults] setObject:@"1Welly" forKey:@"NSColorPickerPageableNameListDefaults"];
-    YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+    WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
     NSColorPanel *colorPanel = [NSColorPanel sharedColorPanel];
     [colorPanel setMode:NSColorListModeColorPanel];
     NSColorList *colorList = [[NSColorList alloc] initWithName:@"Welly"];
@@ -68,12 +68,12 @@ NSString *const WLComposeFontName = @"Helvetica";
     [_composeText setString:@""];
 	[_composeText setBackgroundColor:[NSColor whiteColor]];
     [_composeText setTextColor:[NSColor blackColor]];
-	[_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[YLLGlobalConfig sharedInstance] englishFontSize]*0.8]];
+	[_composeText setFont:[NSFont fontWithName:WLComposeFontName size:[[WLGlobalConfig sharedInstance] englishFontSize]*0.8]];
 	// TODO: reset the background color
 }
 
 - (IBAction)commitCompose:(id)sender {
-    YLSite *s = [[_telnetView frontMostConnection] site];
+    WLSite *s = [[_telnetView frontMostConnection] site];
 	
 	NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:[_composeText textStorage] 
 																		 forANSIColorKey:[s ansiColorKey]];
@@ -146,7 +146,7 @@ NSString *const WLComposeFontName = @"Helvetica";
     int location = [textView selectedRange].location;
     if (location > 0) 
 		--location;
-    [_bgColorWell setColor:[[YLLGlobalConfig sharedInstance] colorBG]];
+    [_bgColorWell setColor:[[WLGlobalConfig sharedInstance] colorBG]];
     if (location < [storage length]) {
         NSColor *bgColor = [storage attribute:NSBackgroundColorAttributeName
                                       atIndex:location

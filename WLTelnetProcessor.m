@@ -31,14 +31,14 @@
 	// Decide whether to set or to reset the font size
 	CGFloat currRatio = (isEnteringFullScreen ? _screenRatio : (1.0f / _screenRatio));
 	// And do it..
-	[[YLLGlobalConfig sharedInstance] setEnglishFontSize: 
-	 [[YLLGlobalConfig sharedInstance] englishFontSize] * currRatio];
-	[[YLLGlobalConfig sharedInstance] setChineseFontSize: 
-	 [[YLLGlobalConfig sharedInstance] chineseFontSize] * currRatio];
-	[[YLLGlobalConfig sharedInstance] setCellWidth: 
-	 [[YLLGlobalConfig sharedInstance] cellWidth] * currRatio];
-	[[YLLGlobalConfig sharedInstance] setCellHeight: 
-	 [[YLLGlobalConfig sharedInstance] cellHeight] * currRatio];
+	[[WLGlobalConfig sharedInstance] setEnglishFontSize: 
+	 [[WLGlobalConfig sharedInstance] englishFontSize] * currRatio];
+	[[WLGlobalConfig sharedInstance] setChineseFontSize: 
+	 [[WLGlobalConfig sharedInstance] chineseFontSize] * currRatio];
+	[[WLGlobalConfig sharedInstance] setCellWidth: 
+	 [[WLGlobalConfig sharedInstance] cellWidth] * currRatio];
+	[[WLGlobalConfig sharedInstance] setCellHeight: 
+	 [[WLGlobalConfig sharedInstance] cellHeight] * currRatio];
 }
 
 // Overrided functions

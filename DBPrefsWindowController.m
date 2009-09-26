@@ -3,7 +3,7 @@
 //
 
 #import "DBPrefsWindowController.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import <ApplicationServices/ApplicationServices.h>
 
 static DBPrefsWindowController *_sharedPrefsWindowController = nil;
@@ -167,7 +167,7 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
     [[NSFontManager sharedFontManager] setAction: @selector(changeChineseFont:)];
     [[sender window] makeFirstResponder: [sender window]];
     NSFontPanel *fp = [NSFontPanel sharedFontPanel];
-    [fp setPanelFont: [NSFont fontWithName: [[YLLGlobalConfig sharedInstance] chineseFontName] size: [[YLLGlobalConfig sharedInstance] chineseFontSize]] isMultiple: NO];
+    [fp setPanelFont: [NSFont fontWithName: [[WLGlobalConfig sharedInstance] chineseFontName] size: [[WLGlobalConfig sharedInstance] chineseFontSize]] isMultiple: NO];
     [fp orderFront: self];
 }
 
@@ -175,7 +175,7 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
     [[NSFontManager sharedFontManager] setAction: @selector(changeEnglishFont:)];
     [[sender window] makeFirstResponder: [sender window]];
     NSFontPanel *fp = [NSFontPanel sharedFontPanel];
-    [fp setPanelFont: [NSFont fontWithName: [[YLLGlobalConfig sharedInstance] englishFontName] size: [[YLLGlobalConfig sharedInstance] englishFontSize]] isMultiple: NO];
+    [fp setPanelFont: [NSFont fontWithName: [[WLGlobalConfig sharedInstance] englishFontName] size: [[WLGlobalConfig sharedInstance] englishFontSize]] isMultiple: NO];
     [fp orderFront: self];
 }
 
@@ -188,8 +188,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	}
     
 	NSFont *panelFont = [fontManager convertFont:selectedFont];
-    [[YLLGlobalConfig sharedInstance] setChineseFontName: [panelFont fontName]];
-    [[YLLGlobalConfig sharedInstance] setChineseFontSize: [panelFont pointSize]];
+    [[WLGlobalConfig sharedInstance] setChineseFontName: [panelFont fontName]];
+    [[WLGlobalConfig sharedInstance] setChineseFontSize: [panelFont pointSize]];
 }
 
 - (void) changeEnglishFont: (id) sender {
@@ -201,8 +201,8 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	}
     
 	NSFont *panelFont = [fontManager convertFont:selectedFont];
-    [[YLLGlobalConfig sharedInstance] setEnglishFontName: [panelFont fontName]];
-    [[YLLGlobalConfig sharedInstance] setEnglishFontSize: [panelFont pointSize]];
+    [[WLGlobalConfig sharedInstance] setEnglishFontName: [panelFont fontName]];
+    [[WLGlobalConfig sharedInstance] setEnglishFontSize: [panelFont pointSize]];
     
 }
 

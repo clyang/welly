@@ -10,11 +10,11 @@
 //
 
 #import "WLTerminal.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "YLView.h"
 #import "WLConnection.h"
 #import "encoding.h"
-#import "YLSite.h"
+#import "WLSite.h"
 
 @implementation WLTerminal
 @synthesize maxRow = _maxRow;
@@ -34,8 +34,8 @@
 
 - (id)init {
 	if (self = [super init]) {
-        _maxRow = [[YLLGlobalConfig sharedInstance] row];
-		_maxColumn = [[YLLGlobalConfig sharedInstance] column];
+        _maxRow = [[WLGlobalConfig sharedInstance] row];
+		_maxColumn = [[WLGlobalConfig sharedInstance] column];
 		_grid = (cell **)malloc(sizeof(cell *) * _maxRow);
         int i;
         for (i = 0; i < _maxRow; i++) {
@@ -102,8 +102,8 @@
     _cursorColumn = _cursorRow = 0;
 	
     attribute t;
-    t.f.fgColor = [YLLGlobalConfig sharedInstance]->_fgColorIndex;
-    t.f.bgColor = [YLLGlobalConfig sharedInstance]->_bgColorIndex;
+    t.f.fgColor = [WLGlobalConfig sharedInstance]->_fgColorIndex;
+    t.f.bgColor = [WLGlobalConfig sharedInstance]->_bgColorIndex;
     t.f.bold = 0;
     t.f.underline = 0;
     t.f.blink = 0;

@@ -9,7 +9,7 @@
 
 #import "WLMessageDelegate.h"
 #import "WLConnection.h"
-#import "YLSite.h"
+#import "WLSite.h"
 #import "YLView.h"
 #import "YLApplication.h"
 #import "YLController.h"

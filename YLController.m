@@ -10,7 +10,7 @@
 #import "YLView.h"
 #import "WLConnection.h"
 #import "WLPTY.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
 #import "WLPostDownloader.h"
@@ -68,7 +68,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                             @"colorYellow", @"colorYellowHilite", @"colorBlue", @"colorBlueHilite", @"colorMagenta", @"colorMagentaHilite", 
                             @"colorCyan", @"colorCyanHilite", @"colorWhite", @"colorWhiteHilite", @"colorBG", @"colorBGHilite", nil];
     for (NSString *key in observeKeys)
-        [[YLLGlobalConfig sharedInstance] addObserver:self
+        [[WLGlobalConfig sharedInstance] addObserver:self
                                            forKeyPath:key
                                               options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
                                               context:nil];
@@ -83,8 +83,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     _telnetView = (YLView *)[_tab tabView];
 	
     // Trigger the KVO to update the information properly.
-    [[YLLGlobalConfig sharedInstance] setShowsHiddenText:[[YLLGlobalConfig sharedInstance] showsHiddenText]];
-    [[YLLGlobalConfig sharedInstance] setCellWidth:[[YLLGlobalConfig sharedInstance] cellWidth]];
+    [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
+    [[WLGlobalConfig sharedInstance] setCellWidth:[[WLGlobalConfig sharedInstance] cellWidth]];
     
     [self loadSites];
     [self updateSitesMenu];
@@ -158,7 +158,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
     
     // Now add items of site one by one
-    for (YLSite *s in _sites) {
+    for (WLSite *s in _sites) {
         NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
         [menuItem setRepresentedObject:s];
         [[_sitesMenu submenu] addItem:menuItem];
@@ -188,7 +188,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (void)updateBlinkTicker:(NSTimer *)timer {
-    [[YLLGlobalConfig sharedInstance] updateBlinkTicker];
+    [[WLGlobalConfig sharedInstance] updateBlinkTicker];
     if ([_telnetView hasBlinkCell])
         [_telnetView setNeedsDisplay:YES];
 }
@@ -207,7 +207,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     }
 }
 
-- (void)newConnectionWithSite:(YLSite *)site {
+- (void)newConnectionWithSite:(WLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
 	// Set the view to be focused.
@@ -272,16 +272,16 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
                         change:(NSDictionary *)change
                        context:(void *)context {
     if ([keyPath isEqualToString:@"showHiddenText"]) {
-        if ([[YLLGlobalConfig sharedInstance] showsHiddenText]) 
+        if ([[WLGlobalConfig sharedInstance] showsHiddenText]) 
             [_showHiddenTextMenuItem setState:NSOnState];
         else
             [_showHiddenTextMenuItem setState:NSOffState];        
     } else if ([keyPath isEqualToString:@"messageCount"]) {
         NSDockTile *dockTile = [NSApp dockTile];
-        if ([[YLLGlobalConfig sharedInstance] messageCount] == 0) {
+        if ([[WLGlobalConfig sharedInstance] messageCount] == 0) {
             [dockTile setBadgeLabel:nil];
         } else {
-            [dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", [[YLLGlobalConfig sharedInstance] messageCount]]];
+            [dockTile setBadgeLabel:[NSString stringWithFormat:@"%d", [[WLGlobalConfig sharedInstance] messageCount]]];
         }
         [dockTile display];
     } else if ([keyPath isEqualToString:@"shouldSmoothFonts"]) {
@@ -289,7 +289,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [_telnetView updateBackedImage];
         [_telnetView setNeedsDisplay:YES];
     } else if ([keyPath hasPrefix:@"cell"]) {
-        YLLGlobalConfig *config = [YLLGlobalConfig sharedInstance];
+        WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
         NSRect r = [_mainWindow frame];
         CGFloat topLeftCorner = r.origin.y + r.size.height;
 
@@ -310,7 +310,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         tabRect.size.width = r.size.width;
         [_tab setFrame: tabRect];
     } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
-        [[YLLGlobalConfig sharedInstance] refreshFont];
+        [[WLGlobalConfig sharedInstance] refreshFont];
         [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
         [_telnetView updateBackedImage];
         [_telnetView setNeedsDisplay:YES];
@@ -324,12 +324,12 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     NSArray *array = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
     for (NSDictionary *d in array)
         //[_sites addObject:[YLSite siteWithDictionary:d]];
-        [self insertObject:[YLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];    
+        [self insertObject:[WLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];    
 }
 
 - (void)saveSites {
     NSMutableArray *a = [NSMutableArray array];
-    for (YLSite *s in _sites)
+    for (WLSite *s in _sites)
         [a addObject:[s dictionaryOfSite]];
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"Sites"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -353,7 +353,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 - (void)loadLastConnections {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"LastConnections"];
     for (NSDictionary *d in a) {
-        [self newConnectionWithSite: [YLSite siteWithDictionary: d]];
+        [self newConnectionWithSite: [WLSite siteWithDictionary: d]];
     }    
 }
 
@@ -431,7 +431,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 }
 
 - (IBAction)newTab:(id)sender {
-    [self newConnectionWithSite:[YLSite site]];
+    [self newConnectionWithSite:[WLSite site]];
 	
 	// Draw the portal and entering the portal control mode if needed...
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
@@ -468,27 +468,27 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         name = [name substringFromIndex: 6];
     
     NSMutableArray *matchedSites = [NSMutableArray array];
-    YLSite *s;
+    WLSite *s;
         
     if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
-        for (YLSite *site in _sites) 
+        for (WLSite *site in _sites) 
             if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
                 [matchedSites addObject:site];
         if ([matchedSites count] > 0) {
             [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
             s = [[[matchedSites objectAtIndex:0] copy] autorelease];
         } else {
-            s = [YLSite site];
+            s = [WLSite site];
             [s setAddress:name];
             [s setName:name];
         }
     } else { /* Short Address? */
-        for (YLSite *site in _sites) 
+        for (WLSite *site in _sites) 
             if ([[site name] rangeOfString:name].location != NSNotFound) 
                 [matchedSites addObject:site];
         [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
         if ([matchedSites count] == 0) {
-            for (YLSite *site in _sites) 
+            for (WLSite *site in _sites) 
                 if ([[site address] rangeOfString:name].location != NSNotFound)
                     [matchedSites addObject:site];
             [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
@@ -496,7 +496,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         if ([matchedSites count] > 0) {
             s = [[[matchedSites objectAtIndex:0] copy] autorelease];
         } else {
-            s = [YLSite site];
+            s = [WLSite site];
             [s setAddress:[sender stringValue]];
             [s setName:name];
         }
@@ -612,13 +612,13 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     [self closeSites:sender];
     
     if ([a count] == 1) {
-        YLSite *s = [a objectAtIndex:0];
+        WLSite *s = [a objectAtIndex:0];
         [self newConnectionWithSite:[[s copy] autorelease]];
     }
 }
 
 - (IBAction)openSiteMenu:(id)sender {
-    YLSite *s = [sender representedObject];
+    WLSite *s = [sender representedObject];
     [self newConnectionWithSite: s];
 }
 
@@ -633,11 +633,11 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
     if ([_telnetView numberOfTabViewItems] == 0) return;
     NSString *address = [[[_telnetView frontMostConnection] site] address];
     
-    for (YLSite *s in _sites) 
+    for (WLSite *s in _sites) 
         if ([[s address] isEqualToString:address]) 
             return;
     
-    YLSite *site = [[[[_telnetView frontMostConnection] site] copy] autorelease];
+    WLSite *site = [[[[_telnetView frontMostConnection] site] copy] autorelease];
     [_sitesController addObject:site];
     [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
     [self performSelector:@selector(editSites:) withObject:sender afterDelay:0.1];
@@ -653,7 +653,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         show = !show;
     }
 
-    [[YLLGlobalConfig sharedInstance] setShowsHiddenText:show];
+    [[WLGlobalConfig sharedInstance] setShowsHiddenText:show];
     [_telnetView refreshHiddenRegion];
     [_telnetView updateBackedImage];
     [_telnetView setNeedsDisplay:YES];
@@ -890,7 +890,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     WLConnection *connection = [tabViewItem identifier];
-    YLSite *site = [connection site];
+    WLSite *site = [connection site];
     [_addressBar setStringValue:[site address]];
     WLTerminal *terminal = [connection terminal];
     [connection resetMessageCount];
@@ -1166,7 +1166,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 // Set and reset font size
 - (void)setFontSizeRatio:(CGFloat)ratio {
 	// Just do it..
-	[[YLLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
+	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
 }
 
 // Increase global font size setting by 5%
@@ -1196,12 +1196,12 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 		return;
 	}
 	// Set the font settings
-	[[YLLGlobalConfig sharedInstance] setCellWidth:12];
-	[[YLLGlobalConfig sharedInstance] setCellHeight:24];
-	[[YLLGlobalConfig sharedInstance] setChineseFontName:@"STHeiti"];
-	[[YLLGlobalConfig sharedInstance] setEnglishFontName:@"Monaco"];
-	[[YLLGlobalConfig sharedInstance] setChineseFontSize:22];
-	[[YLLGlobalConfig sharedInstance] setEnglishFontSize:18];
+	[[WLGlobalConfig sharedInstance] setCellWidth:12];
+	[[WLGlobalConfig sharedInstance] setCellHeight:24];
+	[[WLGlobalConfig sharedInstance] setChineseFontName:@"STHeiti"];
+	[[WLGlobalConfig sharedInstance] setEnglishFontName:@"Monaco"];
+	[[WLGlobalConfig sharedInstance] setChineseFontSize:22];
+	[[WLGlobalConfig sharedInstance] setEnglishFontSize:18];
 }
 
 #pragma mark -
@@ -1257,7 +1257,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     unsigned int row = [terminal maxRow];
     NSString *siteName = [[connection site] name];
     // locate the cache directory
-    NSString *cacheDir = [YLLGlobalConfig cacheDirectory];
+    NSString *cacheDir = [WLGlobalConfig cacheDirectory];
     NSString *fileName = [[cacheDir stringByAppendingPathComponent:@"rss"] stringByAppendingPathExtension:@"xml"];
     WLFeedGenerator *feedGenerator = [[WLFeedGenerator alloc] initWithSiteName:siteName];
     BOOL isFirstLoop = YES;

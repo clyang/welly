@@ -9,8 +9,8 @@
 //  Copyright 2007 yllan.org. All rights reserved.
 //
 
-#import "YLSite.h"
-#import "YLLGlobalConfig.h"
+#import "WLSite.h"
+#import "WLGlobalConfig.h"
 
 NSString *const YLSiteNameAttributeName = @"name";
 NSString *const YLSiteAddressAttributeName = @"address";
@@ -25,7 +25,7 @@ NSString *const WLSiteProxyAddressAttributeName = @"proxyaddress";
 NSString *const WLDefaultAutoReplyString = @"DefaultAutoReplyString";
 NSString *const WLDefaultSiteName = @"DefaultSiteName";
 
-@implementation YLSite
+@implementation WLSite
 @synthesize name = _name;
 @synthesize address = _address;
 @synthesize encoding = _encoding;
@@ -43,10 +43,10 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 
         [self setAddress:@""];
 
-        [self setEncoding:[[YLLGlobalConfig sharedInstance] defaultEncoding]];
-        [self setShouldDetectDoubleByte:[[YLLGlobalConfig sharedInstance] shouldDetectDoubleByte]];
-        [self setShouldEnableMouse:[[YLLGlobalConfig sharedInstance] shouldEnableMouse]];
-        [self setAnsiColorKey:[[YLLGlobalConfig sharedInstance] defaultANSIColorKey]];
+        [self setEncoding:[[WLGlobalConfig sharedInstance] defaultEncoding]];
+        [self setShouldDetectDoubleByte:[[WLGlobalConfig sharedInstance] shouldDetectDoubleByte]];
+        [self setShouldEnableMouse:[[WLGlobalConfig sharedInstance] shouldEnableMouse]];
+        [self setAnsiColorKey:[[WLGlobalConfig sharedInstance] defaultANSIColorKey]];
         [self setShouldAutoReply:NO];
         [self setAutoReplyString:NSLocalizedString(WLDefaultAutoReplyString, @"Site")];
         [self setProxyType:0];
@@ -55,12 +55,12 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     return self;
 }
 
-+ (YLSite *)site {
-    return [[YLSite new] autorelease];
++ (WLSite *)site {
+    return [[WLSite new] autorelease];
 }
 
-+ (YLSite *)siteWithDictionary:(NSDictionary *)d {
-    YLSite *s = [YLSite site];
++ (WLSite *)siteWithDictionary:(NSDictionary *)d {
+    WLSite *s = [WLSite site];
     [s setName:[d valueForKey:YLSiteNameAttributeName] ?: @""];
     [s setAddress:[d valueForKey:YLSiteAddressAttributeName] ?: @""];
     [s setEncoding:(YLEncoding)[[d valueForKey:YLSiteEncodingAttributeName] unsignedShortValue]];
@@ -94,7 +94,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    YLSite *s = [[YLSite allocWithZone:zone] init];
+    WLSite *s = [[WLSite allocWithZone:zone] init];
     [s setName:[self name]];
     [s setAddress:[self address]];
     [s setEncoding:[self encoding]];

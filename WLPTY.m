@@ -20,7 +20,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <termios.h>
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLPTY.h"
 #import "WLProxy.h"
 
@@ -132,8 +132,8 @@
 	
     term.c_ispeed = B38400;
     term.c_ospeed = B38400;
-    size.ws_col = [[YLLGlobalConfig sharedInstance] column];
-    size.ws_row = [[YLLGlobalConfig sharedInstance] row];
+    size.ws_col = [[WLGlobalConfig sharedInstance] column];
+    size.ws_row = [[WLGlobalConfig sharedInstance] row];
     size.ws_xpixel = 0;
     size.ws_ypixel = 0;
 

@@ -129,7 +129,7 @@ const float xscale = 1, yscale = 0.8;
     frame.size.height *= yscale;
     [_view setFrame:frame];
     // background
-    NSColor *color = [[YLLGlobalConfig sharedInstance] colorBG];
+    NSColor *color = [[WLGlobalConfig sharedInstance] colorBG];
     // cover flow doesn't support alpha
     color = [color colorWithAlphaComponent:1.0];
     [_contentView setBackgroundColor:color];
@@ -186,7 +186,7 @@ const float xscale = 1, yscale = 0.8;
 - (void)select {
     [self hide];
     YLController *controller = [((YLApplication *)NSApp) controller];
-    YLSite *site = [controller objectInSitesAtIndex:[_view selectedIndex]];
+    WLSite *site = [controller objectInSitesAtIndex:[_view selectedIndex]];
     [controller newConnectionWithSite:site];
 }
 

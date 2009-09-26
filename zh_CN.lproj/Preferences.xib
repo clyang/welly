@@ -1375,7 +1375,7 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomObject" id="555413251">
-				<string key="NSClassName">YLLGlobalConfig</string>
+				<string key="NSClassName">WLGlobalConfig</string>
 			</object>
 			<object class="NSCustomView" id="396205441">
 				<nil key="NSNextResponder"/>
@@ -4502,6 +4502,18 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLGlobalConfig</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="setChineseFont:">id</string>
+						<string key="setEnglishFont:">id</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">WLTabBarControl</string>
 					<string key="superclassName">PSMTabBarControl</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -4612,26 +4624,6 @@
 						<string key="removeSiteImage:">id</string>
 						<string key="setBlink:">id</string>
 						<string key="setUnderline:">id</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLLGlobalConfig</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">YLLGlobalConfig.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLLGlobalConfig</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="setChineseFont:">id</string>
-						<string key="setEnglishFont:">id</string>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>

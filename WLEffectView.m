@@ -7,7 +7,7 @@
 //
 
 #import "WLEffectView.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLMenuItem.h"
 
 #import <Quartz/Quartz.h>
@@ -172,12 +172,12 @@
 	[textLayer setString:[message retain]];
 	// Modify its styles
 	[textLayer setTruncationMode:kCATruncationEnd];
-    CGFontRef font = CGFontCreateWithFontName((CFStringRef)[[YLLGlobalConfig sharedInstance] englishFontName]);
+    CGFontRef font = CGFontCreateWithFontName((CFStringRef)[[WLGlobalConfig sharedInstance] englishFontName]);
     [textLayer setFont:font];
-	[textLayer setFontSize:[[YLLGlobalConfig sharedInstance] englishFontSize] - 2];
+	[textLayer setFontSize:[[WLGlobalConfig sharedInstance] englishFontSize] - 2];
 	// Here, calculate the size of the text layer
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-								[NSFont fontWithName:[[YLLGlobalConfig sharedInstance] englishFontName] 
+								[NSFont fontWithName:[[WLGlobalConfig sharedInstance] englishFontName] 
 												size:[textLayer fontSize]], 
 								NSFontAttributeName, 
 								nil];

@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLFullScreenProcessor.h"
-#import "YLLGlobalConfig.h"
+#import "WLGlobalConfig.h"
 #import "WLEffectView.h"
 #import "YLView.h"
 
