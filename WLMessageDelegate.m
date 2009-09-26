@@ -8,7 +8,7 @@
 
 
 #import "WLMessageDelegate.h"
-#import "YLConnection.h"
+#import "WLConnection.h"
 #import "YLSite.h"
 #import "YLView.h"
 #import "YLApplication.h"
@@ -35,7 +35,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	return self;
 }
 
-- (id)initWithConnection:(YLConnection *)connection {
+- (id)initWithConnection:(WLConnection *)connection {
 	[self init];
 	[self setConnection:connection];
 	return self;
@@ -46,7 +46,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	[super dealloc];
 }
 
-- (void)setConnection:(YLConnection *)connection {
+- (void)setConnection:(WLConnection *)connection {
 	_connection = connection;
 }
 

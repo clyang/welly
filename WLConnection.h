@@ -1,4 +1,7 @@
 //
+//  WLConnection.h
+//  Welly
+//
 //  YLConnection.h
 //  MacBlueTelnet
 //
@@ -9,11 +12,11 @@
 #import <Cocoa/Cocoa.h>
 #import "WLProtocol.h"
 
-@class YLSite, YLTerminal, WLTerminalFeeder, WLMessageDelegate;
+@class YLSite, WLTerminal, WLTerminalFeeder, WLMessageDelegate;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
-@interface YLConnection : NSObjectController {
+@interface WLConnection : NSObjectController {
     NSImage * _icon;
     BOOL _isProcessing;
     int _objectCount;
@@ -22,7 +25,7 @@
 
     NSDate *_lastTouchDate;
     
-    YLTerminal *_terminal;
+    WLTerminal *_terminal;
 	WLTerminalFeeder *_feeder;
     NSObject <WLProtocol> *_protocol;
     YLSite * _site;
@@ -31,7 +34,7 @@
 	int _messageCount;
 }
 @property (readwrite, retain) YLSite *site;
-@property (readwrite, retain, setter=setTerminal:) YLTerminal *terminal;
+@property (readwrite, retain, setter=setTerminal:) WLTerminal *terminal;
 @property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:) BOOL isConnected;

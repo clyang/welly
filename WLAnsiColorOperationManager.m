@@ -7,8 +7,8 @@
 //
 
 #import "WLAnsiColorOperationManager.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 #import "YLSite.h"
 #import "YLLGlobalConfig.h"
 #import "encoding.h"
@@ -61,7 +61,7 @@ void convertFromUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
 @implementation WLAnsiColorOperationManager
 const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 
-+ (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
++ (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 						   atLocation:(int)location 
 							   length:(int)length {
 	int maxRow = [[YLLGlobalConfig sharedInstance] row];
@@ -104,7 +104,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	return returnValue;
 }
 
-+ (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
++ (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 							   inRect:(NSRect)rect {
 	int maxRow = [[YLLGlobalConfig sharedInstance] row];
 	int maxColumn = [[YLLGlobalConfig sharedInstance] column];

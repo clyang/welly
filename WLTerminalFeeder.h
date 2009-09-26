@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLConnection, WLIntegerArray, YLTerminal;
+@class WLConnection, WLIntegerArray, WLTerminal;
 
 @interface WLTerminalFeeder : NSObject {
     unsigned int _row;
@@ -39,8 +39,8 @@
     int _scrollBeginRow;
     int _scrollEndRow;
 	
-	YLTerminal *_terminal;
-	YLConnection *_connection;
+	WLTerminal *_terminal;
+	WLConnection *_connection;
 	
 	BOOL _hasNewMessage;	// to determine if a growl notification is needed
 	
@@ -57,7 +57,7 @@
 @property cell **grid;
 
 - (id)init;
-- (id)initWithConnection:(YLConnection *)connection;
+- (id)initWithConnection:(WLConnection *)connection;
 - (void)dealloc;
 
 /* Input Interface */
@@ -66,7 +66,7 @@
 		   length:(NSUInteger)len 
 	   connection:(id)connection;
 
-- (void)setTerminal:(YLTerminal *)terminal;
+- (void)setTerminal:(WLTerminal *)terminal;
 
 /* Clear */
 - (void)clearAll;

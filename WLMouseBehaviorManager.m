@@ -16,8 +16,8 @@
 #import "WLURLManager.h"
 
 #import "YLView.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 #import "YLSite.h"
 #import "WLEffectView.h"
 

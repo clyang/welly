@@ -8,16 +8,16 @@
 
 #import "WLPostDownloader.h"
 #import "YLLGlobalConfig.h"
-#import "YLConnection.h"
-#import "YLTerminal.h"
+#import "WLConnection.h"
+#import "WLTerminal.h"
 
 
 @implementation WLPostDownloader
 
-+ (NSString *)downloadPostFromConnection:(YLConnection *)connection {
++ (NSString *)downloadPostFromConnection:(WLConnection *)connection {
     const int sleepTime = 100000, maxAttempt = 300000;
 
-    YLTerminal *terminal = [connection terminal];
+    WLTerminal *terminal = [connection terminal];
 
     const int linesPerPage = [[YLLGlobalConfig sharedInstance] row] - 1;
     NSString *lastPage[linesPerPage], *newPage[linesPerPage];

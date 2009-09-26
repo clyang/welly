@@ -1,4 +1,7 @@
 //
+//  WLSite.h
+//  Welly
+//
 //  YLSite.h
 //  MacBlueTelnet
 //

@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLTerminal;
-@class YLConnection;
+@class WLTerminal;
+@class WLConnection;
 @class YLMarkedTextView;
 @class WLEffectView;
 @class WLPortal;
@@ -77,8 +77,8 @@
 
 - (void)clearSelection;
 
-- (YLTerminal *)frontMostTerminal;
-- (YLConnection *)frontMostConnection;
+- (WLTerminal *)frontMostTerminal;
+- (WLConnection *)frontMostConnection;
 - (BOOL)isConnected;
 
 - (void)extendBottomFrom:(int)start 

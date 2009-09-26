@@ -16,7 +16,7 @@
 #define scrollTimerInterval 0.12
 #define floatWindowLevel kCGStatusWindowLevel+1
 
-@class YLView, YLTerminal;
+@class YLView, WLTerminal;
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
 @class WLFeedGenerator;

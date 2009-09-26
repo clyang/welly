@@ -8,9 +8,9 @@
 
 #import "WLTerminalFeeder.h"
 #import "WLIntegerArray.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLLGlobalConfig.h"
-#import "YLConnection.h"
+#import "WLConnection.h"
 
 #pragma mark -
 #pragma mark Constant Define
@@ -227,7 +227,7 @@ static unsigned short gEmptyAttr;
 	return self;
 }
 
-- (id)initWithConnection:(YLConnection *)connection {
+- (id)initWithConnection:(WLConnection *)connection {
 	if (self == [self init]) {
 		_connection = connection;
 	}
@@ -993,7 +993,7 @@ static unsigned short gEmptyAttr;
     [pool release];
 }
 
-- (void)setTerminal:(YLTerminal *)terminal {
+- (void)setTerminal:(WLTerminal *)terminal {
     _terminal = terminal;
     [_terminal setConnection:_connection];
 }

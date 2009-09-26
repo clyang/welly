@@ -6,9 +6,9 @@
 //  Copyright 2007 yllan.org. All rights reserved.
 
 #import "YLController.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLView.h"
-#import "YLConnection.h"
+#import "WLConnection.h"
 #import "WLPTY.h"
 #import "YLLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
@@ -198,7 +198,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 		return;
     NSArray *a = [_telnetView tabViewItems];
     for (NSTabViewItem *item in a) {
-        YLConnection *connection = [item identifier];
+        WLConnection *connection = [item identifier];
         if ([connection isConnected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
             unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -213,7 +213,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 	// Set the view to be focused.
 	[_mainWindow makeFirstResponder:_telnetView];
 
-    YLConnection *connection;
+    WLConnection *connection;
     NSTabViewItem *tabViewItem;
     BOOL emptyTab = [_telnetView frontMostConnection] && ([_telnetView frontMostTerminal] == nil);
     if (emptyTab && ![site empty]) {
@@ -223,7 +223,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
         [connection setSite:site];
         [self tabView:_telnetView didSelectTabViewItem:tabViewItem];
     } else {
-        connection = [[[YLConnection alloc] initWithSite:site] autorelease];
+        connection = [[[WLConnection alloc] initWithSite:site] autorelease];
         tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
         // this will invoke tabView:didSelectTabViewItem for the first tab
         [_telnetView addTabViewItem:tabViewItem];
@@ -242,7 +242,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 			[_telnetView removePortal];
 		}
         // new terminal
-        YLTerminal *terminal = [YLTerminal terminalWithView:_telnetView];
+        WLTerminal *terminal = [WLTerminal terminalWithView:_telnetView];
         [connection setTerminal:terminal];
 
         // WLPTY as the default protocol (a proxy)
@@ -889,10 +889,10 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    YLConnection *connection = [tabViewItem identifier];
+    WLConnection *connection = [tabViewItem identifier];
     YLSite *site = [connection site];
     [_addressBar setStringValue:[site address]];
-    YLTerminal *terminal = [connection terminal];
+    WLTerminal *terminal = [connection terminal];
     [connection resetMessageCount];
     [terminal setAllDirty];
 
@@ -1251,8 +1251,8 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     _rssThread = [NSThread currentThread];
     NSMutableDictionary *threadDict = [_rssThread threadDictionary];
     [threadDict setValue:[NSNumber numberWithBool:exitNow] forKey:@"ThreadShouldExitNow"];
-    YLConnection *connection = [_telnetView frontMostConnection];
-    YLTerminal *terminal = [connection terminal];
+    WLConnection *connection = [_telnetView frontMostConnection];
+    WLTerminal *terminal = [connection terminal];
     unsigned int column = [terminal maxColumn];
     unsigned int row = [terminal maxRow];
     NSString *siteName = [[connection site] name];

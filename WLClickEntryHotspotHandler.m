@@ -12,9 +12,9 @@
 #import "YLLGlobalConfig.h"
 #import "YLApplication.h"
 #import "YLController.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLView.h"
-#import "YLConnection.h"
+#import "WLConnection.h"
 #import "encoding.h"
 
 NSString *const WLMenuTitleDownloadPost = @"Download post";
@@ -38,7 +38,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 - (void)moveCursorToRow:(int)moveToRow {
 	unsigned char cmd[_maxRow * _maxColumn + 1];
 	unsigned int cmdLength = 0;
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	int cursorRow = [ds cursorRow];
 	
 	// Moving Command
@@ -236,7 +236,7 @@ BOOL isPostTitleStarter(unichar c) {
 }
 
 - (void)updatePostClickEntry {
-    YLTerminal *ds = [_view frontMostTerminal];
+    WLTerminal *ds = [_view frontMostTerminal];
 	for (int r = 3; r < _maxRow - 1; ++r) {
 		cell *currRow = [ds cellsOfRow:r];
 		
@@ -282,7 +282,7 @@ BOOL isPostTitleStarter(unichar c) {
 }
 
 - (void)updateBoardClickEntry {
-    YLTerminal *ds = [_view frontMostTerminal];
+    WLTerminal *ds = [_view frontMostTerminal];
 	for (int r = 3; r < _maxRow - 1; ++r) {
 		cell *currRow = [ds cellsOfRow:r];
 		
@@ -309,7 +309,7 @@ BOOL isPostTitleStarter(unichar c) {
 }
 
 - (void)updateFriendClickEntry {
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	for (int r = 3; r < _maxRow - 1; ++r) {
 		cell *currRow = [ds cellsOfRow:r];
 		
@@ -321,7 +321,7 @@ BOOL isPostTitleStarter(unichar c) {
 }
 
 - (void)updateMenuClickEntry {
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	for (int r = 3; r < _maxRow - 1; ++r) {
 		cell *currRow = [ds cellsOfRow:r];
 		
@@ -380,7 +380,7 @@ BOOL isPostTitleStarter(unichar c) {
 }
 
 - (void)updateExcerptionClickEntry {
-    YLTerminal *ds = [_view frontMostTerminal];
+    WLTerminal *ds = [_view frontMostTerminal];
 	// Parse the table title line to get ranges
 	NSRange postRange = {0, 0};
 	int c = 0;
@@ -416,7 +416,7 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 	
 	// In the same page, do NOT update/clear
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
 	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
 		return NO;
@@ -432,7 +432,7 @@ BOOL isPostTitleStarter(unichar c) {
 	}
 	
 	// Update
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
 		[self updatePostClickEntry];
 	} else if ([ds bbsState].state == BBSBoardList) {

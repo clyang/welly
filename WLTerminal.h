@@ -1,4 +1,7 @@
 //
+//  WLTerminal.h
+//  Welly
+//
 //  YLTerminal.h
 //  MacBlueTelnet
 //
@@ -9,9 +12,9 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLView, YLConnection, WLMessageDelegate, WLIntegerArray;
+@class YLView, WLConnection, WLMessageDelegate, WLIntegerArray;
 
-@interface YLTerminal : NSObject {	
+@interface WLTerminal : NSObject {	
 	WLBBSType _bbsType;
 	
     unsigned int _maxRow;
@@ -25,7 +28,7 @@
 
     YLView *_view;
 
-    YLConnection *_connection;
+    WLConnection *_connection;
 	
 	BBSState _bbsState;
 	
@@ -36,11 +39,11 @@
 @property unsigned int cursorColumn;
 @property unsigned int cursorRow;
 @property cell **grid;
-@property (assign, setter=setConnection:) YLConnection *connection;
+@property (assign, setter=setConnection:) WLConnection *connection;
 @property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
 
-+ (YLTerminal *)terminalWithView:(YLView *)view;
++ (WLTerminal *)terminalWithView:(YLView *)view;
 
 /* Start / Stop */
 - (void)startConnection;

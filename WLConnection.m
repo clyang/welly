@@ -1,4 +1,7 @@
 //
+//  WLConnection.h
+//  Welly
+//
 //  YLConnection.mm
 //  MacBlueTelnet
 //
@@ -6,19 +9,19 @@
 //  Copyright 2007 yllan.org. All rights reserved.
 //
 
-#import "YLConnection.h"
-#import "YLTerminal.h"
+#import "WLConnection.h"
+#import "WLTerminal.h"
 #import "WLTerminalFeeder.h"
 #import "encoding.h"
 #import "YLLGlobalConfig.h"
 #import "WLMessageDelegate.h"
 #import "YLSite.h"
 
-@interface YLConnection ()
+@interface WLConnection ()
 - (void)login;
 @end
 
-@implementation YLConnection
+@implementation WLConnection
 @synthesize site = _site;
 @synthesize terminal = _terminal;
 @synthesize terminalFeeder = _feeder;
@@ -59,7 +62,7 @@
 
 #pragma mark -
 #pragma mark Accessor
-- (void)setTerminal:(YLTerminal *)value {
+- (void)setTerminal:(WLTerminal *)value {
 	if (_terminal != value) {
 		[_terminal release];
 		_terminal = [value retain];

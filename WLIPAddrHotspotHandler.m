@@ -10,8 +10,8 @@
 #import "WLMouseBehaviorManager.h"
 
 #import "YLView.h"
-#import "YLConnection.h"
-#import "YLTerminal.h"
+#import "WLConnection.h"
+#import "WLTerminal.h"
 #import "YLLGlobalConfig.h"
 #import "IPSeeker.h"
 #import "WLEffectView.h"

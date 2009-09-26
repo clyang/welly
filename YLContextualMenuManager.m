@@ -9,7 +9,7 @@
 
 #import "YLContextualMenuManager.h"
 #import "YLView.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLController.h"
 #import "YLApplication.h"
 #import "Carbon/Carbon.h"

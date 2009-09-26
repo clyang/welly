@@ -9,8 +9,8 @@
 #import "WLEditingCursorMoveHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
 #import "YLView.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 #import "YLSite.h"
 
 static NSCursor *gMoveCursor = nil;

@@ -9,14 +9,14 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLTerminal;
+@class WLTerminal;
 @interface WLAnsiColorOperationManager : NSObject {
 
 }
-+ (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
++ (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 						   atLocation:(int)location 
 							   length:(int)length;
-+ (NSData *)ansiColorDataFromTerminal:(YLTerminal *)terminal 
++ (NSData *)ansiColorDataFromTerminal:(WLTerminal *)terminal 
 							   inRect:(NSRect)rect;
 + (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
 					  forANSIColorKey:(YLANSIColorKey)ansiColorKey 

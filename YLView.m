@@ -7,8 +7,8 @@
 //
 
 #import "YLView.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 #import "YLSite.h"
 #import "YLLGLobalConfig.h"
 #import "YLMarkedTextView.h"
@@ -737,7 +737,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	unsigned char arrow[6] = {0x1B, 0x4F, 0x00, 0x1B, 0x4F, 0x00};
 	unsigned char buf[10];
 
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
 
     if (([theEvent modifierFlags] & NSControlKeyMask) &&
 	   (([theEvent modifierFlags] & NSAlternateKeyMask) == 0 )) {
@@ -821,7 +821,7 @@ BOOL isSpecialSymbol(unichar ch) {
 - (void)tick:(NSArray *)a {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	[self updateBackedImage];
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
 
 	if (ds && (_x != [ds cursorColumn] || _y != [ds cursorRow])) {
 		[self setNeedsDisplayInRect:NSMakeRect(_x * _fontWidth, (gRow - 1 - _y) * _fontHeight, _fontWidth, _fontHeight)];
@@ -842,7 +842,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)drawRect:(NSRect)rect {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
 	if ([self isConnected]) {
 		// NSLog(@"connected");
 		// Modified by gtCarrera
@@ -1034,7 +1034,7 @@ BOOL isSpecialSymbol(unichar ch) {
 	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	int x, y;
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
 	[_backedImage lockFocus];
 	CGContextRef myCGContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
 	if (ds) {
@@ -1089,7 +1089,7 @@ BOOL isSpecialSymbol(unichar ch) {
     CGFloat ePaddingLeft = [gConfig englishFontPaddingLeft], ePaddingBottom = [gConfig englishFontPaddingBottom];
     CGFloat cPaddingLeft = [gConfig chineseFontPaddingLeft], cPaddingBottom = [gConfig chineseFontPaddingBottom];
     
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
     [ds updateDoubleByteStateForRow:r];
 	
     cell *currRow = [ds cellsOfRow:r];
@@ -1476,13 +1476,13 @@ BOOL isSpecialSymbol(unichar ch) {
 	return [[self frontMostConnection] isConnected];
 }
 
-- (YLTerminal *)frontMostTerminal {
-    return (YLTerminal *)[[self frontMostConnection] terminal];
+- (WLTerminal *)frontMostTerminal {
+    return (WLTerminal *)[[self frontMostConnection] terminal];
 }
 
-- (YLConnection *)frontMostConnection {
+- (WLConnection *)frontMostConnection {
     id identifier = [[self selectedTabViewItem] identifier];
-    return (YLConnection *) identifier;
+    return (WLConnection *) identifier;
 }
 
 - (NSString *)selectedPlainString {
@@ -1601,7 +1601,7 @@ BOOL isSpecialSymbol(unichar ch) {
 // setMarkedText: cannot take a nil first argument. aString can be NSString or NSAttributedString
 - (void)setMarkedText:(id)aString 
 		selectedRange:(NSRange)selRange {
-    YLTerminal *ds = [self frontMostTerminal];
+    WLTerminal *ds = [self frontMostTerminal];
 	if (![aString respondsToSelector:@selector(isEqualToAttributedString:)] && [aString isMemberOfClass:[NSString class]])
 		aString = [[[NSAttributedString alloc] initWithString:aString] autorelease];
 

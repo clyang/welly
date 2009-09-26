@@ -9,7 +9,7 @@
 #import "WLAuthorAreaHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
 #import "YLView.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "WLEffectView.h"
 
 NSString *const WLButtonNameAuthorMode = @"Author: %@";
@@ -116,7 +116,7 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	if ([[_view frontMostTerminal] bbsType] == WLMaple)
 		return;
 	
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
     cell *currRow = [ds cellsOfRow:r];
 	
 	if ([ds bbsState].state == BBSBrowseBoard || [ds bbsState].state == BBSMailList) {
@@ -179,7 +179,7 @@ NSString *const WLMenuTitleAddAsFriend = @"Add %@ as friend";
 	}
 	
 	// In the same page, do NOT update
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
 	if (bbsState.state == [_manager lastBBSState].state && abs([_manager lastCursorRow] - [ds cursorRow]) == 1) {
 		return NO;

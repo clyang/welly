@@ -9,19 +9,19 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLConnection;
+@class WLConnection;
 @class YLSite;
 
 @interface WLMessageDelegate : NSObject {
-	YLConnection *_connection;
+	WLConnection *_connection;
 	NSMutableString *_unreadMessage;
 	int _unreadCount;
 }
 @property (readonly) int unreadCount;
 
-- (id)initWithConnection:(YLConnection *)connection;
+- (id)initWithConnection:(WLConnection *)connection;
 
-- (void)setConnection:(YLConnection *)connection;
+- (void)setConnection:(WLConnection *)connection;
 - (void)connectionDidReceiveNewMessage:(NSString *)message
 		   fromCaller:(NSString *)callerName;
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView;

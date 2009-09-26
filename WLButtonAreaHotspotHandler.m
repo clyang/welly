@@ -10,8 +10,8 @@
 #import "WLMouseBehaviorManager.h"
 
 #import "YLView.h"
-#import "YLConnection.h"
-#import "YLTerminal.h"
+#import "WLConnection.h"
+#import "WLTerminal.h"
 #import "WLEffectView.h"
 
 #define fbComposePost @"\020"
@@ -155,7 +155,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 	if (r > 3 && r < _maxRow-1)
 		return;
 	
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	BBSState bbsState = [ds bbsState];
 	
 	for (int x = 0; x < _maxColumn; ++x) {

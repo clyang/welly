@@ -9,8 +9,8 @@
 #import "WLMovingAreaHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
 #import "YLView.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 
 NSString *const WLCommandSequencePageUp = termKeyPageUp;
 NSString *const WLCommandSequencePageDown = termKeyPageDown;

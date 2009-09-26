@@ -8,12 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class YLConnection;
+@class WLConnection;
 
 @interface WLPostDownloader : NSObject {
 
 }
 
-+ (NSString *)downloadPostFromConnection:(YLConnection *)connection;
++ (NSString *)downloadPostFromConnection:(WLConnection *)connection;
 
 @end

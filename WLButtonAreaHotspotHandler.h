@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLMouseHotspotHandler.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 
 NSString * const WLButtonNameComposePost;
 NSString * const WLButtonNameDeletePost;

@@ -10,7 +10,7 @@
 #import "WLAnsiColorOperationManager.h"
 #import "YLLGlobalConfig.h"
 #import "YLView.h"
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLSite.h"
 
 @implementation WLComposeDelegate

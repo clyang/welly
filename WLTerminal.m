@@ -1,4 +1,7 @@
 //
+//  WLTerminal.m
+//  Welly
+//
 //  YLTerminal.m
 //  MacBlueTelnet
 //
@@ -6,14 +9,14 @@
 //  Copyright 2006 yllan.org. All rights reserved.
 //
 
-#import "YLTerminal.h"
+#import "WLTerminal.h"
 #import "YLLGlobalConfig.h"
 #import "YLView.h"
-#import "YLConnection.h"
+#import "WLConnection.h"
 #import "encoding.h"
 #import "YLSite.h"
 
-@implementation YLTerminal
+@implementation WLTerminal
 @synthesize maxRow = _maxRow;
 @synthesize maxColumn = _maxColumn;
 @synthesize cursorColumn = _cursorColumn;
@@ -23,8 +26,8 @@
 @synthesize bbsState = _bbsState;
 @synthesize connection = _connection;
 
-+ (YLTerminal *)terminalWithView:(YLView *)view {
-    YLTerminal *terminal = [[YLTerminal alloc] init];
++ (WLTerminal *)terminalWithView:(YLView *)view {
+    WLTerminal *terminal = [[WLTerminal alloc] init];
     terminal->_view = view;
 	return [terminal autorelease];
 }
@@ -319,7 +322,7 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     [[[self connection] site] setEncoding:encoding];
 }
 
-- (void)setConnection:(YLConnection *)value {
+- (void)setConnection:(WLConnection *)value {
     _connection = value;
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
 	// remove #import "YLSite.h" when fixed.

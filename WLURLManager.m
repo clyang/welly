@@ -9,8 +9,8 @@
 #import "WLURLManager.h"
 #import "WLMouseBehaviorManager.h"
 #import "YLView.h"
-#import "YLTerminal.h"
-#import "YLConnection.h"
+#import "WLTerminal.h"
+#import "WLConnection.h"
 #import "WLPreviewController.h"
 #import "YLLGlobalConfig.h"
 
@@ -216,7 +216,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 		int index = [[urlInfo objectForKey:WLRangeLocationUserInfoName] intValue];
 		int length = [[urlInfo objectForKey:WLRangeLengthUserInfoName] intValue];
 		
-		YLTerminal *ds = [_view frontMostTerminal];
+		WLTerminal *ds = [_view frontMostTerminal];
 		// Set all involved row to be dirty. Reduce the number of [ds setDirty] call.
 		while (length > 0) {
 			int row = index / _maxColumn;
@@ -246,7 +246,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	// Resotre the url list pointer
 	_currentSelectedURLIndex = 0;
 	
-	YLTerminal *ds = [_view frontMostTerminal];
+	WLTerminal *ds = [_view frontMostTerminal];
 	cell **grid = [ds grid];
 	BOOL isReadingURL = NO;
 	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:", "www."};
