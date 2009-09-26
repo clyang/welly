@@ -21,8 +21,7 @@
 #import "WLURLManager.h"
 #import "WLPopUpMessage.h"
 #import "WLAnsiColorOperationManager.h"
-
-#include "encoding.h"
+#import "WLEncoder.h"
 #include <math.h>
 
 const float WLActivityCheckingTimeInteval = 5.0;
@@ -1123,7 +1122,7 @@ BOOL isSpecialSymbol(unichar ch) {
 			continue;
 		} else if (db == 2) {
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
-			unichar ch = [[[self frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
+			unichar ch = [WLEncoder toUnicode:code encoding:[[[self frontMostConnection] site] encoding]];
 			//NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
 			if (isSpecialSymbol(ch)) {
 				[self drawSpecialSymbol:ch forRow:r column:(x - 1) leftAttribute:(currRow + x - 1)->attr rightAttribute:(currRow + x)->attr];

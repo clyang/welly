@@ -92,7 +92,7 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
     [self setShouldSmoothFonts:[defaults boolForKey:@"ShouldSmoothFonts"]];
     [self setShouldDetectDoubleByte:[defaults boolForKey:@"DetectDoubleByte"]];
     [self setShouldEnableMouse:[defaults boolForKey:@"EnableMouse"]];
-    [self setDefaultEncoding:(YLEncoding) [defaults integerForKey:@"DefaultEncoding"]];
+    [self setDefaultEncoding:(WLEncoding) [defaults integerForKey:@"DefaultEncoding"]];
     [self setDefaultANSIColorKey:(YLANSIColorKey) [defaults integerForKey:@"DefaultANSIColorKey"]];
     [self setShouldRepeatBounce:[defaults boolForKey:@"RepeatBounce"]];
 
@@ -292,7 +292,7 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"EnableMouse"];
 }
 
-- (void)setDefaultEncoding:(YLEncoding)value {
+- (void)setDefaultEncoding:(WLEncoding)value {
     _defaultEncoding = value;
     [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultEncoding"];
 }

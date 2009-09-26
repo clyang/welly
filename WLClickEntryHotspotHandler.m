@@ -14,7 +14,7 @@
 #import "WLTerminal.h"
 #import "YLView.h"
 #import "WLConnection.h"
-#import "encoding.h"
+#import "WLEncoder.h"
 
 NSString *const WLMenuTitleDownloadPost = @"Download post";
 NSString *const WLMenuTitleThreadTop = @"Thread top";
@@ -258,7 +258,7 @@ BOOL isPostTitleStarter(unichar c) {
                     textBuf[bufLength++] = 0x0000 + (currRow[i].byte ?: ' ');
             } else if (db == 2) {
 				unsigned short code = (((currRow + i - 1)->byte) << 8) + ((currRow + i)->byte) - 0x8000;
-				unichar ch = [[[_view frontMostConnection] site] encoding] == YLBig5Encoding ? B2U[code] : G2U[code];
+				unichar ch = [WLEncoder toUnicode:code encoding:[[[_view frontMostConnection] site] encoding]];
                 // smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
                 // free/sjtu: 0x25c6 (solid diamond "◆")
                 // ptt: 0x25a1 (hollow square "□")

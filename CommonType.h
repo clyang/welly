@@ -7,6 +7,7 @@
  *
  */
 #import <Cocoa/Cocoa.h>
+#import "WLEncoder.h"
 
 typedef union {
 	unsigned short v;
@@ -29,11 +30,6 @@ typedef struct {
 } cell;
 
 typedef enum {C0, INTERMEDIATE, ALPHABETIC, DELETE, C1, G1, SPECIAL, ERROR} ASCII_CODE;
-
-typedef enum YLEncoding {
-    YLBig5Encoding = 1, 
-    YLGBKEncoding = 0
-} YLEncoding;
 
 typedef enum YLANSIColorKey {
     YLCtrlUANSIColorKey = 1, 

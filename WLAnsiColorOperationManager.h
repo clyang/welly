@@ -20,7 +20,7 @@
 							   inRect:(NSRect)rect;
 + (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
 					  forANSIColorKey:(YLANSIColorKey)ansiColorKey 
-							 encoding:(YLEncoding)encoding;
+							 encoding:(WLEncoding)encoding;
 + (NSString *)ansiCodeStringFromAttributedString:(NSAttributedString *)storage
 								 forANSIColorKey:(YLANSIColorKey)ansiColorKey;
 @end

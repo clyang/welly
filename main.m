@@ -1,5 +1,8 @@
 //
 //  main.m
+//  Welly
+//
+//  main.m
 //  MacBlueTelnet
 //
 //  Created by Yung-Luen Lan on 2006/6/9.
@@ -8,10 +11,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "encoding.h"
-
 int main(int argc, char *argv[])
 {
-	init_table();
-    return NSApplicationMain(argc,  (const char **) argv);
+    return NSApplicationMain(argc,  (const char **)argv);
 }

@@ -11,7 +11,7 @@
 #import "WLConnection.h"
 #import "WLSite.h"
 #import "WLGlobalConfig.h"
-#import "encoding.h"
+#import "WLEncoder.h"
 
 inline void clearNonANSIAttribute(cell *aCell);
 
@@ -34,11 +34,11 @@ unsigned char encodingCodeToRightByte(unsigned short code) {
 	return code & 0xFF;
 }
 
-void convertToUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
+void convertToUTF8(cell *buffer, int bufferLength, WLEncoding encoding) {
 	for (int i = 0; i < bufferLength; ++i) {
 		if (buffer[i].attr.f.doubleByte == 1) {
 			unsigned short code = doubleByteToEncodingCode(buffer[i].byte, buffer[i+1].byte);
-			unichar ch = (encoding == YLBig5Encoding) ? B2U[code] : G2U[code];
+			unichar ch = [WLEncoder toUnicode:code encoding:encoding];
 			buffer[i].byte = encodingCodeToLeftByte(ch);
 			buffer[i+1].byte = encodingCodeToRightByte(ch);
 			++i;	// Skip next one
@@ -46,11 +46,11 @@ void convertToUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
 	}
 }
 
-void convertFromUTF8(cell *buffer, int bufferLength, YLEncoding encoding) {
+void convertFromUTF8(cell *buffer, int bufferLength, WLEncoding encoding) {
 	for (int i = 0; i < bufferLength; ++i) {
 		if (buffer[i].attr.f.doubleByte == 1) {
 			unsigned short code = doubleByteToEncodingCode(buffer[i].byte, buffer[i+1].byte) + 0x8000;
-			unichar ch = (encoding == YLBig5Encoding) ? U2B[code] : U2G[code];
+			unichar ch = [WLEncoder fromUnicode:code encoding:encoding];
 			buffer[i].byte = encodingCodeToLeftByte(ch);
 			buffer[i+1].byte = encodingCodeToRightByte(ch);
 			++i;	// Skip next one
@@ -168,7 +168,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 
 + (NSData *)ansiCodeFromANSIColorData:(NSData *)ansiColorData 
 					  forANSIColorKey:(YLANSIColorKey)ansiColorKey 
-							 encoding:(YLEncoding)encoding {
+							 encoding:(WLEncoding)encoding {
 	NSData *escData;
 	if (ansiColorKey == YLCtrlUANSIColorKey) {
 		escData = [NSData dataWithBytes:"\x15" length:1];

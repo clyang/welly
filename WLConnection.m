@@ -12,7 +12,7 @@
 #import "WLConnection.h"
 #import "WLTerminal.h"
 #import "WLTerminalFeeder.h"
-#import "encoding.h"
+#import "WLEncoder.h"
 #import "WLGlobalConfig.h"
 #import "WLMessageDelegate.h"
 #import "WLSite.h"
@@ -155,7 +155,7 @@
 
     // translate into proper encoding of the site
     NSMutableData *data = [NSMutableData data];
-	YLEncoding encoding = [_site encoding];
+	WLEncoding encoding = [_site encoding];
     for (int i = 0; i < [s length]; i++) {
         unichar ch = [s characterAtIndex:i];
         char buf[2];
@@ -163,7 +163,7 @@
             buf[0] = ch;
             [data appendBytes:buf length:1];
         } else {
-            unichar code = (encoding == YLBig5Encoding ? U2B[ch] : U2G[ch]);
+            unichar code = [WLEncoder fromUnicode:ch encoding:encoding];
 			if (code != 0) {
 				buf[0] = code >> 8;
 				buf[1] = code & 0xFF;

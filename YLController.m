@@ -189,10 +189,10 @@ static YLController *sInstance;
     }
     if (![_telnetView frontMostTerminal])
         return;
-    YLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
-    if (currentEncoding == YLBig5Encoding)
+    WLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
+    if (currentEncoding == WLBig5Encoding)
         [[m itemAtIndex:1] setState:NSOnState];
-    if (currentEncoding == YLGBKEncoding)
+    if (currentEncoding == WLGBKEncoding)
         [[m itemAtIndex:0] setState:NSOnState];
 }
 
@@ -425,11 +425,11 @@ static YLController *sInstance;
 
 - (IBAction)setEncoding:(id)sender {
     //int index = [[_encodingMenuItem submenu] indexOfItem: sender];
-	YLEncoding encoding = YLGBKEncoding;
+	WLEncoding encoding = WLGBKEncoding;
 	if ([[sender title] rangeOfString:@"GBK"].location != NSNotFound)
-		encoding = YLGBKEncoding;
+		encoding = WLGBKEncoding;
 	if ([[sender title] rangeOfString:@"Big5"].location != NSNotFound)
-		encoding = YLBig5Encoding;
+		encoding = WLBig5Encoding;
     if ([_telnetView frontMostTerminal]) {
         [[_telnetView frontMostTerminal] setEncoding: encoding];
         [[_telnetView frontMostTerminal] setAllDirty];

@@ -12,9 +12,6 @@
 #import "WLTerminal.h"
 #import "YLController.h"
 #import "Carbon/Carbon.h"
-#ifdef _DEBUG
-#import "encoding.h"
-#endif
 
 @interface YLContextualMenuManager ()
 + (NSString *)extractShortURL:(NSString *)s;
@@ -52,17 +49,6 @@
 						action:@selector(openURL:)
 				 keyEquivalent:@""];
 	}
-#ifdef _DEBUG
-	if ([s length] >= 1) {
-		unichar ch = [s characterAtIndex:0];
-		if (ch >= 0x007F) {
-			unichar u2bCode = U2B[ch];
-			unichar u2gCode = U2G[ch];
-			NSString *str = [NSString stringWithFormat:@"%@ : ch = %04x, U2B[ch] = %04x, U2G[ch] = %04x", s, ch, u2bCode, u2gCode];
-			[menu addItemWithTitle:str action:@selector(copyCodeInfo:) keyEquivalent:@""];
-		}
-	}
-#endif
 	
 	if ([[view frontMostTerminal] bbsType] == WLMaple) {
 		// Firebird BBS seldom use these	

@@ -13,7 +13,6 @@
 #import "WLGlobalConfig.h"
 #import "YLView.h"
 #import "WLConnection.h"
-#import "encoding.h"
 #import "WLSite.h"
 
 @implementation WLTerminal
@@ -187,7 +186,7 @@
             int index = (firstByte << 8) + _grid[y][x].byte - 0x8000;
             for (j = 0; j < spacebuf; j++)
                 _textBuf[bufLength++] = ' ';
-            _textBuf[bufLength++] = ([[[self connection] site] encoding] == YLBig5Encoding) ? B2U[index] : G2U[index];
+            _textBuf[bufLength++] = [WLEncoder toUnicode:index encoding:[[[self connection] site] encoding]];
 			
             spacebuf = 0;
         }
@@ -314,11 +313,11 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
 
 # pragma mark -
 # pragma mark Accessor
-- (YLEncoding)encoding {
+- (WLEncoding)encoding {
     return [[[self connection] site] encoding];
 }
 
-- (void)setEncoding:(YLEncoding)encoding {
+- (void)setEncoding:(WLEncoding)encoding {
     [[[self connection] site] setEncoding:encoding];
 }
 
@@ -326,6 +325,6 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     _connection = value;
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
 	// remove #import "YLSite.h" when fixed.
-	[self setBbsType:[[_connection site] encoding] == YLBig5Encoding ? WLMaple : WLFirebird];
+	[self setBbsType:[[_connection site] encoding] == WLBig5Encoding ? WLMaple : WLFirebird];
 }
 @end

@@ -12,7 +12,6 @@
 #import "WLSite.h"
 #import "YLView.h"
 #import "YLController.h"
-#import "encoding.h"
 #import "WLGrowlBridge.h"
 
 NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";

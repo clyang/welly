@@ -15,7 +15,7 @@
 @interface WLSite : NSObject {
     NSString *_name;
     NSString *_address;
-    YLEncoding _encoding;
+    WLEncoding _encoding;
     YLANSIColorKey _ansiColorKey;
     BOOL _shouldDetectDoubleByte;
 	BOOL _shouldAutoReply;
@@ -26,7 +26,7 @@
 }
 @property (readwrite, copy) NSString *name;
 @property (readwrite, copy) NSString *address;
-@property (readwrite, assign) YLEncoding encoding;
+@property (readwrite, assign) WLEncoding encoding;
 @property (readwrite, assign) YLANSIColorKey ansiColorKey;
 @property (readwrite, assign) BOOL shouldDetectDoubleByte;
 @property (readwrite, assign) BOOL shouldAutoReply;

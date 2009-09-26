@@ -10,8 +10,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "CommonType.h"
 #import <ApplicationServices/ApplicationServices.h>
+#import "CommonType.h"
+#import "WLEncoder.h"
+
 #define NUM_COLOR 10
 
 NSString *const WLRestoreConnectionKeyName;
@@ -34,7 +36,7 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 	BOOL _shouldEnableMouse;
 	BOOL _shouldAutoReply;
     BOOL _shouldRepeatBounce;
-    YLEncoding _defaultEncoding;
+    WLEncoding _defaultEncoding;
     YLANSIColorKey _defaultANSIColorKey;
     
     CGFloat _chineseFontSize;
@@ -70,7 +72,7 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 @property (readwrite, assign) BOOL shouldDetectDoubleByte;
 @property (readwrite, assign) BOOL shouldEnableMouse;
 @property (readwrite, assign) BOOL shouldRepeatBounce;
-@property (readwrite, assign) YLEncoding defaultEncoding;
+@property (readwrite, assign) WLEncoding defaultEncoding;
 @property (readwrite, assign) YLANSIColorKey defaultANSIColorKey;
 @property (readwrite, assign) BOOL blinkTicker;
 @property (readwrite, assign) CGFloat chineseFontSize;

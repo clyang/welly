@@ -74,8 +74,8 @@
 - (void)updateBBSState;
 
 /* Accessor */
-- (YLEncoding)encoding;
-- (void)setEncoding:(YLEncoding)encoding;
+- (WLEncoding)encoding;
+- (void)setEncoding:(WLEncoding)encoding;
 
 /* Input Interface */
 - (void)feedGrid:(cell **)grid;

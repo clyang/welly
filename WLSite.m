@@ -63,7 +63,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     WLSite *s = [WLSite site];
     [s setName:[d valueForKey:YLSiteNameAttributeName] ?: @""];
     [s setAddress:[d valueForKey:YLSiteAddressAttributeName] ?: @""];
-    [s setEncoding:(YLEncoding)[[d valueForKey:YLSiteEncodingAttributeName] unsignedShortValue]];
+    [s setEncoding:(WLEncoding)[[d valueForKey:YLSiteEncodingAttributeName] unsignedShortValue]];
     [s setAnsiColorKey:(YLANSIColorKey)[[d valueForKey:YLSiteAnsiColorKeyAttributeName] unsignedShortValue]];
     [s setShouldDetectDoubleByte:[[d valueForKey:YLSiteDetectDoubleByteAttributeName] boolValue]];
 	[s setShouldEnableMouse:[[d valueForKey:YLSiteEnableMouseAttributeName] boolValue]];
