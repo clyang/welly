@@ -37,10 +37,10 @@
     
     /* password window */
     IBOutlet NSPanel *_passwordWindow;
+	
     IBOutlet NSSecureTextField *_passwordField;
 	
     IBOutlet NSPanel *_sitesWindow;
-    IBOutlet NSPanel *_emoticonsWindow;
     IBOutlet NSWindow *_mainWindow;
     IBOutlet NSPanel *_messageWindow;
     IBOutlet id _addressBar;
@@ -55,9 +55,7 @@
     IBOutlet NSMenuItem *_closeTabMenuItem;
 	IBOutlet NSMenuItem *_autoReplyMenuItem;
     NSMutableArray *_sites;
-    NSMutableArray *_emoticons;
     IBOutlet NSArrayController *_sitesController;
-    IBOutlet NSArrayController *_emoticonsController;
     IBOutlet NSTableView *_tableView;
     IBOutlet NSMenuItem *_sitesMenu;
     IBOutlet NSTextField *_siteNameField;
@@ -111,10 +109,7 @@
 - (IBAction)openPreferencesWindow:(id)sender;
 - (void)newConnectionWithSite:(WLSite *)site;
 
-/* emoticon actions */
-- (IBAction)closeEmoticons:(id)sender;
-- (IBAction)inputEmoticons:(id)sender;
-- (IBAction)openEmoticonsWindow:(id)sender;
+// Message
 - (IBAction)closeMessageWindow:(id)sender;
 
 /* post download actions */
@@ -137,18 +132,6 @@
 - (void)removeObjectFromSitesAtIndex:(unsigned)index;
 - (void)replaceObjectInSitesAtIndex:(unsigned)index 
 						 withObject:(id)anObject;
-
-// emoticons accessors
-- (NSArray *)emoticons;
-- (unsigned)countOfEmoticons;
-- (id)objectInEmoticonsAtIndex:(unsigned)theIndex;
-- (void)getEmoticons:(id *)objsPtr 
-			   range:(NSRange)range;
-- (void)insertObject:(id)obj 
-  inEmoticonsAtIndex:(unsigned)theIndex;
-- (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex;
-- (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
-
 // for bindings access
 - (RemoteControl*)remoteControl;
 - (MultiClickRemoteBehavior*)remoteBehavior;

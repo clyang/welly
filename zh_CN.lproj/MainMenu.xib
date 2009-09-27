@@ -11,7 +11,7 @@
 			<string key="NS.object.0">732</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="29"/>
+			<integer value="730"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -54,11 +54,9 @@
 							<string key="NSToolbarItemPaletteLabel">地址</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSTextField" key="NSToolbarItemView" id="804126903">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{0, 14}, {251, 22}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSTextFieldCell" key="NSCell" id="82556440">
 									<int key="NSCellFlags">-1804468671</int>
@@ -111,11 +109,9 @@
 							<string key="NSToolbarItemPaletteLabel">鼠标浏览</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="518218114">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{12, 14}, {28, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="739669494">
 									<int key="NSCellFlags">-2080244224</int>
@@ -158,11 +154,9 @@
 							<string key="NSToolbarItemPaletteLabel">自动回复</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="150762455">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{11, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="783116028">
 									<int key="NSCellFlags">67239424</int>
@@ -217,11 +211,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">加入地址簿</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="361439573">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{17, 14}, {28, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="1048852532">
 									<int key="NSCellFlags">67239424</int>
@@ -264,11 +256,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">显示隐藏文字</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="314545465">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{22, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="1062896395">
 									<int key="NSCellFlags">67239424</int>
@@ -307,11 +297,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">连接</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="649123460">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{1, 14}, {28, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="876823254">
 									<int key="NSCellFlags">67239424</int>
@@ -350,11 +338,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">地址簿</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="805663342">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{6, 14}, {28, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="852009471">
 									<int key="NSCellFlags">67239424</int>
@@ -393,11 +379,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">防发呆</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="918108737">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{5, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="382161179">
 									<int key="NSCellFlags">-2080244224</int>
@@ -436,11 +420,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">全文下载</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="1009606750">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{11, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="375379163">
 									<int key="NSCellFlags">67239424</int>
@@ -475,11 +457,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">文豪挥笔</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="414910759">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{11, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="307588931">
 									<int key="NSCellFlags">67239424</int>
@@ -514,11 +494,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">RSS</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="243498781">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{0, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="541985834">
 									<int key="NSCellFlags">67239424</int>
@@ -553,11 +531,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">侦测双字节</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="483772032">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{16, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="497499847">
 									<int key="NSCellFlags">67239424</int>
@@ -592,11 +568,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSToolbarItemPaletteLabel">表情符号</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSButton" key="NSToolbarItemView" id="825574676">
-								<reference key="NSNextResponder"/>
+								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{11, 14}, {30, 19}}</string>
-								<reference key="NSSuperview"/>
-								<reference key="NSWindow"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="547415632">
 									<int key="NSCellFlags">-2080244224</int>
@@ -748,7 +722,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="957750958">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSCustomView" id="92983356">
@@ -760,7 +734,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483380</int>
 									<string key="NSFrame">{{335, 134}, {245, 36}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<string key="NSClassName">YLMarkedTextView</string>
 								</object>
 								<object class="NSCustomView" id="571244695">
@@ -768,7 +741,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
 									<string key="NSClassName">WLEffectView</string>
@@ -776,7 +748,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrame">{{1, 0}, {960, 576}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<string key="NSClassName">YLView</string>
 							<string key="NSExtension">NSView</string>
 						</object>
@@ -785,13 +756,10 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{0, 576}, {962, 22}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<string key="NSClassName">WLTabBarControl</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{960, 598}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -2332,7 +2300,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="910844147">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="975639922">
@@ -2797,6 +2765,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{413, 346}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -3410,7 +3379,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{4, 4}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -3767,6 +3736,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
+			</object>
+			<object class="NSCustomObject" id="749238592">
+				<string key="NSClassName">WLEmoticonDelegate</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -4340,76 +4312,12 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">782</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">inputEmoticons:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="975639922"/>
-					</object>
-					<int key="connectionID">801</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">closeEmoticons:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="540669161"/>
-					</object>
-					<int key="connectionID">802</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="345961862"/>
 						<reference key="destination" ref="954315210"/>
 					</object>
 					<int key="connectionID">832</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openEmoticonsWindow:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="825574676"/>
-					</object>
-					<int key="connectionID">833</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_emoticonsWindow</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1024666415"/>
-					</object>
-					<int key="connectionID">834</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_emoticonsController</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="507068315"/>
-					</object>
-					<int key="connectionID">835</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openEmoticonsWindow:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="773319297"/>
-					</object>
-					<int key="connectionID">838</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: emoticons</string>
-						<reference key="source" ref="507068315"/>
-						<reference key="destination" ref="954315210"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="507068315"/>
-							<reference key="NSDestination" ref="954315210"/>
-							<string key="NSLabel">contentArray: emoticons</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">emoticons</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">845</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -5247,6 +5155,86 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">1563</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_emoticonsWindow</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="1024666415"/>
+					</object>
+					<int key="connectionID">1565</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_emoticonsController</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="507068315"/>
+					</object>
+					<int key="connectionID">1566</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openEmoticonsWindow:</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="773319297"/>
+					</object>
+					<int key="connectionID">1567</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openEmoticonsWindow:</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="547415632"/>
+					</object>
+					<int key="connectionID">1568</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">closeEmoticons:</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="540669161"/>
+					</object>
+					<int key="connectionID">1569</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">inputEmoticons:</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="975639922"/>
+					</object>
+					<int key="connectionID">1570</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1024666415"/>
+						<reference key="destination" ref="749238592"/>
+					</object>
+					<int key="connectionID">1571</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentArray: emoticons</string>
+						<reference key="source" ref="507068315"/>
+						<reference key="destination" ref="749238592"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="507068315"/>
+							<reference key="NSDestination" ref="749238592"/>
+							<string key="NSLabel">contentArray: emoticons</string>
+							<string key="NSBinding">contentArray</string>
+							<string key="NSKeyPath">emoticons</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1572</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_telnetView</string>
+						<reference key="source" ref="749238592"/>
+						<reference key="destination" ref="92983356"/>
+					</object>
+					<int key="connectionID">1573</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -5288,8 +5276,8 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="objectID">2</int>
 						<reference key="object" ref="957750958"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="92983356"/>
 							<reference ref="131296537"/>
+							<reference ref="92983356"/>
 						</array>
 						<reference key="parent" ref="670863990"/>
 					</object>
@@ -7117,6 +7105,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="534173588"/>
 						<reference key="parent" ref="42384731"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1564</int>
+						<reference key="object" ref="749238592"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -7134,6 +7127,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1056.windowTemplate.minSize">{300, 200}</string>
 				<string key="1057.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1059.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="106.IBEditorWindowLastContentRect">{{477, 627}, {139, 23}}</string>
 				<string key="106.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="106.ImportedFromIB2"/>
 				<string key="106.editorWindowContentRectSynchronizationRect">{{593, 713}, {142, 23}}</string>
@@ -7342,11 +7336,11 @@ Z1s6cG9ydF0</string>
 				<string key="206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="206.ImportedFromIB2"/>
 				<integer value="1" key="207.ImportedFromIB2"/>
-				<string key="21.IBEditorWindowLastContentRect">{{52, 110}, {960, 598}}</string>
+				<string key="21.IBEditorWindowLastContentRect">{{55, 110}, {960, 598}}</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="21.IBViewEditorWindowController.showingBoundsRectangles"/>
 				<integer value="0" key="21.IBViewEditorWindowController.showingLayoutRectangles"/>
-				<string key="21.IBWindowTemplateEditedContentRect">{{52, 110}, {960, 598}}</string>
+				<string key="21.IBWindowTemplateEditedContentRect">{{55, 110}, {960, 598}}</string>
 				<integer value="1" key="21.ImportedFromIB2"/>
 				<integer value="1" key="21.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="21.editorWindowContentRectSynchronizationRect">{{197, 144}, {960, 598}}</string>
@@ -7358,10 +7352,10 @@ Z1s6cG9ydF0</string>
 				<integer value="1" key="227.ImportedFromIB2"/>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="23.ImportedFromIB2"/>
-				<string key="231.IBEditorWindowLastContentRect">{{224, 708}, {616, 0}}</string>
+				<string key="231.IBEditorWindowLastContentRect">{{227, 708}, {616, 0}}</string>
 				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="231.editorWindowContentRectSynchronizationRect">{{199, 705}, {616, 0}}</string>
-				<string key="24.IBEditorWindowLastContentRect">{{253, 550}, {181, 153}}</string>
+				<string key="24.IBEditorWindowLastContentRect">{{431, 497}, {178, 153}}</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="24.ImportedFromIB2"/>
 				<string key="24.editorWindowContentRectSynchronizationRect">{{629, 591}, {181, 153}}</string>
@@ -7379,6 +7373,7 @@ Z1s6cG9ydF0</string>
 				<string key="257.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="265.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="266.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="267.IBEditorWindowLastContentRect">{{385, 577}, {160, 73}}</string>
 				<string key="267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="267.editorWindowContentRectSynchronizationRect">{{501, 663}, {163, 73}}</string>
 				<object class="NSMutableDictionary" key="268.IBAttributePlaceholdersKey">
@@ -7478,7 +7473,7 @@ Z1s6cG9ydF0</string>
 				<string key="500.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="56.ImportedFromIB2"/>
-				<string key="57.IBEditorWindowLastContentRect">{{13, 502}, {163, 203}}</string>
+				<string key="57.IBEditorWindowLastContentRect">{{190, 447}, {160, 203}}</string>
 				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="57.ImportedFromIB2"/>
 				<string key="57.editorWindowContentRectSynchronizationRect">{{306, 533}, {163, 203}}</string>
@@ -7516,6 +7511,7 @@ Z1s6cG9ydF0</string>
 				<integer value="1" key="79.ImportedFromIB2"/>
 				<string key="792.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="799.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="81.IBEditorWindowLastContentRect">{{247, 537}, {133, 113}}</string>
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="81.ImportedFromIB2"/>
 				<string key="81.editorWindowContentRectSynchronizationRect">{{363, 623}, {136, 113}}</string>
@@ -7555,7 +7551,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1563</int>
+			<int key="maxID">1573</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7675,6 +7671,24 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLEmoticonDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeEmoticons:">id</string>
+						<string key="inputEmoticons:">id</string>
+						<string key="openEmoticonsWindow:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_emoticonsController">NSArrayController</string>
+						<string key="_emoticonsWindow">NSPanel</string>
+						<string key="_telnetView">YLView</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLEmoticonDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">WLGlobalConfig</string>
 					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -7739,7 +7753,6 @@ Z1s6cG9ydF0</string>
 						<string key="addSites:">id</string>
 						<string key="cancelPassword:">id</string>
 						<string key="cancelPostDownload:">id</string>
-						<string key="closeEmoticons:">id</string>
 						<string key="closeMessageWindow:">id</string>
 						<string key="closeSites:">id</string>
 						<string key="closeTab:">id</string>
@@ -7749,9 +7762,7 @@ Z1s6cG9ydF0</string>
 						<string key="editSites:">id</string>
 						<string key="fullScreenMode:">id</string>
 						<string key="increaseFontSize:">id</string>
-						<string key="inputEmoticons:">id</string>
 						<string key="newTab:">id</string>
-						<string key="openEmoticonsWindow:">id</string>
 						<string key="openLocation:">id</string>
 						<string key="openPassword:">id</string>
 						<string key="openPostDownload:">id</string>
@@ -7780,8 +7791,6 @@ Z1s6cG9ydF0</string>
 						<string key="_composeWindow">NSPanel</string>
 						<string key="_detectDoubleByteButton">id</string>
 						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
-						<string key="_emoticonsController">NSArrayController</string>
-						<string key="_emoticonsWindow">NSPanel</string>
 						<string key="_encodingMenuItem">NSMenuItem</string>
 						<string key="_fullScreenMenuItem">NSMenuItem</string>
 						<string key="_mainWindow">NSWindow</string>
