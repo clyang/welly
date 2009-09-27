@@ -348,14 +348,14 @@ static YLController *sInstance;
 - (void)loadEmoticons {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Emoticons"];
     for (NSDictionary *d in a)
-        [self insertObject: [YLEmoticon emoticonWithDictionary: d] inEmoticonsAtIndex: [self countOfEmoticons]];
+        [self insertObject:[YLEmoticon emoticonWithDictionary:d] inEmoticonsAtIndex:[self countOfEmoticons]];
 }
 
 - (void)saveEmoticons {
     NSMutableArray *a = [NSMutableArray array];
     for (YLEmoticon *e in _emoticons) 
-        [a addObject: [e dictionaryOfEmoticon]];
-    [[NSUserDefaults standardUserDefaults] setObject: a forKey:@"Emoticons"];    
+        [a addObject:[e dictionaryOfEmoticon]];
+    [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"Emoticons"];    
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -946,26 +946,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     [_telnetView clearSelection];
 }
 */
-
-#pragma mark -
-#pragma mark Compose
-- (IBAction)openCompose:(id)sender {
-    if([[_telnetView frontMostTerminal] bbsState].state != BBSComposePost) {
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
-                                         defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
-                                       alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
-                                           otherButton:nil
-                             informativeTextWithFormat:NSLocalizedString(@"It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?", @"Sheet Message")];
-        if ([alert runModal] != NSAlertDefaultReturn)
-            return;
-    }
-    
-    [NSApp beginSheet:_composeWindow
-       modalForWindow:_mainWindow
-        modalDelegate:nil
-       didEndSelector:NULL
-          contextInfo:nil];
-}
 
 #pragma mark -
 #pragma mark Post Download

@@ -115,11 +115,7 @@
 - (IBAction)closeEmoticons:(id)sender;
 - (IBAction)inputEmoticons:(id)sender;
 - (IBAction)openEmoticonsWindow:(id)sender;
-
 - (IBAction)closeMessageWindow:(id)sender;
-
-/* compose actions */
-- (IBAction)openCompose:(id)sender;
 
 /* post download actions */
 - (IBAction)openPostDownload:(id)sender;

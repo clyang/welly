@@ -24,6 +24,7 @@
 }
 
 /* compose actions */
+- (IBAction)openCompose:(id)sender;
 - (IBAction)commitCompose:(id)sender;
 - (IBAction)cancelCompose:(id)sender;
 - (IBAction)setUnderline:(id)sender;
