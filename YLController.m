@@ -13,7 +13,7 @@
 #import "WLGlobalConfig.h"
 #import "DBPrefsWindowController.h"
 #import "YLEmoticon.h"
-#import "WLPostDownloader.h"
+#import "WLPostDownloadDelegate.h"
 #import "WLAnsiColorOperationManager.h"
 
 // for remote control
@@ -103,8 +103,6 @@ static YLController *sInstance;
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateBlinkTicker:) userInfo:nil repeats:YES];
 
-    // post download
-    [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
 	// set remote control
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"RemoteSupport"]) {
 		// 1. instantiate the desired behavior for the remote control device
@@ -871,28 +869,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     [_telnetView clearSelection];
 }
 */
-
-#pragma mark -
-#pragma mark Post Download
-- (void)preparePostDownload:(id)param {
-    // clear s
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
-    NSString *s = [WLPostDownloader downloadPostFromConnection:[_telnetView frontMostConnection]];
-    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:TRUE];
-    [pool release];
-}
-
-- (IBAction)openPostDownload:(id)sender {
-    [_postText setString:@""];
-    [NSThread detachNewThreadSelector:@selector(preparePostDownload:) toTarget:self withObject:self];
-    [NSApp beginSheet:_postWindow modalForWindow:_mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
-}
-
-- (IBAction)cancelPostDownload:(id)sender {
-    [_postWindow endEditingFor:nil];
-    [NSApp endSheet:_postWindow];
-    [_postWindow orderOut:self];
-}
 
 #pragma mark -
 #pragma mark Password Window

@@ -3153,7 +3153,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 																	<double key="NSSize">10</double>
 																	<int key="NSfFlags">16</int>
 																</object>
-																<object class="NSParagraphStyle" key="NSParagraphStyle" id="126502972">
+																<object class="NSParagraphStyle" key="NSParagraphStyle" id="904895826">
 																	<int key="NSAlignment">3</int>
 																	<array key="NSTabStops">
 																		<reference ref="375685532"/>
@@ -3317,7 +3317,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 															<dictionary>
 																<reference key="NSColor" ref="871131937"/>
 																<reference key="NSFont" ref="25"/>
-																<reference key="NSParagraphStyle" ref="126502972"/>
+																<reference key="NSParagraphStyle" ref="904895826"/>
 															</dictionary>
 														</array>
 														<object class="NSMutableData" key="NSAttributeInfo">
@@ -3617,15 +3617,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
-			<object class="NSCustomObject" id="923489522">
-				<string key="NSClassName">SUUpdater</string>
-			</object>
-			<object class="NSCustomObject" id="277799298">
-				<string key="NSClassName">WLPreviewController</string>
-			</object>
-			<object class="NSCustomObject" id="869585858">
-				<string key="NSClassName">WLComposeDelegate</string>
-			</object>
 			<object class="NSWindowTemplate" id="41017426">
 				<int key="NSWindowStyleMask">17</int>
 				<int key="NSWindowBacking">2</int>
@@ -3721,8 +3712,20 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
+			<object class="NSCustomObject" id="923489522">
+				<string key="NSClassName">SUUpdater</string>
+			</object>
+			<object class="NSCustomObject" id="277799298">
+				<string key="NSClassName">WLPreviewController</string>
+			</object>
+			<object class="NSCustomObject" id="869585858">
+				<string key="NSClassName">WLComposeDelegate</string>
+			</object>
 			<object class="NSCustomObject" id="749238592">
 				<string key="NSClassName">WLEmoticonDelegate</string>
+			</object>
+			<object class="NSCustomObject" id="194859640">
+				<string key="NSClassName">WLPostDownloadDelegate</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -4461,46 +4464,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_postWindow</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="51046906"/>
-					</object>
-					<int key="connectionID">1130</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openPostDownload:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1009606750"/>
-					</object>
-					<int key="connectionID">1131</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">cancelPostDownload:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="865566590"/>
-					</object>
-					<int key="connectionID">1138</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_postText</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="404723132"/>
-					</object>
-					<int key="connectionID">1139</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">openPostDownload:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="81109587"/>
-					</object>
-					<int key="connectionID">1141</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">dataSource</string>
 						<reference key="source" ref="13469874"/>
 						<reference key="destination" ref="954315210"/>
@@ -5226,6 +5189,62 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="285707759"/>
 					</object>
 					<int key="connectionID">1578</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_telnetView</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="92983356"/>
+					</object>
+					<int key="connectionID">1580</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_mainWindow</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="670863990"/>
+					</object>
+					<int key="connectionID">1581</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openPostDownload:</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="1009606750"/>
+					</object>
+					<int key="connectionID">1584</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openPostDownload:</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="81109587"/>
+					</object>
+					<int key="connectionID">1585</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_postText</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="404723132"/>
+					</object>
+					<int key="connectionID">1586</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">cancelPostDownload:</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="865566590"/>
+					</object>
+					<int key="connectionID">1588</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_postWindow</string>
+						<reference key="source" ref="194859640"/>
+						<reference key="destination" ref="51046906"/>
+					</object>
+					<int key="connectionID">1589</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -7108,6 +7127,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="97080648"/>
 						<reference key="parent" ref="332582478"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1579</int>
+						<reference key="object" ref="194859640"/>
+						<reference key="parent" ref="0"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -7157,9 +7181,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="111.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="111.ImportedFromIB2"/>
 				<string key="1110.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1125.IBEditorWindowLastContentRect">{{21, 294}, {611, 434}}</string>
+				<string key="1125.IBEditorWindowLastContentRect">{{53, 294}, {611, 434}}</string>
 				<string key="1125.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1125.IBWindowTemplateEditedContentRect">{{21, 294}, {611, 434}}</string>
+				<string key="1125.IBWindowTemplateEditedContentRect">{{53, 294}, {611, 434}}</string>
 				<integer value="0" key="1125.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="1125.editorWindowContentRectSynchronizationRect">{{140, 297}, {651, 384}}</string>
 				<string key="1125.windowTemplate.maxSize">{3.40282e+38, 3.40282e+38}</string>
@@ -7336,11 +7360,11 @@ Z1s6cG9ydF0</string>
 				<string key="206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="206.ImportedFromIB2"/>
 				<integer value="1" key="207.ImportedFromIB2"/>
-				<string key="21.IBEditorWindowLastContentRect">{{199, 100}, {960, 598}}</string>
+				<string key="21.IBEditorWindowLastContentRect">{{72, 100}, {960, 598}}</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="21.IBViewEditorWindowController.showingBoundsRectangles"/>
 				<integer value="0" key="21.IBViewEditorWindowController.showingLayoutRectangles"/>
-				<string key="21.IBWindowTemplateEditedContentRect">{{199, 100}, {960, 598}}</string>
+				<string key="21.IBWindowTemplateEditedContentRect">{{72, 100}, {960, 598}}</string>
 				<integer value="1" key="21.ImportedFromIB2"/>
 				<integer value="1" key="21.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="21.editorWindowContentRectSynchronizationRect">{{197, 144}, {960, 598}}</string>
@@ -7352,7 +7376,7 @@ Z1s6cG9ydF0</string>
 				<integer value="1" key="227.ImportedFromIB2"/>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="23.ImportedFromIB2"/>
-				<string key="231.IBEditorWindowLastContentRect">{{227, 708}, {616, 0}}</string>
+				<string key="231.IBEditorWindowLastContentRect">{{244, 698}, {616, 0}}</string>
 				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="231.editorWindowContentRectSynchronizationRect">{{199, 705}, {616, 0}}</string>
 				<string key="24.IBEditorWindowLastContentRect">{{431, 497}, {178, 153}}</string>
@@ -7550,7 +7574,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1578</int>
+			<int key="maxID">1589</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -7704,6 +7728,24 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLPostDownloadDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="cancelPostDownload:">id</string>
+						<string key="openPostDownload:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_mainWindow">NSWindow</string>
+						<string key="_postText">NSTextView</string>
+						<string key="_postWindow">NSPanel</string>
+						<string key="_telnetView">YLView</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLPostDownloadDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">WLPreviewController</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -7751,7 +7793,6 @@ Z1s6cG9ydF0</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addSites:">id</string>
 						<string key="cancelPassword:">id</string>
-						<string key="cancelPostDownload:">id</string>
 						<string key="closeMessageWindow:">id</string>
 						<string key="closeSites:">id</string>
 						<string key="closeTab:">id</string>
@@ -7764,7 +7805,6 @@ Z1s6cG9ydF0</string>
 						<string key="newTab:">id</string>
 						<string key="openLocation:">id</string>
 						<string key="openPassword:">id</string>
-						<string key="openPostDownload:">id</string>
 						<string key="openPreferencesWindow:">id</string>
 						<string key="openRSS:">id</string>
 						<string key="openSites:">id</string>
@@ -7797,8 +7837,6 @@ Z1s6cG9ydF0</string>
 						<string key="_mouseButton">id</string>
 						<string key="_passwordField">NSSecureTextField</string>
 						<string key="_passwordWindow">NSPanel</string>
-						<string key="_postText">NSTextView</string>
-						<string key="_postWindow">NSPanel</string>
 						<string key="_proxyAddressField">NSTextField</string>
 						<string key="_proxyTypeButton">NSPopUpButton</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>

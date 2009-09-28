@@ -15,6 +15,7 @@
 #import "YLView.h"
 #import "WLConnection.h"
 #import "WLEncoder.h"
+#import "WLPostDownloadDelegate.h"
 
 NSString *const WLMenuTitleDownloadPost = @"Download post";
 NSString *const WLMenuTitleThreadTop = @"Thread top";
@@ -115,7 +116,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 	}
 	
 	// Do Post Download
-	[[YLController sharedInstance] openPostDownload:sender];
+	[[WLPostDownloadDelegate sharedInstance] openPostDownload:sender];
 }
 
 - (IBAction)downloadPost:(id)sender {

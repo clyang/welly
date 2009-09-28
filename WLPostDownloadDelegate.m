@@ -6,14 +6,42 @@
 //  Copyright 2008 Welly Group. All rights reserved.
 //
 
-#import "WLPostDownloader.h"
+#import "WLPostDownloadDelegate.h"
 #import "WLGlobalConfig.h"
 #import "WLConnection.h"
 #import "WLTerminal.h"
+#import "YLView.h"
 
 
-@implementation WLPostDownloader
+@implementation WLPostDownloadDelegate
 
+#pragma mark -
+#pragma mark init and dealloc
+static WLPostDownloadDelegate *sInstance;
++ (WLPostDownloadDelegate *)sharedInstance {
+    assert(sInstance);
+    return sInstance;
+}
+
+- (id)init {
+    if (self = [super init]) {
+		assert(sInstance == nil);
+		sInstance = self;
+    }
+    return self;
+}
+
+- (void)dealloc {
+	sInstance = nil;
+    [super dealloc];
+}
+
+- (void)awakeFromNib {
+    [_postText setFont:[NSFont fontWithName:@"Monaco" size:12]];
+}
+
+#pragma mark -
+#pragma mark Class Method
 + (NSString *)downloadPostFromConnection:(WLConnection *)connection {
     const int sleepTime = 100000, maxAttempt = 300000;
 
@@ -106,4 +134,27 @@
 
     return buf;
 }
+
+#pragma mark -
+#pragma mark Post Download
+- (void)preparePostDownload:(id)param {
+    // clear s
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
+    NSString *s = [WLPostDownloadDelegate downloadPostFromConnection:[_telnetView frontMostConnection]];
+    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:TRUE];
+    [pool release];
+}
+
+- (IBAction)openPostDownload:(id)sender {
+    [_postText setString:@""];
+    [NSThread detachNewThreadSelector:@selector(preparePostDownload:) toTarget:self withObject:self];
+    [NSApp beginSheet:_postWindow modalForWindow:_mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
+}
+
+- (IBAction)cancelPostDownload:(id)sender {
+    [_postWindow endEditingFor:nil];
+    [NSApp endSheet:_postWindow];
+    [_postWindow orderOut:self];
+}
+
 @end

@@ -30,10 +30,6 @@
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
     IBOutlet NSPanel *_composeWindow;
-	
-	/* post download window */
-	IBOutlet NSPanel *_postWindow;
-	IBOutlet NSTextView *_postText;
     
     /* password window */
     IBOutlet NSPanel *_passwordWindow;
@@ -111,10 +107,6 @@
 
 // Message
 - (IBAction)closeMessageWindow:(id)sender;
-
-/* post download actions */
-- (IBAction)openPostDownload:(id)sender;
-- (IBAction)cancelPostDownload:(id)sender;
 
 /* password window actions */
 - (IBAction)openPassword:(id)sender;

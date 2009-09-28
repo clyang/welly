@@ -43,7 +43,7 @@
 		5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */; };
 		5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */; };
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
-		5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloader.m */; };
+		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
@@ -194,8 +194,8 @@
 		5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLIPAddrHotspotHandler.m; sourceTree = "<group>"; };
 		5A4A50180E5956EE007E16E6 /* WLEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEffectView.m; sourceTree = "<group>"; };
 		5A4B02870E55941D00260486 /* WLEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEffectView.h; sourceTree = "<group>"; };
-		5A56C3800E342CFF00082312 /* WLPostDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloader.h; sourceTree = "<group>"; };
-		5A56C3810E342CFF00082312 /* WLPostDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloader.m; sourceTree = "<group>"; };
+		5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloadDelegate.h; sourceTree = "<group>"; };
+		5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloadDelegate.m; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A91BAED0E1E1E6A007538E5 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
@@ -439,6 +439,8 @@
 				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
 				5AD6A8A3106F8BC000D4446D /* WLEmoticonDelegate.h */,
 				5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */,
+				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
+				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -512,8 +514,6 @@
 				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
 				16FEC31F0E2A80B50035DADD /* WLTabBarControl.h */,
 				16FEC3200E2A80B50035DADD /* WLTabBarControl.m */,
-				5A56C3800E342CFF00082312 /* WLPostDownloader.h */,
-				5A56C3810E342CFF00082312 /* WLPostDownloader.m */,
 				1841E73C0F7BD280002DCBA8 /* WLProxy.h */,
 				1841E73D0F7BD280002DCBA8 /* WLProxy.m */,
 				5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */,
@@ -740,7 +740,7 @@
 				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
 				1680A7ED0E2F0F8300A2E175 /* WLPortalImage.m in Sources */,
-				5A56C3820E342CFF00082312 /* WLPostDownloader.m in Sources */,
+				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
 				81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */,
 				81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */,
@@ -882,6 +882,8 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -892,6 +894,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = "";
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
