@@ -19,6 +19,7 @@
 "Search in Google" = "在 Google 中搜尋";
 "Look Up in Dictionary" = "查詢字典";
 "Copy" = "拷貝";
+"Save as Emoticon" = "儲存為表情符號";
 
 /* Sheet Message */
 "There are %d tabs open in Welly. Do you want to quit anyway?" = "還有 %d 個標籤頁正在連線中，您確認要結束 Welly？";

@@ -17,6 +17,7 @@
 @property (readwrite, copy) NSString *content;
 
 + (YLEmoticon *)emoticonWithDictionary:(NSDictionary *)d;
++ (YLEmoticon *)emoticonWithString:(NSString *)string;
 - (NSDictionary *)dictionaryOfEmoticon;
 
 @end

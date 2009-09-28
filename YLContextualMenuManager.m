@@ -11,6 +11,7 @@
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "YLController.h"
+#import "WLEmoticonDelegate.h"
 #import "Carbon/Carbon.h"
 
 @interface YLContextualMenuManager ()
@@ -84,6 +85,10 @@
         [menu addItemWithTitle:NSLocalizedString(@"Copy", @"Menu")
                         action:@selector(copy:) 
                  keyEquivalent:@""];
+		
+		[menu addItemWithTitle:NSLocalizedString(@"Save as Emoticon", @"Menu") 
+						action:@selector(saveAsEmoticon:) 
+				 keyEquivalent:@""];
     }
 
     for (int i = 0; i < [menu numberOfItems]; ++i) {
@@ -140,6 +145,11 @@
 + (IBAction)copy:(id)sender {
     YLView *view = [[YLController sharedInstance] telnetView];
     [view copy:sender];
+}
+
++ (IBAction)saveAsEmoticon:(id)sender {
+	NSString *s = [sender representedObject];
+	[[WLEmoticonDelegate sharedInstance] saveEmoticonFromString:s];
 }
 
 @end

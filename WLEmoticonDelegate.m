@@ -14,14 +14,33 @@
 @interface WLEmoticonDelegate ()
 - (void)loadEmoticons;
 - (void)saveEmoticons;
+
+// emoticons accessors
+- (void)addEmoticon:(YLEmoticon *)emoticon;
+- (unsigned)countOfEmoticons;
+- (id)objectInEmoticonsAtIndex:(unsigned)theIndex;
+- (void)getEmoticons:(id *)objsPtr 
+			   range:(NSRange)range;
+- (void)insertObject:(id)obj 
+  inEmoticonsAtIndex:(unsigned)theIndex;
+- (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex;
+- (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
 @end
 
 @implementation WLEmoticonDelegate
 @synthesize emoticons = _emoticons;
 
+static WLEmoticonDelegate *sInstance;
++ (WLEmoticonDelegate *)sharedInstance {
+    assert(sInstance);
+    return sInstance;
+}
+
 - (id)init {
     if (self = [super init]) {
         _emoticons = [[NSMutableArray alloc] init];
+		assert(sInstance == nil);
+		sInstance = self;
     }
     return self;
 }
@@ -66,7 +85,7 @@
 - (void)loadEmoticons {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Emoticons"];
     for (NSDictionary *d in a)
-        [self insertObject:[YLEmoticon emoticonWithDictionary:d] inEmoticonsAtIndex:[self countOfEmoticons]];
+        [self addEmoticon:[YLEmoticon emoticonWithDictionary:d]];
 }
 
 - (void)saveEmoticons {
@@ -79,10 +98,6 @@
 
 #pragma mark -
 #pragma mark Emoticons Accessors
-//- (NSArray *)emoticons {
-//    return _emoticons;
-//}
-
 - (unsigned)countOfEmoticons {
     return [_emoticons count];
 }
@@ -107,6 +122,15 @@
 
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj {
     [_emoticons replaceObjectAtIndex:theIndex withObject:obj];
+}
+
+- (void)addEmoticon:(YLEmoticon *)emoticon {
+	[self insertObject:emoticon inEmoticonsAtIndex:[self countOfEmoticons]];
+}
+
+- (void)saveEmoticonFromString:(NSString *)string {
+	YLEmoticon *emoticon = [YLEmoticon emoticonWithString:string];
+	[self addEmoticon:emoticon];
 }
 
 @end

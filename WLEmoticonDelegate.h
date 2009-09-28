@@ -18,21 +18,13 @@
     NSMutableArray *_emoticons;
 }
 @property (readonly) NSArray *emoticons;
++ (WLEmoticonDelegate *)sharedInstance;
 
 /* emoticon actions */
 - (IBAction)closeEmoticons:(id)sender;
 - (IBAction)inputEmoticons:(id)sender;
 - (IBAction)openEmoticonsWindow:(id)sender;
 
-// emoticons accessors
-//- (NSArray *)emoticons;
-- (unsigned)countOfEmoticons;
-- (id)objectInEmoticonsAtIndex:(unsigned)theIndex;
-- (void)getEmoticons:(id *)objsPtr 
-			   range:(NSRange)range;
-- (void)insertObject:(id)obj 
-  inEmoticonsAtIndex:(unsigned)theIndex;
-- (void)removeObjectFromEmoticonsAtIndex:(unsigned)theIndex;
-- (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
-
+/* emoticon accessors */
+- (void)saveEmoticonFromString:(NSString *)string;
 @end
