@@ -15,6 +15,7 @@
 #import "YLEmoticon.h"
 #import "WLPostDownloadDelegate.h"
 #import "WLAnsiColorOperationManager.h"
+#import "WLSiteDelegate.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -31,11 +32,8 @@
 #import <Carbon/Carbon.h>
 
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
-#define SiteTableViewDataType @"SiteTableViewDataType"
 
 @interface YLController ()
-- (void)updateSitesMenu;
-- (void)loadSites;
 - (void)loadLastConnections;
 @end
 
@@ -51,7 +49,6 @@ static YLController *sInstance;
 
 - (id)init {
     if (self = [super init]) {
-        _sites = [[NSMutableArray alloc] init];
         assert(sInstance == nil);
         sInstance = self;
     }
@@ -59,7 +56,7 @@ static YLController *sInstance;
 }
 
 - (void)dealloc {
-    [_sites release];
+	sInstance = nil;
     [super dealloc];
 }
 
@@ -91,9 +88,6 @@ static YLController *sInstance;
     // Trigger the KVO to update the information properly.
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
     [[WLGlobalConfig sharedInstance] setCellWidth:[[WLGlobalConfig sharedInstance] cellWidth]];
-    
-    [self loadSites];
-    [self updateSitesMenu];
 
     //[_mainWindow setHasShadow:YES];
     [_mainWindow setOpaque:NO];
@@ -130,9 +124,6 @@ static YLController *sInstance;
 							 superView:[_telnetView superview] 
 							 originalWindow:_mainWindow];
 	
-    // drag & drop in site view
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
-
     // open the portal
     // the switch
     [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
@@ -144,34 +135,6 @@ static YLController *sInstance;
 	
 	// Ask window to receive mouseMoved
 	[_mainWindow setAcceptsMouseMovedEvents:YES];
-}
-
-- (void)updateSitesMenu {
-    int total = [[_sitesMenu submenu] numberOfItems];
-    int i = total - 1;
-    // search the last seperator from the bottom
-    for (; i > 0; i--)
-        if ([[[_sitesMenu submenu] itemAtIndex:i] isSeparatorItem])
-            break;
-
-    // then remove all menuitems below it, since we need to refresh the site menus
-    ++i;
-    for (int j = i; j < total; j++) {
-        [[_sitesMenu submenu] removeItemAtIndex:i];
-    }
-    
-    // Now add items of site one by one
-    for (WLSite *s in _sites) {
-        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
-        [menuItem setRepresentedObject:s];
-        [[_sitesMenu submenu] addItem:menuItem];
-        [menuItem release];
-    }
-    
-    // Reset portal if necessary
-	if([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
-		[_telnetView resetPortal];
-	}
 }
 
 - (void)updateEncodingMenu {
@@ -322,23 +285,6 @@ static YLController *sInstance;
 
 #pragma mark -
 #pragma mark User Defaults
-
-- (void)loadSites {
-    NSArray *array = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
-    for (NSDictionary *d in array)
-        //[_sites addObject:[YLSite siteWithDictionary:d]];
-        [self insertObject:[WLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];    
-}
-
-- (void)saveSites {
-    NSMutableArray *a = [NSMutableArray array];
-    for (WLSite *s in _sites)
-        [a addObject:[s dictionaryOfSite]];
-    [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"Sites"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self updateSitesMenu];
-}
-
 - (void)loadLastConnections {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"LastConnections"];
     for (NSDictionary *d in a) {
@@ -442,7 +388,7 @@ static YLController *sInstance;
     */
 }
 
-- (IBAction)connect:(id)sender {
+- (IBAction)connectLocation:(id)sender {
 	[sender abortEditing];
 	[[_telnetView window] makeFirstResponder:_telnetView];
     BOOL ssh = NO;
@@ -458,9 +404,10 @@ static YLController *sInstance;
     
     NSMutableArray *matchedSites = [NSMutableArray array];
     WLSite *s;
+	NSArray *sites = [WLSiteDelegate sites];
         
     if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
-        for (WLSite *site in _sites) 
+        for (WLSite *site in sites) 
             if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
                 [matchedSites addObject:site];
         if ([matchedSites count] > 0) {
@@ -472,12 +419,12 @@ static YLController *sInstance;
             [s setName:name];
         }
     } else { /* Short Address? */
-        for (WLSite *site in _sites) 
+        for (WLSite *site in sites) 
             if ([[site name] rangeOfString:name].location != NSNotFound) 
                 [matchedSites addObject:site];
         [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
         if ([matchedSites count] == 0) {
-            for (WLSite *site in _sites) 
+            for (WLSite *site in sites) 
                 if ([[site address] rangeOfString:name].location != NSNotFound)
                     [matchedSites addObject:site];
             [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
@@ -587,54 +534,10 @@ static YLController *sInstance;
     */
 }
 
-- (IBAction)editSites:(id)sender {
-    [NSApp beginSheet:_sitesWindow
-       modalForWindow:_mainWindow
-        modalDelegate:nil
-       didEndSelector:NULL
-          contextInfo:nil];
-	[_sitesWindow setLevel:floatWindowLevel];
-}
-
-- (IBAction)openSites:(id)sender {
-    NSArray *a = [_sitesController selectedObjects];
-    [self closeSites:sender];
-    
-    if ([a count] == 1) {
-        WLSite *s = [a objectAtIndex:0];
-        [self newConnectionWithSite:[[s copy] autorelease]];
-    }
-}
-
 - (IBAction)openSiteMenu:(id)sender {
     WLSite *s = [sender representedObject];
     [self newConnectionWithSite: s];
 }
-
-- (IBAction)closeSites:(id)sender {
-    [_sitesWindow endEditingFor:nil];
-    [NSApp endSheet:_sitesWindow];
-    [_sitesWindow orderOut:self];
-    [self saveSites];
-}
-
-- (IBAction)addSites:(id)sender {
-    if ([_telnetView numberOfTabViewItems] == 0) return;
-    NSString *address = [[[_telnetView frontMostConnection] site] address];
-    
-    for (WLSite *s in _sites) 
-        if ([[s address] isEqualToString:address]) 
-            return;
-    
-    WLSite *site = [[[[_telnetView frontMostConnection] site] copy] autorelease];
-    [_sitesController addObject:site];
-    [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
-    [self performSelector:@selector(editSites:) withObject:sender afterDelay:0.1];
-    if ([_siteNameField acceptsFirstResponder])
-        [_sitesWindow makeFirstResponder:_siteNameField];
-}
-
-
 
 - (IBAction)showHiddenText:(id)sender {
     BOOL show = ([sender state] == NSOnState);
@@ -652,42 +555,6 @@ static YLController *sInstance;
     [[DBPrefsWindowController sharedPrefsWindowController] showWindow:nil];
 }
 
-#pragma mark -
-#pragma mark Sites Accessors
-
-- (NSArray *)sites {
-    return _sites;
-}
-
-- (unsigned)countOfSites {
-    return [_sites count];
-}
-
-- (id)objectInSitesAtIndex:(unsigned)index {
-	if (index < 0 || index >= [_sites count])
-		return NULL;
-    return [_sites objectAtIndex:index];
-}
-
-- (void)getSites:(id *)objects 
-		   range:(NSRange)range {
-    [_sites getObjects:objects range:range];
-}
-
-- (void)insertObject:(id)anObject 
-	  inSitesAtIndex:(unsigned)index {
-    [_sites insertObject:anObject atIndex:index];
-}
-
-- (void)removeObjectFromSitesAtIndex:(unsigned)index {
-    [_sites removeObjectAtIndex:index];
-}
-
-- (void)replaceObjectInSitesAtIndex:(unsigned)index 
-						 withObject:(id)anObject {
-    [_sites replaceObjectAtIndex:index withObject:anObject];
-}
-
 /* commented out by boost @ 9#: who is using this...
 - (IBOutlet) view { return _telnetView; }
 - (void) setView: (IBOutlet) o {}
@@ -697,7 +564,7 @@ static YLController *sInstance;
 #pragma mark Application Delegation
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
     SEL action = [item action];
-    if ((action == @selector(addSites:) ||
+    if ((action == @selector(addCurrentSite:) ||
          action == @selector(reconnect:) ||
          action == @selector(selectNextTab:) ||
          action == @selector(selectPrevTab:) )
@@ -792,12 +659,11 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     if ([[url lowercaseString] hasPrefix:@"bbs://"])
         url = [url substringFromIndex:6];
     [_addressBar setStringValue:url];
-    [self connect:_addressBar];
+    [self connectLocation:_addressBar];
 }
 
 #pragma mark -
 #pragma mark TabView delegation
-
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
 	// Restore from full screen firstly
 	[_fullScreenController releaseFullScreen];
@@ -851,7 +717,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     if ([tabView numberOfTabViewItems] == 0) {
 		[_telnetView refreshMouseHotspot];
 		[_telnetView checkPortal];
-        if ([_sites count]) {
+        if ([[WLSiteDelegate sharedInstance] countOfSites]) {
             [_mainWindow makeFirstResponder:_telnetView];
         } else {
             [_mainWindow makeFirstResponder:_addressBar];
@@ -869,64 +735,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     [_telnetView clearSelection];
 }
 */
-
-#pragma mark -
-#pragma mark Password Window
-- (IBAction)openPassword:(id)sender {
-    NSString *siteAddress = [_siteAddressField stringValue];
-    if ([siteAddress length] == 0)
-        return;
-	[_sitesWindow setLevel:0];
-    if (![siteAddress hasPrefix:@"ssh"] && [siteAddress rangeOfString:@"@"].location == NSNotFound) {
-        NSBeginAlertSheet(NSLocalizedString(@"Site address format error", @"Sheet Title"),
-                          nil,
-                          nil,
-                          nil,
-                          _sitesWindow,
-                          self,
-                          nil,
-                          nil,
-                          nil,
-                          NSLocalizedString(@"Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections.", @"Sheet Message"));
-        return;
-    }
-    [NSApp beginSheet:_passwordWindow
-       modalForWindow:_sitesWindow
-        modalDelegate:nil
-       didEndSelector:nil
-          contextInfo:nil];
-}
-
-- (IBAction)confirmPassword:(id)sender {
-    [_passwordWindow endEditingFor:nil];
-    const char *service = "Welly";
-    const char *account = [[_siteAddressField stringValue] UTF8String];
-    SecKeychainItemRef itemRef;
-    if (!SecKeychainFindGenericPassword(nil,
-                                        strlen(service), service,
-                                        strlen(account), account,
-                                        nil, nil,
-                                        &itemRef))
-        SecKeychainItemDelete(itemRef);
-    const char *pass = [[_passwordField stringValue] UTF8String];
-    if (*pass) {
-        SecKeychainAddGenericPassword(nil,
-                                      strlen(service), service,
-                                      strlen(account), account,
-                                      strlen(pass), pass,
-                                      nil);
-    }
-    [_passwordField setStringValue:@""];
-    [NSApp endSheet:_passwordWindow];
-    [_passwordWindow orderOut:self];
-}
-
-- (IBAction)cancelPassword:(id)sender {
-    [_passwordWindow endEditingFor:nil];
-    [_passwordField setStringValue:@""];
-    [NSApp endSheet:_passwordWindow];
-    [_passwordWindow orderOut:self];
-}
 
 #pragma mark -
 #pragma mark Remote Control
@@ -1287,50 +1095,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     }
     [feedGenerator release];
     [pool drain];
-}
-
-#pragma mark -
-#pragma mark For proxy
-- (IBAction)proxyTypeDidChange:(id)sender {
-    [_proxyAddressField setEnabled:([_proxyTypeButton indexOfSelectedItem] >= 2)];
-}
-
-#pragma mark -
-#pragma mark Site View Drag & Drop
-- (BOOL)tableView:(NSTableView *)tv writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-    // copy to the pasteboard.
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:rowIndexes];
-    [pboard declareTypes:[NSArray arrayWithObject:SiteTableViewDataType] owner:self];
-    [pboard setData:data forType:SiteTableViewDataType];
-    return YES;
-}
-
-- (NSDragOperation)tableView:(NSTableView*)tv 
-				validateDrop:(id <NSDraggingInfo>)info
-				 proposedRow:(NSInteger)row 
-	   proposedDropOperation:(NSTableViewDropOperation)op {
-    // don't hover
-    if (op == NSTableViewDropOn)
-        return NSDragOperationNone;
-    return NSDragOperationEvery;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView 
-	   acceptDrop:(id <NSDraggingInfo>)info
-			  row:(NSInteger)row 
-	dropOperation:(NSTableViewDropOperation)op {
-    NSPasteboard* pboard = [info draggingPasteboard];
-    NSData* rowData = [pboard dataForType:SiteTableViewDataType];
-    NSIndexSet* rowIndexes = [NSKeyedUnarchiver unarchiveObjectWithData:rowData];
-    int dragRow = [rowIndexes firstIndex];
-    // move
-    NSObject *obj = [_sites objectAtIndex:dragRow];
-    [_sitesController insertObject:obj atArrangedObjectIndex:row];
-    if (row < dragRow)
-        ++dragRow;
-    [_sitesController removeObjectAtArrangedObjectIndex:dragRow];
-    // done
-    return YES;
 }
 
 // for portal

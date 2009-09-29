@@ -14,7 +14,6 @@
 #import "WLTelnetProcessor.h"
 
 #define scrollTimerInterval 0.12
-#define floatWindowLevel kCGStatusWindowLevel+1
 
 @class YLView, WLTerminal;
 @class RemoteControl;
@@ -30,13 +29,7 @@
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
     IBOutlet NSPanel *_composeWindow;
-    
-    /* password window */
-    IBOutlet NSPanel *_passwordWindow;
 	
-    IBOutlet NSSecureTextField *_passwordField;
-	
-    IBOutlet NSPanel *_sitesWindow;
     IBOutlet NSWindow *_mainWindow;
     IBOutlet NSPanel *_messageWindow;
     IBOutlet id _addressBar;
@@ -50,22 +43,12 @@
     IBOutlet NSMenuItem *_closeWindowMenuItem;
     IBOutlet NSMenuItem *_closeTabMenuItem;
 	IBOutlet NSMenuItem *_autoReplyMenuItem;
-    NSMutableArray *_sites;
-    IBOutlet NSArrayController *_sitesController;
-    IBOutlet NSTableView *_tableView;
-    IBOutlet NSMenuItem *_sitesMenu;
-    IBOutlet NSTextField *_siteNameField;
-    IBOutlet NSTextField *_siteAddressField;
-	IBOutlet NSTextField *_autoReplyStringField;
+	
     IBOutlet NSMenuItem *_showHiddenTextMenuItem;
     IBOutlet NSMenuItem *_encodingMenuItem;
 	IBOutlet NSMenuItem *_fullScreenMenuItem;
 	
 	IBOutlet NSTextView *_unreadMessageTextView;
-
-	// Proxy
-    IBOutlet NSPopUpButton *_proxyTypeButton;
-    IBOutlet NSTextField *_proxyAddressField;
 
 	// Remote Control
 	RemoteControl *remoteControl;
@@ -90,17 +73,13 @@
 - (IBAction)setMouseAction:(id)sender;
 
 - (IBAction)newTab:(id)sender;
-- (IBAction)connect:(id)sender;
+- (IBAction)connectLocation:(id)sender;
 - (IBAction)openLocation:(id)sender;
 - (IBAction)selectNextTab:(id)sender;
 - (IBAction)selectPrevTab:(id)sender;
 - (void)selectTabNumber:(int)index;
 - (IBAction)closeTab:(id)sender;
 - (IBAction)reconnect:(id)sender;
-- (IBAction)openSites:(id)sender;
-- (IBAction)editSites:(id)sender;
-- (IBAction)closeSites:(id)sender;
-- (IBAction)addSites:(id)sender;
 - (IBAction)showHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
 - (void)newConnectionWithSite:(WLSite *)site;
@@ -108,22 +87,7 @@
 // Message
 - (IBAction)closeMessageWindow:(id)sender;
 
-/* password window actions */
-- (IBAction)openPassword:(id)sender;
-- (IBAction)confirmPassword:(id)sender;
-- (IBAction)cancelPassword:(id)sender;
 
-// sites accessors
-- (NSArray *)sites;
-- (unsigned)countOfSites;
-- (id)objectInSitesAtIndex:(unsigned)index;
-- (void)getSites:(id *)objects 
-		   range:(NSRange)range;
-- (void)insertObject:(id)anObject 
-	  inSitesAtIndex:(unsigned)index;
-- (void)removeObjectFromSitesAtIndex:(unsigned)index;
-- (void)replaceObjectInSitesAtIndex:(unsigned)index 
-						 withObject:(id)anObject;
 // for bindings access
 - (RemoteControl*)remoteControl;
 - (MultiClickRemoteBehavior*)remoteBehavior;
@@ -153,6 +117,4 @@
 // for RSS feed
 - (IBAction)openRSS:(id)sender;
 
-// for proxy
-- (IBAction)proxyTypeDidChange:(id)sender;
 @end

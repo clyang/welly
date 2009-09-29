@@ -62,6 +62,7 @@
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */; };
+		5AEED2FF107205ED00034E2A /* WLSiteDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
@@ -227,6 +228,8 @@
 		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5AD6A8A3106F8BC000D4446D /* WLEmoticonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEmoticonDelegate.h; sourceTree = "<group>"; };
 		5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEmoticonDelegate.m; sourceTree = "<group>"; };
+		5AEED2FD107205ED00034E2A /* WLSiteDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSiteDelegate.h; sourceTree = "<group>"; };
+		5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSiteDelegate.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
 		5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMessageDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
@@ -441,6 +444,8 @@
 				5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */,
 				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
 				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
+				5AEED2FD107205ED00034E2A /* WLSiteDelegate.h */,
+				5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -765,6 +770,7 @@
 				16B46312105448680085AA37 /* WLPortal.m in Sources */,
 				1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */,
 				5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */,
+				5AEED2FF107205ED00034E2A /* WLSiteDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
