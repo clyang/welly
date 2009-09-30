@@ -11,6 +11,8 @@
 #import "WLGrowlBridge.h"
 #import "WLGlobalConfig.h"
 
+NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>";
+
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
 @interface WLDownloadDelegate : NSObject <NSWindowDelegate> {
 #else
@@ -253,7 +255,7 @@ static NSString * stringFromFileSize(long long size) {
                           isSticky:YES
                         identifier:download];
 	// Add the incremented value
-	[_indicator incrementBy: (double)length];
+	[_indicator incrementBy:(double)length];
 }
 
 static void formatProps(NSMutableString *s, id *fmt, id *val) {
@@ -270,7 +272,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 	[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
 	if ([[_path pathExtension] isEqualToString:@"gif"]) {
 		NSURL *htmlURL = [NSURL fileURLWithPath:[[_path stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
-		[[NSString stringWithFormat:@"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>", [NSURL fileURLWithPath:_path]] writeToURL:htmlURL atomically:NO encoding:NSUTF8StringEncoding error:NULL];
+		[[NSString stringWithFormat:WLGIFToHTMLFormat, [NSURL fileURLWithPath:_path]] writeToURL:htmlURL atomically:NO encoding:NSUTF8StringEncoding error:NULL];
 		[WLQuickLookBridge add:htmlURL];
 	} else {
 		[WLQuickLookBridge add:[NSURL fileURLWithPath:_path]];
