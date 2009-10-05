@@ -1767,7 +1767,7 @@ BOOL isSpecialSymbol(unichar ch) {
     WLSite *site = [[self frontMostConnection] site];
     if (_isInPortalMode && (site && ![site empty]))
         [self removePortal];
-    else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName])
+    else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [WLGlobalConfig shouldEnableCoverFlow])
         [self updatePortal];
 }
 /*

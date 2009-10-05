@@ -73,7 +73,7 @@ static WLSiteDelegate *sInstance;
     }
     
     // Reset portal if necessary
-	if([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
+	if([WLGlobalConfig shouldEnableCoverFlow]) {
 		[_telnetView resetPortal];
 	}
 }

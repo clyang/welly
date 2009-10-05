@@ -148,4 +148,5 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 + (void)initializeCache;
 + (NSString *)cacheDirectory;
 
++ (BOOL)shouldEnableCoverFlow;
 @end

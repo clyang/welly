@@ -369,7 +369,7 @@ static YLController *sInstance;
     [self newConnectionWithSite:[WLSite site]];
 	
 	// Draw the portal and entering the portal control mode if needed...
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName]) {
+	if ([WLGlobalConfig shouldEnableCoverFlow]) {
 		[_telnetView checkPortal];
 		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
 	} else {
@@ -717,7 +717,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     if ([tabView numberOfTabViewItems] == 0) {
 		[_telnetView refreshMouseHotspot];
 		[_telnetView checkPortal];
-        if ([[WLSiteDelegate sharedInstance] countOfSites]) {
+        if ([WLGlobalConfig shouldEnableCoverFlow]) {
             [_mainWindow makeFirstResponder:_telnetView];
         } else {
             [_mainWindow makeFirstResponder:_addressBar];

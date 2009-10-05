@@ -570,4 +570,9 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
     [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
 }
 
+#pragma mark -
+#pragma mark Query Global Config
++ (BOOL)shouldEnableCoverFlow {
+	return [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName];
+}
 @end
