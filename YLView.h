@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
+#import "WLSitePanelController.h"
 
 @class WLTerminal;
 @class WLConnection;
@@ -19,7 +20,7 @@
 
 #define disableMouseByKeyingTimerInterval 0.3
 
-@interface YLView : NSTabView <NSTextInput> {	
+@interface YLView : NSTabView <NSTextInput, WLSitesObserver> {	
 	CGFloat _fontWidth;
 	CGFloat _fontHeight;
 	

@@ -10,6 +10,7 @@
 //
 
 #import "WLGlobalConfig.h"
+#import "SynthesizeSingleton.h"
 
 #pragma mark -
 #pragma mark Constants
@@ -73,14 +74,7 @@ NSString *const WLDefaultEnglishFontName = @"Monaco";
 @synthesize chineseFontName = _chineseFontName;
 @synthesize englishFontName = _englishFontName;
 
-+ (WLGlobalConfig*)sharedInstance {
-    static WLGlobalConfig *sSharedInstance = nil;
-    if (sSharedInstance == nil) {
-        sSharedInstance = [WLGlobalConfig new];
-        [self initializeCache];
-    }
-    return sSharedInstance;
-}
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 
 - (id)init {
     if (self != [super init])

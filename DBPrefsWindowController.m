@@ -27,7 +27,7 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 	return _sharedPrefsWindowController;
 }
 
-+ (NSArray *) applicationIdentifierArrayForURLScheme: (NSString *) scheme {
++ (NSArray *)applicationIdentifierArrayForURLScheme: (NSString *) scheme {
     CFArrayRef array = LSCopyAllHandlersForURLScheme((CFStringRef)scheme);
     NSMutableArray *result = [NSMutableArray arrayWithArray: (NSArray *) array];
     CFRelease(array);
@@ -96,9 +96,9 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
     }
 }
 
-- (void) awakeFromNib {
-    [self setupMenuOfURLScheme: @"telnet" forPopUpButton: _telnetPopUpButton];
-    [self setupMenuOfURLScheme: @"ssh" forPopUpButton: _sshPopUpButton];
+- (void)awakeFromNib {
+    [self setupMenuOfURLScheme:@"telnet" forPopUpButton:_telnetPopUpButton];
+    [self setupMenuOfURLScheme:@"ssh" forPopUpButton:_sshPopUpButton];
 }
 
 - (id)initWithWindow:(NSWindow *)window

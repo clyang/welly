@@ -10,7 +10,7 @@
 #import "WLPortalImage.h"
 #import "CommonType.h"
 #import "YLController.h"
-#import "WLSiteDelegate.h"
+#import "WLSitePanelController.h"
 
 const float xscale = 1, yscale = 0.8;
 
@@ -186,7 +186,7 @@ const float xscale = 1, yscale = 0.8;
 - (void)select {
     [self hide];
     YLController *controller = [YLController sharedInstance];
-    WLSite *site = [WLSiteDelegate siteAtIndex:[_view selectedIndex]];
+    WLSite *site = [WLSitePanelController siteAtIndex:[_view selectedIndex]];
     [controller newConnectionWithSite:site];
 }
 

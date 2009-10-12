@@ -183,6 +183,7 @@ BOOL isSpecialSymbol(unichar ch) {
     _markedRange = NSMakeRange(NSNotFound, 0);
     
     [_textField setHidden: YES];
+	
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -203,6 +204,9 @@ BOOL isSpecialSymbol(unichar ch) {
 																selector:@selector(checkActivity:)
 																userInfo:nil
 																 repeats:YES];
+		
+		// Register as sites observer
+		[WLSitePanelController addSitesObserver:self];
     }
     return self;
 }
@@ -1776,6 +1780,13 @@ BOOL isSpecialSymbol(unichar ch) {
     //[_portal addPortalPicture:source forSite:siteName];
 }
 */
+
+- (void)sitesDidChanged:(NSArray *)sitesAfterChange {
+	if ([WLGlobalConfig shouldEnableCoverFlow]) {
+		[self resetPortal];
+	}
+}
+
 #pragma mark -
 #pragma mark mouse operation
 - (void)deactivateMouseForKeying {

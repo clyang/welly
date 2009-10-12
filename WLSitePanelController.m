@@ -6,16 +6,18 @@
 //  Copyright 2009 Welly Group. All rights reserved.
 //
 
-#import "WLSiteDelegate.h"
+#import "WLSitePanelController.h"
 #import "WLSite.h"
 #import "YLView.h"
 #import "YLController.h"
 #import "WLGlobalConfig.h"
+#import "SynthesizeSingleton.h"
 
 #define SiteTableViewDataType @"SiteTableViewDataType"
 
-@interface WLSiteDelegate()
+@interface WLSitePanelController()
 - (void)loadSites;
+- (void)sitesDidChanged;
 
 /* sites accessors */
 - (id)objectInSitesAtIndex:(NSUInteger)index;
@@ -28,67 +30,50 @@
 						 withObject:(id)anObject;
 @end
 
-
-@implementation WLSiteDelegate
+@implementation WLSitePanelController
 @synthesize sites = _sites;
+
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
 
 #pragma mark -
 #pragma mark Initialize and Destruction
-static WLSiteDelegate *sInstance;
-
-+ (WLSiteDelegate *)sharedInstance {
-    assert(sInstance);
-    return sInstance;
-}
-
 - (id)init {
     if (self = [super init]) {
-        _sites = [[NSMutableArray alloc] init];
-        assert(sInstance == nil);
-        sInstance = self;
+		@synchronized(self) {
+			// init may be called multiple times, 
+			// but there is only one shared instance.
+			// So we need to make sure these arrays have been alloc only once
+			if (!_sites) {
+				_sites = [[NSMutableArray alloc] init];
+				[self loadSites];
+			}
+			if (!_sitesObservers)
+				_sitesObservers = [[NSMutableArray alloc] init];
+		}
     }
     return self;
 }
 
-- (void)updateSitesMenu {
-    int total = [[_sitesMenu submenu] numberOfItems];
-    int i = total - 1;
-    // search the last seperator from the bottom
-    for (; i > 0; i--)
-        if ([[[_sitesMenu submenu] itemAtIndex:i] isSeparatorItem])
-            break;
+- (void)loadNibFile {
+	if (_sitesPanel) {
+		// Loaded before, just return silently
+		return;
+	}
 	
-    // then remove all menuitems below it, since we need to refresh the site menus
-    ++i;
-    for (int j = i; j < total; j++) {
-        [[_sitesMenu submenu] removeItemAtIndex:i];
-    }
-    
-    // Now add items of site one by one
-    for (WLSite *s in _sites) {
-        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
-        [menuItem setRepresentedObject:s];
-        [[_sitesMenu submenu] addItem:menuItem];
-        [menuItem release];
-    }
-    
-    // Reset portal if necessary
-	if([WLGlobalConfig shouldEnableCoverFlow]) {
-		[_telnetView resetPortal];
+	if ([NSBundle loadNibNamed:@"SitePanel" owner:self]) {
+		// register drag & drop in site view
+		[_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
 	}
 }
 
 - (void)awakeFromNib {
-	[self updateSitesMenu];
-	
-	// register drag & drop in site view
-    [_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
-
-    [self loadSites];
+	[super awakeFromNib];
+	NSLog(@"awakeFromNib");
 }
 
 - (void)dealloc {
     [_sites release];
+	[_sitesObservers release];
     [super dealloc];
 }
 
@@ -97,7 +82,9 @@ static WLSiteDelegate *sInstance;
 - (void)loadSites {
     NSArray *array = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
     for (NSDictionary *d in array)
-        [self insertObject:[WLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];    
+        [self insertObject:[WLSite siteWithDictionary:d] inSitesAtIndex:[self countOfSites]];
+
+	[self sitesDidChanged];
 }
 
 - (void)saveSites {
@@ -106,18 +93,51 @@ static WLSiteDelegate *sInstance;
         [a addObject:[s dictionaryOfSite]];
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"Sites"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [self updateSitesMenu];
+	
+    [self sitesDidChanged];
+}
+
+/*
+ * Inform all sitesObservers that _sites have been changed
+ */
+- (void)sitesDidChanged {
+	for (NSObject *obj in _sitesObservers) {
+		if ([obj conformsToProtocol:@protocol(WLSitesObserver)]) {
+			NSObject <WLSitesObserver> *observer = (NSObject <WLSitesObserver> *) obj;
+			[observer sitesDidChanged:_sites];
+		}
+	}
+}
+
+- (void)addSitesObserver:(NSObject<WLSitesObserver> *)observer {
+	[_sitesObservers addObject:observer];
+	[observer sitesDidChanged:_sites];
+}
+
++ (void)addSitesObserver:(NSObject<WLSitesObserver> *)observer {
+	[[self sharedInstance] addSitesObserver:observer];
 }
 
 #pragma mark -
 #pragma mark Site Panel Actions
-- (IBAction)openSitePanel:(id)sender {
-    [NSApp beginSheet:_sitesWindow
-       modalForWindow:_mainWindow
+- (void)openSitePanelInWindow:(NSWindow *)mainWindow {
+	[self loadNibFile];
+    [NSApp beginSheet:_sitesPanel
+       modalForWindow:mainWindow
         modalDelegate:nil
        didEndSelector:NULL
           contextInfo:nil];
-	[_sitesWindow setLevel:floatWindowLevel];
+	[_sitesPanel setLevel:floatWindowLevel];	
+}
+
+- (void)openSitePanelInWindow:(NSWindow *)mainWindow 
+				   AndAddSite:(WLSite *)site {
+	site = [[site copy] autorelease];
+	[_sitesController addObject:site];
+    [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
+    [self performSelector:@selector(openSitePanelInWindow:) withObject:mainWindow afterDelay:0.1];
+    if ([_siteNameField acceptsFirstResponder])
+        [_sitesPanel makeFirstResponder:_siteNameField];
 }
 
 - (IBAction)connectSite:(id)sender {
@@ -131,26 +151,10 @@ static WLSiteDelegate *sInstance;
 }
 
 - (IBAction)closeSitePanel:(id)sender {
-    [_sitesWindow endEditingFor:nil];
-    [NSApp endSheet:_sitesWindow];
-    [_sitesWindow orderOut:self];
+    [_sitesPanel endEditingFor:nil];
+    [NSApp endSheet:_sitesPanel];
+    [_sitesPanel orderOut:self];
     [self saveSites];
-}
-
-- (IBAction)addCurrentSite:(id)sender {
-    if ([_telnetView numberOfTabViewItems] == 0) return;
-    NSString *address = [[[_telnetView frontMostConnection] site] address];
-    
-    for (WLSite *s in _sites) 
-        if ([[s address] isEqualToString:address]) 
-            return;
-    
-    WLSite *site = [[[[_telnetView frontMostConnection] site] copy] autorelease];
-    [_sitesController addObject:site];
-    [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
-    [self performSelector:@selector(openSitePanel:) withObject:sender afterDelay:0.1];
-    if ([_siteNameField acceptsFirstResponder])
-        [_sitesWindow makeFirstResponder:_siteNameField];
 }
 
 - (IBAction)proxyTypeDidChange:(id)sender {
@@ -163,13 +167,13 @@ static WLSiteDelegate *sInstance;
     NSString *siteAddress = [_siteAddressField stringValue];
     if ([siteAddress length] == 0)
         return;
-	[_sitesWindow setLevel:0];
+	[_sitesPanel setLevel:0];
     if (![siteAddress hasPrefix:@"ssh"] && [siteAddress rangeOfString:@"@"].location == NSNotFound) {
         NSBeginAlertSheet(NSLocalizedString(@"Site address format error", @"Sheet Title"),
                           nil,
                           nil,
                           nil,
-                          _sitesWindow,
+                          _sitesPanel,
                           self,
                           nil,
                           nil,
@@ -177,15 +181,15 @@ static WLSiteDelegate *sInstance;
                           NSLocalizedString(@"Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections.", @"Sheet Message"));
         return;
     }
-    [NSApp beginSheet:_passwordWindow
-       modalForWindow:_sitesWindow
+    [NSApp beginSheet:_passwordPanel
+       modalForWindow:_sitesPanel
         modalDelegate:nil
        didEndSelector:nil
           contextInfo:nil];
 }
 
 - (IBAction)confirmPassword:(id)sender {
-    [_passwordWindow endEditingFor:nil];
+    [_passwordPanel endEditingFor:nil];
     const char *service = "Welly";
     const char *account = [[_siteAddressField stringValue] UTF8String];
     SecKeychainItemRef itemRef;
@@ -204,15 +208,15 @@ static WLSiteDelegate *sInstance;
                                       nil);
     }
     [_passwordField setStringValue:@""];
-    [NSApp endSheet:_passwordWindow];
-    [_passwordWindow orderOut:self];
+    [NSApp endSheet:_passwordPanel];
+    [_passwordPanel orderOut:self];
 }
 
 - (IBAction)cancelPassword:(id)sender {
-    [_passwordWindow endEditingFor:nil];
+    [_passwordPanel endEditingFor:nil];
     [_passwordField setStringValue:@""];
-    [NSApp endSheet:_passwordWindow];
-    [_passwordWindow orderOut:self];
+    [NSApp endSheet:_passwordPanel];
+    [_passwordPanel orderOut:self];
 }
 
 #pragma mark -
@@ -256,13 +260,11 @@ static WLSiteDelegate *sInstance;
 #pragma mark -
 #pragma mark Sites Accessors
 + (NSArray *)sites {
-	assert(sInstance);
-	return [sInstance sites];
+	return [[self sharedInstance] sites];
 }
 
 + (WLSite *)siteAtIndex:(NSUInteger)index {
-	assert(sInstance);
-	return [sInstance objectInSitesAtIndex:index];
+	return [[self sharedInstance] objectInSitesAtIndex:index];
 }
 
 - (unsigned)countOfSites {

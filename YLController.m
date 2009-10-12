@@ -15,7 +15,7 @@
 #import "YLEmoticon.h"
 #import "WLPostDownloadDelegate.h"
 #import "WLAnsiColorOperationManager.h"
-#import "WLSiteDelegate.h"
+#import "WLSitePanelController.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -30,35 +30,19 @@
 #import "WLPopUpMessage.h"
 // End
 #import <Carbon/Carbon.h>
+#import "SynthesizeSingleton.h"
 
 const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 
 @interface YLController ()
 - (void)loadLastConnections;
+- (void)updateSitesMenuWithSites:(NSArray *)sites;
 @end
 
 @implementation YLController
 @synthesize telnetView = _telnetView;
 
-static YLController *sInstance;
-
-+ (YLController *)sharedInstance {
-    assert(sInstance);
-    return sInstance;
-}
-
-- (id)init {
-    if (self = [super init]) {
-        assert(sInstance == nil);
-        sInstance = self;
-    }
-    return self;
-}
-
-- (void)dealloc {
-	sInstance = nil;
-    [super dealloc];
-}
+SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
 - (void)awakeFromNib {
     // Register URL
@@ -135,8 +119,15 @@ static YLController *sInstance;
 	
 	// Ask window to receive mouseMoved
 	[_mainWindow setAcceptsMouseMovedEvents:YES];
+	
+	//[self updateSitesMenuWithSites:[WLSiteDelegate sites]];
+	
+	// Register as sites observer
+	[WLSitePanelController addSitesObserver:self];
 }
 
+#pragma mark -
+#pragma mark Update Menus
 - (void)updateEncodingMenu {
     // update encoding menu status
     NSMenu *m = [_encodingMenuItem submenu];
@@ -151,6 +142,34 @@ static YLController *sInstance;
         [[m itemAtIndex:1] setState:NSOnState];
     if (currentEncoding == WLGBKEncoding)
         [[m itemAtIndex:0] setState:NSOnState];
+}
+
+- (void)updateSitesMenuWithSites:(NSArray *)sites {
+	// Update Sites Menus
+	int total = [[_sitesMenu submenu] numberOfItems];
+    int i = total - 1;
+    // search the last seperator from the bottom
+    for (; i > 0; i--)
+        if ([[[_sitesMenu submenu] itemAtIndex:i] isSeparatorItem])
+            break;
+	
+    // then remove all menuitems below it, since we need to refresh the site menus
+    ++i;
+    for (int j = i; j < total; j++) {
+        [[_sitesMenu submenu] removeItemAtIndex:i];
+    }
+    
+    // Now add items of site one by one
+    for (WLSite *s in sites) {
+        NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[s name] ?: @"" action:@selector(openSiteMenu:) keyEquivalent:@""];
+        [menuItem setRepresentedObject:s];
+        [[_sitesMenu submenu] addItem:menuItem];
+        [menuItem release];
+    }	
+}
+
+- (void)sitesDidChanged:(NSArray *)sitesAfterChange {
+	[self updateSitesMenuWithSites:sitesAfterChange];
 }
 
 - (void)updateBlinkTicker:(NSTimer *)timer {
@@ -232,7 +251,6 @@ static YLController *sInstance;
 
 #pragma mark -
 #pragma mark KVO
-
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
@@ -404,7 +422,7 @@ static YLController *sInstance;
     
     NSMutableArray *matchedSites = [NSMutableArray array];
     WLSite *s;
-	NSArray *sites = [WLSiteDelegate sites];
+	NSArray *sites = [WLSitePanelController sites];
         
     if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
         for (WLSite *site in sites) 
@@ -443,6 +461,23 @@ static YLController *sInstance;
 
 - (IBAction)openLocation:(id)sender {
     [_mainWindow makeFirstResponder:_addressBar];
+}
+
+- (IBAction)openSitePanel:(id)sender {
+	[[WLSitePanelController sharedInstance] openSitePanelInWindow:_mainWindow];
+}
+
+- (IBAction)addCurrentSite:(id)sender {
+    if ([_telnetView numberOfTabViewItems] == 0) return;
+    NSString *address = [[[_telnetView frontMostConnection] site] address];
+    
+    for (WLSite *s in [WLSitePanelController sites])
+        if ([[s address] isEqualToString:address]) 
+            return;
+    
+    WLSite *site = [[_telnetView frontMostConnection] site];
+    [[WLSitePanelController sharedInstance] openSitePanelInWindow:_mainWindow 
+												AndAddSite:site];
 }
 
 - (BOOL)shouldReconnect {
@@ -490,7 +525,7 @@ static YLController *sInstance;
     return;	
 }
 
-- (void) fullScreenPopUp {
+- (void)fullScreenPopUp {
 	NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
 	[WLPopUpMessage showPopUpMessage:currSiteName 
 							duration:1.2

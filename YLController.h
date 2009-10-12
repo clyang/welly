@@ -12,6 +12,7 @@
 #import "WLMessageDelegate.h"
 #import "WLFullScreenController.h"
 #import "WLTelnetProcessor.h"
+#import "WLSitePanelController.h"
 
 #define scrollTimerInterval 0.12
 
@@ -25,7 +26,7 @@
 @end
 #endif
 
-@interface YLController : NSObject <NSTabViewDelegate> {
+@interface YLController : NSObject <NSTabViewDelegate, WLSitesObserver> {
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
     IBOutlet NSPanel *_composeWindow;
@@ -39,6 +40,8 @@
 
     IBOutlet YLView *_telnetView;
     IBOutlet WLTabBarControl *_tab;
+	
+	/* Menus */
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
     IBOutlet NSMenuItem *_closeWindowMenuItem;
     IBOutlet NSMenuItem *_closeTabMenuItem;
@@ -48,6 +51,9 @@
     IBOutlet NSMenuItem *_encodingMenuItem;
 	IBOutlet NSMenuItem *_fullScreenMenuItem;
 	
+	IBOutlet NSMenuItem *_sitesMenu;
+	
+	/* Message */
 	IBOutlet NSTextView *_unreadMessageTextView;
 
 	// Remote Control
@@ -83,6 +89,9 @@
 - (IBAction)showHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
 - (void)newConnectionWithSite:(WLSite *)site;
+
+- (IBAction)openSitePanel:(id)sender;
+- (IBAction)addCurrentSite:(id)sender;
 
 // Message
 - (IBAction)closeMessageWindow:(id)sender;

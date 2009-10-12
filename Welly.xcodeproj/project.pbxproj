@@ -45,6 +45,7 @@
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
 		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
+		5A76586F1082D3470052C2BA /* SitePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitePanel.xib */; };
 		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
@@ -62,7 +63,7 @@
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */; };
-		5AEED2FF107205ED00034E2A /* WLSiteDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */; };
+		5AEED2FF107205ED00034E2A /* WLSitePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSitePanelController.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
@@ -197,8 +198,12 @@
 		5A4B02870E55941D00260486 /* WLEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEffectView.h; sourceTree = "<group>"; };
 		5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloadDelegate.h; sourceTree = "<group>"; };
 		5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloadDelegate.m; sourceTree = "<group>"; };
+		5A573969107B4402005F80AC /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
+		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitePanel.xib; sourceTree = "<group>"; };
+		5A7658701082D3530052C2BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/SitePanel.xib; sourceTree = "<group>"; };
+		5A7658711082D3590052C2BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/SitePanel.xib; sourceTree = "<group>"; };
 		5A91BAED0E1E1E6A007538E5 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
@@ -228,8 +233,8 @@
 		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5AD6A8A3106F8BC000D4446D /* WLEmoticonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEmoticonDelegate.h; sourceTree = "<group>"; };
 		5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEmoticonDelegate.m; sourceTree = "<group>"; };
-		5AEED2FD107205ED00034E2A /* WLSiteDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSiteDelegate.h; sourceTree = "<group>"; };
-		5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSiteDelegate.m; sourceTree = "<group>"; };
+		5AEED2FD107205ED00034E2A /* WLSitePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSitePanelController.h; sourceTree = "<group>"; };
+		5AEED2FE107205ED00034E2A /* WLSitePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSitePanelController.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
 		5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMessageDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
@@ -409,6 +414,7 @@
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
+				5A76586E1082D3470052C2BA /* SitePanel.xib */,
 				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
 				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
@@ -444,8 +450,8 @@
 				5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */,
 				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
 				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
-				5AEED2FD107205ED00034E2A /* WLSiteDelegate.h */,
-				5AEED2FE107205ED00034E2A /* WLSiteDelegate.m */,
+				5AEED2FD107205ED00034E2A /* WLSitePanelController.h */,
+				5AEED2FE107205ED00034E2A /* WLSitePanelController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -582,6 +588,7 @@
 		85ED53BA0D0934DC003296D4 /* Constant & Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5A573969107B4402005F80AC /* SynthesizeSingleton.h */,
 				1634C00B106E0F4C008612CD /* WLEncoder.h */,
 				1634C00C106E0F4C008612CD /* WLEncoder.m */,
 				852E798A0C96E7A90027751F /* CommonType.h */,
@@ -693,6 +700,7 @@
 				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
+				5A76586F1082D3470052C2BA /* SitePanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,7 +778,7 @@
 				16B46312105448680085AA37 /* WLPortal.m in Sources */,
 				1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */,
 				5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */,
-				5AEED2FF107205ED00034E2A /* WLSiteDelegate.m in Sources */,
+				5AEED2FF107205ED00034E2A /* WLSitePanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,6 +813,16 @@
 				161DF4B1106DD5AC0003E85A /* zh_TW */,
 			);
 			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		5A76586E1082D3470052C2BA /* SitePanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A76586A1082D32C0052C2BA /* English */,
+				5A7658701082D3530052C2BA /* zh_CN */,
+				5A7658711082D3590052C2BA /* zh_TW */,
+			);
+			name = SitePanel.xib;
 			sourceTree = "<group>";
 		};
 		85A0E73B0D06B72900ACA26F /* Localizable.strings */ = {
