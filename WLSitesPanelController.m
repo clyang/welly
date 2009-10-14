@@ -6,7 +6,7 @@
 //  Copyright 2009 Welly Group. All rights reserved.
 //
 
-#import "WLSitePanelController.h"
+#import "WLSitesPanelController.h"
 #import "WLSite.h"
 #import "YLView.h"
 #import "YLController.h"
@@ -14,8 +14,9 @@
 #import "SynthesizeSingleton.h"
 
 #define SiteTableViewDataType @"SiteTableViewDataType"
+#define kSitePanelNibFilename @"SitesPanel"
 
-@interface WLSitePanelController()
+@interface WLSitesPanelController()
 - (void)loadSites;
 - (void)sitesDidChanged;
 
@@ -30,10 +31,10 @@
 						 withObject:(id)anObject;
 @end
 
-@implementation WLSitePanelController
+@implementation WLSitesPanelController
 @synthesize sites = _sites;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 
 #pragma mark -
 #pragma mark Initialize and Destruction
@@ -60,7 +61,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
 		return;
 	}
 	
-	if ([NSBundle loadNibNamed:@"SitePanel" owner:self]) {
+	if ([NSBundle loadNibNamed:kSitePanelNibFilename owner:self]) {
 		// register drag & drop in site view
 		[_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
 	}
@@ -120,7 +121,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
 
 #pragma mark -
 #pragma mark Site Panel Actions
-- (void)openSitePanelInWindow:(NSWindow *)mainWindow {
+- (void)openSitesPanelInWindow:(NSWindow *)mainWindow {
+	// Load Nib file if necessary
 	[self loadNibFile];
     [NSApp beginSheet:_sitesPanel
        modalForWindow:mainWindow
@@ -130,19 +132,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
 	[_sitesPanel setLevel:floatWindowLevel];	
 }
 
-- (void)openSitePanelInWindow:(NSWindow *)mainWindow 
-				   AndAddSite:(WLSite *)site {
+- (void)openSitesPanelInWindow:(NSWindow *)mainWindow 
+				    AndAddSite:(WLSite *)site {
 	site = [[site copy] autorelease];
 	[_sitesController addObject:site];
     [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
-    [self performSelector:@selector(openSitePanelInWindow:) withObject:mainWindow afterDelay:0.1];
+    [self performSelector:@selector(openSitesPanelInWindow:) withObject:mainWindow afterDelay:0.1];
     if ([_siteNameField acceptsFirstResponder])
         [_sitesPanel makeFirstResponder:_siteNameField];
 }
 
-- (IBAction)connectSite:(id)sender {
+- (IBAction)connectSelectedSite:(id)sender {
     NSArray *a = [_sitesController selectedObjects];
-    [self closeSitePanel:sender];
+    [self closeSitesPanel:sender];
     
     if ([a count] == 1) {
         WLSite *s = [a objectAtIndex:0];
@@ -150,7 +152,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitePanelController);
     }
 }
 
-- (IBAction)closeSitePanel:(id)sender {
+- (IBAction)closeSitesPanel:(id)sender {
     [_sitesPanel endEditingFor:nil];
     [NSApp endSheet:_sitesPanel];
     [_sitesPanel orderOut:self];

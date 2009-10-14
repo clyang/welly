@@ -11,7 +11,7 @@
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "YLController.h"
-#import "WLEmoticonDelegate.h"
+#import "WLEmoticonsPanelController.h"
 #import "Carbon/Carbon.h"
 
 @interface YLContextualMenuManager ()
@@ -149,7 +149,7 @@
 
 + (IBAction)saveAsEmoticon:(id)sender {
 	NSString *s = [sender representedObject];
-	[[WLEmoticonDelegate sharedInstance] saveEmoticonFromString:s];
+	[[WLEmoticonsPanelController sharedInstance] addEmoticonFromString:s];
 }
 
 @end

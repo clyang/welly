@@ -45,7 +45,8 @@
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
 		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
-		5A76586F1082D3470052C2BA /* SitePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitePanel.xib */; };
+		5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitesPanel.xib */; };
+		5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A765A00108579E10052C2BA /* EmoticonsPanel.xib */; };
 		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
@@ -62,8 +63,8 @@
 		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
-		5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */; };
-		5AEED2FF107205ED00034E2A /* WLSitePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSitePanelController.m */; };
+		5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */; };
+		5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */; };
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
@@ -201,9 +202,12 @@
 		5A573969107B4402005F80AC /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitePanel.xib; sourceTree = "<group>"; };
-		5A7658701082D3530052C2BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/SitePanel.xib; sourceTree = "<group>"; };
-		5A7658711082D3590052C2BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/SitePanel.xib; sourceTree = "<group>"; };
+		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitesPanel.xib; sourceTree = "<group>"; };
+		5A7658701082D3530052C2BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/SitesPanel.xib; sourceTree = "<group>"; };
+		5A7658711082D3590052C2BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/SitesPanel.xib; sourceTree = "<group>"; };
+		5A7659FE108579D70052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
+		5A765A02108579E80052C2BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
+		5A765A03108579EB0052C2BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
 		5A91BAED0E1E1E6A007538E5 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
@@ -231,10 +235,10 @@
 		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AD4B9B00F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMovingAreaHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
-		5AD6A8A3106F8BC000D4446D /* WLEmoticonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEmoticonDelegate.h; sourceTree = "<group>"; };
-		5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEmoticonDelegate.m; sourceTree = "<group>"; };
-		5AEED2FD107205ED00034E2A /* WLSitePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSitePanelController.h; sourceTree = "<group>"; };
-		5AEED2FE107205ED00034E2A /* WLSitePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSitePanelController.m; sourceTree = "<group>"; };
+		5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEmoticonsPanelController.h; sourceTree = "<group>"; };
+		5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEmoticonsPanelController.m; sourceTree = "<group>"; };
+		5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSitesPanelController.h; sourceTree = "<group>"; };
+		5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSitesPanelController.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
 		5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMessageDelegate.m; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
@@ -409,14 +413,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5A7659FD108579B40052C2BA /* Nib Files */,
 				85137B320D02192800833909 /* Credits.rtf */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
-				5A76586E1082D3470052C2BA /* SitePanel.xib */,
-				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
-				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				161DF52D106DDDBB0003E85A /* Images */,
@@ -446,12 +448,12 @@
 				186E810E0F218C10007D73BC /* WLComposeDelegate.m */,
 				85ABEB7F0C966FEF008227D6 /* YLController.h */,
 				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
-				5AD6A8A3106F8BC000D4446D /* WLEmoticonDelegate.h */,
-				5AD6A8A4106F8BC000D4446D /* WLEmoticonDelegate.m */,
+				5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */,
+				5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */,
 				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
 				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
-				5AEED2FD107205ED00034E2A /* WLSitePanelController.h */,
-				5AEED2FE107205ED00034E2A /* WLSitePanelController.m */,
+				5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */,
+				5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -465,6 +467,17 @@
 				16B46311105448680085AA37 /* WLPortal.m */,
 			);
 			name = Portal;
+			sourceTree = "<group>";
+		};
+		5A7659FD108579B40052C2BA /* Nib Files */ = {
+			isa = PBXGroup;
+			children = (
+				5A76586E1082D3470052C2BA /* SitesPanel.xib */,
+				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
+				161DF4AB106DD58E0003E85A /* Preferences.xib */,
+				5A765A00108579E10052C2BA /* EmoticonsPanel.xib */,
+			);
+			name = "Nib Files";
 			sourceTree = "<group>";
 		};
 		5AB1BFDF0E18F3120094C370 /* RemoteControl */ = {
@@ -700,7 +713,8 @@
 				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
-				5A76586F1082D3470052C2BA /* SitePanel.xib in Resources */,
+				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
+				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,8 +791,8 @@
 				5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */,
 				16B46312105448680085AA37 /* WLPortal.m in Sources */,
 				1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */,
-				5AD6A8A5106F8BC000D4446D /* WLEmoticonDelegate.m in Sources */,
-				5AEED2FF107205ED00034E2A /* WLSitePanelController.m in Sources */,
+				5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */,
+				5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,14 +829,24 @@
 			name = Preferences.xib;
 			sourceTree = "<group>";
 		};
-		5A76586E1082D3470052C2BA /* SitePanel.xib */ = {
+		5A76586E1082D3470052C2BA /* SitesPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				5A76586A1082D32C0052C2BA /* English */,
 				5A7658701082D3530052C2BA /* zh_CN */,
 				5A7658711082D3590052C2BA /* zh_TW */,
 			);
-			name = SitePanel.xib;
+			name = SitesPanel.xib;
+			sourceTree = "<group>";
+		};
+		5A765A00108579E10052C2BA /* EmoticonsPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A7659FE108579D70052C2BA /* English */,
+				5A765A02108579E80052C2BA /* zh_CN */,
+				5A765A03108579EB0052C2BA /* zh_TW */,
+			);
+			name = EmoticonsPanel.xib;
 			sourceTree = "<group>";
 		};
 		85A0E73B0D06B72900ACA26F /* Localizable.strings */ = {

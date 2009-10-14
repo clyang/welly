@@ -12,7 +12,7 @@
 #import "WLMessageDelegate.h"
 #import "WLFullScreenController.h"
 #import "WLTelnetProcessor.h"
-#import "WLSitePanelController.h"
+#import "WLSitesPanelController.h"
 
 #define scrollTimerInterval 0.12
 
@@ -92,6 +92,7 @@
 
 - (IBAction)openSitePanel:(id)sender;
 - (IBAction)addCurrentSite:(id)sender;
+- (IBAction)openEmoticonsPanel:(id)sender;
 
 // Message
 - (IBAction)closeMessageWindow:(id)sender;

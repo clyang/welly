@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
-#import "WLSitePanelController.h"
+#import "WLSitesPanelController.h"
 
 @class WLTerminal;
 @class WLConnection;

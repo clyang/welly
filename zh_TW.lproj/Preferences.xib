@@ -3959,7 +3959,7 @@
 						<string key="inputEmoticons:">id</string>
 						<string key="newTab:">id</string>
 						<string key="openCompose:">id</string>
-						<string key="openEmoticonsWindow:">id</string>
+						<string key="openEmoticonsPanel:">id</string>
 						<string key="openLocation:">id</string>
 						<string key="openPassword:">id</string>
 						<string key="openPostDownload:">id</string>

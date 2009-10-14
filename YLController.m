@@ -15,7 +15,8 @@
 #import "YLEmoticon.h"
 #import "WLPostDownloadDelegate.h"
 #import "WLAnsiColorOperationManager.h"
-#import "WLSitePanelController.h"
+#import "WLSitesPanelController.h"
+#import "WLEmoticonsPanelController.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -123,7 +124,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	//[self updateSitesMenuWithSites:[WLSiteDelegate sites]];
 	
 	// Register as sites observer
-	[WLSitePanelController addSitesObserver:self];
+	[WLSitesPanelController addSitesObserver:self];
 }
 
 #pragma mark -
@@ -422,7 +423,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     
     NSMutableArray *matchedSites = [NSMutableArray array];
     WLSite *s;
-	NSArray *sites = [WLSitePanelController sites];
+	NSArray *sites = [WLSitesPanelController sites];
         
     if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
         for (WLSite *site in sites) 
@@ -464,20 +465,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 }
 
 - (IBAction)openSitePanel:(id)sender {
-	[[WLSitePanelController sharedInstance] openSitePanelInWindow:_mainWindow];
+	[[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow];
 }
 
 - (IBAction)addCurrentSite:(id)sender {
     if ([_telnetView numberOfTabViewItems] == 0) return;
     NSString *address = [[[_telnetView frontMostConnection] site] address];
     
-    for (WLSite *s in [WLSitePanelController sites])
+    for (WLSite *s in [WLSitesPanelController sites])
         if ([[s address] isEqualToString:address]) 
             return;
     
     WLSite *site = [[_telnetView frontMostConnection] site];
-    [[WLSitePanelController sharedInstance] openSitePanelInWindow:_mainWindow 
+    [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow 
 												AndAddSite:site];
+}
+
+- (IBAction)openEmoticonsPanel:(id)sender {
+    [[WLEmoticonsPanelController sharedInstance] openEmoticonsPanel];
 }
 
 - (BOOL)shouldReconnect {

@@ -206,7 +206,7 @@ BOOL isSpecialSymbol(unichar ch) {
 																 repeats:YES];
 		
 		// Register as sites observer
-		[WLSitePanelController addSitesObserver:self];
+		[WLSitesPanelController addSitesObserver:self];
     }
     return self;
 }

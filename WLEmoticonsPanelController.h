@@ -8,23 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class YLView;
-
-@interface WLEmoticonDelegate : NSObject {
-    IBOutlet NSPanel *_emoticonsWindow;
+@interface WLEmoticonsPanelController : NSObject {
+    IBOutlet NSPanel *_emoticonsPanel;
     IBOutlet NSArrayController *_emoticonsController;
-	IBOutlet YLView *_telnetView;
 	
     NSMutableArray *_emoticons;
 }
 @property (readonly) NSArray *emoticons;
-+ (WLEmoticonDelegate *)sharedInstance;
++ (WLEmoticonsPanelController *)sharedInstance;
 
 /* emoticon actions */
-- (IBAction)closeEmoticons:(id)sender;
-- (IBAction)inputEmoticons:(id)sender;
-- (IBAction)openEmoticonsWindow:(id)sender;
+- (void)openEmoticonsPanel;
+- (IBAction)closeEmoticonsPanel:(id)sender;
+- (IBAction)inputSelectedEmoticon:(id)sender;
 
 /* emoticon accessors */
-- (void)saveEmoticonFromString:(NSString *)string;
+- (void)addEmoticonFromString:(NSString *)string;
 @end

@@ -6,12 +6,16 @@
 //  Copyright 2009 Welly Group. All rights reserved.
 //
 
-#import "WLEmoticonDelegate.h"
+#import "WLEmoticonsPanelController.h"
 #import "YLView.h"
-#import "WLConnection.h"
+#import "YLController.h"
 #import "YLEmoticon.h"
+#import "SynthesizeSingleton.h"
 
-@interface WLEmoticonDelegate ()
+#define kEmoticonPanelNibFilename @"EmoticonsPanel"
+
+@interface WLEmoticonsPanelController ()
+- (void)loadNibFile;
 - (void)loadEmoticons;
 - (void)saveEmoticons;
 
@@ -27,20 +31,18 @@
 - (void)replaceObjectInEmoticonsAtIndex:(unsigned)theIndex withObject:(id)obj;
 @end
 
-@implementation WLEmoticonDelegate
+@implementation WLEmoticonsPanelController
 @synthesize emoticons = _emoticons;
 
-static WLEmoticonDelegate *sInstance;
-+ (WLEmoticonDelegate *)sharedInstance {
-    assert(sInstance);
-    return sInstance;
-}
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLEmoticonsPanelController);
 
 - (id)init {
     if (self = [super init]) {
-        _emoticons = [[NSMutableArray alloc] init];
-		assert(sInstance == nil);
-		sInstance = self;
+		@synchronized(self) {
+			if (!_emoticons)
+				_emoticons = [[NSMutableArray alloc] init];
+			[self loadNibFile];
+		}
     }
     return self;
 }
@@ -50,32 +52,44 @@ static WLEmoticonDelegate *sInstance;
     [super dealloc];
 }
 
-- (void)awakeFromNib {
-    [self loadEmoticons];
+- (void)loadNibFile {
+	if (_emoticonsPanel) {
+		// Already loaded, return quietly
+		return;
+	}
+	
+	// Load Nib file and load all emoticons in
+	if ([NSBundle loadNibNamed:kEmoticonPanelNibFilename owner:self]) {
+		[self loadEmoticons];
+	}
 }
 
 #pragma mark -
 #pragma mark IBActions
-- (IBAction)openEmoticonsWindow:(id)sender {
-    [_emoticonsWindow makeKeyAndOrderFront:self];
+- (void)openEmoticonsPanel {
+	// Load Nib file if necessary
+	[self loadNibFile];
+    [_emoticonsPanel makeKeyAndOrderFront:self];
 }
 
-- (IBAction)closeEmoticons:(id)sender {
-    [_emoticonsWindow endEditingFor:nil];
-    [_emoticonsWindow makeFirstResponder:_emoticonsWindow];
-    [_emoticonsWindow orderOut:self];
+- (IBAction)closeEmoticonsPanel:(id)sender {
+    [_emoticonsPanel endEditingFor:nil];
+    [_emoticonsPanel makeFirstResponder:_emoticonsPanel];
+    [_emoticonsPanel orderOut:self];
     [self saveEmoticons];
 }
 
-- (IBAction)inputEmoticons:(id)sender {
-    [self closeEmoticons:sender];
+- (IBAction)inputSelectedEmoticon:(id)sender {
+    [self closeEmoticonsPanel:sender];
     
-    if ([[_telnetView frontMostConnection] isConnected]) {
+	YLView *telnetView = [[YLController sharedInstance] telnetView];
+	
+    if ([telnetView isConnected]) {
         NSArray *a = [_emoticonsController selectedObjects];
         
         if ([a count] == 1) {
             YLEmoticon *e = [a objectAtIndex:0];
-            [_telnetView insertText:[e content]];
+            [telnetView insertText:[e content]];
         }
     }
 }
@@ -128,7 +142,7 @@ static WLEmoticonDelegate *sInstance;
 	[self insertObject:emoticon inEmoticonsAtIndex:[self countOfEmoticons]];
 }
 
-- (void)saveEmoticonFromString:(NSString *)string {
+- (void)addEmoticonFromString:(NSString *)string {
 	YLEmoticon *emoticon = [YLEmoticon emoticonWithString:string];
 	[self addEmoticon:emoticon];
 }

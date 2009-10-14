@@ -19,7 +19,7 @@
 @end
 
 
-@interface WLSitePanelController : NSObject {
+@interface WLSitesPanelController : NSObject {
 	/* Sites Array */
     NSMutableArray *_sites;
     IBOutlet NSArrayController *_sitesController;
@@ -43,19 +43,19 @@
 @property (readonly) NSArray *sites;
 
 /* Accessors */
-+ (WLSitePanelController *)sharedInstance;
++ (WLSitesPanelController *)sharedInstance;
 + (void)addSitesObserver:(NSObject<WLSitesObserver> *)observer;
 + (NSArray *)sites;
 + (WLSite *)siteAtIndex:(NSUInteger)index;
 - (unsigned)countOfSites;
 
 /* Site Panel Actions */
-- (IBAction)connectSite:(id)sender;
-- (IBAction)closeSitePanel:(id)sender;
+- (IBAction)connectSelectedSite:(id)sender;
+- (IBAction)closeSitesPanel:(id)sender;
 
 - (IBAction)proxyTypeDidChange:(id)sender;
-- (void)openSitePanelInWindow:(NSWindow *)mainWindow;
-- (void)openSitePanelInWindow:(NSWindow *)mainWindow 
+- (void)openSitesPanelInWindow:(NSWindow *)mainWindow;
+- (void)openSitesPanelInWindow:(NSWindow *)mainWindow 
 				   AndAddSite:(WLSite *)site;
 
 /* password window actions */
