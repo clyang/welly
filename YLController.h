@@ -93,6 +93,7 @@
 - (IBAction)openSitePanel:(id)sender;
 - (IBAction)addCurrentSite:(id)sender;
 - (IBAction)openEmoticonsPanel:(id)sender;
+- (IBAction)openComposePanel:(id)sender;
 
 // Message
 - (IBAction)closeMessageWindow:(id)sender;

@@ -9,22 +9,23 @@
 #import <Cocoa/Cocoa.h>
 
 @class YLView;
-@interface WLComposeDelegate : NSObject {
-    IBOutlet YLView *_telnetView;
+@interface WLComposePanelController : NSObject {
+    YLView *_telnetView;
 	
     IBOutlet NSColorWell *_bgColorWell;
 	
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
-    IBOutlet NSPanel *_composeWindow;
-	
-    IBOutlet NSWindow *_mainWindow;
+    IBOutlet NSPanel *_composePanel;
 	
 	NSShadow *_shadowForBlink;
 }
 
++ (WLComposePanelController *)sharedInstance;
+
 /* compose actions */
-- (IBAction)openCompose:(id)sender;
+- (void)openComposePanelInWindow:(NSWindow *)window 
+				   forTelnetView:(YLView *)telnetView;
 - (IBAction)commitCompose:(id)sender;
 - (IBAction)cancelCompose:(id)sender;
 - (IBAction)setUnderline:(id)sender;

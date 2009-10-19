@@ -67,11 +67,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 	}
 }
 
-- (void)awakeFromNib {
-	[super awakeFromNib];
-	NSLog(@"awakeFromNib");
-}
-
 - (void)dealloc {
     [_sites release];
 	[_sitesObservers release];

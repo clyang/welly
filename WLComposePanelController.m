@@ -6,15 +6,28 @@
 //  Copyright 2009 TANG Yang. All rights reserved.
 //
 
-#import "WLComposeDelegate.h"
+#import "WLComposePanelController.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLGlobalConfig.h"
 #import "YLView.h"
 #import "WLTerminal.h"
 #import "WLSite.h"
+#import "SynthesizeSingleton.h"
 
-@implementation WLComposeDelegate
+#define kComposePanelNibFilename @"ComposePanel"
+
+@implementation WLComposePanelController
 NSString *const WLComposeFontName = @"Helvetica";
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
+
+- (void)loadNibFile {
+	if (_composePanel) {
+		// Loaded before, just return silently
+		return;
+	}
+	
+	[NSBundle loadNibNamed:kComposePanelNibFilename owner:self];
+}
 
 - (void)awakeFromNib {
 	[_composeText setString:@""];
@@ -58,8 +71,12 @@ NSString *const WLComposeFontName = @"Helvetica";
 
 #pragma mark -
 #pragma mark Compose
-- (IBAction)openCompose:(id)sender {
-    if([[_telnetView frontMostTerminal] bbsState].state != BBSComposePost) {
+- (void)openComposePanelInWindow:(NSWindow *)window 
+				   forTelnetView:(YLView *)telnetView {
+	[self loadNibFile];
+	
+	// Propose a warning if necessary
+	if([telnetView needsWarnCompose]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
                                          defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
                                        alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
@@ -68,9 +85,12 @@ NSString *const WLComposeFontName = @"Helvetica";
         if ([alert runModal] != NSAlertDefaultReturn)
             return;
     }
+	// Set working telnet view
+	_telnetView = telnetView;
     
-    [NSApp beginSheet:_composeWindow
-       modalForWindow:_mainWindow
+	// Open panel in window
+    [NSApp beginSheet:_composePanel
+       modalForWindow:window
         modalDelegate:nil
        didEndSelector:NULL
           contextInfo:nil];
@@ -89,6 +109,16 @@ NSString *const WLComposeFontName = @"Helvetica";
 	// TODO: reset the background color
 }
 
+- (void)closeComposePanel {
+	[self clearAll];
+    [_composePanel endEditingFor:nil];
+    [NSApp endSheet:_composePanel];
+    [_composePanel orderOut:self];
+	
+	// Set working telnet view to be nil
+	_telnetView = nil;
+}
+
 - (IBAction)commitCompose:(id)sender {
     WLSite *s = [[_telnetView frontMostConnection] site];
 	
@@ -96,17 +126,12 @@ NSString *const WLComposeFontName = @"Helvetica";
 																		 forANSIColorKey:[s ansiColorKey]];
 	
 	[[_telnetView frontMostConnection] sendText:ansiCode];
-    [self clearAll];
-    [_composeWindow endEditingFor:nil];
-    [NSApp endSheet:_composeWindow];
-    [_composeWindow orderOut:self];
+    
+	[self closeComposePanel];
 }
 
 - (IBAction)cancelCompose:(id)sender {
-	[self clearAll];
-    [_composeWindow endEditingFor:nil];
-    [NSApp endSheet:_composeWindow];
-    [_composeWindow orderOut:self];
+	[self closeComposePanel];
 }
 
 - (IBAction)setUnderline:(id)sender {

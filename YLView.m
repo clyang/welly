@@ -440,6 +440,10 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Actions
+- (BOOL)needsWarnCompose {
+	return ([[self frontMostTerminal] bbsState].state != BBSComposePost);
+}
+
 - (void)copy:(id)sender {
     if (![self isConnected]) return;
     if (_selectionLength == 0) return;

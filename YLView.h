@@ -64,6 +64,8 @@
 
 - (void)configure;
 
+- (BOOL)needsWarnCompose;
+
 - (void)copy:(id)sender;
 - (void)pasteWrap:(id)sender;
 - (void)paste:(id)sender;

@@ -27,7 +27,7 @@
 		16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* WLTabBarControl.m */; };
 		1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* WLProxy.m */; };
 		185680E60F25E23B00A1F4F3 /* password.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* password.tif */; };
-		186E810F0F218C10007D73BC /* WLComposeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* WLComposeDelegate.m */; };
+		186E810F0F218C10007D73BC /* WLComposePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* WLComposePanelController.m */; };
 		18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* WLGrowlBridge.m */; };
 		18BB9B840D98ECC900387145 /* QQWry.dat in Resources */ = {isa = PBXBuildFile; fileRef = 18BB9B830D98ECC900387145 /* QQWry.dat */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
@@ -44,6 +44,7 @@
 		5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */; };
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
 		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
+		5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F234108C283500F65DEA /* ComposePanel.xib */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitesPanel.xib */; };
 		5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A765A00108579E10052C2BA /* EmoticonsPanel.xib */; };
@@ -169,8 +170,8 @@
 		1841E73C0F7BD280002DCBA8 /* WLProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProxy.h; sourceTree = "<group>"; };
 		1841E73D0F7BD280002DCBA8 /* WLProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLProxy.m; sourceTree = "<group>"; };
 		185680E50F25E23B00A1F4F3 /* password.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = password.tif; sourceTree = "<group>"; };
-		186E810D0F218C10007D73BC /* WLComposeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLComposeDelegate.h; sourceTree = "<group>"; };
-		186E810E0F218C10007D73BC /* WLComposeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLComposeDelegate.m; sourceTree = "<group>"; };
+		186E810D0F218C10007D73BC /* WLComposePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLComposePanelController.h; sourceTree = "<group>"; };
+		186E810E0F218C10007D73BC /* WLComposePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLComposePanelController.m; sourceTree = "<group>"; };
 		18A685A60D9414D900CA423A /* WLGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGrowlBridge.h; sourceTree = "<group>"; };
 		18A685A70D9414D900CA423A /* WLGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGrowlBridge.m; sourceTree = "<group>"; };
 		18BB9B830D98ECC900387145 /* QQWry.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QQWry.dat; sourceTree = "<group>"; };
@@ -200,6 +201,9 @@
 		5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloadDelegate.h; sourceTree = "<group>"; };
 		5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloadDelegate.m; sourceTree = "<group>"; };
 		5A573969107B4402005F80AC /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		5A59F230108C281F00F65DEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ComposePanel.xib; sourceTree = "<group>"; };
+		5A59F236108C283D00F65DEA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/ComposePanel.xib; sourceTree = "<group>"; };
+		5A59F237108C284000F65DEA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/ComposePanel.xib; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitesPanel.xib; sourceTree = "<group>"; };
@@ -444,8 +448,8 @@
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
 				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
 				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
-				186E810D0F218C10007D73BC /* WLComposeDelegate.h */,
-				186E810E0F218C10007D73BC /* WLComposeDelegate.m */,
+				186E810D0F218C10007D73BC /* WLComposePanelController.h */,
+				186E810E0F218C10007D73BC /* WLComposePanelController.m */,
 				85ABEB7F0C966FEF008227D6 /* YLController.h */,
 				5A09016C0DBCDD1600AC08F4 /* YLController.m */,
 				5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */,
@@ -476,6 +480,7 @@
 				161DF4A3106DD53C0003E85A /* MainMenu.xib */,
 				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 				5A765A00108579E10052C2BA /* EmoticonsPanel.xib */,
+				5A59F234108C283500F65DEA /* ComposePanel.xib */,
 			);
 			name = "Nib Files";
 			sourceTree = "<group>";
@@ -715,6 +720,7 @@
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
+				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,7 +782,7 @@
 				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
 				81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */,
 				5A3ACCDF0EED5BE200FC4543 /* WLMenuItem.m in Sources */,
-				186E810F0F218C10007D73BC /* WLComposeDelegate.m in Sources */,
+				186E810F0F218C10007D73BC /* WLComposePanelController.m in Sources */,
 				5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */,
 				5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */,
 				5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */,
@@ -827,6 +833,16 @@
 				161DF4B1106DD5AC0003E85A /* zh_TW */,
 			);
 			name = Preferences.xib;
+			sourceTree = "<group>";
+		};
+		5A59F234108C283500F65DEA /* ComposePanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A59F230108C281F00F65DEA /* English */,
+				5A59F236108C283D00F65DEA /* zh_CN */,
+				5A59F237108C284000F65DEA /* zh_TW */,
+			);
+			name = ComposePanel.xib;
 			sourceTree = "<group>";
 		};
 		5A76586E1082D3470052C2BA /* SitesPanel.xib */ = {

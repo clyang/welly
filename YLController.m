@@ -15,8 +15,11 @@
 #import "YLEmoticon.h"
 #import "WLPostDownloadDelegate.h"
 #import "WLAnsiColorOperationManager.h"
+
+// Panel Controllers
 #import "WLSitesPanelController.h"
 #import "WLEmoticonsPanelController.h"
+#import "WLComposePanelController.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -478,11 +481,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     
     WLSite *site = [[_telnetView frontMostConnection] site];
     [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow 
-												AndAddSite:site];
+														 AndAddSite:site];
 }
 
 - (IBAction)openEmoticonsPanel:(id)sender {
     [[WLEmoticonsPanelController sharedInstance] openEmoticonsPanel];
+}
+
+// Open compose panel
+- (IBAction)openComposePanel:(id)sender {
+	[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
+												   forTelnetView:_telnetView];
 }
 
 - (BOOL)shouldReconnect {
