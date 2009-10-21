@@ -94,6 +94,7 @@
 - (IBAction)addCurrentSite:(id)sender;
 - (IBAction)openEmoticonsPanel:(id)sender;
 - (IBAction)openComposePanel:(id)sender;
+- (IBAction)downloadPost:(id)sender;
 
 // Message
 - (IBAction)closeMessageWindow:(id)sender;

@@ -8,24 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class WLConnection;
-@class YLView;
+@class WLTerminal;
 
 @interface WLPostDownloadDelegate : NSObject {
-	/* post download window */
-    IBOutlet NSWindow *_mainWindow;
-	
 	IBOutlet NSPanel *_postWindow;
 	IBOutlet NSTextView *_postText;
-	
-	IBOutlet YLView *_telnetView;
 }
 
 + (WLPostDownloadDelegate *)sharedInstance;
-+ (NSString *)downloadPostFromConnection:(WLConnection *)connection;
++ (NSString *)downloadPostFromTerminal:(WLTerminal *)terminal;
 
 /* post download actions */
-- (IBAction)openPostDownload:(id)sender;
+- (void)beginPostDownloadInWindow:(NSWindow *)window 
+					  forTerminal:(WLTerminal *)terminal;
 - (IBAction)cancelPostDownload:(id)sender;
 
 @end

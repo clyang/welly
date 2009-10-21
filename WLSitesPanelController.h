@@ -56,7 +56,7 @@
 - (IBAction)proxyTypeDidChange:(id)sender;
 - (void)openSitesPanelInWindow:(NSWindow *)mainWindow;
 - (void)openSitesPanelInWindow:(NSWindow *)mainWindow 
-				   AndAddSite:(WLSite *)site;
+				   andAddSite:(WLSite *)site;
 
 /* password window actions */
 - (IBAction)openPasswordDialog:(id)sender;

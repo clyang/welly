@@ -10,30 +10,20 @@
 #import "WLGlobalConfig.h"
 #import "WLConnection.h"
 #import "WLTerminal.h"
-#import "YLView.h"
+#import "SynthesizeSingleton.h"
 
+#define kPostDownloadPanelNibFilename @"PostDownloadPanel"
 
 @implementation WLPostDownloadDelegate
 
 #pragma mark -
 #pragma mark init and dealloc
-static WLPostDownloadDelegate *sInstance;
-+ (WLPostDownloadDelegate *)sharedInstance {
-    assert(sInstance);
-    return sInstance;
-}
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
 
-- (id)init {
-    if (self = [super init]) {
-		assert(sInstance == nil);
-		sInstance = self;
-    }
-    return self;
-}
-
-- (void)dealloc {
-	sInstance = nil;
-    [super dealloc];
+- (void)loadNibFile {
+	if (!_postWindow) {
+		[NSBundle loadNibNamed:kPostDownloadPanelNibFilename owner:self];
+	}
 }
 
 - (void)awakeFromNib {
@@ -42,10 +32,10 @@ static WLPostDownloadDelegate *sInstance;
 
 #pragma mark -
 #pragma mark Class Method
-+ (NSString *)downloadPostFromConnection:(WLConnection *)connection {
++ (NSString *)downloadPostFromTerminal:(WLTerminal *)terminal {
     const int sleepTime = 100000, maxAttempt = 300000;
 
-    WLTerminal *terminal = [connection terminal];
+	WLConnection *connection = [terminal connection];
 
     const int linesPerPage = [[WLGlobalConfig sharedInstance] row] - 1;
     NSString *lastPage[linesPerPage], *newPage[linesPerPage];
@@ -137,18 +127,29 @@ static WLPostDownloadDelegate *sInstance;
 
 #pragma mark -
 #pragma mark Post Download
-- (void)preparePostDownload:(id)param {
+- (void)preparePostDownload:(WLTerminal *)terminal {
     // clear s
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; 
-    NSString *s = [WLPostDownloadDelegate downloadPostFromConnection:[_telnetView frontMostConnection]];
-    [_postText performSelectorOnMainThread:@selector(setString:) withObject:s waitUntilDone:TRUE];
+    NSString *s = [WLPostDownloadDelegate downloadPostFromTerminal:terminal];
+    [_postText performSelectorOnMainThread:@selector(setString:) 
+								withObject:s 
+							 waitUntilDone:TRUE];
     [pool release];
 }
 
-- (IBAction)openPostDownload:(id)sender {
+- (void)beginPostDownloadInWindow:(NSWindow *)window 
+					  forTerminal:(WLTerminal *)terminal {
+	[self loadNibFile];
+	
     [_postText setString:@""];
-    [NSThread detachNewThreadSelector:@selector(preparePostDownload:) toTarget:self withObject:self];
-    [NSApp beginSheet:_postWindow modalForWindow:_mainWindow modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    [NSThread detachNewThreadSelector:@selector(preparePostDownload:) 
+							 toTarget:self
+						   withObject:terminal];
+    [NSApp beginSheet:_postWindow 
+	   modalForWindow:window 
+		modalDelegate:nil 
+	   didEndSelector:nil
+		  contextInfo:nil];
 }
 
 - (IBAction)cancelPostDownload:(id)sender {

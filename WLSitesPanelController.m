@@ -56,15 +56,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 }
 
 - (void)loadNibFile {
-	if (_sitesPanel) {
-		// Loaded before, just return silently
-		return;
+	if (!_sitesPanel) {
+		[NSBundle loadNibNamed:kSitePanelNibFilename owner:self];
 	}
-	
-	if ([NSBundle loadNibNamed:kSitePanelNibFilename owner:self]) {
-		// register drag & drop in site view
-		[_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
-	}
+}
+
+- (void)awakeFromNib {
+	// register drag & drop in site view
+	[_tableView registerForDraggedTypes:[NSArray arrayWithObject:SiteTableViewDataType]];
 }
 
 - (void)dealloc {
@@ -128,7 +127,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 }
 
 - (void)openSitesPanelInWindow:(NSWindow *)mainWindow 
-				    AndAddSite:(WLSite *)site {
+				    andAddSite:(WLSite *)site {
 	site = [[site copy] autorelease];
 	[_sitesController addObject:site];
     [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];

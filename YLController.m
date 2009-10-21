@@ -20,6 +20,7 @@
 #import "WLSitesPanelController.h"
 #import "WLEmoticonsPanelController.h"
 #import "WLComposePanelController.h"
+#import "WLPostDownloadDelegate.h"
 
 // for remote control
 #import "AppleRemote.h"
@@ -481,7 +482,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     
     WLSite *site = [[_telnetView frontMostConnection] site];
     [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow 
-														 AndAddSite:site];
+														 andAddSite:site];
 }
 
 - (IBAction)openEmoticonsPanel:(id)sender {
@@ -491,7 +492,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 // Open compose panel
 - (IBAction)openComposePanel:(id)sender {
 	[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
-												   forTelnetView:_telnetView];
+														  forTelnetView:_telnetView];
+}
+
+// Download Post
+- (IBAction)downloadPost:(id)sender {
+	[[WLPostDownloadDelegate sharedInstance] beginPostDownloadInWindow:_mainWindow 
+														   forTerminal:[_telnetView frontMostTerminal]];
 }
 
 - (BOOL)shouldReconnect {

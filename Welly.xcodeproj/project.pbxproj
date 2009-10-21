@@ -45,6 +45,7 @@
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
 		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
 		5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F234108C283500F65DEA /* ComposePanel.xib */; };
+		5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitesPanel.xib */; };
 		5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A765A00108579E10052C2BA /* EmoticonsPanel.xib */; };
@@ -204,6 +205,9 @@
 		5A59F230108C281F00F65DEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ComposePanel.xib; sourceTree = "<group>"; };
 		5A59F236108C283D00F65DEA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/ComposePanel.xib; sourceTree = "<group>"; };
 		5A59F237108C284000F65DEA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/ComposePanel.xib; sourceTree = "<group>"; };
+		5A59F2DA108EB9D300F65DEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
+		5A59F2DE108EB9E200F65DEA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
+		5A59F2DF108EB9E500F65DEA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitesPanel.xib; sourceTree = "<group>"; };
@@ -481,6 +485,7 @@
 				161DF4AB106DD58E0003E85A /* Preferences.xib */,
 				5A765A00108579E10052C2BA /* EmoticonsPanel.xib */,
 				5A59F234108C283500F65DEA /* ComposePanel.xib */,
+				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 			);
 			name = "Nib Files";
 			sourceTree = "<group>";
@@ -721,6 +726,7 @@
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
+				5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +849,16 @@
 				5A59F237108C284000F65DEA /* zh_TW */,
 			);
 			name = ComposePanel.xib;
+			sourceTree = "<group>";
+		};
+		5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5A59F2DA108EB9D300F65DEA /* English */,
+				5A59F2DE108EB9E200F65DEA /* zh_CN */,
+				5A59F2DF108EB9E500F65DEA /* zh_TW */,
+			);
+			name = PostDownloadPanel.xib;
 			sourceTree = "<group>";
 		};
 		5A76586E1082D3470052C2BA /* SitesPanel.xib */ = {
