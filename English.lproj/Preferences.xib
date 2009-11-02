@@ -3915,11 +3915,11 @@
 						<string key="restoreSettings:">id</string>
 						<string key="selectNextTab:">id</string>
 						<string key="selectPrevTab:">id</string>
-						<string key="setAutoReplyAction:">id</string>
-						<string key="setDetectDoubleByteAction:">id</string>
 						<string key="setEncoding:">id</string>
-						<string key="setMouseAction:">id</string>
-						<string key="showHiddenText:">id</string>
+						<string key="toggleAutoReply:">id</string>
+						<string key="toggleDetectDoubleByte:">id</string>
+						<string key="toggleMouseAction:">id</string>
+						<string key="toggleShowsHiddenText:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_addressBar">id</string>

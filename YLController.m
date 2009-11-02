@@ -125,8 +125,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	// Ask window to receive mouseMoved
 	[_mainWindow setAcceptsMouseMovedEvents:YES];
 	
-	//[self updateSitesMenuWithSites:[WLSiteDelegate sites]];
-	
 	// Register as sites observer
 	[WLSitesPanelController addSitesObserver:self];
 }
@@ -330,7 +328,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
 #pragma mark -
 #pragma mark Actions
-- (IBAction)setDetectDoubleByteAction:(id)sender {
+- (IBAction)toggleDetectDoubleByte:(id)sender {
     BOOL ddb = [sender state];
     if ([sender isKindOfClass: [NSMenuItem class]])
         ddb = !ddb;
@@ -339,7 +337,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     [_detectDoubleByteMenuItem setState:(ddb ? NSOnState : NSOffState)];
 }
 
-- (IBAction)setAutoReplyAction:(id)sender {
+- (IBAction)toggleAutoReply:(id)sender {
 	BOOL ar = [sender state];
 	if ([sender isKindOfClass: [NSMenuItem class]])
 		ar = !ar;
@@ -358,7 +356,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	[[[_telnetView frontMostConnection] site] setShouldAutoReply:ar];
 }
 
-- (IBAction)setMouseAction:(id)sender {
+- (IBAction)toggleMouseAction:(id)sender {
     BOOL state = [sender state];
     if ([sender isKindOfClass:[NSMenuItem class]])
         state = !state;
@@ -595,7 +593,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     [self newConnectionWithSite: s];
 }
 
-- (IBAction)showHiddenText:(id)sender {
+- (IBAction)toggleShowsHiddenText:(id)sender {
     BOOL show = ([sender state] == NSOnState);
     if ([sender isKindOfClass:[NSMenuItem class]]) {
         show = !show;
@@ -628,7 +626,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         return NO;
     } else if (action == @selector(setEncoding:) && [_telnetView numberOfTabViewItems] == 0) {
         return NO;
-    } else if (action == @selector(setMouseAction:) && (![_telnetView isConnected] || [_telnetView isInPortalMode])) {
+    } else if (action == @selector(toggleMouseAction:) && (![_telnetView isConnected] || [_telnetView isInPortalMode])) {
 		return NO;
 	}
     return YES;

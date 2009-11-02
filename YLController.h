@@ -74,9 +74,9 @@
 + (YLController *)sharedInstance;
 
 - (IBAction)setEncoding:(id)sender;
-- (IBAction)setDetectDoubleByteAction:(id)sender;
-- (IBAction)setAutoReplyAction:(id)sender;
-- (IBAction)setMouseAction:(id)sender;
+- (IBAction)toggleDetectDoubleByte:(id)sender;
+- (IBAction)toggleAutoReply:(id)sender;
+- (IBAction)toggleMouseAction:(id)sender;
 
 - (IBAction)newTab:(id)sender;
 - (IBAction)connectLocation:(id)sender;
@@ -86,7 +86,7 @@
 - (void)selectTabNumber:(int)index;
 - (IBAction)closeTab:(id)sender;
 - (IBAction)reconnect:(id)sender;
-- (IBAction)showHiddenText:(id)sender;
+- (IBAction)toggleShowsHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
 - (void)newConnectionWithSite:(WLSite *)site;
 

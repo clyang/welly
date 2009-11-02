@@ -76,7 +76,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 	[self loadNibFile];
 	
 	// Propose a warning if necessary
-	if([telnetView needsWarnCompose]) {
+	if([telnetView shouldWarnCompose]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
                                          defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
                                        alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")

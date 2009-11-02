@@ -440,7 +440,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 #pragma mark -
 #pragma mark Actions
-- (BOOL)needsWarnCompose {
+- (BOOL)shouldWarnCompose {
 	return ([[self frontMostTerminal] bbsState].state != BBSComposePost);
 }
 
@@ -490,13 +490,13 @@ BOOL isSpecialSymbol(unichar ch) {
 					  NSLocalizedString(@"It seems that you are not in edit mode. Pasting may cause unpredictable behaviors. Are you sure you want to paste?", @"Sheet Message"));
 }
 
-- (BOOL)needsWarnPaste {
+- (BOOL)shouldWarnPaste {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:WLSafePasteEnabledKeyName] && [[self frontMostTerminal] bbsState].state != BBSComposePost;
 }
 
 - (void)pasteColor:(id)sender {
     if (![self isConnected]) return;
-	if ([self needsWarnPaste]) {
+	if ([self shouldWarnPaste]) {
 		[self warnPasteWithSelector:@selector(confirmPasteColor:returnCode:contextInfo:)];
 	} else {
 		[self performPasteColor];
@@ -505,7 +505,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)paste:(id)sender {
     if (![self isConnected]) return;
-	if ([self needsWarnPaste]) {
+	if ([self shouldWarnPaste]) {
 		[self warnPasteWithSelector:@selector(confirmPaste:returnCode:contextInfo:)];
 	} else {
 		[self performPaste];
@@ -514,7 +514,7 @@ BOOL isSpecialSymbol(unichar ch) {
 
 - (void)pasteWrap:(id)sender {
     if (![self isConnected]) return;
-	if ([self needsWarnPaste]) {
+	if ([self shouldWarnPaste]) {
 		[self warnPasteWithSelector:@selector(confirmPasteWrap:returnCode:contextInfo:)];
 	} else {
 		[self performPasteWrap];
