@@ -194,12 +194,10 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 		if (column + length < _maxColumn) {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:length];
 			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
-			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:column + length];
 			break;
 		} else {
 			NSRect rect = [_view rectAtRow:row column:column height:1 width:_maxColumn - column];
 			[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
-			[_view drawURLUnderlineAtRow:row fromColumn:column toColumn:_maxColumn];
 			index += _maxColumn - column;
 			length -= _maxColumn - column;
 		}
@@ -291,6 +289,9 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 			if (isReadingURL) {
 				[_currentURLStringBuffer appendFormat:@"%c", c];
 				urlLength++;
+				
+				// K.O.ed: Put this back to draw url underlines
+				grid[index/_maxColumn][index%_maxColumn].attr.f.url = YES;
 			}
 		} else {
 			// Try to match the url header
@@ -311,6 +312,9 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 					startIndex = index;
 					par = 0;
 					urlLength = 1;
+					// K.O.ed: Put this back to draw url underlines
+					grid[index/_maxColumn][index%_maxColumn].attr.f.url = YES;
+					[ds setDirtyForRow:index/_maxColumn];
                     break;
                 }
             }

@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 #import "WLSitesPanelController.h"
+#import "WLTermView.h"
 
 @class WLTerminal;
 @class WLConnection;
@@ -20,15 +21,8 @@
 
 #define disableMouseByKeyingTimerInterval 0.3
 
-@interface YLView : NSTabView <NSTextInput, WLSitesObserver> {	
-	CGFloat _fontWidth;
-	CGFloat _fontHeight;
-	
-	NSImage *_backedImage;
-	
+@interface YLView : WLTermView <NSTextInput, WLSitesObserver> {	
 	NSTimer *_timer;
-	int _x;
-	int _y;
 	
 	id _markedText;
 	NSRange _selectedRange;
@@ -58,11 +52,7 @@
 @property BOOL isInPortalMode;
 @property BOOL isInUrlMode;
 @property BOOL isMouseActive;
-@property CGFloat fontWidth;
-@property CGFloat fontHeight;
 @property (readonly) WLEffectView *effectView;
-
-- (void)configure;
 
 - (BOOL)shouldWarnCompose;
 
@@ -71,32 +61,11 @@
 - (void)paste:(id)sender;
 - (void)pasteColor:(id)sender;
 
-- (void)displayCellAtRow:(int)r column:(int)c;
-- (void)updateBackedImage;
-- (void)drawSelection;
-- (void)drawBlink;
 - (void)refreshHiddenRegion;
 - (void)refreshMouseHotspot;
 
 - (void)clearSelection;
 
-- (WLTerminal *)frontMostTerminal;
-- (WLConnection *)frontMostConnection;
-- (BOOL)isConnected;
-
-- (void)extendBottomFrom:(int)start 
-					  to:(int)end;
-- (void)extendTopFrom:(int)start 
-				   to:(int)end ;
-
-- (void)drawStringForRow:(int)r 
-				 context:(CGContextRef)myCGContext;
-- (void)drawURLUnderlineAtRow:(int)r 
-				   fromColumn:(int)start 
-					 toColumn:(int)end;
-- (void)updateBackgroundForRow:(int)r 
-						  from:(int)start 
-							to:(int)end;
 
 - (NSRect)rectAtRow:(int)r 
 			 column:(int)c 

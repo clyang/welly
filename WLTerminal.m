@@ -70,9 +70,12 @@
     }
 	
 	[self updateBBSState];
+	[_view terminalDidUpdate:self];
+	/*
     [_view performSelector:@selector(tick:)
 				withObject:nil
 				afterDelay:0.01];
+	 */
 }
 
 - (void)setCursorX:(int)cursorX

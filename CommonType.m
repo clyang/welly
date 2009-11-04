@@ -65,3 +65,15 @@ inline BOOL isEmptyCell(cell aCell) {
 inline BOOL shouldBeDirty(cell prevCell, cell newCell) {
 	return (prevCell.byte != newCell.byte) || (prevCell.attr.v != newCell.attr.v);
 }
+
+inline BOOL isSpecialSymbol(unichar ch) {
+	if (ch == 0x25FC)  // ◼ BLACK SQUARE
+		return YES;
+	if (ch >= 0x2581 && ch <= 0x2588) // BLOCK ▁▂▃▄▅▆▇█
+		return YES;
+	if (ch >= 0x2589 && ch <= 0x258F) // BLOCK ▉▊▋▌▍▎▏
+		return YES;
+	if (ch >= 0x25E2 && ch <= 0x25E5) // TRIANGLE ◢◣◤◥
+		return YES;
+	return NO;
+}

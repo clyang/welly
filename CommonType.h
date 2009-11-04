@@ -117,6 +117,7 @@ BOOL isEmptyCell(cell c);
 BOOL isLetter(unsigned char c);
 BOOL isNumber(unsigned char c);
 BOOL shouldBeDirty(cell prevCell, cell newCell);
+BOOL isSpecialSymbol(unichar ch);
 
 #define keyStringRight @"\uF703"
 #define keyStringLeft @"\uF702"

@@ -44,6 +44,7 @@
 		5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */; };
 		5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4A50180E5956EE007E16E6 /* WLEffectView.m */; };
 		5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */; };
+		5A596600109E8D2100D33FAC /* WLTermView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5965FF109E8D2100D33FAC /* WLTermView.m */; };
 		5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F234108C283500F65DEA /* ComposePanel.xib */; };
 		5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
@@ -202,6 +203,8 @@
 		5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPostDownloadDelegate.h; sourceTree = "<group>"; };
 		5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPostDownloadDelegate.m; sourceTree = "<group>"; };
 		5A573969107B4402005F80AC /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		5A5965FE109E8D2100D33FAC /* WLTermView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTermView.h; sourceTree = "<group>"; };
+		5A5965FF109E8D2100D33FAC /* WLTermView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTermView.m; sourceTree = "<group>"; };
 		5A59F230108C281F00F65DEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ComposePanel.xib; sourceTree = "<group>"; };
 		5A59F236108C283D00F65DEA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/ComposePanel.xib; sourceTree = "<group>"; };
 		5A59F237108C284000F65DEA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/ComposePanel.xib; sourceTree = "<group>"; };
@@ -560,6 +563,8 @@
 			isa = PBXGroup;
 			children = (
 				5A2B3CFF0EB95649007773F8 /* Portal */,
+				5A5965FE109E8D2100D33FAC /* WLTermView.h */,
+				5A5965FF109E8D2100D33FAC /* WLTermView.m */,
 				858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */,
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
 				5A4B02870E55941D00260486 /* WLEffectView.h */,
@@ -805,6 +810,7 @@
 				1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */,
 				5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */,
 				5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */,
+				5A596600109E8D2100D33FAC /* WLTermView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
