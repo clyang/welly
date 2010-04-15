@@ -9,11 +9,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface YLContextualMenuManager : NSObject {
-
+	NSArray *_openURLItemArray;
 }
+@property (readonly) NSArray *openURLItemArray;
 
-+ (NSMenu *)menuWithSelectedString:(NSString*)s;
++ (NSMenu *)menuWithSelectedString:(NSString*)selectedString;
 
 @end

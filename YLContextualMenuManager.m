@@ -12,13 +12,38 @@
 #import "WLTerminal.h"
 #import "YLController.h"
 #import "WLEmoticonsPanelController.h"
+#import "SynthesizeSingleton.h"
 #import "Carbon/Carbon.h"
+
+NSString *const WLContextualMenuItemTitleFormatAttributeName = @"Title Format";
+NSString *const WLContextualMenuItemURLFormatAttributeName = @"URL Format";
+NSString *const WLOpenURLMenuItemFilename = @"OpenURLMenuItems";
 
 @interface YLContextualMenuManager ()
 + (NSString *)extractShortURL:(NSString *)s;
 @end
 
 @implementation YLContextualMenuManager
+SYNTHESIZE_SINGLETON_FOR_CLASS(YLContextualMenuManager);
+
+@synthesize openURLItemArray = _openURLItemArray;
+
+- (id)init {
+	if (self = [super init]) {
+		@synchronized(self) {
+			// init may be called multiple times, 
+			// but there is only one shared instance.
+			// So we need to make sure this array have been initialized only once
+			if (!_openURLItemArray) {
+				_openURLItemArray = [[NSArray arrayWithContentsOfFile:
+									  [[NSBundle mainBundle] pathForResource:WLOpenURLMenuItemFilename 
+																	  ofType:@"plist"]] copy];
+			}
+		}
+    }
+    return self;
+}
+
 + (NSString *)extractShortURL:(NSString *)s {
     NSMutableString *result = [NSMutableString string];
     for (int i = 0; i < [s length]; i++) {
@@ -31,15 +56,27 @@
     return result;
 }
 
-+ (NSMenu *)menuWithSelectedString:(NSString*)s {
++ (NSMenuItem *)menuItemWithDictionary:(NSDictionary *)dictionary 
+							   selectedString:(NSString *)s {
+	NSString *title = [NSString stringWithFormat:[dictionary valueForKey:WLContextualMenuItemTitleFormatAttributeName], s, nil];
+	NSString *url = [NSString stringWithFormat:[dictionary valueForKey:WLContextualMenuItemURLFormatAttributeName], s, nil];
+	NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:title 
+												   action:@selector(openURL:) 
+											keyEquivalent:@""];
+	//[item autorelease];
+	[item setRepresentedObject:url];
+	return item;
+}
+
++ (NSMenu *)menuWithSelectedString:(NSString*)selectedString {
     NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 
 	/* comment: why not just using the url recognition? */
     YLView *view = [[YLController sharedInstance] telnetView];
 	
-	NSString *shortURL = [self extractShortURL:s];
+	NSString *shortURL = [self extractShortURL:selectedString];
 	// Remove all '\n' '\r' ' ' from the URL string
-	NSString *longURL = [s stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+	NSString *longURL = [selectedString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 	longURL = [longURL stringByReplacingOccurrencesOfString:@"　" withString:@""];
 	longURL = [longURL stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 	
@@ -64,7 +101,7 @@
 		}
 	}
 /* */
-    if ([s length] > 0) {
+    if ([selectedString length] > 0) {
     
         [menu addItemWithTitle:NSLocalizedString(@"Search in Spotlight", @"Menu")
                         action:@selector(spotlight:)
@@ -89,16 +126,37 @@
 		[menu addItemWithTitle:NSLocalizedString(@"Save as Emoticon", @"Menu") 
 						action:@selector(saveAsEmoticon:) 
 				 keyEquivalent:@""];
+		
+		if ([[[YLContextualMenuManager sharedInstance] openURLItemArray] count] > 0) {
+			// User customized menu items
+			[menu addItem:[NSMenuItem separatorItem]];
+			
+			for (NSObject *obj in [[YLContextualMenuManager sharedInstance] openURLItemArray]) {
+				if ([obj isKindOfClass:[NSDictionary class]]) {
+					NSMenuItem *item = [YLContextualMenuManager menuItemWithDictionary:(NSDictionary *)obj 
+																		selectedString:selectedString];
+					[menu addItem:item];
+					[item release];
+				}
+			}
+		} /* else {
+			NSArray *defaultMenu = [NSArray arrayWithObject:
+									[NSDictionary dictionaryWithObjectsAndKeys:
+									 @"testEntry", WLContextualMenuItemTitleFormatAttributeName,
+									 @"%@", WLContextualMenuItemURLFormatAttributeName, nil]];
+			NSString *path = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:WLOpenURLMenuItemFilename] stringByAppendingPathExtension:@"plist"];
+			[defaultMenu writeToFile:path atomically:YES];
+		} */
     }
 
     for (int i = 0; i < [menu numberOfItems]; ++i) {
         NSMenuItem *item = [menu itemAtIndex:i];
         if ([item isSeparatorItem])
             continue;
-        //if ([item target] == nil)
-        [item setTarget:self];
-        //if ([item representedObject] == nil)
-        [item setRepresentedObject:s];
+        if ([item target] == nil)
+			[item setTarget:self];
+        if ([item representedObject] == nil)
+			[item setRepresentedObject:selectedString];
     }
 
     return menu;
@@ -116,11 +174,15 @@
 #endif
 
 + (IBAction)openURL:(id)sender {
-    NSString *u = [sender title];
+    NSString *u = [sender representedObject];
+	if (!u) {
+		u = [sender title];
+	}
 	if (![u hasPrefix:@"http://"]) {
 		u = [@"http://" stringByAppendingString:[u stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	}
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:u]];
+	NSLog(@"opening url:%@", u);
 }
 
 + (IBAction)spotlight:(id)sender {
