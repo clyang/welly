@@ -14,13 +14,6 @@
 /* Cancel Button */
 "Cancel" = "取消";
 
-/* Menu */
-"Search in Spotlight" = "在 Spotlight 中搜尋";
-"Search in Google" = "在 Google 中搜尋";
-"Look Up in Dictionary" = "查詢字典";
-"Copy" = "拷貝";
-"Save as Emoticon" = "儲存為表情符號";
-
 /* Sheet Message */
 "There are %d tabs open in Welly. Do you want to quit anyway?" = "還有 %d 個標籤頁正在連線中，您確認要結束 Welly？";
 "The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?" = "此連線未結束。若您關閉這個標籤頁會強迫斷線。您確認要關閉這個標籤頁嗎？";
@@ -140,6 +133,11 @@
 "Open With Browser" = "Open With Browser";
 "URL Mode" = "URL模式";
 "Normal Mode" = "常規模式";
+// Selected String
+"Search in Spotlight" = "在 Spotlight 中搜尋";
+"Look Up in Dictionary" = "查詢字典";
+"Copy" = "拷貝";
+"Save as Emoticon" = "儲存為表情符號";
 
 /* Growl Notification Name */
 "File Transfer" = "檔案傳輸";

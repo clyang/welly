@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Title Format</key>
+		<string>在 Google 中搜尋</string>
+		<key>URL Format</key>
+		<string>http://www.google.com/search?q=%@</string>
+	</dict>
+	<dict>
+		<key>Title Format</key>
+		<string>0rz.tw/%@</string>
+		<key>URL Format</key>
+		<string>http://0rz.tw/%@</string>
+	</dict>
+	<dict>
+		<key>Title Format</key>
+		<string>tinyurl.com/</string>
+		<key>URL Format</key>
+		<string>http://tinyurl.com/%@</string>
+	</dict>
+</array>
+</plist>

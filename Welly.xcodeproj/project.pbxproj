@@ -64,6 +64,7 @@
 		5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFF00E18F3260094C370 /* RemoteControlContainer.m */; };
 		5AB748170F6FC69100CE5F4C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB748160F6FC69100CE5F4C /* indicator.png */; };
 		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
+		5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */; };
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */; };
@@ -241,6 +242,9 @@
 		5AB748160F6FC69100CE5F4C /* indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator.png; sourceTree = "<group>"; };
 		5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseBehaviorManager.h; sourceTree = "<group>"; wrapsLines = 1; };
 		5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMouseBehaviorManager.m; sourceTree = "<group>"; };
+		5ACEAC4611787F940028E7BA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
+		5ACEAC4D117880100028E7BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh_CN; path = zh_CN.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
+		5ACEAC4E117880150028E7BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh_TW; path = zh_TW.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLClickEntryHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLClickEntryHotspotHandler.m; sourceTree = "<group>"; };
 		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
@@ -434,6 +438,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				161DF52D106DDDBB0003E85A /* Images */,
 				5A91BAED0E1E1E6A007538E5 /* Help */,
+				5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -732,6 +737,7 @@
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
 				5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */,
+				5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,6 +891,16 @@
 				5A765A03108579EB0052C2BA /* zh_TW */,
 			);
 			name = EmoticonsPanel.xib;
+			sourceTree = "<group>";
+		};
+		5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5ACEAC4611787F940028E7BA /* English */,
+				5ACEAC4D117880100028E7BA /* zh_CN */,
+				5ACEAC4E117880150028E7BA /* zh_TW */,
+			);
+			name = contextualMenuItems.plist;
 			sourceTree = "<group>";
 		};
 		85A0E73B0D06B72900ACA26F /* Localizable.strings */ = {
