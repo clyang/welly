@@ -741,5 +741,9 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 	[xform concat];
 }
 
-
+// Get current BBS image
+- (NSImage *)image {
+	// Leave for others to release it
+	return [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self frame]]];
+}
 @end

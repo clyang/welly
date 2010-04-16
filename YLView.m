@@ -401,7 +401,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         return NO;
     } else if (action == @selector(selectAll:)  && ![self isConnected]) {
         return NO;
-    } 
+    }
     return YES;
 }
 

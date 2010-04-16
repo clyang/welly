@@ -32,4 +32,7 @@
 - (BOOL)isConnected;
 
 - (void)terminalDidUpdate:(WLTerminal *)terminal;
+
+// get current BBS image
+- (NSImage *)image;
 @end
