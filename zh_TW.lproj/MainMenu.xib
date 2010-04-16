@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">732</string>
@@ -299,6 +299,15 @@
 									<string key="NSTitle">拷貝</string>
 									<string key="NSKeyEquiv">c</string>
 									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="737803309"/>
+									<reference key="NSMixedImage" ref="647318699"/>
+								</object>
+								<object class="NSMenuItem" id="832747381">
+									<reference key="NSMenu" ref="935809572"/>
+									<string key="NSTitle">拷貝圖像</string>
+									<string key="NSKeyEquiv">C</string>
+									<int key="NSKeyEquivModMask">1179648</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="737803309"/>
 									<reference key="NSMixedImage" ref="647318699"/>
@@ -2362,27 +2371,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openSitePanel:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="624468311"/>
-					</object>
-					<int key="connectionID">1630</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">addCurrentSite:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="852397814"/>
-					</object>
-					<int key="connectionID">1631</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">addCurrentSite:</string>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="254153258"/>
 					</object>
-					<int key="connectionID">1632</int>
+					<int key="connectionID">1630</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2390,15 +2383,23 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="994231399"/>
 					</object>
-					<int key="connectionID">1633</int>
+					<int key="connectionID">1631</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">openEmoticonsPanel:</string>
+						<string key="label">addCurrentSite:</string>
 						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="660071643"/>
+						<reference key="destination" ref="852397814"/>
 					</object>
-					<int key="connectionID">1636</int>
+					<int key="connectionID">1632</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openSitePanel:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="624468311"/>
+					</object>
+					<int key="connectionID">1633</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2406,7 +2407,31 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="773319297"/>
 					</object>
+					<int key="connectionID">1636</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openEmoticonsPanel:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="660071643"/>
+					</object>
 					<int key="connectionID">1637</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openComposePanel:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="390701569"/>
+					</object>
+					<int key="connectionID">1638</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">openComposePanel:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="629922980"/>
+					</object>
+					<int key="connectionID">1639</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2414,7 +2439,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="105059808"/>
 					</object>
-					<int key="connectionID">1638</int>
+					<int key="connectionID">1640</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2422,7 +2447,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="81109587"/>
 					</object>
-					<int key="connectionID">1639</int>
+					<int key="connectionID">1641</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2430,7 +2455,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="803398894"/>
 					</object>
-					<int key="connectionID">1640</int>
+					<int key="connectionID">1642</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2438,7 +2463,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="483772032"/>
 					</object>
-					<int key="connectionID">1641</int>
+					<int key="connectionID">1643</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2446,7 +2471,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="150762455"/>
 					</object>
-					<int key="connectionID">1642</int>
+					<int key="connectionID">1644</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2454,7 +2479,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="110166424"/>
 					</object>
-					<int key="connectionID">1643</int>
+					<int key="connectionID">1645</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2462,15 +2487,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="518218114"/>
 					</object>
-					<int key="connectionID">1644</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleShowsHiddenText:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="314545465"/>
-					</object>
-					<int key="connectionID">1645</int>
+					<int key="connectionID">1646</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2478,7 +2495,23 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="523556306"/>
 					</object>
-					<int key="connectionID">1646</int>
+					<int key="connectionID">1647</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleShowsHiddenText:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="314545465"/>
+					</object>
+					<int key="connectionID">1648</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">copyImage:</string>
+						<reference key="source" ref="711214343"/>
+						<reference key="destination" ref="832747381"/>
+					</object>
+					<int key="connectionID">1650</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2761,6 +2794,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="346619203"/>
 							<reference ref="433320310"/>
 							<reference ref="714838679"/>
+							<reference ref="832747381"/>
 						</array>
 						<reference key="parent" ref="520804087"/>
 					</object>
@@ -3421,6 +3455,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="97080648"/>
 						<reference key="parent" ref="332582478"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1649</int>
+						<reference key="object" ref="832747381"/>
+						<reference key="parent" ref="935809572"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3495,7 +3534,8 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="1575.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="163.ImportedFromIB2"/>
-				<string key="169.IBEditorWindowLastContentRect">{{293, 407}, {202, 243}}</string>
+				<string key="1649.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="169.IBEditorWindowLastContentRect">{{293, 387}, {202, 263}}</string>
 				<string key="169.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="169.ImportedFromIB2"/>
 				<string key="169.editorWindowContentRectSynchronizationRect">{{409, 533}, {205, 203}}</string>
@@ -3515,11 +3555,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="206.ImportedFromIB2"/>
 				<integer value="1" key="207.ImportedFromIB2"/>
-				<string key="21.IBEditorWindowLastContentRect">{{83, 95}, {960, 598}}</string>
+				<string key="21.IBEditorWindowLastContentRect">{{88, -229}, {960, 598}}</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="21.IBViewEditorWindowController.showingBoundsRectangles"/>
 				<integer value="0" key="21.IBViewEditorWindowController.showingLayoutRectangles"/>
-				<string key="21.IBWindowTemplateEditedContentRect">{{83, 95}, {960, 598}}</string>
+				<string key="21.IBWindowTemplateEditedContentRect">{{88, -229}, {960, 598}}</string>
 				<integer value="1" key="21.ImportedFromIB2"/>
 				<integer value="1" key="21.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="21.editorWindowContentRectSynchronizationRect">{{197, 144}, {960, 598}}</string>
@@ -3531,7 +3571,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<integer value="1" key="227.ImportedFromIB2"/>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="23.ImportedFromIB2"/>
-				<string key="231.IBEditorWindowLastContentRect">{{255, 693}, {616, 0}}</string>
+				<string key="231.IBEditorWindowLastContentRect">{{259, 369}, {616, 0}}</string>
 				<string key="231.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="231.editorWindowContentRectSynchronizationRect">{{199, 705}, {616, 0}}</string>
 				<string key="24.IBEditorWindowLastContentRect">{{431, 497}, {178, 153}}</string>
@@ -3552,7 +3592,7 @@ Z1s6cG9ydF0</string>
 				<string key="257.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="265.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="266.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="267.IBEditorWindowLastContentRect">{{413, 577}, {160, 73}}</string>
+				<string key="267.IBEditorWindowLastContentRect">{{385, 577}, {160, 73}}</string>
 				<string key="267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="267.editorWindowContentRectSynchronizationRect">{{501, 663}, {163, 73}}</string>
 				<object class="NSMutableDictionary" key="268.IBAttributePlaceholdersKey">
@@ -3574,7 +3614,7 @@ Z1s6cG9ydF0</string>
 				</object>
 				<string key="269.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="270.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="29.IBEditorWindowLastContentRect">{{178, 650}, {413, 20}}</string>
+				<string key="29.IBEditorWindowLastContentRect">{{178, 650}, {357, 20}}</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="29.ImportedFromIB2"/>
 				<string key="29.editorWindowContentRectSynchronizationRect">{{376, 744}, {357, 20}}</string>
@@ -3675,13 +3715,17 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1646</int>
+			<int key="maxID">1650</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">copyImage:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -3822,6 +3866,14 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLTermView</string>
+					<string key="superclassName">NSTabView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLTermView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">YLController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -3902,7 +3954,7 @@ Z1s6cG9ydF0</string>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">YLView</string>
-					<string key="superclassName">NSTabView</string>
+					<string key="superclassName">WLTermView</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="copy:">id</string>
 						<string key="paste:">id</string>

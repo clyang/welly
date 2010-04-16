@@ -163,8 +163,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)performPaste {
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
 	NSArray *types = [pb types];
-	if ([types containsObject: NSStringPboardType]) {
-		NSString *str = [pb stringForType: NSStringPboardType];
+	if ([types containsObject:NSStringPboardType]) {
+		NSString *str = [pb stringForType:NSStringPboardType];
 		//[self insertText:str withDelay:100];
 		[self insertText:str withDelay:0];
 	}
@@ -338,6 +338,26 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 																	length:length] 
 			forType:ANSIColorPBoardType];
 	}
+}
+
+- (void)copyImage:(id)sender {
+    if (![self isConnected]) return;
+	
+    NSPasteboard *pb = [NSPasteboard generalPasteboard];
+	NSArray *typesArray = [NSArray arrayWithObject:NSPasteboardTypePDF];
+	[pb declareTypes:typesArray owner:self];
+	NSRect imageRect = [self frame];
+	// If has selected a rectangle area, copy the image inside the rect
+	if (_hasRectangleSelected) {
+		NSRect selectedRect = [self selectedRect];
+		imageRect = [self rectAtRow:selectedRect.origin.y 
+							 column:selectedRect.origin.x 
+							 height:selectedRect.size.height 
+							  width:selectedRect.size.width];
+		// Clear the selection, to avoid copying the selected mark
+		[self clearSelection];
+	}
+	[self writePDFInsideRect:imageRect toPasteboard:pb];
 }
 
 - (void)warnPasteWithSelector:(SEL)didEndSelector {
@@ -677,6 +697,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     if (_selectionLength != 0) {
         _selectionLength = 0;
 		_isNotCancelingSelection = NO;
+		_hasRectangleSelected = NO;
         [self setNeedsDisplay:YES];
     }
 }
