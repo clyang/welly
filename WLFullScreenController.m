@@ -90,7 +90,7 @@
 - (void)releaseFullScreen {
 	if(_isInFullScreen) {
 		// Change the state
-		_isInFullScreen = false;
+		_isInFullScreen = NO;
 		// Set the super view back
 		[_superView addSubview:_targetView];
 		// Pre-process if necessary
@@ -116,6 +116,8 @@
 		// Show the main window
 		[_originalWindow setAlphaValue:100.0f];
 	} else { // Set the window when the animation is over
+		// Set the target view as first responder
+		[_originalWindow makeFirstResponder:_targetView];
 		// Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 		// Pre-process if necessary

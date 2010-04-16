@@ -2,15 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
 		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">732</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
+			<integer value="575"/>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -1382,7 +1384,7 @@
 				<string key="NSClassName">WLGlobalConfig</string>
 			</object>
 			<object class="NSCustomView" id="64768367">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="1036042491">
@@ -1440,9 +1442,9 @@
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="136809319">
+							<object class="NSMenuItem" key="NSMenuItem" id="1036157908">
 								<reference key="NSMenu" ref="926950791"/>
-								<string key="NSTitle">簡體中文 (GBK)</string>
+								<string key="NSTitle">正體中文 (Big5)</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
@@ -1456,10 +1458,9 @@
 							<object class="NSMenu" key="NSMenu" id="926950791">
 								<string key="NSTitle">OtherViews</string>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<reference ref="136809319"/>
-									<object class="NSMenuItem" id="1036157908">
+									<object class="NSMenuItem" id="136809319">
 										<reference key="NSMenu" ref="926950791"/>
-										<string key="NSTitle">繁體中文 (Big5)</string>
+										<string key="NSTitle">簡體中文 (GBK)</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
@@ -1468,8 +1469,10 @@
 										<string key="NSAction">_popUpItemAction:</string>
 										<reference key="NSTarget" ref="372813473"/>
 									</object>
+									<reference ref="1036157908"/>
 								</array>
 							</object>
+							<int key="NSSelectedIndex">1</int>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -1493,9 +1496,9 @@
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="451982358">
+							<object class="NSMenuItem" key="NSMenuItem" id="615641182">
 								<reference key="NSMenu" ref="848841974"/>
-								<string key="NSTitle">Esc + Esc</string>
+								<string key="NSTitle">Ctrl-U</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
@@ -1509,10 +1512,9 @@
 							<object class="NSMenu" key="NSMenu" id="848841974">
 								<string key="NSTitle">OtherViews</string>
 								<array class="NSMutableArray" key="NSMenuItems">
-									<reference ref="451982358"/>
-									<object class="NSMenuItem" id="615641182">
+									<object class="NSMenuItem" id="451982358">
 										<reference key="NSMenu" ref="848841974"/>
-										<string key="NSTitle">Ctrl-U</string>
+										<string key="NSTitle">Esc + Esc</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
@@ -1521,8 +1523,10 @@
 										<string key="NSAction">_popUpItemAction:</string>
 										<reference key="NSTarget" ref="727553748"/>
 									</object>
+									<reference ref="615641182"/>
 								</array>
 							</object>
+							<int key="NSSelectedIndex">1</int>
 							<int key="NSPreferredEdge">1</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -1585,6 +1589,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{395, 242}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 		</array>
@@ -3381,11 +3386,11 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="1036042491"/>
 							<reference ref="64012545"/>
-							<reference ref="876620207"/>
 							<reference ref="83647357"/>
 							<reference ref="701058370"/>
 							<reference ref="597401885"/>
 							<reference ref="786377427"/>
+							<reference ref="876620207"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Connection</string>
@@ -3765,6 +3770,7 @@
 				<boolean value="YES" key="52.ImportedFromIB2"/>
 				<string key="523.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="523.ImportedFromIB2"/>
+				<string key="575.IBEditorWindowLastContentRect">{{66, 492}, {395, 242}}</string>
 				<string key="575.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="575.ImportedFromIB2"/>
 				<string key="576.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3773,6 +3779,7 @@
 				<boolean value="YES" key="577.ImportedFromIB2"/>
 				<string key="578.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="578.ImportedFromIB2"/>
+				<string key="580.IBEditorWindowLastContentRect">{{263, 641}, {166, 43}}</string>
 				<string key="580.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="580.ImportedFromIB2"/>
 				<string key="581.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3783,6 +3790,7 @@
 				<boolean value="YES" key="592.ImportedFromIB2"/>
 				<string key="593.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="593.ImportedFromIB2"/>
+				<string key="596.IBEditorWindowLastContentRect">{{263, 601}, {130, 43}}</string>
 				<string key="596.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="596.ImportedFromIB2"/>
 				<string key="597.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3908,6 +3916,14 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">WLGlobalConfig</string>
 					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLGlobalConfig.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLGlobalConfig</string>
+					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="setChineseFont:">id</string>
 						<string key="setEnglishFont:">id</string>
@@ -3940,33 +3956,32 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLTermView</string>
+					<string key="superclassName">NSTabView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLTermView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">YLController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addSites:">id</string>
-						<string key="cancelPassword:">id</string>
-						<string key="cancelPostDownload:">id</string>
-						<string key="closeEmoticons:">id</string>
+						<string key="addCurrentSite:">id</string>
 						<string key="closeMessageWindow:">id</string>
-						<string key="closeSites:">id</string>
 						<string key="closeTab:">id</string>
-						<string key="confirmPassword:">id</string>
 						<string key="connectLocation:">id</string>
 						<string key="decreaseFontSize:">id</string>
-						<string key="editSites:">id</string>
+						<string key="downloadPost:">id</string>
 						<string key="fullScreenMode:">id</string>
 						<string key="increaseFontSize:">id</string>
-						<string key="inputEmoticons:">id</string>
 						<string key="newTab:">id</string>
-						<string key="openCompose:">id</string>
+						<string key="openComposePanel:">id</string>
 						<string key="openEmoticonsPanel:">id</string>
 						<string key="openLocation:">id</string>
-						<string key="openPassword:">id</string>
-						<string key="openPostDownload:">id</string>
 						<string key="openPreferencesWindow:">id</string>
 						<string key="openRSS:">id</string>
-						<string key="openSites:">id</string>
-						<string key="proxyTypeDidChange:">id</string>
+						<string key="openSitePanel:">id</string>
 						<string key="reconnect:">id</string>
 						<string key="restoreSettings:">id</string>
 						<string key="selectNextTab:">id</string>
@@ -3981,34 +3996,20 @@
 						<string key="_addressBar">id</string>
 						<string key="_autoReplyButton">id</string>
 						<string key="_autoReplyMenuItem">NSMenuItem</string>
-						<string key="_autoReplyStringField">NSTextField</string>
 						<string key="_closeTabMenuItem">NSMenuItem</string>
 						<string key="_closeWindowMenuItem">NSMenuItem</string>
 						<string key="_composeText">NSTextView</string>
 						<string key="_composeWindow">NSPanel</string>
 						<string key="_detectDoubleByteButton">id</string>
 						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
-						<string key="_emoticonsController">NSArrayController</string>
-						<string key="_emoticonsWindow">NSPanel</string>
 						<string key="_encodingMenuItem">NSMenuItem</string>
 						<string key="_fullScreenMenuItem">NSMenuItem</string>
 						<string key="_mainWindow">NSWindow</string>
 						<string key="_messageWindow">NSPanel</string>
 						<string key="_mouseButton">id</string>
-						<string key="_passwordField">NSSecureTextField</string>
-						<string key="_passwordWindow">NSPanel</string>
-						<string key="_postText">NSTextView</string>
-						<string key="_postWindow">NSPanel</string>
-						<string key="_proxyAddressField">NSTextField</string>
-						<string key="_proxyTypeButton">NSPopUpButton</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
-						<string key="_siteAddressField">NSTextField</string>
-						<string key="_siteNameField">NSTextField</string>
-						<string key="_sitesController">NSArrayController</string>
 						<string key="_sitesMenu">NSMenuItem</string>
-						<string key="_sitesWindow">NSPanel</string>
 						<string key="_tab">WLTabBarControl</string>
-						<string key="_tableView">NSTableView</string>
 						<string key="_telnetView">YLView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>
@@ -4052,7 +4053,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">YLView</string>
-					<string key="superclassName">NSTabView</string>
+					<string key="superclassName">WLTermView</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="copy:">id</string>
 						<string key="paste:">id</string>
@@ -4070,7 +4071,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">YLView</string>
-					<string key="superclassName">NSTabView</string>
+					<string key="superclassName">WLTermView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -4134,14 +4135,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="189191375">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">HMBlkAppKit.framework/Headers/HMAppKitEx.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSArrayController</string>
-					<string key="superclassName">NSObjectController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSArrayController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4328,7 +4321,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="754734826">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTableView.h</string>
 					</object>
@@ -4611,14 +4604,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObjectController</string>
-					<string key="superclassName">NSController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSObjectController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSPanel</string>
 					<string key="superclassName">NSWindow</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4658,14 +4643,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSSecureTextField</string>
-					<string key="superclassName">NSTextField</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSSecureTextField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSStepper</string>
 					<string key="superclassName">NSControl</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4688,15 +4665,6 @@
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTabView.h</string>
 					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableView</string>
-					<string key="superclassName">NSControl</string>
-					<reference key="sourceIdentifier" ref="754734826"/>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableView</string>
-					<reference key="sourceIdentifier" ref="189191375"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSText</string>
