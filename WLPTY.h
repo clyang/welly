@@ -11,7 +11,8 @@
 
 @interface WLPTY : NSObject <WLProtocol> {
     pid_t _pid;
-    int _fd;
+    NSFileHandle *_fd;
+    NSUInteger _length;
     id _delegate;
     BOOL _connecting;
     WLProxyType _proxyType;
