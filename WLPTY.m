@@ -79,7 +79,7 @@
 - (id)init {
     if (self == [super init]) {
         _pid = 0;
-        _fd = nil;
+        _fd = -1;
     }
     return self;
 }
@@ -94,10 +94,9 @@
         kill(_pid, SIGKILL);
         _pid = 0;
     }
-    if (_fd) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [_fd release];
-        _fd = nil;
+    if (_fd >= 0) {
+        close(_fd);
+        _fd = -1;
         [_delegate protocolDidClose:self];
     }
 }
@@ -138,8 +137,7 @@
     size.ws_xpixel = 0;
     size.ws_ypixel = 0;
 
-    int fd;
-    _pid = forkpty(&fd, slaveName, &term, &size);
+    _pid = forkpty(&_fd, slaveName, &term, &size);
     if (_pid == 0) { /* child */
         NSArray *a = [[WLPTY parse:addr] componentsSeparatedByString:@" "];
         if ([(NSString *)[a objectAtIndex:0] hasSuffix:@"ssh"]) {
@@ -158,46 +156,120 @@
         sleep(-1); // don't bother
     } else { /* parent */
         int one = 1;
-        ioctl(fd, TIOCPKT, &one);
-        _fd = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self selector:@selector(readCallback:) name:NSFileHandleReadCompletionNotification object:_fd];
-        _connecting = YES;
-        _length = 0;
-        [_fd readInBackgroundAndNotify];
+        ioctl(_fd, TIOCPKT, &one);
+        [self retain]; // for the thread
+        [NSThread detachNewThreadSelector:@selector(readLoop:) toTarget:[self class] withObject:self];
     }
 
+    _connecting = YES;
     [_delegate protocolWillConnect:self];
     return YES;
 }
 
 - (void)recv:(NSData *)data {
     if (_connecting) {
-        _length += [data length];
-        if (_length > 10) {
-            _connecting = NO;
-            [_delegate protocolDidConnect:self];
-        }
+        _connecting = NO;
+        [_delegate protocolDidConnect:self];
     }
     [_delegate protocolDidRecv:self data:data];
+    [data autorelease]; // allocated in the read loop
 }
 
 - (void)send:(NSData *)data {
-    if (_fd == nil || _connecting) // disable input when connecting
+    fd_set writefds, errorfds;
+    struct timeval timeout;
+    int chunkSize;
+    
+    if (_fd < 0 || _connecting) // disable input when connecting
         return;
+    
     [_delegate protocolWillSend:self data:data];
-    [_fd writeData:data];
+
+    const char *msg = [data bytes];
+    int length = [data length];
+    while (length > 0) {
+        FD_ZERO(&writefds);
+        FD_ZERO(&errorfds);
+        FD_SET(_fd, &writefds);
+        FD_SET(_fd, &errorfds);
+        
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 100000;
+        
+        int result = select(_fd + 1, NULL, &writefds, &errorfds, &timeout);
+        
+        if (result == 0) {
+            NSLog(@"timeout!");
+            break;
+        } else if (result < 0) { // error
+            [self close];    
+            break;
+        }
+        
+        if (length > 4096) chunkSize = 4096;
+        else chunkSize = length;
+        
+        int size = write(_fd, msg, chunkSize);
+        if (size < 0)
+            break;
+        
+        msg += size;
+        length -= size;
+    }
 }
 
-- (void)readCallback:(NSNotification *)notification {
-    NSData *data = [[notification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+// NOTE: retain pty before starting the thread
++ (void)readLoop:(WLPTY *)pty {
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    fd_set readfds, errorfds;
+    BOOL exit = NO;
+    unsigned char buf[4096];
+    int iterationCount = 0;
+    int result;
+    
+    while (!exit) {
+        iterationCount++;
 
-    if ([data length] == 0) {
-        [self close];
-        return;
+        FD_ZERO(&readfds);
+        FD_ZERO(&errorfds);
+        
+        FD_SET(pty->_fd, &readfds);
+        FD_SET(pty->_fd, &errorfds);
+
+        result = select(pty->_fd + 1, &readfds, NULL, &errorfds, NULL);
+
+        if (result < 0) {       // error
+            break;
+        } else if (FD_ISSET(pty->_fd, &errorfds)) {
+            result = read(pty->_fd, buf, 1);
+            if (result == 0) {  // session close
+                exit = YES;
+            }
+        } else if (FD_ISSET(pty->_fd, &readfds)) {
+            result = read(pty->_fd, buf, sizeof(buf));
+            if (result > 1) {
+                [pty performSelectorOnMainThread:@selector(recv:) 
+                                       withObject:[[NSData alloc] initWithBytes:buf+1 length:result-1]
+                                    waitUntilDone:NO];
+            }
+            if (result == 0) {
+                exit = YES;
+            }
+        }
+        
+        if (iterationCount % 5000 == 0) {
+            [pool release];
+            pool = [NSAutoreleasePool new];
+            iterationCount = 1;
+        }
     }
- 
-    [self recv:data];
-    [[notification object] readInBackgroundAndNotify];
+
+    if (result >= 0) {
+        [pty performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:NO];
+    }
+    
+    [pool release];
+    [pty release];
+    [NSThread exit];
 }
 @end

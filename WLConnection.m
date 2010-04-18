@@ -98,8 +98,8 @@
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
-    //[NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
-    [self login];
+    [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
+    //[self login];
 }
 
 - (void)protocolDidRecv:(id)protocol 
