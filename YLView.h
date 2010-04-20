@@ -15,7 +15,7 @@
 @class WLConnection;
 @class YLMarkedTextView;
 @class WLEffectView;
-@class WLPortal;
+@class WLCoverFlowPortal;
 @class WLMouseBehaviorManager;
 @class WLURLManager;
 
@@ -36,7 +36,7 @@
 	BOOL _wantsRectangleSelection;
 	BOOL _hasRectangleSelected;
     
-    WLPortal *_portal;
+    WLCoverFlowPortal *_portal;
 	
 	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
@@ -84,7 +84,6 @@
 - (void)switchURL;
 - (void)exitURL;
 /* Portal */
-- (NSView *)portalView;
 - (void)updatePortal;
 - (void)removePortal;
 - (void)resetPortal;

@@ -18,9 +18,9 @@
 		1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */; };
 		1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1634C00C106E0F4C008612CD /* WLEncoder.m */; };
-		1680A7ED0E2F0F8300A2E175 /* WLPortalImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* WLPortalImage.m */; };
+		1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* WLBookmarkPortalItem.m */; };
 		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
-		16B46312105448680085AA37 /* WLPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B46311105448680085AA37 /* WLPortal.m */; };
+		16B46312105448680085AA37 /* WLCoverFlowPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B46311105448680085AA37 /* WLCoverFlowPortal.m */; };
 		16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */; };
 		16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* WLPTY.m */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
@@ -65,6 +65,7 @@
 		5AB748170F6FC69100CE5F4C /* indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 5AB748160F6FC69100CE5F4C /* indicator.png */; };
 		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
 		5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */; };
+		5ACEACF11178D2CE0028E7BA /* WLPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */; };
@@ -157,11 +158,11 @@
 		1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPreviewController.m; sourceTree = "<group>"; };
 		1634C00B106E0F4C008612CD /* WLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEncoder.h; sourceTree = "<group>"; };
 		1634C00C106E0F4C008612CD /* WLEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEncoder.m; sourceTree = "<group>"; };
-		1680A7EB0E2F0F8300A2E175 /* WLPortalImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortalImage.h; sourceTree = "<group>"; };
-		1680A7EC0E2F0F8300A2E175 /* WLPortalImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortalImage.m; sourceTree = "<group>"; };
+		1680A7EB0E2F0F8300A2E175 /* WLBookmarkPortalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLBookmarkPortalItem.h; sourceTree = "<group>"; };
+		1680A7EC0E2F0F8300A2E175 /* WLBookmarkPortalItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLBookmarkPortalItem.m; sourceTree = "<group>"; };
 		169A2ED40EDDA871009770ED /* mouse.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = mouse.pdf; sourceTree = "<group>"; };
-		16B46310105448680085AA37 /* WLPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortal.h; sourceTree = "<group>"; };
-		16B46311105448680085AA37 /* WLPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortal.m; sourceTree = "<group>"; };
+		16B46310105448680085AA37 /* WLCoverFlowPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCoverFlowPortal.h; sourceTree = "<group>"; };
+		16B46311105448680085AA37 /* WLCoverFlowPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLCoverFlowPortal.m; sourceTree = "<group>"; };
 		16BF97BB0E3D9B7500ED990A /* WLIntegerArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLIntegerArray.h; sourceTree = "<group>"; };
 		16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLIntegerArray.m; sourceTree = "<group>"; };
 		16C0C90A0E294BAA00B576C5 /* WLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProtocol.h; sourceTree = "<group>"; };
@@ -245,6 +246,8 @@
 		5ACEAC4611787F940028E7BA /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = English; path = English.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
 		5ACEAC4D117880100028E7BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh_CN; path = zh_CN.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
 		5ACEAC4E117880150028E7BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh_TW; path = zh_TW.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
+		5ACEACEF1178D2CE0028E7BA /* WLPortalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortalItem.h; sourceTree = "<group>"; };
+		5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortalItem.m; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLClickEntryHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLClickEntryHotspotHandler.m; sourceTree = "<group>"; };
 		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
@@ -477,10 +480,12 @@
 		5A2B3CFF0EB95649007773F8 /* Portal */ = {
 			isa = PBXGroup;
 			children = (
-				1680A7EB0E2F0F8300A2E175 /* WLPortalImage.h */,
-				1680A7EC0E2F0F8300A2E175 /* WLPortalImage.m */,
-				16B46310105448680085AA37 /* WLPortal.h */,
-				16B46311105448680085AA37 /* WLPortal.m */,
+				1680A7EB0E2F0F8300A2E175 /* WLBookmarkPortalItem.h */,
+				1680A7EC0E2F0F8300A2E175 /* WLBookmarkPortalItem.m */,
+				16B46310105448680085AA37 /* WLCoverFlowPortal.h */,
+				16B46311105448680085AA37 /* WLCoverFlowPortal.m */,
+				5ACEACEF1178D2CE0028E7BA /* WLPortalItem.h */,
+				5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */,
 			);
 			name = Portal;
 			sourceTree = "<group>";
@@ -789,7 +794,7 @@
 				16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
-				1680A7ED0E2F0F8300A2E175 /* WLPortalImage.m in Sources */,
+				1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */,
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
 				81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */,
@@ -812,11 +817,12 @@
 				5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */,
 				1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */,
 				5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */,
-				16B46312105448680085AA37 /* WLPortal.m in Sources */,
+				16B46312105448680085AA37 /* WLCoverFlowPortal.m in Sources */,
 				1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */,
 				5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */,
 				5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */,
 				5A596600109E8D2100D33FAC /* WLTermView.m in Sources */,
+				5ACEACF11178D2CE0028E7BA /* WLPortalItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

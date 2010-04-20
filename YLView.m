@@ -14,7 +14,7 @@
 #import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
 #import "WLPreviewController.h"
-#import "WLPortal.h"
+#import "WLCoverFlowPortal.h"
 #import "WLIntegerArray.h"
 #import "IPSeeker.h"
 #import "WLMouseBehaviorManager.h"
@@ -502,6 +502,11 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [[self nextResponder] mouseDown:theEvent];
     //[super mouseDown:theEvent];
     [self hasMouseActivity];
+	if (_isInPortalMode) {
+		[_portal mouseDown:theEvent];
+		return;
+	}
+	
     [[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
     if (![self isConnected]) 
@@ -529,8 +534,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [[self nextResponder] mouseDragged:theEvent];
     //[super mouseDown:theEvent];
     [self hasMouseActivity];
-    if (_isInPortalMode)
-        [_portal mouseDragged:theEvent];
     if (![self isConnected])
         return;
 
@@ -1046,18 +1049,13 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 #pragma mark -
 #pragma mark Portal
-
-- (NSView *)portalView {
-    return [_portal view];
-}
-
 // Show the portal, initiallize it if necessary
 - (void)updatePortal {
     [_effectView clear];
     _isInPortalMode = YES;
     [_mouseBehaviorDelegate update];
     if (_portal == nil) {
-        _portal = [[WLPortal alloc] initWithView:self];
+        _portal = [[WLCoverFlowPortal alloc] initWithView:self];
         [_portal loadCovers];
     }
     [_portal show];
@@ -1071,7 +1069,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 // Reset a new portal
 - (void)resetPortal {
-    [_portal loadCovers];
+    //[_portal loadCovers];
     if (_isInPortalMode) {
         [self updatePortal];
     }

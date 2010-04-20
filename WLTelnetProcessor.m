@@ -71,7 +71,7 @@
 	[self setFont:NO];
 	
 	// ...
-	if(needResetPortal || [_myView isInPortalMode]) {
+	if (needResetPortal || [_myView isInPortalMode]) {
 		[_myView resetPortal];
 		needResetPortal = NO;
 	}

@@ -8,13 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class WLPortalItem;
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-@interface WLPortal : NSObject <NSComboBoxDataSource> {
+@interface WLCoverFlowPortal : NSObject <NSComboBoxDataSource> {
 #else
-@interface WLPortal : NSObject {
+@interface WLCoverFlowPortal : NSObject {
 #endif
     NSMutableArray * _data;
     id _view, _contentView;
+	WLPortalItem *_draggingItem;
 }
 
 @property (readonly) NSView *view;
@@ -24,9 +26,9 @@
 - (void)loadCovers;
 - (void)show;
 - (void)hide;
-- (BOOL)updateCoverAtIndex:(NSUInteger)index withFile:(NSString*)path;
+//- (BOOL)updateCoverAtIndex:(NSUInteger)index withFile:(NSString*)path;
 
 - (void)keyDown:(NSEvent *)theEvent;
-- (void)mouseDragged:(NSEvent *)theEvent;
+- (void)mouseDown:(NSEvent *)theEvent;
 
 @end
