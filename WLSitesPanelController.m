@@ -8,7 +8,7 @@
 
 #import "WLSitesPanelController.h"
 #import "WLSite.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 #import "WLGlobalConfig.h"
 #import "SynthesizeSingleton.h"
 
@@ -141,7 +141,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
     
     if ([a count] == 1) {
         WLSite *s = [a objectAtIndex:0];
-        [[YLController sharedInstance] newConnectionWithSite:[[s copy] autorelease]];
+        [[WLMainFrameController sharedInstance] newConnectionWithSite:[[s copy] autorelease]];
     }
 }
 

@@ -7,26 +7,24 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "WLTabBarControl.h"
-#import "WLSite.h"
-#import "WLMessageDelegate.h"
-#import "WLFullScreenController.h"
-#import "WLTelnetProcessor.h"
 #import "WLSitesPanelController.h"
 
 #define scrollTimerInterval 0.12
 
-@class WLTabView, WLTerminal;
+@class WLTabView;
+@class WLFeedGenerator;
+@class WLTabBarControl;
+@class WLFullScreenController;
+
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
-@class WLFeedGenerator;
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_5
 @protocol NSTabViewDelegate
 @end
 #endif
 
-@interface YLController : NSObject <NSTabViewDelegate, WLSitesObserver> {
+@interface WLMainFrameController : NSObject <NSTabViewDelegate, WLSitesObserver> {
     /* composeWindow */
     IBOutlet NSTextView *_composeText;
     IBOutlet NSPanel *_composeWindow;
@@ -55,36 +53,29 @@
 	
 	/* Message */
 	IBOutlet NSTextView *_unreadMessageTextView;
-
+	
 	// Remote Control
-	RemoteControl *remoteControl;
-	MultiClickRemoteBehavior *remoteControlBehavior;
+	RemoteControl *_remoteControl;
+	MultiClickRemoteBehavior *_remoteControlBehavior;
+	NSTimer* _scrollTimer;
 	
 	// Full Screen
 	WLFullScreenController *_fullScreenController;
-	
-	// Timer test
-	NSTimer* _scrollTimer;
     
     // RSS feed
     NSThread *_rssThread;
 }
 @property (readonly) WLTabView *tabView;
 
-+ (YLController *)sharedInstance;
++ (WLMainFrameController *)sharedInstance;
 
 - (IBAction)setEncoding:(id)sender;
 - (IBAction)toggleDetectDoubleByte:(id)sender;
 - (IBAction)toggleAutoReply:(id)sender;
 - (IBAction)toggleMouseAction:(id)sender;
 
-- (IBAction)newTab:(id)sender;
 - (IBAction)connectLocation:(id)sender;
 - (IBAction)openLocation:(id)sender;
-- (IBAction)selectNextTab:(id)sender;
-- (IBAction)selectPrevTab:(id)sender;
-- (void)selectTabNumber:(int)index;
-- (IBAction)closeTab:(id)sender;
 - (IBAction)reconnect:(id)sender;
 - (IBAction)toggleShowsHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
@@ -99,11 +90,6 @@
 // Message
 - (IBAction)closeMessageWindow:(id)sender;
 
-
-// for bindings access
-- (RemoteControl*)remoteControl;
-- (MultiClickRemoteBehavior*)remoteBehavior;
-
 // for full screen
 - (IBAction)fullScreenMode:(id)sender;
 
@@ -111,10 +97,6 @@
 - (IBAction)increaseFontSize:(id)sender;
 - (IBAction)decreaseFontSize:(id)sender;
 
-// for timer
-- (void)doScrollUp:(NSTimer*)timer;
-- (void)doScrollDown:(NSTimer*)timer;
-- (void)disableTimer;
 /*
 // for portal
 - (IBAction)browseImage:(id)sender;

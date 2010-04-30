@@ -3862,56 +3862,20 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">WLTabBarControl</string>
-					<string key="superclassName">PSMTabBarControl</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="selectFirstTabViewItem:">id</string>
-						<string key="selectLastTabViewItem:">id</string>
-						<string key="selectNextTabViewItem:">id</string>
-						<string key="selectPreviousTabViewItem:">id</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">WLTabBarControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTabBarControl</string>
-					<string key="superclassName">PSMTabBarControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTerminalView</string>
-					<string key="superclassName">NSTabView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="copy:">id</string>
-						<string key="paste:">id</string>
-						<string key="pasteColor:">id</string>
-						<string key="pasteWrap:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="_effectView">WLEffectView</string>
-						<string key="_textField">YLMarkedTextView</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLController</string>
+					<string key="className">WLMainFrameController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addSites:">id</string>
+						<string key="browseImage:">id</string>
+						<string key="cancelCompose:">id</string>
 						<string key="cancelPassword:">id</string>
 						<string key="cancelPostDownload:">id</string>
+						<string key="changeBackgroundColor:">id</string>
 						<string key="closeEmoticons:">id</string>
 						<string key="closeMessageWindow:">id</string>
 						<string key="closeSites:">id</string>
 						<string key="closeTab:">id</string>
+						<string key="commitCompose:">id</string>
 						<string key="confirmPassword:">id</string>
 						<string key="connectLocation:">id</string>
 						<string key="decreaseFontSize:">id</string>
@@ -3930,10 +3894,13 @@
 						<string key="openSites:">id</string>
 						<string key="proxyTypeDidChange:">id</string>
 						<string key="reconnect:">id</string>
+						<string key="removeSiteImage:">id</string>
 						<string key="restoreSettings:">id</string>
 						<string key="selectNextTab:">id</string>
 						<string key="selectPrevTab:">id</string>
+						<string key="setBlink:">id</string>
 						<string key="setEncoding:">id</string>
+						<string key="setUnderline:">id</string>
 						<string key="toggleAutoReply:">id</string>
 						<string key="toggleDetectDoubleByte:">id</string>
 						<string key="toggleMouseAction:">id</string>
@@ -3975,21 +3942,44 @@
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">YLController.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">YLController</string>
-					<string key="superclassName">NSObject</string>
+					<string key="className">WLTabBarControl</string>
+					<string key="superclassName">PSMTabBarControl</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="browseImage:">id</string>
-						<string key="cancelCompose:">id</string>
-						<string key="changeBackgroundColor:">id</string>
-						<string key="commitCompose:">id</string>
-						<string key="removeSiteImage:">id</string>
-						<string key="setBlink:">id</string>
-						<string key="setUnderline:">id</string>
+						<string key="selectFirstTabViewItem:">id</string>
+						<string key="selectLastTabViewItem:">id</string>
+						<string key="selectNextTabViewItem:">id</string>
+						<string key="selectPreviousTabViewItem:">id</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLTabBarControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLTabBarControl</string>
+					<string key="superclassName">PSMTabBarControl</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLTerminalView</string>
+					<string key="superclassName">NSTabView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="copy:">id</string>
+						<string key="paste:">id</string>
+						<string key="pasteColor:">id</string>
+						<string key="pasteWrap:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_effectView">WLEffectView</string>
+						<string key="_textField">YLMarkedTextView</string>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>

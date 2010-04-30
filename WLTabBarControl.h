@@ -9,9 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
-@class YLController;
+@class WLMainFrameController;
 @interface WLTabBarControl : PSMTabBarControl {
-	YLController *_currMainController;
+	WLMainFrameController *_currMainController;
 }
 
 // select
@@ -25,6 +25,6 @@
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem;	
 
 // Set main controller
-- (void)setMainController:(YLController *)controller;
+- (void)setMainController:(WLMainFrameController *)controller;
 
 @end

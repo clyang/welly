@@ -5,28 +5,34 @@
 //  Created by Yung-Luen Lan on 9/11/07.
 //  Copyright 2007 yllan.org. All rights reserved.
 
-#import "YLController.h"
+#import "WLMainFrameController.h"
+#import "WLMainFrameController+RemoteControl.h"
+#import "WLMainFrameController+TabControl.h"
+
+// Models
+#import "WLConnection.h"
+#import "WLSite.h"
+#import "WLPTY.h"
+
+// Views
 #import "WLTerminalView.h"
 #import "WLTabView.h"
-#import "WLConnection.h"
-#import "WLPTY.h"
-#import "WLGlobalConfig.h"
-#import "DBPrefsWindowController.h"
-#import "YLEmoticon.h"
-#import "WLPostDownloadDelegate.h"
-#import "WLAnsiColorOperationManager.h"
 
 // Panel Controllers
 #import "WLSitesPanelController.h"
 #import "WLEmoticonsPanelController.h"
 #import "WLComposePanelController.h"
 #import "WLPostDownloadDelegate.h"
+#import "DBPrefsWindowController.h"
 
-// for remote control
-#import "AppleRemote.h"
-#import "KeyspanFrontRowControl.h"
-#import "RemoteControlContainer.h"
-#import "MultiClickRemoteBehavior.h"
+// Full Screen
+#import "WLFullScreenController.h"
+#import "WLTelnetProcessor.h"
+
+// Others
+#import "WLGlobalConfig.h"
+#import "WLAnsiColorOperationManager.h"
+#import "WLMessageDelegate.h"
 
 // for RSS
 #import "WLFeedGenerator.h"
@@ -35,17 +41,16 @@
 #import <Carbon/Carbon.h>
 #import "SynthesizeSingleton.h"
 
-const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
-
-@interface YLController ()
+@interface WLMainFrameController ()
 - (void)loadLastConnections;
 - (void)updateSitesMenuWithSites:(NSArray *)sites;
+- (void)exitFullScreenMode;
 @end
 
-@implementation YLController
+@implementation WLMainFrameController
 @synthesize tabView = _tabView;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 
 - (void)awakeFromNib {
     // Register URL
@@ -63,15 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
                                               options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
                                               context:nil];
 
-    // tab control style
-    [_tabBarControl setCanCloseOnlyTab:YES];
-    NSAssert([_tabBarControl delegate] == self, @"set in .nib");
-    //show a new-tab button
-    [_tabBarControl setShowAddTabButton:YES];
-    [[_tabBarControl addTabButton] setTarget:self];
-    [[_tabBarControl addTabButton] setAction:@selector(newTab:)];
-    _tabView = (WLTabView *)[_tabBarControl tabView];
-	
+	[self initializeTabControl];
     // Trigger the KVO to update the information properly.
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
     [[WLGlobalConfig sharedInstance] setCellWidth:[[WLGlobalConfig sharedInstance] cellWidth]];
@@ -83,38 +80,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
     
-	// set remote control
-	if([[NSUserDefaults standardUserDefaults] boolForKey:@"RemoteSupport"]) {
-		// 1. instantiate the desired behavior for the remote control device
-		remoteControlBehavior = [[MultiClickRemoteBehavior alloc] init];	
-		// 2. configure the behavior
-		[remoteControlBehavior setDelegate:self];
-		[remoteControlBehavior setClickCountingEnabled:YES];
-		[remoteControlBehavior setSimulateHoldEvent:YES];
-		[remoteControlBehavior setMaximumClickCountTimeDifference:DEFAULT_CLICK_TIME_DIFFERENCE];
-		// 3. a Remote Control Container manages a number of devices and conforms to the RemoteControl interface
-		//    Therefore you can enable or disable all the devices of the container with a single "startListening:" call.
-		NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-		RemoteControlContainer *container = [[RemoteControlContainer alloc] initWithDelegate: remoteControlBehavior];
-		[container instantiateAndAddRemoteControlDeviceWithClass:[AppleRemote class]];	
-		[container instantiateAndAddRemoteControlDeviceWithClass:[KeyspanFrontRowControl class]];
-		// to give the binding mechanism a chance to see the change of the attribute
-		[self setValue:container forKey:@"remoteControl"];
-		[container startListening:self];
-		remoteControl = container;
-		[pool release];
-	}
+	[self initializeRemoteControl];
 	// For full screen, initiallize the full screen controller
-	_fullScreenController = [[WLFullScreenController alloc] 
-							 initWithTargetView:_tabView 
-							 superView:[_tabView superview] 
-							 originalWindow:_mainWindow];
-	
-    // open the portal
-    // the switch
-    [self tabViewDidChangeNumberOfTabViewItems:_tabView];
-	[_tabBarControl setMainController:[self retain]];
-    
+	_fullScreenController = [[WLFullScreenController alloc] initWithTargetView:_tabView 
+																	 superView:[_tabView superview] 
+																originalWindow:_mainWindow];
     // restore connections
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self loadLastConnections];
@@ -349,17 +319,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     }
 }
 
-- (IBAction)newTab:(id)sender {
-	// Draw the portal and entering the portal control mode if needed...
-	if ([WLGlobalConfig shouldEnableCoverFlow]) {
-		[_tabView newTabWithCoverFlowPortal];
-	} else {
-		[self newConnectionWithSite:[WLSite site]];
-		// let user input
-		[_mainWindow makeFirstResponder:_addressBar];
-	}
-}
-
 - (IBAction)connectLocation:(id)sender {
 	[sender abortEditing];
 	[[_tabView window] makeFirstResponder:_tabView];
@@ -492,33 +451,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     return;	
 }
 
-- (IBAction)selectNextTab:(id)sender {
-    [_tabBarControl selectNextTabViewItem:sender];
-}
-
-- (IBAction)selectPrevTab:(id)sender {
-    [_tabBarControl selectPreviousTabViewItem:sender];
-}
-
-- (void)selectTabNumber:(int)index {
-    if (index > 0 && index <= [_tabView numberOfTabViewItems]) {
-        [_tabBarControl selectTabViewItemAtIndex:index-1];
-    }
-}
-
-- (IBAction)closeTab:(id)sender {
-    if ([_tabView numberOfTabViewItems] == 0) return;
-	// Here, sometimes it may throw a exception...
-	@try {
-		[_tabBarControl removeTabViewItem:[_tabView selectedTabViewItem]];
-	}
-	@catch (NSException * e) {
-	}
-}
-
 - (IBAction)openSiteMenu:(id)sender {
     WLSite *s = [sender representedObject];
-    [self newConnectionWithSite: s];
+    [self newConnectionWithSite:s];
 }
 
 - (IBAction)toggleShowsHiddenText:(id)sender {
@@ -601,7 +536,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	// Restore from full screen firstly
-	[_fullScreenController releaseFullScreen];
+	[self exitFullScreenMode];
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self saveLastConnections];
@@ -678,191 +613,21 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 #pragma mark -
-#pragma mark TabView delegation
-- (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
-	// Restore from full screen firstly
-	[_fullScreenController releaseFullScreen];
-	
-	// TODO: why not put these in WLTabView?
-    if (![[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]] ||
-		![[[tabViewItem identifier] content] isConnected]) 
-		return YES;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) 
-		return YES;
-
-    NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
-									 defaultButton:NSLocalizedString(@"Close", @"Default Button")
-								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
-									   otherButton:nil
-						 informativeTextWithFormat:NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message")];
-    if ([alert runModal] == NSAlertDefaultReturn)
-        return YES;
-    return NO;
-}
-
-- (void)tabView:(NSTabView *)tabView willCloseTabViewItem:(NSTabViewItem *)tabViewItem {
-    // close the connection
-	if ([[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]])
-		[[[tabViewItem identifier] content] close];
-}
-
-- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    NSAssert(tabView == _tabView, @"tabView");
-	[_addressBar setStringValue:@""];
-	if ([[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]]) {
-		WLConnection *connection = [[tabViewItem identifier] content];
-		WLSite *site = [connection site];
-		if (connection && [site address]) {
-			[_addressBar setStringValue:[site address]];
-			[connection resetMessageCount];
-		}
-		
-		[_mainWindow makeFirstResponder:tabView];
-		
-		[self updateEncodingMenu];
-#define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
-		[_detectDoubleByteButton setState:CELLSTATE([site shouldDetectDoubleByte])];
-		[_detectDoubleByteMenuItem setState:CELLSTATE([site shouldDetectDoubleByte])];
-		[_autoReplyButton setState:CELLSTATE([site shouldAutoReply])];
-		[_autoReplyMenuItem setState:CELLSTATE([site shouldAutoReply])];
-		[_mouseButton setState:CELLSTATE([site shouldEnableMouse])];
-#undef CELLSTATE
-	}
-}
-
-- (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
-    // all tab closed, no didSelectTabViewItem will happen
-    if ([tabView numberOfTabViewItems] == 0) {
-        if ([WLGlobalConfig shouldEnableCoverFlow]) {
-            [_mainWindow makeFirstResponder:_tabView];
-        } else {
-            [_mainWindow makeFirstResponder:_addressBar];
-        }
-    }
-}
-
-#pragma mark -
-#pragma mark Remote Control
-/* Remote Control */
-- (void)remoteButton:(RemoteControlEventIdentifier)buttonIdentifier 
-		 pressedDown:(BOOL)pressedDown 
-		  clickCount:(unsigned int)clickCount {
-	NSString *cmd = nil;
-
-	if (!pressedDown) {	// release
-		switch(buttonIdentifier) {
-			case kRemoteButtonPlus:		// up
-				if (clickCount == 1)
-					cmd = termKeyUp;
-				else
-					cmd = termKeyPageUp;
-				break;
-			case kRemoteButtonMinus:	// down
-				if (clickCount == 1)
-					cmd = termKeyDown;
-				else
-					cmd = termKeyPageDown;
-				break;			
-			case kRemoteButtonMenu:
-				break;
-			case kRemoteButtonPlay:
-				cmd = termKeyEnter;
-				break;			
-			case kRemoteButtonRight:	// right
-				if (clickCount == 1)
-					cmd = termKeyRight;
-				else
-					cmd = termKeyEnd;
-				break;			
-			case kRemoteButtonLeft:		// left
-				if (clickCount == 1)
-					cmd = termKeyLeft;
-				else
-					cmd = termKeyHome;
-				break;			
-			case kRemoteButtonPlus_Hold:
-				[self disableTimer];
-				break;				
-			case kRemoteButtonMinus_Hold:
-				[self disableTimer];
-				break;				
-			case kRemoteButtonPlay_Hold:
-				break;
-		}
-	}
-	else { // Key Press
-		switch(buttonIdentifier) {
-			case kRemoteButtonRight_Hold:	// Right Tab
-				[self selectNextTab:self];
-				break;
-			case kRemoteButtonLeft_Hold:	// Left Tab
-				[self selectPrevTab:self];
-				break;
-			case kRemoteButtonPlus_Hold:
-				// Enable timer!
-				[self disableTimer];
-				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval 
-																target:self 
-															  selector:@selector(doScrollUp:)
-															  userInfo:nil
-															   repeats:YES];
-				break;
-			case kRemoteButtonMinus_Hold:
-				// Enable timer!
-				[self disableTimer];
-				_scrollTimer = [NSTimer scheduledTimerWithTimeInterval:scrollTimerInterval
-																target:self 
-															  selector:@selector(doScrollDown:)
-															  userInfo:nil
-															   repeats:YES];
-				break;
-			case kRemoteButtonMenu_Hold:
-				[self fullScreenMode:nil];
-				break;
-		}
-	}
-	
-	if (cmd != nil) {
-		[[_tabView frontMostConnection] sendText:cmd];
-	}
-}
-
-// for timer
-- (void)doScrollDown:(NSTimer*)timer {
-    [[_tabView frontMostConnection] sendText:termKeyDown];
-}
-
-- (void)doScrollUp:(NSTimer*)timer {
-    [[_tabView frontMostConnection] sendText:termKeyUp];
-}
-
-- (void)disableTimer {
-    [_scrollTimer invalidate];
-    [_scrollTimer release];
-    _scrollTimer = nil;
-}
-
-// for bindings access
-- (RemoteControl*)remoteControl {
-    return remoteControl;
-}
-
-- (MultiClickRemoteBehavior*)remoteBehavior {
-    return remoteControlBehavior;
-}
-
-#pragma mark -
 #pragma mark For View Menu
 // Here is an example to the newly designed full screen module with a customized processor
 // A "processor" here will resize the NSViews and do some necessary work before full
 // screen
 - (IBAction)fullScreenMode:(id)sender {
-	if([_fullScreenController processor] == nil) {
+	if ([_fullScreenController processor] == nil) {
 		WLTelnetProcessor *myPro = [[WLTelnetProcessor alloc] initWithView:_tabView];
 		 
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];
+}
+
+- (void)exitFullScreenMode {
+	[_fullScreenController releaseFullScreen];
 }
 
 // Set and reset font size

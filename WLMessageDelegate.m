@@ -11,7 +11,7 @@
 #import "WLConnection.h"
 #import "WLSite.h"
 #import "WLTabView.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 #import "WLGrowlBridge.h"
 
 NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
@@ -61,7 +61,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 		_unreadCount++;
 	}
 
-	WLTabView *view = [[YLController sharedInstance] tabView];
+	WLTabView *view = [[WLMainFrameController sharedInstance] tabView];
 	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [[_connection site] shouldAutoReply]) {
 		// not in focus
 		[_connection increaseMessageCount:1];
@@ -97,7 +97,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
     // bring the window to front
     [NSApp activateIgnoringOtherApps:YES];
 	
-	WLTabView *view = [[YLController sharedInstance] tabView];
+	WLTabView *view = [[WLMainFrameController sharedInstance] tabView];
     [[view window] makeKeyAndOrderFront:nil];
     // select the tab
     [view selectTabViewItemWithIdentifier:connection];

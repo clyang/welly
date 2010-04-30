@@ -9,7 +9,7 @@
 #import <Quartz/Quartz.h>
 #import "WLBookmarkPortalItem.h"
 #import "WLSite.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 @implementation WLBookmarkPortalItem
 @synthesize path = _path;
 @synthesize site = _site;
@@ -118,7 +118,7 @@
 #pragma mark -
 #pragma mark Override
 - (void)didSelect:(id)sender {
-	YLController *controller = [YLController sharedInstance];
+	WLMainFrameController *controller = [WLMainFrameController sharedInstance];
     [controller newConnectionWithSite:_site];
 }
 

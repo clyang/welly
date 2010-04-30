@@ -10,7 +10,7 @@
 #import "WLMouseBehaviorManager.h"
 #import "WLEffectView.h"
 #import "WLGlobalConfig.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 #import "WLTerminal.h"
 #import "WLTerminalView.h"
 #import "WLConnection.h"

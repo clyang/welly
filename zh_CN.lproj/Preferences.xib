@@ -4513,6 +4513,65 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">WLMainFrameController</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="addCurrentSite:">id</string>
+						<string key="browseImage:">id</string>
+						<string key="cancelCompose:">id</string>
+						<string key="changeBackgroundColor:">id</string>
+						<string key="closeMessageWindow:">id</string>
+						<string key="closeTab:">id</string>
+						<string key="commitCompose:">id</string>
+						<string key="connectLocation:">id</string>
+						<string key="decreaseFontSize:">id</string>
+						<string key="fullScreenMode:">id</string>
+						<string key="increaseFontSize:">id</string>
+						<string key="newTab:">id</string>
+						<string key="openLocation:">id</string>
+						<string key="openPreferencesWindow:">id</string>
+						<string key="openRSS:">id</string>
+						<string key="openSitePanel:">id</string>
+						<string key="reconnect:">id</string>
+						<string key="removeSiteImage:">id</string>
+						<string key="restoreSettings:">id</string>
+						<string key="selectNextTab:">id</string>
+						<string key="selectPrevTab:">id</string>
+						<string key="setBlink:">id</string>
+						<string key="setEncoding:">id</string>
+						<string key="setUnderline:">id</string>
+						<string key="toggleAutoReply:">id</string>
+						<string key="toggleDetectDoubleByte:">id</string>
+						<string key="toggleMouseAction:">id</string>
+						<string key="toggleShowsHiddenText:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_addressBar">id</string>
+						<string key="_autoReplyButton">id</string>
+						<string key="_autoReplyMenuItem">NSMenuItem</string>
+						<string key="_closeTabMenuItem">NSMenuItem</string>
+						<string key="_closeWindowMenuItem">NSMenuItem</string>
+						<string key="_composeText">NSTextView</string>
+						<string key="_composeWindow">NSPanel</string>
+						<string key="_detectDoubleByteButton">id</string>
+						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
+						<string key="_encodingMenuItem">NSMenuItem</string>
+						<string key="_fullScreenMenuItem">NSMenuItem</string>
+						<string key="_mainWindow">NSWindow</string>
+						<string key="_messageWindow">NSPanel</string>
+						<string key="_mouseButton">id</string>
+						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
+						<string key="_sitesMenu">NSMenuItem</string>
+						<string key="_tabBarControl">WLTabBarControl</string>
+						<string key="_tabView">WLTerminalView</string>
+						<string key="_unreadMessageTextView">NSTextView</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">WLTabBarControl</string>
 					<string key="superclassName">PSMTabBarControl</string>
 					<dictionary class="NSMutableDictionary" key="actions">
@@ -4546,75 +4605,6 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="_effectView">WLEffectView</string>
 						<string key="_textField">YLMarkedTextView</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addCurrentSite:">id</string>
-						<string key="closeMessageWindow:">id</string>
-						<string key="closeTab:">id</string>
-						<string key="connectLocation:">id</string>
-						<string key="decreaseFontSize:">id</string>
-						<string key="fullScreenMode:">id</string>
-						<string key="increaseFontSize:">id</string>
-						<string key="newTab:">id</string>
-						<string key="openLocation:">id</string>
-						<string key="openPreferencesWindow:">id</string>
-						<string key="openRSS:">id</string>
-						<string key="openSitePanel:">id</string>
-						<string key="reconnect:">id</string>
-						<string key="restoreSettings:">id</string>
-						<string key="selectNextTab:">id</string>
-						<string key="selectPrevTab:">id</string>
-						<string key="setEncoding:">id</string>
-						<string key="toggleAutoReply:">id</string>
-						<string key="toggleDetectDoubleByte:">id</string>
-						<string key="toggleMouseAction:">id</string>
-						<string key="toggleShowsHiddenText:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="_addressBar">id</string>
-						<string key="_autoReplyButton">id</string>
-						<string key="_autoReplyMenuItem">NSMenuItem</string>
-						<string key="_closeTabMenuItem">NSMenuItem</string>
-						<string key="_closeWindowMenuItem">NSMenuItem</string>
-						<string key="_composeText">NSTextView</string>
-						<string key="_composeWindow">NSPanel</string>
-						<string key="_detectDoubleByteButton">id</string>
-						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
-						<string key="_encodingMenuItem">NSMenuItem</string>
-						<string key="_fullScreenMenuItem">NSMenuItem</string>
-						<string key="_mainWindow">NSWindow</string>
-						<string key="_messageWindow">NSPanel</string>
-						<string key="_mouseButton">id</string>
-						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
-						<string key="_sitesMenu">NSMenuItem</string>
-						<string key="_tabBarControl">WLTabBarControl</string>
-						<string key="_tabView">WLTerminalView</string>
-						<string key="_unreadMessageTextView">NSTextView</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">YLController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="browseImage:">id</string>
-						<string key="cancelCompose:">id</string>
-						<string key="changeBackgroundColor:">id</string>
-						<string key="commitCompose:">id</string>
-						<string key="removeSiteImage:">id</string>
-						<string key="setBlink:">id</string>
-						<string key="setUnderline:">id</string>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>

@@ -7,7 +7,7 @@
 //
 
 #import "WLTabBarControl.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 #import "CommonType.h"
 
 // suppress warnings
@@ -89,7 +89,7 @@
 }
 
 #pragma mark - Set main controller
-- (void)setMainController:(YLController *)controller {
+- (void)setMainController:(WLMainFrameController *)controller {
 	_currMainController = controller;
 }
 @end
