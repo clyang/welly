@@ -158,8 +158,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLContextualMenuManager);
 }
 
 + (IBAction)copy:(id)sender {
-    YLView *view = [[YLController sharedInstance] telnetView];
-    [view copy:sender];
+	// TODO:
+    //YLView *view = [[YLController sharedInstance] telnetView];
+    //[view copy:sender];
 }
 
 + (IBAction)saveAsEmoticon:(id)sender {

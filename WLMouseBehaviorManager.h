@@ -27,7 +27,7 @@ NSString *const WLRangeLocationUserInfoName;
 NSString *const WLRangeLengthUserInfoName;
 
 
-@class YLView, WLEffectView;
+@class WLTerminalView, WLEffectView;
 /*!
     @class
     @abstract    Manages mouse behavior for <code>YLView</code>, including <code>mouseUp:</code>, <code>mouseEntered:</code>, <code>mouseExited:</code>, <code>mouseMoved:</code>, and <code>menuForEvent:</code>.
@@ -36,7 +36,7 @@ NSString *const WLRangeLengthUserInfoName;
  When the <code>YLView</code>'s content refreshes, it would inform manager about its change, and then the manager would inform all <code>WLUpdatable</code> handlers to update their state.
 */
 @interface WLMouseBehaviorManager : NSResponder <WLMouseUpHandler, WLUpdatable, WLContextualMenuHandler> {
-	YLView *_view;
+	WLTerminalView *_view;
 	
 	NSDictionary *_activeTrackingAreaUserInfo;
 	NSDictionary *_backgroundTrackingAreaUserInfo;
@@ -60,9 +60,9 @@ NSString *const WLRangeLengthUserInfoName;
 @property (readwrite, assign) NSCursor *normalCursor;
 @property (readonly) BBSState lastBBSState;
 @property (readonly) int lastCursorRow;
-@property (readonly) YLView *view;
+@property (readonly) WLTerminalView *view;
 
-- (id)initWithView:(YLView *)view;
+- (id)initWithView:(WLTerminalView *)view;
 
 // Add/Remove tracking areas
 /*!

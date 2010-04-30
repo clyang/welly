@@ -17,7 +17,7 @@
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
 @interface WLConnection : NSObjectController {
-    NSImage * _icon;
+    NSImage *_icon;
     BOOL _isProcessing;
     int _objectCount;
 
@@ -28,7 +28,7 @@
     WLTerminal *_terminal;
 	WLTerminalFeeder *_feeder;
     NSObject <WLProtocol> *_protocol;
-    WLSite * _site;
+    WLSite *_site;
 	
 	WLMessageDelegate *_messageDelegate;
 	int _messageCount;
@@ -51,9 +51,11 @@
 - (void)close;
 - (void)reconnect;
 - (void)sendMessage:(NSData *)msg;
-- (void)sendBytes:(const void *)buf length:(NSInteger)length;
+- (void)sendBytes:(const void *)buf 
+		   length:(NSInteger)length;
 - (void)sendText:(NSString *)text;
-- (void)sendText:(NSString *)text withDelay:(int)microsecond;
+- (void)sendText:(NSString *)text 
+	   withDelay:(int)microsecond;
 
 /* message */
 - (void)didReceiveNewMessage:(NSString *)message

@@ -1,5 +1,5 @@
 //
-//  YLView.h
+//  WLTerminalView.h
 //  MacBlueTelnet
 //
 //  Created by Yung-Luen Lan on 2006/6/9.
@@ -10,18 +10,17 @@
 #import "CommonType.h"
 #import "WLSitesPanelController.h"
 #import "WLTermView.h"
+#import "WLTerminal.h"
 
-@class WLTerminal;
-@class WLConnection;
+@class WLTermView;
 @class YLMarkedTextView;
 @class WLEffectView;
-@class WLCoverFlowPortal;
 @class WLMouseBehaviorManager;
 @class WLURLManager;
 
 #define disableMouseByKeyingTimerInterval 0.3
 
-@interface YLView : WLTermView <NSTextInput, WLSitesObserver> {	
+@interface WLTerminalView : WLTermView <NSTextInput, WLTerminalObserver> {	
 	NSTimer *_timer;
 	
 	id _markedText;
@@ -35,10 +34,7 @@
     int _selectionLength;
 	BOOL _wantsRectangleSelection;
 	BOOL _hasRectangleSelected;
-    
-    WLCoverFlowPortal *_portal;
 	
-	BOOL _isInPortalMode;
 	BOOL _isInUrlMode;
 	BOOL _isNotCancelingSelection;
 	BOOL _isKeying;
@@ -49,7 +45,6 @@
 	WLMouseBehaviorManager *_mouseBehaviorDelegate;
 	WLURLManager *_urlManager;
 }
-@property BOOL isInPortalMode;
 @property BOOL isInUrlMode;
 @property BOOL isMouseActive;
 @property (readonly) WLEffectView *effectView;
@@ -61,7 +56,7 @@
 - (void)paste:(id)sender;
 - (void)pasteColor:(id)sender;
 
-- (void)refreshHiddenRegion;
+//- (void)refreshHiddenRegion;
 - (void)refreshMouseHotspot;
 
 - (void)clearSelection;
@@ -77,18 +72,12 @@
 - (void)sendText:(NSString *)text;
 
 - (NSString *)selectedPlainString ;
-- (BOOL)hasBlinkCell ;
+//- (BOOL)hasBlinkCell ;
 
 - (void)insertText:(id)aString withDelay:(int)microsecond;
 /* Url Menu */
 - (void)switchURL;
 - (void)exitURL;
-/* Portal */
-- (void)updatePortal;
-- (void)removePortal;
-- (void)resetPortal;
-- (void)checkPortal;
-//- (void)addPortalImage:(NSString *)source forSite:(NSString *)siteName;
 
 // Mouse operation
 - (void)deactivateMouseForKeying;

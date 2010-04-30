@@ -995,7 +995,6 @@ static unsigned short gEmptyAttr;
 
 - (void)setTerminal:(WLTerminal *)terminal {
     _terminal = terminal;
-    [_terminal setConnection:_connection];
 }
 
 

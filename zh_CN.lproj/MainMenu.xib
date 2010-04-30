@@ -10,9 +10,7 @@
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">732</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
-			<integer value="169"/>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -1439,6 +1437,13 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference key="NSNextResponder" ref="957750958"/>
 							<int key="NSvFlags">268</int>
 							<array class="NSMutableArray" key="NSSubviews">
+								<object class="NSCustomView" id="103210316">
+									<reference key="NSNextResponder" ref="92983356"/>
+									<int key="NSvFlags">268</int>
+									<string key="NSFrame">{{567, 402}, {163, 96}}</string>
+									<reference key="NSSuperview" ref="92983356"/>
+									<string key="NSClassName">WLTerminalView</string>
+								</object>
 								<object class="NSCustomView" id="388583076">
 									<reference key="NSNextResponder" ref="92983356"/>
 									<int key="NSvFlags">-2147483380</int>
@@ -1456,9 +1461,10 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSClassName">WLEffectView</string>
 								</object>
 							</array>
-							<string key="NSFrame">{{1, 0}, {960, 576}}</string>
+							<string key="NSFrame">{{0, 2}, {960, 576}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<string key="NSClassName">YLView</string>
+							<bool key="NSViewCanDrawConcurrently">YES</bool>
+							<string key="NSClassName">WLTabView</string>
 							<string key="NSExtension">NSView</string>
 						</object>
 						<object class="NSCustomView" id="131296537">
@@ -1724,7 +1730,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{4, 4}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -1882,22 +1888,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="500464399"/>
 					</object>
 					<int key="connectionID">198</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_telnetView</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="92983356"/>
-					</object>
-					<int key="connectionID">208</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_textField</string>
-						<reference key="source" ref="92983356"/>
-						<reference key="destination" ref="388583076"/>
-					</object>
-					<int key="connectionID">228</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2074,22 +2064,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="97080648"/>
 					</object>
 					<int key="connectionID">477</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">pasteWrap:</string>
-						<reference key="source" ref="92983356"/>
-						<reference key="destination" ref="582943279"/>
-					</object>
-					<int key="connectionID">479</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">pasteColor:</string>
-						<reference key="source" ref="92983356"/>
-						<reference key="destination" ref="173466438"/>
-					</object>
-					<int key="connectionID">480</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2285,14 +2259,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_effectView</string>
-						<reference key="source" ref="92983356"/>
-						<reference key="destination" ref="571244695"/>
-					</object>
-					<int key="connectionID">1167</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">_mouseButton</string>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="518218114"/>
@@ -2322,14 +2288,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="243498781"/>
 					</object>
 					<int key="connectionID">1290</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_mainView</string>
-						<reference key="source" ref="571244695"/>
-						<reference key="destination" ref="92983356"/>
-					</object>
-					<int key="connectionID">1291</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2515,6 +2473,62 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<int key="connectionID">1650</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_mainView</string>
+						<reference key="source" ref="571244695"/>
+						<reference key="destination" ref="103210316"/>
+					</object>
+					<int key="connectionID">1652</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_effectView</string>
+						<reference key="source" ref="103210316"/>
+						<reference key="destination" ref="571244695"/>
+					</object>
+					<int key="connectionID">1653</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_terminalView</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="103210316"/>
+					</object>
+					<int key="connectionID">1654</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_textField</string>
+						<reference key="source" ref="103210316"/>
+						<reference key="destination" ref="388583076"/>
+					</object>
+					<int key="connectionID">1655</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pasteWrap:</string>
+						<reference key="source" ref="103210316"/>
+						<reference key="destination" ref="582943279"/>
+					</object>
+					<int key="connectionID">1656</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pasteColor:</string>
+						<reference key="source" ref="103210316"/>
+						<reference key="destination" ref="173466438"/>
+					</object>
+					<int key="connectionID">1657</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_tabView</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="92983356"/>
+					</object>
+					<int key="connectionID">1660</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -2565,8 +2579,9 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="objectID">206</int>
 						<reference key="object" ref="92983356"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="571244695"/>
 							<reference ref="388583076"/>
+							<reference ref="103210316"/>
+							<reference ref="571244695"/>
 						</array>
 						<reference key="parent" ref="957750958"/>
 					</object>
@@ -3335,11 +3350,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="332582478"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1165</int>
-						<reference key="object" ref="571244695"/>
-						<reference key="parent" ref="92983356"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">227</int>
 						<reference key="object" ref="388583076"/>
 						<reference key="parent" ref="92983356"/>
@@ -3462,6 +3472,16 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="832747381"/>
 						<reference key="parent" ref="935809572"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1651</int>
+						<reference key="object" ref="103210316"/>
+						<reference key="parent" ref="92983356"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1165</int>
+						<reference key="object" ref="571244695"/>
+						<reference key="parent" ref="92983356"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3537,6 +3557,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="163.ImportedFromIB2"/>
 				<string key="1649.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1651.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="169.IBEditorWindowLastContentRect">{{293, 387}, {202, 263}}</string>
 				<string key="169.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="169.ImportedFromIB2"/>
@@ -3557,11 +3578,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="206.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="206.ImportedFromIB2"/>
 				<integer value="1" key="207.ImportedFromIB2"/>
-				<string key="21.IBEditorWindowLastContentRect">{{88, -229}, {960, 598}}</string>
+				<string key="21.IBEditorWindowLastContentRect">{{55, 0}, {960, 598}}</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="21.IBViewEditorWindowController.showingBoundsRectangles"/>
 				<integer value="0" key="21.IBViewEditorWindowController.showingLayoutRectangles"/>
-				<string key="21.IBWindowTemplateEditedContentRect">{{88, -229}, {960, 598}}</string>
+				<string key="21.IBWindowTemplateEditedContentRect">{{55, 0}, {960, 598}}</string>
 				<integer value="1" key="21.ImportedFromIB2"/>
 				<integer value="1" key="21.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="21.editorWindowContentRectSynchronizationRect">{{197, 144}, {960, 598}}</string>
@@ -3717,7 +3738,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1650</int>
+			<int key="maxID">1660</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3794,7 +3815,7 @@ Z1s6cG9ydF0</string>
 					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_mainView</string>
-						<string key="NS.object.0">YLView</string>
+						<string key="NS.object.0">WLTerminalView</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -3868,11 +3889,41 @@ Z1s6cG9ydF0</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">WLTermView</string>
+					<string key="className">WLTabView</string>
 					<string key="superclassName">NSTabView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_terminalView</string>
+						<string key="NS.object.0">WLTerminalView</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLTabView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLTermView</string>
+					<string key="superclassName">NSView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">WLTermView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLTerminalView</string>
+					<string key="superclassName">WLTermView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="copy:">id</string>
+						<string key="paste:">id</string>
+						<string key="pasteColor:">id</string>
+						<string key="pasteWrap:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_effectView">WLEffectView</string>
+						<string key="_textField">YLMarkedTextView</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -3922,7 +3973,7 @@ Z1s6cG9ydF0</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
 						<string key="_sitesMenu">NSMenuItem</string>
 						<string key="_tab">WLTabBarControl</string>
-						<string key="_telnetView">YLView</string>
+						<string key="_tabView">WLTabView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -3952,24 +4003,6 @@ Z1s6cG9ydF0</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLView</string>
-					<string key="superclassName">WLTermView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="copy:">id</string>
-						<string key="paste:">id</string>
-						<string key="pasteColor:">id</string>
-						<string key="pasteWrap:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="_effectView">WLEffectView</string>
-						<string key="_textField">YLMarkedTextView</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">YLView.h</string>
 					</object>
 				</object>
 			</array>
@@ -4690,19 +4723,6 @@ Z1s6cG9ydF0</string>
 						<string key="tabView">NSTabView</string>
 					</dictionary>
 					<reference key="sourceIdentifier" ref="1040274512"/>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">QCView</string>
-					<string key="superclassName">NSView</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="play:">id</string>
-						<string key="start:">id</string>
-						<string key="stop:">id</string>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">QuartzComposer.framework/Headers/QCView.h</string>
-					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SUUpdater</string>

@@ -12,12 +12,12 @@
 #define DEFAULT_POPUP_BOX_FONT @"Helvetica"
 #define DEFAULT_POPUP_MENU_FONT @"Lucida Grande"
 
-@class YLView;
+@class WLTerminalView;
 
 @interface WLEffectView : NSView {
     CALayer *_mainLayer;
 	
-	IBOutlet YLView *_mainView;
+	IBOutlet WLTerminalView *_mainView;
 	
 	CALayer *_ipAddrLayer;
 	CALayer *_clickEntryLayer;

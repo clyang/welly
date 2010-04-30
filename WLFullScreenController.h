@@ -7,30 +7,29 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "WLFullScreenProcessor.h"
-#import "WLGlobalConfig.h"
+@protocol WLFullScreenProcessor;
 
 @interface WLFullScreenController : NSObject {
 	// Object to resize the target view and its super view
 	// This design follows the strategy pattern...
-	WLFullScreenProcessor * _processor;
+	NSObject <WLFullScreenProcessor> *_processor;
 	
 	// The views necessary for full screen and reset
-	NSView * _targetView;
-	NSView * _superView;
+	NSView *_targetView;
+	NSView *_superView;
 	
 	// NSWindows needed...
-	NSWindow* _fullScreenWindow;
-	NSWindow* _originalWindow;
+	NSWindow *_fullScreenWindow;
+	NSWindow *_originalWindow;
 	
 	// State variable
 	BOOL _isInFullScreen;
 }
 @property (readonly) BOOL isInFullScreen;
-@property (readwrite, retain) WLFullScreenProcessor *processor;
+@property (readwrite, retain) id <WLFullScreenProcessor> processor;
 
 // Init functions
-- (id)initWithProcessor:(WLFullScreenProcessor*)pro 
+- (id)initWithProcessor:(NSObject <WLFullScreenProcessor>*)pro 
 			 targetView:(NSView*)tview 
 			  superView:(NSView*)sview
 		 originalWindow:(NSWindow*)owin;

@@ -8,7 +8,7 @@
 
 #import "WLEditingCursorMoveHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
 #import "WLSite.h"
@@ -186,7 +186,7 @@ static NSCursor *gMoveCursor = nil;
 #pragma mark -
 #pragma mark Update State
 - (BOOL)shouldUpdate {
-	if (![_view shouldEnableMouse] || ![_view isConnected] || [_view isInPortalMode]) {
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
 		return YES;
 	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];
@@ -197,7 +197,7 @@ static NSCursor *gMoveCursor = nil;
 
 - (void)update {
 	[self clear];
-	if (![_view shouldEnableMouse] || ![_view isConnected] || [_view isInPortalMode]) {
+	if (![_view shouldEnableMouse] || ![_view isConnected]) {
 		return;
 	}
 	BBSState bbsState = [[_view frontMostTerminal] bbsState];

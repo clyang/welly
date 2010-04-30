@@ -6,7 +6,7 @@
 //  Copyright 2009 Welly Group. All rights reserved.
 //
 #import "WLMouseHotspotHandler.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLEffectView.h"
 #import "WLGlobalConfig.h"
 #import "WLMouseBehaviorManager.h"
@@ -19,7 +19,7 @@
 	return self;
 }
 
-- (id)initWithView:(YLView *)view {
+- (id)initWithView:(WLTerminalView *)view {
 	[self init];
 	_view = view;
 	_maxRow = [[WLGlobalConfig sharedInstance] row];

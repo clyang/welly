@@ -8,7 +8,6 @@
 
 #import "WLSitesPanelController.h"
 #import "WLSite.h"
-#import "YLView.h"
 #import "YLController.h"
 #import "WLGlobalConfig.h"
 #import "SynthesizeSingleton.h"

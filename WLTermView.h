@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "WLTabView.h"
 
 @class WLTerminal, WLConnection;
-@interface WLTermView : NSTabView {
+
+@interface WLTermView : NSView <WLTabItemIdentifierObserver> {
 	CGFloat _fontWidth;
 	CGFloat _fontHeight;
 	
@@ -20,6 +22,8 @@
 	
 	int _maxRow;
 	int _maxColumn;
+	
+	WLConnection *_connection;
 }
 @property CGFloat fontWidth;
 @property CGFloat fontHeight;
@@ -31,6 +35,7 @@
 - (WLConnection *)frontMostConnection;
 - (BOOL)isConnected;
 
+- (void)refreshDisplay;
 - (void)terminalDidUpdate:(WLTerminal *)terminal;
 
 // get current BBS image

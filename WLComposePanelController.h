@@ -8,9 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class YLView;
+@class WLTerminalView;
 @interface WLComposePanelController : NSObject {
-    YLView *_telnetView;
+    WLTerminalView *_telnetView;
 	
     IBOutlet NSColorWell *_bgColorWell;
 	
@@ -25,7 +25,7 @@
 
 /* compose actions */
 - (void)openComposePanelInWindow:(NSWindow *)window 
-				   forTelnetView:(YLView *)telnetView;
+				   forTelnetView:(WLTerminalView *)telnetView;
 - (IBAction)commitCompose:(id)sender;
 - (IBAction)cancelCompose:(id)sender;
 - (IBAction)setUnderline:(id)sender;

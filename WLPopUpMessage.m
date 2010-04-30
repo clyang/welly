@@ -7,14 +7,17 @@
 //
 
 #import "WLPopUpMessage.h"
-
+#import "WLEffectView.h"
 
 @implementation WLPopUpMessage
 
+WLEffectView *_effectView;
+
 #pragma mark Class methods
 + (void)hidePopUpMessage {
-	if(_effectView) {
+	if (_effectView) {
 		[_effectView removePopUpMessage];
+		[_effectView release];
 	}
 }
 

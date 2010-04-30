@@ -9,7 +9,7 @@
 #import "WLButtonAreaHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
 
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLConnection.h"
 #import "WLTerminal.h"
 #import "WLEffectView.h"

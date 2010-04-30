@@ -66,6 +66,7 @@
 		5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */; };
 		5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */; };
 		5ACEACF11178D2CE0028E7BA /* WLPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */; };
+		5ACEAF37117DD1AB0028E7BA /* WLTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ACEAF36117DD1AB0028E7BA /* WLTabView.m */; };
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */; };
@@ -77,13 +78,12 @@
 		819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* WLTelnetProcessor.m */; };
 		81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* WLPopUpMessage.m */; };
 		81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* WLFullScreenController.m */; };
-		81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */; };
 		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AAE0AB40192009FC710 /* WLTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* WLTerminal.m */; };
 		8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
 		8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
-		8570AD5F0A3923A900838442 /* YLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8570AD5E0A3923A900838442 /* YLView.m */; };
+		8570AD5F0A3923A900838442 /* WLTerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8570AD5E0A3923A900838442 /* WLTerminalView.m */; };
 		8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8579CA290CF21D3D005A8353 /* WLSite.m */; };
 		857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE4E0CF1D89300777C15 /* offline.pdf */; };
 		85834C100CFEC3F30015E348 /* Whit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 85834C0F0CFEC3F30015E348 /* Whit.aiff */; };
@@ -248,6 +248,8 @@
 		5ACEAC4E117880150028E7BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = zh_TW; path = zh_TW.lproj/contextualMenuItems.plist; sourceTree = "<group>"; };
 		5ACEACEF1178D2CE0028E7BA /* WLPortalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPortalItem.h; sourceTree = "<group>"; };
 		5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPortalItem.m; sourceTree = "<group>"; };
+		5ACEAF35117DD1AB0028E7BA /* WLTabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabView.h; sourceTree = "<group>"; };
+		5ACEAF36117DD1AB0028E7BA /* WLTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabView.m; sourceTree = "<group>"; };
 		5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLClickEntryHotspotHandler.h; sourceTree = "<group>"; };
 		5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLClickEntryHotspotHandler.m; sourceTree = "<group>"; };
 		5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMouseHotspotHandler.h; sourceTree = "<group>"; wrapsLines = 1; };
@@ -270,15 +272,14 @@
 		81F8ECF00E5005190022FA65 /* WLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenController.h; sourceTree = "<group>"; };
 		81F8ECF10E5005190022FA65 /* WLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenController.m; sourceTree = "<group>"; };
 		81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenProcessor.h; sourceTree = "<group>"; };
-		81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenProcessor.m; sourceTree = "<group>"; };
 		81FEAD310EFE91BD0051C867 /* waiting.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = waiting.pdf; sourceTree = "<group>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* WLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTerminal.h; sourceTree = "<group>"; };
 		85145AAD0AB40192009FC710 /* WLTerminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTerminal.m; sourceTree = "<group>"; };
 		852E798A0C96E7A90027751F /* CommonType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonType.h; sourceTree = "<group>"; wrapsLines = 1; };
 		8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = "<group>"; };
-		8570AD5D0A3923A900838442 /* YLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLView.h; sourceTree = "<group>"; };
-		8570AD5E0A3923A900838442 /* YLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLView.m; sourceTree = "<group>"; };
+		8570AD5D0A3923A900838442 /* WLTerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTerminalView.h; sourceTree = "<group>"; };
+		8570AD5E0A3923A900838442 /* WLTerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTerminalView.m; sourceTree = "<group>"; };
 		8579CA280CF21D3D005A8353 /* WLSite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSite.h; sourceTree = "<group>"; };
 		8579CA290CF21D3D005A8353 /* WLSite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSite.m; sourceTree = "<group>"; };
 		857EAE4E0CF1D89300777C15 /* offline.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = offline.pdf; sourceTree = "<group>"; };
@@ -579,8 +580,10 @@
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
 				5A4B02870E55941D00260486 /* WLEffectView.h */,
 				5A4A50180E5956EE007E16E6 /* WLEffectView.m */,
-				8570AD5D0A3923A900838442 /* YLView.h */,
-				8570AD5E0A3923A900838442 /* YLView.m */,
+				8570AD5D0A3923A900838442 /* WLTerminalView.h */,
+				8570AD5E0A3923A900838442 /* WLTerminalView.m */,
+				5ACEAF35117DD1AB0028E7BA /* WLTabView.h */,
+				5ACEAF36117DD1AB0028E7BA /* WLTabView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -614,7 +617,6 @@
 			isa = PBXGroup;
 			children = (
 				81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */,
-				81F8ED1D0E500E9F0022FA65 /* WLFullScreenProcessor.m */,
 				81F8ECF00E5005190022FA65 /* WLFullScreenController.h */,
 				81F8ECF10E5005190022FA65 /* WLFullScreenController.m */,
 				819586600E5183E200AFBFCE /* WLTelnetProcessor.h */,
@@ -770,7 +772,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				8570AD5F0A3923A900838442 /* YLView.m in Sources */,
+				8570AD5F0A3923A900838442 /* WLTerminalView.m in Sources */,
 				85145AAE0AB40192009FC710 /* WLTerminal.m in Sources */,
 				85F7F2090B06EE36000C4CDF /* WLGlobalConfig.m in Sources */,
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
@@ -798,7 +800,6 @@
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
 				81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */,
-				81F8ED1E0E500E9F0022FA65 /* WLFullScreenProcessor.m in Sources */,
 				819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */,
 				1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
@@ -823,6 +824,7 @@
 				5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */,
 				5A596600109E8D2100D33FAC /* WLTermView.m in Sources */,
 				5ACEACF11178D2CE0028E7BA /* WLPortalItem.m in Sources */,
+				5ACEAF37117DD1AB0028E7BA /* WLTabView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,7 +986,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
 			};
 			name = Debug;

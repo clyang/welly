@@ -16,7 +16,7 @@
 
 
 @implementation WLEffectView
-- (id)initWithView:(YLView *)view {
+- (id)initWithView:(WLTerminalView *)view {
 	self = [self initWithFrame:[view frame]];
 	if (self) {
 		_mainView = [view retain];
@@ -258,7 +258,7 @@ const CGFloat menuMarginWidth = 20.0;
     _menuLayer.borderColor = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
 	_menuLayer.cornerRadius = 5.0;
 	
-    [_mainLayer addSublayer: _menuLayer];
+    [_mainLayer addSublayer:_menuLayer];
     
 	// set selection layer
     _selectionLayer = [CALayer layer];

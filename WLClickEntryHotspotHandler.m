@@ -12,7 +12,7 @@
 #import "WLGlobalConfig.h"
 #import "YLController.h"
 #import "WLTerminal.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLConnection.h"
 #import "WLEncoder.h"
 #import "WLPostDownloadDelegate.h"

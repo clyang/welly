@@ -7,10 +7,9 @@
 //
 
 #import "WLCoverFlowPortal.h"
-#import "WLBookmarkPortalItem.h"
+#import "WLPortalItem.h"
 #import "CommonType.h"
-#import "YLController.h"
-#import "WLSitesPanelController.h"
+#import "WLGlobalConfig.h"
 
 const float xscale = 1, yscale = 0.8;
 
@@ -31,114 +30,107 @@ const float xscale = 1, yscale = 0.8;
 - (void)freeCache;
 @end
 
-// a container
-@interface BackgroundColorView : NSView {
-    NSColor *_color;
-}
-- (void)setBackgroundColor:(NSColor *)color;
-@end
-
-@implementation BackgroundColorView
-- (void)dealloc {
-    [_color release];
-    [super dealloc];
-}
-- (void)drawRect:(NSRect)rect {
-    [_color set];
-    NSRectFill(rect);
-}
-- (void)setBackgroundColor:(NSColor *)color {
-    _color = [color copy];
-}
-@end
-
-
 @implementation WLCoverFlowPortal
 
-@synthesize view = _view;
+//@synthesize view = _imageFlowView;
 
 - (void)dealloc {
-    [_data release];
+	if (_portalItems)
+		[_portalItems release];
     [super dealloc];
 }
 
-- (id)initWithView:(NSView *)superview {
-    if (self != [super init])
-        return nil;
-    _data = [[NSMutableArray alloc] init];
-    _contentView = [[BackgroundColorView alloc] init];
-    _view = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:NSZeroRect];
-	[_view setDataSource:self];
-    [_view setDelegate:self];
-    [_view setDraggingDestinationDelegate:self];
-    [_contentView addSubview:_view];
-    [superview addSubview:_contentView];
-    return self;
+- (id)initWithFrame:(NSRect)frame {
+	if (self = [super initWithFrame:frame]) {
+		// Initialize the imageFlowView
+		_imageFlowView = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:frame];
+		[_imageFlowView setDataSource:self];
+		[_imageFlowView setDelegate:self];
+		[_imageFlowView setDraggingDestinationDelegate:self];
+		[_imageFlowView setHidden:NO];
+		[self addSubview:_imageFlowView];
+
+		// background
+		NSColor *color = [[WLGlobalConfig sharedInstance] colorBG];
+		// cover flow doesn't support alpha
+		color = [color colorWithAlphaComponent:1.0];
+		[_imageFlowView setBackgroundColor:color];
+		// event hanlding
+		NSResponder *next = [self nextResponder];
+		if (_imageFlowView != next) {
+			[_imageFlowView setNextResponder:next];
+			[self setNextResponder:_imageFlowView];
+		}		
+	}
+	return self;
+}
+
+- (void)setFrame:(NSRect)frame {
+	[super setFrame:frame];
+	frame.origin.x += frame.size.width * (1 - xscale) / 2;
+	frame.origin.y += frame.size.height * (1 - yscale) / 2;
+	frame.size.width *= xscale;
+	frame.size.height *= yscale;
+	[_imageFlowView setFrame:frame];
+	
+	frame = [_imageFlowView frame];
+	[_imageFlowView setNeedsDisplay:YES];
+}
+
+- (id)initWithPortalItems:(NSArray *)portalItems {
+	if (self = [self init]) {
+		[self setPortalItems:_portalItems];
+	}
+	return self;
+}
+
+#pragma mark -
+#pragma mark Display
+- (void)drawRect:(NSRect)rect {
+	[[[WLGlobalConfig sharedInstance] colorBG] set];
+    NSRectFill(rect);
 }
 
 - (void)refresh {
-    [[_view cacheManager] freeCache];
-    [_view reloadData];
+    [[_imageFlowView cacheManager] freeCache];
+    [_imageFlowView reloadData];
 }
 
-- (void)loadCovers {
-	// TODO(K.O.ed): Move this outta here! The data should be provided elsewhere
-    [_data removeAllObjects];
-    //NSString *dir = [[self class] coverDirectory];
-    // load sites
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSArray *sites = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
-    for (NSDictionary *d in sites) {
-		WLBookmarkPortalItem *item = [[WLBookmarkPortalItem alloc] initWithSite:[WLSite siteWithDictionary:d]];
-        [_data addObject:item];
-    }
-    [pool release];
-    [self refresh];
-}
-
-- (void)show {
-    NSView *superview = [_contentView superview];
-    NSRect frame = [superview frame];
-    [_contentView setFrame:frame];
-    frame.origin.x += frame.size.width * (1 - xscale) / 2;
-    frame.origin.y += frame.size.height * (1 - yscale) / 2;
-    frame.size.width *= xscale;
-    frame.size.height *= yscale;
-    [_view setFrame:frame];
-    // background
-    NSColor *color = [[WLGlobalConfig sharedInstance] colorBG];
-    // cover flow doesn't support alpha
-    color = [color colorWithAlphaComponent:1.0];
-    [_contentView setBackgroundColor:color];
-    [_view setBackgroundColor:color];
-    // event hanlding
-    NSResponder *next = [superview nextResponder];
-    if (_view != next) {
-        [_view setNextResponder:next];
-        [superview setNextResponder:_view];
-    }
-}
-
-- (void)hide {
-    [_contentView setFrame:NSZeroRect];
-    NSView *superview = [_contentView superview];
-    [superview setNextResponder:[_view nextResponder]];
-    [_view setNextResponder:nil];
+- (void)setPortalItems:(NSArray *)portalItems {
+	if (_portalItems)
+		[_portalItems release];
+	
+	_portalItems = [portalItems copy];
+	[self refresh];
 }
 
 - (void)select {
-	WLPortalItem *item = [_data objectAtIndex:[_view selectedIndex]];
+	WLPortalItem *item = [_portalItems objectAtIndex:[_imageFlowView selectedIndex]];
 	[item didSelect:self];
 }
 
 #pragma mark -
+#pragma mark Override
+- (BOOL)acceptsFirstResponder {
+	return YES;
+}
+
+- (BOOL)canBecomeKeyView {
+    return YES;
+}
+
+/*- (NSView *)hitTest:(NSPoint)p {
+    return self;
+}*/
+
+#pragma mark -
 #pragma mark IKImageFlowDataSource protocol
 - (NSUInteger)numberOfItemsInImageFlow:(id)aFlow {
-	return [_data count];
+	return [_portalItems count];
 }
 
 - (id)imageFlow:(id)aFlow itemAtIndex:(NSUInteger)index {
-	return [_data objectAtIndex:index];
+	return [_portalItems objectAtIndex:index];
 }
 
 #pragma mark -
@@ -157,21 +149,21 @@ const float xscale = 1, yscale = 0.8;
             return;
         }
     }
-    [_view keyDown:theEvent];
+    [_imageFlowView keyDown:theEvent];
 }
 
 // private
 - (NSUInteger)cellIndexAtLocation:(NSPoint)p {
-    NSPoint pt = [_view convertPoint:p fromView:nil];
-    return [_view cellIndexAtLocation:pt];
+    NSPoint pt = [_imageFlowView convertPoint:p fromView:nil];
+    return [_imageFlowView cellIndexAtLocation:pt];
 }
 
 - (id)itemAtLocation:(NSPoint)p {
 	NSUInteger index = [self cellIndexAtLocation:p];
-    if (index == NSNotFound || [_data count] <= index)
+    if (index == NSNotFound || [_portalItems count] <= index)
         return nil;
 	
-    return [_data objectAtIndex:index];
+    return [_portalItems objectAtIndex:index];
 }
 
 - (void)mouseDown:(NSEvent *)theEvent {
@@ -186,11 +178,11 @@ const float xscale = 1, yscale = 0.8;
 		WLPortalItem <WLDraggingSource> *draggingItem = (WLPortalItem <WLDraggingSource> *)_draggingItem;
 		NSImage *image = [draggingItem draggingImage];
 		NSSize size = [image size];
-		NSPoint pt = [_view convertPoint:[theEvent locationInWindow] fromView:nil];
+		NSPoint pt = [_imageFlowView convertPoint:[theEvent locationInWindow] fromView:nil];
 		pt.x -= size.width/2;
 		pt.y -= size.height/2;
 		NSPasteboard *pboard = [draggingItem draggingPasteboard];
-		[_view dragImage:image at:pt offset:NSZeroSize 
+		[_imageFlowView dragImage:image at:pt offset:NSZeroSize 
 				   event:theEvent pasteboard:pboard source:self slideBack:NO];
 		return;
 	} 
@@ -202,8 +194,8 @@ const float xscale = 1, yscale = 0.8;
 
 // private
 - (BOOL)draggedOut:(NSPoint)screenPoint {
-	NSPoint pt = [[_view window] convertScreenToBase:screenPoint];
-    return ![_view hitTest:pt];
+	NSPoint pt = [[_imageFlowView window] convertScreenToBase:screenPoint];
+    return ![_imageFlowView hitTest:pt];
 }
 
 - (void)draggedImage:(NSImage *)image 

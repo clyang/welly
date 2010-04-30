@@ -7,9 +7,25 @@
 //
 
 #import "WLFullScreenController.h"
-#import "YLView.h"
+#import "WLFullScreenProcessor.h"
+#import "WLTerminalView.h"
+#import "WLGlobalConfig.h"
 #import <Carbon/Carbon.h>
 #import <Quartz/Quartz.h>
+
+@interface WLFullScreenWindow : NSWindow
+
+@end
+
+
+@implementation WLFullScreenWindow
+
+- (BOOL)canBecomeKeyWindow {
+	return YES;
+}
+
+@end
+
 
 @implementation WLFullScreenController
 @synthesize isInFullScreen = _isInFullScreen;
@@ -17,10 +33,10 @@
 #pragma mark -
 #pragma mark Init
 // Initiallize the controller with a given processor
-- (id)initWithProcessor:(WLFullScreenProcessor*)pro 
-			 targetView:(NSView*)tview 
-			  superView:(NSView*)sview
-		 originalWindow:(NSWindow*)owin {
+- (id)initWithProcessor:(NSObject <WLFullScreenProcessor>*)pro 
+			 targetView:(NSView *)tview 
+			  superView:(NSView *)sview
+		 originalWindow:(NSWindow *)owin {
 	if (self = [super init]) {
 		_processor = [pro retain];
 		_targetView = [tview retain];
@@ -61,14 +77,16 @@
 	if (!_isInFullScreen) {
 		// Set current state
 		_isInFullScreen = YES;
+		
 		// Init the window and show
 		NSRect screenRect = [[NSScreen mainScreen] frame];
-		_fullScreenWindow = [[NSWindow alloc] initWithContentRect:screenRect
+		_fullScreenWindow = [[WLFullScreenWindow alloc] initWithContentRect:screenRect
 														styleMask:NSBorderlessWindowMask
 														  backing:NSBackingStoreBuffered
 															defer:NO];
 		[_fullScreenWindow setAlphaValue:0];
 		[_fullScreenWindow setBackgroundColor:[NSColor blackColor]];
+		[_fullScreenWindow setAcceptsMouseMovedEvents:YES];
 		// Order front now
 		[_fullScreenWindow makeKeyAndOrderFront:nil];
 		// Initiallize the animation
@@ -91,6 +109,7 @@
 	if(_isInFullScreen) {
 		// Change the state
 		_isInFullScreen = NO;
+		
 		// Set the super view back
 		[_superView addSubview:_targetView];
 		// Pre-process if necessary
@@ -116,8 +135,6 @@
 		// Show the main window
 		[_originalWindow setAlphaValue:100.0f];
 	} else { // Set the window when the animation is over
-		// Set the target view as first responder
-		[_originalWindow makeFirstResponder:_targetView];
 		// Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 		// Pre-process if necessary
@@ -134,6 +151,8 @@
         [_fullScreenWindow setContentView:_targetView];
         // Move the origin point
         [[_fullScreenWindow contentView] setFrameOrigin:newOP];
+		// Focus on the view
+		[_fullScreenWindow makeFirstResponder:_targetView];
 	}
 }
 @end

@@ -7,10 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "WLEffectView.h"
 
-WLEffectView * _effectView;
-
+@class WLEffectView;
 @interface WLPopUpMessage:NSObject {
 }
 

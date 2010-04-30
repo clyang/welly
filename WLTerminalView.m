@@ -6,15 +6,16 @@
 //  Copyright 2006 yllan.org. All rights reserved.
 //
 
-#import "YLView.h"
+#import "WLTerminalView.h"
+#import "WLEffectView.h"
+#import "YLMarkedTextView.h"
+
 #import "WLTerminal.h"
 #import "WLConnection.h"
 #import "WLSite.h"
 #import "WLGLobalConfig.h"
-#import "YLMarkedTextView.h"
 #import "YLContextualMenuManager.h"
 #import "WLPreviewController.h"
-#import "WLCoverFlowPortal.h"
 #import "WLIntegerArray.h"
 #import "IPSeeker.h"
 #import "WLMouseBehaviorManager.h"
@@ -33,7 +34,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 
-@interface YLView ()
+@interface WLTerminalView ()
 - (void)drawSelection;
 
 // safe_paste
@@ -45,8 +46,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)performPasteColor;
 @end
 
-@implementation YLView
-@synthesize isInPortalMode = _isInPortalMode;
+@implementation WLTerminalView
 @synthesize isInUrlMode = _isInUrlMode;
 @synthesize isMouseActive = _isMouseActive;
 @synthesize effectView = _effectView;
@@ -55,7 +55,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     if (self = [super initWithFrame:frame]) {
         _selectionLength = 0;
         _selectionLocation = 0;
-		_isInPortalMode = NO;
 		_isInUrlMode = NO;
 		_isKeying = NO;
 		_isNotCancelingSelection = YES;
@@ -68,15 +67,11 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 																selector:@selector(checkActivity:)
 																userInfo:nil
 																 repeats:YES];
-		
-		// Register as sites observer
-		[WLSitesPanelController addSitesObserver:self];
     }
     return self;
 }
 
 - (void)dealloc {
-    [_portal release];
 	[_mouseBehaviorDelegate dealloc];
     [super dealloc];
 }
@@ -408,7 +403,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     if (![self isConnected]) return;
     _selectionLocation = 0;
     _selectionLength = _maxRow * _maxColumn;
-    [self setNeedsDisplay: YES];
+    [self setNeedsDisplay:YES];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)item {
@@ -423,17 +418,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         return NO;
     }
     return YES;
-}
-
-- (void)refreshHiddenRegion {
-    if (![self isConnected]) return;
-    int i, j;
-    for (i = 0; i < _maxRow; i++) {
-        cell *currRow = [[self frontMostTerminal] cellsOfRow:i];
-        for (j = 0; j < _maxColumn; j++)
-            if (isHiddenAttribute(currRow[j].attr)) 
-                [[self frontMostTerminal] setDirty:YES atRow:i column:j];
-    }
 }
 
 - (void)sendText:(NSString *)text {
@@ -502,10 +486,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [[self nextResponder] mouseDown:theEvent];
     //[super mouseDown:theEvent];
     [self hasMouseActivity];
-	if (_isInPortalMode) {
-		[_portal mouseDown:theEvent];
-		return;
-	}
 	
     [[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
@@ -527,7 +507,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 		[self selectWord:self];
     }
     
-    [self setNeedsDisplay: YES];
+    [self setNeedsDisplay:YES];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent {
@@ -567,7 +547,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void)mouseMoved:(NSEvent *)theEvent {
-	//NSLog(@"mouseMoved:");
 	[self hasMouseActivity];
 }
 
@@ -588,15 +567,10 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 		return [_mouseBehaviorDelegate menuForEvent:theEvent];
 }
 
-- (void)keyDown:(NSEvent *)theEvent {    
+- (void)keyDown:(NSEvent *)theEvent {
     [[self frontMostConnection] resetMessageCount];
 	
     unichar c = [[theEvent characters] characterAtIndex:0];
-    // portal
-    if (_isInPortalMode) {
-        [_portal keyDown:theEvent];
-        return;
-    }
 	// URL
 	if(_isInUrlMode) {
 		BOOL shouldExit;
@@ -679,19 +653,16 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)flagsChanged:(NSEvent *)event {
 	unsigned int currentFlags = [event modifierFlags];
 	// For rectangle selection
-	if (!_isInPortalMode) {
-		// We don't want to do rectangle selection in Portal Mode
-		if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
-			_wantsRectangleSelection = YES;
-			[[NSCursor crosshairCursor] push];
-			_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
-		} else {
-			_wantsRectangleSelection = NO;
-			[[NSCursor crosshairCursor] pop];
-			_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
-		}
-		return;
+	if ((currentFlags & NSAlternateKeyMask) == NSAlternateKeyMask) {
+		_wantsRectangleSelection = YES;
+		[[NSCursor crosshairCursor] push];
+		_mouseBehaviorDelegate.normalCursor = [NSCursor crosshairCursor];
+	} else {
+		_wantsRectangleSelection = NO;
+		[[NSCursor crosshairCursor] pop];
+		_mouseBehaviorDelegate.normalCursor = [NSCursor arrowCursor];
 	}
+	return;
 	
 	[super flagsChanged:event];
 }
@@ -707,13 +678,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 #pragma mark -
 #pragma mark Drawing
-- (void)terminalDidUpdate:(WLTerminal *)terminal {
-	if (terminal == [self frontMostTerminal]) {
-		[self refreshMouseHotspot];
-	}
-	[super terminalDidUpdate:terminal];
-}
-
 - (void)drawRect:(NSRect)rect {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	[super drawRect:rect];
@@ -723,7 +687,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
             [self drawSelection];
 	}
 	
-	[_effectView resize];
     [pool release];
 }
 
@@ -793,15 +756,24 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void)resetCursorRects {
-	//NSLog(@"resetCursorRects!");
 	[super resetCursorRects];
 	[self refreshMouseHotspot];
 	return;
 }
 
+// For full screen
+- (void)viewDidMoveToWindow {
+	[self refreshDisplay];
+	[self refreshMouseHotspot];
+}
+
+- (void)setFrame:(NSRect)frameRect {
+	[super setFrame:frameRect];
+	[_effectView resize];
+}
+
 #pragma mark -
 #pragma mark Accessor
-
 - (NSString *)selectedPlainString {
     if (_selectionLength == 0) return nil;
     
@@ -830,20 +802,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 		}
 		return string;
 	}
-}
-
-- (BOOL)hasBlinkCell {
-    int c, r;
-    id ds = [self frontMostTerminal];
-    if (!ds) return NO;
-    for (r = 0; r < _maxRow; r++) {
-        [ds updateDoubleByteStateForRow: r];
-        cell *currRow = [ds cellsOfRow: r];
-        for (c = 0; c < _maxColumn; c++) 
-            if (isBlinkCell(currRow[c]))
-                return YES;
-    }
-    return NO;
 }
 
 - (BOOL)shouldEnableMouse {
@@ -952,13 +910,13 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 	[_textField setFrameOrigin:o];
 	[_textField setDestination:[_textField convertPoint:NSMakePoint(([ds cursorColumn] + 0.5) * _fontWidth, dy)
 											   fromView:self]];
-	[_textField setHidden: NO];
+	[_textField setHidden:NO];
 }
 
 - (void)unmarkText {
     [_markedText release];
     _markedText = nil;
-    [_textField setHidden: YES];
+    [_textField setHidden:YES];
 }
 
 - (BOOL)hasMarkedText {
@@ -1048,55 +1006,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 #pragma mark -
-#pragma mark Portal
-// Show the portal, initiallize it if necessary
-- (void)updatePortal {
-    [_effectView clear];
-    _isInPortalMode = YES;
-    [_mouseBehaviorDelegate update];
-    if (_portal == nil) {
-        _portal = [[WLCoverFlowPortal alloc] initWithView:self];
-        [_portal loadCovers];
-    }
-    [_portal show];
-}
-
-// Remove current portal
-- (void)removePortal {
-    [_portal hide];
-    _isInPortalMode = NO;
-}
-
-// Reset a new portal
-- (void)resetPortal {
-    //[_portal loadCovers];
-    if (_isInPortalMode) {
-        [self updatePortal];
-    }
-}
-
-// Set the portal in right state...
-- (void)checkPortal {
-    WLSite *site = [[self frontMostConnection] site];
-    if (_isInPortalMode && (site && ![site empty]))
-        [self removePortal];
-    else if (([self numberOfTabViewItems] == 0 || [site empty]) && !_isInPortalMode && [WLGlobalConfig shouldEnableCoverFlow])
-        [self updatePortal];
-}
-/*
-- (void)addPortalImage:(NSString *)source 
-				 forSite:(NSString *)siteName {
-    //[_portal addPortalPicture:source forSite:siteName];
-}
-*/
-
-- (void)sitesDidChanged:(NSArray *)sitesAfterChange {
-	if ([WLGlobalConfig shouldEnableCoverFlow]) {
-		[self resetPortal];
-	}
-}
-
-#pragma mark -
 #pragma mark mouse operation
 - (void)deactivateMouseForKeying {
 	_isKeying = YES;
@@ -1110,4 +1019,40 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)activateMouseForKeying:(NSTimer*)timer {
 	_isKeying = NO;
 }
+
+#pragma mark -
+#pragma mark WLTabItemIdentifierObserver protocol
+- (void)didChangeIdentifier:(id)theIdentifier {
+	/*
+	if ([theIdentifier isKindOfClass:[WLConnection class]]) {
+	} else {
+	}*/
+	[self clearSelection];
+	[self exitURL];
+	[_effectView clear];
+	if (theIdentifier == nil) {
+		[_effectView setHidden:YES];
+	} else {
+		[_effectView setHidden:NO];
+		
+		// Pop up a message indicating the selected site
+		[WLPopUpMessage showPopUpMessage:[[(WLConnection *)theIdentifier site] name]
+								duration:1.2
+							  effectView:_effectView];
+	}
+	[_mouseBehaviorDelegate update];
+	[super didChangeIdentifier:theIdentifier];
+}
+
+#pragma mark -
+#pragma mark WLTerminalObserver protocol
+- (void)terminalDidUpdate:(WLTerminal *)terminal {
+	if (terminal == [self frontMostTerminal]) {
+		[self updateBackedImage];
+		[self setNeedsDisplay:YES];
+		[self refreshMouseHotspot];
+	}
+	[super terminalDidUpdate:terminal];
+}
+
 @end

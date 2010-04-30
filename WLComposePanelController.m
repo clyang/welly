@@ -9,7 +9,7 @@
 #import "WLComposePanelController.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLGlobalConfig.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLTerminal.h"
 #import "WLSite.h"
 #import "SynthesizeSingleton.h"
@@ -72,7 +72,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 #pragma mark -
 #pragma mark Compose
 - (void)openComposePanelInWindow:(NSWindow *)window 
-				   forTelnetView:(YLView *)telnetView {
+				   forTelnetView:(WLTerminalView *)telnetView {
 	[self loadNibFile];
 	
 	// Propose a warning if necessary

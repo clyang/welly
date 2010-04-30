@@ -8,25 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLFullScreenProcessor.h"
-#import "WLGlobalConfig.h"
-#import "WLEffectView.h"
-#import "YLView.h"
 
-@interface WLTelnetProcessor : WLFullScreenProcessor {
-	BOOL needResetPortal;
+@interface WLTelnetProcessor : NSObject <WLFullScreenProcessor> {
 	CGFloat _screenRatio;
 	NSRect _viewRect;
-	YLView *_myView;
-	NSView *_tabView;
-	WLEffectView *_effectView;
+	NSView *_targetView;
 }
 
 // Constructor
-- (id)initWithView:(YLView*)view 
-		 myTabView:(NSView*)tView 
-		effectView:(WLEffectView*)eView;
+- (id)initWithView:(NSView *)view;
 
-// Overrided functions
-- (void)processBeforeEnter;
-- (void)processBeforeExit;
 @end

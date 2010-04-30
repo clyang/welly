@@ -10,24 +10,19 @@
 
 @class WLPortalItem;
 #if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-@interface WLCoverFlowPortal : NSObject <NSComboBoxDataSource> {
+@interface WLCoverFlowPortal : NSView <NSComboBoxDataSource> {
 #else
-@interface WLCoverFlowPortal : NSObject {
+@interface WLCoverFlowPortal : NSView {
 #endif
-    NSMutableArray * _data;
-    id _view, _contentView;
+    NSArray *_portalItems;
+    id _imageFlowView;
 	WLPortalItem *_draggingItem;
 }
 
-@property (readonly) NSView *view;
+//@property (readonly) NSView *view;
 
-- (id)initWithView:(NSView *)view;
-
-- (void)loadCovers;
-- (void)show;
-- (void)hide;
-//- (BOOL)updateCoverAtIndex:(NSUInteger)index withFile:(NSString*)path;
-
+- (void)setPortalItems:(NSArray *)portalItems;
+	
 - (void)keyDown:(NSEvent *)theEvent;
 - (void)mouseDown:(NSEvent *)theEvent;
 

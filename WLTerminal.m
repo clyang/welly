@@ -11,9 +11,12 @@
 
 #import "WLTerminal.h"
 #import "WLGlobalConfig.h"
-#import "YLView.h"
 #import "WLConnection.h"
 #import "WLSite.h"
+
+@interface WLTerminal ()
+- (void)notifyObservers;
+@end
 
 @implementation WLTerminal
 @synthesize maxRow = _maxRow;
@@ -24,12 +27,6 @@
 @synthesize bbsType = _bbsType;
 @synthesize bbsState = _bbsState;
 @synthesize connection = _connection;
-
-+ (WLTerminal *)terminalWithView:(YLView *)view {
-    WLTerminal *terminal = [[WLTerminal alloc] init];
-    terminal->_view = view;
-	return [terminal autorelease];
-}
 
 - (id)init {
 	if (self = [super init]) {
@@ -42,8 +39,10 @@
 			//		 screen), we allocate one more unit for this array
 			_grid[i] = (cell *) malloc(sizeof(cell) * (_maxColumn + 1));
 		}
-		_dirty = (char *)malloc(sizeof(char) * (_maxRow * _maxColumn));
+		_dirty = (char *)malloc(sizeof(BOOL) * (_maxRow * _maxColumn));
 		_textBuf = (unichar *)malloc(sizeof(unichar) * (_maxRow * _maxColumn + 1));
+		
+		_observers = [[NSMutableSet alloc] init];
 		
         [self clearAll];
 	}
@@ -54,6 +53,8 @@
     for (int i = 0; i < _maxRow; i++)
         free(_grid[i]);
     free(_grid);
+	
+	[_observers release];
     [super dealloc];
 }
 
@@ -70,7 +71,8 @@
     }
 	
 	[self updateBBSState];
-	[_view terminalDidUpdate:self];
+	
+	[self notifyObservers];
 	/*
     [_view performSelector:@selector(tick:)
 				withObject:nil
@@ -85,21 +87,7 @@
 }
 
 # pragma mark -
-# pragma mark Start / Stop
-
-- (void)startConnection {
-    [self clearAll];
-    [_view updateBackedImage];
-	[_view setNeedsDisplay:YES];
-}
-
-- (void)closeConnection {
-	[_view setNeedsDisplay:YES];
-}
-
-# pragma mark -
 # pragma mark Clear
-
 - (void)clearAll {
     _cursorColumn = _cursorRow = 0;
 	
@@ -124,11 +112,12 @@
 
 # pragma mark -
 # pragma mark Dirty
-
 - (void)setAllDirty {
 	int i, end = _maxColumn * _maxRow;
 	for (i = 0; i < end; i++)
 		_dirty[i] = YES;
+	
+	[self notifyObservers];
 }
 
 - (void)setDirtyForRow:(int)r {
@@ -148,9 +137,12 @@
 	_dirty[(r) * _maxColumn + (c)] = d;
 }
 
+- (void)removeAllDirtyMarks {
+	memset(_dirty, 0, sizeof(BOOL) * (_maxRow * _maxColumn));
+}
+
 # pragma mark -
 # pragma mark Access Data
-
 - (attribute)attrAtRow:(int)r 
 				column:(int)c {
 	return _grid[r][c].attr;
@@ -329,5 +321,17 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
 	// FIXME: BBS type is temoprarily determined by the ansi color key.
 	// remove #import "YLSite.h" when fixed.
 	[self setBbsType:[[_connection site] encoding] == WLBig5Encoding ? WLMaple : WLFirebird];
+}
+
+#pragma mark -
+#pragma mark Observe subject
+- (void)addObserver:(id <WLTerminalObserver>)observer {
+	[_observers addObject:observer];
+}
+
+- (void)notifyObservers {
+	for (id <WLTerminalObserver> observer in _observers) {
+		[observer terminalDidUpdate:self];
+	}
 }
 @end

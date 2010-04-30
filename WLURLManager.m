@@ -8,7 +8,7 @@
 
 #import "WLURLManager.h"
 #import "WLMouseBehaviorManager.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
 #import "WLPreviewController.h"

@@ -569,4 +569,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 + (BOOL)shouldEnableCoverFlow {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:WLCoverFlowModeEnabledKeyName];
 }
+
+- (NSSize)contentSize {
+	// Return the proper size of all the content
+	return NSMakeSize(_column * [self cellWidth], _row * [self cellHeight]);
+}
 @end

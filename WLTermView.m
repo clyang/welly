@@ -115,14 +115,15 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 }
 
 - (void)configure {
-    if (!gConfig) gConfig = [WLGlobalConfig sharedInstance];
+    if (!gConfig) 
+		gConfig = [WLGlobalConfig sharedInstance];
 	_maxColumn = [gConfig column];
 	_maxRow = [gConfig row];
     _fontWidth = [gConfig cellWidth];
     _fontHeight = [gConfig cellHeight];
 	
     NSRect frame = [self frame];
-	frame.size = NSMakeSize(_maxColumn * [gConfig cellWidth], _maxRow * [gConfig cellHeight]);
+	frame.size = [gConfig contentSize];
     frame.origin = NSZeroPoint;
     [self setFrame:frame];
 	
@@ -147,6 +148,26 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 - (id)initWithFrame:(NSRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self configure];
+		
+		// Register KVO
+		NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showsHiddenText", @"cellWidth", @"cellHeight", 
+								@"chineseFontName", @"chineseFontSize", @"chineseFontPaddingLeft", @"chineseFontPaddingBottom",
+								@"englishFontName", @"englishFontSize", @"englishFontPaddingLeft", @"englishFontPaddingBottom", 
+								@"colorBlack", @"colorBlackHilite", @"colorRed", @"colorRedHilite", @"colorGreen", @"colorGreenHilite",
+								@"colorYellow", @"colorYellowHilite", @"colorBlue", @"colorBlueHilite", @"colorMagenta", @"colorMagentaHilite", 
+								@"colorCyan", @"colorCyanHilite", @"colorWhite", @"colorWhiteHilite", @"colorBG", @"colorBGHilite", nil];
+		for (NSString *key in observeKeys)
+			[[WLGlobalConfig sharedInstance] addObserver:self
+											  forKeyPath:key
+												 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
+												 context:nil];
+		
+		// For blink cells
+		[NSTimer scheduledTimerWithTimeInterval:1 
+										 target:self 
+									   selector:@selector(updateBlinkTicker:) 
+									   userInfo:nil 
+										repeats:YES];
     }
     return self;
 }
@@ -159,20 +180,61 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 #pragma mark -
 #pragma mark Accessor
 - (WLConnection *)frontMostConnection {
-    id identifier = [[self selectedTabViewItem] identifier];
-    return (WLConnection *) identifier;
+	return _connection;
 }
 
 - (WLTerminal *)frontMostTerminal {
+	if (!_connection)
+		return nil;
     return (WLTerminal *)[[self frontMostConnection] terminal];
 }
 
 - (BOOL)isConnected {
+	if (!_connection)
+		return NO;
 	return [[self frontMostConnection] isConnected];
+}
+
+- (BOOL)hasBlinkCell {
+    int c, r;
+    id ds = [self frontMostTerminal];
+    if (!ds) return NO;
+    for (r = 0; r < _maxRow; r++) {
+        [ds updateDoubleByteStateForRow: r];
+        cell *currRow = [ds cellsOfRow: r];
+        for (c = 0; c < _maxColumn; c++) 
+            if (isBlinkCell(currRow[c]))
+                return YES;
+    }
+    return NO;
+}
+
+- (void)setFrame:(NSRect)frameRect {
+	[super setFrame:frameRect];
+	[self refreshDisplay];
 }
 
 #pragma mark -
 #pragma mark Drawing
+- (void)refreshDisplay {
+	[[self frontMostTerminal] setAllDirty];
+	[self updateBackedImage];
+	[self setNeedsDisplay:YES];
+}
+
+- (void)refreshHiddenRegion {
+    if (![self isConnected]) 
+		return;
+    int i, j;
+    for (i = 0; i < _maxRow; i++) {
+        cell *currRow = [[self frontMostTerminal] cellsOfRow:i];
+        for (j = 0; j < _maxColumn; j++)
+            if (isHiddenAttribute(currRow[j].attr)) 
+                [[self frontMostTerminal] setDirty:YES atRow:i column:j];
+    }
+	[self refreshDisplay];
+}
+
 - (void)displayCellAtRow:(int)r 
 				  column:(int)c {
     [self setNeedsDisplayInRect:NSMakeRect(c * _fontWidth, (_maxRow - 1 - r) * _fontHeight, _fontWidth, _fontHeight)];
@@ -262,6 +324,13 @@ static NSBezierPath *gSymbolTrianglePath2[4];
     [pool release];
 }
 
+- (void)updateBlinkTicker:(NSTimer *)timer {
+	// TODO: use local variable to do this.
+    [[WLGlobalConfig sharedInstance] updateBlinkTicker];
+	if ([self hasBlinkCell])
+        [self setNeedsDisplay:YES];
+}
+
 - (void)drawBlink {
     if (![gConfig blinkTicker]) return;
 	
@@ -336,7 +405,6 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 }
 
 - (void)updateBackedImage {
-	//NSLog(@"Image");
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	int x, y;
     WLTerminal *ds = [self frontMostTerminal];
@@ -346,7 +414,7 @@ static NSBezierPath *gSymbolTrianglePath2[4];
         /* Draw Background */
         for (y = 0; y < _maxRow; y++) {
             for (x = 0; x < _maxColumn; x++) {
-                if ([ds isDirtyAtRow: y column: x]) {
+                if ([ds isDirtyAtRow:y column:x]) {
                     int startx = x;
                     for (; x < _maxColumn && [ds isDirtyAtRow:y column:x]; x++) ;
                     [self updateBackgroundForRow:y from:startx to:x];
@@ -362,12 +430,13 @@ static NSBezierPath *gSymbolTrianglePath2[4];
             [self drawStringForRow:y context:myCGContext];
         }
         CGContextRestoreGState(myCGContext);
-        
+        /*
         for (y = 0; y < _maxRow; y++) {
             for (x = 0; x < _maxColumn; x++) {
                 [ds setDirty:NO atRow:y column:x];
             }
-        }
+        }*/
+		[ds removeAllDirtyMarks];
     } else {
         [[NSColor clearColor] set];
         CGContextFillRect(myCGContext, CGRectMake(0, 0, _maxColumn * _fontWidth, _maxRow * _fontHeight));
@@ -745,5 +814,33 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 - (NSImage *)image {
 	// Leave for others to release it
 	return [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self frame]]];
+}
+
+#pragma mark -
+#pragma mark WLTabItemIdentifierObserver protocol
+- (void)didChangeIdentifier:(id)theIdentifier {
+	if ([theIdentifier isKindOfClass:[WLConnection class]]) {
+		_connection = theIdentifier;
+		[self refreshDisplay];
+	}
+}
+
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"shouldSmoothFonts"]) {
+        [self refreshDisplay];
+    } else if ([keyPath hasPrefix:@"cell"]) {
+        [self configure];
+        [self refreshDisplay];
+    } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
+        //[[WLGlobalConfig sharedInstance] refreshFont];
+        [self refreshDisplay];
+    } else if ([keyPath isEqualToString:@"showsHiddenText"]) {
+		[self refreshHiddenRegion];
+	}
 }
 @end

@@ -16,7 +16,7 @@
 
 #define scrollTimerInterval 0.12
 
-@class YLView, WLTerminal;
+@class WLTabView, WLTerminal;
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
 @class WLFeedGenerator;
@@ -38,7 +38,7 @@
     IBOutlet id _autoReplyButton;
     IBOutlet id _mouseButton;
 
-    IBOutlet YLView *_telnetView;
+    IBOutlet WLTabView *_tabView;
     IBOutlet WLTabBarControl *_tab;
 	
 	/* Menus */
@@ -61,7 +61,7 @@
 	MultiClickRemoteBehavior *remoteControlBehavior;
 	
 	// Full Screen
-	WLFullScreenController* _fullScreenController;
+	WLFullScreenController *_fullScreenController;
 	
 	// Timer test
 	NSTimer* _scrollTimer;
@@ -69,7 +69,7 @@
     // RSS feed
     NSThread *_rssThread;
 }
-@property (readonly) YLView *telnetView;
+@property (readonly) WLTabView *telnetView;
 
 + (YLController *)sharedInstance;
 

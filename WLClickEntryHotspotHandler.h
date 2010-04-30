@@ -9,9 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "WLMouseHotspotHandler.h"
 
-@class YLView;
-@class WLEffectView;
-
 @interface WLClickEntryHotspotHandler : WLMouseHotspotHandler <WLMouseUpHandler, WLUpdatable, WLContextualMenuHandler> {
 	int _row;
 }

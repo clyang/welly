@@ -10,7 +10,7 @@
 #import "WLMessageDelegate.h"
 #import "WLConnection.h"
 #import "WLSite.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "YLController.h"
 #import "WLGrowlBridge.h"
 
@@ -61,7 +61,8 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 		[_unreadMessage appendFormat:@"%@\r%@\r\r", callerName, message];
 		_unreadCount++;
 	}
-	
+
+	/* TODO:!!!
 	YLView *view = [[YLController sharedInstance] telnetView];
 	if (_connection != [view frontMostConnection] || ![NSApp isActive] || [[_connection site] shouldAutoReply]) {
 		// not in focus
@@ -84,6 +85,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 						 clickSelector:@selector(didClickGrowlNewMessage:)
 							identifier:_connection];
 	}
+	 */
 }
 
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView {
@@ -98,9 +100,11 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
     // bring the window to front
     [NSApp activateIgnoringOtherApps:YES];
 	
+	/* TODO:
 	YLView *view = [[YLController sharedInstance] telnetView];
     [[view window] makeKeyAndOrderFront:nil];
     // select the tab
     [view selectTabViewItemWithIdentifier:connection];
+	 */
 }
 @end

@@ -8,7 +8,7 @@
 
 #import "WLAuthorAreaHotspotHandler.h"
 #import "WLMouseBehaviorManager.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLTerminal.h"
 #import "WLEffectView.h"
 

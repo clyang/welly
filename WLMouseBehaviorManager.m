@@ -15,7 +15,7 @@
 #import "WLAuthorAreaHotspotHandler.h"
 #import "WLURLManager.h"
 
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "WLTerminal.h"
 #import "WLConnection.h"
 #import "WLSite.h"
@@ -44,7 +44,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 
 #pragma mark -
 #pragma mark Initialization
-- (id)initWithView:(YLView *)view {
+- (id)initWithView:(WLTerminalView *)view {
 	[self init];
 	_view = view;
 	

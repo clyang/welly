@@ -32,7 +32,7 @@ typedef struct {
 	NSString *commandSequence;
 } WLButtonDescription;
 
-@class YLView;
+@class WLTerminalView;
 @interface WLButtonAreaHotspotHandler : WLMouseHotspotHandler <WLMouseUpHandler, WLUpdatable> {
 	NSString *_commandSequence;
 }

@@ -6,8 +6,8 @@
 //  Copyright 2007 yllan.org. All rights reserved.
 
 #import "YLController.h"
-#import "WLTerminal.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
+#import "WLTabView.h"
 #import "WLConnection.h"
 #import "WLPTY.h"
 #import "WLGlobalConfig.h"
@@ -31,8 +31,6 @@
 // for RSS
 #import "WLFeedGenerator.h"
 
-// Test code by gtCarrera
-#import "WLPopUpMessage.h"
 // End
 #import <Carbon/Carbon.h>
 #import "SynthesizeSingleton.h"
@@ -45,7 +43,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 @end
 
 @implementation YLController
-@synthesize telnetView = _telnetView;
+@synthesize telnetView = _tabView;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
@@ -72,7 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     //[_tab setShowAddTabButton:YES];
     [[_tab addTabButton] setTarget:self];
     [[_tab addTabButton] setAction:@selector(newTab:)];
-    _telnetView = (YLView *)[_tab tabView];
+    _tabView = (WLTabView *)[_tab tabView];
 	
     // Trigger the KVO to update the information properly.
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
@@ -84,8 +82,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     [_mainWindow setFrameAutosaveName:@"wellyMainWindowFrame"];
     
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateBlinkTicker:) userInfo:nil repeats:YES];
-
+    
 	// set remote control
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"RemoteSupport"]) {
 		// 1. instantiate the desired behavior for the remote control device
@@ -109,13 +106,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	}
 	// For full screen, initiallize the full screen controller
 	_fullScreenController = [[WLFullScreenController alloc] 
-							 initWithTargetView:_telnetView 
-							 superView:[_telnetView superview] 
+							 initWithTargetView:_tabView 
+							 superView:[_tabView superview] 
 							 originalWindow:_mainWindow];
 	
     // open the portal
     // the switch
-    [self tabViewDidChangeNumberOfTabViewItems:_telnetView];
+    [self tabViewDidChangeNumberOfTabViewItems:_tabView];
 	[_tab setMainController:[self retain]];
     
     // restore connections
@@ -138,9 +135,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         NSMenuItem *item = [m itemAtIndex:i];
         [item setState:NSOffState];
     }
-    if (![_telnetView frontMostTerminal])
+    if (![_tabView frontMostTerminal])
         return;
-    WLEncoding currentEncoding = [[_telnetView frontMostTerminal] encoding];
+    WLEncoding currentEncoding = [[_tabView frontMostTerminal] encoding];
     if (currentEncoding == WLBig5Encoding)
         [[m itemAtIndex:1] setState:NSOnState];
     if (currentEncoding == WLGBKEncoding)
@@ -175,16 +172,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	[self updateSitesMenuWithSites:sitesAfterChange];
 }
 
-- (void)updateBlinkTicker:(NSTimer *)timer {
-    [[WLGlobalConfig sharedInstance] updateBlinkTicker];
-    if ([_telnetView hasBlinkCell])
-        [_telnetView setNeedsDisplay:YES];
-}
-
 - (void)antiIdle:(NSTimer *)timer {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AntiIdle"]) 
 		return;
-    NSArray *a = [_telnetView tabViewItems];
+    NSArray *a = [_tabView tabViewItems];
     for (NSTabViewItem *item in a) {
         WLConnection *connection = [item identifier];
         if ([connection isConnected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
@@ -198,41 +189,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 - (void)newConnectionWithSite:(WLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
+    WLConnection *connection = [[WLConnection alloc] initWithSite:site];
+	
+	[_tabView newTabWithConnection:connection label:[site name]];
+	// We can release it since it is retained by the tab view item
+	[connection release];
 	// Set the view to be focused.
-	[_mainWindow makeFirstResponder:_telnetView];
-
-    WLConnection *connection;
-    NSTabViewItem *tabViewItem;
-    BOOL emptyTab = [_telnetView frontMostConnection] && ([_telnetView frontMostTerminal] == nil);
-    if (emptyTab && ![site empty]) {
-		// reuse the empty tab
-        tabViewItem = [_telnetView selectedTabViewItem];
-        connection = [tabViewItem identifier];
-        [connection setSite:site];
-        [self tabView:_telnetView didSelectTabViewItem:tabViewItem];
-    } else {
-        connection = [[[WLConnection alloc] initWithSite:site] autorelease];
-        tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
-        // this will invoke tabView:didSelectTabViewItem for the first tab
-        [_telnetView addTabViewItem:tabViewItem];
-        [_telnetView selectTabViewItem:tabViewItem];
-    }
+	[_mainWindow makeFirstResponder:[_tabView frontMostView]];
     
-    // set the tab label as the site name.
-    [tabViewItem setLabel:[site name]];
-
-    if ([site empty]) {
-        [connection setTerminal:nil];
-        [connection setProtocol:nil];
-    } else {
-		// Close the portal
-		if ([_telnetView isInPortalMode]) {
-			[_telnetView removePortal];
-		}
-        // new terminal
-        WLTerminal *terminal = [WLTerminal terminalWithView:_telnetView];
-        [connection setTerminal:terminal];
-
+    if (![site empty]) {
         // WLPTY as the default protocol (a proxy)
         WLPTY *protocol = [[WLPTY new] autorelease];
         [connection setProtocol:protocol];
@@ -272,9 +237,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         }
         [dockTile display];
     } else if ([keyPath isEqualToString:@"shouldSmoothFonts"]) {
-        [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
-        [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay:YES];
     } else if ([keyPath hasPrefix:@"cell"]) {
         WLGlobalConfig *config = [WLGlobalConfig sharedInstance];
         NSRect r = [_mainWindow frame];
@@ -289,18 +251,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         r.size.height = [config cellHeight] * [config row] + shift;
         r.origin.y = topLeftCorner - r.size.height;
         [_mainWindow setFrame:r display:YES animate:NO];
-        [_telnetView configure];
-        [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
-        [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay: YES];
+
         NSRect tabRect = [_tab frame];
         tabRect.size.width = r.size.width;
         [_tab setFrame: tabRect];
     } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
         [[WLGlobalConfig sharedInstance] refreshFont];
-        [[[[_telnetView selectedTabViewItem] identifier] terminal] setAllDirty];
-        [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay:YES];
     }
 }
 
@@ -309,18 +265,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 - (void)loadLastConnections {
     NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:@"LastConnections"];
     for (NSDictionary *d in a) {
-        [self newConnectionWithSite: [WLSite siteWithDictionary: d]];
+        [self newConnectionWithSite:[WLSite siteWithDictionary:d]];
     }    
 }
 
 - (void)saveLastConnections {
-    int tabNumber = [_telnetView numberOfTabViewItems];
+    int tabNumber = [_tabView numberOfTabViewItems];
     int i;
     NSMutableArray *a = [NSMutableArray array];
     for (i = 0; i < tabNumber; i++) {
-        id connection = [[_telnetView tabViewItemAtIndex: i] identifier];
-        if ([connection terminal]) // not empty tab
-            [a addObject: [[connection site] dictionaryOfSite]];
+        id connection = [[_tabView tabViewItemAtIndex:i] identifier];
+        if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] empty]) // not empty tab
+            [a addObject:[[connection site] dictionaryOfSite]];
     }
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"LastConnections"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -330,9 +286,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 #pragma mark Actions
 - (IBAction)toggleDetectDoubleByte:(id)sender {
     BOOL ddb = [sender state];
-    if ([sender isKindOfClass: [NSMenuItem class]])
+    if ([sender isKindOfClass:[NSMenuItem class]])
         ddb = !ddb;
-    [[[_telnetView frontMostConnection] site] setShouldDetectDoubleByte:ddb];
+    [[[_tabView frontMostConnection] site] setShouldDetectDoubleByte:ddb];
     [_detectDoubleByteButton setState:(ddb ? NSOnState : NSOffState)];
     [_detectDoubleByteMenuItem setState:(ddb ? NSOnState : NSOffState)];
 }
@@ -344,26 +300,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 	// set the state of the button and menuitem
 	[_autoReplyButton setState: ar ? NSOnState : NSOffState];
 	[_autoReplyMenuItem setState: ar ? NSOnState : NSOffState];
-	if (!ar && ar != [[[_telnetView frontMostConnection] site] shouldAutoReply]) {
+	if (!ar && ar != [[[_tabView frontMostConnection] site] shouldAutoReply]) {
 		// when user is to close auto reply, 
-		if ([[[_telnetView frontMostConnection] messageDelegate] unreadCount] > 0) {
+		if ([[[_tabView frontMostConnection] messageDelegate] unreadCount] > 0) {
 			// we should inform him with the unread messages
-			[[[_telnetView frontMostConnection] messageDelegate] showUnreadMessagesOnTextView:_unreadMessageTextView];
+			[[[_tabView frontMostConnection] messageDelegate] showUnreadMessagesOnTextView:_unreadMessageTextView];
 			[_messageWindow makeKeyAndOrderFront:self];
 		}
 	}
 	
-	[[[_telnetView frontMostConnection] site] setShouldAutoReply:ar];
+	[[[_tabView frontMostConnection] site] setShouldAutoReply:ar];
 }
 
 - (IBAction)toggleMouseAction:(id)sender {
+	if (![[_tabView frontMostView] isKindOfClass:[WLTerminalView class]])
+		return;
+	
     BOOL state = [sender state];
     if ([sender isKindOfClass:[NSMenuItem class]])
         state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
-	[[[_telnetView frontMostConnection] site] setShouldEnableMouse:state];
-	[_telnetView refreshMouseHotspot];
+	// TODO: ugly, how to use KVO to solve this?
+	[[[_tabView frontMostConnection] site] setShouldEnableMouse:state];
+	[(WLTerminalView *)[_tabView frontMostView] refreshMouseHotspot];
 }
 
 - (IBAction)closeMessageWindow:(id)sender {
@@ -377,41 +337,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 		encoding = WLGBKEncoding;
 	if ([[sender title] rangeOfString:@"Big5"].location != NSNotFound)
 		encoding = WLBig5Encoding;
-    if ([_telnetView frontMostTerminal]) {
-        [[_telnetView frontMostTerminal] setEncoding: encoding];
-        [[_telnetView frontMostTerminal] setAllDirty];
-        [_telnetView updateBackedImage];
-        [_telnetView setNeedsDisplay:YES];
+    if ([_tabView frontMostTerminal]) {
+        [[_tabView frontMostTerminal] setEncoding:encoding];
+        [[_tabView frontMostTerminal] setAllDirty];
+		// TODO:
+        //[_telnetView updateBackedImage];
+        //[_telnetView setNeedsDisplay:YES];
         [self updateEncodingMenu];
     }
 }
 
 - (IBAction)newTab:(id)sender {
-    [self newConnectionWithSite:[WLSite site]];
-	
 	// Draw the portal and entering the portal control mode if needed...
 	if ([WLGlobalConfig shouldEnableCoverFlow]) {
-		[_telnetView checkPortal];
-		[[_telnetView selectedTabViewItem] setLabel:@"Cover Flow"];
+		[_tabView newTabWithCoverFlowPortal];
 	} else {
+		[self newConnectionWithSite:[WLSite site]];
 		// let user input
 		[_mainWindow makeFirstResponder:_addressBar];
 	}
-    /*
-    YLConnection *connection = [[[YLConnection alloc] initWithSite:site] autorelease];
-
-    NSTabViewItem *tabItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
-    [tabItem setLabel:@"Untitled"];
-    [_telnetView addTabViewItem:tabItem];
-    [_telnetView selectTabViewItem:tabItem];
-
-    [_mainWindow makeKeyAndOrderFront:self];
-    */
 }
 
 - (IBAction)connectLocation:(id)sender {
 	[sender abortEditing];
-	[[_telnetView window] makeFirstResponder:_telnetView];
+	[[_tabView window] makeFirstResponder:_tabView];
     BOOL ssh = NO;
     
     NSString *name = [sender stringValue];
@@ -471,14 +420,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 }
 
 - (IBAction)addCurrentSite:(id)sender {
-    if ([_telnetView numberOfTabViewItems] == 0) return;
-    NSString *address = [[[_telnetView frontMostConnection] site] address];
+    if ([_tabView numberOfTabViewItems] == 0) return;
+    NSString *address = [[[_tabView frontMostConnection] site] address];
     
     for (WLSite *s in [WLSitesPanelController sites])
         if ([[s address] isEqualToString:address]) 
             return;
     
-    WLSite *site = [[_telnetView frontMostConnection] site];
+    WLSite *site = [[_tabView frontMostConnection] site];
     [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow 
 														 andAddSite:site];
 }
@@ -489,18 +438,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
 // Open compose panel
 - (IBAction)openComposePanel:(id)sender {
+	/* TODO:
 	[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
 														  forTelnetView:_telnetView];
+	 */
 }
 
 // Download Post
 - (IBAction)downloadPost:(id)sender {
 	[[WLPostDownloadDelegate sharedInstance] beginPostDownloadInWindow:_mainWindow 
-														   forTerminal:[_telnetView frontMostTerminal]];
+														   forTerminal:[_tabView frontMostTerminal]];
 }
 
 - (BOOL)shouldReconnect {
-	if (![[_telnetView frontMostConnection] isConnected]) return YES;
+	if (![[_tabView frontMostConnection] isConnected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
                       NSLocalizedString(@"Confirm", @"Default Button"), 
@@ -518,18 +469,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 			  returnCode:(int)returnCode 
 			 contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
-		[[_telnetView frontMostConnection] reconnect];
+		[[_tabView frontMostConnection] reconnect];
     }
 }
 
 - (IBAction)reconnect:(id)sender {
-    if (![[_telnetView frontMostConnection] isConnected] || ![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) {
-		// Close the portal
-		if ([_telnetView isInPortalMode] && ![[[_telnetView frontMostConnection] site] empty] 
-			&& [_telnetView numberOfTabViewItems] > 0) {
-			[_telnetView removePortal];
-		}
-		[[_telnetView frontMostConnection] reconnect];
+    if (![[_tabView frontMostConnection] isConnected] || ![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) {
+		[[_tabView frontMostConnection] reconnect];
         return;
     }
     NSBeginAlertSheet(NSLocalizedString(@"Are you sure you want to reconnect?", @"Sheet Title"), 
@@ -544,48 +490,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     return;	
 }
 
-- (void)fullScreenPopUp {
-	NSString* currSiteName = [[[_telnetView frontMostConnection] site] name];
-	[WLPopUpMessage showPopUpMessage:currSiteName 
-							duration:1.2
-						  effectView:((WLEffectView*)[_telnetView effectView])];
-}
-
 - (IBAction)selectNextTab:(id)sender {
     [_tab selectNextTabViewItem:sender];
-	[_telnetView exitURL];
-	[self fullScreenPopUp];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
     [_tab selectPreviousTabViewItem:sender];
-	[_telnetView exitURL];
-	[self fullScreenPopUp];
 }
 
 - (void)selectTabNumber:(int)index {
-    if (index > 0 && index <= [_telnetView numberOfTabViewItems]) {
+    if (index > 0 && index <= [_tabView numberOfTabViewItems]) {
         [_tab selectTabViewItemAtIndex:index-1];
     }
-	[_telnetView exitURL];
-//	NSLog(@"Select tab %d", index);
 }
 
 - (IBAction)closeTab:(id)sender {
-    if ([_telnetView numberOfTabViewItems] == 0) return;
+    if ([_tabView numberOfTabViewItems] == 0) return;
 	// Here, sometimes it may throw a exception...
 	@try {
-		[_tab removeTabViewItem:[_telnetView selectedTabViewItem]];
-		[_telnetView exitURL];
+		[_tab removeTabViewItem:[_tabView selectedTabViewItem]];
 	}
 	@catch (NSException * e) {
 	}
-    /*
-    if ([self tabView:_telnetView shouldCloseTabViewItem:sel]) {
-        [self tabView:_telnetView willCloseTabViewItem:sel];
-        [_telnetView removeTabViewItem:sel];
-    }
-    */
 }
 
 - (IBAction)openSiteMenu:(id)sender {
@@ -599,39 +525,72 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         show = !show;
     }
 
+	[_showHiddenTextMenuItem setState:show];
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:show];
-    [_telnetView refreshHiddenRegion];
-    [_telnetView updateBackedImage];
-    [_telnetView setNeedsDisplay:YES];
 }
 
 - (IBAction)openPreferencesWindow:(id)sender {
     [[DBPrefsWindowController sharedPrefsWindowController] showWindow:nil];
 }
 
-/* commented out by boost @ 9#: who is using this...
-- (IBOutlet) view { return _telnetView; }
-- (void) setView: (IBOutlet) o {}
-*/
-
 #pragma mark -
 #pragma mark Application Delegation
-- (BOOL)validateMenuItem:(NSMenuItem *)item {
-    SEL action = [item action];
-    if ((action == @selector(addCurrentSite:) ||
-         action == @selector(reconnect:) ||
-         action == @selector(selectNextTab:) ||
-         action == @selector(selectPrevTab:) )
-        && [_telnetView numberOfTabViewItems] == 0) {
-        return NO;
-    } else if (action == @selector(setEncoding:) && [_telnetView numberOfTabViewItems] == 0) {
-        return NO;
-    } else if (action == @selector(toggleMouseAction:) && (![_telnetView isConnected] || [_telnetView isInPortalMode])) {
-		return NO;
+- (BOOL)validateAction:(SEL)action {
+	if (action == @selector(addCurrentSite:) ||
+        action == @selector(reconnect:) ||
+		action == @selector(setEncoding:)) {
+		if (![_tabView frontMostConnection] ||
+			[[[_tabView frontMostConnection] site] empty])
+			return NO;
+	} else if (action == @selector(selectNextTab:) ||
+			   action == @selector(selectPrevTab:)) {
+		if ([_tabView numberOfTabViewItems] == 0)
+			return NO;
+	} else if (action == @selector(toggleMouseAction:) ||
+			   action == @selector(downloadPost:) ||
+			   action == @selector(openComposePanel:)) {
+		if (![_tabView frontMostConnection] ||
+			![[_tabView frontMostConnection] isConnected] ||
+			![[[_tabView selectedTabViewItem] view] isKindOfClass:[WLTerminalView class]]) {
+			return NO;
+		}
 	}
     return YES;
 }
 
+- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
+	return [self validateAction:[theItem action]];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+	return [self validateAction:[menuItem action]];
+}
+/*
+- (BOOL)validateMenuItem:(NSMenuItem *)item {
+    SEL action = [item action];
+	// TODO: redesign this part!!
+    if (action == @selector(addCurrentSite:) ||
+        action == @selector(reconnect:) ||
+		action == @selector(setEncoding:)) {
+		if (![_telnetView frontMostConnection] ||
+			[[[_telnetView frontMostConnection] site] empty])
+			return NO;
+	} else if (action == @selector(selectNextTab:) ||
+			   action == @selector(selectPrevTab:)) {
+		if ([_telnetView numberOfTabViewItems] == 0)
+			return NO;
+	} else if (action == @selector(toggleMouseAction:) ||
+			   action == @selector(downloadPost:) ||
+			   action == @selector(openComposePanel:)) {
+		if (![_telnetView frontMostConnection] ||
+			![[_telnetView frontMostConnection] isConnected] ||
+			![[[_telnetView selectedTabViewItem] view] isKindOfClass:[YLView class]]) {
+			return NO;
+		}
+	}
+    return YES;
+}
+*/
 - (BOOL)applicationShouldHandleReopen:(id)s 
 					hasVisibleWindows:(BOOL)b {
     [_mainWindow makeKeyAndOrderFront:self];
@@ -648,10 +607,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) 
         return YES;
     
-    int tabNumber = [_telnetView numberOfTabViewItems];
+    int tabNumber = [_tabView numberOfTabViewItems];
 	int connectedConnection = 0;
     for (int i = 0; i < tabNumber; i++) {
-        id connection = [[_telnetView tabViewItemAtIndex:i] identifier];
+        id connection = [[_tabView tabViewItemAtIndex:i] identifier];
         if ([connection isConnected])
             ++connectedConnection;
     }
@@ -696,15 +655,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification {
-	[_telnetView deactivateMouseForKeying];
-    [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask | NSShiftKeyMask];
-    [_closeTabMenuItem setKeyEquivalent: @"w"];
+	// TODO:[_telnetView deactivateMouseForKeying];
+    [_closeWindowMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
+    [_closeTabMenuItem setKeyEquivalent:@"w"];
 }
-
+/* TODO: What's this for? It's not reasonable.
 - (void)windowDidResignKey:(NSNotification *)notification {
-    [_closeWindowMenuItem setKeyEquivalentModifierMask: NSCommandKeyMask];
-    [_closeTabMenuItem setKeyEquivalent: @""];
-}
+    [_closeWindowMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
+    [_closeTabMenuItem setKeyEquivalent:@""];
+}*/
 
 - (void)getUrl:(NSAppleEventDescriptor *)event 
 withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
@@ -722,6 +681,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	// Restore from full screen firstly
 	[_fullScreenController releaseFullScreen];
 	
+	// REVIEW: why not put these in WLTabView?
     if (![[tabViewItem identifier] isConnected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;
 
@@ -743,19 +703,16 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
     WLConnection *connection = [tabViewItem identifier];
     WLSite *site = [connection site];
-    [_addressBar setStringValue:[site address]];
-    WLTerminal *terminal = [connection terminal];
+	if (connection && [site address]) {
+		[_addressBar setStringValue:[site address]];
+	} else {
+		[_addressBar setStringValue:@""];
+	}
     [connection resetMessageCount];
-    [terminal setAllDirty];
 
     [_mainWindow makeFirstResponder:tabView];
-    NSAssert(tabView == _telnetView, @"tabView");
-    [_telnetView updateBackedImage];
-    [_telnetView clearSelection];
-    [_telnetView setNeedsDisplay:YES];
+    NSAssert(tabView == _tabView, @"tabView");
 
-	// Added by K.O.ed: 2009.02.04
-	[_telnetView checkPortal];
     [self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
     [_detectDoubleByteButton setState:CELLSTATE([site shouldDetectDoubleByte])];
@@ -769,26 +726,13 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 - (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {
     // all tab closed, no didSelectTabViewItem will happen
     if ([tabView numberOfTabViewItems] == 0) {
-		[_telnetView refreshMouseHotspot];
-		[_telnetView checkPortal];
         if ([WLGlobalConfig shouldEnableCoverFlow]) {
-            [_mainWindow makeFirstResponder:_telnetView];
+            [_mainWindow makeFirstResponder:_tabView];
         } else {
             [_mainWindow makeFirstResponder:_addressBar];
         }
     }
 }
-
-/*
-- (BOOL)tabView:(NSTabView *)tabView shouldSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    return YES;
-}
-- (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    id identifier = [tabViewItem identifier];
-    [[identifier terminal] setAllDirty];
-    [_telnetView clearSelection];
-}
-*/
 
 #pragma mark -
 #pragma mark Remote Control
@@ -872,17 +816,17 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	}
 	
 	if (cmd != nil) {
-		[[_telnetView frontMostConnection] sendText:cmd];
+		[[_tabView frontMostConnection] sendText:cmd];
 	}
 }
 
 // for timer
 - (void)doScrollDown:(NSTimer*)timer {
-    [[_telnetView frontMostConnection] sendText:termKeyDown];
+    [[_tabView frontMostConnection] sendText:termKeyDown];
 }
 
 - (void)doScrollUp:(NSTimer*)timer {
-    [[_telnetView frontMostConnection] sendText:termKeyUp];
+    [[_tabView frontMostConnection] sendText:termKeyUp];
 }
 
 - (void)disableTimer {
@@ -907,9 +851,8 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 // screen
 - (IBAction)fullScreenMode:(id)sender {
 	if([_fullScreenController processor] == nil) {
-		WLTelnetProcessor* myPro = [[WLTelnetProcessor alloc] initWithView:_telnetView 
-															   myTabView:_tab 
-															  effectView:((WLEffectView*)[_telnetView effectView])];
+		WLTelnetProcessor *myPro = [[WLTelnetProcessor alloc] initWithView:_tabView];
+		 
 		[_fullScreenController setProcessor:myPro];
 	}
 	[_fullScreenController handleFullScreen];
@@ -919,6 +862,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 - (void)setFontSizeRatio:(CGFloat)ratio {
 	// Just do it..
 	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
+	[_tabView setNeedsDisplay:YES];
 }
 
 // Increase global font size setting by 5%
@@ -926,7 +870,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	// Here we use some small trick to provide better user experimence...
 	
 	[self setFontSizeRatio:1.05f];
-	[_telnetView setNeedsDisplay:YES];
 }
 
 // Decrease global font size setting by 5%
@@ -944,9 +887,10 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 						 informativeTextWithFormat:NSLocalizedString(@"If you proceed, you will lost all your current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?", @"Sheet Message")];
 	if ([alert runModal] != NSAlertDefaultReturn)
 		return;
+	/* TODO: what's this for???
 	if([_telnetView isInPortalMode]) {
 		return;
-	}
+	}*/
 	// Set the font settings
 	[[WLGlobalConfig sharedInstance] setCellWidth:12];
 	[[WLGlobalConfig sharedInstance] setCellHeight:24];
@@ -971,7 +915,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
                       @"Please pay attention to our future versions. Thanks for your cooperation.");
     return;
     // TODO: uncomment the following code to enable RSS mode.
-    if (![_telnetView isConnected]) return;
+    if (![_tabView frontMostConnection] || ![[_tabView frontMostConnection] isConnected]) return;
     if (!_rssThread) {
         [NSThread detachNewThreadSelector:@selector(fetchFeed) toTarget:self withObject:nil];
         NSBeginAlertSheet(@"Welly is now working in RSS mode. (Experimental)",
@@ -997,6 +941,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 }
 
 - (void)fetchFeed {
+	/*
     // FIXME: lots of HARDCODE here
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     BOOL exitNow = NO;
@@ -1149,6 +1094,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     }
     [feedGenerator release];
     [pool drain];
+	 */
 }
 
 // for portal

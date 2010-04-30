@@ -7,7 +7,7 @@
 //
 
 #import "WLEmoticonsPanelController.h"
-#import "YLView.h"
+#import "WLTerminalView.h"
 #import "YLController.h"
 #import "YLEmoticon.h"
 #import "SynthesizeSingleton.h"
@@ -81,7 +81,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLEmoticonsPanelController);
 
 - (IBAction)inputSelectedEmoticon:(id)sender {
     [self closeEmoticonsPanel:sender];
-    
+    /*TODO:
 	YLView *telnetView = [[YLController sharedInstance] telnetView];
 	
     if ([telnetView isConnected]) {
@@ -92,6 +92,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLEmoticonsPanelController);
             [telnetView insertText:[e content]];
         }
     }
+	 */
 }
 
 #pragma mark -

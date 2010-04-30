@@ -72,7 +72,7 @@
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent;
 @end
 
-@class YLView, WLMouseBehaviorManager;
+@class WLTerminalView, WLMouseBehaviorManager;
 /*!
     @class
     @abstract    The base class for all mouse hotspot handlers.
@@ -80,7 +80,7 @@
     @discussion  This base class defines several methods, which are shared by all hotspot handlers.
 */
 @interface WLMouseHotspotHandler : NSResponder {
-	YLView *_view;
+	WLTerminalView *_view;
 	
 	WLMouseBehaviorManager *_manager;
 	int _maxRow, _maxColumn;
@@ -99,7 +99,7 @@
 	@param		view	Relative <code>YLView</code> object.
 	@discussion	This method should be rarely called. In most of time, developers should use @link initWithManager: <code>initWithManager:</code>@/link instead. Using this initializing method requires <code>setManager:</code> manually.
 */
-- (id)initWithView:(YLView *)view;
+- (id)initWithView:(WLTerminalView *)view;
 
 /*!
     @method     

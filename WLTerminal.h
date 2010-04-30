@@ -12,7 +12,14 @@
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
 
-@class YLView, WLConnection, WLMessageDelegate, WLIntegerArray;
+@class WLConnection, WLMessageDelegate, WLIntegerArray;
+@class WLTerminal;
+
+@protocol WLTerminalObserver
+
+- (void)terminalDidUpdate:(WLTerminal *)terminal;
+
+@end
 
 @interface WLTerminal : NSObject {	
 	WLBBSType _bbsType;
@@ -26,7 +33,7 @@
     cell **_grid;
     char *_dirty;
 
-    YLView *_view;
+	NSMutableSet *_observers;
 
     WLConnection *_connection;
 	
@@ -43,12 +50,6 @@
 @property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
 
-+ (WLTerminal *)terminalWithView:(YLView *)view;
-
-/* Start / Stop */
-- (void)startConnection;
-- (void)closeConnection;
-
 /* Clear */
 - (void)clearAll;
 
@@ -60,6 +61,7 @@
 		   atRow:(int)r 
 		  column:(int)c;
 - (void)setDirtyForRow:(int)r;
+- (void)removeAllDirtyMarks;
 
 /* Access Data */
 - (attribute)attrAtRow:(int)r 
@@ -81,4 +83,7 @@
 - (void)feedGrid:(cell **)grid;
 - (void)setCursorX:(int)cursorX
 				 Y:(int)cursorY;
+
+/* Observer Interface */
+- (void)addObserver:(id <WLTerminalObserver>)observer;
 @end
