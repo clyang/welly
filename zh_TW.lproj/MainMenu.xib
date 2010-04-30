@@ -1922,14 +1922,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_tab</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="131296537"/>
-					</object>
-					<int key="connectionID">306</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">partnerView</string>
 						<reference key="source" ref="131296537"/>
 						<reference key="destination" ref="92983356"/>
@@ -2527,6 +2519,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="92983356"/>
 					</object>
 					<int key="connectionID">1658</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_tabBarControl</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="131296537"/>
+					</object>
+					<int key="connectionID">1659</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3737,7 +3737,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1658</int>
+			<int key="maxID">1659</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3971,7 +3971,7 @@ Z1s6cG9ydF0</string>
 						<string key="_mouseButton">id</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
 						<string key="_sitesMenu">NSMenuItem</string>
-						<string key="_tab">WLTabBarControl</string>
+						<string key="_tabBarControl">WLTabBarControl</string>
 						<string key="_tabView">WLTabView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>

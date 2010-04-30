@@ -11,7 +11,7 @@
 
 @class WLTerminal, WLConnection;
 
-@interface WLTermView : NSView <WLTabItemIdentifierObserver> {
+@interface WLTermView : NSView <WLTabItemContentObserver> {
 	CGFloat _fontWidth;
 	CGFloat _fontHeight;
 	

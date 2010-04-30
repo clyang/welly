@@ -4024,7 +4024,7 @@
 						<string key="_mouseButton">id</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
 						<string key="_sitesMenu">NSMenuItem</string>
-						<string key="_tab">WLTabBarControl</string>
+						<string key="_tabBarControl">WLTabBarControl</string>
 						<string key="_tabView">WLTerminalView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>

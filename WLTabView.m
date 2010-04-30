@@ -12,6 +12,8 @@
 #import "WLTerminalView.h"
 #import "YLController.h"
 
+#import "WLTabViewItemController.h"
+
 #import "WLGlobalConfig.h"
 
 #import "WLBookmarkPortalItem.h"
@@ -98,8 +100,8 @@
 }
 
 - (WLConnection *)frontMostConnection {
-	if ([[[self selectedTabViewItem] identifier] isKindOfClass:[WLConnection class]]) {
-		return [[self selectedTabViewItem] identifier];
+	if ([[[[self selectedTabViewItem] identifier] content] isKindOfClass:[WLConnection class]]) {
+		return [[[self selectedTabViewItem] identifier] content];
 	}
 	
 	return nil;
@@ -124,11 +126,9 @@
 	if ([self isSelectedTabEmpty]) {
 		// reuse the empty tab
         tabViewItem = [self selectedTabViewItem];
-		// release the old one
-		//[[tabViewItem identifier] release];
 	} else {	
 		// open a new tab
-		tabViewItem = [[NSTabViewItem alloc] init];
+		tabViewItem = [[NSTabViewItem alloc] initWithIdentifier:[WLTabViewItemController emptyTabViewItemController]];
 		// this will invoke tabView:didSelectTabViewItem for the first tab
         [self addTabViewItem:tabViewItem];
 	}
@@ -139,7 +139,7 @@
 					   label:(NSString *)theLabel {	
 	NSTabViewItem *tabViewItem = [self newTab];
 
-	[tabViewItem setIdentifier:theConnection];
+	[[tabViewItem identifier] setContent:theConnection];
 	
 	// set appropriate label
 	if (theLabel) {
@@ -165,7 +165,6 @@
 - (void)newTabWithCoverFlowPortal {
 	NSTabViewItem *tabViewItem = [self newTab];
 	
-	[tabViewItem setIdentifier:nil];
 	[tabViewItem setView:_portal];
 	[tabViewItem setLabel:@"Cover Flow"];
 	
@@ -212,12 +211,12 @@
 	[[self window] makeFirstResponder:currentView];
 	[[self window] makeKeyWindow];
 
-	if ([currentView conformsToProtocol:@protocol(WLTabItemIdentifierObserver)]) {
-		[(id <WLTabItemIdentifierObserver>)currentView didChangeIdentifier:[[self selectedTabViewItem] identifier]];
+	if ([currentView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
+		[(id <WLTabItemContentObserver>)currentView didChangeContent:[[[self selectedTabViewItem] identifier] content]];
 	}
 	
-	if ((oldView != currentView) && [oldView conformsToProtocol:@protocol(WLTabItemIdentifierObserver)]) {
-		[(id <WLTabItemIdentifierObserver>)oldView didChangeIdentifier:nil];
+	if ((oldView != currentView) && [oldView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
+		[(id <WLTabItemContentObserver>)oldView didChangeContent:nil];
 	}
 }
 

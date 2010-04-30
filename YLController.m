@@ -43,7 +43,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 @end
 
 @implementation YLController
-@synthesize telnetView = _tabView;
+@synthesize tabView = _tabView;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
@@ -64,13 +64,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
                                               context:nil];
 
     // tab control style
-    [_tab setCanCloseOnlyTab:YES];
-    NSAssert([_tab delegate] == self, @"set in .nib");
+    [_tabBarControl setCanCloseOnlyTab:YES];
+    NSAssert([_tabBarControl delegate] == self, @"set in .nib");
     //show a new-tab button
-    //[_tab setShowAddTabButton:YES];
-    [[_tab addTabButton] setTarget:self];
-    [[_tab addTabButton] setAction:@selector(newTab:)];
-    _tabView = (WLTabView *)[_tab tabView];
+    [_tabBarControl setShowAddTabButton:YES];
+    [[_tabBarControl addTabButton] setTarget:self];
+    [[_tabBarControl addTabButton] setAction:@selector(newTab:)];
+    _tabView = (WLTabView *)[_tabBarControl tabView];
 	
     // Trigger the KVO to update the information properly.
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
@@ -113,7 +113,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     // open the portal
     // the switch
     [self tabViewDidChangeNumberOfTabViewItems:_tabView];
-	[_tab setMainController:[self retain]];
+	[_tabBarControl setMainController:[self retain]];
     
     // restore connections
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
@@ -177,7 +177,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 		return;
     NSArray *a = [_tabView tabViewItems];
     for (NSTabViewItem *item in a) {
-        WLConnection *connection = [item identifier];
+        WLConnection *connection = [[item identifier] content];
         if ([connection isConnected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
             unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -189,14 +189,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 - (void)newConnectionWithSite:(WLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
-    WLConnection *connection = [[WLConnection alloc] initWithSite:site];
+    WLConnection *connection = [[[WLConnection alloc] initWithSite:site] autorelease];
 	
 	[_tabView newTabWithConnection:connection label:[site name]];
 	// We can release it since it is retained by the tab view item
-	[connection release];
+	//[connection release];
 	// Set the view to be focused.
 	[_mainWindow makeFirstResponder:[_tabView frontMostView]];
-    
+	/*
+	NSTabViewItem *tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
+	[_tabView addTabViewItem:tabViewItem];
+	[tabViewItem setLabel:[site name]];
+	[connection setTerminal:[[WLTerminal alloc] init]];
+	*/
     if (![site empty]) {
         // WLPTY as the default protocol (a proxy)
         WLPTY *protocol = [[WLPTY new] autorelease];
@@ -252,9 +257,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
         r.origin.y = topLeftCorner - r.size.height;
         [_mainWindow setFrame:r display:YES animate:NO];
 
-        NSRect tabRect = [_tab frame];
+        NSRect tabRect = [_tabBarControl frame];
         tabRect.size.width = r.size.width;
-        [_tab setFrame: tabRect];
+        [_tabBarControl setFrame: tabRect];
     } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
         [[WLGlobalConfig sharedInstance] refreshFont];
     }
@@ -274,7 +279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     int i;
     NSMutableArray *a = [NSMutableArray array];
     for (i = 0; i < tabNumber; i++) {
-        id connection = [[_tabView tabViewItemAtIndex:i] identifier];
+        id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
         if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] empty]) // not empty tab
             [a addObject:[[connection site] dictionaryOfSite]];
     }
@@ -340,9 +345,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     if ([_tabView frontMostTerminal]) {
         [[_tabView frontMostTerminal] setEncoding:encoding];
         [[_tabView frontMostTerminal] setAllDirty];
-		// TODO:
-        //[_telnetView updateBackedImage];
-        //[_telnetView setNeedsDisplay:YES];
         [self updateEncodingMenu];
     }
 }
@@ -438,10 +440,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 
 // Open compose panel
 - (IBAction)openComposePanel:(id)sender {
-	/* TODO:
-	[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
-														  forTelnetView:_telnetView];
-	 */
+	// FIXME: ugly!!!
+	if ([[_tabView frontMostView] isKindOfClass:[WLTerminalView class]])
+		[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
+															  forTelnetView:(WLTerminalView *)[_tabView frontMostView]];
 }
 
 // Download Post
@@ -491,16 +493,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
 }
 
 - (IBAction)selectNextTab:(id)sender {
-    [_tab selectNextTabViewItem:sender];
+    [_tabBarControl selectNextTabViewItem:sender];
 }
 
 - (IBAction)selectPrevTab:(id)sender {
-    [_tab selectPreviousTabViewItem:sender];
+    [_tabBarControl selectPreviousTabViewItem:sender];
 }
 
 - (void)selectTabNumber:(int)index {
     if (index > 0 && index <= [_tabView numberOfTabViewItems]) {
-        [_tab selectTabViewItemAtIndex:index-1];
+        [_tabBarControl selectTabViewItemAtIndex:index-1];
     }
 }
 
@@ -508,7 +510,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     if ([_tabView numberOfTabViewItems] == 0) return;
 	// Here, sometimes it may throw a exception...
 	@try {
-		[_tab removeTabViewItem:[_tabView selectedTabViewItem]];
+		[_tabBarControl removeTabViewItem:[_tabView selectedTabViewItem]];
 	}
 	@catch (NSException * e) {
 	}
@@ -610,8 +612,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLController);
     int tabNumber = [_tabView numberOfTabViewItems];
 	int connectedConnection = 0;
     for (int i = 0; i < tabNumber; i++) {
-        id connection = [[_tabView tabViewItemAtIndex:i] identifier];
-        if ([connection isConnected])
+        id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
+        if ([connection isKindOfClass:[WLConnection class]] && [connection isConnected])
             ++connectedConnection;
     }
     if (connectedConnection == 0) return YES;
@@ -681,9 +683,12 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	// Restore from full screen firstly
 	[_fullScreenController releaseFullScreen];
 	
-	// REVIEW: why not put these in WLTabView?
-    if (![[tabViewItem identifier] isConnected]) return YES;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;
+	// TODO: why not put these in WLTabView?
+    if (![[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]] ||
+		![[[tabViewItem identifier] content] isConnected]) 
+		return YES;
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) 
+		return YES;
 
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
 									 defaultButton:NSLocalizedString(@"Close", @"Default Button")
@@ -697,30 +702,32 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 - (void)tabView:(NSTabView *)tabView willCloseTabViewItem:(NSTabViewItem *)tabViewItem {
     // close the connection
-    [[tabViewItem identifier] close];
+	if ([[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]])
+		[[[tabViewItem identifier] content] close];
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-    WLConnection *connection = [tabViewItem identifier];
-    WLSite *site = [connection site];
-	if (connection && [site address]) {
-		[_addressBar setStringValue:[site address]];
-	} else {
-		[_addressBar setStringValue:@""];
-	}
-    [connection resetMessageCount];
-
-    [_mainWindow makeFirstResponder:tabView];
     NSAssert(tabView == _tabView, @"tabView");
-
-    [self updateEncodingMenu];
+	[_addressBar setStringValue:@""];
+	if ([[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]]) {
+		WLConnection *connection = [[tabViewItem identifier] content];
+		WLSite *site = [connection site];
+		if (connection && [site address]) {
+			[_addressBar setStringValue:[site address]];
+			[connection resetMessageCount];
+		}
+		
+		[_mainWindow makeFirstResponder:tabView];
+		
+		[self updateEncodingMenu];
 #define CELLSTATE(x) ((x) ? NSOnState : NSOffState)
-    [_detectDoubleByteButton setState:CELLSTATE([site shouldDetectDoubleByte])];
-    [_detectDoubleByteMenuItem setState:CELLSTATE([site shouldDetectDoubleByte])];
-    [_autoReplyButton setState:CELLSTATE([site shouldAutoReply])];
-	[_autoReplyMenuItem setState:CELLSTATE([site shouldAutoReply])];
-	[_mouseButton setState:CELLSTATE([site shouldEnableMouse])];
+		[_detectDoubleByteButton setState:CELLSTATE([site shouldDetectDoubleByte])];
+		[_detectDoubleByteMenuItem setState:CELLSTATE([site shouldDetectDoubleByte])];
+		[_autoReplyButton setState:CELLSTATE([site shouldAutoReply])];
+		[_autoReplyMenuItem setState:CELLSTATE([site shouldAutoReply])];
+		[_mouseButton setState:CELLSTATE([site shouldEnableMouse])];
 #undef CELLSTATE
+	}
 }
 
 - (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)tabView {

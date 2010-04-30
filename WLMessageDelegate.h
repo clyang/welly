@@ -10,8 +10,6 @@
 #import "CommonType.h"
 
 @class WLConnection;
-@class WLSite;
-
 @interface WLMessageDelegate : NSObject {
 	WLConnection *_connection;
 	NSMutableString *_unreadMessage;
@@ -23,6 +21,6 @@
 
 - (void)setConnection:(WLConnection *)connection;
 - (void)connectionDidReceiveNewMessage:(NSString *)message
-		   fromCaller:(NSString *)callerName;
+							fromCaller:(NSString *)callerName;
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView;
 @end

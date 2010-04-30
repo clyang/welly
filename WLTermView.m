@@ -817,10 +817,10 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 }
 
 #pragma mark -
-#pragma mark WLTabItemIdentifierObserver protocol
-- (void)didChangeIdentifier:(id)theIdentifier {
-	if ([theIdentifier isKindOfClass:[WLConnection class]]) {
-		_connection = theIdentifier;
+#pragma mark WLTabItemContentObserver protocol
+- (void)didChangeContent:(id)content {
+	if ([content isKindOfClass:[WLConnection class]]) {
+		_connection = content;
 		[self refreshDisplay];
 	}
 }

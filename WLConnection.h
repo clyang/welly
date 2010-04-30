@@ -11,15 +11,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WLProtocol.h"
+#import "WLTabBarCellContentProvider.h"
 
 @class WLSite, WLTerminal, WLTerminalFeeder, WLMessageDelegate;
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
-@interface WLConnection : NSObjectController {
+@interface WLConnection : NSObject <WLTabBarCellContentProvider> {
     NSImage *_icon;
     BOOL _isProcessing;
-    int _objectCount;
+    NSInteger _objectCount;
 
     BOOL _connected;
 
@@ -31,7 +32,7 @@
     WLSite *_site;
 	
 	WLMessageDelegate *_messageDelegate;
-	int _messageCount;
+	NSInteger _messageCount;
 }
 @property (readwrite, retain) WLSite *site;
 @property (readwrite, retain, setter=setTerminal:) WLTerminal *terminal;
@@ -39,14 +40,15 @@
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:) BOOL isConnected;
 @property (readonly) NSDate *lastTouchDate;
-@property (readonly) int messageCount;
+@property (readonly) NSInteger messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;
 // for PSMTabBarControl
 @property (readwrite, retain) NSImage *icon;
 @property (readwrite, assign) BOOL isProcessing;
-@property (readwrite, assign) int objectCount;
+@property (readwrite, assign) NSInteger objectCount;
 
 - (id)initWithSite:(WLSite *)site;
+- (id)content;
 
 - (void)close;
 - (void)reconnect;
@@ -60,6 +62,6 @@
 /* message */
 - (void)didReceiveNewMessage:(NSString *)message
 				  fromCaller:(NSString *)caller;
-- (void)increaseMessageCount:(int)value;
+- (void)increaseMessageCount:(NSInteger)value;
 - (void)resetMessageCount;
 @end

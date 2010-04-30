@@ -14,9 +14,9 @@
 @class WLConnection;
 @class WLTerminal;
 
-@protocol WLTabItemIdentifierObserver
+@protocol WLTabItemContentObserver
 
-- (void)didChangeIdentifier:(id)theIdentifier;
+- (void)didChangeContent:(id)content;
 
 @end
 

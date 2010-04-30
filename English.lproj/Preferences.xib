@@ -3969,7 +3969,7 @@
 						<string key="_sitesController">NSArrayController</string>
 						<string key="_sitesMenu">NSMenuItem</string>
 						<string key="_sitesWindow">NSPanel</string>
-						<string key="_tab">WLTabBarControl</string>
+						<string key="_tabBarControl">WLTabBarControl</string>
 						<string key="_tabView">WLTerminalView</string>
 						<string key="_tableView">NSTableView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>

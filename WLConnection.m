@@ -34,13 +34,8 @@
 @synthesize messageCount = _messageCount;
 @synthesize messageDelegate = _messageDelegate;
 
-- (id)init {
-	[super initWithContent:self];
-    return self;
-}
-
 - (id)initWithSite:(WLSite *)site {
-    if (self == [super initWithContent:self]) {
+    if (self == [self init]) {
         [self setSite:site];
         _feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
         _messageDelegate = [[WLMessageDelegate alloc] init];
@@ -86,9 +81,13 @@
     _lastTouchDate = [[NSDate date] retain];
 }
 
+- (id)content {
+	NSLog(@"content");
+	return self;
+}
+
 #pragma mark -
 #pragma mark WLProtocol delegate methods
-
 - (void)protocolWillConnect:(id)protocol {
     [self setIsProcessing:YES];
     [self setConnected:NO];
@@ -238,7 +237,7 @@
 
 #pragma mark -
 #pragma mark Message
-- (void)increaseMessageCount:(int)value {
+- (void)increaseMessageCount:(NSInteger)value {
 	// increase the '_messageCount' by 'value'
 	if (value <= 0)
 		return;
@@ -252,8 +251,8 @@
     [self setObjectCount:_messageCount];
 }
 
+// reset '_messageCount' to zero
 - (void)resetMessageCount {
-	// reset '_messageCount' to zero
 	if (_messageCount <= 0)
 		return;
 	

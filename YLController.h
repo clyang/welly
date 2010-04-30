@@ -39,7 +39,7 @@
     IBOutlet id _mouseButton;
 
     IBOutlet WLTabView *_tabView;
-    IBOutlet WLTabBarControl *_tab;
+    IBOutlet WLTabBarControl *_tabBarControl;
 	
 	/* Menus */
     IBOutlet NSMenuItem *_detectDoubleByteMenuItem;
@@ -69,7 +69,7 @@
     // RSS feed
     NSThread *_rssThread;
 }
-@property (readonly) WLTabView *telnetView;
+@property (readonly) WLTabView *tabView;
 
 + (YLController *)sharedInstance;
 

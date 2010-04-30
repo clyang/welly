@@ -818,6 +818,9 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 - (void)insertText:(id)aString 
 		 withDelay:(int)microsecond {
+	if (![self frontMostConnection] || ![[self frontMostConnection] isConnected])
+		return;
+	
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     
     [_textField setHidden:YES];
@@ -1021,8 +1024,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 #pragma mark -
-#pragma mark WLTabItemIdentifierObserver protocol
-- (void)didChangeIdentifier:(id)theIdentifier {
+#pragma mark WLTabItemContentObserver protocol
+- (void)didChangeContent:(id)content {
 	/*
 	if ([theIdentifier isKindOfClass:[WLConnection class]]) {
 	} else {
@@ -1030,18 +1033,18 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 	[self clearSelection];
 	[self exitURL];
 	[_effectView clear];
-	if (theIdentifier == nil) {
+	if (content == nil) {
 		[_effectView setHidden:YES];
 	} else {
 		[_effectView setHidden:NO];
 		
 		// Pop up a message indicating the selected site
-		[WLPopUpMessage showPopUpMessage:[[(WLConnection *)theIdentifier site] name]
+		[WLPopUpMessage showPopUpMessage:[[(WLConnection *)content site] name]
 								duration:1.2
 							  effectView:_effectView];
 	}
 	[_mouseBehaviorDelegate update];
-	[super didChangeIdentifier:theIdentifier];
+	[super didChangeContent:content];
 }
 
 #pragma mark -
