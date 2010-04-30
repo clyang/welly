@@ -344,18 +344,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5A1A49720F8605C200BBCD01 /* Controller */,
-				5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */,
-				81F8ECFB0E5006660022FA65 /* FullScreen */,
-				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
-				5AC33B7B0DA477AB0006AA09 /* Nally9only */,
-				5AD4B6F90F2D8CA500BF2F87 /* View */,
-				85F701440C895C8600E27A1E /* Model */,
+				85F701440C895C8600E27A1E /* Models */,
+				5AD4B6F90F2D8CA500BF2F87 /* Views */,
+				5A1A49720F8605C200BBCD01 /* Controllers */,
+				5AC33B7B0DA477AB0006AA09 /* Features */,
 				85ED53BA0D0934DC003296D4 /* Constant & Utilities */,
-				859252F30CFD4F860054E3D6 /* WLContextualMenuManager.h */,
-				859252F40CFD4F860054E3D6 /* WLContextualMenuManager.m */,
-				85F7F2070B06EE36000C4CDF /* WLGlobalConfig.h */,
-				85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -442,17 +435,15 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5A7659FD108579B40052C2BA /* Nib Files */,
+				5A7659FD108579B40052C2BA /* Xib Files */,
+				161DF52D106DDDBB0003E85A /* Images */,
+				5AF9DE49118B384100E288A9 /* Plists */,
+				5AF9DE4A118B387400E288A9 /* Strings */,
 				85137B320D02192800833909 /* Credits.rtf */,
-				8D1107310486CEB800E47090 /* Info.plist */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
-				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
-				161DF52D106DDDBB0003E85A /* Images */,
 				5A91BAED0E1E1E6A007538E5 /* Help */,
-				5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -467,24 +458,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5A1A49720F8605C200BBCD01 /* Controller */ = {
+		5A1A49720F8605C200BBCD01 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				5AF9DD57118B287B00E288A9 /* Main Frame Controller */,
+				5AF9DE46118B371400E288A9 /* Panel Controllers */,
 				85F702670D033FF90035F600 /* DBPrefsWindowController.h */,
 				85F702660D033FF90035F600 /* DBPrefsWindowController.m */,
-				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
-				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
-				186E810D0F218C10007D73BC /* WLComposePanelController.h */,
-				186E810E0F218C10007D73BC /* WLComposePanelController.m */,
-				5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */,
-				5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */,
-				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
-				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
-				5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */,
-				5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */,
+				859252F30CFD4F860054E3D6 /* WLContextualMenuManager.h */,
+				859252F40CFD4F860054E3D6 /* WLContextualMenuManager.m */,
 			);
-			name = Controller;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 		5A2B3CFF0EB95649007773F8 /* Portal */ = {
@@ -519,17 +503,19 @@
 			children = (
 				5A5965FE109E8D2100D33FAC /* WLTermView.h */,
 				5A5965FF109E8D2100D33FAC /* WLTermView.m */,
+				8570AD5D0A3923A900838442 /* WLTerminalView.h */,
+				8570AD5E0A3923A900838442 /* WLTerminalView.m */,
 				858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */,
 				858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */,
 				5A4B02870E55941D00260486 /* WLEffectView.h */,
 				5A4A50180E5956EE007E16E6 /* WLEffectView.m */,
-				8570AD5D0A3923A900838442 /* WLTerminalView.h */,
-				8570AD5E0A3923A900838442 /* WLTerminalView.m */,
+				81E307200E79031B0024C47E /* WLPopUpMessage.h */,
+				81E307210E79031B0024C47E /* WLPopUpMessage.m */,
 			);
 			name = "Terminal View";
 			sourceTree = "<group>";
 		};
-		5A7659FD108579B40052C2BA /* Nib Files */ = {
+		5A7659FD108579B40052C2BA /* Xib Files */ = {
 			isa = PBXGroup;
 			children = (
 				5A76586E1082D3470052C2BA /* SitesPanel.xib */,
@@ -539,7 +525,7 @@
 				5A59F234108C283500F65DEA /* ComposePanel.xib */,
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 			);
-			name = "Nib Files";
+			name = "Xib Files";
 			sourceTree = "<group>";
 		};
 		5AB1BFDF0E18F3120094C370 /* RemoteControl */ = {
@@ -585,40 +571,38 @@
 			name = Devices;
 			sourceTree = "<group>";
 		};
-		5AC33B7B0DA477AB0006AA09 /* Nally9only */ = {
+		5AC33B7B0DA477AB0006AA09 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */,
+				81F8ECFB0E5006660022FA65 /* FullScreen */,
+				5AB1BFDF0E18F3120094C370 /* RemoteControl */,
+				5AF9DE45118B365A00E288A9 /* Message */,
+				5AF9DE47118B375300E288A9 /* Quick Look */,
 				18F813940F45A93A002FF48C /* WLFeedGenerator.h */,
 				18F813950F45A93A002FF48C /* WLFeedGenerator.m */,
-				18BB9B850D98ECE500387145 /* IPSeeker.h */,
-				18BB9B860D98ECE500387145 /* IPSeeker.m */,
-				18A685A60D9414D900CA423A /* WLGrowlBridge.h */,
-				18A685A70D9414D900CA423A /* WLGrowlBridge.m */,
-				5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */,
-				5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */,
-				1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */,
-				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
 				1841E73C0F7BD280002DCBA8 /* WLProxy.h */,
 				1841E73D0F7BD280002DCBA8 /* WLProxy.m */,
 				5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */,
 				5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */,
 			);
-			name = Nally9only;
+			name = Features;
 			sourceTree = "<group>";
 		};
-		5AD4B6F90F2D8CA500BF2F87 /* View */ = {
+		5AD4B6F90F2D8CA500BF2F87 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				5A40C3C3118ADE9600487AE9 /* Terminal View */,
 				5A40C3C2118ADE8100487AE9 /* Tab View */,
 				5A2B3CFF0EB95649007773F8 /* Portal */,
 			);
-			name = View;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */ = {
 			isa = PBXGroup;
 			children = (
+				5AF9DE48118B379600E288A9 /* IP Seeker */,
 				5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */,
 				5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */,
 				5AD4B7150F2D8F8200BF2F87 /* WLMouseHotspotHandler.h */,
@@ -627,8 +611,6 @@
 				5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */,
 				5A43E8730F2E9B570002116B /* WLButtonAreaHotspotHandler.h */,
 				5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */,
-				5A43E9C00F2EA8450002116B /* WLIPAddrHotspotHandler.h */,
-				5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */,
 				5AC743FA0F34681100177CA1 /* WLMouseBehaviorManager.h */,
 				5AC743FB0F34681100177CA1 /* WLMouseBehaviorManager.m */,
 				5AA6807B0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.h */,
@@ -654,6 +636,72 @@
 			name = "Main Frame Controller";
 			sourceTree = "<group>";
 		};
+		5AF9DE45118B365A00E288A9 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				18A685A60D9414D900CA423A /* WLGrowlBridge.h */,
+				18A685A70D9414D900CA423A /* WLGrowlBridge.m */,
+				5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */,
+				5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		5AF9DE46118B371400E288A9 /* Panel Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				186E810D0F218C10007D73BC /* WLComposePanelController.h */,
+				186E810E0F218C10007D73BC /* WLComposePanelController.m */,
+				5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */,
+				5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */,
+				5A56C3800E342CFF00082312 /* WLPostDownloadDelegate.h */,
+				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
+				5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */,
+				5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */,
+			);
+			name = "Panel Controllers";
+			sourceTree = "<group>";
+		};
+		5AF9DE47118B375300E288A9 /* Quick Look */ = {
+			isa = PBXGroup;
+			children = (
+				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
+				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
+				1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */,
+				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
+			);
+			name = "Quick Look";
+			sourceTree = "<group>";
+		};
+		5AF9DE48118B379600E288A9 /* IP Seeker */ = {
+			isa = PBXGroup;
+			children = (
+				5A43E9C00F2EA8450002116B /* WLIPAddrHotspotHandler.h */,
+				5A43E9C10F2EA8450002116B /* WLIPAddrHotspotHandler.m */,
+				18BB9B850D98ECE500387145 /* IPSeeker.h */,
+				18BB9B860D98ECE500387145 /* IPSeeker.m */,
+			);
+			name = "IP Seeker";
+			sourceTree = "<group>";
+		};
+		5AF9DE49118B384100E288A9 /* Plists */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* Info.plist */,
+				5ACEAC4911787FF50028E7BA /* contextualMenuItems.plist */,
+			);
+			name = Plists;
+			sourceTree = "<group>";
+		};
+		5AF9DE4A118B387400E288A9 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				85A0E73B0D06B72900ACA26F /* Localizable.strings */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Strings;
+			sourceTree = "<group>";
+		};
 		81F8ECFB0E5006660022FA65 /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,13 +724,13 @@
 				85ED52280D0920E6003296D4 /* CommonType.m */,
 				16BF97BB0E3D9B7500ED990A /* WLIntegerArray.h */,
 				16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */,
-				81E307200E79031B0024C47E /* WLPopUpMessage.h */,
-				81E307210E79031B0024C47E /* WLPopUpMessage.m */,
+				85F7F2070B06EE36000C4CDF /* WLGlobalConfig.h */,
+				85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */,
 			);
 			name = "Constant & Utilities";
 			sourceTree = "<group>";
 		};
-		85F701440C895C8600E27A1E /* Model */ = {
+		85F701440C895C8600E27A1E /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				5A3ACCDD0EED5BE200FC4543 /* WLMenuItem.h */,
@@ -701,7 +749,7 @@
 				85E7825A0D057E8400BDA3FB /* YLEmoticon.h */,
 				85E7825B0D057E8400BDA3FB /* YLEmoticon.m */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
