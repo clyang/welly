@@ -14,7 +14,7 @@
 #import "WLConnection.h"
 #import "WLSite.h"
 #import "WLGLobalConfig.h"
-#import "YLContextualMenuManager.h"
+#import "WLContextualMenuManager.h"
 #import "WLPreviewController.h"
 #import "WLIntegerArray.h"
 #import "IPSeeker.h"
@@ -562,7 +562,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         return nil;
     NSString *s = [self selectedPlainString];
 	if (s != nil)
-		return [YLContextualMenuManager menuWithSelectedString:s];
+		return [WLContextualMenuManager menuWithSelectedString:s];
 	else
 		return [_mouseBehaviorDelegate menuForEvent:theEvent];
 }

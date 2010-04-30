@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface YLContextualMenuManager : NSObject {
+@interface WLContextualMenuManager : NSObject {
 	NSArray *_openURLItemArray;
 }
 @property (readonly) NSArray *openURLItemArray;

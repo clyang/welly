@@ -7,8 +7,7 @@
 //
 //  new interface, by boost @ 9#
 
-#import "YLContextualMenuManager.h"
-#import "YLController.h"
+#import "WLContextualMenuManager.h"
 #import "WLEmoticonsPanelController.h"
 #import "SynthesizeSingleton.h"
 #import "Carbon/Carbon.h"
@@ -17,8 +16,8 @@ NSString *const WLContextualMenuItemTitleFormatAttributeName = @"Title Format";
 NSString *const WLContextualMenuItemURLFormatAttributeName = @"URL Format";
 NSString *const WLOpenURLMenuItemFilename = @"contextualMenuItems";
 
-@implementation YLContextualMenuManager
-SYNTHESIZE_SINGLETON_FOR_CLASS(YLContextualMenuManager);
+@implementation WLContextualMenuManager
+SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
 
 @synthesize openURLItemArray = _openURLItemArray;
 
@@ -85,22 +84,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLContextualMenuManager);
                  keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
-
-        [menu addItemWithTitle:NSLocalizedString(@"Copy", @"Menu")
-                        action:@selector(copy:) 
-                 keyEquivalent:@""];
 		
+		if ([[[NSApp keyWindow] firstResponder] respondsToSelector:@selector(copy:)]) {
+			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy", @"Menu") 
+														  action:@selector(copy:) 
+												   keyEquivalent:@""];
+			[item setTarget:[[NSApp keyWindow] firstResponder]];
+			[menu addItem:item];
+			[item release];
+		}
+				
 		[menu addItemWithTitle:NSLocalizedString(@"Save as Emoticon", @"Menu") 
 						action:@selector(saveAsEmoticon:) 
 				 keyEquivalent:@""];
 		
-		if ([[[YLContextualMenuManager sharedInstance] openURLItemArray] count] > 0) {
+		if ([[[WLContextualMenuManager sharedInstance] openURLItemArray] count] > 0) {
 			// User customized menu items
 			[menu addItem:[NSMenuItem separatorItem]];
 			
-			for (NSObject *obj in [[YLContextualMenuManager sharedInstance] openURLItemArray]) {
+			for (NSObject *obj in [[WLContextualMenuManager sharedInstance] openURLItemArray]) {
 				if ([obj isKindOfClass:[NSDictionary class]]) {
-					NSMenuItem *item = [YLContextualMenuManager menuItemWithDictionary:(NSDictionary *)obj 
+					NSMenuItem *item = [WLContextualMenuManager menuItemWithDictionary:(NSDictionary *)obj 
 																		selectedString:selectedString];
 					[menu addItem:item];
 					[item release];
@@ -155,12 +159,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(YLContextualMenuManager);
     [spb declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
     [spb setString:u forType:NSStringPboardType];
     NSPerformService(@"Look Up in Dictionary", spb);
-}
-
-+ (IBAction)copy:(id)sender {
-	// TODO:
-    //YLView *view = [[YLController sharedInstance] telnetView];
-    //[view copy:sender];
 }
 
 + (IBAction)saveAsEmoticon:(id)sender {

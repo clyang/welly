@@ -88,7 +88,7 @@
 		857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE4E0CF1D89300777C15 /* offline.pdf */; };
 		85834C100CFEC3F30015E348 /* Whit.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 85834C0F0CFEC3F30015E348 /* Whit.aiff */; };
 		858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */; };
-		859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */; };
+		859252F50CFD4F860054E3D6 /* WLContextualMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 859252F40CFD4F860054E3D6 /* WLContextualMenuManager.m */; };
 		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
 		85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A0E73B0D06B72900ACA26F /* Localizable.strings */; };
 		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
@@ -286,8 +286,8 @@
 		85834C0F0CFEC3F30015E348 /* Whit.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Whit.aiff; sourceTree = "<group>"; };
 		858A54E40CAE78C8000E1AA7 /* YLMarkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLMarkedTextView.h; sourceTree = "<group>"; };
 		858A54E50CAE78C8000E1AA7 /* YLMarkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLMarkedTextView.m; sourceTree = "<group>"; };
-		859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLContextualMenuManager.h; sourceTree = "<group>"; };
-		859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLContextualMenuManager.m; sourceTree = "<group>"; };
+		859252F30CFD4F860054E3D6 /* WLContextualMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLContextualMenuManager.h; sourceTree = "<group>"; };
+		859252F40CFD4F860054E3D6 /* WLContextualMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLContextualMenuManager.m; sourceTree = "<group>"; };
 		85957EAE0CFF1176006E5E08 /* sleep.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sleep.pdf; sourceTree = "<group>"; };
 		85A0E73C0D06B72900ACA26F /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		85ABEB7F0C966FEF008227D6 /* YLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLController.h; sourceTree = "<group>"; };
@@ -342,8 +342,8 @@
 				5AD4B6F90F2D8CA500BF2F87 /* View */,
 				85F701440C895C8600E27A1E /* Model */,
 				85ED53BA0D0934DC003296D4 /* Constant & Utilities */,
-				859252F30CFD4F860054E3D6 /* YLContextualMenuManager.h */,
-				859252F40CFD4F860054E3D6 /* YLContextualMenuManager.m */,
+				859252F30CFD4F860054E3D6 /* WLContextualMenuManager.h */,
+				859252F40CFD4F860054E3D6 /* WLContextualMenuManager.m */,
 				85F7F2070B06EE36000C4CDF /* WLGlobalConfig.h */,
 				85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */,
 			);
@@ -777,7 +777,7 @@
 				85F7F2090B06EE36000C4CDF /* WLGlobalConfig.m in Sources */,
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
 				8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */,
-				859252F50CFD4F860054E3D6 /* YLContextualMenuManager.m in Sources */,
+				859252F50CFD4F860054E3D6 /* WLContextualMenuManager.m in Sources */,
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
