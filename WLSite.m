@@ -85,7 +85,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
             [self proxyAddress] ?: @"", WLSiteProxyAddressAttributeName, nil];
 }
 
-- (BOOL)empty {
+- (BOOL)isDummy {
     return [_address length] == 0;
 }
 

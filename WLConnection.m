@@ -16,6 +16,7 @@
 #import "WLGlobalConfig.h"
 #import "WLMessageDelegate.h"
 #import "WLSite.h"
+#import "WLPTY.h"
 
 @interface WLConnection ()
 - (void)login;
@@ -36,8 +37,21 @@
 
 - (id)initWithSite:(WLSite *)site {
     if (self == [self init]) {
+		// Create a feeder to parse content from the connection
+		_feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
+
         [self setSite:site];
-        _feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
+        if (![site isDummy]) {
+			// WLPTY as the default protocol (a proxy)
+			WLPTY *protocol = [WLPTY new];
+			[self setProtocol:protocol];
+			[protocol setDelegate:self];
+			[protocol setProxyType:[site proxyType]];
+			[protocol setProxyAddress:[site proxyAddress]];
+			[protocol connect:[site address]];
+		}
+		
+		// Setup the message delegate
         _messageDelegate = [[WLMessageDelegate alloc] init];
         [_messageDelegate setConnection: self];
     }

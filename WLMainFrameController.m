@@ -12,7 +12,6 @@
 // Models
 #import "WLConnection.h"
 #import "WLSite.h"
-#import "WLPTY.h"
 
 // Views
 #import "WLTerminalView.h"
@@ -38,7 +37,6 @@
 #import "WLFeedGenerator.h"
 
 // End
-#import <Carbon/Carbon.h>
 #import "SynthesizeSingleton.h"
 
 @interface WLMainFrameController ()
@@ -159,29 +157,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (void)newConnectionWithSite:(WLSite *)site {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 
-    WLConnection *connection = [[[WLConnection alloc] initWithSite:site] autorelease];
+    WLConnection *connection = [[WLConnection alloc] initWithSite:site];
 	
 	[_tabView newTabWithConnection:connection label:[site name]];
 	// We can release it since it is retained by the tab view item
-	//[connection release];
+	[connection release];
 	// Set the view to be focused.
 	[_mainWindow makeFirstResponder:[_tabView frontMostView]];
-	/*
-	NSTabViewItem *tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:connection] autorelease];
-	[_tabView addTabViewItem:tabViewItem];
-	[tabViewItem setLabel:[site name]];
-	[connection setTerminal:[[WLTerminal alloc] init]];
-	*/
-    if (![site empty]) {
-        // WLPTY as the default protocol (a proxy)
-        WLPTY *protocol = [[WLPTY new] autorelease];
-        [connection setProtocol:protocol];
-        [protocol setDelegate:connection];
-        [protocol setProxyType:[site proxyType]];
-        [protocol setProxyAddress:[site proxyAddress]];
-        [protocol connect:[site address]];
-    }
-
+	
     [self updateEncodingMenu];
     [_detectDoubleByteButton setState:[site shouldDetectDoubleByte] ? NSOnState : NSOffState];
     [_detectDoubleByteMenuItem setState:[site shouldDetectDoubleByte] ? NSOnState : NSOffState];
@@ -250,7 +233,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     NSMutableArray *a = [NSMutableArray array];
     for (i = 0; i < tabNumber; i++) {
         id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
-        if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] empty]) // not empty tab
+        if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] isDummy]) // not empty tab
             [a addObject:[[connection site] dictionaryOfSite]];
     }
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"LastConnections"];
@@ -477,7 +460,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         action == @selector(reconnect:) ||
 		action == @selector(setEncoding:)) {
 		if (![_tabView frontMostConnection] ||
-			[[[_tabView frontMostConnection] site] empty])
+			[[[_tabView frontMostConnection] site] isDummy])
 			return NO;
 	} else if (action == @selector(selectNextTab:) ||
 			   action == @selector(selectPrevTab:)) {

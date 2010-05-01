@@ -39,5 +39,5 @@
 + (WLSite *)siteWithDictionary:(NSDictionary *)d;
 - (NSDictionary *)dictionaryOfSite ;
 
-- (BOOL)empty;
+- (BOOL)isDummy;
 @end

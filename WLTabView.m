@@ -10,7 +10,7 @@
 #import "WLConnection.h"
 #import "WLTerminal.h"
 #import "WLTerminalView.h"
-#import "YLController.h"
+#import "WLMainFrameController.h"
 
 #import "WLTabViewItemController.h"
 
@@ -149,7 +149,7 @@
 	// set the view
 	[tabViewItem setView:_terminalView];
 	
-	if (![[theConnection site] empty]) {
+	if (![[theConnection site] isDummy]) {
 		// Create a new terminal for receiving connection's content, and forward to view
 		WLTerminal *terminal = [[WLTerminal alloc] init];
 		[terminal addObserver:_terminalView];
