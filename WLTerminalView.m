@@ -294,9 +294,9 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 		[[self frontMostConnection] sendMessage:ansiCode];
 		return;
 	} else if ([types containsObject:NSRTFPboardType]) {
-		NSAttributedString *rtfString = [[NSAttributedString alloc]
+		NSAttributedString *rtfString = [[[NSAttributedString alloc]
 										 initWithRTF:[pb dataForType:NSRTFPboardType] 
-										 documentAttributes:nil];
+										 documentAttributes:nil] autorelease];
 		NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:rtfString 
 																			 forANSIColorKey:[[[self frontMostConnection] site] ansiColorKey]];
 		[[self frontMostConnection] sendText:ansiCode];
@@ -543,9 +543,10 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [self hasMouseActivity];
     if (![self isConnected]) return;
     // open url
+	/* Never used
 	NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];
-
+*/
     if (abs(_selectionLength) <= 1 && _isNotCancelingSelection && !_isKeying && !_isInUrlMode) {
 		[_mouseBehaviorDelegate mouseUp:theEvent];
     }

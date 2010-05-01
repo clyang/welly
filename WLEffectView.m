@@ -40,6 +40,8 @@
 	[_mainLayer release];
 	[_ipAddrLayer release];
 	[_popUpLayer release];
+	CGColorRelease(_popUpLayerTextColor);
+    CGFontRelease(_popUpLayerTextFont);
 	[super dealloc];
 }
 
@@ -55,7 +57,9 @@
     [self setLayer:_mainLayer];
     // Make the background color to be a dark gray with a 50% alpha similar to
     // the real Dashbaord.
-    [_mainLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0)];
+	CGColorRef bgColor = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 0.0);
+    [_mainLayer setBackgroundColor:bgColor];
+	CGColorRelease(bgColor);
 }
 
 - (void)clear {
@@ -81,8 +85,12 @@
 	_ipAddrLayer = [CALayer layer];
     
 	// Set up the box
-	[_ipAddrLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f)];
-	[_ipAddrLayer setBorderColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f)];
+	CGColorRef ipAddrLayerBGColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
+	CGColorRef ipAddrLayerBorderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+	[_ipAddrLayer setBackgroundColor:ipAddrLayerBGColor];
+	[_ipAddrLayer setBorderColor:ipAddrLayerBorderColor];
+	CGColorRelease(ipAddrLayerBGColor);
+	CGColorRelease(ipAddrLayerBorderColor);
 	[_ipAddrLayer setBorderWidth:1.4];
 	[_ipAddrLayer setCornerRadius:6.0];
 	
@@ -114,7 +122,9 @@
 - (void)setClickEntry {
 	_clickEntryLayer = [CALayer layer];
     
-	[_clickEntryLayer setBackgroundColor:CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f)];
+	CGColorRef clickEntryLayerBGColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
+	[_clickEntryLayer setBackgroundColor:clickEntryLayerBGColor];
+	CGColorRelease(clickEntryLayerBGColor);
 	[_clickEntryLayer setBorderWidth:0];
 	[_clickEntryLayer setCornerRadius:6.0];
 	
@@ -285,9 +295,6 @@ const CGFloat menuMarginWidth = 20.0;
 	
     [_selectionLayer addAnimation:pulseAnimation forKey:@"pulseAnimation"];
 	
-    //[mainLayer addSublayer:selectionLayer];
-    
-    //[self changeSelectedIndex:0];
 }
 
 - (void)selectMenuItemAtIndex:(int)index {
@@ -468,38 +475,48 @@ const CGFloat menuMarginWidth = 20.0;
 }
 
 - (void)removeIndicator {
-	if(_urlIndicatorLayer)
+	if (_urlIndicatorLayer)
 		[_urlIndicatorLayer setOpacity:0.0f];
 }
 
 #pragma mark Pop-Up Message
+- (void)setupPopUpLayer {
+	_popUpLayer = [CALayer layer];
+	
+	// Set the colors of the pop-up layer
+	CGColorRef popUpLayerBGColor = CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f);
+	CGColorRef popUpLayerBorderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f);
+	[_popUpLayer setBackgroundColor:popUpLayerBGColor];
+	[_popUpLayer setBorderColor:popUpLayerBorderColor];
+	CGColorRelease(popUpLayerBGColor);
+	CGColorRelease(popUpLayerBorderColor);
+	[_popUpLayer setBorderWidth:2.0];
+	
+	// Set up text color/font, which would be used many times
+	_popUpLayerTextColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+	_popUpLayerTextFont = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_BOX_FONT);
+}
 
 // Just similiar to the code of "addNewLayer"...
 // by gtCarrera @ 9#
-- (void)drawPopUpMessage:(NSString*)message {
+- (void)drawPopUpMessage:(NSString *)message {
 	// Remove previous message
 	[self removePopUpMessage];
 	//Initiallize a new CALayer
-	if(!_popUpLayer){
-		_popUpLayer = [CALayer layer];
-
-		// Set the colors of the pop-up layer
-		[_popUpLayer setBackgroundColor:CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f)];
-		[_popUpLayer setBorderColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 0.75f)];
-		[_popUpLayer setBorderWidth:2.0];
+	if (!_popUpLayer){
+		
     }	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
 	[textLayer autorelease];
 	// Set its foreground color
-    [textLayer setForegroundColor:CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f)];
+    [textLayer setForegroundColor:_popUpLayerTextColor];
 	
 	// Set the message to the text layer
 	[textLayer setString:message];
 	// Modify its styles
 	[textLayer setTruncationMode:kCATruncationEnd];
-    CGFontRef font = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_BOX_FONT);
-    [textLayer setFont:font];
+    [textLayer setFont:_popUpLayerTextFont];
 	// Here, calculate the size of the text layer
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								[NSFont fontWithName:DEFAULT_POPUP_BOX_FONT 
@@ -512,7 +529,6 @@ const CGFloat menuMarginWidth = 20.0;
 	NSRect textRect = NSZeroRect;
 	textRect.size.width = messageSize.width;
 	textRect.size.height = messageSize.height;
-    CGFontRelease(font);
 	
     // Create a new rectangle with a suitable size for the inner texts.
 	// Set it to an appropriate position of the whole view

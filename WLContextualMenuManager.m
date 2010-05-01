@@ -54,7 +54,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
 										   keyEquivalent:@""];
 	[item setToolTip:url];
 	[item setRepresentedObject:url];
-	return item;
+	return [item autorelease];
 }
 
 + (NSMenu *)menuWithSelectedString:(NSString*)selectedString {
@@ -86,12 +86,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
         [menu addItem:[NSMenuItem separatorItem]];
 		
 		if ([[[NSApp keyWindow] firstResponder] respondsToSelector:@selector(copy:)]) {
-			NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy", @"Menu") 
+			NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy", @"Menu") 
 														  action:@selector(copy:) 
-												   keyEquivalent:@""];
+												   keyEquivalent:@""] autorelease];
 			[item setTarget:[[NSApp keyWindow] firstResponder]];
 			[menu addItem:item];
-			[item release];
 		}
 				
 		[menu addItemWithTitle:NSLocalizedString(@"Save as Emoticon", @"Menu") 
@@ -107,7 +106,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
 					NSMenuItem *item = [WLContextualMenuManager menuItemWithDictionary:(NSDictionary *)obj 
 																		selectedString:selectedString];
 					[menu addItem:item];
-					[item release];
 				}
 			}
 		}

@@ -481,38 +481,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem {
+	// TODO: this is not working. We need to set the toolbar items' enable or not manually.
 	return [self validateAction:[theItem action]];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	return [self validateAction:[menuItem action]];
 }
-/*
-- (BOOL)validateMenuItem:(NSMenuItem *)item {
-    SEL action = [item action];
-	// TODO: redesign this part!!
-    if (action == @selector(addCurrentSite:) ||
-        action == @selector(reconnect:) ||
-		action == @selector(setEncoding:)) {
-		if (![_telnetView frontMostConnection] ||
-			[[[_telnetView frontMostConnection] site] empty])
-			return NO;
-	} else if (action == @selector(selectNextTab:) ||
-			   action == @selector(selectPrevTab:)) {
-		if ([_telnetView numberOfTabViewItems] == 0)
-			return NO;
-	} else if (action == @selector(toggleMouseAction:) ||
-			   action == @selector(downloadPost:) ||
-			   action == @selector(openComposePanel:)) {
-		if (![_telnetView frontMostConnection] ||
-			![[_telnetView frontMostConnection] isConnected] ||
-			![[[_telnetView selectedTabViewItem] view] isKindOfClass:[YLView class]]) {
-			return NO;
-		}
-	}
-    return YES;
-}
-*/
+
 - (BOOL)applicationShouldHandleReopen:(id)s 
 					hasVisibleWindows:(BOOL)b {
     [_mainWindow makeKeyAndOrderFront:self];
@@ -604,7 +580,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 // screen
 - (IBAction)fullScreenMode:(id)sender {
 	if ([_fullScreenController processor] == nil) {
-		WLTelnetProcessor *myPro = [[WLTelnetProcessor alloc] initWithView:_tabView];
+		WLTelnetProcessor *myPro = [[[WLTelnetProcessor alloc] initWithView:_tabView] autorelease];
 		 
 		[_fullScreenController setProcessor:myPro];
 	}

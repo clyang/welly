@@ -180,6 +180,7 @@
 	for (NSDictionary *d in sites) {
 		WLBookmarkPortalItem *item = [[WLBookmarkPortalItem alloc] initWithSite:[WLSite siteWithDictionary:d]];
 		[portalItems addObject:item];
+		[item release];
 	}
 	
 	[_portal setPortalItems:portalItems];

@@ -30,6 +30,9 @@
 	CGImageRef _urlIndicatorImage;
 	CALayer *_urlIndicatorLayer;
 	int selectedItemIndex;
+	
+	CGColorRef _popUpLayerTextColor;
+	CGFontRef _popUpLayerTextFont;
 }
 
 // for ip seeker

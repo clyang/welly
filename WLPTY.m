@@ -249,8 +249,8 @@
             result = read(pty->_fd, buf, sizeof(buf));
             if (result > 1) {
                 [pty performSelectorOnMainThread:@selector(recv:) 
-                                       withObject:[[NSData alloc] initWithBytes:buf+1 length:result-1]
-                                    waitUntilDone:NO];
+									  withObject:[[[NSData alloc] initWithBytes:buf+1 length:result-1] autorelease]
+								   waitUntilDone:NO];
             }
             if (result == 0) {
                 exit = YES;
