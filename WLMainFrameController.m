@@ -14,7 +14,6 @@
 #import "WLSite.h"
 
 // Views
-#import "WLTerminalView.h"
 #import "WLTabView.h"
 
 // Panel Controllers
@@ -32,6 +31,8 @@
 #import "WLGlobalConfig.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLMessageDelegate.h"
+
+#import "WLNotifications.h"
 
 // for RSS
 #import "WLFeedGenerator.h"
@@ -271,7 +272,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 }
 
 - (IBAction)toggleMouseAction:(id)sender {
-	if (![[_tabView frontMostView] isKindOfClass:[WLTerminalView class]])
+	if (![_tabView frontMostConnection])
 		return;
 	
     BOOL state = [sender state];
@@ -279,9 +280,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         state = !state;
     [_mouseButton setState:(state ? NSOnState : NSOffState)];
 	
-	// TODO: ugly, how to use KVO to solve this?
 	[[[_tabView frontMostConnection] site] setShouldEnableMouse:state];
-	[(WLTerminalView *)[_tabView frontMostView] refreshMouseHotspot];
+
+	// Post a notification to inform observers the site has changed the mouse enable preference
+	[[NSNotificationCenter defaultCenter] postNotificationName:WLNotificationSiteDidChangeShouldEnableMouse
+														object:self];
+}
+
+- (IBAction)toggleShowsHiddenText:(id)sender {
+    BOOL show = ([sender state] == NSOnState);
+    if ([sender isKindOfClass:[NSMenuItem class]]) {
+        show = !show;
+    }
+	
+	[_showHiddenTextMenuItem setState:show];
+    [[WLGlobalConfig sharedInstance] setShowsHiddenText:show];
 }
 
 - (IBAction)closeMessageWindow:(id)sender {
@@ -289,15 +302,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 }
 
 - (IBAction)setEncoding:(id)sender {
-    //int index = [[_encodingMenuItem submenu] indexOfItem: sender];
-	WLEncoding encoding = WLGBKEncoding;
-	if ([[sender title] rangeOfString:@"GBK"].location != NSNotFound)
-		encoding = WLGBKEncoding;
-	if ([[sender title] rangeOfString:@"Big5"].location != NSNotFound)
-		encoding = WLBig5Encoding;
-    if ([_tabView frontMostTerminal]) {
-        [[_tabView frontMostTerminal] setEncoding:encoding];
-        [[_tabView frontMostTerminal] setAllDirty];
+    if ([_tabView frontMostConnection]) {
+		WLEncoding encoding = WLGBKEncoding;
+		if ([[sender title] rangeOfString:@"GBK"].location != NSNotFound)
+			encoding = WLGBKEncoding;
+		if ([[sender title] rangeOfString:@"Big5"].location != NSNotFound)
+			encoding = WLBig5Encoding;
+		
+        [[[_tabView frontMostConnection] site] setEncoding:encoding];
+		[[NSNotificationCenter defaultCenter] postNotificationName:WLNotificationSiteDidChangeEncoding 
+															object:self];
         [self updateEncodingMenu];
     }
 }
@@ -382,10 +396,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 
 // Open compose panel
 - (IBAction)openComposePanel:(id)sender {
-	// FIXME: ugly!!!
-	if ([[_tabView frontMostView] isKindOfClass:[WLTerminalView class]])
+	if ([[_tabView frontMostView] conformsToProtocol:@protocol(NSTextInput)])
 		[[WLComposePanelController sharedInstance] openComposePanelInWindow:_mainWindow 
-															  forTelnetView:(WLTerminalView *)[_tabView frontMostView]];
+																	forView:[_tabView frontMostView]];
 }
 
 // Download Post
@@ -439,16 +452,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     [self newConnectionWithSite:s];
 }
 
-- (IBAction)toggleShowsHiddenText:(id)sender {
-    BOOL show = ([sender state] == NSOnState);
-    if ([sender isKindOfClass:[NSMenuItem class]]) {
-        show = !show;
-    }
-
-	[_showHiddenTextMenuItem setState:show];
-    [[WLGlobalConfig sharedInstance] setShowsHiddenText:show];
-}
-
 - (IBAction)openPreferencesWindow:(id)sender {
     [[DBPrefsWindowController sharedPrefsWindowController] showWindow:nil];
 }
@@ -470,8 +473,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 			   action == @selector(downloadPost:) ||
 			   action == @selector(openComposePanel:)) {
 		if (![_tabView frontMostConnection] ||
-			![[_tabView frontMostConnection] isConnected] ||
-			![[[_tabView selectedTabViewItem] view] isKindOfClass:[WLTerminalView class]]) {
+			![[_tabView frontMostConnection] isConnected]) {
 			return NO;
 		}
 	}

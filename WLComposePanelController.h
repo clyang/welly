@@ -10,7 +10,7 @@
 
 @class WLTerminalView;
 @interface WLComposePanelController : NSObject {
-    WLTerminalView *_telnetView;
+    NSView <NSTextInput> *_telnetView;
 	
     IBOutlet NSColorWell *_bgColorWell;
 	
@@ -25,7 +25,7 @@
 
 /* compose actions */
 - (void)openComposePanelInWindow:(NSWindow *)window 
-				   forTelnetView:(WLTerminalView *)telnetView;
+						 forView:(NSView <NSTextInput> *)telnetView;
 - (IBAction)commitCompose:(id)sender;
 - (IBAction)cancelCompose:(id)sender;
 - (IBAction)setUnderline:(id)sender;

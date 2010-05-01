@@ -271,6 +271,7 @@
 		5AF9DD84118B29E300E288A9 /* WLMainFrameController+RemoteControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WLMainFrameController+RemoteControl.m"; sourceTree = "<group>"; };
 		5AF9DDBE118B2F0E00E288A9 /* WLMainFrameController+TabControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WLMainFrameController+TabControl.h"; sourceTree = "<group>"; };
 		5AF9DDBF118B2F0E00E288A9 /* WLMainFrameController+TabControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WLMainFrameController+TabControl.m"; sourceTree = "<group>"; };
+		5AF9DEF4118C747D00E288A9 /* WLNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLNotifications.h; sourceTree = "<group>"; };
 		6B3128A50DB36757005D6C32 /* Welly.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Welly.icns; sourceTree = "<group>"; };
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81208EBD0EF8D94D005FD459 /* default_site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_site.png; sourceTree = "<group>"; };
@@ -726,6 +727,7 @@
 				16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */,
 				85F7F2070B06EE36000C4CDF /* WLGlobalConfig.h */,
 				85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */,
+				5AF9DEF4118C747D00E288A9 /* WLNotifications.h */,
 			);
 			name = "Constant & Utilities";
 			sourceTree = "<group>";

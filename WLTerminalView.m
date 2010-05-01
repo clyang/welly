@@ -23,6 +23,8 @@
 #import "WLPopUpMessage.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLEncoder.h"
+
+#import "WLNotifications.h"
 #include <math.h>
 
 const float WLActivityCheckingTimeInteval = 5.0;
@@ -67,6 +69,14 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 																selector:@selector(checkActivity:)
 																userInfo:nil
 																 repeats:YES];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(refreshMouseHotspot) 
+													 name:WLNotificationSiteDidChangeShouldEnableMouse 
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(refreshDisplay) 
+													 name:WLNotificationSiteDidChangeEncoding
+												   object:nil];
     }
     return self;
 }
@@ -298,10 +308,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 #pragma mark -
 #pragma mark Actions
-- (BOOL)shouldWarnCompose {
-	return ([[self frontMostTerminal] bbsState].state != BBSComposePost);
-}
-
 - (void)copy:(id)sender {
     if (![self isConnected]) return;
     if (_selectionLength == 0) return;
@@ -806,6 +812,14 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 - (BOOL)shouldEnableMouse {
 	return [[[self frontMostConnection] site] shouldEnableMouse];
+}
+
+- (YLANSIColorKey)ansiColorKey {
+	return [[[self frontMostConnection] site] ansiColorKey];
+}
+
+- (BOOL)shouldWarnCompose {
+	return ([[self frontMostTerminal] bbsState].state != BBSComposePost);
 }
 
 #pragma mark -

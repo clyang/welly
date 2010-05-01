@@ -9,12 +9,17 @@
 #import "WLComposePanelController.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLGlobalConfig.h"
-#import "WLTerminalView.h"
-#import "WLTerminal.h"
-#import "WLSite.h"
 #import "SynthesizeSingleton.h"
 
 #define kComposePanelNibFilename @"ComposePanel"
+
+@interface NSView (Composable)
+
+- (BOOL)shouldWarnCompose;
+- (YLANSIColorKey)ansiColorKey;
+
+@end
+
 
 @implementation WLComposePanelController
 NSString *const WLComposeFontName = @"Helvetica";
@@ -72,11 +77,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 #pragma mark -
 #pragma mark Compose
 - (void)openComposePanelInWindow:(NSWindow *)window 
-				   forTelnetView:(WLTerminalView *)telnetView {
+						 forView:(NSView <NSTextInput>*)telnetView {
 	[self loadNibFile];
 	
 	// Propose a warning if necessary
-	if([telnetView shouldWarnCompose]) {
+	if ([telnetView respondsToSelector:@selector(shouldWarnCompose)] &&
+		[telnetView shouldWarnCompose]) {
         NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to open the composer?", @"Sheet Title")
                                          defaultButton:NSLocalizedString(@"Confirm", @"Default Button")
                                        alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
@@ -120,13 +126,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 }
 
 - (IBAction)commitCompose:(id)sender {
-    WLSite *s = [[_telnetView frontMostConnection] site];
-	
-	NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:[_composeText textStorage] 
-																		 forANSIColorKey:[s ansiColorKey]];
-	
-	[[_telnetView frontMostConnection] sendText:ansiCode];
-    
+	if ([_telnetView respondsToSelector:@selector(ansiColorKey)]) {
+		NSString *ansiCode = [WLAnsiColorOperationManager ansiCodeStringFromAttributedString:[_composeText textStorage] 
+																			 forANSIColorKey:[_telnetView ansiColorKey]];
+		
+		[_telnetView insertText:ansiCode];
+	} else {
+		[_telnetView insertText:[_composeText string]];
+	}
 	[self closeComposePanel];
 }
 
