@@ -37,7 +37,7 @@
         for (i = 0; i < _maxRow; i++) {
 			// NOTE: in case _cursorX will exceed _column size (at the border of the
 			//		 screen), we allocate one more unit for this array
-			_grid[i] = (cell *) malloc(sizeof(cell) * (_maxColumn + 1));
+			_grid[i] = (cell *)malloc(sizeof(cell) * (_maxColumn + 1));
 		}
 		_dirty = (char *)malloc(sizeof(BOOL) * (_maxRow * _maxColumn));
 		_textBuf = (unichar *)malloc(sizeof(unichar) * (_maxRow * _maxColumn + 1));
@@ -116,8 +116,6 @@
 	int i, end = _maxColumn * _maxRow;
 	for (i = 0; i < end; i++)
 		_dirty[i] = YES;
-	
-	[self notifyObservers];
 }
 
 - (void)setDirtyForRow:(int)r {

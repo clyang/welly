@@ -283,7 +283,7 @@ static unsigned short gEmptyAttr;
 					[connection sendBytes:cmd length:cmdLength];
 				} else if (c == ASC_ACK) { // FLOW CONTROL? do nothing					
 				} else if (c == ASC_BEL) { // Beep
-					[[NSSound soundNamed: @"Whit.aiff"] play];
+					[[NSSound soundNamed:@"Whit.aiff"] play];
 					_hasNewMessage = YES;
 				} else if (c == ASC_BS) { // ^H, Backspace (BS)
 					if (_cursorX > 0) {
@@ -298,7 +298,7 @@ static unsigned short gEmptyAttr;
 					if (_modeLNM == NO) _cursorX = 0;
 					if (_cursorY == _scrollEndRow) {
 						cell *emptyLine = _grid[_scrollBeginRow];
-						[self clearRow: _scrollBeginRow];
+						[self clearRow:_scrollBeginRow];
 						
 						for (x = _scrollBeginRow; x < _scrollEndRow; x++) 
 							_grid[x] = _grid[x + 1];
@@ -360,7 +360,7 @@ static unsigned short gEmptyAttr;
 						//[_view updateBackedImage];
 						//[_view extendTopFrom: _scrollBeginRow to: _scrollEndRow];
 						cell *emptyLine = _grid[_scrollEndRow];
-						[self clearRow: _scrollEndRow];
+						[self clearRow:_scrollEndRow];
 						
 						for (x = _scrollEndRow; x > _scrollBeginRow; x--) 
 							_grid[x] = _grid[x - 1];
@@ -428,7 +428,7 @@ static unsigned short gEmptyAttr;
 						//[_delegate updateBackedImage];
 						//[_delegate extendBottomFrom: _scrollBeginRow to: _scrollEndRow];
 						cell *emptyLine = _grid[_scrollBeginRow];
-						[self clearRow: _scrollBeginRow];
+						[self clearRow:_scrollBeginRow];
 						
 						for (x = _scrollBeginRow; x < _scrollEndRow; x++) 
 							_grid[x] = _grid[x + 1];
@@ -611,26 +611,36 @@ static unsigned short gEmptyAttr;
 						if ([_csArg size] == 0 || [_csArg front] == 0) {
 							// mjhsieh is not comfortable with putting _csArg lookup with
 							// [_csArg size]==0
-							[self clearRow: _cursorY fromStart: _cursorX toEnd: _column - 1];
+							[self clearRow:_cursorY 
+								 fromStart:_cursorX 
+									 toEnd:_column - 1];
 							for (j = _cursorY + 1; j < _row; j++)
-								[self clearRow: j];
+								[self clearRow:j];
 						} else if ([_csArg size] > 0 && [_csArg front] == 1) {
-							[self clearRow: _cursorY fromStart: 0 toEnd: _cursorX];
+							[self clearRow:_cursorY 
+								 fromStart:0 
+									 toEnd:_cursorX];
 							for (j = 0; j < _cursorY; j++)
-								[self clearRow: j];
+								[self clearRow:j];
 						} else if ([_csArg size] > 0 && [_csArg front] == 2) {
 							[self clearAll];
 						}
 					} else if (c == CSI_EL ) { // Erase Line (cursor does not move)
-						/*  ^[K, ^[0K	: clear from cursor position to end of line
+						/*  
+						 ^[K, ^[0K	: clear from cursor position to end of line
 						 ^[1K		: clear from start of line to cursor position
-						 ^[2K		: clear whole line */
+						 ^[2K		: clear whole line 
+						 */
 						if ([_csArg size] == 0 || [_csArg front] == 0) {
-							[self clearRow: _cursorY fromStart: _cursorX toEnd: _column - 1];
+							[self clearRow:_cursorY 
+								 fromStart:_cursorX 
+									 toEnd:_column - 1];
 						} else if ([_csArg size] > 0 && [_csArg front] == 1) {
-							[self clearRow: _cursorY fromStart: 0 toEnd: _cursorX];
+							[self clearRow:_cursorY 
+								 fromStart:0 
+									 toEnd:_cursorX];
 						} else if ([_csArg size] > 0 && [_csArg front] == 2) {
-							[self clearRow: _cursorY];
+							[self clearRow:_cursorY];
 						}
 					}else if (c == CSI_IL ) { // Insert Line
 						int lineNumber = 0;
@@ -661,8 +671,8 @@ static unsigned short gEmptyAttr;
 						
 						int j;
 						for (j = 0; j < lineNumber; j++) {
-							[self clearRow: _cursorY];
-							cell *emptyRow = [self cellsOfRow: _cursorY];
+							[self clearRow:_cursorY];
+							cell *emptyRow = _grid[_cursorY];
 							int r;
 							for (r = _cursorY; r < _scrollEndRow; r++)
 								_grid[r] = _grid[r + 1];
@@ -954,17 +964,8 @@ static unsigned short gEmptyAttr;
 				
 				break;
 		}
-	}/*
-	cell **prevGrid = [_terminal grid];
-	for (unsigned int r = 0; r < _row; ++r) {
-		for (unsigned int c = 0; c < _column; ++c) {
-			if (shouldBeDirty(prevGrid[r][c], _grid[r][c])) {
-				[_terminal setDirty:YES atRow:r column:c];
-			} else {
-				[_terminal setDirty:NO atRow:r column:c];
-			}
-		}
-	}*/
+	}
+	
 	[_terminal setCursorX:_cursorX Y:_cursorY];
 	[_terminal feedGrid:_grid];
 	
@@ -1026,7 +1027,7 @@ static unsigned short gEmptyAttr;
 	
     int i;
     for (i = 0; i < _row; i++) 
-        [self clearRow: i];
+        [self clearRow:i];
     
     if (_csBuf)
         [_csBuf clear];
@@ -1039,7 +1040,7 @@ static unsigned short gEmptyAttr;
 }
 
 - (void)clearRow:(int)r {
-    [self clearRow: r fromStart: 0 toEnd: _column - 1];
+    [self clearRow:r fromStart:0 toEnd:_column - 1];
 }
 
 - (void)clearRow:(int)r 

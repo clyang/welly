@@ -1066,8 +1066,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 #pragma mark WLTerminalObserver protocol
 - (void)terminalDidUpdate:(WLTerminal *)terminal {
 	if (terminal == [self frontMostTerminal]) {
-		[self updateBackedImage];
-		[self setNeedsDisplay:YES];
+		//[self updateBackedImage];
+		//[self setNeedsDisplay:YES];
 		[self refreshMouseHotspot];
 	}
 	[super terminalDidUpdate:terminal];
