@@ -53,6 +53,8 @@
     for (int i = 0; i < _maxRow; i++)
         free(_grid[i]);
     free(_grid);
+	free(_dirty);
+	free(_textBuf);
 	
 	[_observers release];
     [super dealloc];

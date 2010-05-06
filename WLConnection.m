@@ -43,7 +43,7 @@
         [self setSite:site];
         if (![site isDummy]) {
 			// WLPTY as the default protocol (a proxy)
-			WLPTY *protocol = [WLPTY new];
+			WLPTY *protocol = [[WLPTY new] autorelease];
 			[self setProtocol:protocol];
 			[protocol setDelegate:self];
 			[protocol setProxyType:[site proxyType]];
@@ -93,11 +93,6 @@
 - (void)setLastTouchDate {
     [_lastTouchDate release];
     _lastTouchDate = [[NSDate date] retain];
-}
-
-- (id)content {
-	NSLog(@"content");
-	return self;
 }
 
 #pragma mark -

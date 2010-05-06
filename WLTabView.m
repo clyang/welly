@@ -121,14 +121,14 @@
 
 #pragma mark -
 #pragma mark Adding and removing a tab
-- (NSTabViewItem *)newTab {
+- (NSTabViewItem *)emptyTab {
     NSTabViewItem *tabViewItem;
 	if ([self isSelectedTabEmpty]) {
 		// reuse the empty tab
         tabViewItem = [self selectedTabViewItem];
 	} else {	
 		// open a new tab
-		tabViewItem = [[NSTabViewItem alloc] initWithIdentifier:[WLTabViewItemController emptyTabViewItemController]];
+		tabViewItem = [[[NSTabViewItem alloc] initWithIdentifier:[WLTabViewItemController emptyTabViewItemController]] autorelease];
 		// this will invoke tabView:didSelectTabViewItem for the first tab
         [self addTabViewItem:tabViewItem];
 	}
@@ -137,7 +137,7 @@
 
 - (void)newTabWithConnection:(WLConnection *)theConnection 
 					   label:(NSString *)theLabel {	
-	NSTabViewItem *tabViewItem = [self newTab];
+	NSTabViewItem *tabViewItem = [self emptyTab];
 
 	[[tabViewItem identifier] setContent:theConnection];
 	
@@ -163,7 +163,7 @@
 }
 
 - (void)newTabWithCoverFlowPortal {
-	NSTabViewItem *tabViewItem = [self newTab];
+	NSTabViewItem *tabViewItem = [self emptyTab];
 	
 	[tabViewItem setView:_portal];
 	[tabViewItem setLabel:@"Cover Flow"];

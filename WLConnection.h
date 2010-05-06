@@ -48,7 +48,6 @@
 @property (readwrite, assign) NSInteger objectCount;
 
 - (id)initWithSite:(WLSite *)site;
-- (id)content;
 
 - (void)close;
 - (void)reconnect;

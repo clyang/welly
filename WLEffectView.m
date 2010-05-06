@@ -179,7 +179,8 @@
 	CGColorRelease(myColor);
 	
 	// Set the message to the text layer
-	[textLayer setString:[message retain]];
+	//[textLayer setString:[message retain]];
+	[textLayer setString:message];
 	// Modify its styles
 	[textLayer setTruncationMode:kCATruncationEnd];
     CGFontRef font = CGFontCreateWithFontName((CFStringRef)[[WLGlobalConfig sharedInstance] englishFontName]);
@@ -239,7 +240,7 @@
 	if (_buttonLayer == nil)
 		return;
 	CATextLayer *textLayer = [[_buttonLayer sublayers] lastObject];
-	[[textLayer string] release];
+	//[[textLayer string] release];
 	[textLayer removeFromSuperlayer];
 	[_buttonLayer removeAllAnimations];
 	[_buttonLayer removeFromSuperlayer];

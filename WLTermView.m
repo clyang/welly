@@ -332,13 +332,15 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 }
 
 - (void)drawBlink {
-    if (![gConfig blinkTicker]) return;
-	
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    if (![gConfig blinkTicker])
+		return;
 	
     int c, r;
     id ds = [self frontMostTerminal];
-    if (!ds) return;
+    if (!ds) 
+		return;
+	
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
     for (r = 0; r < _maxRow; r++) {
         cell *currRow = [ds cellsOfRow: r];
         for (c = 0; c < _maxColumn; c++) {
@@ -578,7 +580,7 @@ static NSBezierPath *gSymbolTrianglePath2[4];
         CGContextSetRGBStrokeColor(myCGContext, 1.0, 1.0, 1.0, 1.0);
         CGContextSetLineWidth(myCGContext, 1.0);
         
-        int location = runGlyphIndex = 0;
+        int location = 0;
         int lastIndex = bufIndex[glyphOffset];
         BOOL hidden = isHiddenAttribute(currRow[lastIndex].attr);
         BOOL lastDoubleByte = isDoubleByte[glyphOffset];
@@ -813,7 +815,7 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 // Get current BBS image
 - (NSImage *)image {
 	// Leave for others to release it
-	return [[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self frame]]];
+	return [[[NSImage alloc] initWithData:[self dataWithPDFInsideRect:[self frame]]] autorelease];
 }
 
 #pragma mark -

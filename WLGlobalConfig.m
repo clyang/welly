@@ -141,8 +141,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     [self setColorWhiteHilite:[defaults myColorForKey:@"ColorWhiteHilite"]]; // Foreground Color
     [self setColorBG:[defaults myColorForKey:@"ColorBG"]];
     [self setColorBGHilite:[defaults myColorForKey:@"ColorBGHilite"]]; 
-    _colorTable[0][8] = [[NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0] retain];
-    _colorTable[1][8] = [[NSColor colorWithDeviceRed:1.00 green:1.00 blue:1.00 alpha:1.0] retain];
+    //_colorTable[0][8] = [[NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0] retain];
+    //_colorTable[1][8] = [[NSColor colorWithDeviceRed:1.00 green:1.00 blue:1.00 alpha:1.0] retain];
+	_colorTable[0][8] = [NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0];
+    _colorTable[1][8] = [NSColor colorWithDeviceRed:1.00 green:1.00 blue:1.00 alpha:1.0];
+
 
     _bgColorIndex = 9;
     _fgColorIndex = 7;

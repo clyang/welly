@@ -49,12 +49,12 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 	_view = view;
 	
 	_handlers = [[NSMutableArray alloc] initWithObjects:
-				 [[WLIPAddrHotspotHandler alloc] initWithManager:self],
-				 [[WLClickEntryHotspotHandler alloc] initWithManager:self],
-				 [[WLButtonAreaHotspotHandler alloc] initWithManager:self],
-				 [[WLMovingAreaHotspotHandler alloc] initWithManager:self],
-				 [[WLEditingCursorMoveHotspotHandler alloc] initWithManager:self],
-				 [[WLAuthorAreaHotspotHandler alloc] initWithManager:self],
+				 [[[WLIPAddrHotspotHandler alloc] initWithManager:self] autorelease],
+				 [[[WLClickEntryHotspotHandler alloc] initWithManager:self] autorelease],
+				 [[[WLButtonAreaHotspotHandler alloc] initWithManager:self] autorelease],
+				 [[[WLMovingAreaHotspotHandler alloc] initWithManager:self] autorelease],
+				 [[[WLEditingCursorMoveHotspotHandler alloc] initWithManager:self] autorelease],
+				 [[[WLAuthorAreaHotspotHandler alloc] initWithManager:self] autorelease],
 				 nil];
 	_horizontalScrollReactivateTimer = [NSTimer scheduledTimerWithTimeInterval:WLHorizontalScrollReactivateTimeInteval
 																		target:self 
