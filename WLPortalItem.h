@@ -54,6 +54,5 @@
 
 #pragma mark -
 #pragma mark WLPortalSource protocol
-//- (NSImage *)image;
 - (void)didSelect:(id)sender;
 @end

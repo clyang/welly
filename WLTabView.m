@@ -17,6 +17,7 @@
 #import "WLGlobalConfig.h"
 
 #import "WLBookmarkPortalItem.h"
+#import "WLNewBookmarkPortalItem.h"
 #import "WLCoverFlowPortal.h"
 
 @interface WLTabView ()
@@ -182,6 +183,7 @@
 		[portalItems addObject:item];
 		[item release];
 	}
+	[portalItems addObject:[[WLNewBookmarkPortalItem new] autorelease]];
 	
 	[_portal setPortalItems:portalItems];
 }

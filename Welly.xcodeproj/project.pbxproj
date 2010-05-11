@@ -71,6 +71,7 @@
 		5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */; };
 		5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */; };
 		5AD6A8A5106F8BC000D4446D /* WLEmoticonsPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */; };
+		5ADC663311992C5E005A2881 /* WLNewBookmarkPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC663211992C5E005A2881 /* WLNewBookmarkPortalItem.m */; };
 		5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */; };
 		5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */; };
 		5AF9DD85118B29E300E288A9 /* WLMainFrameController+RemoteControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AF9DD84118B29E300E288A9 /* WLMainFrameController+RemoteControl.m */; };
@@ -263,6 +264,8 @@
 		5AD4B9B10F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMovingAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEmoticonsPanelController.h; sourceTree = "<group>"; };
 		5AD6A8A4106F8BC000D4446D /* WLEmoticonsPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEmoticonsPanelController.m; sourceTree = "<group>"; };
+		5ADC663111992C5E005A2881 /* WLNewBookmarkPortalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLNewBookmarkPortalItem.h; sourceTree = "<group>"; };
+		5ADC663211992C5E005A2881 /* WLNewBookmarkPortalItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLNewBookmarkPortalItem.m; sourceTree = "<group>"; };
 		5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLSitesPanelController.h; sourceTree = "<group>"; };
 		5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLSitesPanelController.m; sourceTree = "<group>"; };
 		5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMessageDelegate.h; sourceTree = "<group>"; };
@@ -481,6 +484,8 @@
 				16B46311105448680085AA37 /* WLCoverFlowPortal.m */,
 				5ACEACEF1178D2CE0028E7BA /* WLPortalItem.h */,
 				5ACEACF01178D2CE0028E7BA /* WLPortalItem.m */,
+				5ADC663111992C5E005A2881 /* WLNewBookmarkPortalItem.h */,
+				5ADC663211992C5E005A2881 /* WLNewBookmarkPortalItem.m */,
 			);
 			name = Portal;
 			sourceTree = "<group>";
@@ -919,6 +924,7 @@
 				5A40C3C6118ADED400487AE9 /* WLTabViewItemController.m in Sources */,
 				5AF9DD85118B29E300E288A9 /* WLMainFrameController+RemoteControl.m in Sources */,
 				5AF9DDC0118B2F0E00E288A9 /* WLMainFrameController+TabControl.m in Sources */,
+				5ADC663311992C5E005A2881 /* WLNewBookmarkPortalItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

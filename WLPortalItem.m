@@ -10,20 +10,21 @@
 #import "WLPortalItem.h"
 
 static NSImage *default_image;
+
 @implementation WLPortalItem
 @synthesize imageTitle = _title;
 @synthesize image = _image;
 #pragma mark -
 #pragma mark Initialize
 - (id)initWithTitle:(NSString *)title {
-	if (self = [self init]) {
+	if (self = [super init]) {
 		_title = [title copy];
 	}
 	return self;
 }
 
 - (id)initWithImage:(NSImage *)theImage{
-	if (self = [self init]) {
+	if (self = [super init]) {
 		_image = theImage;
 	}
 	return self;
@@ -31,7 +32,8 @@ static NSImage *default_image;
 
 - (id)initWithImage:(NSImage *)theImage 
 			  title:(NSString *)title {
-	if (self = [self initWithImage:theImage]) {
+	if (self = [super init]) {
+		_image = theImage;
 		_title = [title copy];
 	}
 	return self;

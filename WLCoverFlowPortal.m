@@ -72,9 +72,7 @@ const float xscale = 1, yscale = 0.8;
 	frame.size.width *= xscale;
 	frame.size.height *= yscale;
 	[_imageFlowView setFrame:frame];
-	
-	frame = [_imageFlowView frame];
-	[_imageFlowView setNeedsDisplay:YES];
+	//[_imageFlowView setNeedsDisplay:YES];
 }
 
 - (id)initWithPortalItems:(NSArray *)portalItems {

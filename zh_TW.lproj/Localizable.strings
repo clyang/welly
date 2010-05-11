@@ -143,3 +143,6 @@
 "File Transfer" = "檔案傳輸";
 "EXIF Information" = "EXIF 信息";
 "New Message Received" = "收到新訊息";
+
+/* The title for New Bookmark Portal Item */
+"New Bookmark" = "新增站台";

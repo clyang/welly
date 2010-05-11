@@ -48,8 +48,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 				[self loadSites];
 			}
 			if (!_sitesObservers)
-				_sitesObservers = [[NSMutableArray alloc] init];
-		}
+				_sitesObservers = [[NSMutableArray alloc] init];		}
     }
     return self;
 }
@@ -128,9 +127,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 - (void)openSitesPanelInWindow:(NSWindow *)mainWindow 
 				    andAddSite:(WLSite *)site {
 	site = [[site copy] autorelease];
+    //[self performSelector:@selector(openSitesPanelInWindow:) withObject:mainWindow afterDelay:0.1];
+	[self openSitesPanelInWindow:mainWindow];
 	[_sitesController addObject:site];
     [_sitesController setSelectedObjects:[NSArray arrayWithObject:site]];
-    [self performSelector:@selector(openSitesPanelInWindow:) withObject:mainWindow afterDelay:0.1];
     if ([_siteNameField acceptsFirstResponder])
         [_sitesPanel makeFirstResponder:_siteNameField];
 }
