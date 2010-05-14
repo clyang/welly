@@ -40,7 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
     const int linesPerPage = [[WLGlobalConfig sharedInstance] row] - 1;
     NSString *lastPage[linesPerPage], *newPage[linesPerPage];
 
-    NSString *bottomLine = [terminal stringFromIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+    NSString *bottomLine = [terminal stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
     NSString *newBottomLine = bottomLine;
 
     NSMutableString *buf = [NSMutableString string];
@@ -52,7 +52,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
         // read in the whole page, and store in 'newPage' array
         for (; j < linesPerPage; ++j) {
             // read one line
-            NSString *line = [terminal stringFromIndex:j * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+            NSString *line = [terminal stringAtIndex:j * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
             newPage[j] = line;
             // check the post ending symbol "※"
             // ptt may include the symbol in the middle for re post
@@ -116,7 +116,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
         while ([newBottomLine isEqualToString:bottomLine] && i < maxAttempt) {
             // wait for the screen to refresh
             usleep(sleepTime);
-            newBottomLine = [terminal stringFromIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+            newBottomLine = [terminal stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
             ++i;
         }
         bottomLine = newBottomLine;

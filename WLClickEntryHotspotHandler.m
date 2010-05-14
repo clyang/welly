@@ -199,7 +199,7 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 }
 
 - (void)addClickEntryRectAtRow:(int)r column:(int)c length:(int)length {
-    NSString *title = [[_view frontMostTerminal] stringFromIndex:c+r*_maxColumn length:length];
+    NSString *title = [[_view frontMostTerminal] stringAtIndex:c+r*_maxColumn length:length];
     [self addClickEntryRect:title row:r column:c length:length];
 }
 
@@ -388,14 +388,14 @@ BOOL isPostTitleStarter(unichar c) {
 	NSRange postRange = {0, 0};
 	int c = 0;
 	for (; c < _maxColumn - 2; ++c) {
-		if ([[ds stringFromIndex:c + 2 * _maxColumn length:2] isEqualToString:@"标"]) {
+		if ([[ds stringAtIndex:c + 2 * _maxColumn length:2] isEqualToString:@"标"]) {
 			postRange.location = c;
 			c += 2;
 			break;
 		}
 	}
 	for (; c < _maxColumn - 2; ++c) {
-		if ([[ds stringFromIndex:c + 2 * _maxColumn length:2] isEqualToString:@"整"]) {
+		if ([[ds stringAtIndex:c + 2 * _maxColumn length:2] isEqualToString:@"整"]) {
 			postRange.length = c - postRange.location - 1;
 			break;
 		}

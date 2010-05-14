@@ -479,6 +479,7 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 		return; 
     
 	start = x;
+	end = x;
 	
     // update the information array
 	for (x = start; x < _maxColumn; x++) {
@@ -689,8 +690,8 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 	
 	attribute currAttr, lastAttr = (currRow + start)->attr;
 	int length = 0;
-	unsigned int currentBackgroundColor;
-    BOOL currentBold;
+	unsigned int currentBackgroundColor = 0;
+    BOOL currentBold = NO;
 	unsigned int lastBackgroundColor = bgColorIndexOfAttribute(lastAttr);
 	BOOL lastBold = bgBoldOfAttribute(lastAttr);
 	/* 

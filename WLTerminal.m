@@ -148,13 +148,16 @@
 	return _grid[r][c].attr;
 }
 
-- (NSString *)stringFromIndex:(int)begin 
-					   length:(int)length {
+- (NSString *)stringAtIndex:(int)begin 
+					 length:(int)length {
     int i, j;
     //unichar textBuf[length + 1];
     unichar firstByte = 0;
     int bufLength = 0;
     int spacebuf = 0;
+	if (begin + length > _maxRow * _maxColumn) {
+		length = _maxRow * _maxColumn - begin;
+	}
     for (i = begin; i < begin + length; i++) {
         int x = i % _maxColumn;
         int y = i / _maxColumn;
@@ -190,8 +193,52 @@
     return [NSString stringWithCharacters:_textBuf length:bufLength];
 }
 
+// Note that the 'length' means the number of characters in return string
+// A Chinese character is counted as 1 character in return string
+// Different from the method 'stringAtIndex:length'!!
+- (NSAttributedString *)attributedStringAtIndex:(NSUInteger)location 
+										 length:(NSUInteger)length {
+	NSFont *englishFont = [NSFont fontWithName:[[WLGlobalConfig sharedInstance] englishFontName] 
+										  size:[[WLGlobalConfig sharedInstance] englishFontSize]];
+	NSFont *chineseFont = [NSFont fontWithName:[[WLGlobalConfig sharedInstance] chineseFontName]
+										  size:[[WLGlobalConfig sharedInstance] chineseFontSize]];
+	// Get twice length and then trim it to 'length' characters
+	NSString *s = [[self stringAtIndex:location length:length*2] substringToIndex:length];
+	
+	NSMutableAttributedString *attrStr = [[[NSMutableAttributedString alloc] initWithString:s] autorelease];
+	// Set all characters with english font at first
+	[attrStr addAttribute:NSFontAttributeName 
+					value:englishFont
+					range:NSMakeRange(0, [attrStr length])];
+	// Fix the non-English characters' font
+	[attrStr fixFontAttributeInRange:NSMakeRange(0, [attrStr length])];
+	
+	// Now replace all the fixed characters' font to be Chinese Font
+	NSRange limitRange;
+	NSRange effectiveRange;
+	id attributeValue;
+	
+	limitRange = NSMakeRange(0, [attrStr length]);
+	
+	while (limitRange.length > 0) {
+		attributeValue = [attrStr attribute:NSFontAttributeName
+									atIndex:limitRange.location 
+					  longestEffectiveRange:&effectiveRange
+									inRange:limitRange];
+		if (![(NSFont *)attributeValue isEqual:englishFont]) {
+			// Not the englishFont, which means that it is fixed
+			[attrStr addAttribute:NSFontAttributeName 
+							value:chineseFont 
+							range:effectiveRange];
+		}
+		limitRange = NSMakeRange(NSMaxRange(effectiveRange),
+								 NSMaxRange(limitRange) - NSMaxRange(effectiveRange));
+	}
+	return attrStr;
+}
+
 - (NSString *)stringAtRow:(int)row {
-	return [self stringFromIndex:row * _maxColumn length:_maxColumn];
+	return [self stringAtIndex:row * _maxColumn length:_maxColumn];
 }
 
 - (cell *)cellsOfRow:(int)r {
@@ -245,7 +292,7 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *secondLine = [self stringAtRow:1];
 	NSString *thirdLine = [self stringAtRow:2];
     NSString *bottomLine = [self stringAtRow:_maxRow-1];
-	NSString *wholePage = [self stringFromIndex:0 length:_maxRow * _maxColumn];
+	NSString *wholePage = [self stringAtIndex:0 length:_maxRow * _maxColumn];
 	_bbsState.subState = BBSSubStateNone;
     if (NO) {
         // just for align

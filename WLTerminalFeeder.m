@@ -976,16 +976,16 @@ static unsigned short gEmptyAttr;
 			for (i = 2; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // split callerName and messageString
 			int splitPoint = i++;
 			for (; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // determine the end of the message
-			NSString *callerName = [_terminal stringFromIndex:((_row - 1) * _column + 2) length:(splitPoint - 2)];
-			NSString *messageString = [_terminal stringFromIndex:((_row - 1) * _column + splitPoint + 1) length:(i - splitPoint - 2)];
+			NSString *callerName = [_terminal stringAtIndex:((_row - 1) * _column + 2) length:(splitPoint - 2)];
+			NSString *messageString = [_terminal stringAtIndex:((_row - 1) * _column + splitPoint + 1) length:(i - splitPoint - 2)];
 			
 			[connection didReceiveNewMessage:messageString fromCaller:callerName];
 			_hasNewMessage = NO;
 		} else if ([_terminal bbsType] == WLFirebird && _grid[0][0].attr.f.bgColor != 9) {
 			// for firebird bbs (e.g. smth)
 			for (i = 2; i < _row && _grid[i][0].attr.f.bgColor != 9; ++i);	// determine the end of the message
-			NSString *callerName = [_terminal stringFromIndex:0 length:_column];
-			NSString *messageString = [_terminal stringFromIndex:_column length:(i - 1) * _column];
+			NSString *callerName = [_terminal stringAtIndex:0 length:_column];
+			NSString *messageString = [_terminal stringAtIndex:_column length:(i - 1) * _column];
 			
 			[connection didReceiveNewMessage:messageString fromCaller:callerName];
 		}

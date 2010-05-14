@@ -66,8 +66,10 @@
 /* Access Data */
 - (attribute)attrAtRow:(int)r 
 				column:(int)c ;
-- (NSString *)stringFromIndex:(int)begin 
-					   length:(int)length;
+- (NSString *)stringAtIndex:(int)begin 
+					 length:(int)length;
+- (NSAttributedString *)attributedStringAtIndex:(NSUInteger)location 
+										 length:(NSUInteger)length;
 - (cell *)cellsOfRow:(int)r;
 - (cell)cellAtIndex:(int)index;
 

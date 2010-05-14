@@ -165,7 +165,7 @@ NSString *const FBCommandSequenceEnterExcerption = @"x";
 				continue;
 			int length = buttonDescription.signatureLengthOfBytes;
 			if (x < _maxColumn - length) {
-				if ([[ds stringFromIndex:(x + r * _maxColumn) length:length] isEqualToString:buttonDescription.signature]) {
+				if ([[ds stringAtIndex:(x + r * _maxColumn) length:length] isEqualToString:buttonDescription.signature]) {
 					[self addButtonArea:buttonDescription.buttonName 
 						commandSequence:buttonDescription.commandSequence 
 								  atRow:r 
