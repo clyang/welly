@@ -861,16 +861,20 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         ch[0] = 0x1B;
 		[[self frontMostConnection] sendBytes:ch length:1];
 //	} else if (aSelector == @selector(cancel:)) {
-	} else if (aSelector == @selector(scrollToBeginningOfDocument:)) {
+	} else if (aSelector == @selector(scrollToBeginningOfDocument:) ||
+			   aSelector == @selector(moveToBeginningOfLine:)) {
         ch[0] = 0x1B; ch[1] = '['; ch[2] = '1'; ch[3] = '~';
 		[[self frontMostConnection] sendBytes:ch length:4];		
-	} else if (aSelector == @selector(scrollToEndOfDocument:)) {
+	} else if (aSelector == @selector(scrollToEndOfDocument:) ||
+			   aSelector == @selector(moveToEndOfLine:)) {
         ch[0] = 0x1B; ch[1] = '['; ch[2] = '4'; ch[3] = '~';
 		[[self frontMostConnection] sendBytes:ch length:4];		
-	} else if (aSelector == @selector(scrollPageUp:)) {
+	} else if (aSelector == @selector(scrollPageUp:) ||
+			   aSelector == @selector(pageUp:)) {
 		ch[0] = 0x1B; ch[1] = '['; ch[2] = '5'; ch[3] = '~';
 		[[self frontMostConnection] sendBytes:ch length:4];
-	} else if (aSelector == @selector(scrollPageDown:)) {
+	} else if (aSelector == @selector(scrollPageDown:) ||
+			   aSelector == @selector(pageDown:)) {
 		ch[0] = 0x1B; ch[1] = '['; ch[2] = '6'; ch[3] = '~';
 		[[self frontMostConnection] sendBytes:ch length:4];		
 	} else if (aSelector == @selector(insertTab:)) {
