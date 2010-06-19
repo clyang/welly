@@ -501,11 +501,12 @@ const CGFloat menuMarginWidth = 20.0;
 // Just similiar to the code of "addNewLayer"...
 // by gtCarrera @ 9#
 - (void)drawPopUpMessage:(NSString *)message {
+	NSLog(@"Pop up!");
 	// Remove previous message
 	[self removePopUpMessage];
 	//Initiallize a new CALayer
 	if (!_popUpLayer){
-		
+		[self setupPopUpLayer];
     }	
     // Create a text layer to add so we can see the message.
     CATextLayer *textLayer = [CATextLayer layer];
