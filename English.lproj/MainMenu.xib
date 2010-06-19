@@ -2,15 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
+		<string key="IBDocument.InterfaceBuilderVersion">762</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">762</string>
 		</object>
-		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
+			<integer value="1651"/>
+		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -1430,7 +1432,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="957750958">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSCustomView" id="92983356">
@@ -1440,16 +1442,18 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<object class="NSCustomView" id="103210316">
 									<reference key="NSNextResponder" ref="92983356"/>
 									<int key="NSvFlags">268</int>
+									<array class="NSMutableArray" key="NSSubviews">
+										<object class="NSCustomView" id="388583076">
+											<reference key="NSNextResponder" ref="103210316"/>
+											<int key="NSvFlags">-2147483380</int>
+											<string key="NSFrame">{{-41, 20}, {245, 36}}</string>
+											<reference key="NSSuperview" ref="103210316"/>
+											<string key="NSClassName">YLMarkedTextView</string>
+										</object>
+									</array>
 									<string key="NSFrame">{{567, 402}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
 									<string key="NSClassName">WLTerminalView</string>
-								</object>
-								<object class="NSCustomView" id="388583076">
-									<reference key="NSNextResponder" ref="92983356"/>
-									<int key="NSvFlags">-2147483380</int>
-									<string key="NSFrame">{{335, 134}, {245, 36}}</string>
-									<reference key="NSSuperview" ref="92983356"/>
-									<string key="NSClassName">YLMarkedTextView</string>
 								</object>
 								<object class="NSCustomView" id="571244695">
 									<reference key="NSNextResponder" ref="92983356"/>
@@ -1475,6 +1479,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{960, 598}</string>
+					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
@@ -1729,7 +1734,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{4, 4}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -2579,7 +2584,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="92983356"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="571244695"/>
-							<reference ref="388583076"/>
 							<reference ref="103210316"/>
 						</array>
 						<reference key="parent" ref="957750958"/>
@@ -3354,11 +3358,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="92983356"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">227</int>
-						<reference key="object" ref="388583076"/>
-						<reference key="parent" ref="92983356"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1188</int>
 						<reference key="object" ref="282512370"/>
 						<array class="NSMutableArray" key="children">
@@ -3479,7 +3478,15 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">1651</int>
 						<reference key="object" ref="103210316"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="388583076"/>
+						</array>
 						<reference key="parent" ref="92983356"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">227</int>
+						<reference key="object" ref="388583076"/>
+						<reference key="parent" ref="103210316"/>
 					</object>
 				</array>
 			</object>
@@ -3847,17 +3854,35 @@ Z1s6cG9ydF0</string>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">WLMainFrameController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLMainFrameController+RemoteControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLMainFrameController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="closeTab:">id</string>
+						<string key="newTab:">id</string>
+						<string key="selectNextTab:">id</string>
+						<string key="selectPrevTab:">id</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLMainFrameController+TabControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLMainFrameController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addCurrentSite:">id</string>
 						<string key="closeMessageWindow:">id</string>
-						<string key="closeTab:">id</string>
 						<string key="connectLocation:">id</string>
 						<string key="decreaseFontSize:">id</string>
 						<string key="downloadPost:">id</string>
 						<string key="fullScreenMode:">id</string>
 						<string key="increaseFontSize:">id</string>
-						<string key="newTab:">id</string>
 						<string key="openComposePanel:">id</string>
 						<string key="openEmoticonsPanel:">id</string>
 						<string key="openLocation:">id</string>
@@ -3866,8 +3891,6 @@ Z1s6cG9ydF0</string>
 						<string key="openSitePanel:">id</string>
 						<string key="reconnect:">id</string>
 						<string key="restoreSettings:">id</string>
-						<string key="selectNextTab:">id</string>
-						<string key="selectPrevTab:">id</string>
 						<string key="setEncoding:">id</string>
 						<string key="toggleAutoReply:">id</string>
 						<string key="toggleDetectDoubleByte:">id</string>
@@ -3895,6 +3918,14 @@ Z1s6cG9ydF0</string>
 						<string key="_tabView">WLTabView</string>
 						<string key="_unreadMessageTextView">NSTextView</string>
 					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLMainFrameController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLMainFrameController</string>
+					<string key="superclassName">NSObject</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -3975,6 +4006,14 @@ Z1s6cG9ydF0</string>
 						<string key="_effectView">WLEffectView</string>
 						<string key="_textField">YLMarkedTextView</string>
 					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">WLTerminalView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">WLTerminalView</string>
+					<string key="superclassName">WLTermView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -4716,6 +4755,19 @@ Z1s6cG9ydF0</string>
 					<reference key="sourceIdentifier" ref="1040274512"/>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">QCView</string>
+					<string key="superclassName">NSView</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="play:">id</string>
+						<string key="start:">id</string>
+						<string key="stop:">id</string>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">QuartzComposer.framework/Headers/QCView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">SUUpdater</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -4731,6 +4783,7 @@ Z1s6cG9ydF0</string>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
+		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<integer value="1060" key="NS.object.0"/>
@@ -4746,5 +4799,15 @@ Z1s6cG9ydF0</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../Welly.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="NSAddTemplate">{8, 8}</string>
+			<string key="NSMenuCheckmark">{9, 8}</string>
+			<string key="NSMenuMixedState">{7, 2}</string>
+			<string key="NSQuickLookTemplate">{19, 11}</string>
+			<string key="NSRefreshTemplate">{10, 12}</string>
+			<string key="bookmark">{21, 15}</string>
+			<string key="mouse">{17, 18}</string>
+			<string key="sleep">{22, 21}</string>
+		</dictionary>
 	</data>
 </archive>
