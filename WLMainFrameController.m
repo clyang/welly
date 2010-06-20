@@ -557,11 +557,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     [_closeWindowMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
     [_closeTabMenuItem setKeyEquivalent:@"w"];
 }
-/* TODO: What's this for? It's not reasonable.
+
 - (void)windowDidResignKey:(NSNotification *)notification {
     [_closeWindowMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
     [_closeTabMenuItem setKeyEquivalent:@""];
-}*/
+}
 
 - (void)getUrl:(NSAppleEventDescriptor *)event 
 withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
@@ -620,10 +620,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 						 informativeTextWithFormat:NSLocalizedString(@"If you proceed, you will lost all your current font settings for Welly, and this operation is only encouraged when your font settings are missing. Are you sure you want to continue?", @"Sheet Message")];
 	if ([alert runModal] != NSAlertDefaultReturn)
 		return;
-	/* TODO: what's this for???
-	if([_telnetView isInPortalMode]) {
-		return;
-	}*/
+	
 	// Set the font settings
 	[[WLGlobalConfig sharedInstance] setCellWidth:12];
 	[[WLGlobalConfig sharedInstance] setCellHeight:24];
