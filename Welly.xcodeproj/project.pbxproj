@@ -79,7 +79,6 @@
 		6B3128A60DB36757005D6C32 /* Welly.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6B3128A50DB36757005D6C32 /* Welly.icns */; };
 		81208EBE0EF8D94D005FD459 /* default_site.png in Resources */ = {isa = PBXBuildFile; fileRef = 81208EBD0EF8D94D005FD459 /* default_site.png */; };
 		81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81624CE10E2F8F89009C9987 /* Carbon.framework */; };
-		819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 819586610E5183E200AFBFCE /* WLTelnetProcessor.m */; };
 		81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E307210E79031B0024C47E /* WLPopUpMessage.m */; };
 		81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F8ECF10E5005190022FA65 /* WLFullScreenController.m */; };
 		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
@@ -279,13 +278,10 @@
 		6B44E8480DB5E96500314664 /* Welly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Welly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81208EBD0EF8D94D005FD459 /* default_site.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_site.png; sourceTree = "<group>"; };
 		81624CE10E2F8F89009C9987 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
-		819586600E5183E200AFBFCE /* WLTelnetProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTelnetProcessor.h; sourceTree = "<group>"; };
-		819586610E5183E200AFBFCE /* WLTelnetProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTelnetProcessor.m; sourceTree = "<group>"; };
 		81E307200E79031B0024C47E /* WLPopUpMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPopUpMessage.h; sourceTree = "<group>"; };
 		81E307210E79031B0024C47E /* WLPopUpMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPopUpMessage.m; sourceTree = "<group>"; };
 		81F8ECF00E5005190022FA65 /* WLFullScreenController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenController.h; sourceTree = "<group>"; };
 		81F8ECF10E5005190022FA65 /* WLFullScreenController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLFullScreenController.m; sourceTree = "<group>"; };
-		81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFullScreenProcessor.h; sourceTree = "<group>"; };
 		81FEAD310EFE91BD0051C867 /* waiting.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = waiting.pdf; sourceTree = "<group>"; };
 		85137B320D02192800833909 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		85145AAC0AB40192009FC710 /* WLTerminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTerminal.h; sourceTree = "<group>"; };
@@ -711,11 +707,8 @@
 		81F8ECFB0E5006660022FA65 /* FullScreen */ = {
 			isa = PBXGroup;
 			children = (
-				81F8ECF80E50065F0022FA65 /* WLFullScreenProcessor.h */,
 				81F8ECF00E5005190022FA65 /* WLFullScreenController.h */,
 				81F8ECF10E5005190022FA65 /* WLFullScreenController.m */,
-				819586600E5183E200AFBFCE /* WLTelnetProcessor.h */,
-				819586610E5183E200AFBFCE /* WLTelnetProcessor.m */,
 			);
 			name = FullScreen;
 			sourceTree = "<group>";
@@ -896,7 +889,6 @@
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
 				81F8ECF20E5005190022FA65 /* WLFullScreenController.m in Sources */,
-				819586620E5183E200AFBFCE /* WLTelnetProcessor.m in Sources */,
 				1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
 				81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */,

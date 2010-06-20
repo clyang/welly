@@ -10,10 +10,6 @@
 @protocol WLFullScreenProcessor;
 
 @interface WLFullScreenController : NSObject {
-	// Object to resize the target view and its super view
-	// This design follows the strategy pattern...
-	NSObject <WLFullScreenProcessor> *_processor;
-	
 	// The views necessary for full screen and reset
 	NSView *_targetView;
 	NSView *_superView;
@@ -24,9 +20,9 @@
 	
 	// State variable
 	BOOL _isInFullScreen;
+	CGFloat _screenRatio;
 }
 @property (readonly) BOOL isInFullScreen;
-@property (readwrite, retain) id <WLFullScreenProcessor> processor;
 
 // Init functions
 - (id)initWithProcessor:(NSObject <WLFullScreenProcessor>*)pro 
@@ -39,4 +35,8 @@
 // Handle functions
 - (void)handleFullScreen;
 - (void)releaseFullScreen;
+
+// Preprocess functions for TerminalView
+- (void)processBeforeEnter;
+- (void)processBeforeExit;
 @end

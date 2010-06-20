@@ -579,11 +579,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 // A "processor" here will resize the NSViews and do some necessary work before full
 // screen
 - (IBAction)fullScreenMode:(id)sender {
-	if ([_fullScreenController processor] == nil) {
-		WLTelnetProcessor *myPro = [[[WLTelnetProcessor alloc] initWithView:_tabView] autorelease];
-		 
-		[_fullScreenController setProcessor:myPro];
-	}
 	[_fullScreenController handleFullScreen];
 }
 

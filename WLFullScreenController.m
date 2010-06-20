@@ -29,7 +29,6 @@
 
 @implementation WLFullScreenController
 @synthesize isInFullScreen = _isInFullScreen;
-@synthesize processor = _processor;
 #pragma mark -
 #pragma mark Init
 // Initiallize the controller with a given processor
@@ -38,11 +37,11 @@
 			  superView:(NSView *)sview
 		 originalWindow:(NSWindow *)owin {
 	if (self = [super init]) {
-		_processor = [pro retain];
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
 		_isInFullScreen = NO;
+		_screenRatio = 0.0f;
 	}
 	return self;
 }
@@ -54,7 +53,6 @@
 			   superView:(NSView*)sview
 		  originalWindow:(NSWindow*)owin {
 	if (self = [super init]) {
-		_processor = nil;
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
@@ -71,7 +69,7 @@
 }
 
 #pragma mark -
-#pragma mark Handle functions
+#pragma mark Handle functions - Control Logic
 // The main control function of this object
 - (void)handleFullScreen {
 	if (!_isInFullScreen) {
@@ -114,9 +112,7 @@
 		[_superView addSubview:_targetView];
 		// Pre-process if necessary
 		// Do not move it to else where!
-		if(_processor != nil) {
-			[_processor processBeforeExit];
-		}
+		[self processBeforeExit];
 		[_fullScreenWindow.animator setAlphaValue:0];
 		// Change UI mode by carbon
 		SetSystemUIMode(kUIModeNormal, 0);
@@ -138,9 +134,7 @@
 		// Hide the main window
         [_originalWindow setAlphaValue:0.0f];
 		// Pre-process if necessary
-		if(_processor != nil) {
-			[_processor processBeforeEnter];
-		}
+		[self processBeforeEnter];
 		// Record new origin
 		NSRect screenRect = [[NSScreen mainScreen] frame];
         NSPoint newOP = {0, (screenRect.size.height - [_targetView frame].size.height) / 2};
@@ -155,4 +149,42 @@
 		[_fullScreenWindow makeFirstResponder:_targetView];
 	}
 }
+
+#pragma mark -
+#pragma mark For TerminalView
+// Set and reset font size
+- (void)setFont:(BOOL)isEnteringFullScreen {
+	// In case of some stupid uses...
+	if(_screenRatio == 0.0f)
+		return;
+	// Decide whether to set or to reset the font size
+	CGFloat currRatio = (isEnteringFullScreen ? _screenRatio : (1.0f / _screenRatio));
+	// And do it..
+	[[WLGlobalConfig sharedInstance] setEnglishFontSize: 
+	 [[WLGlobalConfig sharedInstance] englishFontSize] * currRatio];
+	[[WLGlobalConfig sharedInstance] setChineseFontSize: 
+	 [[WLGlobalConfig sharedInstance] chineseFontSize] * currRatio];
+	[[WLGlobalConfig sharedInstance] setCellWidth: 
+	 [[WLGlobalConfig sharedInstance] cellWidth] * currRatio];
+	[[WLGlobalConfig sharedInstance] setCellHeight: 
+	 [[WLGlobalConfig sharedInstance] cellHeight] * currRatio];
+}
+
+// Overrided functions
+- (void)processBeforeEnter {
+	// Get the fittest ratio for the expansion
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+	CGFloat ratioH = screenRect.size.height / [_targetView frame].size.height;
+	CGFloat ratioW = screenRect.size.width / [_targetView frame].size.width;
+	_screenRatio = (ratioH > ratioW) ? ratioW : ratioH;
+	
+	// Then, do the expansion
+	[self setFont:YES];
+}
+
+- (void)processBeforeExit {
+	// And reset the font...
+	[self setFont:NO];
+}
+
 @end
