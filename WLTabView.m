@@ -34,31 +34,33 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		[self setTabViewType:NSNoTabsNoBorder];
-		
-		// Register as sites observer
-		[WLSitesPanelController addSitesObserver:self];
-		
 		// Initialize the portal
 		_portal = [[WLCoverFlowPortal alloc] initWithFrame:[self frame]];
-
-		// Register KVO
-		NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", nil];
-		for (NSString *key in observeKeys)
-			[[WLGlobalConfig sharedInstance] addObserver:self
-											  forKeyPath:key
-												 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
-												 context:nil];
-		
-		[self resetFrame];
-		[self updatePortal];
-		
-		// If no active tabs, we should show the coverflow portal if necessary.
-		if ([self numberOfTabViewItems] == 0) {
-			[self showPortal];
-		}
     }
     return self;
+}
+
+- (void)awakeFromNib {
+	[self setTabViewType:NSNoTabsNoBorder];
+	
+	// Register as sites observer
+	[WLSitesPanelController addSitesObserver:self];
+	
+	// Register KVO
+	NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", nil];
+	for (NSString *key in observeKeys)
+		[[WLGlobalConfig sharedInstance] addObserver:self
+										  forKeyPath:key
+											 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
+											 context:nil];
+	
+	[self resetFrame];
+	[self updatePortal];
+	
+	// If no active tabs, we should show the coverflow portal if necessary.
+	if ([self numberOfTabViewItems] == 0) {
+		[self showPortal];
+	}
 }
 
 #pragma mark -
@@ -224,9 +226,13 @@
 }
 
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
+	NSView *oldView = [tabViewItem view];
 	[super removeTabViewItem:tabViewItem];
 	
 	if ([self numberOfTabViewItems] == 0) {
+		if ([oldView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
+			[(id <WLTabItemContentObserver>)oldView didChangeContent:nil];
+		}
 		// If no active tabs, we should show the coverflow portal if necessary.
 		[self showPortal];
 	}

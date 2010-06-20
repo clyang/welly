@@ -822,6 +822,8 @@ static NSBezierPath *gSymbolTrianglePath2[4];
 #pragma mark -
 #pragma mark WLTabItemContentObserver protocol
 - (void)didChangeContent:(id)content {
+	if (!content)
+		_connection = nil;
 	if ([content isKindOfClass:[WLConnection class]]) {
 		_connection = content;
 		[self refreshDisplay];
