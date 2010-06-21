@@ -48,21 +48,25 @@ const float xscale = 1, yscale = 0.8;
 		[_imageFlowView setDelegate:self];
 		[_imageFlowView setDraggingDestinationDelegate:self];
 		[_imageFlowView setHidden:NO];
-		[self addSubview:_imageFlowView];
 
 		// background
 		NSColor *color = [[WLGlobalConfig sharedInstance] colorBG];
 		// cover flow doesn't support alpha
 		color = [color colorWithAlphaComponent:1.0];
 		[_imageFlowView setBackgroundColor:color];
-		// event hanlding
-		NSResponder *next = [self nextResponder];
-		if (_imageFlowView != next) {
-			[_imageFlowView setNextResponder:next];
-			[self setNextResponder:_imageFlowView];
-		}		
 	}
 	return self;
+}
+
+- (void)awakeFromNib {
+	[self addSubview:_imageFlowView];
+	[[self window] makeFirstResponder:self];
+	// event hanlding
+	/*NSResponder *next = [self nextResponder];
+	if (_imageFlowView != next) {
+		[_imageFlowView setNextResponder:next];
+		[self setNextResponder:_imageFlowView];
+	}*/	
 }
 
 - (void)setFrame:(NSRect)frame {

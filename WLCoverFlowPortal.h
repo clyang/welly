@@ -20,7 +20,7 @@
 }
 
 //@property (readonly) NSView *view;
-
+- (void)awakeFromNib;
 - (void)setPortalItems:(NSArray *)portalItems;
 	
 - (void)keyDown:(NSEvent *)theEvent;

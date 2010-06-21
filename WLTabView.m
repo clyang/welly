@@ -61,6 +61,7 @@
 	if ([self numberOfTabViewItems] == 0) {
 		[self showPortal];
 	}
+	[_portal awakeFromNib];
 }
 
 #pragma mark -
