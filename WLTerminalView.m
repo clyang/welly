@@ -502,8 +502,9 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 	
     [[self frontMostConnection] resetMessageCount];
     [[self window] makeFirstResponder:self];
-    if (![self isConnected]) 
+    if (![self isConnected]) {
 		return;
+	}
 	// Disable the mouse if we cancelled any selection
     if(abs(_selectionLength) > 0) 
         _isNotCancelingSelection = NO;
@@ -525,8 +526,9 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 - (void)mouseDragged:(NSEvent *)theEvent {
     [self hasMouseActivity];
-    if (![self isConnected])
-        return;
+    if (![self isConnected]) {
+		return;
+	}
 
     NSPoint p = [theEvent locationInWindow];
     p = [self convertPoint:p toView:nil];

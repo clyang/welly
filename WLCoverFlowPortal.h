@@ -24,6 +24,6 @@
 - (void)setPortalItems:(NSArray *)portalItems;
 	
 - (void)keyDown:(NSEvent *)theEvent;
-- (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseDragged:(NSEvent *)theEvent;
 
 @end

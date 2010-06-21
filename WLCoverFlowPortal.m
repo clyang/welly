@@ -62,11 +62,12 @@ const float xscale = 1, yscale = 0.8;
 	[self addSubview:_imageFlowView];
 	[[self window] makeFirstResponder:self];
 	// event hanlding
-	/*NSResponder *next = [self nextResponder];
-	if (_imageFlowView != next) {
-		[_imageFlowView setNextResponder:next];
-		[self setNextResponder:_imageFlowView];
-	}*/	
+	// Add self to _imageFlowView's next responder
+	NSResponder *next = [_imageFlowView nextResponder];
+	if (self != next) {
+		[_imageFlowView setNextResponder:self];
+		[self setNextResponder:next];
+	}
 }
 
 - (void)setFrame:(NSRect)frame {
@@ -168,7 +169,7 @@ const float xscale = 1, yscale = 0.8;
     return [_portalItems objectAtIndex:index];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent {
+- (void)mouseDragged:(NSEvent *)theEvent {
 	_draggingItem = [self itemAtLocation:[theEvent locationInWindow]];
 	if (_draggingItem) {
 		if (![_draggingItem conformsToProtocol:@protocol(WLDraggingSource)] || 
