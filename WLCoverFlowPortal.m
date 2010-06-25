@@ -90,7 +90,11 @@ const float xscale = 1, yscale = 0.8;
 #pragma mark -
 #pragma mark Display
 - (void)drawRect:(NSRect)rect {
-	[[[WLGlobalConfig sharedInstance] colorBG] set];
+	// background
+	NSColor *color = [[WLGlobalConfig sharedInstance] colorBG];
+	// cover flow doesn't support alpha
+	color = [color colorWithAlphaComponent:1.0];
+	[color set];
     NSRectFill(rect);
 }
 
