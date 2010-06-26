@@ -52,6 +52,8 @@ static NSBezierPath *gSymbolDiagonalPathR[3];
 
 static NSBezierPath *gSymbolDualLinePath[29];
 
+static NSBezierPath *gSymbolArcPath[4];
+
 @implementation WLAsciiArtRender
 
 - (NSBezierPath *)dualLinePathWithIndex:(NSUInteger)index {
@@ -67,7 +69,6 @@ static NSBezierPath *gSymbolDualLinePath[29];
 	[gSymbolDualLinePath[index] setLineWidth:2.0];
 	
 #define DLPoint(x, y) NSMakePoint(xpts2[(x)], ypts2[(y)])
-	NSLog(@"rebuild:%d", index);
 	switch (index) {
 		case 0: // ═
 			[gSymbolDualLinePath[0] moveToPoint:DLPoint(0,1)];
@@ -311,11 +312,40 @@ static NSBezierPath *gSymbolDualLinePath[29];
 	return gSymbolDualLinePath[index];
 }
 
+- (NSBezierPath *)arcPathWithIndex:(NSUInteger)index {
+	if (gSymbolArcPath[index])
+		return gSymbolArcPath[index];
+	
+	// Create Arc Path
+	NSPoint pts[4] = {
+		NSMakePoint(_fontWidth*2, _fontHeight/2),
+		NSMakePoint(_fontWidth, 0),
+		NSMakePoint(0, _fontHeight/2),
+		NSMakePoint(_fontWidth, _fontHeight)
+	};
+	
+	gSymbolArcPath[index] = [[NSBezierPath alloc] init];
+	[gSymbolArcPath[index] setLineWidth:2.0];
+	[gSymbolArcPath[index] moveToPoint:pts[index]];
+	[gSymbolArcPath[index] appendBezierPathWithArcFromPoint:NSMakePoint(_fontWidth, _fontHeight/2) 
+													toPoint:pts[(index+1)%4] 
+													 radius:_fontWidth];
+	return gSymbolArcPath[index];
+}
+
 - (void)resetDualLinePath {
 	for (int i = 0; i < 29; ++i) {
 		if (gSymbolDualLinePath[i])
 			[gSymbolDualLinePath[i] release];
 		gSymbolDualLinePath[i] = nil;
+	}
+}
+
+- (void)resetArcPath {
+	for (int i = 0; i < 4; ++i) {
+		if (gSymbolArcPath[i])
+			[gSymbolArcPath[i] release];
+		gSymbolArcPath[i] = nil;
 	}
 }
 
@@ -398,6 +428,7 @@ static NSBezierPath *gSymbolDualLinePath[29];
 	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[1]];
 	
 	[self resetDualLinePath];
+	[self resetArcPath];
 }
 
 - (void)configure {
@@ -435,41 +466,37 @@ static NSBezierPath *gSymbolDualLinePath[29];
 		return YES;
 	if (ch >= 0x2550 && ch <= 0x256C) // DUAL LINE
 		return YES;
+	if (ch >= 0x256D && ch <= 0x2570) // CIRCLE ╭╮╯╰
+		return YES;
 	return NO;
 }
 
-- (void)drawLeftSymbol:(NSObject *)symbol 
-		  withSelector:(SEL)selector 
-			 attribute:(attribute)attr {
-	[gLeftImage lockFocus];
-	[[gConfig colorAtIndex:bgColorIndexOfAttribute(attr) hilite:bgBoldOfAttribute(attr)] set];
-	NSRect rect;
-	rect.size = [gLeftImage size];
-	rect.origin = NSZeroPoint;
-	NSRectFill(rect);
-	
-	[[gConfig colorAtIndex:fgColorIndexOfAttribute(attr) hilite:fgBoldOfAttribute(attr)] set];
-	[symbol performSelector:selector];
-	[gLeftImage unlockFocus];
-	[gLeftImage drawAtPoint:NSZeroPoint
-				   fromRect:rect
-				  operation:NSCompositeCopy
-				   fraction:1.0];
-}
-
-- (void)drawDualLinePathWithIndex:(NSUInteger)index
-					leftAttribute:(attribute)attrL 
-				   rightAttribute:(attribute)attrR {
+- (void)drawSymbol:(NSObject *)symbol 
+	  withSelector:(SEL)selector	   
+	 leftAttribute:(attribute)attrL 
+	rightAttribute:(attribute)attrR {
 	int colorIndexL = fgColorIndexOfAttribute(attrL);
 	int colorIndexR = fgColorIndexOfAttribute(attrR);
 	NSColor *colorR = [gConfig colorAtIndex:colorIndexR hilite:fgBoldOfAttribute(attrR)];
 	
 	[colorR set];
-	[[self dualLinePathWithIndex:index] stroke];
+	[symbol performSelector:selector];
 	if (colorIndexL != colorIndexR || fgBoldOfAttribute(attrL) != fgBoldOfAttribute(attrR)) {
-		[self drawLeftSymbol:[self dualLinePathWithIndex:index]
-				withSelector:@selector(stroke) 
-				   attribute:attrL];		
+		NSColor *colorL = [gConfig colorAtIndex:fgColorIndexOfAttribute(attrL) hilite:fgBoldOfAttribute(attrL)];
+		[gLeftImage lockFocus];
+		[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
+		NSRect rect;
+		rect.size = [gLeftImage size];
+		rect.origin = NSZeroPoint;
+		NSRectFill(rect);
+		
+		[colorL set];
+		[symbol performSelector:selector];
+		[gLeftImage unlockFocus];
+		[gLeftImage drawAtPoint:NSZeroPoint
+					   fromRect:rect
+					  operation:NSCompositeCopy
+					   fraction:1.0];		
 	}
 }
 
@@ -516,9 +543,15 @@ static NSBezierPath *gSymbolDualLinePath[29];
 		[colorR set];
 		[gSymbolDiagonalPathR[ch - 0x2571] stroke];
 	} else if (ch >= 0x2550 && ch <= 0x256c) { // DUAL LINE
-		[self drawDualLinePathWithIndex:(ch-0x2550)
-						  leftAttribute:attrL 
-						 rightAttribute:attrR];
+		[self drawSymbol:[self dualLinePathWithIndex:(ch-0x2550)]
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch >= 0x256d && ch <= 0x2570) { // ARC
+		[self drawSymbol:[self arcPathWithIndex:(ch-0x256d)]
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
 	}
 	
 	[xform invert];
