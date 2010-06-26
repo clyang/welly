@@ -9,31 +9,6 @@
 #import "WLAsciiArtRender.h"
 #import "WLGlobalConfig.h"
 
-@interface NSBezierPath (LineSegmentAppendable)
-
-- (void)addLineSegmentFrom:(NSPoint)pt1 
-						to:(NSPoint)pt2;
-
-@end
-
-@implementation NSBezierPath (LineSegmentAppendable)
-
-- (void)addLineSegmentFrom:(NSPoint)pt1 
-						to:(NSPoint)pt2 {
-	BOOL shouldRestoreOldPoint = ![self isEmpty];
-	NSPoint oldPt;
-	if (shouldRestoreOldPoint)
-		oldPt = [self currentPoint];
-	[self moveToPoint:pt1];
-	[self lineToPoint:pt2];
-	if (shouldRestoreOldPoint)
-		[self moveToPoint:oldPt];
-}
-
-@end
-
-
-
 static WLGlobalConfig *gConfig;
 static NSImage *gLeftImage;
 
@@ -51,8 +26,9 @@ static NSBezierPath *gSymbolDiagonalPathL[3];
 static NSBezierPath *gSymbolDiagonalPathR[3];
 
 static NSBezierPath *gSymbolDualLinePath[29];
-
 static NSBezierPath *gSymbolArcPath[4];
+
+static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 
 @implementation WLAsciiArtRender
 
@@ -349,6 +325,31 @@ static NSBezierPath *gSymbolArcPath[4];
 	}
 }
 
+- (void)rebuildSingleLinePathComponent {
+	NSPoint pts[4] = {
+		NSMakePoint(_fontWidth*2, _fontHeight/2),
+		NSMakePoint(_fontWidth, 0),
+		NSMakePoint(0, _fontHeight/2),
+		NSMakePoint(_fontWidth, _fontHeight)
+	};
+	
+	NSPoint mid = NSMakePoint(_fontWidth, _fontHeight/2);
+	
+	for (int i = 0; i < 4; ++i) {
+		if (!gSymbolSingleLinePathComponent[i][0])
+			gSymbolSingleLinePathComponent[i][0] = [[NSBezierPath alloc] init];
+		for (int j = 1; j < 3; ++j) {
+			if (gSymbolSingleLinePathComponent[i][j])
+				[gSymbolSingleLinePathComponent[i][j] release];
+			gSymbolSingleLinePathComponent[i][j] = [[NSBezierPath alloc] init];
+			[gSymbolSingleLinePathComponent[i][j] setLineWidth:j];
+			[gSymbolSingleLinePathComponent[i][j] setLineCapStyle:NSSquareLineCapStyle];
+			[gSymbolSingleLinePathComponent[i][j] moveToPoint:mid];
+			[gSymbolSingleLinePathComponent[i][j] lineToPoint:pts[i]];
+		}
+	}
+}
+
 - (void)createSymbolPath {
 	int i = 0;
 	gSymbolBlackSquareRectL = NSMakeRect(1.0, 1.0, _fontWidth - 1, _fontHeight - 2); 
@@ -429,6 +430,7 @@ static NSBezierPath *gSymbolArcPath[4];
 	
 	[self resetDualLinePath];
 	[self resetArcPath];
+	[self rebuildSingleLinePathComponent];
 }
 
 - (void)configure {
@@ -468,6 +470,8 @@ static NSBezierPath *gSymbolArcPath[4];
 		return YES;
 	if (ch >= 0x256D && ch <= 0x2570) // CIRCLE ╭╮╯╰
 		return YES;
+	if (ch >= 0x250C && ch <= 0x254B) // SINGLE LINE
+		return YES;
 	return NO;
 }
 
@@ -492,6 +496,57 @@ static NSBezierPath *gSymbolArcPath[4];
 		
 		[colorL set];
 		[symbol performSelector:selector];
+		[gLeftImage unlockFocus];
+		[gLeftImage drawAtPoint:NSZeroPoint
+					   fromRect:rect
+					  operation:NSCompositeCopy
+					   fraction:1.0];		
+	}
+}
+
+- (void)drawSingleLineSymbol:(unichar)ch 
+			   leftAttribute:(attribute)attrL 
+			  rightAttribute:(attribute)attrR {
+	static const unsigned int singleLineWidth[64][4] = {
+		{1,1,0,0},{2,1,0,0},{1,2,0,0},{2,2,0,0}, // ┌ ┍ ┎ ┏
+		{0,1,1,0},{0,1,2,0},{0,2,1,0},{0,2,2,0}, // ┐ ┑ ┒ ┓
+		{1,0,0,1},{2,0,0,1},{1,0,0,2},{2,0,0,2}, // └ ┕ ┖ ┗
+		{0,0,1,1},{0,0,2,1},{0,0,1,2},{0,0,2,2}, // ┘ ┙ ┚ ┛
+		// ├ ┝ ┞ ┟ ┠ ┡ ┢ ┣
+		{1,1,0,1},{2,1,0,1},{1,1,0,2},{1,2,0,1},{1,2,0,2},{2,1,0,2},{2,2,0,1},{2,2,0,2},
+		// ┤ ┥ ┦ ┧ ┨ ┩ ┪ ┫
+		{0,1,1,1},{0,1,2,1},{0,1,1,2},{0,2,1,1},{0,2,1,2},{0,1,2,2},{0,2,2,1},{0,2,2,2},
+		// ┬ ┭ ┮ ┯ ┰ ┱ ┲ ┳
+		{1,1,1,0},{1,1,2,0},{2,1,1,0},{2,1,2,0},{1,2,1,0},{1,2,2,0},{2,2,1,0},{2,2,2,0},
+		// ┴ ┵ ┶ ┷ ┸ ┹ ┺ ┻
+		{1,0,1,1},{1,0,2,1},{2,0,1,1},{2,0,2,1},{1,0,1,2},{1,0,2,2},{2,0,1,2},{2,0,2,2},
+		// ┼ ┽ ┾ ┿ ╀ ╁ ╂ ╃ ╄ ╅ ╆ ╇ ╈ ╉ ╊ ╋
+		{1,1,1,1},{1,1,2,1},{2,1,1,1},{2,1,2,1},{1,1,1,2},{1,2,1,1},{1,2,1,2},{1,1,2,2},
+		{2,1,1,2},{1,2,2,1},{2,2,1,1},{2,1,2,2},{2,2,2,1},{1,2,2,2},{2,2,1,2},{2,2,2,2}
+	};
+	NSUInteger index = ch - 0x250c;
+	int colorIndexL = fgColorIndexOfAttribute(attrL);
+	int colorIndexR = fgColorIndexOfAttribute(attrR);
+	NSColor *colorR = [gConfig colorAtIndex:colorIndexR hilite:fgBoldOfAttribute(attrR)];
+	
+	[colorR set];
+	for (int i = 0; i < 4; ++i) {
+		[gSymbolSingleLinePathComponent[i][singleLineWidth[index][i]] stroke];
+	}
+	
+	if (colorIndexL != colorIndexR || fgBoldOfAttribute(attrL) != fgBoldOfAttribute(attrR)) {
+		NSColor *colorL = [gConfig colorAtIndex:fgColorIndexOfAttribute(attrL) hilite:fgBoldOfAttribute(attrL)];
+		[gLeftImage lockFocus];
+		[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
+		NSRect rect;
+		rect.size = [gLeftImage size];
+		rect.origin = NSZeroPoint;
+		NSRectFill(rect);
+		
+		[colorL set];
+		for (int i = 1; i < 4; ++i) { // No need to draw 0-th component since it is fully in right half
+			[gSymbolSingleLinePathComponent[i][singleLineWidth[index][i]] stroke];
+		}
 		[gLeftImage unlockFocus];
 		[gLeftImage drawAtPoint:NSZeroPoint
 					   fromRect:rect
@@ -552,6 +607,10 @@ static NSBezierPath *gSymbolArcPath[4];
 			withSelector:@selector(stroke) 
 		   leftAttribute:attrL 
 		  rightAttribute:attrR];
+	} else if (ch >= 0x250c && ch <= 0x254b) { // SINGLE LINE
+		[self drawSingleLineSymbol:ch 
+					 leftAttribute:attrL 
+					rightAttribute:attrR];
 	}
 	
 	[xform invert];
