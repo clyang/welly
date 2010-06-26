@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -51,6 +51,7 @@
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitesPanel.xib */; };
 		5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A765A00108579E10052C2BA /* EmoticonsPanel.xib */; };
+		5A8C606911D47D81007F2039 /* WLAsciiArtRender.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C606811D47D81007F2039 /* WLAsciiArtRender.m */; };
 		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
@@ -227,6 +228,8 @@
 		5A7659FE108579D70052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
 		5A765A02108579E80052C2BA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
 		5A765A03108579EB0052C2BA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/EmoticonsPanel.xib; sourceTree = "<group>"; };
+		5A8C606711D47D81007F2039 /* WLAsciiArtRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAsciiArtRender.h; sourceTree = "<group>"; };
+		5A8C606811D47D81007F2039 /* WLAsciiArtRender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAsciiArtRender.m; sourceTree = "<group>"; };
 		5A91BAED0E1E1E6A007538E5 /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		5A949D7E0F830C7700C00CE6 /* WLAnsiColorOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAnsiColorOperationManager.h; sourceTree = "<group>"; };
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
@@ -513,6 +516,8 @@
 				5A4A50180E5956EE007E16E6 /* WLEffectView.m */,
 				81E307200E79031B0024C47E /* WLPopUpMessage.h */,
 				81E307210E79031B0024C47E /* WLPopUpMessage.m */,
+				5A8C606711D47D81007F2039 /* WLAsciiArtRender.h */,
+				5A8C606811D47D81007F2039 /* WLAsciiArtRender.m */,
 			);
 			name = "Terminal View";
 			sourceTree = "<group>";
@@ -787,7 +792,7 @@
 				ORGANIZATIONNAME = "Welly Group";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Welly" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -917,6 +922,7 @@
 				5AF9DD85118B29E300E288A9 /* WLMainFrameController+RemoteControl.m in Sources */,
 				5AF9DDC0118B2F0E00E288A9 /* WLMainFrameController+TabControl.m in Sources */,
 				5ADC663311992C5E005A2881 /* WLNewBookmarkPortalItem.m in Sources */,
+				5A8C606911D47D81007F2039 /* WLAsciiArtRender.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,8 +1025,7 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1036,7 +1041,7 @@
 				INSTALL_PATH = /Applications;
 				OTHER_CFLAGS = "-D__DUMPPACKET__";
 				PRODUCT_NAME = Welly;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1045,8 +1050,7 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -1059,7 +1063,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Welly;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.5;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1087,8 +1091,7 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;

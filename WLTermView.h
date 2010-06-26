@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "WLTabView.h"
 
-@class WLTerminal, WLConnection;
+@class WLTerminal, WLConnection, WLAsciiArtRender;
 
 @interface WLTermView : NSView <WLTabItemContentObserver> {
 	CGFloat _fontWidth;
@@ -24,6 +24,8 @@
 	int _maxColumn;
 	
 	WLConnection *_connection;
+	
+	WLAsciiArtRender *_asciiArtRender;
 }
 @property CGFloat fontWidth;
 @property CGFloat fontHeight;

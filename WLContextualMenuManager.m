@@ -11,6 +11,9 @@
 #import "WLEmoticonsPanelController.h"
 #import "SynthesizeSingleton.h"
 #import "Carbon/Carbon.h"
+#ifdef _DEBUG
+#import "WLEncoder.h"
+#endif
 
 NSString *const WLContextualMenuItemTitleFormatAttributeName = @"Title Format";
 NSString *const WLContextualMenuItemURLFormatAttributeName = @"URL Format";
@@ -84,6 +87,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
                  keyEquivalent:@""];
 
         [menu addItem:[NSMenuItem separatorItem]];
+#ifdef _DEBUG
+		if ([selectedString length] >= 1) {
+			unichar ch = [selectedString characterAtIndex:0];
+			if (ch >= 0x007F) {
+				unichar u2bCode = [WLEncoder fromUnicode:ch encoding:WLBig5Encoding];
+				unichar u2gCode = [WLEncoder fromUnicode:ch encoding:WLGBKEncoding];
+				NSString *str = [NSString stringWithFormat:@"%@ : ch = %04x, U2B[ch] = %04x, U2G[ch] = %04x", selectedString, ch, u2bCode, u2gCode];
+				[menu addItemWithTitle:str action:@selector(copyCodeInfo:) keyEquivalent:@""];
+			}
+		}
+#endif
 		
 		if ([[[NSApp keyWindow] firstResponder] respondsToSelector:@selector(copy:)]) {
 			NSMenuItem *item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy", @"Menu") 
