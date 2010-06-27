@@ -57,7 +57,6 @@
 - (void)pasteColor:(id)sender;
 
 //- (void)refreshHiddenRegion;
-- (void)refreshMouseHotspot;
 
 - (void)clearSelection;
 

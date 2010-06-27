@@ -312,6 +312,10 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 	return gSymbolArcPath[index];
 }
 
+- (NSBezierPath *)straightLineWithIndex:(NSUInteger)index {
+	return gSymbolStraightLinePath[index];
+}
+
 - (void)rebuildDualLinePath {
 	for (int i = 0; i < 29; ++i) {
 		if (gSymbolDualLinePath[i])
@@ -511,6 +515,8 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 		return YES;
 	if (ch >= 0x2500 && ch <= 0x2503) // STRAIGHT LINE ─ ━ │ ┃
 		return YES;
+	if (ch == 0x2014) // —
+		return YES;
 	return NO;
 }
 
@@ -662,7 +668,12 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 					 leftAttribute:attrL 
 					rightAttribute:attrR];
 	} else if (ch >= 0x2500 && ch <= 0x2503) { // STRAIGHT LINE ─ ━ │ ┃
-		[self drawSymbol:gSymbolStraightLinePath[ch-0x2500] 
+		[self drawSymbol:[self straightLineWithIndex:ch-0x2500]
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0x2014) {
+		[self drawSymbol:[self straightLineWithIndex:0]
 			withSelector:@selector(stroke) 
 		   leftAttribute:attrL 
 		  rightAttribute:attrR];

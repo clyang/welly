@@ -1049,13 +1049,15 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 #pragma mark -
 #pragma mark WLTabItemContentObserver protocol
 - (void)didChangeContent:(id)content {
-	/*
-	if ([theIdentifier isKindOfClass:[WLConnection class]]) {
-	} else {
-	}*/
+	// Clear
 	[self clearSelection];
 	[self exitURL];
 	[_effectView clear];
+	
+	// Inform super class about the change
+	[super didChangeContent:content];
+	
+	// Update contents
 	if (content == nil) {
 		[_effectView setHidden:YES];
 	} else {
@@ -1066,8 +1068,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 								duration:1.2
 							  effectView:_effectView];
 	}
-	[_mouseBehaviorDelegate update];
-	[super didChangeContent:content];
+	[self refreshMouseHotspot];
 }
 
 #pragma mark -
