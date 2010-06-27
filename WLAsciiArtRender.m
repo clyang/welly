@@ -11,6 +11,7 @@
 
 static WLGlobalConfig *gConfig;
 static NSImage *gLeftImage;
+static NSImage *gSymbolImage;
 
 static NSRect gSymbolBlackSquareRectL;
 static NSRect gSymbolBlackSquareRectR;
@@ -29,6 +30,8 @@ static NSBezierPath *gSymbolDualLinePath[29];
 static NSBezierPath *gSymbolArcPath[4];
 
 static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
+
+static NSBezierPath *gSymbolStraightLinePath[4];
 
 @implementation WLAsciiArtRender
 
@@ -309,7 +312,7 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	return gSymbolArcPath[index];
 }
 
-- (void)resetDualLinePath {
+- (void)rebuildDualLinePath {
 	for (int i = 0; i < 29; ++i) {
 		if (gSymbolDualLinePath[i])
 			[gSymbolDualLinePath[i] release];
@@ -317,7 +320,7 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	}
 }
 
-- (void)resetArcPath {
+- (void)rebuildArcPath {
 	for (int i = 0; i < 4; ++i) {
 		if (gSymbolArcPath[i])
 			[gSymbolArcPath[i] release];
@@ -348,6 +351,35 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 			[gSymbolSingleLinePathComponent[i][j] lineToPoint:pts[i]];
 		}
 	}
+}
+
+- (void)rebuildStraightLinePath {
+	for (int i = 0; i < 4; ++i) {
+		if (gSymbolStraightLinePath[i]) {
+			[gSymbolStraightLinePath[i] release];
+		}
+		gSymbolStraightLinePath[i] = [[NSBezierPath alloc] init];
+	}
+	
+	NSPoint pts[4] = {
+		NSMakePoint(_fontWidth*2, _fontHeight/2),
+		NSMakePoint(_fontWidth, 0),
+		NSMakePoint(0, _fontHeight/2),
+		NSMakePoint(_fontWidth, _fontHeight)
+	};
+	[gSymbolStraightLinePath[0] moveToPoint:pts[0]];
+	[gSymbolStraightLinePath[0] lineToPoint:pts[2]];
+	[gSymbolStraightLinePath[0] setLineWidth:1.0];
+	
+	[gSymbolStraightLinePath[1] appendBezierPath:gSymbolStraightLinePath[0]];
+	[gSymbolStraightLinePath[1] setLineWidth:2.0];
+	
+	[gSymbolStraightLinePath[2] moveToPoint:pts[1]];
+	[gSymbolStraightLinePath[2] lineToPoint:pts[3]];
+	[gSymbolStraightLinePath[2] setLineWidth:1.0];
+	
+	[gSymbolStraightLinePath[3] appendBezierPath:gSymbolStraightLinePath[2]];
+	[gSymbolStraightLinePath[3] setLineWidth:2.0];
 }
 
 - (void)createSymbolPath {
@@ -428,9 +460,10 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[0]];
 	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[1]];
 	
-	[self resetDualLinePath];
-	[self resetArcPath];
+	[self rebuildDualLinePath];
+	[self rebuildArcPath];
 	[self rebuildSingleLinePathComponent];
+	[self rebuildStraightLinePath];
 }
 
 - (void)configure {
@@ -443,7 +476,11 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	
 	if (gLeftImage)
 		[gLeftImage release];
-    gLeftImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth, _fontHeight)];			
+    gLeftImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth, _fontHeight)];
+	
+	if (gSymbolImage)
+		[gSymbolImage release];
+	gSymbolImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth*2, _fontHeight)];
 	
     [self createSymbolPath];
 }
@@ -471,6 +508,8 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	if (ch >= 0x256D && ch <= 0x2570) // CIRCLE ╭╮╯╰
 		return YES;
 	if (ch >= 0x250C && ch <= 0x254B) // SINGLE LINE
+		return YES;
+	if (ch >= 0x2500 && ch <= 0x2503) // STRAIGHT LINE ─ ━ │ ┃
 		return YES;
 	return NO;
 }
@@ -529,10 +568,21 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 	int colorIndexR = fgColorIndexOfAttribute(attrR);
 	NSColor *colorR = [gConfig colorAtIndex:colorIndexR hilite:fgBoldOfAttribute(attrR)];
 	
+	[gSymbolImage lockFocus];
+	[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrR) hilite:bgBoldOfAttribute(attrR)] set];
+	NSRect rect;
+	rect.size = [gSymbolImage size];
+	rect.origin = NSZeroPoint;
+	NSRectFill(rect);
 	[colorR set];
 	for (int i = 0; i < 4; ++i) {
 		[gSymbolSingleLinePathComponent[i][singleLineWidth[index][i]] stroke];
 	}
+	[gSymbolImage unlockFocus];
+	[gSymbolImage drawAtPoint:NSZeroPoint
+					 fromRect:rect
+					operation:NSCompositeCopy
+					 fraction:1.0];
 	
 	if (colorIndexL != colorIndexR || fgBoldOfAttribute(attrL) != fgBoldOfAttribute(attrR)) {
 		NSColor *colorL = [gConfig colorAtIndex:fgColorIndexOfAttribute(attrL) hilite:fgBoldOfAttribute(attrL)];
@@ -611,6 +661,11 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 		[self drawSingleLineSymbol:ch 
 					 leftAttribute:attrL 
 					rightAttribute:attrR];
+	} else if (ch >= 0x2500 && ch <= 0x2503) { // STRAIGHT LINE ─ ━ │ ┃
+		[self drawSymbol:gSymbolStraightLinePath[ch-0x2500] 
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
 	}
 	
 	[xform invert];
