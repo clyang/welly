@@ -23,8 +23,7 @@ static NSBezierPath *gSymbolTrianglePathL[4];
 static NSBezierPath *gSymbolTrianglePathR[4];
 
 // Extended Ascii Art support
-static NSBezierPath *gSymbolDiagonalPathL[3];
-static NSBezierPath *gSymbolDiagonalPathR[3];
+static NSBezierPath *gSymbolDiagonalPath[3];
 
 static NSBezierPath *gSymbolDualLinePath[29];
 static NSBezierPath *gSymbolArcPath[4];
@@ -444,37 +443,24 @@ static NSBezierPath *gSymbolLowerLinePath;
     }
 	
 	// Extended
-	int diagonalIndexL[2] = { 1, 2 };
-	int diagonalIndexR[2] = { 4, 5 };
-	for (base = 0; base < 2; base++) {
-		if (gSymbolDiagonalPathL[base])
-			[gSymbolDiagonalPathL[base] release];
-		gSymbolDiagonalPathL[base] = [[NSBezierPath alloc] init];
-		[gSymbolDiagonalPathL[base] moveToPoint:NSMakePoint(_fontWidth, _fontHeight / 2)];
-		[gSymbolDiagonalPathL[base] setLineWidth:2.0];
-		[gSymbolDiagonalPathL[base] lineToPoint:pts[diagonalIndexL[base]]];
-		
-		if (gSymbolDiagonalPathR[base])
-			[gSymbolDiagonalPathR[base] release];
-		gSymbolDiagonalPathR[base] = [[NSBezierPath alloc] init];
-		[gSymbolDiagonalPathR[base] moveToPoint:NSMakePoint(_fontWidth, _fontHeight / 2)];
-		[gSymbolDiagonalPathR[base] setLineWidth:2.0];
-		[gSymbolDiagonalPathR[base] lineToPoint:pts[diagonalIndexR[base]]];
+	for (int i = 0; i < 3; ++i) {
+		if (gSymbolDiagonalPath[i])
+			[gSymbolDiagonalPath[i] release];		
 	}
+	gSymbolDiagonalPath[0] = [[NSBezierPath alloc] init];
+	[gSymbolDiagonalPath[0] setLineWidth:2.0];
+	[gSymbolDiagonalPath[0] moveToPoint:NSMakePoint(0, 0)];
+	[gSymbolDiagonalPath[0] lineToPoint:NSMakePoint(_fontWidth*2, _fontHeight)];
 	
-	if (gSymbolDiagonalPathL[2])
-		[gSymbolDiagonalPathL[2] release];
-	gSymbolDiagonalPathL[2] = [[NSBezierPath alloc] init];
-	[gSymbolDiagonalPathL[2] setLineWidth:2.0];
-	[gSymbolDiagonalPathL[2] appendBezierPath:gSymbolDiagonalPathL[0]];
-	[gSymbolDiagonalPathL[2] appendBezierPath:gSymbolDiagonalPathL[1]];
+	gSymbolDiagonalPath[1] = [[NSBezierPath alloc] init];
+	[gSymbolDiagonalPath[1] setLineWidth:2.0];
+	[gSymbolDiagonalPath[1] moveToPoint:NSMakePoint(0, _fontHeight)];
+	[gSymbolDiagonalPath[1] lineToPoint:NSMakePoint(_fontWidth*2, 0)];
 	
-	if (gSymbolDiagonalPathR[2])
-		[gSymbolDiagonalPathR[2] release];
-	gSymbolDiagonalPathR[2] = [[NSBezierPath alloc] init];
-	[gSymbolDiagonalPathR[2] setLineWidth:2.0];
-	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[0]];
-	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[1]];
+	gSymbolDiagonalPath[2] = [[NSBezierPath alloc] init];
+	[gSymbolDiagonalPath[2] setLineWidth:2.0];
+	[gSymbolDiagonalPath[2] appendBezierPath:gSymbolDiagonalPath[0]];
+	[gSymbolDiagonalPath[2] appendBezierPath:gSymbolDiagonalPath[1]];
 	
 	// Border Lines
 	if (gSymbolUpperLinePath)
@@ -559,7 +545,8 @@ static NSBezierPath *gSymbolLowerLinePath;
 		return YES;
 	if (ch == 0x2014) // —
 		return YES;
-	if (ch == 0xffe3 || ch == 0xfe33 || ch == 0xff3f)
+	if (ch == 0xffe3 || ch == 0xfe33 || ch == 0xff3f ||
+		ch == 0xff0f || ch == 0xfe68 || ch == 0xff3c)
 		return YES;
 	return NO;
 }
@@ -701,10 +688,10 @@ static NSBezierPath *gSymbolLowerLinePath;
 		[colorR set];
 		[gSymbolTrianglePathR[ch - 0x25E2] fill];
 	} else if (ch >= 0x2571 && ch <= 0x2573) { // DIAGONAL ╱╲╳
-		[colorL set];
-		[gSymbolDiagonalPathL[ch - 0x2571] stroke];
-		[colorR set];
-		[gSymbolDiagonalPathR[ch - 0x2571] stroke];
+		[self drawSymbol:gSymbolDiagonalPath[ch-0x2571] 
+			withSelector:@selector(stroke)
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
 	} else if (ch >= 0x2550 && ch <= 0x256c) { // DUAL LINE
 		[self drawSymbol:[self dualLinePathWithIndex:(ch-0x2550)]
 			withSelector:@selector(stroke) 
@@ -742,6 +729,16 @@ static NSBezierPath *gSymbolLowerLinePath;
 	} else if (ch == 0xff3f) { // ＿
 		[self drawSymbol:gSymbolLowerLinePath 
 			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0xff0f) { // ／
+		[self drawSymbol:gSymbolDiagonalPath[0] 
+			withSelector:@selector(stroke)
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0xfe68 || ch == 0xff3c) { // ﹨ ＼
+		[self drawSymbol:gSymbolDiagonalPath[1] 
+			withSelector:@selector(stroke)
 		   leftAttribute:attrL 
 		  rightAttribute:attrR];
 	}
