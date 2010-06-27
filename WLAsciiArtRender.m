@@ -33,6 +33,14 @@ static NSBezierPath *gSymbolSingleLinePathComponent[4][3];
 
 static NSBezierPath *gSymbolStraightLinePath[4];
 
+static NSRect gSymbolRightBlockRect;
+static NSRect gSymbolUpperBlockRectL;
+static NSRect gSymbolUpperBlockRectR;
+
+static NSBezierPath *gSymbolUpperLinePath;
+static NSBezierPath *gSymbolLeftLinePath;
+static NSBezierPath *gSymbolLowerLinePath;
+
 @implementation WLAsciiArtRender
 
 - (NSBezierPath *)dualLinePathWithIndex:(NSUInteger)index {
@@ -400,14 +408,18 @@ static NSBezierPath *gSymbolStraightLinePath[4];
         gSymbolLeftBlockRectL[i] = NSMakeRect(0.0, 0.0, (7 - i >= 4) ? _fontWidth : (_fontWidth * (7 - i) / 4), _fontHeight);
         gSymbolLeftBlockRectR[i] = NSMakeRect(_fontWidth, 0.0, (7 - i <= 4) ? 0.0 : (_fontWidth * (3 - i) / 4), _fontHeight);
     }
+	
+	gSymbolRightBlockRect = NSMakeRect(_fontWidth*7/4, 0, _fontWidth/4, _fontHeight);
+	gSymbolUpperBlockRectL = NSMakeRect(0, _fontHeight*7/8, _fontWidth, _fontHeight/8);
+	gSymbolUpperBlockRectR = NSMakeRect(_fontWidth, _fontHeight*7/8, _fontWidth, _fontHeight/8);
     
     NSPoint pts[6] = {
         NSMakePoint(_fontWidth, 0.0),
         NSMakePoint(0.0, 0.0),
         NSMakePoint(0.0, _fontHeight),
         NSMakePoint(_fontWidth, _fontHeight),
-        NSMakePoint(_fontWidth * 2, _fontHeight),
-        NSMakePoint(_fontWidth * 2, 0.0),
+        NSMakePoint(_fontWidth*2, _fontHeight),
+        NSMakePoint(_fontWidth*2, 0.0),
     };
     int triangleIndexL[4][3] = { {0, 1, -1}, {0, 1, 2}, {1, 2, 3}, {2, 3, -1} };
     int triangleIndexR[4][3] = { {4, 5, 0}, {5, 0, -1}, {3, 4, -1}, {3, 4, 5} };
@@ -464,6 +476,34 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[0]];
 	[gSymbolDiagonalPathR[2] appendBezierPath:gSymbolDiagonalPathR[1]];
 	
+	// Border Lines
+	if (gSymbolUpperLinePath)
+		[gSymbolUpperLinePath removeAllPoints];
+	else {
+		gSymbolUpperLinePath = [[NSBezierPath alloc] init];
+		[gSymbolUpperLinePath setLineWidth:2.0];
+	}
+	[gSymbolUpperLinePath moveToPoint:NSMakePoint(0, _fontHeight)];
+	[gSymbolUpperLinePath lineToPoint:NSMakePoint(_fontWidth*2, _fontHeight)];
+	
+	if (gSymbolLowerLinePath)
+		[gSymbolLowerLinePath removeAllPoints];
+	else {
+		gSymbolLowerLinePath = [[NSBezierPath alloc] init];
+		[gSymbolLowerLinePath setLineWidth:2.0];
+	}
+	[gSymbolLowerLinePath moveToPoint:NSMakePoint(0, 0)];
+	[gSymbolLowerLinePath lineToPoint:NSMakePoint(_fontWidth*2, 0)];
+	
+	if (gSymbolLeftLinePath)
+		[gSymbolLeftLinePath removeAllPoints];
+	else {
+		gSymbolLeftLinePath = [[NSBezierPath alloc] init];
+		[gSymbolLeftLinePath setLineWidth:2.0];
+	}
+	[gSymbolLeftLinePath moveToPoint:NSMakePoint(0, 0)];
+	[gSymbolLeftLinePath lineToPoint:NSMakePoint(0, _fontHeight)];
+	
 	[self rebuildDualLinePath];
 	[self rebuildArcPath];
 	[self rebuildSingleLinePathComponent];
@@ -503,6 +543,8 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 		return YES;
 	if (ch >= 0x2589 && ch <= 0x258F) // BLOCK ▉▊▋▌▍▎▏
 		return YES;
+	if (ch == 0x2595 || ch == 0x2594) // ▔ ▕
+		return YES;
 	if (ch >= 0x25E2 && ch <= 0x25E5) // TRIANGLE ◢◣◤◥
 		return YES;
 	if (ch >= 0x2571 && ch <= 0x2573) // DIAGONAL ╱╲╳
@@ -516,6 +558,8 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 	if (ch >= 0x2500 && ch <= 0x2503) // STRAIGHT LINE ─ ━ │ ┃
 		return YES;
 	if (ch == 0x2014) // —
+		return YES;
+	if (ch == 0xffe3 || ch == 0xfe33 || ch == 0xff3f)
 		return YES;
 	return NO;
 }
@@ -643,6 +687,14 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 			[colorR set];
 			NSRectFill(gSymbolLeftBlockRectR[ch - 0x2589]);
 		}
+	} else if (ch == 0x2594) {
+		[colorL set];
+		NSRectFill(gSymbolUpperBlockRectL);
+		[colorR set];
+		NSRectFill(gSymbolUpperBlockRectR);
+	} else if (ch == 0x2595) {
+		[colorR set];
+		NSRectFill(gSymbolRightBlockRect);
 	} else if (ch >= 0x25E2 && ch <= 0x25E5) { // TRIANGLE ◢◣◤◥
 		[colorL set];
 		[gSymbolTrianglePathL[ch - 0x25E2] fill];
@@ -674,6 +726,21 @@ static NSBezierPath *gSymbolStraightLinePath[4];
 		  rightAttribute:attrR];
 	} else if (ch == 0x2014) {
 		[self drawSymbol:[self straightLineWithIndex:0]
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0xfe33) { // ︳
+		[self drawSymbol:gSymbolLeftLinePath 
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0xffe3) { // ￣
+		[self drawSymbol:gSymbolUpperLinePath 
+			withSelector:@selector(stroke) 
+		   leftAttribute:attrL 
+		  rightAttribute:attrR];
+	} else if (ch == 0xff3f) { // ＿
+		[self drawSymbol:gSymbolLowerLinePath 
 			withSelector:@selector(stroke) 
 		   leftAttribute:attrL 
 		  rightAttribute:attrR];
