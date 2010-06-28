@@ -356,7 +356,7 @@ static NSBezierPath *gSymbolLowerLinePath;
 			if (gSymbolSingleLinePathComponent[i][j])
 				[gSymbolSingleLinePathComponent[i][j] release];
 			gSymbolSingleLinePathComponent[i][j] = [[NSBezierPath alloc] init];
-			[gSymbolSingleLinePathComponent[i][j] setLineWidth:j];
+			[gSymbolSingleLinePathComponent[i][j] setLineWidth:(j-1)+2.0];
 			[gSymbolSingleLinePathComponent[i][j] setLineCapStyle:NSSquareLineCapStyle];
 			[gSymbolSingleLinePathComponent[i][j] moveToPoint:mid];
 			[gSymbolSingleLinePathComponent[i][j] lineToPoint:pts[i]];
@@ -380,17 +380,17 @@ static NSBezierPath *gSymbolLowerLinePath;
 	};
 	[gSymbolStraightLinePath[0] moveToPoint:pts[0]];
 	[gSymbolStraightLinePath[0] lineToPoint:pts[2]];
-	[gSymbolStraightLinePath[0] setLineWidth:1.0];
+	[gSymbolStraightLinePath[0] setLineWidth:2.0];
 	
 	[gSymbolStraightLinePath[1] appendBezierPath:gSymbolStraightLinePath[0]];
-	[gSymbolStraightLinePath[1] setLineWidth:2.0];
+	[gSymbolStraightLinePath[1] setLineWidth:3.0];
 	
 	[gSymbolStraightLinePath[2] moveToPoint:pts[1]];
 	[gSymbolStraightLinePath[2] lineToPoint:pts[3]];
-	[gSymbolStraightLinePath[2] setLineWidth:1.0];
+	[gSymbolStraightLinePath[2] setLineWidth:2.0];
 	
 	[gSymbolStraightLinePath[3] appendBezierPath:gSymbolStraightLinePath[2]];
-	[gSymbolStraightLinePath[3] setLineWidth:2.0];
+	[gSymbolStraightLinePath[3] setLineWidth:3.0];
 }
 
 - (void)createSymbolPath {
