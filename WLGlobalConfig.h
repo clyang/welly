@@ -90,6 +90,8 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 
 - (NSColor *)colorAtIndex:(int)i 
 				   hilite:(BOOL)h;
+- (NSColor *)bgColorAtIndex:(int)i 
+					 hilite:(BOOL)h;
 - (void)setColor:(NSColor *)c 
 		  hilite:(BOOL)h 
 		 atIndex:(int)i;

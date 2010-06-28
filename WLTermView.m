@@ -281,8 +281,8 @@ static CGSize *gDoubleAdvance;
                 BOOL bold = currRow[c].attr.f.reverse ? currRow[c].attr.f.bold : NO;
 				
 				// Modified by K.O.ed: All background color use same alpha setting.
-				NSColor *bgColor = [gConfig colorAtIndex:bgColorIndex hilite:bold];
-				bgColor = [bgColor colorWithAlphaComponent:[[gConfig colorBG] alphaComponent]];
+				NSColor *bgColor = [gConfig bgColorAtIndex:bgColorIndex hilite:bold];
+				//bgColor = [bgColor colorWithAlphaComponent:[[gConfig colorBG] alphaComponent]];
 				[bgColor set];
                 //[[gConfig colorAtIndex: bgColorIndex hilite: bold] set];
                 NSRectFill(NSMakeRect(c * _fontWidth, (_maxRow - r - 1) * _fontHeight, _fontWidth, _fontHeight));
@@ -560,7 +560,7 @@ static CGSize *gDoubleAdvance;
                 unsigned int fgColor = fgColorIndexOfAttribute(currRow[index].attr);
                 
                 [gLeftImage lockFocus];
-                [[gConfig colorAtIndex:bgColor hilite:bgBoldOfAttribute(currRow[index].attr)] set];
+                [[gConfig bgColorAtIndex:bgColor hilite:bgBoldOfAttribute(currRow[index].attr)] set];
                 NSRect rect;
                 rect.size = [gLeftImage size];
                 rect.origin = NSZeroPoint;
@@ -663,8 +663,8 @@ static CGSize *gDoubleAdvance;
 									 _fontWidth * length, _fontHeight);
 			
 			// Modified by K.O.ed: All background color use same alpha setting.
-			NSColor *bgColor = [gConfig colorAtIndex:lastBackgroundColor hilite:lastBold];
-			bgColor = [bgColor colorWithAlphaComponent:[[gConfig colorBG] alphaComponent]];
+			NSColor *bgColor = [gConfig bgColorAtIndex:lastBackgroundColor hilite:lastBold];
+			//bgColor = [bgColor colorWithAlphaComponent:[[gConfig colorBG] alphaComponent]];
 			[bgColor set];
 			
 			//[[gConfig colorAtIndex: lastBackgroundColor hilite: lastBold] set];

@@ -255,6 +255,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 	return _colorTable[0][NUM_COLOR - 1];
 }
 
+- (NSColor *)bgColorAtIndex:(int)i 
+					 hilite:(BOOL)h {
+	return [[self colorAtIndex:i hilite:h] colorWithAlphaComponent:[[self colorBG] alphaComponent]];
+}
+
 - (void)setColor:(NSColor *)c 
 		  hilite:(BOOL)h 
 		 atIndex:(int)i {
@@ -530,6 +535,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     }
     [[NSUserDefaults standardUserDefaults] setMyColor:c forKey:@"ColorBG"];
 }
+
 - (NSColor *)colorBGHilite { return _colorTable[1][9]; }
 - (void)setColorBGHilite:(NSColor *)c {
     if (!c)c = [NSColor colorWithDeviceRed:0.00 green:0.00 blue:0.00 alpha:1.0];

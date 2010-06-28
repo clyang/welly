@@ -564,7 +564,7 @@ static NSBezierPath *gSymbolLowerLinePath;
 	if (colorIndexL != colorIndexR || fgBoldOfAttribute(attrL) != fgBoldOfAttribute(attrR)) {
 		NSColor *colorL = [gConfig colorAtIndex:fgColorIndexOfAttribute(attrL) hilite:fgBoldOfAttribute(attrL)];
 		[gLeftImage lockFocus];
-		[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
+		[[gConfig bgColorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
 		NSRect rect;
 		rect.size = [gLeftImage size];
 		rect.origin = NSZeroPoint;
@@ -606,7 +606,7 @@ static NSBezierPath *gSymbolLowerLinePath;
 	NSColor *colorR = [gConfig colorAtIndex:colorIndexR hilite:fgBoldOfAttribute(attrR)];
 	
 	[gSymbolImage lockFocus];
-	[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrR) hilite:bgBoldOfAttribute(attrR)] set];
+	[[gConfig bgColorAtIndex:bgColorIndexOfAttribute(attrR) hilite:bgBoldOfAttribute(attrR)] set];
 	NSRect rect;
 	rect.size = [gSymbolImage size];
 	rect.origin = NSZeroPoint;
@@ -624,7 +624,7 @@ static NSBezierPath *gSymbolLowerLinePath;
 	if (colorIndexL != colorIndexR || fgBoldOfAttribute(attrL) != fgBoldOfAttribute(attrR)) {
 		NSColor *colorL = [gConfig colorAtIndex:fgColorIndexOfAttribute(attrL) hilite:fgBoldOfAttribute(attrL)];
 		[gLeftImage lockFocus];
-		[[gConfig colorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
+		[[gConfig bgColorAtIndex:bgColorIndexOfAttribute(attrL) hilite:bgBoldOfAttribute(attrL)] set];
 		NSRect rect;
 		rect.size = [gLeftImage size];
 		rect.origin = NSZeroPoint;
