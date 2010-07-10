@@ -103,8 +103,8 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		D62AC76711E8E0F800F52F25 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62AC76611E8E0F800F52F25 /* Growl-WithInstaller.framework */; };
-		D62AC76F11E8E10F00F52F25 /* Growl-WithInstaller.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D62AC76611E8E0F800F52F25 /* Growl-WithInstaller.framework */; };
+		D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
+		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -114,7 +114,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D62AC76F11E8E10F00F52F25 /* Growl-WithInstaller.framework in CopyFiles */,
+				D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */,
 				5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */,
 				07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */,
 				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
@@ -299,7 +299,7 @@
 		85F7F2070B06EE36000C4CDF /* WLGlobalConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGlobalConfig.h; sourceTree = "<group>"; };
 		85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGlobalConfig.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		D62AC76611E8E0F800F52F25 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Growl-WithInstaller.framework"; sourceTree = "<group>"; };
+		D64A480A11E90350008ACEBD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,7 +319,7 @@
 				5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */,
 				161DF767106DE2780003E85A /* Quartz.framework in Frameworks */,
 				161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */,
-				D62AC76711E8E0F800F52F25 /* Growl-WithInstaller.framework in Frameworks */,
+				D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,7 +380,7 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D62AC76611E8E0F800F52F25 /* Growl-WithInstaller.framework */,
+				D64A480A11E90350008ACEBD /* Growl.framework */,
 				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,

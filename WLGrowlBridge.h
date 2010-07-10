@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <Growl-WithInstaller/GrowlApplicationBridge.h>
+#import <Growl/GrowlApplicationBridge.h>
 
 NSString *const WLGrowlNotificationNameFileTransfer;
 NSString *const WLGrowlNotificationNameEXIFInformation;
