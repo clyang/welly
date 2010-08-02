@@ -468,6 +468,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void)refreshMouseHotspot {
+	[_effectView clear];
 	[_mouseBehaviorDelegate forceUpdate];
 }
 
