@@ -47,6 +47,8 @@
 	NSAssert(!content || [content conformsToProtocol:@protocol(WLTabBarCellContentProvider)], @"should be tab bar cell content provider!!");
 	if (content) {
 		[super setContent:content];
+		if ([content respondsToSelector:@selector(setTabViewItemController:)])
+			[content performSelector:@selector(setTabViewItemController:) withObject:self];
 	} else {
 		[super setContent:[WLDummyCellContentProvider dummyContentProvider]];
 	}

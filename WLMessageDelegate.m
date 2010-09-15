@@ -100,6 +100,6 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	WLTabView *view = [[WLMainFrameController sharedInstance] tabView];
     [[view window] makeKeyAndOrderFront:nil];
     // select the tab
-    [view selectTabViewItemWithIdentifier:connection];
+    [view selectTabViewItemWithIdentifier:[connection tabViewItemController]];
 }
 @end

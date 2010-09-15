@@ -34,6 +34,7 @@
 @synthesize lastTouchDate = _lastTouchDate;
 @synthesize messageCount = _messageCount;
 @synthesize messageDelegate = _messageDelegate;
+@synthesize tabViewItemController = _tabViewItemController;
 
 - (id)initWithSite:(WLSite *)site {
     if (self == [self init]) {

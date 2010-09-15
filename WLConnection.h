@@ -33,6 +33,8 @@
 	
 	WLMessageDelegate *_messageDelegate;
 	NSInteger _messageCount;
+	
+	id _tabViewItemController;
 }
 @property (readwrite, retain) WLSite *site;
 @property (readwrite, retain, setter=setTerminal:) WLTerminal *terminal;
@@ -46,6 +48,7 @@
 @property (readwrite, retain) NSImage *icon;
 @property (readwrite, assign) BOOL isProcessing;
 @property (readwrite, assign) NSInteger objectCount;
+@property (readwrite, assign) id tabViewItemController;
 
 - (id)initWithSite:(WLSite *)site;
 
