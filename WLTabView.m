@@ -260,12 +260,14 @@
 	//NSLog(@"XITabBarControl performKeyEquivalent:");
 	if ((([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask) && 
 		(([event modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) &&
-		[[event charactersIgnoringModifiers] isEqualToString:keyStringLeft] ) {
+		([[event charactersIgnoringModifiers] isEqualToString:keyStringLeft] ||
+		 [[event charactersIgnoringModifiers] isEqualToString:@"{"])) {
 		[self selectPreviousTabViewItem:self];
 		return YES;
 	} else if ((([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask) && 
 			   (([event modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) &&
-			   [[event charactersIgnoringModifiers] isEqualToString:keyStringRight] ) {
+			   ([[event charactersIgnoringModifiers] isEqualToString:keyStringRight] ||
+				[[event charactersIgnoringModifiers] isEqualToString:@"}"])) {
 		[self selectNextTabViewItem:self];
 		return YES;
 	} else if (([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask && 
