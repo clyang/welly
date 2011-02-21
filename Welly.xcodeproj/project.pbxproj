@@ -1022,7 +1022,7 @@
 				INSTALL_PATH = /Applications;
 				OTHER_CFLAGS = "-D__DUMPPACKET__";
 				PRODUCT_NAME = Welly;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1044,7 +1044,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Welly;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

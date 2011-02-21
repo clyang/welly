@@ -239,6 +239,21 @@
 	}
 }
 
+- (void)selectNextTabViewItem:(NSTabViewItem *)tabViewItem {
+	if([self indexOfTabViewItem:[self selectedTabViewItem]] == [self numberOfTabViewItems] - 1)
+		[self selectFirstTabViewItem:self];
+	else
+		[super selectNextTabViewItem:self];
+}
+
+- (void)selectPreviousTabViewItem:(NSTabViewItem *)tabViewItem {
+	if([self indexOfTabViewItem:[self selectedTabViewItem]] == 0)
+		[self selectLastTabViewItem:self];
+	else
+		[super selectPreviousTabViewItem:self];
+}
+
+
 - (BOOL)acceptsFirstResponder {
 	return NO;
 }
@@ -280,13 +295,20 @@
 		return YES;
 	} else if (([event modifierFlags] & NSCommandKeyMask) == 0 && 
 			   ([event modifierFlags] & NSAlternateKeyMask) == 0 && 
-			   ([event modifierFlags] & NSControlKeyMask) == NSControlKeyMask && 
+			   ([event modifierFlags] & NSControlKeyMask) && 
 			   ([event modifierFlags] & NSShiftKeyMask) == 0 && 
 			   [[event characters] characterAtIndex:0] == '\t') {
 		[self selectNextTabViewItem:self];
 		return YES;
+    } else if (([event modifierFlags] & NSCommandKeyMask) == 0 && 
+        ([event modifierFlags] & NSAlternateKeyMask) == 0 && 
+        ([event modifierFlags] & NSControlKeyMask)  && 
+        ([event modifierFlags] & NSShiftKeyMask) && 
+        ([event keyCode] == 48)) {
+		//keyCode 48: back-tab
+		[self selectPreviousTabViewItem:self];
+		return YES;
 	}
-    
 	return NO;
 }
 
