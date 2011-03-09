@@ -61,7 +61,7 @@
     if (ssh) {
         if (port == nil)
             port = @"22";
-        fmt = @"/usr/bin/ssh -21 -p %2$@ -x %1$@";
+        fmt = @"/usr/bin/ssh -o Protocol=2,1 -p %2$@ -x %1$@";
     } else {
         if (port == nil)
             port = @"23";
