@@ -117,7 +117,7 @@ static NSString * stringFromFileSize(long long size) {
 }
 
 - init {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         [self showLoadingWindow];
     }
     return self;
