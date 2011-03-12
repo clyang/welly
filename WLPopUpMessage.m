@@ -12,6 +12,7 @@
 @implementation WLPopUpMessage
 
 WLEffectView *_effectView;
+NSTimer *_prevTimer;
 
 #pragma mark Class methods
 + (void)hidePopUpMessage {
@@ -19,18 +20,22 @@ WLEffectView *_effectView;
 		[_effectView removePopUpMessage];
 		[_effectView release];
 	}
+    _prevTimer = nil;
 }
 
 + (void)showPopUpMessage:(NSString*)message 
 				duration:(CGFloat)duration 
 			  effectView:(WLEffectView *)effectView {
+    if (_prevTimer) {
+        [_prevTimer invalidate];
+    }
 	[effectView drawPopUpMessage:message];
 	_effectView = [effectView retain];
-	[NSTimer scheduledTimerWithTimeInterval:duration 
-									  target:self 
-									selector:@selector(hidePopUpMessage)
-									userInfo:nil
-									 repeats:NO];
+	_prevTimer = [NSTimer scheduledTimerWithTimeInterval:duration
+                                                  target:self 
+                                                selector:@selector(hidePopUpMessage)
+                                                userInfo:nil
+                                                 repeats:NO];
 }
 
 @end

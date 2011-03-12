@@ -561,9 +561,13 @@ const CGFloat menuMarginWidth = 20.0;
 
 - (void)removePopUpMessage {
 	if(_popUpLayer) {
+        CATextLayer *textLayer = [[_popUpLayer sublayers] lastObject];
+        [textLayer removeFromSuperlayer];
+        [_popUpLayer removeAllAnimations];
 		[_popUpLayer removeFromSuperlayer];
-		[_popUpLayer release];
-		_popUpLayer = nil;
+        // We don't need to release it everytime...
+		//[_popUpLayer release];
+		//_popUpLayer = nil;
 	}
 }
 @end
