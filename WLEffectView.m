@@ -273,10 +273,12 @@ const CGFloat menuMarginWidth = 20.0;
     
 	// set selection layer
     _selectionLayer = [CALayer layer];
+    CGColorRef borderColorRef = CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f);
     [_selectionLayer setBounds:CGRectMake(0.0, 0.0, menuWidth, menuHeight)];
     [_selectionLayer setBorderWidth:2.0];
-    [_selectionLayer setBorderColor:CGColorCreateGenericRGB(1.0f, 1.0f, 1.0f, 1.0f)];
+    [_selectionLayer setBorderColor:borderColorRef];
     [_selectionLayer setCornerRadius:menuHeight / 2];
+    CGColorRelease(borderColorRef);
     
     CIFilter *filter = [CIFilter filterWithName:@"CIBloom"];
     [filter setDefaults];
@@ -290,7 +292,7 @@ const CGFloat menuMarginWidth = 20.0;
     pulseAnimation.fromValue = [NSNumber numberWithFloat: 0.0];
     pulseAnimation.toValue = [NSNumber numberWithFloat: 1.5];
     pulseAnimation.duration = 1.0;
-    pulseAnimation.repeatCount = 1e100f;
+    pulseAnimation.repeatCount = MAXFLOAT;
     pulseAnimation.autoreverses = YES;
     pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 	
@@ -325,7 +327,7 @@ const CGFloat menuMarginWidth = 20.0;
 		pulseAnimation.fromValue = [NSNumber numberWithFloat:0.0];
 		pulseAnimation.toValue = [NSNumber numberWithFloat:1.5];
 		pulseAnimation.duration = 1.0;
-		pulseAnimation.repeatCount = 1e100f;
+		pulseAnimation.repeatCount = MAXFLOAT;
 		pulseAnimation.autoreverses = YES;
 		pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
 		
@@ -459,7 +461,7 @@ const CGFloat menuMarginWidth = 20.0;
 	return _urlIndicatorImage; 
 } 
 
-- (void)setURLIndicatorLayer {
+- (void)setupURLIndicatorLayer {
 	_urlIndicatorLayer = [CALayer layer];
 	[_urlIndicatorLayer setContents:(id)[self indicatorImage]];
 	[_urlIndicatorLayer setFrame:CGRectMake(0, 0, 79, 90)];
@@ -468,7 +470,7 @@ const CGFloat menuMarginWidth = 20.0;
 
 - (void)showIndicatorAtPoint:(NSPoint)point {
 	if (!_urlIndicatorLayer)
-		[self setURLIndicatorLayer];
+		[self setupURLIndicatorLayer];
 	[_urlIndicatorLayer setOpacity:0.9];
 	CGRect rect = [_urlIndicatorLayer frame];
 	rect.origin = NSPointToCGPoint(point);
@@ -482,7 +484,8 @@ const CGFloat menuMarginWidth = 20.0;
 
 #pragma mark Pop-Up Message
 - (void)setupPopUpLayer {
-	_popUpLayer = [CALayer layer];
+    NSAssert(_popUpLayer == nil, @"Setup pop-up layer when there exists one already!");
+    _popUpLayer = [CALayer layer];
 	
 	// Set the colors of the pop-up layer
 	CGColorRef popUpLayerBGColor = CGColorCreateGenericRGB(0.1, 0.1, 0.1, 0.5f);

@@ -490,7 +490,7 @@ static DBPrefsWindowController *_sharedPrefsWindowController = nil;
 		// Remove everything else. There should be just one, but
 		// if the user does a lot of fast clicking, we might have
 		// more than one to remove.
-	while ((subview = [subviewsEnum nextObject]) != nil) {
+	while (subview != nil) {
 		[subview removeFromSuperviewWithoutNeedingDisplay];
 	}
 

@@ -75,7 +75,7 @@ static CGSize *gDoubleAdvance;
 }
 
 - (id)initWithFrame:(NSRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if ((self = [super initWithFrame:frame])) {
 		_asciiArtRender = [WLAsciiArtRender new];
 		
         [self configure];

@@ -146,7 +146,6 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 					
 					//clearNonANSIAttribute(&buffer[bufferLength]);
 					bufferLength++;
-					emptyCount = 0;
 					break;
 				}
 			}
