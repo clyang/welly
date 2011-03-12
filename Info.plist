@@ -4,8 +4,14 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array/>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Welly Help</string>
 	<key>CFBundleIconFile</key>
 	<string>Welly</string>
 	<key>CFBundleIdentifier</key>
@@ -16,6 +22,8 @@
 	<string>Welly</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.64 RC</string>
 	<key>CFBundleSignature</key>
 	<string>abgK</string>
 	<key>CFBundleURLTypes</key>
@@ -38,30 +46,28 @@
 			</array>
 		</dict>
 	</array>
-	<key>CFBundleShortVersionString</key>
-	<string>2.64 beta</string>
-	<key>CFBundleVersion</key>
-	<string>821</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>Help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>Welly Help</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.5.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
-		<key>x86_64</key>
-		<string>10.6.0</string>
 		<key>i386</key>
 		<string>10.5.0</string>
 		<key>ppc</key>
 		<string>10.5.0</string>
+		<key>x86_64</key>
+		<string>10.6.0</string>
 	</dict>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSServices</key>
+	<array/>
 	<key>SUFeedURL</key>
 	<string>http://welly.googlecode.com/svn/wiki/WellyUpdate.xml</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array/>
+	<key>UTImportedTypeDeclarations</key>
+	<array/>
 </dict>
 </plist>
