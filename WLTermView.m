@@ -16,8 +16,6 @@
 static WLGlobalConfig *gConfig;
 
 static NSImage *gLeftImage;
-static CGSize *gSingleAdvance;
-static CGSize *gDoubleAdvance;
 
 @interface WLTermView ()
 - (void)drawSpecialSymbol:(unichar)ch 
@@ -63,12 +61,16 @@ static CGSize *gDoubleAdvance;
     [gLeftImage release]; 
     gLeftImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth, _fontHeight)];			
 	
-    if (!gSingleAdvance) gSingleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
-    if (!gDoubleAdvance) gDoubleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
+    if (_singleAdvance)
+        free(_singleAdvance);
+    _singleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
+    if (_doubleAdvance)
+        free(_doubleAdvance);
+    _doubleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
 	
     for (int i = 0; i < _maxColumn; i++) {
-        gSingleAdvance[i] = CGSizeMake(_fontWidth * 1.0, 0.0);
-        gDoubleAdvance[i] = CGSizeMake(_fontWidth * 2.0, 0.0);
+        _singleAdvance[i] = CGSizeMake(_fontWidth * 1.0, 0.0);
+        _doubleAdvance[i] = CGSizeMake(_fontWidth * 2.0, 0.0);
     }
 	
 	[_asciiArtRender configure];
@@ -104,6 +106,10 @@ static CGSize *gDoubleAdvance;
 }
 
 - (void)dealloc {
+    if (_singleAdvance)
+        free(_singleAdvance);
+    if (_doubleAdvance)
+        free(_doubleAdvance);
     [_backedImage release];
 	[_asciiArtRender release];
     [super dealloc];
@@ -538,7 +544,7 @@ static CGSize *gDoubleAdvance;
                 textMatrix.ty = position[glyphOffset + location].y;
                 CGContextSetTextMatrix(myCGContext, textMatrix);
                 
-                CGContextShowGlyphsWithAdvances(myCGContext, glyph, isDoubleByte[glyphOffset + location] ? gDoubleAdvance : gSingleAdvance, len);
+                CGContextShowGlyphsWithAdvances(myCGContext, glyph, isDoubleByte[glyphOffset + location] ? _doubleAdvance : _singleAdvance, len);
                 
                 location = runGlyphIndex;
                 if (runGlyphIndex != runGlyphCount)

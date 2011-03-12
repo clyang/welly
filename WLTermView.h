@@ -14,6 +14,9 @@
 @interface WLTermView : NSView <WLTabItemContentObserver> {
 	CGFloat _fontWidth;
 	CGFloat _fontHeight;
+    
+    CGSize *_singleAdvance;
+    CGSize *_doubleAdvance;
 	
 	NSImage *_backedImage;
 	
