@@ -495,7 +495,17 @@ const CGFloat menuMarginWidth = 20.0;
 	CGColorRelease(popUpLayerBGColor);
 	CGColorRelease(popUpLayerBorderColor);
 	[_popUpLayer setBorderWidth:2.0];
-	
+    
+    // Move to proper position before shows up, avoiding moving on screen
+    NSRect rect = [self frame];
+	rect.origin.x = rect.size.width / 2;
+	rect.origin.y = rect.size.height / 5;
+    rect.size.width = 0;
+    rect.size.height = 0;
+    [_popUpLayer setHidden:YES];
+    [_popUpLayer setFrame:NSRectToCGRect(rect)];
+    [_popUpLayer setHidden:NO];
+    
 	// Set up text color/font, which would be used many times
 	_popUpLayerTextColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
 	_popUpLayerTextFont = CGFontCreateWithFontName((CFStringRef)DEFAULT_POPUP_BOX_FONT);
