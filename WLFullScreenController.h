@@ -18,6 +18,8 @@
 	NSWindow *_fullScreenWindow;
 	NSWindow *_originalWindow;
 	
+	NSRect _originalFrame;
+	
 	// State variable
 	BOOL _isInFullScreen;
 	CGFloat _screenRatio;

@@ -110,6 +110,7 @@
 		
 		// Set the super view back
 		[_superView addSubview:_targetView];
+		[_targetView setFrame:_originalFrame];
 		// Pre-process if necessary
 		// Do not move it to else where!
 		[self processBeforeExit];
@@ -172,6 +173,9 @@
 
 // Overrided functions
 - (void)processBeforeEnter {
+	// Back up the original frame of _targetView
+	_originalFrame = [_targetView frame];
+	
 	// Get the fittest ratio for the expansion
 	NSRect screenRect = [[NSScreen mainScreen] frame];
 	CGFloat ratioH = screenRect.size.height / [_targetView frame].size.height;
