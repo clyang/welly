@@ -55,7 +55,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     // Register URL
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(getUrl:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
     
-    NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showHiddenText", @"messageCount", @"cellWidth", @"cellHeight", 
+    NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showHiddenText", @"messageCount", @"cellWidth", @"cellHeight", @"cellSize",
                             @"chineseFontName", @"chineseFontSize", @"chineseFontPaddingLeft", @"chineseFontPaddingBottom",
                             @"englishFontName", @"englishFontSize", @"englishFontPaddingLeft", @"englishFontPaddingBottom", 
                             @"colorBlack", @"colorBlackHilite", @"colorRed", @"colorRedHilite", @"colorGreen", @"colorGreenHilite",
@@ -239,9 +239,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         r.origin.y = topLeftCorner - r.size.height;
         [_mainWindow setFrame:r display:YES animate:NO];
 
-        NSRect tabRect = [_tabBarControl frame];
-        tabRect.size.width = r.size.width;
-        [_tabBarControl setFrame: tabRect];
+		// Leave the task of resizing subviews to autoresizing
+        //NSRect tabRect = [_tabBarControl frame];
+        //tabRect.size.width = r.size.width;
+        //[_tabBarControl setFrame:tabRect];
     } else if ([keyPath hasPrefix:@"chineseFont"] || [keyPath hasPrefix:@"englishFont"] || [keyPath hasPrefix:@"color"]) {
         [[WLGlobalConfig sharedInstance] refreshFont];
     }

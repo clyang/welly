@@ -49,13 +49,10 @@ static NSImage *gLeftImage;
     _fontWidth = [gConfig cellWidth];
     _fontHeight = [gConfig cellHeight];
 	
-    NSRect frame = [self frame];
-	frame.size = [gConfig contentSize];
-    frame.origin = NSZeroPoint;
-    [self setFrame:frame];
+    [self setFrameSize:[gConfig contentSize]];
 	
     [_backedImage release];
-    _backedImage = [[NSImage alloc] initWithSize:frame.size];
+    _backedImage = [[NSImage alloc] initWithSize:[gConfig contentSize]];
     [_backedImage setFlipped:NO];
 	
     [gLeftImage release]; 
@@ -83,7 +80,7 @@ static NSImage *gLeftImage;
         [self configure];
 		
 		// Register KVO
-		NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showsHiddenText", @"cellWidth", @"cellHeight", 
+		NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showsHiddenText", @"cellWidth", @"cellHeight", @"cellSize",
 								@"chineseFontName", @"chineseFontSize", @"chineseFontPaddingLeft", @"chineseFontPaddingBottom",
 								@"englishFontName", @"englishFontSize", @"englishFontPaddingLeft", @"englishFontPaddingBottom", 
 								@"colorBlack", @"colorBlackHilite", @"colorRed", @"colorRedHilite", @"colorGreen", @"colorGreenHilite",

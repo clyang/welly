@@ -23,7 +23,6 @@
 @interface WLTabView ()
 
 - (void)updatePortal;
-- (void)resetFrame;
 - (void)showPortal;
 
 @end
@@ -47,14 +46,16 @@
 	[WLSitesPanelController addSitesObserver:self];
 	
 	// Register KVO
-	NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", nil];
+	NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", @"cellSize", nil];
 	for (NSString *key in observeKeys)
 		[[WLGlobalConfig sharedInstance] addObserver:self
 										  forKeyPath:key
 											 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
 											 context:nil];
 	
-	[self resetFrame];
+	// Set frame position and size
+	[self setFrameOrigin:NSZeroPoint];
+	[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
 	[self updatePortal];
 	
 	// If no active tabs, we should show the coverflow portal if necessary.
@@ -70,23 +71,6 @@
     // Drawing the background.
 	[[[WLGlobalConfig sharedInstance] colorBG] set];
 	NSRectFill(rect);
-}
-
-- (void)setFrame:(NSRect)frameRect {
-	[super setFrame:frameRect];
-	[self setNeedsDisplay:YES];
-	[_terminalView setFrame:frameRect];
-	[_portal setFrame:frameRect];
-	[_terminalView setNeedsDisplay:YES];
-	[_portal setNeedsDisplay:YES];
-}
-
-- (void)resetFrame {
-	NSRect frame = [self frame];
-	frame.origin = NSZeroPoint;
-	frame.size = [[WLGlobalConfig sharedInstance] contentSize];
-	
-	[self setFrame:frame];
 }
 
 - (void)showPortal {
@@ -319,7 +303,8 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
     if ([keyPath hasPrefix:@"cell"]) {
-        [self resetFrame];
+		[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
+		// Don't set frame origin here, leave for main controller
     }
 }
 @end
