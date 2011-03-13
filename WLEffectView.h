@@ -57,9 +57,6 @@
 - (void)selectNextMenuItem;
 
 // for URL
-- (void)drawURLUnderlineAtRow:(int)r
-				   fromColumn:(int)start 
-					 toColumn:(int)end;
 - (void)showIndicatorAtPoint:(NSPoint)point;
 - (void)removeIndicator;
 

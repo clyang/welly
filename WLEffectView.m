@@ -437,16 +437,6 @@ const CGFloat menuMarginWidth = 20.0;
 
 #pragma mark -
 #pragma mark URL drawing
-- (void)setURLLineLayer {
-	
-}
-
-- (void)drawURLUnderlineAtRow:(int)r
-				   fromColumn:(int)start 
-					 toColumn:(int)end {
-	
-}
-
 - (CGImageRef)indicatorImage { 
 	if (_urlIndicatorImage == NULL) { 
 		NSString *path = [[NSBundle mainBundle] pathForResource:@"indicator" 
