@@ -334,10 +334,12 @@
 }
 
 - (void)swipeWithEvent:(NSEvent *)event {
-	if ([event deltaX] > 0) {
+	if ([event deltaX] < 0) {
+		// Swiping to right
 		[self selectNextTabViewItem:event];
 		return;
-	} else if ([event deltaX] < 0) {
+	} else if ([event deltaX] > 0) {
+		// Swiping to left
 		[self selectPreviousTabViewItem:event];
 		return;
 	}
