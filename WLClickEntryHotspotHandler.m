@@ -252,7 +252,7 @@ BOOL isPostTitleStarter(unichar c) {
 			int db = currRow[i].attr.f.doubleByte;
 			if (db == 0) {
                 if (start == -1) {
-                    if ([self startsAtRow:r column:i with:@"Re: "] || // smth
+                    if ([self startsAtRow:r column:i with:@"Re:"] || // smth
                         [self startsAtRow:r column:i with:@"R: "])    // ptt
                         start = i;
                 }
