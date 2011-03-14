@@ -332,4 +332,15 @@
 	//NSLog(@"magnify:%f", [event magnification]);
 	[self setFontSizeRatio:[event magnification]+1.0];
 }
+
+- (void)swipeWithEvent:(NSEvent *)event {
+	if ([event deltaX] > 0) {
+		[self selectNextTabViewItem:event];
+		return;
+	} else if ([event deltaX] < 0) {
+		[self selectPreviousTabViewItem:event];
+		return;
+	}
+	[super swipeWithEvent:event];
+}
 @end
