@@ -28,7 +28,6 @@
 	if (self) {
 		_mainView = [view retain];
 		[self setWantsLayer:YES];
-		//[self setupLayer];
 	}
 	return self;
 }
@@ -39,7 +38,6 @@
         // Initialization code here.
 		[self setFrame:frame];
 		[self setWantsLayer:YES];
-//		_colorRefs = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -55,10 +53,6 @@
 		[_buttonLayer release];
 	}
 	
-//	for (id colorRef in _colorRefs) {
-//		CGColorRelease((CGColorRef)colorRef);
-//	}
-//	[_colorRefs release];
 	CGColorRelease(_popUpLayerTextColor);
     CGFontRelease(_popUpLayerTextFont);
 	[super dealloc];

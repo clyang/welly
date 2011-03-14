@@ -33,8 +33,6 @@
 	
 	CGColorRef _popUpLayerTextColor;
 	CGFontRef _popUpLayerTextFont;
-	
-	NSMutableDictionary *_colorRefs;
 }
 
 // for ip seeker
