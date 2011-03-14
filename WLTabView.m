@@ -307,4 +307,29 @@
 		// Don't set frame origin here, leave for main controller
     }
 }
+
+#pragma mark -
+#pragma mark Trackpad Gesture Support
+// Set and reset font size
+- (void)setFontSizeRatio:(CGFloat)ratio {
+	// Just do it..
+	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
+//	[_tabView setNeedsDisplay:YES];
+}
+
+// Increase global font size setting by 5%
+- (IBAction)increaseFontSize:(id)sender {
+	// Here we use some small trick to provide better user experimence...
+	[self setFontSizeRatio:1.05f];
+}
+
+// Decrease global font size setting by 5%
+- (IBAction)decreaseFontSize:(id)sender {
+	[self setFontSizeRatio:1.0f/1.05f];
+}
+
+- (void)magnifyWithEvent:(NSEvent *)event {
+	//NSLog(@"magnify:%f", [event magnification]);
+	[self setFontSizeRatio:[event magnification]+1.0];
+}
 @end
