@@ -124,7 +124,7 @@
 	rect.size.height += 0.0;
 	
     // Set the layer frame to the rect
-    _ipAddrLayer.frame = NSRectToCGRect(rect);
+    [_ipAddrLayer setFrame:NSRectToCGRect(rect)];
     
     // Set the opacity to make the layer appear
 	[_ipAddrLayer setOpacity:1.0f];
@@ -135,7 +135,7 @@
 }
 
 #pragma mark Click Entry
-- (void)setClickEntry {
+- (void)setupClickEntry {
 	_clickEntryLayer = [CALayer layer];
     
 	CGColorRef clickEntryLayerBGColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.17f);
@@ -150,7 +150,7 @@
 
 - (void)drawClickEntry:(NSRect)rect {
 	if (!_clickEntryLayer)
-		[self setClickEntry];
+		[self setupClickEntry];
 	
 	rect.origin.x -= 1.0;
 	rect.origin.y -= 0.0;
