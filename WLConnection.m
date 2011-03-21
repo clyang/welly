@@ -177,7 +177,11 @@
 				buf[0] = code >> 8;
 				buf[1] = code & 0xFF;
 			} else {
-				if (ch != 0) {
+                if (ch == 8943 && encoding == WLGBKEncoding) {
+                    // hard code for the ellipsis
+                    buf[0] = '\xa1';
+                    buf[1] = '\xad';
+                } else if (ch != 0) {
 					buf[0] = ' ';
 					buf[1] = ' ';
 				}
