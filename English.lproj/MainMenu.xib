@@ -1465,14 +1465,12 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<int key="NSvFlags">-2147483380</int>
 											<string key="NSFrame">{{-41, 20}, {245, 36}}</string>
 											<reference key="NSSuperview" ref="103210316"/>
-											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView"/>
 											<string key="NSClassName">YLMarkedTextView</string>
 										</object>
 									</array>
 									<string key="NSFrame">{{567, 402}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="388583076"/>
 									<string key="NSClassName">WLTerminalView</string>
 								</object>
@@ -1481,7 +1479,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="103210316"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -1490,7 +1487,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrameSize">{960, 576}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="571244695"/>
 							<string key="NSClassName">WLTabView</string>
 							<string key="NSExtension">NSView</string>
@@ -1500,14 +1496,12 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 576}, {960, 22}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="92983356"/>
 							<string key="NSClassName">WLTabBarControl</string>
 						</object>
 					</array>
 					<string key="NSFrame">{{7, 11}, {960, 598}}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="131296537"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
@@ -1762,7 +1756,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{4, 4}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -2315,22 +2309,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">increaseFontSize:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1006426144"/>
-					</object>
-					<int key="connectionID">1327</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">decreaseFontSize:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="275231730"/>
-					</object>
-					<int key="connectionID">1328</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleToolbarShown:</string>
 						<reference key="source" ref="670863990"/>
 						<reference key="destination" ref="285707759"/>
@@ -2560,6 +2538,22 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="131296537"/>
 					</object>
 					<int key="connectionID">1659</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">increaseFontSize:</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="1006426144"/>
+					</object>
+					<int key="connectionID">1660</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">decreaseFontSize:</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="275231730"/>
+					</object>
+					<int key="connectionID">1661</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2978,13 +2972,13 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="523556306"/>
 							<reference ref="148723818"/>
 							<reference ref="274051259"/>
-							<reference ref="1004713283"/>
 							<reference ref="321321819"/>
 							<reference ref="1006426144"/>
 							<reference ref="275231730"/>
 							<reference ref="364369221"/>
 							<reference ref="285707759"/>
 							<reference ref="97080648"/>
+							<reference ref="1004713283"/>
 						</array>
 						<reference key="parent" ref="713169941"/>
 					</object>
@@ -3776,7 +3770,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1659</int>
+			<int key="maxID">1661</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3796,405 +3790,6 @@ Z1s6cG9ydF0</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">PSMTabBarControl</string>
-					<string key="superclassName">NSControl</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="delegate">id</string>
-						<string key="partnerView">id</string>
-						<string key="tabView">NSTabView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="delegate">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="partnerView">
-							<string key="name">partnerView</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="tabView">
-							<string key="name">tabView</string>
-							<string key="candidateClassName">NSTabView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/PSMTabBarControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SUUpdater</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">checkForUpdates:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">checkForUpdates:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SUUpdater.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLEffectView</string>
-					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_mainView</string>
-						<string key="NS.object.0">WLTerminalView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_mainView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_mainView</string>
-							<string key="candidateClassName">WLTerminalView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLEffectView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLGlobalConfig</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLGlobalConfig.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLMainFrameController</string>
-					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="addCurrentSite:">id</string>
-						<string key="closeMessageWindow:">id</string>
-						<string key="closeTab:">id</string>
-						<string key="connectLocation:">id</string>
-						<string key="decreaseFontSize:">id</string>
-						<string key="downloadPost:">id</string>
-						<string key="fullScreenMode:">id</string>
-						<string key="increaseFontSize:">id</string>
-						<string key="newTab:">id</string>
-						<string key="openComposePanel:">id</string>
-						<string key="openEmoticonsPanel:">id</string>
-						<string key="openLocation:">id</string>
-						<string key="openPreferencesWindow:">id</string>
-						<string key="openRSS:">id</string>
-						<string key="openSitePanel:">id</string>
-						<string key="reconnect:">id</string>
-						<string key="restoreSettings:">id</string>
-						<string key="selectNextTab:">id</string>
-						<string key="selectPrevTab:">id</string>
-						<string key="setEncoding:">id</string>
-						<string key="toggleAutoReply:">id</string>
-						<string key="toggleDetectDoubleByte:">id</string>
-						<string key="toggleMouseAction:">id</string>
-						<string key="toggleShowsHiddenText:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="addCurrentSite:">
-							<string key="name">addCurrentSite:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeMessageWindow:">
-							<string key="name">closeMessageWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="closeTab:">
-							<string key="name">closeTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="connectLocation:">
-							<string key="name">connectLocation:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="decreaseFontSize:">
-							<string key="name">decreaseFontSize:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="downloadPost:">
-							<string key="name">downloadPost:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenMode:">
-							<string key="name">fullScreenMode:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="increaseFontSize:">
-							<string key="name">increaseFontSize:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="newTab:">
-							<string key="name">newTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openComposePanel:">
-							<string key="name">openComposePanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openEmoticonsPanel:">
-							<string key="name">openEmoticonsPanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openLocation:">
-							<string key="name">openLocation:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openPreferencesWindow:">
-							<string key="name">openPreferencesWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openRSS:">
-							<string key="name">openRSS:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="openSitePanel:">
-							<string key="name">openSitePanel:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="reconnect:">
-							<string key="name">reconnect:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="restoreSettings:">
-							<string key="name">restoreSettings:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectNextTab:">
-							<string key="name">selectNextTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectPrevTab:">
-							<string key="name">selectPrevTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="setEncoding:">
-							<string key="name">setEncoding:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleAutoReply:">
-							<string key="name">toggleAutoReply:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleDetectDoubleByte:">
-							<string key="name">toggleDetectDoubleByte:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleMouseAction:">
-							<string key="name">toggleMouseAction:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="toggleShowsHiddenText:">
-							<string key="name">toggleShowsHiddenText:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="_addressBar">id</string>
-						<string key="_autoReplyButton">id</string>
-						<string key="_autoReplyMenuItem">NSMenuItem</string>
-						<string key="_closeTabMenuItem">NSMenuItem</string>
-						<string key="_closeWindowMenuItem">NSMenuItem</string>
-						<string key="_composeText">NSTextView</string>
-						<string key="_composeWindow">NSPanel</string>
-						<string key="_detectDoubleByteButton">id</string>
-						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
-						<string key="_encodingMenuItem">NSMenuItem</string>
-						<string key="_fullScreenMenuItem">NSMenuItem</string>
-						<string key="_mainWindow">NSWindow</string>
-						<string key="_messageWindow">NSPanel</string>
-						<string key="_mouseButton">id</string>
-						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
-						<string key="_sitesMenu">NSMenuItem</string>
-						<string key="_tabBarControl">WLTabBarControl</string>
-						<string key="_tabView">WLTabView</string>
-						<string key="_unreadMessageTextView">NSTextView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="_addressBar">
-							<string key="name">_addressBar</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_autoReplyButton">
-							<string key="name">_autoReplyButton</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_autoReplyMenuItem">
-							<string key="name">_autoReplyMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_closeTabMenuItem">
-							<string key="name">_closeTabMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_closeWindowMenuItem">
-							<string key="name">_closeWindowMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_composeText">
-							<string key="name">_composeText</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_composeWindow">
-							<string key="name">_composeWindow</string>
-							<string key="candidateClassName">NSPanel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_detectDoubleByteButton">
-							<string key="name">_detectDoubleByteButton</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_detectDoubleByteMenuItem">
-							<string key="name">_detectDoubleByteMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_encodingMenuItem">
-							<string key="name">_encodingMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_fullScreenMenuItem">
-							<string key="name">_fullScreenMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_mainWindow">
-							<string key="name">_mainWindow</string>
-							<string key="candidateClassName">NSWindow</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_messageWindow">
-							<string key="name">_messageWindow</string>
-							<string key="candidateClassName">NSPanel</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_mouseButton">
-							<string key="name">_mouseButton</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_showHiddenTextMenuItem">
-							<string key="name">_showHiddenTextMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_sitesMenu">
-							<string key="name">_sitesMenu</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_tabBarControl">
-							<string key="name">_tabBarControl</string>
-							<string key="candidateClassName">WLTabBarControl</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_tabView">
-							<string key="name">_tabView</string>
-							<string key="candidateClassName">WLTabView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_unreadMessageTextView">
-							<string key="name">_unreadMessageTextView</string>
-							<string key="candidateClassName">NSTextView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLMainFrameController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLPreviewController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">openPreview:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">openPreview:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">openPreview:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLPreviewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTabBarControl</string>
-					<string key="superclassName">PSMTabBarControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLTabBarControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTabView</string>
-					<string key="superclassName">NSTabView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_terminalView</string>
-						<string key="NS.object.0">WLTerminalView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_terminalView</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_terminalView</string>
-							<string key="candidateClassName">WLTerminalView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLTabView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTermView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLTermView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">WLTerminalView</string>
-					<string key="superclassName">WLTermView</string>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="_effectView">WLEffectView</string>
-						<string key="_textField">YLMarkedTextView</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="_effectView">
-							<string key="name">_effectView</string>
-							<string key="candidateClassName">WLEffectView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="_textField">
-							<string key="name">_textField</string>
-							<string key="candidateClassName">YLMarkedTextView</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/WLTerminalView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">YLMarkedTextView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/YLMarkedTextView.h</string>
 					</object>
 				</object>
 			</array>

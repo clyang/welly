@@ -1750,7 +1750,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{4, 4}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -2303,22 +2303,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">increaseFontSize:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1006426144"/>
-					</object>
-					<int key="connectionID">1327</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">decreaseFontSize:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="275231730"/>
-					</object>
-					<int key="connectionID">1328</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">toggleToolbarShown:</string>
 						<reference key="source" ref="670863990"/>
 						<reference key="destination" ref="285707759"/>
@@ -2548,6 +2532,22 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="131296537"/>
 					</object>
 					<int key="connectionID">1659</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">increaseFontSize:</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="1006426144"/>
+					</object>
+					<int key="connectionID">1660</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">decreaseFontSize:</string>
+						<reference key="source" ref="92983356"/>
+						<reference key="destination" ref="275231730"/>
+					</object>
+					<int key="connectionID">1661</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3764,7 +3764,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1659</int>
+			<int key="maxID">1661</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

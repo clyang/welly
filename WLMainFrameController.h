@@ -93,10 +93,6 @@
 // for full screen
 - (IBAction)fullScreenMode:(id)sender;
 
-// for Font size
-- (IBAction)increaseFontSize:(id)sender;
-- (IBAction)decreaseFontSize:(id)sender;
-
 /*
 // for portal
 - (IBAction)browseImage:(id)sender;

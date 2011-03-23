@@ -569,6 +569,21 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
+- (void)swipeWithEvent:(NSEvent *)event {
+	if ([[[self frontMostTerminal] connection] isConnected]) {
+		// For Y-Axis
+		if ([event deltaY] > 0) {
+			[self sendText:termKeyPageUp];
+			return;
+		} else if ([event deltaY] < 0) {
+			[self sendText:termKeyPageDown];
+			return;
+		}
+	}
+	// We leave the X-Axis swiping for parent views to handle
+	[super swipeWithEvent:event];
+}
+
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
     if (![self isConnected])
         return nil;
