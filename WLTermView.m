@@ -431,10 +431,18 @@ static CGSize *gDoubleAdvance;
 			continue;
 		} else if (db == 2) {
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
-			unichar ch = [WLEncoder toUnicode:code encoding:[[[self frontMostConnection] site] encoding]];
+			unichar ch = [WLEncoder toUnicode:code 
+									 encoding:[[[self frontMostConnection] site] encoding]];
 			//NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
-			if ([WLAsciiArtRender isAsciiArtSymbol:ch]) {
-				[self drawSpecialSymbol:ch forRow:r column:(x - 1) leftAttribute:(currRow + x - 1)->attr rightAttribute:(currRow + x)->attr];
+			if ([WLAsciiArtRender isAsciiArtSymbol:ch] 
+				&& !([gConfig showsHiddenText]					// If the user desires anti-hidden
+					 && (isHiddenAttribute((currRow + x)->attr) // And this is a hidden special symbol
+						 || isHiddenAttribute((currRow + x - 1)->attr)))) {	// We shall leave it for later part to deal with
+				[self drawSpecialSymbol:ch 
+								 forRow:r 
+								 column:(x - 1) 
+						  leftAttribute:(currRow + x - 1)->attr 
+						 rightAttribute:(currRow + x)->attr];
 			} else {
                 isDoubleColor[bufLength] = (fgColorIndexOfAttribute(currRow[x - 1].attr) != fgColorIndexOfAttribute(currRow[x].attr) || 
                                             fgBoldOfAttribute(currRow[x - 1].attr) != fgBoldOfAttribute(currRow[x].attr));
