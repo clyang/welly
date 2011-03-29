@@ -23,7 +23,6 @@
 @interface WLTabView ()
 
 - (void)updatePortal;
-- (void)resetFrame;
 - (void)showPortal;
 
 @end
@@ -47,14 +46,16 @@
 	[WLSitesPanelController addSitesObserver:self];
 	
 	// Register KVO
-	NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", nil];
+	NSArray *observeKeys = [NSArray arrayWithObjects:@"cellWidth", @"cellHeight", @"cellSize", nil];
 	for (NSString *key in observeKeys)
 		[[WLGlobalConfig sharedInstance] addObserver:self
 										  forKeyPath:key
 											 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
 											 context:nil];
 	
-	[self resetFrame];
+	// Set frame position and size
+	[self setFrameOrigin:NSZeroPoint];
+	[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
 	[self updatePortal];
 	
 	// If no active tabs, we should show the coverflow portal if necessary.
@@ -70,23 +71,6 @@
     // Drawing the background.
 	[[[WLGlobalConfig sharedInstance] colorBG] set];
 	NSRectFill(rect);
-}
-
-- (void)setFrame:(NSRect)frameRect {
-	[super setFrame:frameRect];
-	[self setNeedsDisplay:YES];
-	[_terminalView setFrame:frameRect];
-	[_portal setFrame:frameRect];
-	[_terminalView setNeedsDisplay:YES];
-	[_portal setNeedsDisplay:YES];
-}
-
-- (void)resetFrame {
-	NSRect frame = [self frame];
-	frame.origin = NSZeroPoint;
-	frame.size = [[WLGlobalConfig sharedInstance] contentSize];
-	
-	[self setFrame:frame];
 }
 
 - (void)showPortal {
@@ -319,7 +303,46 @@
                         change:(NSDictionary *)change
                        context:(void *)context {
     if ([keyPath hasPrefix:@"cell"]) {
-        [self resetFrame];
+		[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
+		// Don't set frame origin here, leave for main controller
     }
+}
+
+#pragma mark -
+#pragma mark Trackpad Gesture Support
+// Set and reset font size
+- (void)setFontSizeRatio:(CGFloat)ratio {
+	// Just do it..
+	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
+//	[_tabView setNeedsDisplay:YES];
+}
+
+// Increase global font size setting by 5%
+- (IBAction)increaseFontSize:(id)sender {
+	// Here we use some small trick to provide better user experimence...
+	[self setFontSizeRatio:1.05f];
+}
+
+// Decrease global font size setting by 5%
+- (IBAction)decreaseFontSize:(id)sender {
+	[self setFontSizeRatio:1.0f/1.05f];
+}
+
+- (void)magnifyWithEvent:(NSEvent *)event {
+	//NSLog(@"magnify:%f", [event magnification]);
+	[self setFontSizeRatio:[event magnification]+1.0];
+}
+
+- (void)swipeWithEvent:(NSEvent *)event {
+	if ([event deltaX] < 0) {
+		// Swiping to right
+		[self selectNextTabViewItem:event];
+		return;
+	} else if ([event deltaX] > 0) {
+		// Swiping to left
+		[self selectPreviousTabViewItem:event];
+		return;
+	}
+	[super swipeWithEvent:event];
 }
 @end

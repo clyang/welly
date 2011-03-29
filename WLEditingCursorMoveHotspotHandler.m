@@ -121,7 +121,7 @@ static NSCursor *gMoveCursor = nil;
 		int thisRow = [ds cursorRow];
 		int cursorLocation = thisRow * _maxColumn + [ds cursorColumn];
 		int prevRow = -1;
-		int lastEffectiveChar;
+		int lastEffectiveChar = -1;
 		if (cursorLocation < _selectionLocation) {
 			for (int i = cursorLocation; i < _selectionLocation; ++i) {
 				thisRow = i / _maxColumn;

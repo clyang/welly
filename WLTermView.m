@@ -16,8 +16,6 @@
 static WLGlobalConfig *gConfig;
 
 static NSImage *gLeftImage;
-static CGSize *gSingleAdvance;
-static CGSize *gDoubleAdvance;
 
 @interface WLTermView ()
 - (void)drawSpecialSymbol:(unichar)ch 
@@ -51,37 +49,38 @@ static CGSize *gDoubleAdvance;
     _fontWidth = [gConfig cellWidth];
     _fontHeight = [gConfig cellHeight];
 	
-    NSRect frame = [self frame];
-	frame.size = [gConfig contentSize];
-    frame.origin = NSZeroPoint;
-    [self setFrame:frame];
+    [self setFrameSize:[gConfig contentSize]];
 	
     [_backedImage release];
-    _backedImage = [[NSImage alloc] initWithSize:frame.size];
+    _backedImage = [[NSImage alloc] initWithSize:[gConfig contentSize]];
     [_backedImage setFlipped:NO];
 	
     [gLeftImage release]; 
     gLeftImage = [[NSImage alloc] initWithSize:NSMakeSize(_fontWidth, _fontHeight)];			
 	
-    if (!gSingleAdvance) gSingleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
-    if (!gDoubleAdvance) gDoubleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
+    if (_singleAdvance)
+        free(_singleAdvance);
+    _singleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
+    if (_doubleAdvance)
+        free(_doubleAdvance);
+    _doubleAdvance = (CGSize *) malloc(sizeof(CGSize) * _maxColumn);
 	
     for (int i = 0; i < _maxColumn; i++) {
-        gSingleAdvance[i] = CGSizeMake(_fontWidth * 1.0, 0.0);
-        gDoubleAdvance[i] = CGSizeMake(_fontWidth * 2.0, 0.0);
+        _singleAdvance[i] = CGSizeMake(_fontWidth * 1.0, 0.0);
+        _doubleAdvance[i] = CGSizeMake(_fontWidth * 2.0, 0.0);
     }
 	
 	[_asciiArtRender configure];
 }
 
 - (id)initWithFrame:(NSRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if ((self = [super initWithFrame:frame])) {
 		_asciiArtRender = [WLAsciiArtRender new];
 		
         [self configure];
 		
 		// Register KVO
-		NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showsHiddenText", @"cellWidth", @"cellHeight", 
+		NSArray *observeKeys = [NSArray arrayWithObjects:@"shouldSmoothFonts", @"showsHiddenText", @"cellWidth", @"cellHeight", @"cellSize",
 								@"chineseFontName", @"chineseFontSize", @"chineseFontPaddingLeft", @"chineseFontPaddingBottom",
 								@"englishFontName", @"englishFontSize", @"englishFontPaddingLeft", @"englishFontPaddingBottom", 
 								@"colorBlack", @"colorBlackHilite", @"colorRed", @"colorRedHilite", @"colorGreen", @"colorGreenHilite",
@@ -104,6 +103,10 @@ static CGSize *gDoubleAdvance;
 }
 
 - (void)dealloc {
+    if (_singleAdvance)
+        free(_singleAdvance);
+    if (_doubleAdvance)
+        free(_doubleAdvance);
     [_backedImage release];
 	[_asciiArtRender release];
     [super dealloc];
@@ -431,10 +434,18 @@ static CGSize *gDoubleAdvance;
 			continue;
 		} else if (db == 2) {
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
-			unichar ch = [WLEncoder toUnicode:code encoding:[[[self frontMostConnection] site] encoding]];
+			unichar ch = [WLEncoder toUnicode:code 
+									 encoding:[[[self frontMostConnection] site] encoding]];
 			//NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
-			if ([WLAsciiArtRender isAsciiArtSymbol:ch]) {
-				[self drawSpecialSymbol:ch forRow:r column:(x - 1) leftAttribute:(currRow + x - 1)->attr rightAttribute:(currRow + x)->attr];
+			if ([WLAsciiArtRender isAsciiArtSymbol:ch] 
+				&& !([gConfig showsHiddenText]					// If the user desires anti-hidden
+					 && (isHiddenAttribute((currRow + x)->attr) // And this is a hidden special symbol
+						 || isHiddenAttribute((currRow + x - 1)->attr)))) {	// We shall leave it for later part to deal with
+				[self drawSpecialSymbol:ch 
+								 forRow:r 
+								 column:(x - 1) 
+						  leftAttribute:(currRow + x - 1)->attr 
+						 rightAttribute:(currRow + x)->attr];
 			} else {
                 isDoubleColor[bufLength] = (fgColorIndexOfAttribute(currRow[x - 1].attr) != fgColorIndexOfAttribute(currRow[x].attr) || 
                                             fgBoldOfAttribute(currRow[x - 1].attr) != fgBoldOfAttribute(currRow[x].attr));
@@ -538,7 +549,7 @@ static CGSize *gDoubleAdvance;
                 textMatrix.ty = position[glyphOffset + location].y;
                 CGContextSetTextMatrix(myCGContext, textMatrix);
                 
-                CGContextShowGlyphsWithAdvances(myCGContext, glyph, isDoubleByte[glyphOffset + location] ? gDoubleAdvance : gSingleAdvance, len);
+                CGContextShowGlyphsWithAdvances(myCGContext, glyph, isDoubleByte[glyphOffset + location] ? _doubleAdvance : _singleAdvance, len);
                 
                 location = runGlyphIndex;
                 if (runGlyphIndex != runGlyphCount)

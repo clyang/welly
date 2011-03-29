@@ -106,7 +106,8 @@
         CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)_string);
         CGFloat offset = CTLineGetOffsetForStringIndex(line, _selectedRange.location, NULL);
         [[NSColor whiteColor] set];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(offset, 0) toPoint:NSMakePoint(offset, _lineHeight)];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(offset, 0) 
+                                  toPoint:NSMakePoint(offset, _lineHeight)];
         CFRelease(line);
     }
     

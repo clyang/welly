@@ -516,7 +516,7 @@ static NSBezierPath *gSymbolLowerLinePath;
 }
 
 - (id)init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		[self configure];
 	}
 	return self;

@@ -56,7 +56,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 @synthesize effectView = _effectView;
 
 - (id)initWithFrame:(NSRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if ((self = [super initWithFrame:frame])) {
         _selectionLength = 0;
         _selectionLocation = 0;
 		_isInUrlMode = NO;
@@ -569,6 +569,21 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     [_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
+- (void)swipeWithEvent:(NSEvent *)event {
+	if ([[[self frontMostTerminal] connection] isConnected]) {
+		// For Y-Axis
+		if ([event deltaY] > 0) {
+			[self sendText:termKeyPageUp];
+			return;
+		} else if ([event deltaY] < 0) {
+			[self sendText:termKeyPageDown];
+			return;
+		}
+	}
+	// We leave the X-Axis swiping for parent views to handle
+	[super swipeWithEvent:event];
+}
+
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent {
     if (![self isConnected])
         return nil;
@@ -855,15 +870,12 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)doCommandBySelector:(SEL)aSelector {
 	unsigned char ch[10];
     
-//    NSLog(@"%s", aSelector);
-    
 	if (aSelector == @selector(insertNewline:)) {
 		ch[0] = 0x0D;
 		[[self frontMostConnection] sendBytes:ch length:1];
     } else if (aSelector == @selector(cancelOperation:)) {
         ch[0] = 0x1B;
 		[[self frontMostConnection] sendBytes:ch length:1];
-//	} else if (aSelector == @selector(cancel:)) {
 	} else if (aSelector == @selector(scrollToBeginningOfDocument:) ||
 			   aSelector == @selector(moveToBeginningOfLine:)) {
         ch[0] = 0x1B; ch[1] = '['; ch[2] = '1'; ch[3] = '~';
@@ -956,7 +968,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 // Returns attributed string at the range.  This allows input mangers to query any range in backing-store.  May return nil.
 - (NSAttributedString *)attributedSubstringFromRange:(NSRange)theRange {
-    if (theRange.location < 0 || theRange.location >= [_markedText length]) return nil;
+    if (theRange.location >= [_markedText length]) return nil;
     if (theRange.location + theRange.length > [_markedText length]) 
         theRange.length = [_markedText length] - theRange.location;
     return [[[NSAttributedString alloc] initWithString:[[_markedText string] substringWithRange:theRange]] autorelease];

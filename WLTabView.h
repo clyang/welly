@@ -30,6 +30,10 @@
 	WLCoverFlowPortal *_portal;
 }
 
+// for Font size
+- (IBAction)increaseFontSize:(id)sender;
+- (IBAction)decreaseFontSize:(id)sender;
+
 - (void)newTabWithConnection:(WLConnection *)theConnection 
 					   label:(NSString *)theLabel;
 - (void)newTabWithCoverFlowPortal;
