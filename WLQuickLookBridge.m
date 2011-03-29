@@ -42,6 +42,7 @@
 @implementation WLQuickLookBridge
 
 static BOOL isLeopard;
+static BOOL isLion;
 
 + (WLQuickLookBridge *)sharedInstance {
     static WLQuickLookBridge *instance = nil;
@@ -54,6 +55,7 @@ static BOOL isLeopard;
 + (void)initialize {
     SInt32 ver;
     isLeopard = Gestalt(gestaltSystemVersion, &ver) == noErr && ver < 0x1060;
+    isLion = Gestalt(gestaltSystemVersion, &ver) == noErr && ver >= 0x1070;
 }
 
 - (id)init {
@@ -120,6 +122,10 @@ static BOOL isLeopard;
 }
 
 + (void)orderFront {
+    if (isLion) {
+        [[self Panel] makeKeyAndOrderFront:self];
+        return;
+    }
     // 1 = fade in, 2 = zoom in
     [[self Panel] makeKeyAndOrderFrontWithEffect:2 canClose:YES];
 }

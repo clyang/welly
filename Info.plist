@@ -6,6 +6,10 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>Help</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Welly Help</string>
 	<key>CFBundleIconFile</key>
 	<string>Welly</string>
 	<key>CFBundleIdentifier</key>
@@ -16,6 +20,8 @@
 	<string>Welly</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.64 beta</string>
 	<key>CFBundleSignature</key>
 	<string>abgK</string>
 	<key>CFBundleURLTypes</key>
@@ -38,24 +44,20 @@
 			</array>
 		</dict>
 	</array>
-	<key>CFBundleShortVersionString</key>
-	<string>2.64 beta</string>
 	<key>CFBundleVersion</key>
 	<string>821</string>
-	<key>CFBundleHelpBookFolder</key>
-	<string>Help</string>
-	<key>CFBundleHelpBookName</key>
-	<string>Welly Help</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.social-networking</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.5.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
-		<key>x86_64</key>
-		<string>10.6.0</string>
 		<key>i386</key>
 		<string>10.5.0</string>
 		<key>ppc</key>
 		<string>10.5.0</string>
+		<key>x86_64</key>
+		<string>10.6.0</string>
 	</dict>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
