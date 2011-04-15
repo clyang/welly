@@ -843,6 +843,12 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 	return ([[self frontMostTerminal] bbsState].state != BBSComposePost);
 }
 
+- (void) showCustomizedPopUpMessage:(NSString *) message {
+    [WLPopUpMessage showPopUpMessage:message 
+                            duration:0.5
+                          effectView:_effectView];
+}
+
 #pragma mark -
 #pragma mark NSTextInput Protocol
 /* NSTextInput protocol */

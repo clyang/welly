@@ -32,10 +32,14 @@
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
+    // Comments added by gtCarrera
+    // I moved cover flow initialization to awakeFromNib. 
+    // Because, here the fram size was wrong! It has not been really "initialized"!
+    /*
+     if (self) {
 		// Initialize the portal
 		_portal = [[WLCoverFlowPortal alloc] initWithFrame:[self frame]];
-    }
+    }*/
     return self;
 }
 
@@ -56,6 +60,8 @@
 	// Set frame position and size
 	[self setFrameOrigin:NSZeroPoint];
 	[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
+    // Initialize the portal
+    _portal = [[WLCoverFlowPortal alloc] initWithFrame:[self frame]];
 	[self updatePortal];
 	
 	// If no active tabs, we should show the coverflow portal if necessary.
@@ -312,9 +318,18 @@
 #pragma mark Trackpad Gesture Support
 // Set and reset font size
 - (void)setFontSizeRatio:(CGFloat)ratio {
-	// Just do it..
+    // Comments added by gtCarrera
+    // If currently there's no tab, this means, there's only the cover flow! 
+    // (because that's the only case allowed by our design)
+    // If so, we don't change the size of the portal. 
+    if([self numberOfTabViewItems] == 0) {
+        // Shoot, doesn't work now!
+        // [_terminalView showCustomizedPopUpMessage:@"NO TAB"];
+        return;
+    }
+	// Or else, just do it..
 	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
-//	[_tabView setNeedsDisplay:YES];
+	[self setNeedsDisplay:YES];
 }
 
 // Increase global font size setting by 5%

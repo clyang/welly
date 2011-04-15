@@ -60,6 +60,8 @@
 
 - (void)clearSelection;
 
+- (void) showCustomizedPopUpMessage:(NSString *) myMessage;
+
 
 - (NSRect)rectAtRow:(int)r 
 			 column:(int)c 

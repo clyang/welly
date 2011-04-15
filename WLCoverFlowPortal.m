@@ -41,7 +41,7 @@ const float xscale = 1, yscale = 0.8;
 }
 
 - (id)initWithFrame:(NSRect)frame {
-	if (self = [super initWithFrame:frame]) {
+	if ((self = [super initWithFrame:frame])) {
 		// Initialize the imageFlowView
 		_imageFlowView = [[NSClassFromString(@"IKImageFlowView") alloc] initWithFrame:frame];
 		[_imageFlowView setDataSource:self];
@@ -81,7 +81,7 @@ const float xscale = 1, yscale = 0.8;
 }
 
 - (id)initWithPortalItems:(NSArray *)portalItems {
-	if (self = [self init]) {
+	if ((self = [self init])) {
 		[self setPortalItems:_portalItems];
 	}
 	return self;
