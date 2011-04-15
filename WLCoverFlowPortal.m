@@ -54,6 +54,8 @@ const float xscale = 1, yscale = 0.8;
 		// cover flow doesn't support alpha
 		color = [color colorWithAlphaComponent:1.0];
 		[_imageFlowView setBackgroundColor:color];
+		// re-scale the image flow view
+		[self setFrame:self.frame];
 	}
 	return self;
 }

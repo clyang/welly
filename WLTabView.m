@@ -311,6 +311,9 @@
     if ([keyPath hasPrefix:@"cell"]) {
 		[self setFrameSize:[[WLGlobalConfig sharedInstance] contentSize]];
 		// Don't set frame origin here, leave for main controller
+		if ([[self subviews] containsObject:_portal]) {
+			[_portal setFrame:self.frame];
+		}
     }
 }
 
@@ -322,11 +325,11 @@
     // If currently there's no tab, this means, there's only the cover flow! 
     // (because that's the only case allowed by our design)
     // If so, we don't change the size of the portal. 
-    if([self numberOfTabViewItems] == 0) {
-        // Shoot, doesn't work now!
-        // [_terminalView showCustomizedPopUpMessage:@"NO TAB"];
-        return;
-    }
+//    if([self numberOfTabViewItems] == 0) {
+//        // Shoot, doesn't work now!
+//        // [_terminalView showCustomizedPopUpMessage:@"NO TAB"];
+//        return;
+//    }
 	// Or else, just do it..
 	[[WLGlobalConfig sharedInstance] setFontSizeRatio:ratio];
 	[self setNeedsDisplay:YES];

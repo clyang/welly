@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1305</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1305</string>
+			<string key="NS.object.0">1306</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -100,7 +100,6 @@
 							<string key="NSFrame">{{320, 3}, {92, 32}}</string>
 							<reference key="NSSuperview" ref="880561249"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="383738907">
 								<int key="NSCellFlags">67239424</int>
@@ -215,7 +214,7 @@
 													<string key="NSFrameSize">{110, 338}</string>
 													<reference key="NSSuperview" ref="998668316"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="705282395"/>
+													<reference key="NSNextKeyView" ref="595992769"/>
 													<bool key="NSEnabled">YES</bool>
 													<object class="_NSCornerView" key="NSCornerView">
 														<nil key="NSNextResponder"/>
@@ -279,7 +278,6 @@
 															</object>
 															<int key="NSResizingMask">3</int>
 															<bool key="NSIsResizeable">YES</bool>
-															<bool key="NSIsEditable">YES</bool>
 															<reference key="NSTableView" ref="219656733"/>
 														</object>
 													</object>
@@ -343,7 +341,7 @@
 									<string key="NSFrameSize">{112, 340}</string>
 									<reference key="NSSuperview" ref="790280386"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="595992769"/>
+									<reference key="NSNextKeyView" ref="998668316"/>
 									<int key="NSsFlags">530</int>
 									<reference key="NSVScroller" ref="705282395"/>
 									<reference key="NSHScroller" ref="595992769"/>
@@ -999,7 +997,7 @@
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
 				<object class="NSView" key="NSWindowView" id="836580571">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1082,7 +1080,6 @@
 						</object>
 					</object>
 					<string key="NSFrame">{{7, 11}, {428, 127}}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{1e+13, 1e+13}</string>
