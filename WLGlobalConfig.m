@@ -164,6 +164,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
         [defaults setBool:YES forKey:WLSafePasteEnabledKeyName];
     if ([defaults objectForKey:WLCoverFlowModeEnabledKeyName] == nil)
         [defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
+	
+	// Initialize Cache
+	[isa initializeCache];
 
     return self;
 }
