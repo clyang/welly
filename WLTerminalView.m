@@ -94,7 +94,10 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (int)convertIndexFromPoint:(NSPoint)p {
 	// The following 2 lines: for full screen mode
 	NSRect frame = [self frame];
-	p.y -= 2 * frame.origin.y;
+    // Comment added by gtCarrera
+    // Why it was 2 here? I think it should be 1
+    // Using 2 will cause one line offset on selecting
+	p.y -= /*2 * */frame.origin.y;
 	
     if (p.x >= _maxColumn * _fontWidth) p.x = _maxColumn * _fontWidth - 0.001;
     if (p.y >= _maxRow * _fontHeight) p.y = _maxRow * _fontHeight - 0.001;
