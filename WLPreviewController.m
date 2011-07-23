@@ -35,11 +35,31 @@ NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img s
 // current downloading URLs
 static NSMutableSet *sURLs;
 // current downloaded URLs
-static NSMutableDictionary *downloadedURLInfo;
+static NSMutableDictionary *sDownloadedURLInfo;
+// Current init info
+static BOOL sHasCacheDir = NO;
 
 + (void)initialize {
     sURLs = [[NSMutableSet alloc] initWithCapacity:10];
-    downloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
+    // Check whether now the default Welly cache dir has been created
+    // If not, create it
+    if (!sHasCacheDir) {
+        // Mark it as created
+        sHasCacheDir = YES;
+        // Get default cache dir
+        NSString *cacheDir = [WLGlobalConfig cacheDirectory];
+        // Create the dir
+        NSFileManager *dirCheckerFileManager = [NSFileManager defaultManager];
+        BOOL isDir;
+        if(![dirCheckerFileManager fileExistsAtPath:cacheDir isDirectory:&isDir]) {
+            if(![dirCheckerFileManager createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL]) {
+                // If error, report in console and roll back the flag
+                NSLog(@"Error: Create folder failed %@", cacheDir);
+                sHasCacheDir = NO;
+            }
+        }
+    }
+    sDownloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
 
 - (IBAction)openPreview:(id)sender {
@@ -138,7 +158,7 @@ static NSString * stringFromFileSize(long long size) {
 - (void)showLoadingWindow {
     unsigned int style = NSTitledWindowMask
         | NSMiniaturizableWindowMask | NSClosableWindowMask
-        | NSHUDWindowMask | NSUtilityWindowMask;
+        | NSDocModalWindowMask;
 
     // init
     _window = [[NSPanel alloc] initWithContentRect:NSMakeRect(0, 0, 400, 30)
@@ -209,9 +229,9 @@ static NSString * stringFromFileSize(long long size) {
     // set local path
     NSString *cacheDir = [WLGlobalConfig cacheDirectory];
     _path = [[cacheDir stringByAppendingPathComponent:_filename] retain];
-	if([downloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
+	if([sDownloadedURLInfo objectForKey:[[[download request] URL] absoluteString]]) { // URL in cache
 		// Get local file size
-		NSString * tempPath = [downloadedURLInfo valueForKey:[[[download request] URL] absoluteString]];
+		NSString * tempPath = [sDownloadedURLInfo valueForKey:[[[download request] URL] absoluteString]];
 		NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:tempPath error:nil];
 		long long fileSizeOnDisk = -1;
 		if (fileAttributes != nil)
@@ -269,7 +289,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
-	[downloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
+	[sDownloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];
 	if ([[_path pathExtension] isEqualToString:@"gif"]) {
 		NSURL *htmlURL = [NSURL fileURLWithPath:[[_path stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
 		[[NSString stringWithFormat:WLGIFToHTMLFormat, [NSURL fileURLWithPath:_path]] writeToURL:htmlURL atomically:NO encoding:NSUTF8StringEncoding error:NULL];
