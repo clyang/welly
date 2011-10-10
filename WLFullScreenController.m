@@ -83,6 +83,9 @@
 														  backing:NSBackingStoreBuffered
 															defer:NO];
 		[_fullScreenWindow setAlphaValue:0];
+        if (floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_6) {
+            [_fullScreenWindow setCollectionBehavior:NSWindowCollectionBehaviorFullScreenAuxiliary];
+        }
 		[_fullScreenWindow setBackgroundColor:[NSColor blackColor]];
 		[_fullScreenWindow setAcceptsMouseMovedEvents:YES];
 		// Order front now

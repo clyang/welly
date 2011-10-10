@@ -77,6 +77,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 
     [_mainWindow setFrameAutosaveName:@"wellyMainWindowFrame"];
     
+    if (floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_6) {
+        [_mainWindow setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
+    }
+    
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
     
 	[self initializeRemoteControl];
@@ -600,6 +604,22 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
         url = [url substringFromIndex:6];
     [_addressBar setStringValue:url];
     [self connectLocation:_addressBar];
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notification {
+    
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)notification {
+    [_fullScreenController handleFullScreen];
+}
+
+- (void)windowWillExitFullScreen:(NSNotification *)notification {
+    [_fullScreenController releaseFullScreen];
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification {
+    [_mainWindow makeKeyAndOrderFront:nil];
 }
 
 #pragma mark -
