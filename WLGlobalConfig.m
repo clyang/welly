@@ -561,8 +561,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     int pid = [[NSProcessInfo processInfo] processIdentifier];
     // detect if another Welly exists
     for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] runningApplications]) {
-        if ([[dict objectForKey:@"NSApplicationName"] isEqual:@"Welly"] &&
-            [[dict objectForKey:@"NSApplicationProcessIdentifier"] intValue] != pid) {
+        if ([[dict valueForKey:@"localizedName"] isEqualToString:@"Welly"] &&
+            [[dict valueForKey:@"processIdentifier"] intValue] != pid) {
             flag = YES;
             break;
         }
