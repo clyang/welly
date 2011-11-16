@@ -128,10 +128,6 @@ const float xscale = 1, yscale = 0.8;
     return YES;
 }
 
-/*- (NSView *)hitTest:(NSPoint)p {
-    return self;
-}*/
-
 #pragma mark -
 #pragma mark IKImageFlowDataSource protocol
 - (NSUInteger)numberOfItemsInImageFlow:(id)aFlow {
@@ -153,12 +149,17 @@ const float xscale = 1, yscale = 0.8;
 - (void)keyDown:(NSEvent *)theEvent {
 	switch ([[theEvent charactersIgnoringModifiers] characterAtIndex:0]) {
         case WLWhitespaceCharacter:
-        case WLReturnCharacter: {
+        case WLReturnCharacter:
             [self select];
             return;
-        }
+		case NSUpArrowFunctionKey:
+		case NSDownArrowFunctionKey:
+		case NSLeftArrowFunctionKey:
+		case NSRightArrowFunctionKey:
+			[_imageFlowView keyDown:theEvent];
+			return;
     }
-    [_imageFlowView keyDown:theEvent];
+	[super keyDown:theEvent];
 }
 
 // private
@@ -195,6 +196,10 @@ const float xscale = 1, yscale = 0.8;
 				   event:theEvent pasteboard:pboard source:self slideBack:NO];
 		return;
 	} 
+}
+
+- (void)mouseDown:(NSEvent *)theEvent {
+	// Do not call [super mouseDown:theEvent]; to keep FirstResponder
 }
 
 #pragma mark -
