@@ -64,6 +64,7 @@ static BOOL isLion;
     _URLs = [[NSMutableArray alloc] init];
     // 10.5: /System/Library/PrivateFrameworks/QuickLookUI.framework
     // 10.6: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
+    // 10.7: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
     [[NSBundle bundleWithPath:@"/System/Library/…/QuickLookUI.framework"] load];
     _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
     // To deal with full screen window level
