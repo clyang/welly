@@ -75,7 +75,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 
 - (void)mouseMoved:(NSEvent *)theEvent {
 	if ([NSCursor currentCursor] == _manager.normalCursor)
-		[[_manager.backgroundTrackingAreaUserInfo objectForKey:WLMouseCursorUserInfoName] set];
+		[(NSCursor *)[_manager.backgroundTrackingAreaUserInfo objectForKey:WLMouseCursorUserInfoName] set];
 }
 
 #pragma mark -
