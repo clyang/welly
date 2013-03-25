@@ -346,10 +346,9 @@
 	[self setFontSizeRatio:1.0f/1.05f];
 }
 
-- (void)magnifyWithEvent:(NSEvent *)event {
-	//NSLog(@"magnify:%f", [event magnification]);
-	[self setFontSizeRatio:[event magnification]+1.0];
-}
+//- (void)magnifyWithEvent:(NSEvent *)event {
+//	[self setFontSizeRatio:[event magnification]+1.0];
+//}
 
 - (void)swipeWithEvent:(NSEvent *)event {
 	if ([event deltaX] < 0) {
