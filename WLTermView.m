@@ -207,7 +207,6 @@ static NSImage *gLeftImage;
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     WLTerminal *ds = [self frontMostTerminal];
 	if ([self isConnected]) {
-		// NSLog(@"connected");
 		// Modified by gtCarrera
 		// Draw the background color first!!!
 		[[gConfig colorBG] set];
@@ -250,7 +249,6 @@ static NSImage *gLeftImage;
         /* Draw the selection */
 		//[self drawSelection];
 	} else {
-		// NSLog(@"Not connected!");
 		[[gConfig colorBG] set];
         NSRect r = [self bounds];
         NSRectFill(r);
@@ -436,7 +434,7 @@ static NSImage *gLeftImage;
 			unsigned short code = (((currRow + x - 1)->byte) << 8) + ((currRow + x)->byte) - 0x8000;
 			unichar ch = [WLEncoder toUnicode:code 
 									 encoding:[[[self frontMostConnection] site] encoding]];
-			//NSLog(@"r = %d, x = %d, ch = %d", r, x, ch);
+			
 			if ([WLAsciiArtRender isAsciiArtSymbol:ch] 
 				&& !([gConfig showsHiddenText]					// If the user desires anti-hidden
 					 && (isHiddenAttribute((currRow + x)->attr) // And this is a hidden special symbol

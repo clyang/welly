@@ -346,7 +346,6 @@
 // Just similiar to the code of "addNewLayer"...
 // by gtCarrera @ 9#
 - (void)drawPopUpMessage:(NSString *)message {
-	//NSLog(@"Pop up!");
 	// Remove previous message
 	[self removePopUpMessage];
 	//Initiallize a new CALayer
@@ -389,7 +388,6 @@
     [_popUpLayer setFrame:NSRectToCGRect(rect)];
 	[_popUpLayer setCornerRadius:rect.size.height/5];
     
-	// NSLog(@"Pop message @ (%f, %f)", rect.origin.x, rect.origin.y);
 	[_popUpLayer setHidden:NO];
 }
 

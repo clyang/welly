@@ -28,7 +28,6 @@
         id cell = [self cellForPoint:mousePt cellFrame:&cellFrame];
         // not on any cell: new tab
         if (!cell) {
-            //NSLog(@"%@", theEvent);
             NSButton *button = (NSButton *)[self addTabButton];
             [button performClick:button];
         }

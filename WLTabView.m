@@ -262,7 +262,6 @@
 // Cmd+[0-9], Ctrl+Tab, Cmd+Shift+Left/Right (I don't know if we should keep this)
 // Added by K.O.ed, 2009.02.02
 - (BOOL)performKeyEquivalent:(NSEvent *)event {
-	//NSLog(@"XITabBarControl performKeyEquivalent:");
 	if ((([event modifierFlags] & NSCommandKeyMask) == NSCommandKeyMask) && 
 		(([event modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) &&
 		([[event charactersIgnoringModifiers] isEqualToString:keyStringLeft] ||

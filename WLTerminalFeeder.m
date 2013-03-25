@@ -264,7 +264,6 @@ static unsigned short gEmptyAttr;
 		_hasNewMessage = NO;
 	}
 	
-	//    NSLog(@"length: %d", len);
 	for (i = 0; i < len; i++) {
 		c = ((const char *)bytes)[i];
 		//        if (c == 0x00) continue;

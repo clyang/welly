@@ -172,7 +172,6 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 - (void)addURL:(NSString *)urlString 
 	   AtIndex:(int)index 
 		length:(int)length {
-	//NSLog(@"[LLURLManager addURL:%@ AtIndex:%d length:%d]", urlString, index, length);
 	// If there's no url before, make the pointer point to the first URL element
 	if(_currentSelectedURLIndex < 0)
 		_currentSelectedURLIndex = 1;
