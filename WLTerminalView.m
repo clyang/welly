@@ -467,6 +467,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void)sendText:(NSString *)text {
+	[self clearSelection];
 	[[self frontMostConnection] sendText:text];
 }
 
@@ -568,7 +569,6 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)scrollWheel:(NSEvent *)theEvent {
     [super scrollWheel:theEvent];
     [self hasMouseActivity];
-    [self clearSelection];
     [_mouseBehaviorDelegate scrollWheel:theEvent];
 }
 
