@@ -100,6 +100,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     [self setEnglishFontName:[defaults stringForKey:@"EnglishFontName"]];
     [self setChineseFontSize:[defaults floatForKey:@"ChineseFontSize"]];
     [self setEnglishFontSize:[defaults floatForKey:@"EnglishFontSize"]];
+	
+	// If it is too small, we shall restore settings
+	if (self.cellWidth < 4 || self.cellHeight < 4 || self.chineseFontSize < 6 || self.englishFontSize < 4) {
+		[self restoreSettings];
+	}
+	
+	// Too large, restore it
+	if (self.contentSize.width > [[NSScreen mainScreen] frame].size.width ||
+		self.contentSize.height > [[NSScreen mainScreen] frame].size.height) {
+		[self restoreSettings];
+	}
         
     if ([defaults objectForKey:@"ChinesePaddingLeft"])
         [self setChineseFontPaddingLeft:[defaults floatForKey:@"ChinesePaddingLeft"]];
@@ -585,5 +596,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 - (NSSize)contentSize {
 	// Return the proper size of all the content
 	return NSMakeSize(_column * [self cellWidth], _row * [self cellHeight]);
+}
+
+#pragma mark -
+#pragma mark Restoring Settrings
+- (void)restoreSettings {
+	[self setCellWidth:12];
+	[self setCellHeight:24];
+	[self setChineseFontName:@"STHeiti"];
+	[self setEnglishFontName:@"Monaco"];
+	[self setChineseFontSize:22];
+	[self setEnglishFontSize:18];
 }
 @end

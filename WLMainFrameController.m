@@ -655,12 +655,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 		return;
 	
 	// Set the font settings
-	[[WLGlobalConfig sharedInstance] setCellWidth:12];
-	[[WLGlobalConfig sharedInstance] setCellHeight:24];
-	[[WLGlobalConfig sharedInstance] setChineseFontName:@"STHeiti"];
-	[[WLGlobalConfig sharedInstance] setEnglishFontName:@"Monaco"];
-	[[WLGlobalConfig sharedInstance] setChineseFontSize:22];
-	[[WLGlobalConfig sharedInstance] setEnglishFontSize:18];
+	[[WLGlobalConfig sharedInstance] restoreSettings];
 }
 
 #pragma mark -

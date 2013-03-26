@@ -153,4 +153,6 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 + (NSString *)cacheDirectory;
 
 + (BOOL)shouldEnableCoverFlow;
+
+- (void)restoreSettings;
 @end
