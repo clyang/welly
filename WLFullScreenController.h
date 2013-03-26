@@ -42,10 +42,4 @@
 - (void)processBeforeEnter;
 - (void)processBeforeExit;
 
-// 10.7 codes
-
-- (void)windowWillEnterFullScreen:(NSNotification *)notification;
-- (void)windowDidEnterFullScreen:(NSNotification *)notification;
-- (void)windowWillExitFullScreen:(NSNotification *)notification;
-- (void)windowDidExitFullScreen:(NSNotification *)notification;
 @end

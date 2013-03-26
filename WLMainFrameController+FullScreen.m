@@ -65,43 +65,17 @@
 	
 	// Set the window style
 	[_mainWindow setOpaque:NO];
+	// Back up original bg color
 	_originalWindowBackgroundColor = [_mainWindow backgroundColor];
+	// Now set to bg color of the tab view to ensure consistency
 	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
 	
 	// Move the origin point
-//	[_mainWindow setFrame:screenRect display:YES];
-//	[_mainWindow.contentView setFrame:screenRect];
 	[_tabView setFrameOrigin:newOP];
 }
 
 - (void)windowDidEnterFullScreen:(NSNotification *)notification {
-//	
-//	// Get the fittest ratio for the expansion
-//	NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
-//	NSLog(@"4. %f %f %f %f", screenRect.origin.x, screenRect.origin.y, screenRect.size.height, screenRect.size.width);
-////	CGFloat ratioH = screenRect.size.height / [_tabView frame].size.height;
-////	CGFloat ratioW = screenRect.size.width / [_tabView frame].size.width;
-////	_screenRatio = (ratioH > ratioW) ? ratioW : ratioH;
-//	
-//	// Record new origin
-//	NSPoint newOP = {0, (screenRect.size.height - [_tabView frame].size.height) / 2};
-//	
-//	// Set the window style
-//	[_mainWindow setOpaque:NO];
-//	//	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
-//	//	[_mainWindow setBackgroundColor:[NSColor redColor]];
-//	
-//	// Move the origin point
-//	//	[_mainWindow setFrame:screenRect display:YES];
-//	NSLog(@"5. %f %f %f %f", _mainWindow.frame.origin.x, _mainWindow.frame.origin.y, _mainWindow.frame.size.height, _mainWindow.frame.size.width);
-////	[[_mainWindow animator] setFrame:screenRect display:NO];
-//	[_mainWindow setFrame:screenRect display:NO];
-//	NSLog(@"6. %f %f %f %f", _mainWindow.frame.origin.x, _mainWindow.frame.origin.y, _mainWindow.frame.size.height, _mainWindow.frame.size.width);
-//	[_mainWindow.contentView setFrame:screenRect];
-//	NSLog(@"7. %f %f %f %f", _mainWindow.frame.origin.x, _mainWindow.frame.origin.y, _mainWindow.frame.size.height, _mainWindow.frame.size.width);
-//	[_tabView setFrameOrigin:newOP];
-//	NSLog(@"8. %f %f %f %f", _mainWindow.frame.origin.x, _mainWindow.frame.origin.y, _mainWindow.frame.size.height, _mainWindow.frame.size.width);
-
+	
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification {
