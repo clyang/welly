@@ -6,6 +6,10 @@
 //  Copyright (c) 2013年 Welly Group. All rights reserved.
 //
 
+#define NSLOG_Rect(rect) NSLog(@#rect ": (%f, %f) %f x %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+#define NSLOG_Size(size) NSLog(@#size ": %f x %f", size.width, size.height)
+#define NSLog_Point(point) NSLog(@#point ": (%f, %f)", point.x, point.y)
+
 #import "WLMainFrameController.h"
 #import "WLTabBarControl.h"
 #import "WLMainFrameController+FullScreen.h"
@@ -46,6 +50,11 @@
 			NSApplicationPresentationAutoHideToolbar);	// we want the toolbar to show/hide
 }
 
+- (NSSize)window:(NSWindow *)window willUseFullScreenContentSize:(NSSize)proposedSize {
+	return proposedSize;
+}
+
+
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
 	[_tabBarControl setHidden:YES];
 		
@@ -53,7 +62,8 @@
 	_originalFrame = [_tabView frame];
 	
 	// Get the fittest ratio for the expansion
-	NSRect screenRect = [[[NSScreen screens] objectAtIndex:0] frame];
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+	
 	CGFloat ratioH = screenRect.size.height / [_tabView frame].size.height;
 	CGFloat ratioW = screenRect.size.width / [_tabView frame].size.width;
 	_screenRatio = (ratioH > ratioW) ? ratioW : ratioH;
@@ -62,6 +72,7 @@
 	[self setFont:YES];
 	
 	// Record new origin
+	
 	NSPoint newOP = {0, (screenRect.size.height - [_tabView frame].size.height) / 2};
 	
 	// Set the window style
@@ -70,13 +81,16 @@
 	_originalWindowBackgroundColor = [_mainWindow backgroundColor];
 	// Now set to bg color of the tab view to ensure consistency
 	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
+//	[_mainWindow setBackgroundColor:[NSColor redColor]];
+	NSLOG_Rect([_mainWindow frame]);
+	NSLOG_Rect([[_mainWindow contentView] frame]);
 	
 	// Move the origin point
 	[_tabView setFrameOrigin:newOP];
 }
 
 - (void)windowDidEnterFullScreen:(NSNotification *)notification {
-	
+
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification {
@@ -92,7 +106,8 @@
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification {
-    [_mainWindow makeKeyAndOrderFront:nil];
+//    [_mainWindow makeKeyAndOrderFront:nil];
+	NSLOG_Rect([_tabView frame]);
 }
 
 @end
