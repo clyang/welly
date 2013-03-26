@@ -335,13 +335,13 @@
 }
 
 // Increase global font size setting by 5%
-- (IBAction)increaseFontSize:(id)sender {
+- (void)increaseFontSize:(id)sender {
 	// Here we use some small trick to provide better user experimence...
 	[self setFontSizeRatio:1.05f];
 }
 
 // Decrease global font size setting by 5%
-- (IBAction)decreaseFontSize:(id)sender {
+- (void)decreaseFontSize:(id)sender {
 	[self setFontSizeRatio:1.0f/1.05f];
 }
 

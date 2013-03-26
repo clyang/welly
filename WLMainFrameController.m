@@ -8,6 +8,7 @@
 #import "WLMainFrameController.h"
 #import "WLMainFrameController+RemoteControl.h"
 #import "WLMainFrameController+TabControl.h"
+#import "WLMainFrameController+FullScreen.h"
 
 // Models
 #import "WLConnection.h"
@@ -509,6 +510,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 			![[_tabView frontMostConnection] isConnected]) {
 			return NO;
 		}
+	} else if (action == @selector(fullScreenMode:)) {
+		if ([self isInFullScreenMode] && !_fullScreenController.isInFullScreen) {
+			return NO;
+		} else
+			return YES;
+	} else if (action == @selector(increaseFontSize:) ||
+			   action == @selector(decreaseFontSize:)) {
+		if ([self isInFullScreenMode] || _fullScreenController.isInFullScreen) {
+			return NO;
+		} else
+			return YES;
 	}
     return YES;
 }
@@ -531,6 +543,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	// Restore from full screen firstly
 	[self exitFullScreenMode];
+	// TODO: check 10.7 full screen status
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self saveLastConnections];
@@ -612,6 +625,14 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 // Here is an example to the newly designed full screen module with a customized processor
 // A "processor" here will resize the NSViews and do some necessary work before full
 // screen
+- (IBAction)increaseFontSize:(id)sender {
+	[_tabView increaseFontSize:sender];
+}
+
+- (IBAction)decreaseFontSize:(id)sender {
+	[_tabView decreaseFontSize:sender];
+}
+
 - (IBAction)fullScreenMode:(id)sender {
 	[_fullScreenController handleFullScreen];
 }

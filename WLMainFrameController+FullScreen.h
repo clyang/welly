@@ -10,5 +10,5 @@
 
 
 @interface WLMainFrameController (FullScreen)
-
+- (BOOL)isInFullScreenMode;
 @end
