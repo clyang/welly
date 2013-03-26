@@ -70,6 +70,8 @@
 
 #pragma mark -
 #pragma mark Handle functions - Control Logic
+
+
 // The main control function of this object
 - (void)handleFullScreen {
 	if (!_isInFullScreen) {
@@ -193,5 +195,64 @@
 	// And reset the font...
 	[self setFont:NO];
 }
+
+#pragma mark -
+#pragma mark 10.7 Fullscreen Codes
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notification {
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)notification {
+	// Set current state
+	_isInFullScreen = YES;
+	
+	// Init the window and show
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+//	_fullScreenWindow =
+//	[[WLFullScreenWindow alloc] initWithContentRect:screenRect
+//										  styleMask:NSBorderlessWindowMask
+//											backing:NSBackingStoreBuffered
+//											  defer:NO];
+//	[_fullScreenWindow setAlphaValue:1.0];
+	if (floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_6) {
+		[_originalWindow setCollectionBehavior:NSWindowCollectionBehaviorFullScreenAuxiliary];
+	}
+//	[_originalWindow setBackgroundColor:[NSColor blackColor]];
+//	[_originalWindow setAcceptsMouseMovedEvents:YES];
+	// Order front now
+//	[_fullScreenWindow makeKeyAndOrderFront:nil];
+	
+	// Change UI mode by carbon
+//	SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar);
+	
+	// Hide the main window
+//	[_originalWindow setAlphaValue:0.0f];
+	// Pre-process if necessary
+	[self processBeforeEnter];
+
+	// Record new origin
+	NSPoint newOP = {0, (screenRect.size.height - [_targetView frame].size.height) / 2};
+	
+	NSLog(@"%f, %f", newOP.x, newOP.y);
+	// Set the window style
+	[_originalWindow setOpaque:NO];
+	[_originalWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
+	// Set the view to the full screen window
+//	[_fullScreenWindow setContentView:_targetView];
+	// Move the origin point
+	[_originalWindow setFrame:screenRect display:YES];
+	[_targetView setFrameOrigin:newOP];
+	// Focus on the view
+//	[_fullScreenWindow makeFirstResponder:_targetView];
+}
+
+- (void)windowWillExitFullScreen:(NSNotification *)notification {
+	
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification {
+}
+
+
 
 @end
