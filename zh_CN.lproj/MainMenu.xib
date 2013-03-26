@@ -487,9 +487,18 @@
 								</object>
 								<object class="NSMenuItem" id="1004713283">
 									<reference key="NSMenu" ref="332582478"/>
-									<string key="NSTitle">全屏幕显示</string>
+									<string key="NSTitle">进入演示模式</string>
 									<string key="NSKeyEquiv">F</string>
 									<int key="NSKeyEquivModMask">1179648</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="737803309"/>
+									<reference key="NSMixedImage" ref="647318699"/>
+								</object>
+								<object class="NSMenuItem" id="726450285">
+									<reference key="NSMenu" ref="332582478"/>
+									<string key="NSTitle">进入全屏幕</string>
+									<string key="NSKeyEquiv">f</string>
+									<int key="NSKeyEquivModMask">1310720</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="737803309"/>
 									<reference key="NSMixedImage" ref="647318699"/>
@@ -1483,6 +1492,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<string key="NSFrame">{{-90, 20}, {245, 36}}</string>
 											<reference key="NSSuperview" ref="103210316"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSClassName">YLMarkedTextView</string>
 										</object>
 									</array>
@@ -1557,6 +1567,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<string key="NSFrameSize">{234, 425}</string>
 											<reference key="NSSuperview" ref="972950741"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="841165679">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -1783,7 +1794,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{5, 5}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -1794,6 +1805,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{-100, -100}, {15, 254}}</string>
 									<reference key="NSSuperview" ref="591282250"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="266882138"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="591282250"/>
 									<string key="NSAction">_doScroller:</string>
@@ -1805,6 +1817,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="591282250"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="972950741"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="591282250"/>
@@ -1816,7 +1829,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string key="NSFrameSize">{234, 425}</string>
 							<reference key="NSSuperview" ref="507039214"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="972950741"/>
+							<reference key="NSNextKeyView" ref="320227444"/>
 							<int key="NSsFlags">133120</int>
 							<reference key="NSVScroller" ref="320227444"/>
 							<reference key="NSHScroller" ref="266882138"/>
@@ -1829,6 +1842,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string key="NSFrameSize">{234, 425}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
+					<reference key="NSNextKeyView" ref="591282250"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
@@ -2026,6 +2040,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">1578</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleFullScreen:</string>
+						<reference key="source" ref="670863990"/>
+						<reference key="destination" ref="726450285"/>
+					</object>
+					<int key="connectionID">1668</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="92983356"/>
@@ -2216,14 +2238,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="780478923"/>
 					</object>
 					<int key="connectionID">1096</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">fullScreenMode:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1004713283"/>
-					</object>
-					<int key="connectionID">1162</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2432,6 +2446,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="275231730"/>
 					</object>
 					<int key="connectionID">1665</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">togglePresentationMode:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="1004713283"/>
+					</object>
+					<int key="connectionID">1666</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3017,6 +3039,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="364369221"/>
 							<reference ref="285707759"/>
 							<reference ref="97080648"/>
+							<reference ref="726450285"/>
 						</array>
 						<reference key="parent" ref="713169941"/>
 					</object>
@@ -3548,6 +3571,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="388583076"/>
 						<reference key="parent" ref="103210316"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1667</int>
+						<reference key="object" ref="726450285"/>
+						<reference key="parent" ref="332582478"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3606,6 +3634,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1649.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1651.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1667.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="169.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="171.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="172.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3743,7 +3772,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1665</int>
+			<int key="maxID">1668</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3859,7 +3888,6 @@ Z1s6cG9ydF0</string>
 						<string key="connectLocation:">id</string>
 						<string key="decreaseFontSize:">id</string>
 						<string key="downloadPost:">id</string>
-						<string key="fullScreenMode:">id</string>
 						<string key="increaseFontSize:">id</string>
 						<string key="newTab:">id</string>
 						<string key="openComposePanel:">id</string>
@@ -3876,6 +3904,7 @@ Z1s6cG9ydF0</string>
 						<string key="toggleAutoReply:">id</string>
 						<string key="toggleDetectDoubleByte:">id</string>
 						<string key="toggleMouseAction:">id</string>
+						<string key="togglePresentationMode:">id</string>
 						<string key="toggleShowsHiddenText:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -3901,10 +3930,6 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="IBActionInfo" key="downloadPost:">
 							<string key="name">downloadPost:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenMode:">
-							<string key="name">fullScreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="increaseFontSize:">
@@ -3969,6 +3994,10 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="IBActionInfo" key="toggleMouseAction:">
 							<string key="name">toggleMouseAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="togglePresentationMode:">
+							<string key="name">togglePresentationMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleShowsHiddenText:">

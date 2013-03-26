@@ -25,7 +25,7 @@
 #import "DBPrefsWindowController.h"
 
 // Full Screen
-#import "WLFullScreenController.h"
+#import "WLPresentationController.h"
 #import "WLTelnetProcessor.h"
 
 // Others
@@ -44,7 +44,7 @@
 @interface WLMainFrameController ()
 - (void)loadLastConnections;
 - (void)updateSitesMenuWithSites:(NSArray *)sites;
-- (void)exitFullScreenMode;
+- (void)exitPresentationMode;
 @end
 
 @implementation WLMainFrameController
@@ -87,7 +87,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 	[self initializeRemoteControl];
 	// FIXME: Remove this controller
 	// For full screen, initiallize the full screen controller
-	_fullScreenController = [[WLFullScreenController alloc] initWithTargetView:_tabView 
+	_presentationModeController = [[WLPresentationController alloc] initWithTargetView:_tabView 
 																	 superView:[_tabView superview] 
 																originalWindow:_mainWindow];
 	
@@ -510,14 +510,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 			![[_tabView frontMostConnection] isConnected]) {
 			return NO;
 		}
-	} else if (action == @selector(fullScreenMode:)) {
-		if ([self isInFullScreenMode] && !_fullScreenController.isInFullScreen) {
+	} else if (action == @selector(togglePresentationMode:)) {
+		if ([self isInFullScreenMode] && !_presentationModeController.isInPresentationMode) {
 			return NO;
 		} else
 			return YES;
 	} else if (action == @selector(increaseFontSize:) ||
 			   action == @selector(decreaseFontSize:)) {
-		if ([self isInFullScreenMode] || _fullScreenController.isInFullScreen) {
+		if ([self isInFullScreenMode] || _presentationModeController.isInPresentationMode) {
 			return NO;
 		} else
 			return YES;
@@ -542,7 +542,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 	// Restore from full screen firstly
-	[self exitFullScreenMode];
+	[self exitPresentationMode];
 	// TODO: check 10.7 full screen status
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
@@ -633,12 +633,12 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	[_tabView decreaseFontSize:sender];
 }
 
-- (IBAction)fullScreenMode:(id)sender {
-	[_fullScreenController handleFullScreen];
+- (IBAction)togglePresentationMode:(id)sender {
+	[_presentationModeController togglePresentationMode];
 }
 
-- (void)exitFullScreenMode {
-	[_fullScreenController releaseFullScreen];
+- (void)exitPresentationMode {
+	[_presentationModeController exitPresentationMode];
 }
 
 #pragma mark -

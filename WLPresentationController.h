@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@protocol WLFullScreenProcessor;
+@protocol WLPresentationModeProcessor;
 
-@interface WLFullScreenController : NSObject {
+@interface WLPresentationController : NSObject {
 	// The views necessary for full screen and reset
 	NSView *_targetView;
 	NSView *_superView;
@@ -21,13 +21,13 @@
 	NSRect _originalFrame;
 	
 	// State variable
-	BOOL _isInFullScreen;
+	BOOL _isInPresentationMode;
 	CGFloat _screenRatio;
 }
-@property (readonly) BOOL isInFullScreen;
+@property (readonly) BOOL isInPresentationMode;
 
 // Init functions
-- (id)initWithProcessor:(NSObject <WLFullScreenProcessor>*)pro 
+- (id)initWithProcessor:(NSObject <WLPresentationModeProcessor>*)pro 
 			 targetView:(NSView*)tview 
 			  superView:(NSView*)sview
 		 originalWindow:(NSWindow*)owin;
@@ -35,8 +35,8 @@
 				 superView:(NSView*)sview
 			originalWindow:(NSWindow*)owin;
 // Handle functions
-- (void)handleFullScreen;
-- (void)releaseFullScreen;
+- (void)togglePresentationMode;
+- (void)exitPresentationMode;
 
 // Preprocess functions for TerminalView
 - (void)processBeforeEnter;

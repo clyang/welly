@@ -14,7 +14,7 @@
 @class WLTabView;
 @class WLFeedGenerator;
 @class WLTabBarControl;
-@class WLFullScreenController;
+@class WLPresentationController;
 
 @class RemoteControl;
 @class MultiClickRemoteBehavior;
@@ -60,7 +60,7 @@
 	NSTimer* _scrollTimer;
 	
 	// Full Screen
-	WLFullScreenController *_fullScreenController;
+	WLPresentationController *_presentationModeController;
     
     // RSS feed
     NSThread *_rssThread;
@@ -100,7 +100,7 @@
 
 - (IBAction)increaseFontSize:(id)sender;
 - (IBAction)decreaseFontSize:(id)sender;
-- (IBAction)fullScreenMode:(id)sender;
+- (IBAction)togglePresentationMode:(id)sender;
 
 - (IBAction)setEncoding:(id)sender;
 
