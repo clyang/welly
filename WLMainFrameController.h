@@ -70,6 +70,7 @@
 	NSRect _originalFrame;
 	CGFloat _screenRatio;
 	NSColor *_originalWindowBackgroundColor;
+	NSDictionary *_originalSizeParameters;
 }
 @property (readonly) WLTabView *tabView;
 

@@ -26,17 +26,26 @@
 	// In case of some stupid uses...
 	if (_screenRatio == 0.0f)
 		return;
+	WLGlobalConfig *gConfig = [WLGlobalConfig sharedInstance];
 	// Decide whether to set or to reset the font size
-	CGFloat currRatio = (isEnteringFullScreen ? _screenRatio : (1.0f / _screenRatio));
-	// And do it..
-	[[WLGlobalConfig sharedInstance] setEnglishFontSize:
-	 [[WLGlobalConfig sharedInstance] englishFontSize] * currRatio];
-	[[WLGlobalConfig sharedInstance] setChineseFontSize:
-	 [[WLGlobalConfig sharedInstance] chineseFontSize] * currRatio];
-	[[WLGlobalConfig sharedInstance] setCellWidth:
-	 [[WLGlobalConfig sharedInstance] cellWidth] * currRatio];
-	[[WLGlobalConfig sharedInstance] setCellHeight:
-	 [[WLGlobalConfig sharedInstance] cellHeight] * currRatio];
+	if (isEnteringFullScreen) {
+		// Store old parameters
+		_originalSizeParameters = [@{@"englishFontSize":@([gConfig englishFontSize]), @"chineseFontSize":@([gConfig chineseFontSize]), @"cellWidth":@([gConfig cellWidth]), @"cellHeight":@([gConfig cellHeight])} copy];
+		
+		// And do it..
+		[gConfig setEnglishFontSize:floor([gConfig englishFontSize] * _screenRatio)];
+		[gConfig setChineseFontSize:floor([gConfig chineseFontSize] * _screenRatio)];
+		[gConfig setCellWidth:floor([gConfig cellWidth] * _screenRatio)];
+		[gConfig setCellHeight:floor([gConfig cellHeight] * _screenRatio)];
+	} else {
+		// Restore old parameters
+		[gConfig setEnglishFontSize:[[_originalSizeParameters objectForKey:@"englishFontSize"] floatValue]];
+		[gConfig setChineseFontSize:[[_originalSizeParameters objectForKey:@"chineseFontSize"] floatValue]];
+		[gConfig setCellWidth:[[_originalSizeParameters objectForKey:@"cellWidth"] floatValue]];
+		[gConfig setCellHeight:[[_originalSizeParameters objectForKey:@"cellHeight"] floatValue]];
+		[_originalSizeParameters release];
+		_originalSizeParameters = nil;
+	}
 }
 
 - (NSApplicationPresentationOptions)window:(NSWindow *)window
@@ -73,7 +82,7 @@
 	
 	// Record new origin
 	
-	NSPoint newOP = {0, (screenRect.size.height - [_tabView frame].size.height) / 2};
+	NSPoint newOP = {(screenRect.size.width - [_tabView frame].size.width) / 2, (screenRect.size.height - [_tabView frame].size.height) / 2};
 	
 	// Set the window style
 	[_mainWindow setOpaque:YES];
@@ -81,9 +90,6 @@
 	_originalWindowBackgroundColor = [_mainWindow backgroundColor];
 	// Now set to bg color of the tab view to ensure consistency
 	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
-//	[_mainWindow setBackgroundColor:[NSColor redColor]];
-	NSLOG_Rect([_mainWindow frame]);
-	NSLOG_Rect([[_mainWindow contentView] frame]);
 	
 	// Move the origin point
 	[_tabView setFrameOrigin:newOP];
@@ -106,8 +112,7 @@
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification {
-//    [_mainWindow makeKeyAndOrderFront:nil];
-	NSLOG_Rect([_tabView frame]);
+	
 }
 
 @end

@@ -13,6 +13,10 @@
 #import <Carbon/Carbon.h>
 #import <Quartz/Quartz.h>
 
+#define NSLOG_Rect(rect) NSLog(@#rect ": (%f, %f) %f x %f", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height)
+#define NSLOG_Size(size) NSLog(@#size ": %f x %f", size.width, size.height)
+#define NSLog_Point(point) NSLog(@#point ": (%f, %f)", point.x, point.y)
+
 @interface WLFullScreenWindow : NSWindow
 
 @end
@@ -26,9 +30,37 @@
 
 @end
 
+@interface WLPresentationController () {
+	// The views necessary for full screen and reset
+	NSView *_targetView;
+	NSView *_superView;
+	
+	// NSWindows needed...
+	NSWindow *_fullScreenWindow;
+	NSWindow *_originalWindow;
+	
+	NSRect _originalFrame;
+	
+	// State variable
+	BOOL _isInPresentationMode;
+	CGFloat _screenRatio;
+	
+	// Store previous parameters
+	CGFloat _originalChineseFontSize;
+	CGFloat _originalEnglishFontSize;
+	CGFloat _originalCellWidth;
+	CGFloat _originalCellHeight;
+}
+// Preprocess functions for TerminalView
+- (void)processBeforeEnter;
+- (void)processBeforeExit;
+@end
 
 @implementation WLPresentationController
 @synthesize isInPresentationMode = _isInPresentationMode;
+
+WLGlobalConfig *gConfig;
+
 #pragma mark -
 #pragma mark Init
 // Initiallize the controller with a given processor
@@ -42,6 +74,9 @@
 		_originalWindow = [owin retain];
 		_isInPresentationMode = NO;
 		_screenRatio = 0.0f;
+		if (!gConfig) {
+			gConfig = [WLGlobalConfig sharedInstance];
+		}
 	}
 	return self;
 }
@@ -57,6 +92,9 @@
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
 		_isInPresentationMode = NO;
+		if (!gConfig) {
+			gConfig = [WLGlobalConfig sharedInstance];
+		}
 	}
 	return self;
 }
@@ -149,10 +187,14 @@
 		[self processBeforeEnter];
 		// Record new origin
 		NSRect screenRect = [[NSScreen mainScreen] frame];
-        NSPoint newOP = {0, (screenRect.size.height - [_targetView frame].size.height) / 2};
+		
+        NSPoint newOP = {(screenRect.size.width - [_targetView frame].size.width) / 2, (screenRect.size.height - [_targetView frame].size.height) / 2};
+		
 		// Set the window style
-		[_fullScreenWindow setOpaque:NO];
         [_fullScreenWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
+		
+		[_fullScreenWindow setOpaque:NO];
+		[_fullScreenWindow display];
         // Set the view to the full screen window
         [_fullScreenWindow setContentView:_targetView];
         // Move the origin point
@@ -169,17 +211,27 @@
 	// In case of some stupid uses...
 	if(_screenRatio == 0.0f)
 		return;
+	
 	// Decide whether to set or to reset the font size
-	CGFloat currRatio = (isEnteringFullScreen ? _screenRatio : (1.0f / _screenRatio));
-	// And do it..
-	[[WLGlobalConfig sharedInstance] setEnglishFontSize: 
-	 [[WLGlobalConfig sharedInstance] englishFontSize] * currRatio];
-	[[WLGlobalConfig sharedInstance] setChineseFontSize: 
-	 [[WLGlobalConfig sharedInstance] chineseFontSize] * currRatio];
-	[[WLGlobalConfig sharedInstance] setCellWidth: 
-	 [[WLGlobalConfig sharedInstance] cellWidth] * currRatio];
-	[[WLGlobalConfig sharedInstance] setCellHeight: 
-	 [[WLGlobalConfig sharedInstance] cellHeight] * currRatio];
+	if (isEnteringFullScreen) {
+		// Store old parameters
+		_originalEnglishFontSize = [gConfig englishFontSize];
+		_originalChineseFontSize = [gConfig chineseFontSize];
+		_originalCellWidth = [gConfig cellWidth];
+		_originalCellHeight = [gConfig cellHeight];
+		
+		// And do it..
+		[gConfig setEnglishFontSize:floor([gConfig englishFontSize] * _screenRatio)];
+		[gConfig setChineseFontSize:floor([gConfig chineseFontSize] * _screenRatio)];
+		[gConfig setCellWidth:floor([gConfig cellWidth] * _screenRatio)];
+		[gConfig setCellHeight:floor([gConfig cellHeight] * _screenRatio)];
+	} else {
+		// Restore old parameters
+		[gConfig setEnglishFontSize:_originalEnglishFontSize];
+		[gConfig setChineseFontSize:_originalChineseFontSize];
+		[gConfig setCellWidth:_originalCellWidth];
+		[gConfig setCellHeight:_originalCellHeight];
+	}
 }
 
 // Overrided functions
