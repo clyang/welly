@@ -77,6 +77,8 @@
 	if (!_isInPresentationMode) {
 		// Set current state
 		_isInPresentationMode = YES;
+		
+		// Disable `Enter Full Screen' when we are in presentation mode
 		_originalWindow.collectionBehavior ^= NSWindowCollectionBehaviorFullScreenPrimary;
 		
 		// Init the window and show
@@ -125,6 +127,8 @@
 		SetSystemUIMode(kUIModeNormal, 0);
 		// Now, the delegate function will close the window
 		// So simply do nothing here.
+		
+		// Enable `Enter Full Screen' from now on
 		_originalWindow.collectionBehavior |= NSWindowCollectionBehaviorFullScreenPrimary;
 	}
 }
