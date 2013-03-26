@@ -47,11 +47,8 @@
 }
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
-//	[_tabBarControl hideTabBar:YES animate:NO];
 	[_tabBarControl setHidden:YES];
-	
-	[_mainWindow setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
-	
+		
 	// Back up the original frame of _targetView
 	_originalFrame = [_tabView frame];
 	
