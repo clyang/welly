@@ -65,9 +65,11 @@
     // RSS feed
     NSThread *_rssThread;
 	
+	// 10.7 Full Screen
 	@private
 	NSRect _originalFrame;
 	CGFloat _screenRatio;
+	NSColor *_originalWindowBackgroundColor;
 }
 @property (readonly) WLTabView *tabView;
 

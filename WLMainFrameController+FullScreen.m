@@ -65,8 +65,8 @@
 	
 	// Set the window style
 	[_mainWindow setOpaque:NO];
-//	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
-//	[_mainWindow setBackgroundColor:[NSColor redColor]];
+	_originalWindowBackgroundColor = [_mainWindow backgroundColor];
+	[_mainWindow setBackgroundColor:[[WLGlobalConfig sharedInstance] colorBG]];
 	
 	// Move the origin point
 //	[_mainWindow setFrame:screenRect display:YES];
@@ -113,6 +113,7 @@
 	[_mainWindow setOpaque:YES];
 	// Move view back
 	[_tabView setFrame:_originalFrame];
+	[_mainWindow setBackgroundColor:_originalWindowBackgroundColor];
 }
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification {
