@@ -1733,7 +1733,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">67119812</int>
+												<int key="NSFlags">100674244</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<reference key="NSBackgroundColor" ref="666144338"/>
@@ -1777,7 +1777,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{5, 5}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -2216,14 +2216,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_fullScreenMenuItem</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1004713283"/>
-					</object>
-					<int key="connectionID">1163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">_mouseButton</string>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="518218114"/>
@@ -2429,6 +2421,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="1004713283"/>
 					</object>
 					<int key="connectionID">1664</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_presentationModeMenuItem</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="1004713283"/>
+					</object>
+					<int key="connectionID">1668</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3747,7 +3747,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1667</int>
+			<int key="maxID">1668</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

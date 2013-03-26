@@ -635,6 +635,8 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 
 - (IBAction)togglePresentationMode:(id)sender {
 	[_presentationModeController togglePresentationMode];
+	[_presentationModeMenuItem setTitle:
+	 _presentationModeController.isInPresentationMode ? NSLocalizedString(@"Exit Presentation Mode", "Presentation Mode") : NSLocalizedString(@"Enter Presentation Mode", "Presentaion Mode")];
 }
 
 - (void)exitPresentationMode {
