@@ -606,21 +606,6 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     [self connectLocation:_addressBar];
 }
 
-- (void)windowWillEnterFullScreen:(NSNotification *)notification {
-    
-}
-
-- (void)windowDidEnterFullScreen:(NSNotification *)notification {
-    [_fullScreenController handleFullScreen];
-}
-
-- (void)windowWillExitFullScreen:(NSNotification *)notification {
-    [_fullScreenController releaseFullScreen];
-}
-
-- (void)windowDidExitFullScreen:(NSNotification *)notification {
-    [_mainWindow makeKeyAndOrderFront:nil];
-}
 
 #pragma mark -
 #pragma mark For View Menu

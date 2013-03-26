@@ -64,6 +64,10 @@
     
     // RSS feed
     NSThread *_rssThread;
+	
+	@private
+	NSRect _originalFrame;
+	CGFloat _screenRatio;
 }
 @property (readonly) WLTabView *tabView;
 
