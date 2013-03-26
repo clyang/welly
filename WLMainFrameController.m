@@ -77,11 +77,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     [_mainWindow setOpaque:NO];
 
     [_mainWindow setFrameAutosaveName:@"wellyMainWindowFrame"];
-    
-    if (floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_6) {
-        [_mainWindow setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
-    }
-    
+        
     [NSTimer scheduledTimerWithTimeInterval:120 target:self selector:@selector(antiIdle:) userInfo:nil repeats:YES];
     
 	[self initializeRemoteControl];
@@ -522,6 +518,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 		} else
 			return YES;
 	}
+	
     return YES;
 }
 

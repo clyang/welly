@@ -77,6 +77,7 @@
 	if (!_isInPresentationMode) {
 		// Set current state
 		_isInPresentationMode = YES;
+		_originalWindow.collectionBehavior ^= NSWindowCollectionBehaviorFullScreenPrimary;
 		
 		// Init the window and show
 		NSRect screenRect = [[NSScreen mainScreen] frame];
@@ -124,6 +125,7 @@
 		SetSystemUIMode(kUIModeNormal, 0);
 		// Now, the delegate function will close the window
 		// So simply do nothing here.
+		_originalWindow.collectionBehavior |= NSWindowCollectionBehaviorFullScreenPrimary;
 	}
 }
 

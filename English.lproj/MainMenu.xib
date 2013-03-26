@@ -1475,7 +1475,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="957750958">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSCustomView" id="92983356">
@@ -1491,11 +1491,13 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<int key="NSvFlags">-2147483380</int>
 											<string key="NSFrame">{{-41, 20}, {245, 36}}</string>
 											<reference key="NSSuperview" ref="103210316"/>
+											<reference key="NSWindow"/>
 											<string key="NSClassName">YLMarkedTextView</string>
 										</object>
 									</array>
 									<string key="NSFrame">{{567, 402}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="388583076"/>
 									<string key="NSClassName">WLTerminalView</string>
 								</object>
@@ -1504,6 +1506,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="103210316"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSClassName">WLEffectView</string>
@@ -1511,6 +1514,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrameSize">{960, 576}</string>
 							<reference key="NSSuperview" ref="957750958"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="571244695"/>
 							<string key="NSClassName">WLTabView</string>
 							<string key="NSExtension">NSView</string>
@@ -1520,15 +1524,19 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 576}, {960, 22}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="92983356"/>
 							<string key="NSClassName">WLTabBarControl</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{960, 598}</string>
+					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="131296537"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
+				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSWindowTemplate" id="959210322">
@@ -1738,7 +1746,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">100674244</int>
+												<int key="NSFlags">67119812</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<reference key="NSBackgroundColor" ref="666144338"/>
@@ -1782,7 +1790,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{5, 5}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -3996,10 +4004,10 @@ Z1s6cG9ydF0</string>
 						<string key="_detectDoubleByteButton">id</string>
 						<string key="_detectDoubleByteMenuItem">NSMenuItem</string>
 						<string key="_encodingMenuItem">NSMenuItem</string>
-						<string key="_fullScreenMenuItem">NSMenuItem</string>
 						<string key="_mainWindow">NSWindow</string>
 						<string key="_messageWindow">NSPanel</string>
 						<string key="_mouseButton">id</string>
+						<string key="_presentationModeMenuItem">NSMenuItem</string>
 						<string key="_showHiddenTextMenuItem">NSMenuItem</string>
 						<string key="_sitesMenu">NSMenuItem</string>
 						<string key="_tabBarControl">WLTabBarControl</string>
@@ -4047,10 +4055,6 @@ Z1s6cG9ydF0</string>
 							<string key="name">_encodingMenuItem</string>
 							<string key="candidateClassName">NSMenuItem</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="_fullScreenMenuItem">
-							<string key="name">_fullScreenMenuItem</string>
-							<string key="candidateClassName">NSMenuItem</string>
-						</object>
 						<object class="IBToOneOutletInfo" key="_mainWindow">
 							<string key="name">_mainWindow</string>
 							<string key="candidateClassName">NSWindow</string>
@@ -4062,6 +4066,10 @@ Z1s6cG9ydF0</string>
 						<object class="IBToOneOutletInfo" key="_mouseButton">
 							<string key="name">_mouseButton</string>
 							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="_presentationModeMenuItem">
+							<string key="name">_presentationModeMenuItem</string>
+							<string key="candidateClassName">NSMenuItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="_showHiddenTextMenuItem">
 							<string key="name">_showHiddenTextMenuItem</string>
