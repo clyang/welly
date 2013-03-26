@@ -65,7 +65,7 @@
 	NSPoint newOP = {0, (screenRect.size.height - [_tabView frame].size.height) / 2};
 	
 	// Set the window style
-	[_mainWindow setOpaque:NO];
+	[_mainWindow setOpaque:YES];
 	// Back up original bg color
 	_originalWindowBackgroundColor = [_mainWindow backgroundColor];
 	// Now set to bg color of the tab view to ensure consistency
@@ -85,7 +85,7 @@
 	// Set the size back
 	[self setFont:NO];
 	
-	[_mainWindow setOpaque:YES];
+	[_mainWindow setOpaque:NO];
 	// Move view back
 	[_tabView setFrame:_originalFrame];
 	[_mainWindow setBackgroundColor:_originalWindowBackgroundColor];
