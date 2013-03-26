@@ -47,7 +47,7 @@
 	
     IBOutlet NSMenuItem *_showHiddenTextMenuItem;
     IBOutlet NSMenuItem *_encodingMenuItem;
-	IBOutlet NSMenuItem *_fullScreenMenuItem;
+	IBOutlet NSMenuItem *_presentationModeMenuItem;
 	
 	IBOutlet NSMenuItem *_sitesMenu;
 	

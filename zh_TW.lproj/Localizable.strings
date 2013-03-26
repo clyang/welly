@@ -146,3 +146,7 @@
 
 /* The title for New Bookmark Portal Item */
 "New Bookmark" = "新增站台";
+
+// Presentation Mode
+"Enter Presentation Mode" = "進入演示模式";
+"Exit Presentation Mode" = "退出演示模式";

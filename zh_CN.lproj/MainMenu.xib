@@ -1475,7 +1475,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="957750958">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSCustomView" id="92983356">
@@ -1491,14 +1491,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<int key="NSvFlags">-2147483380</int>
 											<string key="NSFrame">{{-90, 20}, {245, 36}}</string>
 											<reference key="NSSuperview" ref="103210316"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSClassName">YLMarkedTextView</string>
 										</object>
 									</array>
 									<string key="NSFrame">{{567, 402}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="388583076"/>
 									<string key="NSClassName">WLTerminalView</string>
 								</object>
@@ -1507,7 +1504,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">268</int>
 									<string key="NSFrame">{{101, 434}, {163, 96}}</string>
 									<reference key="NSSuperview" ref="92983356"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="103210316"/>
 									<bool key="NSViewIsLayerTreeHost">YES</bool>
 									<string key="NSClassName">WLEffectView</string>
@@ -1515,7 +1511,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrameSize">{960, 576}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="571244695"/>
 							<bool key="NSViewCanDrawConcurrently">YES</bool>
 							<string key="NSClassName">WLTabView</string>
@@ -1526,14 +1521,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">266</int>
 							<string key="NSFrame">{{0, 576}, {960, 22}}</string>
 							<reference key="NSSuperview" ref="957750958"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="92983356"/>
 							<string key="NSClassName">WLTabBarControl</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{960, 598}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="131296537"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
@@ -1550,7 +1542,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="507039214">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSScrollView" id="591282250">
@@ -1566,8 +1558,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 											<int key="NSvFlags">2358</int>
 											<string key="NSFrameSize">{234, 425}</string>
 											<reference key="NSSuperview" ref="972950741"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
+											<reference key="NSNextKeyView" ref="320227444"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="841165679">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -1749,7 +1740,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 												<int key="NSTCFlags">1</int>
 											</object>
 											<object class="NSTextViewSharedData" key="NSSharedData">
-												<int key="NSFlags">67119812</int>
+												<int key="NSFlags">100674244</int>
 												<int key="NSTextCheckingTypes">0</int>
 												<nil key="NSMarkedAttributes"/>
 												<reference key="NSBackgroundColor" ref="666144338"/>
@@ -1789,12 +1780,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									</array>
 									<string key="NSFrameSize">{234, 425}</string>
 									<reference key="NSSuperview" ref="591282250"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="780478923"/>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{5, 5}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -1804,7 +1794,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {15, 254}}</string>
 									<reference key="NSSuperview" ref="591282250"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="266882138"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<reference key="NSTarget" ref="591282250"/>
@@ -1816,7 +1805,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="591282250"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="972950741"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<int key="NSsFlags">1</int>
@@ -1828,8 +1816,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</array>
 							<string key="NSFrameSize">{234, 425}</string>
 							<reference key="NSSuperview" ref="507039214"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="320227444"/>
+							<reference key="NSNextKeyView" ref="972950741"/>
 							<int key="NSsFlags">133120</int>
 							<reference key="NSVScroller" ref="320227444"/>
 							<reference key="NSHScroller" ref="266882138"/>
@@ -1840,8 +1827,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 					</array>
 					<string key="NSFrameSize">{234, 425}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="591282250"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
@@ -2241,14 +2226,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_fullScreenMenuItem</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1004713283"/>
-					</object>
-					<int key="connectionID">1163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">_mouseButton</string>
 						<reference key="source" ref="954315210"/>
 						<reference key="destination" ref="518218114"/>
@@ -2454,6 +2431,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="1004713283"/>
 					</object>
 					<int key="connectionID">1666</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_presentationModeMenuItem</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="1004713283"/>
+					</object>
+					<int key="connectionID">1669</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -3772,7 +3757,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1668</int>
+			<int key="maxID">1669</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
