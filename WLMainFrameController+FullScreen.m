@@ -13,6 +13,10 @@
 
 @implementation WLMainFrameController (FullScreen)
 
+- (BOOL)isInFullScreenMode {
+	return ([_mainWindow styleMask] & NSFullScreenWindowMask) ? YES : NO;
+}
+
 // Set and reset font size
 - (void)setFont:(BOOL)isEnteringFullScreen {
 	// In case of some stupid uses...

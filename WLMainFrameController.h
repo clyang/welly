@@ -75,15 +75,12 @@
 
 + (WLMainFrameController *)sharedInstance;
 
-- (IBAction)setEncoding:(id)sender;
-- (IBAction)toggleDetectDoubleByte:(id)sender;
 - (IBAction)toggleAutoReply:(id)sender;
 - (IBAction)toggleMouseAction:(id)sender;
 
 - (IBAction)connectLocation:(id)sender;
 - (IBAction)openLocation:(id)sender;
 - (IBAction)reconnect:(id)sender;
-- (IBAction)toggleShowsHiddenText:(id)sender;
 - (IBAction)openPreferencesWindow:(id)sender;
 - (void)newConnectionWithSite:(WLSite *)site;
 
@@ -96,8 +93,17 @@
 // Message
 - (IBAction)closeMessageWindow:(id)sender;
 
-// for full screen
+#pragma mark -
+#pragma mark Menu:View
+- (IBAction)toggleShowsHiddenText:(id)sender;
+- (IBAction)toggleDetectDoubleByte:(id)sender;
+
+- (IBAction)increaseFontSize:(id)sender;
+- (IBAction)decreaseFontSize:(id)sender;
 - (IBAction)fullScreenMode:(id)sender;
+
+- (IBAction)setEncoding:(id)sender;
+
 
 /*
 // for portal
