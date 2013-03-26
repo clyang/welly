@@ -538,9 +538,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 } 
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-	// Restore from full screen firstly
+	// Restore from presentation mode firstly
 	[self exitPresentationMode];
-	// TODO: check 10.7 full screen status
+	// Exit from full screen mode if necessary
+	if ([self isInFullScreenMode]) {
+		[_mainWindow toggleFullScreen:self];
+	}
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:WLRestoreConnectionKeyName]) 
         [self saveLastConnections];
