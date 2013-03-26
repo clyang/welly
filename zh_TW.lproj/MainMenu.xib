@@ -487,9 +487,18 @@
 								</object>
 								<object class="NSMenuItem" id="1004713283">
 									<reference key="NSMenu" ref="332582478"/>
-									<string key="NSTitle">全螢幕顯示</string>
+									<string key="NSTitle">進入展示模式</string>
 									<string key="NSKeyEquiv">F</string>
 									<int key="NSKeyEquivModMask">1179648</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="737803309"/>
+									<reference key="NSMixedImage" ref="647318699"/>
+								</object>
+								<object class="NSMenuItem" id="474358347">
+									<reference key="NSMenu" ref="332582478"/>
+									<string key="NSTitle">進入全螢幕</string>
+									<string key="NSKeyEquiv">f</string>
+									<int key="NSKeyEquivModMask">1310720</int>
 									<int key="NSMnemonicLoc">2147483647</int>
 									<reference key="NSOnImage" ref="737803309"/>
 									<reference key="NSMixedImage" ref="647318699"/>
@@ -1768,7 +1777,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<reference key="NSDocView" ref="780478923"/>
 									<reference key="NSBGColor" ref="666144338"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{1, -1}</string>
+										<string key="NSHotSpot">{5, 5}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">2</int>
@@ -2006,6 +2015,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<int key="connectionID">1578</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleFullScreen:</string>
+						<reference key="source" ref="670863990"/>
+						<reference key="destination" ref="474358347"/>
+					</object>
+					<int key="connectionID">1667</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="92983356"/>
@@ -2196,14 +2213,6 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="780478923"/>
 					</object>
 					<int key="connectionID">1096</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">fullScreenMode:</string>
-						<reference key="source" ref="954315210"/>
-						<reference key="destination" ref="1004713283"/>
-					</object>
-					<int key="connectionID">1162</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2412,6 +2421,14 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="275231730"/>
 					</object>
 					<int key="connectionID">1663</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">togglePresentationMode:</string>
+						<reference key="source" ref="954315210"/>
+						<reference key="destination" ref="1004713283"/>
+					</object>
+					<int key="connectionID">1664</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2997,6 +3014,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="364369221"/>
 							<reference ref="285707759"/>
 							<reference ref="97080648"/>
+							<reference ref="474358347"/>
 						</array>
 						<reference key="parent" ref="713169941"/>
 					</object>
@@ -3528,6 +3546,11 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="object" ref="388583076"/>
 						<reference key="parent" ref="103210316"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1666</int>
+						<reference key="object" ref="474358347"/>
+						<reference key="parent" ref="332582478"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -3586,6 +3609,7 @@ ARcABAAAAAEAAAACARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<string key="163.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1649.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1651.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1666.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="169.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="171.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="172.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3723,7 +3747,7 @@ Z1s6cG9ydF0</string>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1663</int>
+			<int key="maxID">1667</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3839,7 +3863,6 @@ Z1s6cG9ydF0</string>
 						<string key="connectLocation:">id</string>
 						<string key="decreaseFontSize:">id</string>
 						<string key="downloadPost:">id</string>
-						<string key="fullScreenMode:">id</string>
 						<string key="increaseFontSize:">id</string>
 						<string key="newTab:">id</string>
 						<string key="openComposePanel:">id</string>
@@ -3856,6 +3879,7 @@ Z1s6cG9ydF0</string>
 						<string key="toggleAutoReply:">id</string>
 						<string key="toggleDetectDoubleByte:">id</string>
 						<string key="toggleMouseAction:">id</string>
+						<string key="togglePresentationMode:">id</string>
 						<string key="toggleShowsHiddenText:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -3881,10 +3905,6 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="IBActionInfo" key="downloadPost:">
 							<string key="name">downloadPost:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="fullScreenMode:">
-							<string key="name">fullScreenMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="increaseFontSize:">
@@ -3949,6 +3969,10 @@ Z1s6cG9ydF0</string>
 						</object>
 						<object class="IBActionInfo" key="toggleMouseAction:">
 							<string key="name">toggleMouseAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="togglePresentationMode:">
+							<string key="name">togglePresentationMode:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleShowsHiddenText:">

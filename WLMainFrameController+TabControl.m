@@ -17,7 +17,7 @@
 @interface WLMainFrameController ()
 
 - (void)updateEncodingMenu;
-- (void)exitFullScreenMode;
+- (void)exitPresentationMode;
 
 @end
 
@@ -74,7 +74,7 @@
 #pragma mark TabView delegation
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem {
 	// Restore from full screen firstly
-	[self exitFullScreenMode];
+	[self exitPresentationMode];
 	
 	// TODO: why not put these in WLTabView?
     if (![[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]] ||

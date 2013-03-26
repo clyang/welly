@@ -6,7 +6,7 @@
 //  Copyright 2008. All rights reserved.
 //
 
-#import "WLFullScreenController.h"
+#import "WLPresentationController.h"
 #import "WLFullScreenProcessor.h"
 #import "WLTerminalView.h"
 #import "WLGlobalConfig.h"
@@ -27,12 +27,12 @@
 @end
 
 
-@implementation WLFullScreenController
-@synthesize isInFullScreen = _isInFullScreen;
+@implementation WLPresentationController
+@synthesize isInPresentationMode = _isInPresentationMode;
 #pragma mark -
 #pragma mark Init
 // Initiallize the controller with a given processor
-- (id)initWithProcessor:(NSObject <WLFullScreenProcessor>*)pro 
+- (id)initWithProcessor:(NSObject <WLPresentationModeProcessor>*)pro 
 			 targetView:(NSView *)tview 
 			  superView:(NSView *)sview
 		 originalWindow:(NSWindow *)owin {
@@ -40,7 +40,7 @@
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
-		_isInFullScreen = NO;
+		_isInPresentationMode = NO;
 		_screenRatio = 0.0f;
 	}
 	return self;
@@ -56,7 +56,7 @@
 		_targetView = [tview retain];
 		_superView = [sview retain];
 		_originalWindow = [owin retain];
-		_isInFullScreen = NO;
+		_isInPresentationMode = NO;
 	}
 	return self;
 }
@@ -73,10 +73,10 @@
 
 
 // The main control function of this object
-- (void)handleFullScreen {
-	if (!_isInFullScreen) {
+- (void)togglePresentationMode {
+	if (!_isInPresentationMode) {
 		// Set current state
-		_isInFullScreen = YES;
+		_isInPresentationMode = YES;
 		
 		// Init the window and show
 		NSRect screenRect = [[NSScreen mainScreen] frame];
@@ -103,15 +103,15 @@
 		SetSystemUIMode(kUIModeAllHidden, kUIOptionAutoShowMenuBar);
 		// Then, let the delegate function do it...
 	} else {
-		[self releaseFullScreen];
+		[self exitPresentationMode];
 	}
 }
 
 // Make the view out of the full screen state
-- (void)releaseFullScreen {
-	if(_isInFullScreen) {
+- (void)exitPresentationMode {
+	if(_isInPresentationMode) {
 		// Change the state
-		_isInFullScreen = NO;
+		_isInPresentationMode = NO;
 		
 		// Set the super view back
 		[_superView addSubview:_targetView];
@@ -131,7 +131,7 @@
 #pragma mark Delegate function
 - (void)animationDidStop:(CAAnimation *)animation 
 				finished:(BOOL)flag {
-	if(!_isInFullScreen) { 
+	if(!_isInPresentationMode) { 
 		// Close the window!
 		[_fullScreenWindow close];
 		// Show the main window

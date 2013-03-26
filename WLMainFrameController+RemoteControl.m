@@ -122,7 +122,7 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 															   repeats:YES];
 				break;
 			case kRemoteButtonMenu_Hold:
-				[self fullScreenMode:nil];
+				[self togglePresentationMode:nil];
 				break;
 		}
 	}
