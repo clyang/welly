@@ -278,7 +278,7 @@ cleanup:
 		// happen when the main thread is too busy to handle all incoming events in time.
 		NSString* subCookieString;
 		NSString* lastSubCookieString=nil;
-		while(subCookieString = [self validCookieSubstring: cookieString]) {
+		while((subCookieString = [self validCookieSubstring: cookieString])) {
 			cookieString = [cookieString substringFromIndex: [subCookieString length]];
 			lastSubCookieString = subCookieString;
 			if (processesBacklog) [self handleEventWithCookieString: subCookieString sumOfValues:sumOfValues];
@@ -447,7 +447,7 @@ static void QueueCallbackFunction(void* target,  IOReturn result, void* refcon, 
 			IOHIDElementCookie cookie;
 			NSEnumerator *allCookiesEnumerator = [allCookies objectEnumerator];
 			
-			while (cookie = (IOHIDElementCookie)[[allCookiesEnumerator nextObject] intValue]) {
+			while ((cookie = (IOHIDElementCookie)[[allCookiesEnumerator nextObject] intValue])) {
 				(*queue)->addElement(queue, cookie, 0);
 			}
 									  

@@ -139,7 +139,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
 }
 
 #ifdef _DEBUG
-+ (IBAction)copyCodeInfo:(id)sender {
++ (void)copyCodeInfo:(id)sender {
 	NSString *s = [sender title];
 	NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSMutableArray *types = [NSMutableArray arrayWithObject:NSStringPboardType];
@@ -149,7 +149,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
 }
 #endif
 
-+ (IBAction)openURL:(id)sender {
++ (void)openURL:(id)sender {
     NSString *u = [sender representedObject];
 	if (!u) {
 		u = [sender title];
@@ -160,12 +160,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:u]];
 }
 
-+ (IBAction)spotlight:(id)sender {
++ (void)spotlight:(id)sender {
     NSString *u = [sender representedObject];
     HISearchWindowShow((CFStringRef)u, kNilOptions);
 }
 
-+ (IBAction)lookupDictionary:(id)sender {
++ (void)lookupDictionary:(id)sender {
     NSString *u = [sender representedObject];
     NSPasteboard *spb = [NSPasteboard pasteboardWithUniqueName];
     [spb declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:self];
@@ -173,7 +173,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLContextualMenuManager);
     NSPerformService(@"Look Up in Dictionary", spb);
 }
 
-+ (IBAction)saveAsEmoticon:(id)sender {
++ (void)saveAsEmoticon:(id)sender {
 	NSString *s = [sender representedObject];
 	[[WLEmoticonsPanelController sharedInstance] addEmoticonFromString:s];
 }

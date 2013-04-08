@@ -13,11 +13,7 @@
 
 NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>";
 
-#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
-@interface WLDownloadDelegate : NSObject <NSWindowDelegate> {
-#else
-@interface WLDownloadDelegate : NSObject {
-#endif
+@interface WLDownloadDelegate : NSObject <NSWindowDelegate, NSURLDownloadDelegate> {
     // This progress bar is restored by gtCarrera
     // boost: don't put it in XIPreviewController
     HMBlkProgressIndicator *_indicator;
@@ -96,7 +92,7 @@ static BOOL sHasCacheDir = NO;
 @end
 
 #pragma mark -
-#pragma mark XIDownloadDelegate
+#pragma mark WLDownloadDelegate
 
 @implementation WLDownloadDelegate
 @synthesize download = _download;
@@ -180,6 +176,9 @@ static NSString * stringFromFileSize(long long size) {
     [_indicator startAnimation:self];
 }
 
+#pragma mark -
+#pragma mark NSWindowDelegate protocol
+
 // Window delegate for _window, finallize the download 
 - (BOOL)windowShouldClose:(id)window {
     NSURL *URL = [[_download request] URL];
@@ -200,6 +199,9 @@ static NSString * stringFromFileSize(long long size) {
     //[_download release];
     return YES;
 }
+
+#pragma mark -
+#pragma mark NSURLDownloadDelegate protocol
 
 - (void)downloadDidBegin:(NSURLDownload *)download {
     [WLGrowlBridge notifyWithTitle:[[[download request] URL] absoluteString]
@@ -286,7 +288,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
         [s appendFormat:NSLocalizedString(*fmt, nil), obj];
     }
 }
-
+	
 - (void)downloadDidFinish:(NSURLDownload *)download {
     [sURLs removeObject:[[download request] URL]];
 	[sDownloadedURLInfo setValue:_path forKey:[[[download request] URL] absoluteString]];

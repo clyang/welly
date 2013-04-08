@@ -267,7 +267,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
 }
 
 - (id)objectInSitesAtIndex:(NSUInteger)index {
-	if (index < 0 || index >= [_sites count])
+	if (index >= [_sites count])
 		return NULL;
     return [_sites objectAtIndex:index];
 }

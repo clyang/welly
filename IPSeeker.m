@@ -246,7 +246,7 @@ NSString* L(NSString* key) {
     [m_file seekToFileOffset:offset];
     NSMutableData* data = [NSMutableData data];
     NSData* tmp;
-    while (tmp = [m_file readDataOfLength:1]) {
+    while ((tmp = [m_file readDataOfLength:1])) {
         char byte = ((const char*)[tmp bytes])[0];
         if (byte == 0)
             break;

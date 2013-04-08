@@ -93,6 +93,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 				break;				
 			case kRemoteButtonPlay_Hold:
 				break;
+			default:
+				break;
 		}
 	}
 	else { // Key Press
@@ -123,6 +125,8 @@ const NSTimeInterval DEFAULT_CLICK_TIME_DIFFERENCE = 0.25;	// for remote control
 				break;
 			case kRemoteButtonMenu_Hold:
 				[self togglePresentationMode:nil];
+				break;
+			default:
 				break;
 		}
 	}

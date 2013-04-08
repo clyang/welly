@@ -279,7 +279,10 @@ static unsigned short gEmptyAttr;
 				} else if (c == ASC_ENQ) { // FLOW CONTROL? do nothing
 					unsigned char cmd[1];
 					unsigned int cmdLength = 1;
-					cmd[1] = ASC_NUL;
+					// Note: don't know what this is doing. But cmd[1]
+					// is out of array index. So I change it to [0]
+					// Original: cmd[1] = ASC_NUL;
+					cmd[0] = ASC_NUL;
 					[connection sendBytes:cmd length:cmdLength];
 				} else if (c == ASC_ACK) { // FLOW CONTROL? do nothing					
 				} else if (c == ASC_BEL) { // Beep
@@ -848,7 +851,7 @@ static unsigned short gEmptyAttr;
 									}
 								}
 							} else if (p == 20) { // set line feed mode
-								_modeLNM == YES;
+								_modeLNM = YES;
 							} else if (p == 4) {
 								// selects replace mode and turns INSERT off. New
 								// display characters replace old display characters
