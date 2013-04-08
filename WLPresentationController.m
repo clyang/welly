@@ -6,6 +6,7 @@
 //  Copyright 2008. All rights reserved.
 //
 
+#import "WLMainFrameController+FullScreen.h"
 #import "WLPresentationController.h"
 #import "WLFullScreenProcessor.h"
 #import "WLTerminalView.h"
@@ -46,10 +47,7 @@
 	CGFloat _screenRatio;
 	
 	// Store previous parameters
-	CGFloat _originalChineseFontSize;
-	CGFloat _originalEnglishFontSize;
-	CGFloat _originalCellWidth;
-	CGFloat _originalCellHeight;
+	NSDictionary *_originalSizeParameters;
 }
 // Preprocess functions for TerminalView
 - (void)processBeforeEnter;
@@ -215,22 +213,16 @@ WLGlobalConfig *gConfig;
 	// Decide whether to set or to reset the font size
 	if (isEnteringFullScreen) {
 		// Store old parameters
-		_originalEnglishFontSize = [gConfig englishFontSize];
-		_originalChineseFontSize = [gConfig chineseFontSize];
-		_originalCellWidth = [gConfig cellWidth];
-		_originalCellHeight = [gConfig cellHeight];
+		_originalSizeParameters = [[gConfig sizeParameters] copy];
 		
 		// And do it..
-		[gConfig setEnglishFontSize:floor([gConfig englishFontSize] * _screenRatio)];
-		[gConfig setChineseFontSize:floor([gConfig chineseFontSize] * _screenRatio)];
-		[gConfig setCellWidth:floor([gConfig cellWidth] * _screenRatio)];
-		[gConfig setCellHeight:floor([gConfig cellHeight] * _screenRatio)];
+		[gConfig setSizeParameters:[WLMainFrameController sizeParametersForZoomRatio:_screenRatio]];
+		
 	} else {
 		// Restore old parameters
-		[gConfig setEnglishFontSize:_originalEnglishFontSize];
-		[gConfig setChineseFontSize:_originalChineseFontSize];
-		[gConfig setCellWidth:_originalCellWidth];
-		[gConfig setCellHeight:_originalCellHeight];
+		[gConfig setSizeParameters:_originalSizeParameters];
+		[_originalSizeParameters release];
+		_originalSizeParameters = nil;
 	}
 }
 

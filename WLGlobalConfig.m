@@ -27,6 +27,11 @@ const CGFloat WLDefaultEnglishFontSize = 18;
 NSString *const WLDefaultChineseFontName = @"STHeiti";
 NSString *const WLDefaultEnglishFontName = @"Monaco";
 
+NSString *const WLCellWidthKeyName = @"CellWidth";
+NSString *const WLCellHeightKeyName = @"CellHeight";
+NSString *const WLChineseFontSizeKeyName = @"ChineseFontSize";
+NSString *const WLEnglishFontSizeKeyName = @"EnglishFontSize";
+
 #pragma mark -
 #pragma mark Class Define
 
@@ -607,5 +612,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 	[self setEnglishFontName:@"Monaco"];
 	[self setChineseFontSize:22];
 	[self setEnglishFontSize:18];
+}
+
+- (NSDictionary *)sizeParameters {
+	return @{WLCellWidthKeyName:@(_cellWidth), WLCellHeightKeyName:@(_cellHeight), WLChineseFontSizeKeyName:@(_chineseFontSize), WLEnglishFontSizeKeyName:@(_englishFontSize)};
+}
+
+- (void)setSizeParameters:(NSDictionary *)sizeParameters {
+	if ([sizeParameters objectForKey:WLCellWidthKeyName])
+		self.cellWidth = [[sizeParameters objectForKey:WLCellWidthKeyName] floatValue];
+	if ([sizeParameters objectForKey:WLCellHeightKeyName])
+		self.cellHeight = [[sizeParameters objectForKey:WLCellHeightKeyName] floatValue];
+	if ([sizeParameters objectForKey:WLChineseFontSizeKeyName])
+		self.chineseFontSize = [[sizeParameters objectForKey:WLChineseFontSizeKeyName] floatValue];
+	if ([sizeParameters objectForKey:WLEnglishFontSizeKeyName])
+		self.englishFontSize = [[sizeParameters objectForKey:WLEnglishFontSizeKeyName] floatValue];
 }
 @end

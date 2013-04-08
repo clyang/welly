@@ -11,4 +11,5 @@
 
 @interface WLMainFrameController (FullScreen)
 - (BOOL)isInFullScreenMode;
++ (NSDictionary *)sizeParametersForZoomRatio:(CGFloat)zoomRatio;
 @end

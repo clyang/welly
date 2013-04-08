@@ -22,6 +22,11 @@ NSString *const WLConfirmOnCloseEnabledKeyName;
 NSString *const WLSafePasteEnabledKeyName;
 NSString *const WLCoverFlowModeEnabledKeyName;
 
+NSString *const WLCellWidthKeyName;
+NSString *const WLCellHeightKeyName;
+NSString *const WLChineseFontSizeKeyName;
+NSString *const WLEnglishFontSizeKeyName;
+
 @interface WLGlobalConfig : NSObject {
     int _messageCount;
 	int _row;
@@ -155,4 +160,6 @@ NSString *const WLCoverFlowModeEnabledKeyName;
 + (BOOL)shouldEnableCoverFlow;
 
 - (void)restoreSettings;
+- (NSDictionary *)sizeParameters;
+- (void)setSizeParameters:(NSDictionary *)sizeParameters;
 @end

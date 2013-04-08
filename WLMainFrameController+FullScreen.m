@@ -21,6 +21,11 @@
 	return ([_mainWindow styleMask] & NSFullScreenWindowMask) ? YES : NO;
 }
 
++ (NSDictionary *)sizeParametersForZoomRatio:(CGFloat)zoomRatio {
+	WLGlobalConfig *gConfig = [WLGlobalConfig sharedInstance];
+	return @{WLCellWidthKeyName:@(floor([gConfig cellWidth] * zoomRatio)), WLCellHeightKeyName:@(floor([gConfig cellHeight] * zoomRatio)), WLChineseFontSizeKeyName:@(floor([gConfig chineseFontSize] * zoomRatio)), WLEnglishFontSizeKeyName:@(floor([gConfig englishFontSize] * zoomRatio))};
+}
+
 // Set and reset font size
 - (void)setFont:(BOOL)isEnteringFullScreen {
 	// In case of some stupid uses...
@@ -30,19 +35,13 @@
 	// Decide whether to set or to reset the font size
 	if (isEnteringFullScreen) {
 		// Store old parameters
-		_originalSizeParameters = [@{@"englishFontSize":@([gConfig englishFontSize]), @"chineseFontSize":@([gConfig chineseFontSize]), @"cellWidth":@([gConfig cellWidth]), @"cellHeight":@([gConfig cellHeight])} copy];
+		_originalSizeParameters = [[gConfig sizeParameters] copy];
 		
 		// And do it..
-		[gConfig setEnglishFontSize:floor([gConfig englishFontSize] * _screenRatio)];
-		[gConfig setChineseFontSize:floor([gConfig chineseFontSize] * _screenRatio)];
-		[gConfig setCellWidth:floor([gConfig cellWidth] * _screenRatio)];
-		[gConfig setCellHeight:floor([gConfig cellHeight] * _screenRatio)];
+		[gConfig setSizeParameters:[WLMainFrameController sizeParametersForZoomRatio:_screenRatio]];
 	} else {
 		// Restore old parameters
-		[gConfig setEnglishFontSize:[[_originalSizeParameters objectForKey:@"englishFontSize"] floatValue]];
-		[gConfig setChineseFontSize:[[_originalSizeParameters objectForKey:@"chineseFontSize"] floatValue]];
-		[gConfig setCellWidth:[[_originalSizeParameters objectForKey:@"cellWidth"] floatValue]];
-		[gConfig setCellHeight:[[_originalSizeParameters objectForKey:@"cellHeight"] floatValue]];
+		[gConfig setSizeParameters:_originalSizeParameters];
 		[_originalSizeParameters release];
 		_originalSizeParameters = nil;
 	}

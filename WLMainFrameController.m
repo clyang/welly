@@ -83,7 +83,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 	[self initializeRemoteControl];
 	// FIXME: Remove this controller
 	// For full screen, initiallize the full screen controller
-	_presentationModeController = [[WLPresentationController alloc] initWithTargetView:_tabView 
+	_presentationModeController = [[WLPresentationController alloc] initWithTargetView:_tabView
 																	 superView:[_tabView superview] 
 																originalWindow:_mainWindow];
 	
