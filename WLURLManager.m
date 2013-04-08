@@ -19,9 +19,11 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 
 @implementation WLURLManager
 - (id)init {
-	[super init];
-	_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
-	_currentURLStringBuffer = [[NSMutableString alloc] initWithCapacity:40];
+	self = [super init];
+	if (self) {
+		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
+		_currentURLStringBuffer = [[NSMutableString alloc] initWithCapacity:40];
+	}
 	return self;
 }
 

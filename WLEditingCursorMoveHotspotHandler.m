@@ -50,9 +50,11 @@ static NSCursor *gMoveCursor = nil;
 }
 
 - (id)init {
-	[super init];
-	if (!gMoveCursor)
-		[WLEditingCursorMoveHotspotHandler initialize];
+	self = [super init];
+	if (self) {
+		if (!gMoveCursor)
+			[WLEditingCursorMoveHotspotHandler initialize];
+	}
 	return self;
 }
 

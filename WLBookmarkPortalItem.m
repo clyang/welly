@@ -25,9 +25,10 @@
 
 - (id)initWithPath:(NSString *)path 
 			 title:(NSString *)title {
-    if (self != [super initWithTitle:title])
-        return nil;
-    [self setPath:path];
+	self = [super initWithTitle:title];
+    if (self) {
+		[self setPath:path];
+	}
     return self;
 }
 

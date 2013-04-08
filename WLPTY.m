@@ -77,7 +77,8 @@
 } 
 
 - (id)init {
-    if (self == [super init]) {
+	self = [super init];
+    if (self) {
         _pid = 0;
         _fd = -1;
     }

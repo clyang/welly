@@ -25,7 +25,7 @@ NSString *const WLMenuTitleQuitMode = @"Quit Mode";
 
 @implementation WLMovingAreaHotspotHandler
 - (id)init {
-	[super init];
+	self = [super init];
 	_leftArrowCursor = [NSCursor resizeLeftCursor];
 	_pageUpCursor = [NSCursor resizeUpCursor];
 	_pageDownCursor = [NSCursor resizeDownCursor];

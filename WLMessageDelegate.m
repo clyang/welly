@@ -24,7 +24,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 
 - (id)init {
 	self = [super init];
-	if (self != nil) {
+	if (self) {
 		_unreadMessage = [[NSMutableString alloc] initWithCapacity:400];
 		[_unreadMessage setString:@""];
 		_unreadCount = 0;
@@ -33,8 +33,9 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 }
 
 - (id)initWithConnection:(WLConnection *)connection {
-	[self init];
-	[self setConnection:connection];
+	self = [self init];
+	if (self)
+		[self setConnection:connection];
 	return self;
 }
 

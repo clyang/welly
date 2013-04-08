@@ -59,29 +59,30 @@ static BOOL isLion;
 }
 
 - (id)init {
-    if (self != [super init]) 
-        return nil;
-    _URLs = [[NSMutableArray alloc] init];
-    // 10.5: /System/Library/PrivateFrameworks/QuickLookUI.framework
-    // 10.6: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
-    // 10.7: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
-    [[NSBundle bundleWithPath:@"/System/Library/…/QuickLookUI.framework"] load];
-    _panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
-    // To deal with full screen window level
-    // Modified by gtCarrera
-    //[_panel setLevel:kCGStatusWindowLevel+1];
-    // End
-	id controller = [_panel windowController];
-    [controller setDelegate:self];
-    if (isLeopard) {
-        [_panel setEnableDragNDrop:YES];
-    } else {
-        [_panel setDataSource:self];
-		QLPreviewView *view = [controller previewView];
-        [view setEnableDragNDrop:YES];
-        //[view setAutomaticallyMakePreviewFirstResponder:YES];
-		[view setDelegate:self];
-    }
+	self = [super init];
+	if (self) {
+		_URLs = [[NSMutableArray alloc] init];
+		// 10.5: /System/Library/PrivateFrameworks/QuickLookUI.framework
+		// 10.6: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
+		// 10.7: /System/Library/Frameworks/Quartz.framework/Frameworks/QuickLookUI.framework
+		[[NSBundle bundleWithPath:@"/System/Library/…/QuickLookUI.framework"] load];
+		_panel = [NSClassFromString(@"QLPreviewPanel") sharedPreviewPanel];
+		// To deal with full screen window level
+		// Modified by gtCarrera
+		//[_panel setLevel:kCGStatusWindowLevel+1];
+		// End
+		id controller = [_panel windowController];
+		[controller setDelegate:self];
+		if (isLeopard) {
+			[_panel setEnableDragNDrop:YES];
+		} else {
+			[_panel setDataSource:self];
+			QLPreviewView *view = [controller previewView];
+			[view setEnableDragNDrop:YES];
+			//[view setAutomaticallyMakePreviewFirstResponder:YES];
+			[view setDelegate:self];
+		}
+	}
     return self;
 }
 

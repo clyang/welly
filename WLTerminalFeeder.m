@@ -228,7 +228,8 @@ static unsigned short gEmptyAttr;
 }
 
 - (id)initWithConnection:(WLConnection *)connection {
-	if (self == [self init]) {
+	self = [self init];
+	if (self) {
 		_connection = connection;
 	}
 	return self;

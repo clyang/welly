@@ -37,7 +37,8 @@
 @synthesize tabViewItemController = _tabViewItemController;
 
 - (id)initWithSite:(WLSite *)site {
-    if (self == [self init]) {
+	self = [self init];
+    if (self) {
 		// Create a feeder to parse content from the connection
 		_feeder = [[WLTerminalFeeder alloc] initWithConnection:self];
 

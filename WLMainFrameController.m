@@ -656,6 +656,7 @@ withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
 	
 	// Set the font settings
 	[[WLGlobalConfig sharedInstance] restoreSettings];
+	[_mainWindow center];
 }
 
 #pragma mark -

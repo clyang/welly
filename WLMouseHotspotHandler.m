@@ -15,15 +15,18 @@
 @synthesize manager = _manager;
 - (id)init {
 	self = [super init];
-	_trackingAreas = [[NSMutableArray alloc] initWithCapacity:10];
+	if (self)
+		_trackingAreas = [[NSMutableArray alloc] initWithCapacity:10];
 	return self;
 }
 
 - (id)initWithView:(WLTerminalView *)view {
-	[self init];
-	_view = view;
-	_maxRow = [[WLGlobalConfig sharedInstance] row];
-	_maxColumn = [[WLGlobalConfig sharedInstance] column];
+	self = [self init];
+	if (self) {
+		_view = view;
+		_maxRow = [[WLGlobalConfig sharedInstance] row];
+		_maxColumn = [[WLGlobalConfig sharedInstance] column];
+	}
 	return self;
 }
 

@@ -38,7 +38,8 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 @synthesize proxyAddress = _proxyAddress;
 
 - (id)init {
-    if ([super init]) {
+	self = [super init];
+    if (self) {
         [self setName:NSLocalizedString(WLDefaultSiteName, @"Site")];
 
         [self setAddress:@""];
