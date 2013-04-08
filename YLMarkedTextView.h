@@ -17,9 +17,9 @@
 	CGFloat _lineHeight;
 	NSPoint _destination;
 }
-@property (readwrite, copy) NSAttributedString *string;
-@property (readwrite, assign) NSRange markedRange;
-@property (readwrite, assign) NSRange selectedRange;
-@property (readwrite, copy) NSFont *defaultFont;
-@property (readwrite, assign) NSPoint destination;
+@property (readwrite, copy, nonatomic) NSAttributedString *string;
+@property (readwrite, assign, nonatomic) NSRange markedRange;
+@property (readwrite, assign, nonatomic) NSRange selectedRange;
+@property (readwrite, copy, nonatomic) NSFont *defaultFont;
+@property (readwrite, assign, nonatomic) NSPoint destination;
 @end

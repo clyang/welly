@@ -37,10 +37,10 @@
 	id _tabViewItemController;
 }
 @property (readwrite, retain) WLSite *site;
-@property (readwrite, retain, setter=setTerminal:) WLTerminal *terminal;
+@property (readwrite, retain, setter=setTerminal:, nonatomic) WLTerminal *terminal;
 @property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
-@property (readwrite, assign, setter=setConnected:) BOOL isConnected;
+@property (readwrite, assign, setter=setConnected:, nonatomic) BOOL isConnected;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) NSInteger messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;

@@ -46,7 +46,7 @@
 @property unsigned int cursorColumn;
 @property unsigned int cursorRow;
 @property cell **grid;
-@property (assign, setter=setConnection:) WLConnection *connection;
+@property (assign, setter=setConnection:, nonatomic) WLConnection *connection;
 @property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
 
