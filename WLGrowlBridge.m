@@ -36,6 +36,10 @@ NSString *const WLGrowlClickObjectKeyName = @"ClickRepresentedObject";
 	return dict;
 }
 
++ (BOOL)isMistEnabled {
+	return [GrowlApplicationBridge isMistEnabled];
+}
+
 + (void)notifyWithTitle:(NSString *)title
 			description:(NSString *)description
 	   notificationName:(NSString *)notifName {
@@ -53,6 +57,12 @@ NSString *const WLGrowlClickObjectKeyName = @"ClickRepresentedObject";
        notificationName:(NSString *)notifName
                isSticky:(BOOL)isSticky
              identifier:(id)identifier {
+	if ([GrowlApplicationBridge isMistEnabled]) {
+		NSLog(@"isMistEnabled");
+	} else {
+		NSLog(@"no");
+	}
+	
     // hack identifier that must be a string
     NSString *stringId = [[NSNumber numberWithLong:(long)identifier] stringValue];
     [GrowlApplicationBridge notifyWithTitle:title

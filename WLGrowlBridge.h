@@ -19,6 +19,8 @@ NSString *const WLGrowlNotificationNameNewMessageReceived;
 
 @interface WLGrowlBridge : NSObject <GrowlApplicationBridgeDelegate>
 
++ (BOOL)isMistEnabled;
+
 // iconData:nil priority:0 isSticky:NO
 + (void)notifyWithTitle:(NSString *)title
             description:(NSString *)description
