@@ -14,10 +14,9 @@ NSString *const WLGrowlNotificationNameFileTransfer = @"File Transfer";
 NSString *const WLGrowlNotificationNameEXIFInformation = @"EXIF Information";
 NSString *const WLGrowlNotificationNameNewMessageReceived = @"New Message Received";
 
-typedef struct WLClickContext {
-    id context, identifier;
-    SEL selector; 
-} WLClickContext;
+NSString *const WLGrowlClickTargetKeyName = @"ClickTarget";
+NSString *const WLGrowlClickSelectorKeyName = @"ClickSelector";
+NSString *const WLGrowlClickObjectKeyName = @"ClickRepresentedObject";
 
 @implementation WLGrowlBridge
 
@@ -70,35 +69,14 @@ typedef struct WLClickContext {
             description:(NSString *)description
        notificationName:(NSString *)notifName
                isSticky:(BOOL)isSticky
-           clickContext:(id)clickContext
-          clickSelector:(SEL)clickSelector
+            clickTarget:(id)target
+          clickSelector:(SEL)selector
              identifier:(id)identifier {
-    [self notifyWithTitle:title
-              description:description
-         notificationName:notifName
-                 iconData:nil
-                 priority:0
-                 isSticky:isSticky
-             clickContext:clickContext
-            clickSelector:clickSelector
-               identifier:identifier];
-}
-
-+ (void)notifyWithTitle:(NSString *)title
-            description:(NSString *)description
-       notificationName:(NSString *)notifName
-               iconData:(NSData *)iconData
-               priority:(signed int)priority
-               isSticky:(BOOL)isSticky
-           clickContext:(id)clickContext
-          clickSelector:(SEL)clickSelector
-             identifier:(id)identifier {
-    WLClickContext *c = malloc(sizeof(WLClickContext));
-    c->context = clickContext;
-    c->selector = clickSelector;
-    c->identifier = identifier;
-    // workaround: clickContext must be plist-encodable
-    NSNumber* contextId = [NSNumber numberWithLong:(long)c];
+	// capsulate target, selector and object.
+	// Note: Growl only accepts pure p-list contents as click context
+	//   i.e. only occurs NSDictionary, NSString, NSNumber, NSArray
+    NSDictionary *clickContext = @{WLGrowlClickTargetKeyName:[NSNumber  numberWithUnsignedLong:target], WLGrowlClickSelectorKeyName:NSStringFromSelector(selector), WLGrowlClickObjectKeyName:[NSNumber  numberWithUnsignedLong:identifier]};
+	
     // hack identifier that must be a string
     NSString *stringId = [[NSNumber numberWithLong:(long)identifier] stringValue];
     [GrowlApplicationBridge notifyWithTitle:title
@@ -106,22 +84,24 @@ typedef struct WLClickContext {
                            notificationName:notifName
                                    iconData:nil
                                    priority:0
-                                   isSticky:NO
-                               clickContext:contextId
+                                   isSticky:isSticky
+                               clickContext:clickContext
                                  identifier:stringId];
 }
 
 - (void)growlNotificationWasClicked:(id)contextId {
-    // get context
-    WLClickContext *c = (WLClickContext *)[(NSNumber *)contextId longValue];
-    [c->context performSelector:c->selector withObject:c->identifier];
-    free(c);
+	NSDictionary *context = (NSDictionary *)contextId;
+	// encapsulate target/selector/object
+	id target = [[context objectForKey:WLGrowlClickTargetKeyName] unsignedLongValue];
+	SEL selector = NSSelectorFromString([context objectForKey:WLGrowlClickSelectorKeyName]);
+	id object = [[context objectForKey:WLGrowlClickObjectKeyName] unsignedLongValue];
+	// perform action
+	[target performSelector:selector withObject:object];
 }
 
 - (void)growlNotificationTimedOut:(id)contextId {
     // deal with the event that the notification disappear
-    WLClickContext *c = (WLClickContext *)[(NSNumber *)contextId longValue];
-    free(c);
+	// Just do nothing
 }
 
 @end

@@ -73,16 +73,16 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 		} else {
 			description = message;
 		}
+		
 		// should invoke growl notification
 		[WLGrowlBridge notifyWithTitle:callerName
 						   description:description 
 					  notificationName:kGrowlNotificationNameNewMessageReceived
-							  iconData:[NSData data]
-							  priority:0
 							  isSticky:NO
-						  clickContext:self
+						   clickTarget:self
 						 clickSelector:@selector(didClickGrowlNewMessage:)
 							identifier:_connection];
+		
 	}
 }
 
