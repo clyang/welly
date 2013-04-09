@@ -36,7 +36,6 @@
 		5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */; };
 		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
-		5A3ACCDF0EED5BE200FC4543 /* WLMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */; };
 		5A40C3C6118ADED400487AE9 /* WLTabViewItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40C3C5118ADED400487AE9 /* WLTabViewItemController.m */; };
 		5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */; };
 		5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */; };
@@ -180,8 +179,6 @@
 		5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLURLManager.m; sourceTree = "<group>"; };
 		5A309A790D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5A309A7A0D9A252B00970494 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5A3ACCDD0EED5BE200FC4543 /* WLMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMenuItem.h; sourceTree = "<group>"; };
-		5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMenuItem.m; sourceTree = "<group>"; };
 		5A40C3C4118ADED400487AE9 /* WLTabViewItemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabViewItemController.h; sourceTree = "<group>"; };
 		5A40C3C5118ADED400487AE9 /* WLTabViewItemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabViewItemController.m; sourceTree = "<group>"; };
 		5A40C3C7118B179500487AE9 /* WLTabBarCellContentProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabBarCellContentProvider.h; sourceTree = "<group>"; };
@@ -728,8 +725,6 @@
 		85F701440C895C8600E27A1E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5A3ACCDD0EED5BE200FC4543 /* WLMenuItem.h */,
-				5A3ACCDE0EED5BE200FC4543 /* WLMenuItem.m */,
 				85ED53200D092B5F003296D4 /* WLConnection.h */,
 				85ED53210D092B5F003296D4 /* WLConnection.m */,
 				16C0C90A0E294BAA00B576C5 /* WLProtocol.h */,
@@ -887,7 +882,6 @@
 				1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
 				81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */,
-				5A3ACCDF0EED5BE200FC4543 /* WLMenuItem.m in Sources */,
 				186E810F0F218C10007D73BC /* WLComposePanelController.m in Sources */,
 				5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */,
 				5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */,

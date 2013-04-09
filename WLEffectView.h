@@ -24,8 +24,6 @@
 	CALayer *_popUpLayer;
 	CALayer *_buttonLayer;
 	
-	CALayer *_menuLayer;
-	CALayer *_selectionLayer;
 	CALayer *_urlLineLayer;
 	CGImageRef _urlIndicatorImage;
 	CALayer *_urlIndicatorLayer;
@@ -47,14 +45,6 @@
 - (void)drawButton:(NSRect)rect 
 	   withMessage:(NSString *)message;
 - (void)clearButton;
-
-// for menu
-- (void)showMenuAtPoint:(NSPoint)pt 
-			  withItems:(NSArray *)items;
-- (void)hideMenu;
-- (void)selectMenuItemAtIndex:(int)index;
-- (void)selectPreviousMenuItem;
-- (void)selectNextMenuItem;
 
 // for URL
 - (void)showIndicatorAtPoint:(NSPoint)point;

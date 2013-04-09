@@ -917,7 +917,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     } else if (aSelector == @selector(insertTabIgnoringFieldEditor:)) { // Now do URL mode switching
 		[self switchURL];
 	} else {
-        NSLog(@"Unprocessed selector: %s", aSelector);
+        NSLog(@"Unprocessed selector: %@", NSStringFromSelector(aSelector));
     }
 }
 

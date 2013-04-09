@@ -236,15 +236,15 @@
     UInt32 len = 0;
     void *pass = 0;
 	
-    SecKeychainFindGenericPassword(nil,
+    OSStatus status = SecKeychainFindGenericPassword(nil,
         strlen(service), service,
         strlen(account), account,
         &len, &pass,
         nil);
-    if (len) {
+    if (status == noErr) {
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
-        SecKeychainItemFreeContent(nil, pass);
+		SecKeychainItemFreeContent(nil, pass);
     }
 	
 	[pool release];
