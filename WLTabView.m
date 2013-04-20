@@ -11,6 +11,7 @@
 #import "WLTerminal.h"
 #import "WLTerminalView.h"
 #import "WLMainFrameController.h"
+#import "WLTabBarControl.h"
 
 #import "WLTabViewItemController.h"
 
@@ -243,7 +244,6 @@
 		[super selectPreviousTabViewItem:self];
 }
 
-
 - (BOOL)acceptsFirstResponder {
 	return NO;
 }
@@ -280,7 +280,11 @@
 			   ([event modifierFlags] & NSShiftKeyMask) == 0 && 
 			   [[event characters] intValue] > 0 && 
 			   [[event characters] intValue] < 10) {
-		[self selectTabViewItemAtIndex:([[event characters] intValue]-1)];
+		// User may drag and re-order tabs using tabBarControl
+		// These re-ordering will not reflect when calling
+		//  [self selectTabViewItemAtIndex:index];
+		// We here call method from tabBarControl to choose correct tab
+		[_tabBarControl selectTabViewItemAtIndex:([[event characters] intValue]-1)];
 		return YES;
 	} else if (([event modifierFlags] & NSCommandKeyMask) == 0 && 
 			   ([event modifierFlags] & NSAlternateKeyMask) == 0 && 

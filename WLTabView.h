@@ -13,6 +13,7 @@
 @class WLCoverFlowPortal;
 @class WLConnection;
 @class WLTerminal;
+@class WLTabBarControl;
 
 @protocol WLTabItemContentObserver
 
@@ -26,6 +27,7 @@
 	NSArray *_tabViews;
 	
 	IBOutlet WLTerminalView *_terminalView;
+	IBOutlet WLTabBarControl *_tabBarControl;
 	
 	WLCoverFlowPortal *_portal;
 }
