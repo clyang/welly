@@ -10,6 +10,8 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Help</string>
+	<key>CFBundleDisplayName</key>
+	<string></string>
 	<key>CFBundleHelpBookName</key>
 	<string>Welly Help</string>
 	<key>CFBundleIconFile</key>
@@ -19,7 +21,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleVersion</key>
-	<string>alpha</string>
+	<string></string>
 	<key>CFBundleName</key>
 	<string>Welly</string>
 	<key>CFBundlePackageType</key>

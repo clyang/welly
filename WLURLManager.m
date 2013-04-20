@@ -17,19 +17,148 @@
 NSString *const WLMenuTitleCopyURL = @"Copy URL";
 NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 
+@interface WLURLParser : NSObject {
+	NSMutableString *_currentURLStringBuffer;
+	WLURLManager *_manager;
+
+	cell **_grid;
+	BOOL _isReadingURL;
+	
+	int _maxRow, _maxColumn;
+	
+	int _index, _startIndex, _urlLength;
+}
+
+- (void)parse:(WLTerminal *)terminal;
+@end
+
+@implementation WLURLParser
+- (id)initWithManager:(WLURLManager *)manager {
+	self = [self init];
+	if (self) {
+		_maxRow = [[WLGlobalConfig sharedInstance] row];
+		_maxColumn = [[WLGlobalConfig sharedInstance] column];
+		_currentURLStringBuffer = [[NSMutableString alloc] initWithCapacity:40];
+		_manager = manager;
+	}
+	return self;
+}
+
+- (void)addURL {
+	// Trimming spaces for multi-line url
+	NSString *urlString = [_currentURLStringBuffer stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+	urlString = [urlString stringByReplacingOccurrencesOfString:@" " withString:@""];
+	
+	// Trimming special characters at the end of url
+	NSCharacterSet *trimmingSet = [NSCharacterSet characterSetWithCharactersInString:@",.:;?!"];
+	int lenBeforeTrimming = [urlString length];
+	urlString = [urlString stringByTrimmingCharactersInSet:trimmingSet];
+	int trimmedLength = lenBeforeTrimming - [urlString length];
+	for (int index=_index-1; index>_index-1-trimmedLength; --index) {
+		_grid[index/_maxColumn][index%_maxColumn].attr.f.url = NO;
+	}
+
+	[_manager addURL:urlString atIndex:_startIndex length:_urlLength-trimmedLength];
+	[_currentURLStringBuffer setString:@""];
+	_isReadingURL = NO;
+}
+
+- (void)parse:(WLTerminal *)terminal {
+	_grid = [terminal grid];
+	_isReadingURL = NO;
+	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:", "www."};
+	const int protocolNum = 8;
+    const int realProtocalNum = 7; // only the first 7 protocols are real, the others are fake.
+	_startIndex = 0;
+	_urlLength = 0;
+	int par = 0;
+	
+	[_currentURLStringBuffer setString:@""];
+	
+	for (_index = 0; _index < _maxRow * _maxColumn; ++_index) {
+		if (_isReadingURL) {
+			// Push current char in!
+            unsigned char c = _grid[_index/_maxColumn][_index%_maxColumn].byte;
+			// ']' is a legal url char actually, but it is seldom used
+			// Most of time, it is something like [http://someurl] so we just ignore the ']'
+			if (0x21 > c || c > 0x7E || c == '"' || c == '\'' || c == ']') {
+				// Not URL anymore, add previous one
+				[self addURL];
+			} else if (c == '(') {
+                ++par;
+			} else if (c == ')') {
+                if (--par < 0) {
+					// Not URL anymore, add previous one
+					[self addURL];
+				}
+            } else if (c == '\\') {
+				if (_maxColumn - _index%_maxColumn <= 2) {
+					// This '\\' is for connecting two lines
+					_urlLength += (_maxColumn - _index%_maxColumn) - 1;
+					_index += (_maxColumn - _index%_maxColumn) - 1;
+				} else {
+					// Not URL anymore, add previous one
+					[self addURL];
+				}
+			}
+			if (_isReadingURL) {
+				[_currentURLStringBuffer appendFormat:@"%c", c];
+				_urlLength++;
+				
+				// Mark as url to draw url underlines
+				_grid[_index/_maxColumn][_index%_maxColumn].attr.f.url = YES;
+			}
+		} else {
+			// Try to match the url header
+			for (int p = 0; p < protocolNum; p++) {
+                int len = strlen(protocols[p]);
+                BOOL isMatched = YES;
+                for (int s = 0; s < len; s++)
+                    if (_grid[(_index+s)/_maxColumn][(_index+s)%_maxColumn].byte != protocols[p][s] || _grid[(_index+s)/_maxColumn][(_index+s)%_maxColumn].attr.f.doubleByte) {
+                        isMatched = NO;
+                        break;
+                    }
+                
+                if (isMatched) {
+					// Push current prefix into current url
+                    if (p >= realProtocalNum) [_currentURLStringBuffer appendString:@"http://"];
+					[_currentURLStringBuffer appendFormat:@"%c", protocols[p][0]];
+                    _isReadingURL = YES;
+					_startIndex = _index;
+					par = 0;
+					_urlLength = 1;
+					// Mark as url to draw url underlines
+					_grid[_index/_maxColumn][_index%_maxColumn].attr.f.url = YES;
+					[terminal setDirtyForRow:_index/_maxColumn];
+                    break;
+                }
+            }
+		}
+	}
+}
+
+
+@end
+
+@interface WLURLManager () {
+	WLURLParser *_parser;
+}
+
+@end
+
 @implementation WLURLManager
 - (id)init {
 	self = [super init];
 	if (self) {
 		_currentURLList = [[NSMutableArray alloc] initWithCapacity:10];
-		_currentURLStringBuffer = [[NSMutableString alloc] initWithCapacity:40];
+		_parser = [[WLURLParser alloc] initWithManager:self];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	[_currentURLList release];
-	[_currentURLStringBuffer release];
+	//[_currentURLStringBuffer release];
     [super dealloc];
 }
 #pragma mark -
@@ -172,17 +301,17 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 #pragma mark -
 #pragma mark Update State
 - (void)addURL:(NSString *)urlString 
-	   AtIndex:(int)index 
+	   atIndex:(int)index 
 		length:(int)length {
 	// If there's no url before, make the pointer point to the first URL element
 	if(_currentSelectedURLIndex < 0)
 		_currentSelectedURLIndex = 1;
+	
 	// Generate User Info
 	NSRange range;
 	range.location = index;
 	range.length = length;
-	urlString = [urlString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-	urlString = [urlString stringByReplacingOccurrencesOfString:@" " withString:@""];
+	
 	NSArray *keys = [NSArray arrayWithObjects:WLMouseHandlerUserInfoName, WLURLUserInfoName, WLRangeLocationUserInfoName, WLRangeLengthUserInfoName, nil];
 	NSArray *objects = [NSArray arrayWithObjects:self, [[urlString copy] autorelease], [NSNumber numberWithInt:index], [NSNumber numberWithInt:length], nil];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
@@ -242,86 +371,8 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	if (![_view isConnected]) {
 		return;	
 	}
-	// Resotre the url list pointer
+	// Restore the url list pointer
 	_currentSelectedURLIndex = 0;
-	
-	WLTerminal *ds = [_view frontMostTerminal];
-	cell **grid = [ds grid];
-	BOOL isReadingURL = NO;
-	const char *protocols[] = {"http://", "https://", "ftp://", "telnet://", "bbs://", "ssh://", "mailto:", "www."};
-	const int protocolNum = 8;
-    const int realProtocalNum = 7; // only the first 7 protocols are real, the others are fake.
-	int startIndex = 0;
-	int par = 0;
-	int urlLength = 0;
-	
-	[_currentURLStringBuffer setString:@""];
-	
-	for (int index = 0; index < _maxRow * _maxColumn; ++index) {
-		if (isReadingURL) {
-			// Push current char in!
-            unsigned char c = grid[index/_maxColumn][index%_maxColumn].byte;
-			// ']' is a legal url char actually, but it is seldom used
-			// Most of time, it is something like [http://someurl] so we just ignore the ']'
-			if (0x21 > c || c > 0x7E || c == '"' || c == '\'' || c == ']') {
-				// Not URL anymore, add previous one
-				[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
-				[_currentURLStringBuffer setString:@""];
-                isReadingURL = NO;
-			} else if (c == '(') {
-                ++par;
-			} else if (c == ')') {
-                if (--par < 0) {
-					// Not URL anymore, add previous one
-					[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
-					[_currentURLStringBuffer setString:@""];
-                    isReadingURL = NO;
-				}
-            } else if (c == '\\') {
-				if (_maxColumn - index%_maxColumn <= 2) {
-					// This '\\' is for connecting two lines
-					urlLength += (_maxColumn - index%_maxColumn) - 1;
-					index += (_maxColumn - index%_maxColumn) - 1;
-				} else {
-					// Not URL anymore, add previous one
-					[self addURL:_currentURLStringBuffer AtIndex:startIndex length:urlLength];
-					[_currentURLStringBuffer setString:@""];
-					isReadingURL = NO;
-				}
-			}
-			if (isReadingURL) {
-				[_currentURLStringBuffer appendFormat:@"%c", c];
-				urlLength++;
-				
-				// K.O.ed: Put this back to draw url underlines
-				grid[index/_maxColumn][index%_maxColumn].attr.f.url = YES;
-			}
-		} else {
-			// Try to match the url header
-			for (int p = 0; p < protocolNum; p++) {
-                int len = strlen(protocols[p]);
-                BOOL isMatched = YES;
-                for (int s = 0; s < len; s++)
-                    if (grid[(index+s)/_maxColumn][(index+s)%_maxColumn].byte != protocols[p][s] || grid[(index+s)/_maxColumn][(index+s)%_maxColumn].attr.f.doubleByte) {
-                        isMatched = NO;
-                        break;
-                    }
-                
-                if (isMatched) {
-					// Push current prefix into current url
-                    if (p >= realProtocalNum) [_currentURLStringBuffer appendString:@"http://"];
-					[_currentURLStringBuffer appendFormat:@"%c", protocols[p][0]];
-                    isReadingURL = YES;
-					startIndex = index;
-					par = 0;
-					urlLength = 1;
-					// K.O.ed: Put this back to draw url underlines
-					grid[index/_maxColumn][index%_maxColumn].attr.f.url = YES;
-					[ds setDirtyForRow:index/_maxColumn];
-                    break;
-                }
-            }
-		}
-	}
+	[_parser parse:[_view frontMostTerminal]];
 }
 @end

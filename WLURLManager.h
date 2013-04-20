@@ -13,11 +13,13 @@
 	NSMutableArray *_currentURLList;
 	int _currentSelectedURLIndex;
 	
-	NSMutableString *_currentURLStringBuffer;
+	//NSMutableString *_currentURLStringBuffer;
 }
 - (NSPoint)currentSelectedURLPos;
 - (BOOL)openCurrentURL:(NSEvent *)event;
 - (NSPoint)moveNext;
 - (NSPoint)movePrev;
-
+- (void)addURL:(NSString *)urlString
+	   atIndex:(int)index
+		length:(int)length;
 @end
