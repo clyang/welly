@@ -33,13 +33,14 @@
         _maxRow = [[WLGlobalConfig sharedInstance] row];
 		_maxColumn = [[WLGlobalConfig sharedInstance] column];
 		_grid = (cell **)malloc(sizeof(cell *) * _maxRow);
+		_dirty = (BOOL **)malloc(sizeof(BOOL *) * _maxRow);
         int i;
         for (i = 0; i < _maxRow; i++) {
 			// NOTE: in case _cursorX will exceed _column size (at the border of the
 			//		 screen), we allocate one more unit for this array
 			_grid[i] = (cell *)malloc(sizeof(cell) * (_maxColumn + 1));
+			_dirty[i] = (BOOL *)malloc(sizeof(BOOL) * _maxColumn);
 		}
-		_dirty = (char *)malloc(sizeof(BOOL) * (_maxRow * _maxColumn));
 		_textBuf = (unichar *)malloc(sizeof(unichar) * (_maxRow * _maxColumn + 1));
 		
 		_observers = [[NSMutableSet alloc] init];
@@ -50,8 +51,10 @@
 }
 
 - (void)dealloc {
-    for (int i = 0; i < _maxRow; i++)
+    for (int i = 0; i < _maxRow; i++) {
         free(_grid[i]);
+		free(_dirty[i]);
+	}
     free(_grid);
 	free(_dirty);
 	free(_textBuf);
@@ -115,30 +118,30 @@
 # pragma mark -
 # pragma mark Dirty
 - (void)setAllDirty {
-	int i, end = _maxColumn * _maxRow;
-	for (i = 0; i < end; i++)
-		_dirty[i] = YES;
+	for (int r = 0; r < _maxRow; r++)
+		for (int c = 0; c < _maxColumn; c++)
+			_dirty[r][c] = YES;
 }
 
 - (void)setDirtyForRow:(int)r {
-	int i, end = _maxColumn * _maxRow;
-	for (i = r * _maxColumn; i < end; i++)
-		_dirty[i] = YES;
+	for (int c = 0; c < _maxColumn; c++)
+		_dirty[r][c] = YES;
 }
 
 - (BOOL)isDirtyAtRow:(int)r 
 			  column:(int)c {
-	return _dirty[(r) * _maxColumn + (c)];
+	return _dirty[r][c];
 }
 
 - (void)setDirty:(BOOL)d
 		   atRow:(int)r
 		  column:(int)c {
-	_dirty[(r) * _maxColumn + (c)] = d;
+	_dirty[r][c] = d;
 }
 
 - (void)removeAllDirtyMarks {
-	memset(_dirty, 0, sizeof(BOOL) * (_maxRow * _maxColumn));
+	for (int r = 0; r < _maxRow; ++r)
+		memset(_dirty[r], 0, sizeof(BOOL) * _maxColumn);
 }
 
 # pragma mark -
@@ -253,15 +256,24 @@
 # pragma mark Update State
 - (void)updateDoubleByteStateForRow:(int)r {
 	cell *currRow = _grid[r];
-	int i, db = 0;
-	for (i = 0; i < _maxColumn; i++) {
+	int db = 0;
+	BOOL isDirty = NO;
+	for (int c = 0; c < _maxColumn; c++) {
 		if (db == 0 || db == 2) {
-			if (currRow[i].byte > 0x7F) db = 1;
+			if (currRow[c].byte > 0x7F) {
+				db = 1;
+				// Fix double bytes' dirty property ot be consistent
+				if (c < _maxColumn) {
+					isDirty = _dirty[r][c] || _dirty[r][c+1];
+					_dirty[r][c] = isDirty;
+					_dirty[r][c+1] = isDirty;
+				}
+			}
 			else db = 0;
 		} else { // db == 1
 			db = 2;
 		}
-		currRow[i].attr.f.doubleByte = db;
+		currRow[c].attr.f.doubleByte = db;
 	}
 }
 

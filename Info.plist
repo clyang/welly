@@ -52,8 +52,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.social-networking</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.7.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>

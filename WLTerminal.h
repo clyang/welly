@@ -31,7 +31,7 @@
     unsigned int _offset;
 	
     cell **_grid;
-    char *_dirty;
+    BOOL **_dirty;
 
 	NSMutableSet *_observers;
 
