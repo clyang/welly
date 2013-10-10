@@ -592,8 +592,13 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 - (void)keyDown:(NSEvent *)theEvent {
     [[self frontMostConnection] resetMessageCount];
+    
+    if (theEvent.characters.length == 0) {
+        // dead key pressed
+        return;
+    }
 	
-    unichar c = [[theEvent characters] characterAtIndex:0];
+    unichar c = [theEvent.characters characterAtIndex:0];
 	// URL
 	if(_isInUrlMode) {
 		BOOL shouldExit;
@@ -629,8 +634,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
     WLTerminal *ds = [self frontMostTerminal];
 
-    if (([theEvent modifierFlags] & NSControlKeyMask) &&
-	   (([theEvent modifierFlags] & NSAlternateKeyMask) == 0 )) {
+    if ((theEvent.modifierFlags & NSControlKeyMask) &&
+	   ((theEvent.modifierFlags & NSAlternateKeyMask) == 0 )) {
         buf[0] = c;
         [[self frontMostConnection] sendBytes:buf length:1];
         return;
