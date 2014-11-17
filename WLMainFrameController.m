@@ -176,7 +176,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     NSArray *a = [_tabView tabViewItems];
     for (NSTabViewItem *item in a) {
         WLConnection *connection = [[item identifier] content];
-        if ([connection isConnected] && [connection lastTouchDate] && [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
+        if ([connection isKindOfClass:[WLConnection class]] &&
+            [connection isConnected] &&
+            [connection lastTouchDate] &&
+            [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
             unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
             [connection sendBytes:msg length:6];
