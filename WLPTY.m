@@ -20,6 +20,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <termios.h>
+#include <stdlib.h>
 #import "WLGlobalConfig.h"
 #import "WLPTY.h"
 #import "WLProxy.h"
@@ -38,14 +39,20 @@
     if ([addr rangeOfString:@" "].length > 0)
         return addr;
     // check protocol
-    BOOL ssh;
+    BOOL ssh, websock;
     NSString *port = nil;
     NSRange range;
     if ([[addr lowercaseString] hasPrefix: @"ssh://"]) {
         ssh = YES;
+        websock = NO;
         addr = [addr substringFromIndex:6];
-    } else {
+    } else if ([[addr lowercaseString] hasPrefix: @"wss://"]) {
+        websock = YES;
         ssh = NO;
+        addr = [addr substringFromIndex:6];
+    }else {
+        ssh = NO;
+        websock = NO;
         range = [addr rangeOfString:@"://"];
         if (range.length > 0)
             addr = [addr substringFromIndex:range.location + range.length];
@@ -57,11 +64,18 @@
         addr = [addr substringToIndex:range.location];
     }
     // make the command
-    NSString *fmt;
+    NSString *fmt, *proxyScript;
     if (ssh) {
         if (port == nil)
             port = @"22";
-        fmt = @"/usr/bin/ssh -o PubkeyAuthentication=no -o Protocol=2,1 -p %2$@ -x %1$@";
+        fmt = @"/usr/bin/ssh -o Protocol=2,1 -p %2$@ -x %1$@";
+    } else if (websock) {
+        port = [NSString stringWithFormat:@"%d", arc4random_uniform(99999)];
+        proxyScript = [[NSBundle mainBundle] pathForResource:@"proxy.sh" ofType:@""];
+        range = [addr rangeOfString:@"@"];
+        // remove username for telnet
+        if (range.length > 0)
+            addr = [addr substringFromIndex:range.location + range.length];
     } else {
         if (port == nil)
             port = @"23";
@@ -69,16 +83,27 @@
         // remove username for telnet
         if (range.length > 0)
             addr = [addr substringFromIndex:range.location + range.length];
-        // "-" before the port number forces the initial option negotiation
-        fmt = @"/usr/bin/telnet -8 %@ -%@";
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:@"/usr/bin/telnet"]) {
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"telnet" ofType:@""];
+            fmt = [NSString stringWithFormat:@"%@%@", filePath, @" -8 %@ -%@"];
+        } else {
+            // "-" before the port number forces the initial option negotiation
+            fmt = @"/usr/bin/telnet -8 %@ -%@";
+        }
     }
-    NSString *r = [NSString stringWithFormat:fmt, addr, port];
+    
+    NSString *r;
+    if (websock) {
+        r = [NSString stringWithFormat:@"%@ wss://%@ %@", proxyScript, addr, port];
+    } else {
+        r = [NSString stringWithFormat:fmt, addr, port];
+    }
     return r;
-} 
+}
 
 - (id)init {
-	self = [super init];
-    if (self) {
+    if (self == [super init]) {
         _pid = 0;
         _fd = -1;
     }
@@ -111,7 +136,7 @@
     term.c_oflag = OPOST | ONLCR;
     term.c_cflag = CREAD | CS8 | HUPCL;
     term.c_lflag = ICANON | ISIG | IEXTEN | ECHO | ECHOE | ECHOK | ECHOKE | ECHOCTL;
-	
+    
     term.c_cc[VEOF]      = CTRLKEY('D');
     term.c_cc[VEOL]      = -1;
     term.c_cc[VEOL2]     = -1;
@@ -130,14 +155,14 @@
     term.c_cc[VMIN]      = 1;
     term.c_cc[VTIME]     = 0;
     term.c_cc[VSTATUS]   = -1;
-	
+    
     term.c_ispeed = B38400;
     term.c_ospeed = B38400;
     size.ws_col = [[WLGlobalConfig sharedInstance] column];
     size.ws_row = [[WLGlobalConfig sharedInstance] row];
     size.ws_xpixel = 0;
     size.ws_ypixel = 0;
-
+    
     _pid = forkpty(&_fd, slaveName, &term, &size);
     if (_pid == 0) { /* child */
         NSArray *a = [[WLPTY parse:addr] componentsSeparatedByString:@" "];
@@ -161,7 +186,7 @@
         [self retain]; // for the thread
         [NSThread detachNewThreadSelector:@selector(readLoop:) toTarget:[self class] withObject:self];
     }
-
+    
     _connecting = YES;
     [_delegate protocolWillConnect:self];
     return YES;
@@ -185,7 +210,7 @@
         return;
     
     [_delegate protocolWillSend:self data:data];
-
+    
     const char *msg = [data bytes];
     int length = [data length];
     while (length > 0) {
@@ -203,7 +228,7 @@
             NSLog(@"timeout!");
             break;
         } else if (result < 0) { // error
-            [self close];    
+            [self close];
             break;
         }
         
@@ -230,15 +255,15 @@
     
     while (!exit) {
         iterationCount++;
-
+        
         FD_ZERO(&readfds);
         FD_ZERO(&errorfds);
         
         FD_SET(pty->_fd, &readfds);
         FD_SET(pty->_fd, &errorfds);
-
+        
         result = select(pty->_fd + 1, &readfds, NULL, &errorfds, NULL);
-
+        
         if (result < 0) {       // error
             break;
         } else if (FD_ISSET(pty->_fd, &errorfds)) {
@@ -249,9 +274,9 @@
         } else if (FD_ISSET(pty->_fd, &readfds)) {
             result = read(pty->_fd, buf, sizeof(buf));
             if (result > 1) {
-                [pty performSelectorOnMainThread:@selector(recv:) 
-									  withObject:[[NSData alloc] initWithBytes:buf+1 length:result-1]
-								   waitUntilDone:NO];
+                [pty performSelectorOnMainThread:@selector(recv:)
+                                      withObject:[[NSData alloc] initWithBytes:buf+1 length:result-1]
+                                   waitUntilDone:NO];
             }
             if (result == 0) {
                 exit = YES;
@@ -264,7 +289,7 @@
             iterationCount = 1;
         }
     }
-
+    
     if (result >= 0) {
         [pty performSelectorOnMainThread:@selector(close) withObject:nil waitUntilDone:NO];
     }

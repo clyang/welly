@@ -106,6 +106,8 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
+		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
+		DF45920D1F7599F300162626 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF45920A1F7596BB00162626 /* usock2wsock */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -302,6 +304,8 @@
 		85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGlobalConfig.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D64A480A11E90350008ACEBD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		DF45920A1F7596BB00162626 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
+		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +432,8 @@
 				5AF9DE49118B384100E288A9 /* Plists */,
 				5AF9DE4A118B387400E288A9 /* Strings */,
 				85137B320D02192800833909 /* Credits.rtf */,
+				DF45920B1F75972200162626 /* proxy.sh */,
+				DF45920A1F7596BB00162626 /* usock2wsock */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
@@ -805,6 +811,7 @@
 				857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */,
 				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
 				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
+				DF45920D1F7599F300162626 /* usock2wsock in Resources */,
 				85137B330D02192800833909 /* Credits.rtf in Resources */,
 				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
 				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
@@ -820,6 +827,7 @@
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
+				DF45920C1F75972200162626 /* proxy.sh in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
 				5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */,
 				5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */,
@@ -1025,9 +1033,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_CFLAGS = "-D__DUMPPACKET__";
 				PRODUCT_NAME = Welly;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -1049,8 +1058,9 @@
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = Welly;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

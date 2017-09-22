@@ -181,7 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 			[defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
 		
 		// Initialize Cache
-		[isa initializeCache];
+		//[isa initializeCache];
 	}
     return self;
 }
@@ -313,7 +313,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 }
 
 - (void)setDefaultEncoding:(WLEncoding)value {
-    _defaultEncoding = value;
+    //force big-5 as default encoding
+    _defaultEncoding = 1;
     [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultEncoding"];
 }
 
