@@ -2,18 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSupportsAutomaticGraphicsSwitching</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDisplayName</key>
+	<string>Welly</string>
 	<key>CFBundleDocumentTypes</key>
 	<array/>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>Help</string>
-	<key>CFBundleDisplayName</key>
-	<string>Welly</string>
 	<key>CFBundleHelpBookName</key>
 	<string>Welly Help</string>
 	<key>CFBundleIconFile</key>
@@ -22,14 +20,12 @@
 	<string>org.net9.Welly</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleVersion</key>
-	<string>836</string>
 	<key>CFBundleName</key>
 	<string>Welly</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.7</string>
+	<string>2.9.2</string>
 	<key>CFBundleSignature</key>
 	<string>abgK</string>
 	<key>CFBundleURLTypes</key>
@@ -52,6 +48,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>905</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.7.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
@@ -71,6 +69,8 @@
 	<string>NSApplication</string>
 	<key>NSServices</key>
 	<array/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
 	<key>SUFeedURL</key>
 	<string>http://welly.googlecode.com/svn/wiki/WellyUpdate.xml</string>
 	<key>UTExportedTypeDeclarations</key>
