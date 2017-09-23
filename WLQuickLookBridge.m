@@ -16,6 +16,7 @@
 + (id)sharedPreviewPanel;
 - (void)close;
 - (void)makeKeyAndOrderFrontWithEffect:(int)flag canClose:(BOOL)canClose;
+- (void)makeKeyAndOrderFrontWithEffect:(int)flag;
 // 10.5 only
 - (void)setURLs:(NSArray *)URLs currentIndex:(NSUInteger)index preservingDisplayState:(BOOL)flag;
 - (void)setEnableDragNDrop:(BOOL)flag;
@@ -73,6 +74,7 @@ static BOOL isLion;
 		// End
 		id controller = [_panel windowController];
 		[controller setDelegate:self];
+        [_panel updateController];
 		if (isLeopard) {
 			[_panel setEnableDragNDrop:YES];
 		} else {
@@ -129,7 +131,11 @@ static BOOL isLion;
         return;
     }
     // 1 = fade in, 2 = zoom in
-    [[self Panel] makeKeyAndOrderFrontWithEffect:2 canClose:YES];
+    if ([[self Panel] respondsToSelector:@selector(makeKeyAndOrderFrontWithEffect:canClose:)]) {
+        [[self Panel] makeKeyAndOrderFrontWithEffect:2 canClose:YES];
+    } else {
+        [[self Panel] makeKeyAndOrderFrontWithEffect:2];
+    }
 }
 
 + (void)add:(NSURL *)URL {
