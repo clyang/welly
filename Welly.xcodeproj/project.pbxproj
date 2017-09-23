@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
-		07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 07B370790D6840B20035E87D /* HMBlkAppKit.framework */; };
 		1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1600D7AE0E51C2B100496E3E /* WLTerminalFeeder.m */; };
 		160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 160D6D4A0EE2E5B900CDC416 /* Security.framework */; };
 		161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161DF4A3106DD53C0003E85A /* MainMenu.xib */; };
@@ -120,7 +118,6 @@
 			files = (
 				D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */,
 				5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */,
-				07B3708E0D6840BB0035E87D /* HMBlkAppKit.framework in CopyFiles */,
 				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,7 +125,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		07B370790D6840B20035E87D /* HMBlkAppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HMBlkAppKit.framework; sourceTree = "<group>"; };
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1600D7AD0E51C2B100496E3E /* WLTerminalFeeder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTerminalFeeder.h; sourceTree = "<group>"; };
@@ -318,7 +314,6 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
-				07B3707A0D6840B20035E87D /* HMBlkAppKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
@@ -389,7 +384,6 @@
 			isa = PBXGroup;
 			children = (
 				D64A480A11E90350008ACEBD /* Growl.framework */,
-				07B370790D6840B20035E87D /* HMBlkAppKit.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,
 			);

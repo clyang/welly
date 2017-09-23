@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <HMBlkAppKit/HMBlkAppKit.h>
 
 @interface WLPreviewController : NSObject {
 }
