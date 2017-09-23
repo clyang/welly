@@ -106,7 +106,7 @@
 		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
-		DF45920D1F7599F300162626 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF45920A1F7596BB00162626 /* usock2wsock */; };
+		DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCC01F76FDCB00530892 /* usock2wsock */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -302,8 +302,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D64A480A11E90350008ACEBD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
-		DF45920A1F7596BB00162626 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
+		DFF2CCC01F76FDCB00530892 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,8 +429,8 @@
 				5AF9DE4A118B387400E288A9 /* Strings */,
 				85137B320D02192800833909 /* Credits.rtf */,
 				DF23C09F1F764358000A472E /* telnet */,
+				DFF2CCC01F76FDCB00530892 /* usock2wsock */,
 				DF45920B1F75972200162626 /* proxy.sh */,
-				DF45920A1F7596BB00162626 /* usock2wsock */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
 				85834C0F0CFEC3F30015E348 /* Whit.aiff */,
@@ -809,7 +809,7 @@
 				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
 				DF23C0A01F764362000A472E /* telnet in Resources */,
 				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
-				DF45920D1F7599F300162626 /* usock2wsock in Resources */,
+				DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */,
 				85137B330D02192800833909 /* Credits.rtf in Resources */,
 				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
 				18BB9B840D98ECC900387145 /* QQWry.dat in Resources */,
