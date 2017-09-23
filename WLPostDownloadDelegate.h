@@ -17,10 +17,15 @@
 
 + (WLPostDownloadDelegate *)sharedInstance;
 + (NSString *)downloadPostFromTerminal:(WLTerminal *)terminal;
++ (NSString *)downloadPostURLFromTerminal:(WLTerminal *)terminal;
 
 /* post download actions */
 - (void)beginPostDownloadInWindow:(NSWindow *)window 
 					  forTerminal:(WLTerminal *)terminal;
 - (IBAction)cancelPostDownload:(id)sender;
+
+/* post url download action */
+- (void)beginPostURLDownloadInWindow: (NSWindow *)window
+                      forTerminal:(WLTerminal *)terminal;
 
 @end

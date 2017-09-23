@@ -440,6 +440,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 														   forTerminal:[_tabView frontMostTerminal]];
 }
 
+// Get direct post URL from ptt
+- (IBAction)WLDirectPostURL:(id)sender {
+    [[WLPostDownloadDelegate sharedInstance] beginPostURLDownloadInWindow:_mainWindow
+                                                           forTerminal:[_tabView frontMostTerminal]];
+}
+
 - (BOOL)shouldReconnect {
 	if (![[_tabView frontMostConnection] isConnected]) return YES;
     if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) return YES;

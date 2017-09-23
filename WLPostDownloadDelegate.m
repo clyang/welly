@@ -125,6 +125,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
     return buf;
 }
 
++ (NSString *)downloadPostURLFromTerminal:(WLTerminal *)terminal {
+    const int sleepTime = 100000;
+    WLConnection *connection = [terminal connection];
+    const int linesPerPage = [[WLGlobalConfig sharedInstance] row] - 1;
+    NSString *bottomLine = [terminal stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^.*https://(.+?)\.html.*" options:0 error:nil];
+    NSString *postURL = @"";
+    
+    if ([bottomLine containsString:@"文章選讀"] || [bottomLine containsString:@"瀏覽 第"]) {
+        // in correct mode, send "Q" to get URL
+        [connection sendBytes:"Q" length:1];
+        usleep(sleepTime);
+        
+        // go through page
+        for (int i = 0; i < linesPerPage; ++i) {
+            NSString *line = [terminal stringAtIndex:i * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+            if ([line containsString:@"文章網址: https://www.ptt.cc/bbs/"]) {
+                NSTextCheckingResult *match = [regex firstMatchInString:line options:NSAnchoredSearch range:NSMakeRange(0, line.length)];
+                NSRange needleRange = [match rangeAtIndex: 1];
+                NSString *needle = [line substringWithRange:needleRange];
+                postURL = [NSString stringWithFormat:@"https://%@.html", needle];
+                // We have post url now, send a space to return to normal view
+                [connection sendBytes:" " length:1];
+                usleep(sleepTime);
+                break;
+            }
+        }
+    }
+    return postURL;
+}
+
 #pragma mark -
 #pragma mark Post Download
 - (void)preparePostDownload:(WLTerminal *)terminal {
@@ -157,5 +188,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
     [NSApp endSheet:_postWindow];
     [_postWindow orderOut:self];
 }
+
+#pragma mark -
+#pragma mark Post URL Download
+- (void)preparePostURLDownload:(WLTerminal *)terminal {
+    // clear s
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSString *url = [WLPostDownloadDelegate downloadPostURLFromTerminal:terminal];
+    if ([url length] != 0) {
+        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    }
+    [pool release];
+}
+
+- (void)beginPostURLDownloadInWindow:(NSWindow *)window
+                      forTerminal:(WLTerminal *)terminal {
+    [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
+                             toTarget:self
+                           withObject:terminal];
+}
+
 
 @end
