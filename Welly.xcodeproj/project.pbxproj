@@ -51,8 +51,6 @@
 		5A91BB110E1E1E6A007538E5 /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 5A91BAED0E1E1E6A007538E5 /* Help */; };
 		5A949D800F830C7700C00CE6 /* WLAnsiColorOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */; };
 		5A978DF11701684400C188AC /* WLMainFrameController+FullScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A978DF01701684400C188AC /* WLMainFrameController+FullScreen.m */; };
-		5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
-		5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */; };
 		5AA6807D0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AA6807C0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m */; };
 		5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB1BDBE0E18F26C0094C370 /* System.framework */; };
 		5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB1BFE20E18F3260094C370 /* MultiClickRemoteBehavior.m */; };
@@ -117,7 +115,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */,
-				5A9C08230F5D8C320033B8E6 /* Sparkle.framework in CopyFiles */,
 				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,7 +212,6 @@
 		5A949D7F0F830C7700C00CE6 /* WLAnsiColorOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAnsiColorOperationManager.m; sourceTree = "<group>"; };
 		5A978DEF1701684400C188AC /* WLMainFrameController+FullScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WLMainFrameController+FullScreen.h"; sourceTree = "<group>"; };
 		5A978DF01701684400C188AC /* WLMainFrameController+FullScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WLMainFrameController+FullScreen.m"; sourceTree = "<group>"; };
-		5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		5AA6807B0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEditingCursorMoveHotspotHandler.h; sourceTree = "<group>"; };
 		5AA6807C0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEditingCursorMoveHotspotHandler.m; sourceTree = "<group>"; };
 		5AB1BDBE0E18F26C0094C370 /* System.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = System.framework; path = /System/Library/Frameworks/System.framework; sourceTree = "<absolute>"; };
@@ -319,7 +315,6 @@
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
-				5A9C07F90F5D8C2C0033B8E6 /* Sparkle.framework in Frameworks */,
 				161DF767106DE2780003E85A /* Quartz.framework in Frameworks */,
 				161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */,
 				D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */,
@@ -385,7 +380,6 @@
 			children = (
 				D64A480A11E90350008ACEBD /* Growl.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
-				5A9C07F80F5D8C2C0033B8E6 /* Sparkle.framework */,
 			);
 			name = "Third-Party Frameworks";
 			sourceTree = "<group>";
