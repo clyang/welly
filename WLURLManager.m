@@ -13,6 +13,7 @@
 #import "WLConnection.h"
 #import "WLPreviewController.h"
 #import "WLGlobalConfig.h"
+#include <math.h>
 
 NSString *const WLMenuTitleCopyURL = @"Copy URL";
 NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
@@ -164,17 +165,22 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
-	NSString *url = [[_manager activeTrackingAreaUserInfo] objectForKey:WLURLUserInfoName];
-	if (url != nil) {
-		if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
-			// click while holding shift key or navigate web pages
-			// open the URL with browser
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-		} else {
-			// open with previewer
-			[WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
-		}
-	}
+    NSString *url = [[_manager activeTrackingAreaUserInfo] objectForKey:WLURLUserInfoName];
+    if (url != nil) {
+        if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
+            // click while holding shift key or navigate web pages
+            // open the URL with browser
+            [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+        } else {
+            if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12){
+                // if osx is Sierra and lower, then open with previewer
+                [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
+            } else {
+                // High sierra and above, just open with browser
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+            }
+        }
+    }
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
