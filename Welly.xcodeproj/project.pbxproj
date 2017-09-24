@@ -105,6 +105,9 @@
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
 		DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCC01F76FDCB00530892 /* usock2wsock */; };
+		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
+		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +119,7 @@
 			files = (
 				D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */,
 				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
+				DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +304,8 @@
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 		DFF2CCC01F76FDCB00530892 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
+		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +320,7 @@
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
+				DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
 				161DF767106DE2780003E85A /* Quartz.framework in Frameworks */,
 				161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */,
@@ -378,6 +385,7 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFF2CCC91F78132C00530892 /* Sparkle.framework */,
 				D64A480A11E90350008ACEBD /* Growl.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
 			);
@@ -424,6 +432,7 @@
 				85137B320D02192800833909 /* Credits.rtf */,
 				DF23C09F1F764358000A472E /* telnet */,
 				DFF2CCC01F76FDCB00530892 /* usock2wsock */,
+				DFF2CCCC1F7814B500530892 /* dsa_pub.pem */,
 				DF45920B1F75972200162626 /* proxy.sh */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
 				18BB9B830D98ECC900387145 /* QQWry.dat */,
@@ -818,6 +827,7 @@
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
+				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				DF45920C1F75972200162626 /* proxy.sh in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
@@ -1015,9 +1025,10 @@
 				DEPLOYMENT_LOCATION = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
+					"$(PROJECT_DIR)",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -1025,6 +1036,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-D__DUMPPACKET__";
 				PRODUCT_NAME = Welly;
@@ -1041,15 +1053,17 @@
 				DEPLOYMENT_LOCATION = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)\"",
+					"$(SRCROOT)",
 					"\"$(SRCROOT)/Quartz.framework/Frameworks\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
+					"$(PROJECT_DIR)",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = Welly;
 				SDKROOT = macosx;
