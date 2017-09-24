@@ -43,7 +43,7 @@ NSString* L(NSString* key) {
 	self = [super init];
 	if(self) {
 		m_cache = [[NSMutableDictionary dictionary] retain];
-		NSString* path = [[NSBundle mainBundle] pathForResource:@"QQWry" ofType:@"dat"];
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"qqwry170910" ofType:@"dat"];
 		if(path) {
 			m_file = [[NSFileHandle fileHandleForReadingAtPath:path] retain];
 			if(m_file) {
