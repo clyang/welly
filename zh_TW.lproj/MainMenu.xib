@@ -19,7 +19,7 @@
                 <menuItem title="Welly" id="56">
                     <menu key="submenu" title="Welly" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="關于 Welly" id="58">
+                            <menuItem title="關於 Welly" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -663,7 +663,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ax2-cc-Ldg">
                             <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" horizontallyResizable="YES" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1095">
                                     <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>
@@ -2493,6 +2493,7 @@ ssh://[id@]your.site.org[:port]</string>
                     </scrollView>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="-10" y="133"/>
         </window>
         <customObject id="207" userLabel="YLController" customClass="WLMainFrameController">
             <connections>

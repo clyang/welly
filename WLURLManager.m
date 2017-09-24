@@ -173,7 +173,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
         } else {
             if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12){
-                // if osx is Sierra and lower, then open with previewer
+                // if osx is Sierra or lower, then open with previewer
                 [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
             } else {
                 // High sierra and above, just open with browser
