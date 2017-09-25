@@ -181,8 +181,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 			[defaults setBool:YES forKey:WLCoverFlowModeEnabledKeyName];
 		
 		// Initialize Cache
-		//[isa initializeCache];
-	}
+		// Since we can't use [isa initializeCache] in new Xcode
+        // I just move the entire function to here
+        NSString *cacheDir = [WLGlobalConfig cacheDirectory];
+        BOOL flag = NO;
+        int pid = [[NSProcessInfo processInfo] processIdentifier];
+        // detect if another Welly exists
+        for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] runningApplications]) {
+            if ([[dict valueForKey:@"localizedName"] isEqualToString:@"Welly"] &&
+                [[dict valueForKey:@"processIdentifier"] intValue] != pid) {
+                flag = YES;
+                break;
+            }
+        }
+        // no other Welly
+        if (!flag)
+            [[NSFileManager defaultManager] removeItemAtPath:cacheDir error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
+    }
     return self;
 }
 
@@ -571,25 +587,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     NSAssert([paths count] > 0, @"~/Library/Caches");
     NSString *cacheDir = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Welly"];
     return cacheDir;
-}
-
-+ (void)initializeCache {
-    // clean cache at startup
-    NSString *cacheDir = [WLGlobalConfig cacheDirectory];
-    BOOL flag = NO;
-    int pid = [[NSProcessInfo processInfo] processIdentifier];
-    // detect if another Welly exists
-    for (NSDictionary *dict in [[NSWorkspace sharedWorkspace] runningApplications]) {
-        if ([[dict valueForKey:@"localizedName"] isEqualToString:@"Welly"] &&
-            [[dict valueForKey:@"processIdentifier"] intValue] != pid) {
-            flag = YES;
-            break;
-        }
-    }
-    // no other Welly
-    if (!flag)
-        [[NSFileManager defaultManager] removeItemAtPath:cacheDir error:nil];
-    [[NSFileManager defaultManager] createDirectoryAtPath:cacheDir withIntermediateDirectories:YES attributes:nil error:NULL];
 }
 
 #pragma mark -
