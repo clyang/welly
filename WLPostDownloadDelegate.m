@@ -218,8 +218,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
         [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
                              toTarget:self
                            withObject:terminal];
-    } else {
-        NSLog(@"not int ptt");
     }
 }
 
