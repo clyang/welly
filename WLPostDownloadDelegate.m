@@ -213,9 +213,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
 
 - (void)beginPostURLDownloadInWindow:(NSWindow *)window
                       forTerminal:(WLTerminal *)terminal {
-    [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
+    WLConnection *connection = [terminal connection];
+    if([connection isPTT]) {
+        [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
                              toTarget:self
                            withObject:terminal];
+    } else {
+        NSLog(@"not int ptt");
+    }
 }
 
 

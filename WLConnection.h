@@ -23,6 +23,7 @@
     NSInteger _objectCount;
 
     BOOL _connected;
+    BOOL _isPTT;
 
     NSDate *_lastTouchDate;
     
@@ -41,6 +42,7 @@
 @property (readwrite, retain) WLTerminalFeeder *terminalFeeder;
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:, nonatomic) BOOL isConnected;
+@property (readwrite, assign, setter=setPTT:, nonatomic) BOOL isPTT;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) NSInteger messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;

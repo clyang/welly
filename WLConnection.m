@@ -28,6 +28,7 @@
 @synthesize terminalFeeder = _feeder;
 @synthesize protocol = _protocol;
 @synthesize isConnected = _connected;
+@synthesize isPTT = _isPTT;
 @synthesize icon = _icon;
 @synthesize isProcessing = _isProcessing;
 @synthesize objectCount = _objectCount;
@@ -92,6 +93,10 @@
     }
 }
 
+- (void)setPTT:(BOOL)value {
+    _isPTT = value;
+}
+
 - (void)setLastTouchDate {
     [_lastTouchDate release];
     _lastTouchDate = [[NSDate date] retain];
@@ -108,6 +113,11 @@
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
+    if([[_site address] containsString:@"ptt.cc"]){
+        [self setPTT:YES];
+    } else {
+        [self setPTT:NO];
+    }
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
     //[self login];
 }
