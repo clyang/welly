@@ -214,10 +214,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
 - (void)beginPostURLDownloadInWindow:(NSWindow *)window
                       forTerminal:(WLTerminal *)terminal {
     WLConnection *connection = [terminal connection];
-    if([connection isPTT]) {
+    if([connection isPTT] && [connection isConnected]) {
         [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
                              toTarget:self
                            withObject:terminal];
+    } else {
+        NSBeginAlertSheet(NSLocalizedString(@"This function only works on PTT", @"Sheet Title"),
+                          nil,
+                          nil,
+                          nil,
+                          window,
+                          self,
+                          nil,
+                          nil,
+                          nil,
+                          NSLocalizedString(@"If you believe that this function also works on this BBS, create an issue on Github to tell me.", @"Sheet Message"));
     }
 }
 
