@@ -126,12 +126,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
 }
 
 + (NSString *)downloadPostURLFromTerminal:(WLTerminal *)terminal {
-    const int sleepTime = 100000;
+    const int sleepTime = 100000, maxAttempt = 100;
     WLConnection *connection = [terminal connection];
     const int linesPerPage = [[WLGlobalConfig sharedInstance] row] - 1;
     NSString *bottomLine = [terminal stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^.*https://(.+?)\.html.*" options:0 error:nil];
     NSString *postURL = @"";
+    int retryCount = 0;
     
     if ([bottomLine containsString:@"文章選讀"] || [bottomLine containsString:@"瀏覽 第"]) {
         // in correct mode, send "Q" to get URL
@@ -139,16 +140,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
         usleep(sleepTime);
         
         // go through page
-        for (int i = 0; i < linesPerPage; ++i) {
-            NSString *line = [terminal stringAtIndex:i * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
-            if ([line containsString:@"文章網址: https://www.ptt.cc/bbs/"]) {
-                NSTextCheckingResult *match = [regex firstMatchInString:line options:NSAnchoredSearch range:NSMakeRange(0, line.length)];
-                NSRange needleRange = [match rangeAtIndex: 1];
-                NSString *needle = [line substringWithRange:needleRange];
-                postURL = [NSString stringWithFormat:@"https://%@.html", needle];
-                // We have post url now, send a space to return to normal view
-                [connection sendBytes:" " length:1];
+        while (retryCount < maxAttempt) {
+            for (int i = 0; i < linesPerPage; ++i) {
+                NSString *line = [terminal stringAtIndex:i * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+                if ([line containsString:@"文章網址: https://www.ptt.cc/bbs/"]) {
+                    NSTextCheckingResult *match = [regex firstMatchInString:line options:NSAnchoredSearch range:NSMakeRange(0, line.length)];
+                    NSRange needleRange = [match rangeAtIndex: 1];
+                    NSString *needle = [line substringWithRange:needleRange];
+                    postURL = [NSString stringWithFormat:@"https://%@.html", needle];
+                    // We have post url now, send a space to return to normal view
+                    [connection sendBytes:" " length:1];
+                    usleep(sleepTime);
+                    break;
+                }
+            }
+            
+            if([postURL isEqualToString:@""]){
+                ++retryCount;
                 usleep(sleepTime);
+            } else {
                 break;
             }
         }
