@@ -163,9 +163,14 @@
                             <menuItem isSeparatorItem="YES" id="476">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="直連文章網址" keyEquivalent="p" id="zlP-aA-wMc">
+                            <menuItem title="直連文章網址…" keyEquivalent="p" id="zlP-aA-wMc">
                                 <connections>
                                     <action selector="WLDirectPostURL:" target="207" id="inN-XC-WkG"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="長推文…" keyEquivalent="m" id="RFG-bC-XOL">
+                                <connections>
+                                    <action selector="postPush:" target="207" id="Vnd-hM-GNh"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="全文下載…" keyEquivalent="D" id="1140">

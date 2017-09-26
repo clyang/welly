@@ -101,6 +101,8 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
+		DF0C69521F7A9CA30007742D /* PostPushPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF0C69511F7A9CA30007742D /* PostPushPanel.xib */; };
+		DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
 		DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCC01F76FDCB00530892 /* usock2wsock */; };
@@ -300,6 +302,9 @@
 		85F7F2080B06EE36000C4CDF /* WLGlobalConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGlobalConfig.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D64A480A11E90350008ACEBD /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Growl.framework; sourceTree = "<group>"; };
+		DF0C69511F7A9CA30007742D /* PostPushPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostPushPanel.xib; sourceTree = "<group>"; };
+		DF0C69531F7A9D730007742D /* WLPostPushDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLPostPushDelegate.h; sourceTree = "<group>"; };
+		DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLPostPushDelegate.m; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 		DFF2CCC01F76FDCB00530892 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
@@ -522,6 +527,7 @@
 				5A765A00108579E10052C2BA /* EmoticonsPanel.xib */,
 				5A59F234108C283500F65DEA /* ComposePanel.xib */,
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
+				DF0C69511F7A9CA30007742D /* PostPushPanel.xib */,
 			);
 			name = "Xib Files";
 			sourceTree = "<group>";
@@ -658,6 +664,8 @@
 				5A56C3810E342CFF00082312 /* WLPostDownloadDelegate.m */,
 				5AEED2FD107205ED00034E2A /* WLSitesPanelController.h */,
 				5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */,
+				DF0C69531F7A9D730007742D /* WLPostPushDelegate.h */,
+				DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */,
 			);
 			name = "Panel Controllers";
 			sourceTree = "<group>";
@@ -809,6 +817,7 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */,
 				857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */,
+				DF0C69521F7A9CA30007742D /* PostPushPanel.xib in Resources */,
 				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
 				DF23C0A01F764362000A472E /* telnet in Resources */,
 				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
@@ -867,6 +876,7 @@
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
 				8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */,
 				859252F50CFD4F860054E3D6 /* WLContextualMenuManager.m in Sources */,
+				DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */,
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,

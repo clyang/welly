@@ -22,6 +22,7 @@
 #import "WLEmoticonsPanelController.h"
 #import "WLComposePanelController.h"
 #import "WLPostDownloadDelegate.h"
+#import "WLPostPushDelegate.h"
 #import "DBPrefsWindowController.h"
 
 // Full Screen
@@ -444,6 +445,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (IBAction)WLDirectPostURL:(id)sender {
     [[WLPostDownloadDelegate sharedInstance] beginPostURLDownloadInWindow:_mainWindow
                                                            forTerminal:[_tabView frontMostTerminal]];
+}
+- (IBAction)postPush:(id)sender {
+    [[WLPostPushDelegate sharedInstance] beginPostPushInWindow:_mainWindow
+                                                           forTerminal:[_tabView frontMostTerminal]];
+
 }
 
 - (BOOL)shouldReconnect {

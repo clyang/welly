@@ -6,6 +6,7 @@
 "Are you sure you want to open the composer?" = "您确定要使用编辑器吗？";
 "Site address format error" = "站点地址格式错误";
 "This function only works on PTT" = "PTT专属功能";
+"Is this a joke?" = "你是在玩我吗!!";
 
 /* Default Button */
 "Close" = "关闭";
@@ -23,6 +24,8 @@
 "It seems that you are not in edit mode. Using composer now may cause unpredictable behaviors. Are you sure you want to continue?" = "您似乎并非在编辑文章，此时使用文本编辑器可能会产生难以预料的行为。您确定要继续吗？";
 "Your BBS ID (username) should be provided explicitly by \"id@\" in the site address field in order to use auto-login for telnet connections." = "要使用 telnet 连接的自动登录功能，您需要在地址中显式写入您的 BBS 帐号，即“id@”不可省略。";
 "If you believe that this function also works on this BBS, create an issue on Github to tell me." = "如果你觉得你目前使用的BBS也支援这项功能，还请至https://github.com/clyang/welly开issue给我";
+"Empty comment will not be sent to BBS" = "好歹输入一些文字吧!";
+"Please select your feeling of the comment!" = "请选择一下你推文的FU";
 
 /* Preferences */
 "General" = "一般";
