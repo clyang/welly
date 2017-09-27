@@ -103,9 +103,9 @@
 		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 		DF0C69521F7A9CA30007742D /* PostPushPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF0C69511F7A9CA30007742D /* PostPushPanel.xib */; };
 		DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */; };
+		DF0C69571F7BF62A0007742D /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF0C69561F7BF61F0007742D /* usock2wsock */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
-		DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCC01F76FDCB00530892 /* usock2wsock */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
@@ -305,9 +305,9 @@
 		DF0C69511F7A9CA30007742D /* PostPushPanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostPushPanel.xib; sourceTree = "<group>"; };
 		DF0C69531F7A9D730007742D /* WLPostPushDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLPostPushDelegate.h; sourceTree = "<group>"; };
 		DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLPostPushDelegate.m; sourceTree = "<group>"; };
+		DF0C69561F7BF61F0007742D /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
-		DFF2CCC01F76FDCB00530892 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				85137B320D02192800833909 /* Credits.rtf */,
 				DFF2CCD01F7825A800530892 /* qqwry170910.dat */,
 				DF23C09F1F764358000A472E /* telnet */,
-				DFF2CCC01F76FDCB00530892 /* usock2wsock */,
+				DF0C69561F7BF61F0007742D /* usock2wsock */,
 				DFF2CCCC1F7814B500530892 /* dsa_pub.pem */,
 				DF45920B1F75972200162626 /* proxy.sh */,
 				6B3128A50DB36757005D6C32 /* Welly.icns */,
@@ -821,7 +821,6 @@
 				85834C100CFEC3F30015E348 /* Whit.aiff in Resources */,
 				DF23C0A01F764362000A472E /* telnet in Resources */,
 				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
-				DFF2CCC11F76FDD000530892 /* usock2wsock in Resources */,
 				DFF2CCD11F7825AB00530892 /* qqwry170910.dat in Resources */,
 				85137B330D02192800833909 /* Credits.rtf in Resources */,
 				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
@@ -837,6 +836,7 @@
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
+				DF0C69571F7BF62A0007742D /* usock2wsock in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				DF45920C1F75972200162626 /* proxy.sh in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
