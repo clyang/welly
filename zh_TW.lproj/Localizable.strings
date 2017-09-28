@@ -6,7 +6,8 @@
 "Are you sure you want to open the composer?" = "確認要使用文本編輯器？";
 "Site address format error" = "不正確的位址格式";
 "This function only works on PTT" = "PTT專屬功能";
-"Is this a joke?" = "你是在玩我膩!!";
+"Miss something?" = "缺了一些東西喔!!";
+"Cooment too loooong" = "推文過長";
 
 /* Default Button */
 "Close" = "關閉";
@@ -26,6 +27,7 @@
 "If you believe that this function also works on this BBS, create an issue on Github to tell me." = "如果你覺得你目前使用的BBS也支援這項功能，還請至https://github.com/clyang/welly開issue給我";
 "Empty comment will not be sent to BBS" = "好歹輸入一些文字吧!";
 "Please select your feeling of the comment!" = "請選擇一下你推文的FU";
+"Comment should be less than 500 characters. Please reduce your comment or use reply instead." = "推文內容超過500字, 請縮減內容或直接回文";
 
 /* Preferences */
 "General" = "一般";

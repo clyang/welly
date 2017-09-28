@@ -18,8 +18,6 @@
 }
 
 + (WLPostPushDelegate *)sharedInstance;
-+ (NSString *)downloadPostFromTerminal:(WLTerminal *)terminal;//
-+ (NSString *)downloadPostURLFromTerminal:(WLTerminal *)terminal;
 
 /* post download actions */
 - (void)beginPostPushInWindow:(NSWindow *)window
