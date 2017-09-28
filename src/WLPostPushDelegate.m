@@ -66,6 +66,7 @@ NSString *finalPushResult;
         [self showNotificationWindow:@"Miss something?" withSheetMsg:@"Please select your feeling of the comment!"];
     } else {
         [self loadNibFile];
+        [_sendButton setEnabled:NO];
         [NSThread detachNewThreadSelector:@selector(preparePostPush:)
                                  toTarget:self
                                withObject:pushText];
@@ -74,6 +75,7 @@ NSString *finalPushResult;
 
 - (void)endThread {
     usleep(100000);
+    [_sendButton setEnabled:YES];
     if([finalPushResult isEqualToString:@"DONE"]){
         //[self showNotificationWindow:@"Auto Comment Result" withSheetMsg:@"Successfully leave the comment!"];
         [_pushText setString:@""];

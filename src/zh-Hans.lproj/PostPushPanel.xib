@@ -8,8 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WLPostPushDelegate">
             <connections>
+                <outlet property="_cancelButton" destination="lrM-dm-UGR" id="fqg-2p-rw2"/>
                 <outlet property="_pushText" destination="thu-7p-Kb2" id="O23-2e-MXX"/>
                 <outlet property="_pushWindow" destination="tjx-Bh-0u5" id="NUJ-XZ-plI"/>
+                <outlet property="_sendButton" destination="6Vz-TM-Mry" id="J3U-se-UF0"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

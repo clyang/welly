@@ -15,6 +15,8 @@
 @interface WLPostPushDelegate : NSObject{
     IBOutlet NSPanel *_pushWindow;
     IBOutlet NSTextView *_pushText;
+    IBOutlet NSButton *_sendButton;
+    IBOutlet NSButton *_cancelButton;
 }
 
 + (WLPostPushDelegate *)sharedInstance;

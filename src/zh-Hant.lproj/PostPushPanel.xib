@@ -8,8 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WLPostPushDelegate">
             <connections>
+                <outlet property="_cancelButton" destination="lrM-dm-UGR" id="eJC-Y7-PgN"/>
                 <outlet property="_pushText" destination="thu-7p-Kb2" id="O23-2e-MXX"/>
                 <outlet property="_pushWindow" destination="tjx-Bh-0u5" id="NUJ-XZ-plI"/>
+                <outlet property="_sendButton" destination="6Vz-TM-Mry" id="0Vv-3R-oYq"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -68,7 +70,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="6a3-Yo-WqF">
-                            <rect key="frame" x="572" y="1" width="16" height="238"/>
+                            <rect key="frame" x="-15" y="1" width="16" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

@@ -8,8 +8,10 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WLPostPushDelegate">
             <connections>
+                <outlet property="_cancelButton" destination="lrM-dm-UGR" id="bVI-sA-tsb"/>
                 <outlet property="_pushText" destination="thu-7p-Kb2" id="O23-2e-MXX"/>
                 <outlet property="_pushWindow" destination="tjx-Bh-0u5" id="NUJ-XZ-plI"/>
+                <outlet property="_sendButton" destination="6Vz-TM-Mry" id="QBZ-3X-4Q7"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -40,10 +42,10 @@
                         <buttonCell key="cell" type="push" title="Send" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NyH-VA-AgZ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
+                            <connections>
+                                <action selector="sendPostPushText:" target="-2" id="2Rz-PD-t1i"/>
+                            </connections>
                         </buttonCell>
-                        <connections>
-                            <action selector="sendPostPushText:" target="-2" id="wLZ-VI-SF1"/>
-                        </connections>
                     </button>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T4a-VO-FNc">
                         <rect key="frame" x="7" y="11" width="589" height="240"/>
