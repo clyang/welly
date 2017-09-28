@@ -311,6 +311,17 @@ NSString *finalPushResult;
                 modalDelegate:nil
                didEndSelector:nil
                   contextInfo:nil];
+        } else {
+            NSBeginAlertSheet(NSLocalizedString(@"You cannot use Long Comment function at current status", @"Sheet Title"),
+                              nil,
+                              nil,
+                              nil,
+                              window,
+                              self,
+                              nil,
+                              nil,
+                              nil,
+                              NSLocalizedString(@"", @"Sheet Message"));
         }
     } else {
         NSBeginAlertSheet(NSLocalizedString(@"This function only works on PTT", @"Sheet Title"),

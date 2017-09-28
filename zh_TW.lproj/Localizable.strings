@@ -9,6 +9,7 @@
 "Miss something?" = "缺了一些東西喔!!";
 "Cooment too loooong" = "推文過長";
 "Auto Comment Result" = "自動分段推文結果";
+"You cannot use Long Comment function at current status" = "請在看板看板中或是文章內使用本功能";
 
 /* Default Button */
 "Close" = "關閉";
