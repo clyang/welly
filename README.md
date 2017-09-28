@@ -6,9 +6,13 @@ Introduction / 簡介
 
 Welly is a terminal application on Mac OS X, which aims to bring best user experience for browsing term BBS. My edition is based on @KOed 's great work. This edition provides new features and bug fixes reported by users.
 
+Special Thanks to: @ElvisChiang and @sunghau
+
 ***
 
 Welly是一套運行在Mac上功能豐富的BBS軟體, 我所維護的版本是基於 @KOed 的版本之上, 做進一步的功能開發以及bug修復.
+
+特別感謝: @ElvisChiang and @sunghau
 
 Download latest version / 下載最新版
 -------------
