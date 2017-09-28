@@ -162,6 +162,7 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 	//[_currentURLStringBuffer release];
     [super dealloc];
 }
+
 #pragma mark -
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
@@ -172,13 +173,8 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
             // open the URL with browser
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
         } else {
-            if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_12){
-                // if osx is Sierra or lower, then open with previewer
-                [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
-            } else {
-                // High sierra and above, just open with browser
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
-            }
+            // open with previewer
+            [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
         }
     }
 }

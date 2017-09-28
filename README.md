@@ -28,7 +28,8 @@ Features / 主要功能
    - The user can focus on leaving long comments on specific article without worrying the system limitation.
 6. Auto update
    - Always get the up-to-date version of Welly!
-7. Support Full Screen mode
+7. Support Quick Look image on High Sierra
+8. Support Full Screen mode
 
 ***
 
@@ -44,7 +45,8 @@ Features / 主要功能
    - 您終於可以在Mac上推文時暢所欲言了, 您只需要專注在推文內容, 推文長度這種討人厭的事情就交給Welly來處理!
 6. 自動更新
    - 最即時的取得最新版的Welly
-7. 全螢幕瀏覽BBS
+7. 在High Sierra上支援圖片QuickLook功能
+8. 全螢幕瀏覽BBS
    - 給你滿滿的大螢幕版BBS!
 
 Project Dependency / 程式相依性
