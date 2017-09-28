@@ -518,7 +518,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="1195">
-                            <rect key="frame" x="5" y="14" width="30" height="19"/>
+                            <rect key="frame" x="6" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="roundRect" title="書" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1196">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -527,6 +527,22 @@ ssh://[id@]your.site.org[:port]</string>
                         </button>
                         <connections>
                             <action selector="openComposePanel:" target="207" id="1639"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="C717CB17-7D5B-4E1B-AEF0-F8954883B331" label="分段推文" paletteLabel="分段推文" id="lYo-cv-rpv">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="30" height="19"/>
+                        <size key="maxSize" width="30" height="19"/>
+                        <button key="view" verticalHuggingPriority="750" id="fGP-UI-JKz">
+                            <rect key="frame" x="11" y="14" width="30" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundRect" title="推" alternateTitle="推" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4vb-Pj-G23">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="postPush:" target="207" id="lXp-Z6-P3x"/>
                         </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D8EEE3D2-A136-4BBB-999B-75B01F2CCADA" label="RSS" paletteLabel="RSS" id="1287">
@@ -550,7 +566,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="440">
-                            <rect key="frame" x="5" y="14" width="30" height="19"/>
+                            <rect key="frame" x="6" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="sleep" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="441">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -566,7 +582,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="434">
-                            <rect key="frame" x="22" y="14" width="30" height="19"/>
+                            <rect key="frame" x="23" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="435">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -602,7 +618,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="413">
-                            <rect key="frame" x="16" y="14" width="30" height="19"/>
+                            <rect key="frame" x="17" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" title="雙" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="414">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -638,6 +654,7 @@ ssh://[id@]your.site.org[:port]</string>
                     <toolbarItem reference="831"/>
                     <toolbarItem reference="1129"/>
                     <toolbarItem reference="1194"/>
+                    <toolbarItem reference="lYo-cv-rpv"/>
                     <toolbarItem reference="234"/>
                     <toolbarItem reference="442"/>
                     <toolbarItem reference="436"/>

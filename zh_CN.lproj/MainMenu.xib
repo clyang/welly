@@ -530,6 +530,22 @@ ssh://[id@]your.site.org[:port]</string>
                             <action selector="openComposePanel:" target="207" id="1639"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="0846E785-BB6B-4310-B5C6-B9786F1D364B" label="分段推文" paletteLabel="分段推文" id="qL7-Lh-XF9">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="30" height="19"/>
+                        <size key="maxSize" width="30" height="19"/>
+                        <button key="view" verticalHuggingPriority="750" id="IRZ-3y-oph">
+                            <rect key="frame" x="11" y="14" width="30" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundRect" title="推" alternateTitle="推" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="th1-Bw-4EO">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="postPush:" target="207" id="VzG-1K-vhl"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D8EEE3D2-A136-4BBB-999B-75B01F2CCADA" label="RSS" paletteLabel="RSS" id="1287">
                         <nil key="toolTip"/>
                         <size key="minSize" width="30" height="19"/>
@@ -639,6 +655,7 @@ ssh://[id@]your.site.org[:port]</string>
                     <toolbarItem reference="831"/>
                     <toolbarItem reference="1129"/>
                     <toolbarItem reference="1194"/>
+                    <toolbarItem reference="qL7-Lh-XF9"/>
                     <toolbarItem reference="234"/>
                     <toolbarItem reference="442"/>
                     <toolbarItem reference="436"/>
