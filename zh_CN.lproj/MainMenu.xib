@@ -12,7 +12,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <userDefaultsController representsSharedInstance="YES" id="401"/>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -167,6 +167,11 @@
                                 <attributedString key="attributedTitle"/>
                                 <connections>
                                     <action selector="WLDirectPostURL:" target="207" id="t9D-De-i4F"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="自动分段推文" keyEquivalent="m" id="vCY-hT-FK5">
+                                <connections>
+                                    <action selector="postPush:" target="207" id="WfU-GM-Sav"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="全文下载…" keyEquivalent="D" id="ftU-fZ-Jql">
@@ -352,7 +357,7 @@
             </items>
         </menu>
         <window title="Welly" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="21" userLabel="Window">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES"/>
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="136" y="95" width="960" height="598"/>
@@ -412,7 +417,7 @@
                         <size key="minSize" width="28" height="19"/>
                         <size key="maxSize" width="28" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="416">
-                            <rect key="frame" x="6" y="14" width="28" height="19"/>
+                            <rect key="frame" x="7" y="14" width="28" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="bookmark" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="417">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -444,7 +449,7 @@
                         <size key="minSize" width="28" height="19"/>
                         <size key="maxSize" width="28" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="420">
-                            <rect key="frame" x="17" y="14" width="28" height="19"/>
+                            <rect key="frame" x="18" y="14" width="28" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="421">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -546,7 +551,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="440">
-                            <rect key="frame" x="5" y="14" width="30" height="19"/>
+                            <rect key="frame" x="6" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="sleep" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="441">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -562,7 +567,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="434">
-                            <rect key="frame" x="22" y="14" width="30" height="19"/>
+                            <rect key="frame" x="23" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="435">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -598,7 +603,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="413">
-                            <rect key="frame" x="16" y="14" width="30" height="19"/>
+                            <rect key="frame" x="17" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" title="双" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="414">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -664,7 +669,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="xJR-as-ZtZ">
                             <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" horizontallyResizable="YES" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1095">
                                     <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>

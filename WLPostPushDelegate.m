@@ -22,7 +22,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostPushDelegate);
 
 int postFU;
 WLTerminal *term;
-BOOL finalPushResult;
+NSString *finalPushResult;
 
 - (void)loadNibFile {
     if (!_pushWindow) {
@@ -36,10 +36,22 @@ BOOL finalPushResult;
 }
 
 - (IBAction)cancelPush:(id)sender {
-    [_pushText setString:@""];
     [_pushWindow endEditingFor:nil];
     [NSApp endSheet:_pushWindow];
     [_pushWindow orderOut:self];
+}
+
+- (void)showNotificationWindow:(NSString *)titleMsg withSheetMsg:(NSString *)sheetMsg{
+    NSBeginAlertSheet(NSLocalizedString(titleMsg, @"Sheet Title"),
+                      nil,
+                      nil,
+                      nil,
+                      _pushWindow,
+                      self,
+                      nil,
+                      nil,
+                      nil,
+                      NSLocalizedString(sheetMsg, @"Sheet Message"));
 }
 
 - (IBAction)sendPostPushText:(id)sender {
@@ -47,43 +59,44 @@ BOOL finalPushResult;
                           [NSCharacterSet whitespaceCharacterSet]];
     int pushLen = [pushText length];
     if (pushLen == 0) {
-        NSBeginAlertSheet(NSLocalizedString(@"Miss something?", @"Sheet Title"),
-                          nil,
-                          nil,
-                          nil,
-                          _pushWindow,
-                          self,
-                          nil,
-                          nil,
-                          nil,
-                          NSLocalizedString(@"Empty comment will not be sent to BBS", @"Sheet Message"));
-    } else if (pushLen > 500){
-        NSBeginAlertSheet(NSLocalizedString(@"Cooment too loooong", @"Sheet Title"),
-                          nil,
-                          nil,
-                          nil,
-                          _pushWindow,
-                          self,
-                          nil,
-                          nil,
-                          nil,
-                          NSLocalizedString(@"Comment should be less than 500 characters. Please reduce your comment or use reply instead.", @"Sheet Message"));
+        [self showNotificationWindow:@"Miss something?" withSheetMsg:@"Empty comment will not be sent to BBS"];
+    } else if (pushLen > 600){
+        [self showNotificationWindow:@"Cooment too loooong" withSheetMsg:@"Comment should be less than 500 characters. Please reduce your comment or use reply instead."];
     }else if(postFU == 0) {
-        NSBeginAlertSheet(NSLocalizedString(@"Miss something?", @"Sheet Title"),
-                          nil,
-                          nil,
-                          nil,
-                          _pushWindow,
-                          self,
-                          nil,
-                          nil,
-                          nil,
-                          NSLocalizedString(@"Please select your feeling of the comment!", @"Sheet Message"));
+        [self showNotificationWindow:@"Miss something?" withSheetMsg:@"Please select your feeling of the comment!"];
     } else {
         [self loadNibFile];
         [NSThread detachNewThreadSelector:@selector(preparePostPush:)
                                  toTarget:self
                                withObject:pushText];
+    }
+}
+
+- (void)endThread {
+    usleep(100000);
+    if([finalPushResult isEqualToString:@"DONE"]){
+        //[self showNotificationWindow:@"Auto Comment Result" withSheetMsg:@"Successfully leave the comment!"];
+        [_pushText setString:@""];
+        NSBeginAlertSheet(NSLocalizedString(@"Auto Comment Result", @"Sheet Title"),
+                          nil,
+                          nil,
+                          nil,
+                          _pushWindow,
+                          self,
+                          @selector(sheetDidEnd:resultCode:contextInfo:),
+                          nil,
+                          nil,
+                          NSLocalizedString(@"Successfully leave the comment!", @"Sheet Message"));
+    } else if (finalPushResult) {
+        [self showNotificationWindow:@"Auto Comment Result" withSheetMsg:finalPushResult];
+    }
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet
+         resultCode:(NSInteger)resultCode
+        contextInfo:(void *)contextInfo {
+    if (resultCode == NSAlertDefaultReturn) {
+        [self performSelector: @selector(cancelPush:) withObject:self afterDelay: 0.0];
     }
 }
 
@@ -93,13 +106,12 @@ BOOL finalPushResult;
     return [term stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
 }
 
-+ (BOOL)performPostPushToTerminal:(NSString *)pushText{
-    const int sleepTime = 100000, maxAttempt = 3000;
-    BOOL isPushError = NO, isFinished = NO;
++ (NSString *)performPostPushToTerminal:(NSString *)pushText{
+    const int sleepTime = 100000, maxAttempt = 500;
+    BOOL isPushError = NO, isFinished = NO, tooFrequent = NO;
     WLConnection *connection = [term connection];
     int i=0, maxPushLen;
     NSString *bottomLine, *partialText, *leftText;
-    
     // First, send "%" to see if this article can be pushed
     [connection sendBytes:"%" length:1];
     while(i< maxAttempt) {
@@ -110,8 +122,15 @@ BOOL finalPushResult;
         if([bottomLine hasPrefix:@"您覺得這篇文章 1.值得推薦"]){
             i = 0;
             break;
-        } else {
-            return NO;
+        } else if([bottomLine hasPrefix:@"→"]) {
+            // push too freqent
+            tooFrequent = YES;
+            i = 0;
+            break;
+        } else if ([bottomLine hasPrefix:@" ◆ "]) {
+            [connection sendBytes:"\r" length:1];
+            usleep(sleepTime*2);
+            return @"Unable to leave comment on this artile";
         }
     }
     
@@ -121,21 +140,27 @@ BOOL finalPushResult;
     // Then return error
     bottomLine = [WLPostPushDelegate getTerminalBottomLine];
     if (postFU == 2 && ![bottomLine containsString:@"2.給它噓聲"]) {
-        return NO;
+        [connection sendBytes:"\r" length:1];
+        usleep(sleepTime*2);
+        [connection sendBytes:"\r" length:1];
+        usleep(sleepTime*2);
+        return @"This article cannot be bu~~~";
     }
     
     // All checks out, now send post feelng and get max push length/message
-    NSString *postFUString = [NSString stringWithFormat:@"%d", postFU];
-    [connection sendText:postFUString];
-    while(i< maxAttempt) {
-        ++i;
-        usleep(sleepTime);
-        bottomLine = [WLPostPushDelegate getTerminalBottomLine];
-        if([bottomLine hasPrefix:@"推"] || [bottomLine hasPrefix:@"噓"] || [bottomLine hasPrefix:@"→"]) {
-            i = 0;
-            break;
-        }else {
-            return NO;
+    if(!tooFrequent){
+        NSString *postFUString = [NSString stringWithFormat:@"%d", postFU];
+        [connection sendText:postFUString];
+        while(i< maxAttempt) {
+            ++i;
+            usleep(sleepTime);
+            bottomLine = [WLPostPushDelegate getTerminalBottomLine];
+            if([bottomLine hasPrefix:@"推"] || [bottomLine hasPrefix:@"噓"] || [bottomLine hasPrefix:@"→"]) {
+                i = 0;
+                break;
+            }else {
+                return @"Unable to set post feeling";
+            }
         }
     }
     
@@ -148,9 +173,7 @@ BOOL finalPushResult;
         leftText = [leftText substringFromIndex:[partialText length]];
         
         [connection sendText:partialText];
-        NSLog(@"Sending %@", partialText);
         [connection sendBytes:"\r" length:1];
-        NSLog(@"Sending enter");
         while(i< maxAttempt) {
             ++i;
             usleep(sleepTime);
@@ -164,7 +187,7 @@ BOOL finalPushResult;
         }
         
         if(isPushError){
-            return NO;
+            return @"Unable to send the comment confirmation";
         }
         
         while(i< maxAttempt) {
@@ -179,7 +202,7 @@ BOOL finalPushResult;
         }
         
         if(isPushError){
-            return NO;
+            return @"Something goes wrong during leaving comment process (1)";
         }
         
         if([leftText length] == 0) {
@@ -197,41 +220,41 @@ BOOL finalPushResult;
                 isPushError = YES;
             }
             if(isPushError){
-                return NO;
+                return @"Something goes wrong during leaving comment process (2)";
             }
         }
     }
-
-    return YES;
+    return @"DONE";
 }
 
 + (NSString *) processPostPush:pushText withPushLen:(int)maxPushLen {
     int lengthInBytes, textPointer;
     
-    if([WLPostPushDelegate countBig5GBKChars:pushText] <= maxPushLen){
+    NSString *s = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    if([WLPostPushDelegate countBig5GBKChars:s] <= maxPushLen){
         return pushText;
     } else {
         lengthInBytes = 0;
-        for (int i = 0; i < [pushText length]; i++) {
-            unichar ch = [pushText characterAtIndex:i];
+        for (int i = 0; i < [s length]; i++) {
+            unichar ch = [s characterAtIndex:i];
             if (ch < 0x007F) {
                 ++lengthInBytes;
             } else {
                 lengthInBytes += 2;
             }
             if(lengthInBytes > maxPushLen){
-                textPointer = i;
+                textPointer = i-1;
                 break;
             }
         }
-        return [pushText substringToIndex:textPointer];
+        return [s substringToIndex:textPointer];
     }
 }
 
 + (int) countBig5GBKChars:(NSString *)pushText {
     int lengthInBytes = 0;
     // replace all '\n' with '\r'
-    NSString *s = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@"\r"];
+    NSString *s = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
     for (int i = 0; i < [s length]; i++) {
         unichar ch = [s characterAtIndex:i];
@@ -245,9 +268,10 @@ BOOL finalPushResult;
     return lengthInBytes;
 }
 
-- (BOOL)preparePostPush:(NSString *)pushText {
+- (void)preparePostPush:(NSString *)pushText {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     finalPushResult = [WLPostPushDelegate performPostPushToTerminal:pushText];
+    [self performSelectorOnMainThread:@selector(endThread) withObject:nil waitUntilDone:NO];
     [pool release];
 }
 
@@ -278,7 +302,6 @@ BOOL finalPushResult;
     WLConnection *connection = [term connection];
     if([connection isPTT] && [connection isConnected]) {
         [self loadNibFile];
-        [_pushText setString:@""];
         
         // check if user is in a board or article
         if([WLPostPushDelegate checkPushable]){

@@ -168,7 +168,7 @@
                                     <action selector="WLDirectPostURL:" target="207" id="inN-XC-WkG"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="長推文…" keyEquivalent="m" id="RFG-bC-XOL">
+                            <menuItem title="自動分段推文…" keyEquivalent="m" id="RFG-bC-XOL">
                                 <connections>
                                     <action selector="postPush:" target="207" id="Vnd-hM-GNh"/>
                                 </connections>

@@ -8,6 +8,7 @@
 "This function only works on PTT" = "PTT專屬功能";
 "Miss something?" = "缺了一些東西喔!!";
 "Cooment too loooong" = "推文過長";
+"Auto Comment Result" = "自動分段推文結果";
 
 /* Default Button */
 "Close" = "關閉";
@@ -28,6 +29,14 @@
 "Empty comment will not be sent to BBS" = "好歹輸入一些文字吧!";
 "Please select your feeling of the comment!" = "請選擇一下你推文的FU";
 "Comment should be less than 500 characters. Please reduce your comment or use reply instead." = "推文內容超過500字, 請縮減內容或直接回文";
+"Successfully leave the comment!" = "自動分段推文成功";
+"Something is going wrong while leaving the comment. Please try again!" = "自動分段推文發生錯誤, 請檢查後再試!";
+"Unable to leave comment on this artile" = "很抱歉, 無法推本篇文章";
+"This article cannot be bu~~~" = "喔喔, 這篇文章不給噓!";
+"Unable to set post feeling" = "無法送出推文心情";
+"Unable to send the comment confirmation" = "無法送出推文確認字元";
+"Something goes wrong during leaving comment process (1)" = "連續推文過程中發生錯誤! (1)";
+"Something goes wrong during leaving comment process (2)" = "連續推文過程中發生錯誤! (2)";
 
 /* Preferences */
 "General" = "一般";
