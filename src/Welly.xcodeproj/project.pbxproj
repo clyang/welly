@@ -42,7 +42,6 @@
 		5A596600109E8D2100D33FAC /* WLTermView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5965FF109E8D2100D33FAC /* WLTermView.m */; };
 		5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F234108C283500F65DEA /* ComposePanel.xib */; };
 		5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */; };
-		5A5A565F132B72BB00BE9A54 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5A5A565E132B72BB00BE9A54 /* README.md */; };
 		5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */; };
 		5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A76586E1082D3470052C2BA /* SitesPanel.xib */; };
 		5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A765A00108579E10052C2BA /* EmoticonsPanel.xib */; };
@@ -201,7 +200,6 @@
 		5A59F2DA108EB9D300F65DEA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
 		5A59F2DE108EB9E200F65DEA /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
 		5A59F2DF108EB9E500F65DEA /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/PostDownloadPanel.xib; sourceTree = "<group>"; };
-		5A5A565E132B72BB00BE9A54 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		5A6A7ED70F497FC000DC952F /* WLAuthorAreaHotspotHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAuthorAreaHotspotHandler.h; sourceTree = "<group>"; };
 		5A6A7ED80F497FC000DC952F /* WLAuthorAreaHotspotHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLAuthorAreaHotspotHandler.m; sourceTree = "<group>"; };
 		5A76586A1082D32C0052C2BA /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SitesPanel.xib; sourceTree = "<group>"; };
@@ -431,7 +429,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5A5A565E132B72BB00BE9A54 /* README.md */,
 				5A7659FD108579B40052C2BA /* Xib Files */,
 				161DF52D106DDDBB0003E85A /* Images */,
 				5AF9DE49118B384100E288A9 /* Plists */,
@@ -846,7 +843,6 @@
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
 				5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */,
 				5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */,
-				5A5A565F132B72BB00BE9A54 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
