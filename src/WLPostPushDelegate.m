@@ -14,6 +14,40 @@
 
 #define kPostPushPanelNibFilename @"PostPushPanel"
 
+@implementation NSString (TrimmingAdditions)
+
+- (NSString *)stringByTrimmingLeadingCharactersInSet:(NSCharacterSet *)characterSet {
+    NSUInteger location = 0;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+    
+    for (location; location < length; location++) {
+        if (![characterSet characterIsMember:charBuffer[location]]) {
+            break;
+        }
+    }
+    
+    return [self substringWithRange:NSMakeRange(location, length - location)];
+}
+
+- (NSString *)stringByTrimmingTrailingCharactersInSet:(NSCharacterSet *)characterSet {
+    NSUInteger location = 0;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+    
+    for (length; length > 0; length--) {
+        if (![characterSet characterIsMember:charBuffer[length - 1]]) {
+            break;
+        }
+    }
+    
+    return [self substringWithRange:NSMakeRange(location, length - location)];
+}
+
+@end
+
 @implementation WLPostPushDelegate
 
 #pragma mark -
@@ -109,12 +143,19 @@ NSString *finalPushResult;
 }
 
 + (NSString *)performPostPushToTerminal:(NSString *)pushText{
-    const int sleepTime = 100000, maxAttempt = 500;
+    const int sleepTime = 100000, maxAttempt = 300;
     BOOL isPushError = NO, isFinished = NO, tooFrequent = NO;
     WLConnection *connection = [term connection];
     int i=0, maxPushLen;
     NSString *bottomLine, *partialText, *leftText;
-    // First, send "%" to see if this article can be pushed
+    
+    // First, remove annonying newline "\r" and "\n" char at the very beginning.
+    // Trailing space will also be removed.
+    pushText = [pushText stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    pushText = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    pushText = [pushText stringByTrimmingTrailingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // send "%" to see if this article can be pushed
     [connection sendBytes:"%" length:1];
     while(i< maxAttempt) {
         // wait for the screen to refresh
@@ -168,7 +209,7 @@ NSString *finalPushResult;
     
     // Start to process pushtext. test string:
     // 35歲的韋德手握3枚冠軍戒指，即將進入生涯末期的他希望能再拼一冠，「沒有什麼地方比這裡更能讓我打出高水準，克里夫蘭相信我的天份以及我能帶給球隊許多奪冠因子。」
-    maxPushLen = 65 - ([bottomLine rangeOfString:@":"].location + 3); // why 3? It's magic number!!
+    maxPushLen = 65 - ([bottomLine rangeOfString:@":"].location + 3); // why 3? It's a magic number!!
     leftText = pushText;
     while(!isFinished){
         partialText = [WLPostPushDelegate processPostPush:leftText withPushLen:maxPushLen];
@@ -232,13 +273,12 @@ NSString *finalPushResult;
 + (NSString *) processPostPush:pushText withPushLen:(int)maxPushLen {
     int lengthInBytes, textPointer;
     
-    NSString *s = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    if([WLPostPushDelegate countBig5GBKChars:s] <= maxPushLen){
+    if([WLPostPushDelegate countBig5GBKChars:pushText] <= maxPushLen){
         return pushText;
     } else {
         lengthInBytes = 0;
-        for (int i = 0; i < [s length]; i++) {
-            unichar ch = [s characterAtIndex:i];
+        for (int i = 0; i < [pushText length]; i++) {
+            unichar ch = [pushText characterAtIndex:i];
             if (ch < 0x007F) {
                 ++lengthInBytes;
             } else {
@@ -249,17 +289,15 @@ NSString *finalPushResult;
                 break;
             }
         }
-        return [s substringToIndex:textPointer];
+        return [pushText substringToIndex:textPointer];
     }
 }
 
 + (int) countBig5GBKChars:(NSString *)pushText {
     int lengthInBytes = 0;
-    // replace all '\n' with '\r'
-    NSString *s = [pushText stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
-    for (int i = 0; i < [s length]; i++) {
-        unichar ch = [s characterAtIndex:i];
+    for (int i = 0; i < [pushText length]; i++) {
+        unichar ch = [pushText characterAtIndex:i];
         if (ch < 0x007F) {
             ++lengthInBytes;
         } else {
