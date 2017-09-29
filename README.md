@@ -47,6 +47,7 @@ Features / 主要功能
    - 在文章列表或閱讀文章時, 按command+p即可用瀏覽器開啟該篇的網頁版, 對於圖片很多的文章特別好用!
 5. 自動分段推文 ( `command+m` )
    - 您終於可以在Mac上推文時暢所欲言了, 您只需要專注在推文內容, 推文長度這種討人厭的事情就交給Welly來處理!
+   - ![](https://i.imgur.com/0ojoCkv.gif)
 6. 自動更新
    - 最即時的取得最新版的Welly
 7. 在High Sierra上支援圖片QuickLook功能
