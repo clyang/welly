@@ -25,7 +25,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.9.6</string>
+	<string>2.9.6.1</string>
 	<key>CFBundleSignature</key>
 	<string>abgK</string>
 	<key>CFBundleURLTypes</key>
@@ -49,7 +49,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>909</string>
+	<string>910</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.7.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
@@ -71,14 +71,14 @@
 	<array/>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
-	<key>SUFeedURL</key>
-	<string>https://csie.io/welly/update.xml</string>
-	<key>SUScheduledCheckInterval</key>
-	<integer>43200</integer>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>https://csie.io/welly/update.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>43200</integer>
 	<key>UTExportedTypeDeclarations</key>
 	<array/>
 	<key>UTImportedTypeDeclarations</key>
