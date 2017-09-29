@@ -73,6 +73,10 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://csie.io/welly/update.xml</string>
+	<key>SUScheduledCheckInterval</key>
+	<integer>43200</integer>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>UTExportedTypeDeclarations</key>
