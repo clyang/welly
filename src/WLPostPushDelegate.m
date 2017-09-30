@@ -200,11 +200,16 @@ NSString *finalPushResult;
             bottomLine = [WLPostPushDelegate getTerminalBottomLine];
             if([bottomLine hasPrefix:@"推"] || [bottomLine hasPrefix:@"噓"] || [bottomLine hasPrefix:@"→"]) {
                 i = 0;
+                isPushError = NO;
                 break;
-            }else {
-                return @"Unable to set post feeling";
             }
+            isPushError = YES;
         }
+        
+        if(isPushError){
+            return @"Unable to set post feeling";
+        }
+        
     }
     
     // Start to process pushtext. test string:
@@ -224,6 +229,7 @@ NSString *finalPushResult;
             if([bottomLine containsString:@"確定[y/N]:"]) {
                 [connection sendBytes:"Y\r" length:2];
                 i = 0;
+                isPushError = NO;
                 break;
             }
             isPushError = YES;
@@ -239,6 +245,7 @@ NSString *finalPushResult;
             bottomLine = [WLPostPushDelegate getTerminalBottomLine];
             if ([bottomLine containsString:@"文章選讀"]) {
                 i = 0;
+                isPushError = NO;
                 break;
             }
             isPushError = YES;
@@ -258,6 +265,7 @@ NSString *finalPushResult;
                 bottomLine = [WLPostPushDelegate getTerminalBottomLine];
                 if([bottomLine hasPrefix:@"→"]) {
                     i = 0;
+                    isPushError = NO;
                     break;
                 }
                 isPushError = YES;
