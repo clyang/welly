@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="WLPostPushDelegate">
             <connections>
                 <outlet property="_cancelButton" destination="lrM-dm-UGR" id="bVI-sA-tsb"/>
+                <outlet property="_progressCircle" destination="3Wa-NW-z3i" id="8RF-xp-Y9v"/>
                 <outlet property="_pushText" destination="thu-7p-Kb2" id="O23-2e-MXX"/>
                 <outlet property="_pushWindow" destination="tjx-Bh-0u5" id="NUJ-XZ-plI"/>
                 <outlet property="_sendButton" destination="6Vz-TM-Mry" id="QBZ-3X-4Q7"/>
@@ -107,6 +108,10 @@
                             <action selector="setPostPushFu:" target="-2" id="wWW-Ek-1Oc"/>
                         </connections>
                     </button>
+                    <progressIndicator hidden="YES" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="3Wa-NW-z3i">
+                        <rect key="frame" x="337" y="113" width="32" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </progressIndicator>
                 </subviews>
             </view>
             <connections>
