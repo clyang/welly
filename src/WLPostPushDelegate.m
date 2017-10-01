@@ -101,6 +101,12 @@ NSString *finalPushResult;
     } else {
         [self loadNibFile];
         [_sendButton setEnabled:NO];
+        [_cancelButton setEnabled:NO];
+        [_progressCircle setHidden:NO];
+        [_progressCircle setIndeterminate:YES];
+        [_progressCircle setUsesThreadedAnimation:YES];
+        [_progressCircle startAnimation:nil];
+        
         [NSThread detachNewThreadSelector:@selector(preparePostPush:)
                                  toTarget:self
                                withObject:pushText];
@@ -110,6 +116,12 @@ NSString *finalPushResult;
 - (void)endThread {
     usleep(100000);
     [_sendButton setEnabled:YES];
+    [_cancelButton setEnabled:YES];
+    [_progressCircle setHidden:YES];
+    [_progressCircle setIndeterminate:YES];
+    [_progressCircle setUsesThreadedAnimation:YES];
+    [_progressCircle stopAnimation:nil];
+    
     if([finalPushResult isEqualToString:@"DONE"]){
         //[self showNotificationWindow:@"Auto Comment Result" withSheetMsg:@"Successfully leave the comment!"];
         [_pushText setString:@""];

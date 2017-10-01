@@ -17,6 +17,7 @@
     IBOutlet NSTextView *_pushText;
     IBOutlet NSButton *_sendButton;
     IBOutlet NSButton *_cancelButton;
+    IBOutlet NSProgressIndicator *_progressCircle;
 }
 
 + (WLPostPushDelegate *)sharedInstance;
