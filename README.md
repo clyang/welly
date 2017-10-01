@@ -16,7 +16,7 @@ Welly是一套運行在Mac上功能豐富的BBS軟體, 我所維護的版本是�
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.2.9.6.1](https://github.com/clyang/welly/releases/tag/2.9.6.1)
+Welly - clyang edition: [v.2.9.6.2](https://github.com/clyang/welly/releases/tag/2.9.6.2)
 
 Features / 主要功能
 -------------
@@ -53,6 +53,13 @@ Features / 主要功能
 7. 在High Sierra上支援圖片QuickLook功能
 8. 全螢幕瀏覽BBS
    - 給你滿滿的大螢幕版BBS!
+
+FAQ / 常見問題
+-------------
+Q: 連上後都是亂碼怎麼辦?
+
+A: 點選上方menubar的 "顯示方式" -> "編碼" -> "正體中文"
+
 
 Project Dependency / 程式相依性
 -------------
