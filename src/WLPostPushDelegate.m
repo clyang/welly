@@ -103,6 +103,7 @@ NSString *finalPushResult;
         [_sendButton setEnabled:NO];
         [_cancelButton setEnabled:NO];
         [_progressCircle setHidden:NO];
+        [_pushText setEditable:NO];
         [_progressCircle setIndeterminate:YES];
         [_progressCircle setUsesThreadedAnimation:YES];
         [_progressCircle startAnimation:nil];
@@ -121,6 +122,7 @@ NSString *finalPushResult;
     [_progressCircle setIndeterminate:YES];
     [_progressCircle setUsesThreadedAnimation:YES];
     [_progressCircle stopAnimation:nil];
+    [_pushText setEditable:YES];
     
     if([finalPushResult isEqualToString:@"DONE"]){
         //[self showNotificationWindow:@"Auto Comment Result" withSheetMsg:@"Successfully leave the comment!"];
@@ -155,7 +157,7 @@ NSString *finalPushResult;
 }
 
 + (NSString *)performPostPushToTerminal:(NSString *)pushText{
-    const int sleepTime = 100000, maxAttempt = 300;
+    const int sleepTime = 100000, maxAttempt = 500;
     BOOL isPushError = NO, isFinished = NO, tooFrequent = NO;
     WLConnection *connection = [term connection];
     int i=0, maxPushLen;
@@ -279,6 +281,19 @@ NSString *finalPushResult;
                     i = 0;
                     isPushError = NO;
                     break;
+                } else if([bottomLine containsString:@"本板禁止快速連續推文"]) {
+                    // get the pause seconds
+                    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"請再等 ?(\\d+) ?秒" options:0 error:nil];
+                    NSTextCheckingResult *match = [regex firstMatchInString:bottomLine options:NSAnchoredSearch range:NSMakeRange(0, bottomLine.length)];
+                    NSRange needleRange = [match rangeAtIndex: 1];
+                    NSString *needle = [bottomLine substringWithRange:needleRange];
+                    
+                    // the board bans fast comment, just sleep for 1 second
+                    // and give it another try.
+                    [connection sendBytes:" " length:1];
+                    sleep([needle intValue]);
+                    [connection sendBytes:"%" length:1];
+                    usleep(sleepTime);
                 }
                 isPushError = YES;
             }
