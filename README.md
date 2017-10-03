@@ -16,7 +16,7 @@ Welly是一套運行在Mac上功能豐富的BBS軟體, 我所維護的版本是�
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.2.9.6.2](https://github.com/clyang/welly/releases/tag/2.9.6.2)
+Welly - clyang edition: [v.2.9.6.3](https://github.com/clyang/welly/releases/tag/2.9.6.3)
 
 Features / 主要功能
 -------------
