@@ -49,6 +49,7 @@
 @property (assign, setter=setConnection:, nonatomic) WLConnection *connection;
 @property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
+@property (readwrite, copy) NSString *idBlacklist;
 
 /* Clear */
 - (void)clearAll;

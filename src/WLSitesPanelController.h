@@ -32,7 +32,8 @@
 
     IBOutlet NSPopUpButton *_proxyTypeButton;
     IBOutlet NSTextField *_proxyAddressField;
-	
+    IBOutlet NSTextField *_idBlacklistField;
+    
     /* Password Window Outlets */
     IBOutlet NSPanel *_passwordPanel;
     IBOutlet NSSecureTextField *_passwordField;

@@ -19,6 +19,7 @@ NSString *const YLSiteAnsiColorKeyAttributeName = @"ansicolorkey";
 NSString *const YLSiteDetectDoubleByteAttributeName = @"detectdoublebyte";
 NSString *const YLSiteEnableMouseAttributeName = @"enablemouse";
 NSString *const YLSiteAutoReplyStringAttributeName = @"autoreplystring";
+NSString *const WLSiteIdBlackListAttributeName = @"idblacklist";
 NSString *const WLSiteProxyTypeAttributeName = @"proxytype";
 NSString *const WLSiteProxyAddressAttributeName = @"proxyaddress";
 
@@ -36,6 +37,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 @synthesize shouldEnableMouse = _shouldEnableMouse;
 @synthesize proxyType = _proxyType;
 @synthesize proxyAddress = _proxyAddress;
+@synthesize idBlacklist = _idBlacklist;
 
 - (id)init {
 	self = [super init];
@@ -43,6 +45,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
         [self setName:NSLocalizedString(WLDefaultSiteName, @"Site")];
 
         [self setAddress:@""];
+        [self setIdBlacklist:@""];
 
         [self setEncoding:[[WLGlobalConfig sharedInstance] defaultEncoding]];
         [self setShouldDetectDoubleByte:[[WLGlobalConfig sharedInstance] shouldDetectDoubleByte]];
@@ -70,6 +73,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 	[s setShouldEnableMouse:[[d valueForKey:YLSiteEnableMouseAttributeName] boolValue]];
 	[s setShouldAutoReply:NO];
 	[s setAutoReplyString:[d valueForKey:YLSiteAutoReplyStringAttributeName] ?: NSLocalizedString(WLDefaultAutoReplyString, @"Site")];
+    [s setIdBlacklist:[d valueForKey:WLSiteIdBlackListAttributeName] ?: @""];
     [s setProxyType:[[d valueForKey:WLSiteProxyTypeAttributeName] unsignedShortValue]];
     [s setProxyAddress:[d valueForKey:WLSiteProxyAddressAttributeName] ?: @""];
     return s;
@@ -82,6 +86,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
             [NSNumber numberWithBool:[self shouldDetectDoubleByte]], YLSiteDetectDoubleByteAttributeName,
 			[NSNumber numberWithBool:[self shouldEnableMouse]], YLSiteEnableMouseAttributeName,
 			[self autoReplyString] ?: @"", YLSiteAutoReplyStringAttributeName,
+            [self idBlacklist] ?: @"", WLSiteIdBlackListAttributeName,
             [NSNumber numberWithUnsignedShort:[self proxyType]], WLSiteProxyTypeAttributeName,
             [self proxyAddress] ?: @"", WLSiteProxyAddressAttributeName, nil];
 }

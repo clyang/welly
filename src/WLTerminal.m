@@ -34,6 +34,7 @@
 		_maxColumn = [[WLGlobalConfig sharedInstance] column];
 		_grid = (cell **)malloc(sizeof(cell *) * _maxRow);
 		_dirty = (BOOL **)malloc(sizeof(BOOL *) * _maxRow);
+        
         int i;
         for (i = 0; i < _maxRow; i++) {
 			// NOTE: in case _cursorX will exceed _column size (at the border of the
@@ -66,23 +67,49 @@
 #pragma mark -
 #pragma mark input interface
 - (void)feedGrid:(cell **)grid {
-	// Clear the url list
-	for (int i = 0; i < _maxRow; i++) {
-		memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
-	}
-	
-	for (int i = 0; i < _maxRow; i++) {
+    int i,j;
+    NSString *commentID = @"";
+    BOOL anyBlackID = NO;
+    
+    // Clear the url list
+    for (i = 0; i < _maxRow; i++) {
+        memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
+    }
+    
+    for(i=0; i<_maxRow; ++i){
+        if(_grid[i][75].byte == ':' && (
+                                        (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
+                                        (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
+                                        (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
+                                       ){
+            NSArray *blackListArray = [[[[self connection] site] idBlacklist] componentsSeparatedByString:@","];
+            for(j=4;  _grid[i][j].byte != ':' ; ++j);
+            commentID = [self stringAtIndex:( i * _maxColumn + 3) length:j-3];
+            if([blackListArray containsObject:commentID]) {
+                for(j=0; j < _maxColumn; ++j) {
+                    _grid[i][j].attr.f.fgColor = 0;
+                    _grid[i][j].attr.v = 400;
+                }
+                anyBlackID = YES;
+            }
+        }
+    }
+    if(anyBlackID) {
+        [self setAllDirty];
+    }
+    
+    for (i = 0; i < _maxRow; i++) {
         [self updateDoubleByteStateForRow:i];
     }
-	
-	[self updateBBSState];
-	
-	[self notifyObservers];
-	/*
-    [_view performSelector:@selector(tick:)
-				withObject:nil
-				afterDelay:0.01];
-	 */
+    
+    [self updateBBSState];
+    
+    [self notifyObservers];
+    /*
+     [_view performSelector:@selector(tick:)
+     withObject:nil
+     afterDelay:0.01];
+     */
 }
 
 - (void)setCursorX:(int)cursorX

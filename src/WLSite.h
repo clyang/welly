@@ -21,9 +21,11 @@
 	BOOL _shouldAutoReply;
 	BOOL _shouldEnableMouse;
 	NSString *_autoReplyString;
+    NSString *_idBlacklist;
     WLProxyType _proxyType;
     NSString *_proxyAddress;
 }
+
 @property (readwrite, copy) NSString *name;
 @property (readwrite, copy) NSString *address;
 @property (readwrite, assign) WLEncoding encoding;
@@ -31,6 +33,7 @@
 @property (readwrite, assign) BOOL shouldDetectDoubleByte;
 @property (readwrite, assign) BOOL shouldAutoReply;
 @property (readwrite, copy) NSString *autoReplyString;
+@property (readwrite, copy) NSString *idBlacklist;
 @property (readwrite, assign) BOOL shouldEnableMouse;
 @property (readwrite, assign) WLProxyType proxyType;
 @property (readwrite, copy) NSString *proxyAddress;

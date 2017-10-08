@@ -268,8 +268,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     NSMutableArray *a = [NSMutableArray array];
     for (i = 0; i < tabNumber; i++) {
         id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
-        if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] isDummy]) // not empty tab
+        if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] isDummy]){ // not empty tab
             [a addObject:[[connection site] dictionaryOfSite]];
+        NSLog(@"%@", [[connection site] idBlacklist]);
+        }
     }
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"LastConnections"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -363,13 +365,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         name = [name substringFromIndex: 9];
     if ([[name lowercaseString] hasPrefix:@"bbs://"])
         name = [name substringFromIndex: 6];
+    if ([[name lowercaseString] hasPrefix:@"wss://"])
+        name = [name substringFromIndex: 6];
     
     NSMutableArray *matchedSites = [NSMutableArray array];
     WLSite *s;
 	NSArray *sites = [WLSitesPanelController sites];
         
-    if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */        
-        for (WLSite *site in sites) 
+    if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */
+        for (WLSite *site in sites)
             if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
                 [matchedSites addObject:site];
         if ([matchedSites count] > 0) {
@@ -381,7 +385,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
             [s setName:name];
         }
     } else { /* Short Address? */
-        for (WLSite *site in sites) 
+        for (WLSite *site in sites)
             if ([[site name] rangeOfString:name].location != NSNotFound) 
                 [matchedSites addObject:site];
         [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
