@@ -76,13 +76,13 @@
         memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
     }
     
+    NSArray *blackListArray = [[[[self connection] site] idBlacklist] componentsSeparatedByString:@","];
     for(i=0; i<_maxRow; ++i){
         if(_grid[i][75].byte == ':' && (
                                         (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
                                         (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
                                         (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
                                        ){
-            NSArray *blackListArray = [[[[self connection] site] idBlacklist] componentsSeparatedByString:@","];
             for(j=4;  _grid[i][j].byte != ':' ; ++j);
             commentID = [self stringAtIndex:( i * _maxColumn + 3) length:j-3];
             if([blackListArray containsObject:commentID]) {
