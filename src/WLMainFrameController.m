@@ -266,11 +266,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     int tabNumber = [_tabView numberOfTabViewItems];
     int i;
     NSMutableArray *a = [NSMutableArray array];
+    NSArray *sites = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Sites"];
     for (i = 0; i < tabNumber; i++) {
         id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
         if ([connection isKindOfClass:[WLConnection class]] && ![[connection site] isDummy]){ // not empty tab
-            [a addObject:[[connection site] dictionaryOfSite]];
-        NSLog(@"%@", [[connection site] idBlacklist]);
+            for (NSDictionary *d in sites) {
+                if ([[[connection site] address] isEqualToString:[d objectForKey:@"address"]] ){
+                    [a addObject: d];
+                    break;
+                }
+            }
         }
     }
     [[NSUserDefaults standardUserDefaults] setObject:a forKey:@"LastConnections"];

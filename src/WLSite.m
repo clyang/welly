@@ -111,6 +111,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 	[s setShouldEnableMouse:[self shouldEnableMouse]];
     [s setProxyType:[self proxyType]];
     [s setProxyAddress:[self proxyAddress]];
+    [s setIdBlacklist:[self idBlacklist]];
     return s;
 }
 
