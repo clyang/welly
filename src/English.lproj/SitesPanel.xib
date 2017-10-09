@@ -9,6 +9,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WLSitesPanelController">
             <connections>
+                <outlet property="_idBlacklistField" destination="WeP-tV-xjh" id="K59-hf-QkJ"/>
                 <outlet property="_passwordField" destination="6" id="111"/>
                 <outlet property="_passwordPanel" destination="3" id="125"/>
                 <outlet property="_proxyAddressField" destination="22" id="118"/>
@@ -21,7 +22,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <arrayController objectClassName="WLSite" id="1" userLabel="Sites Array">
             <declaredKeys>
                 <string>name</string>
@@ -37,6 +38,7 @@
                 <string>shouldEnableMouse</string>
                 <string>proxyType</string>
                 <string>proxyAddress</string>
+                <string>idBlacklist</string>
             </declaredKeys>
             <connections>
                 <binding destination="-2" name="contentArray" keyPath="sites" id="123"/>
@@ -45,10 +47,10 @@
         <window title="Address Book" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="2" userLabel="Sites Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="122" width="441" height="388"/>
+            <rect key="contentRect" x="196" y="122" width="441" height="415"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="13">
-                <rect key="frame" x="0.0" y="0.0" width="441" height="388"/>
+                <rect key="frame" x="0.0" y="0.0" width="441" height="415"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" imageHugsTitle="YES" id="17">
@@ -107,18 +109,18 @@ Gw
                         </connections>
                     </button>
                     <splitView dividerStyle="thin" vertical="YES" id="18">
-                        <rect key="frame" x="5" y="43" width="431" height="340"/>
+                        <rect key="frame" x="5" y="43" width="431" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="19">
-                                <rect key="frame" x="0.0" y="0.0" width="114" height="340"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="EAn-AU-0JH">
-                                    <rect key="frame" x="1" y="1" width="112" height="338"/>
+                                    <rect key="frame" x="1" y="1" width="112" height="365"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" id="70">
-                                            <rect key="frame" x="0.0" y="0.0" width="112" height="338"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="112" height="365"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -162,21 +164,21 @@ Gw
                                 </connections>
                             </scrollView>
                             <box autoresizesSubviews="NO" borderType="none" title="Site Info" titlePosition="noTitle" id="20">
-                                <rect key="frame" x="112" y="-2" width="322" height="346"/>
+                                <rect key="frame" x="112" y="-2" width="322" height="373"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <view key="contentView" id="sjz-QT-Rpu">
-                                    <rect key="frame" x="0.0" y="0.0" width="322" height="346"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="322" height="373"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <box autoresizesSubviews="NO" borderType="line" id="21">
-                                            <rect key="frame" x="2" y="-4" width="323" height="364"/>
+                                            <rect key="frame" x="2" y="-4" width="323" height="391"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <view key="contentView" id="Lg3-ch-PBG">
-                                                <rect key="frame" x="1" y="1" width="321" height="348"/>
+                                                <rect key="frame" x="1" y="1" width="321" height="375"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" id="39">
-                                                        <rect key="frame" x="89" y="156" width="191" height="18"/>
+                                                        <rect key="frame" x="89" y="183" width="191" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Enable Double Bytes Detection" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="40">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -188,7 +190,7 @@ Gw
                                                         </connections>
                                                     </button>
                                                     <button imageHugsTitle="YES" id="38">
-                                                        <rect key="frame" x="88" y="176" width="162" height="18"/>
+                                                        <rect key="frame" x="87" y="203" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Enable Mouse Browsing" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="41">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -200,7 +202,7 @@ Gw
                                                         </connections>
                                                     </button>
                                                     <textField verticalHuggingPriority="750" id="37">
-                                                        <rect key="frame" x="6" y="311" width="69" height="14"/>
+                                                        <rect key="frame" x="6" y="338" width="69" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Name:" id="42">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -209,7 +211,7 @@ Gw
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="36">
-                                                        <rect key="frame" x="82" y="282" width="185" height="19"/>
+                                                        <rect key="frame" x="82" y="309" width="185" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <string key="toolTip">[telnet://][id@]your.site.org[:port]
 ssh://[id@]your.site.org[:port]</string>
@@ -224,7 +226,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="35">
-                                                        <rect key="frame" x="3" y="207" width="99" height="14"/>
+                                                        <rect key="frame" x="3" y="234" width="99" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="ANSI Color Key:" id="44">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -233,7 +235,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="34">
-                                                        <rect key="frame" x="82" y="309" width="212" height="19"/>
+                                                        <rect key="frame" x="82" y="336" width="212" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="45">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -246,7 +248,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="33">
-                                                        <rect key="frame" x="15" y="284" width="60" height="14"/>
+                                                        <rect key="frame" x="15" y="311" width="60" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Address:" id="46">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -255,7 +257,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="32">
-                                                        <rect key="frame" x="36" y="240" width="66" height="14"/>
+                                                        <rect key="frame" x="36" y="267" width="66" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Encoding:" id="47">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -264,7 +266,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="31">
-                                                        <rect key="frame" x="101" y="201" width="162" height="22"/>
+                                                        <rect key="frame" x="101" y="228" width="162" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Esc + Esc" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="51" id="48">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -282,7 +284,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </popUpButton>
                                                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="30">
-                                                        <rect key="frame" x="101" y="235" width="162" height="22"/>
+                                                        <rect key="frame" x="101" y="262" width="162" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Simplified Chinese (GBK)" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="55" id="52">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -304,7 +306,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </popUpButton>
                                                     <textField verticalHuggingPriority="750" id="29">
-                                                        <rect key="frame" x="5" y="97" width="71" height="14"/>
+                                                        <rect key="frame" x="5" y="124" width="71" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Proxy:" id="56">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -313,7 +315,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="28">
-                                                        <rect key="frame" x="79" y="92" width="73" height="22"/>
+                                                        <rect key="frame" x="79" y="119" width="73" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="59" id="57">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -345,7 +347,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </popUpButton>
                                                     <textField verticalHuggingPriority="750" id="27">
-                                                        <rect key="frame" x="2" y="121" width="73" height="14"/>
+                                                        <rect key="frame" x="2" y="148" width="73" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Auto Reply:" id="64">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -354,7 +356,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="26">
-                                                        <rect key="frame" x="82" y="119" width="212" height="19"/>
+                                                        <rect key="frame" x="82" y="146" width="212" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="65">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -370,7 +372,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </connections>
                                                     </textField>
                                                     <textField toolTip="[proxy.server.address[:port]]" verticalHuggingPriority="750" id="22">
-                                                        <rect key="frame" x="157" y="94" width="137" height="19"/>
+                                                        <rect key="frame" x="157" y="121" width="137" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="69">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -392,7 +394,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" id="25">
-                                                        <rect key="frame" x="118" y="72" width="179" height="14"/>
+                                                        <rect key="frame" x="118" y="99" width="179" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="For SSH connections only" id="66">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -401,7 +403,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         </textFieldCell>
                                                     </textField>
                                                     <button toolTip="点击此处设置或取消自动登录" imageHugsTitle="YES" id="24">
-                                                        <rect key="frame" x="275" y="282" width="19" height="19"/>
+                                                        <rect key="frame" x="275" y="309" width="19" height="19"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="password" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="67">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -412,6 +414,30 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <outlet property="nextKeyView" destination="30" id="82"/>
                                                         </connections>
                                                     </button>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="WeP-tV-xjh">
+                                                        <rect key="frame" x="82" y="36" width="212" height="55"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="9R6-EN-9gF">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <allowedInputSourceLocales>
+                                                                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                                                            </allowedInputSourceLocales>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="1" name="value" keyPath="selection.idBlacklist" id="dYX-yA-g8O"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="lMk-r3-hXI">
+                                                        <rect key="frame" x="6" y="43" width="71" height="42"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Blacklist ID (separate by comma)" id="WPO-Ay-zj6">
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
                                                 </subviews>
                                             </view>
                                         </box>
