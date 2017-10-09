@@ -178,7 +178,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button id="39">
-                                                        <rect key="frame" x="121" y="183" width="162" height="18"/>
+                                                        <rect key="frame" x="120" y="183" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="偵測雙位元文字" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="40">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -190,7 +190,7 @@ Gw
                                                         </connections>
                                                     </button>
                                                     <button id="38">
-                                                        <rect key="frame" x="121" y="203" width="162" height="18"/>
+                                                        <rect key="frame" x="120" y="203" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="啟用滑鼠瀏覽" bezelStyle="regularSquare" imagePosition="left" controlSize="small" inset="2" id="41">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -320,7 +320,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" id="KuC-2f-oAH">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <string key="title">ID黑名單：
-(逗號隔開)</string>
+(空白隔開)</string>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>

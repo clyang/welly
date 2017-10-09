@@ -190,7 +190,7 @@ Gw
                                                         </connections>
                                                     </button>
                                                     <button imageHugsTitle="YES" id="38">
-                                                        <rect key="frame" x="87" y="203" width="162" height="18"/>
+                                                        <rect key="frame" x="86" y="203" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="Enable Mouse Browsing" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="41">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -432,7 +432,7 @@ ssh://[id@]your.site.org[:port]</string>
                                                     <textField verticalHuggingPriority="750" misplaced="YES" id="lMk-r3-hXI">
                                                         <rect key="frame" x="6" y="43" width="71" height="42"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Blacklist ID (separate by comma)" id="WPO-Ay-zj6">
+                                                        <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Blacklist ID (separate by space)" id="WPO-Ay-zj6">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
