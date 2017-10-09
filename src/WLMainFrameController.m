@@ -360,7 +360,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (IBAction)connectLocation:(id)sender {
 	[sender abortEditing];
 	[[_tabView window] makeFirstResponder:_tabView];
-    BOOL ssh = NO;
+    BOOL ssh = NO, WSS = NO;
     
     NSString *name = [sender stringValue];
     if ([[name lowercaseString] hasPrefix:@"ssh://"]) 
@@ -369,8 +369,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     if ([[name lowercaseString] hasPrefix:@"telnet://"])
         name = [name substringFromIndex: 9];
     if ([[name lowercaseString] hasPrefix:@"bbs://"])
-        name = [name substringFromIndex: 6];
-    if ([[name lowercaseString] hasPrefix:@"wss://"])
         name = [name substringFromIndex: 6];
     
     NSMutableArray *matchedSites = [NSMutableArray array];
