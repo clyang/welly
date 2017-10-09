@@ -34,6 +34,8 @@
     BOOL **_dirty;
 
 	NSMutableSet *_observers;
+    
+    NSArray *_blackListArray;
 
     WLConnection *_connection;
 	
@@ -49,7 +51,7 @@
 @property (assign, setter=setConnection:, nonatomic) WLConnection *connection;
 @property (assign, readwrite) WLBBSType bbsType;
 @property (readonly) BBSState bbsState;
-@property (readwrite, copy) NSString *idBlacklist;
+@property (readwrite, copy) NSArray *blackListArray;
 
 /* Clear */
 - (void)clearAll;

@@ -76,26 +76,33 @@
         memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
     }
     
-    NSArray *blackListArray = [[[[self connection] site] idBlacklist] componentsSeparatedByString:@","];
-    for(i=0; i<_maxRow; ++i){
-        if(_grid[i][75].byte == ':' && (
-                                        (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
-                                        (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
-                                        (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
-                                       ){
-            for(j=4;  _grid[i][j].byte != ':' ; ++j);
-            commentID = [self stringAtIndex:( i * _maxColumn + 3) length:j-3];
-            if([blackListArray containsObject:commentID]) {
-                for(j=0; j < _maxColumn; ++j) {
-                    _grid[i][j].attr.f.fgColor = 0;
-                    _grid[i][j].attr.v = 400;
+    // First, check if the user is reading article
+    if( _grid[_maxRow-1][2].byte == 0xc2 && _grid[_maxRow-1][3].byte == 0x73) {
+        for(i=0; i<_maxRow; ++i){
+            // Now check if current terminal view has comment lines
+            if(_grid[i][75].byte == ':' && (
+                                            (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
+                                            (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
+                                            (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
+               ){
+                // obtain comment's userid
+                for(j=4;  _grid[i][j].byte != ':' ; ++j);
+                commentID = [self stringAtIndex:( i * _maxColumn + 3) length:j-3];
+                
+                // let's make the world dark a little bit
+                if([_blackListArray containsObject:commentID]) {
+                    for(j=0; j < _maxColumn; ++j) {
+                        _grid[i][j].attr.f.fgColor = 0;
+                        _grid[i][j].attr.v = 400;
+                    }
+                    anyBlackID = YES;
                 }
-                anyBlackID = YES;
             }
         }
-    }
-    if(anyBlackID) {
-        [self setAllDirty];
+        // ask terminal to redraw
+        if(anyBlackID) {
+            [self setAllDirty];
+        }
     }
     
     for (i = 0; i < _maxRow; i++) {
@@ -105,11 +112,6 @@
     [self updateBBSState];
     
     [self notifyObservers];
-    /*
-     [_view performSelector:@selector(tick:)
-     withObject:nil
-     afterDelay:0.01];
-     */
 }
 
 - (void)setCursorX:(int)cursorX
@@ -404,9 +406,20 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
 
 - (void)setConnection:(WLConnection *)value {
     _connection = value;
-	// FIXME: BBS type is temoprarily determined by the ansi color key.
-	// remove #import "YLSite.h" when fixed.
-	[self setBbsType:[[_connection site] encoding] == WLBig5Encoding ? WLMaple : WLFirebird];
+    
+    // Retrive and process blacklist at once,
+    // so we don't have to fetch with each operation
+    NSString *tmp = [[[_connection site] idBlacklist] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"  +" options:NSRegularExpressionCaseInsensitive error:&error];
+    tmp = [regex stringByReplacingMatchesInString:tmp options:0 range:NSMakeRange(0, [tmp length]) withTemplate:@" "];
+    
+    [self setBlackListArray:[tmp componentsSeparatedByString:@" "]];
+    
+    // FIXME: BBS type is temoprarily determined by the ansi color key.
+    // remove #import "YLSite.h" when fixed.
+    [self setBbsType:[[_connection site] encoding] == WLBig5Encoding ? WLMaple : WLFirebird];
 }
 
 #pragma mark -
