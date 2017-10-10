@@ -16,7 +16,7 @@ Welly是一套運行在Mac上功能豐富的BBS軟體, 我所維護的版本是�
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.2.9.6.3](https://github.com/clyang/welly/releases/tag/2.9.6.3)
+Welly - clyang edition: [v.2.9.7](https://github.com/clyang/welly/releases/tag/2.9.7)
 
 Features / 主要功能
 -------------
@@ -30,10 +30,11 @@ Features / 主要功能
    - Fetch and open PTT's post direct URL link automatically. Extremely userful for the post which contains a lot of image links.
 5. provide "Long Comment" function
    - The user can focus on leaving long comments on specific article without worrying the system limitation.
-6. Auto update
+6. provide "Comment Blacklist" function, which blocks annoying comments by userid automatically.
+7. Auto update
    - Always get the up-to-date version of Welly!
-7. Support Quick Look image on High Sierra
-8. Support Full Screen mode
+8. Support Quick Look image on High Sierra
+9. Support Full Screen mode
 
 ***
 
@@ -48,10 +49,13 @@ Features / 主要功能
 5. 自動分段推文 ( `command+m` )
    - 您終於可以在Mac上推文時暢所欲言了, 您只需要專注在推文內容, 推文長度這種討人厭的事情就交給Welly來處理!
    - ![](https://i.imgur.com/0ojoCkv.gif)
-6. 自動更新
+6. 推文黑名單
+   - 以站台為單位, 一旦推文中有您設定的黑名單ID, 該則推文會被暗化處理, 讓您眼不(清楚看)見為淨.
+   - ![](https://i.imgur.com/d2HTnPn.png)
+7. 自動更新
    - 最即時的取得最新版的Welly
-7. 在High Sierra上支援圖片QuickLook功能
-8. 全螢幕瀏覽BBS
+8. 在High Sierra上支援圖片QuickLook功能
+9. 全螢幕瀏覽BBS
    - 給你滿滿的大螢幕版BBS!
 
 FAQ / 常見問題
