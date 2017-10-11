@@ -86,10 +86,10 @@
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:@"/usr/bin/telnet"]) {
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"telnet" ofType:@""];
-            fmt = [NSString stringWithFormat:@"%@%@", filePath, @" -8 %@ -%@"];
+            fmt = [NSString stringWithFormat:@"%@%@", filePath, @" -4 -8 %@ -%@"];
         } else {
             // "-" before the port number forces the initial option negotiation
-            fmt = @"/usr/bin/telnet -8 %@ -%@";
+            fmt = @"/usr/bin/telnet -4 -8 %@ -%@";
         }
     }
     
