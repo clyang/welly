@@ -88,7 +88,7 @@
                                             (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
                ){
                 // obtain comment's userid
-                for(j=3;  _grid[i][j].byte != ':' ; ++j){
+                for(j=3;  _grid[i][j].byte != ':' && j < 15 ; ++j){
                     idBuf[j-3] = _grid[i][j].byte;
                 }
                 commentID = [NSString stringWithCharacters:idBuf length:j-3];
