@@ -70,6 +70,8 @@ NSString *const WLEnglishFontSizeKeyName = @"EnglishFontSize";
 @synthesize shouldRepeatBounce = _shouldRepeatBounce;
 @synthesize defaultEncoding = _defaultEncoding;
 @synthesize defaultANSIColorKey = _defaultANSIColorKey;
+@synthesize defaultBlockType = _defaultBlockType;
+@synthesize defaultOpenUrl = _defaultOpenUrl;
 @synthesize blinkTicker = _blinkTicker;
 @synthesize chineseFontSize = _chineseFontSize;
 @synthesize englishFontSize = _englishFontSize;
@@ -93,6 +95,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 		[self setShouldEnableMouse:[defaults boolForKey:@"EnableMouse"]];
 		[self setDefaultEncoding:(WLEncoding) [defaults integerForKey:@"DefaultEncoding"]];
 		[self setDefaultANSIColorKey:(YLANSIColorKey) [defaults integerForKey:@"DefaultANSIColorKey"]];
+        [self setDefaultBlockType:(WLBlockType)[defaults integerForKey:@"DefaultBlockType"]];
+        [self setDefaultOpenUrl:(WLOpenUrlType)[defaults integerForKey:@"DefaultOpenUrl"]];
 		[self setShouldRepeatBounce:[defaults boolForKey:@"RepeatBounce"]];
 		
 		// init code
@@ -336,6 +340,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
     //force big-5 as default encoding
     _defaultEncoding = 1;
     [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultEncoding"];
+}
+
+- (void)setDefaultBlockType:(WLBlockType)value {
+    _defaultBlockType = value;
+    [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultBlockType"];
+}
+
+- (void)setDefaultOpenUrl:(WLOpenUrlType)value {
+    _defaultOpenUrl = value;
+    [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultOpenUrl"];
 }
 
 - (void)setDefaultANSIColorKey:(YLANSIColorKey)value {

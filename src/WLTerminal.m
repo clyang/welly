@@ -69,7 +69,8 @@
 - (void)feedGrid:(cell **)grid {
     int i,j;
     NSString *commentID = @"";
-    BOOL anyBlackID = NO;
+    BOOL anyBlackID = NO, isBlockBlake;
+    unichar idBuf[13]; // ptt id max length = 12
     
     // Clear the url list
     for (i = 0; i < _maxRow; i++) {
@@ -78,6 +79,7 @@
     
     // First, check if the user is reading article
     if( _grid[_maxRow-1][2].byte == 0xc2 && _grid[_maxRow-1][3].byte == 0x73) {
+        isBlockBlake = ([[WLGlobalConfig sharedInstance] defaultBlockType] == WLBlockTotalBlack) ? YES : NO;
         for(i=0; i<_maxRow; ++i){
             // Now check if current terminal view has comment lines
             if(_grid[i][75].byte == ':' && (
@@ -86,14 +88,22 @@
                                             (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
                ){
                 // obtain comment's userid
-                for(j=4;  _grid[i][j].byte != ':' ; ++j);
-                commentID = [self stringAtIndex:( i * _maxColumn + 3) length:j-3];
+                for(j=3;  _grid[i][j].byte != ':' ; ++j){
+                    idBuf[j-3] = _grid[i][j].byte;
+                }
+                commentID = [NSString stringWithCharacters:idBuf length:j-3];
                 
                 // let's make the world dark a little bit
                 if([_blackListArray containsObject:commentID]) {
+                    // why two for-loop? reduce if statement to save cpu loading
                     for(j=0; j < _maxColumn; ++j) {
                         _grid[i][j].attr.f.fgColor = 0;
-                        _grid[i][j].attr.v = 400;
+                        
+                    }
+                    if(!isBlockBlake) {
+                        for(j=0; j < _maxColumn; ++j) {
+                            _grid[i][j].attr.v = 400;
+                        }
                     }
                     anyBlackID = YES;
                 }

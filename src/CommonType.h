@@ -38,6 +38,10 @@ typedef enum YLANSIColorKey {
 
 typedef enum {WLNoneProxy, WLAutoProxy, WLSocksProxy, WLHttpProxy, WLHttpsProxy} WLProxyType;
 
+typedef enum {WLBlockTotalBlack, WLBlockFade} WLBlockType;
+
+typedef enum {WLOpenQL, WLOpenBrowser} WLOpenUrlType;
+
 typedef enum {
 	WLFirebird, WLMaple, WLUnix
 } WLBBSType;

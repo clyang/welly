@@ -43,6 +43,8 @@ NSString *const WLEnglishFontSizeKeyName;
     BOOL _shouldRepeatBounce;
     WLEncoding _defaultEncoding;
     YLANSIColorKey _defaultANSIColorKey;
+    WLBlockType _defaultBlockType;
+    WLOpenUrlType _defaultOpenUrl;
     
     CGFloat _chineseFontSize;
     CGFloat _englishFontSize;
@@ -79,6 +81,8 @@ NSString *const WLEnglishFontSizeKeyName;
 @property (readwrite, assign, nonatomic) BOOL shouldRepeatBounce;
 @property (readwrite, assign, nonatomic) WLEncoding defaultEncoding;
 @property (readwrite, assign, nonatomic) YLANSIColorKey defaultANSIColorKey;
+@property (readwrite, assign, nonatomic) WLBlockType defaultBlockType;
+@property (readwrite, assign, nonatomic) WLOpenUrlType defaultOpenUrl;
 @property (readwrite, assign) BOOL blinkTicker;
 @property (readwrite, assign, nonatomic) CGFloat chineseFontSize;
 @property (readwrite, assign, nonatomic) CGFloat englishFontSize;

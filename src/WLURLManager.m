@@ -167,14 +167,19 @@ NSString *const WLMenuTitleOpenWithBrowser = @"Open With Browser";
 #pragma mark Mouse Event Handler
 - (void)mouseUp:(NSEvent *)theEvent {
     NSString *url = [[_manager activeTrackingAreaUserInfo] objectForKey:WLURLUserInfoName];
+    BOOL openWithQL = ([[WLGlobalConfig sharedInstance] defaultOpenUrl] == WLOpenQL) ? YES : NO;
     if (url != nil) {
         if (([theEvent modifierFlags] & NSShiftKeyMask) == NSShiftKeyMask) {
             // click while holding shift key or navigate web pages
             // open the URL with browser
             [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
         } else {
-            // open with previewer
-            [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
+            if(openWithQL){
+                // open with previewer
+                [WLPreviewController downloadWithURL:[NSURL URLWithString:url]];
+            } else {
+                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+            }
         }
     }
 }

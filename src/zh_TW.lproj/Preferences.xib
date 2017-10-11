@@ -18,7 +18,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="1" userLabel="General">
             <rect key="frame" x="0.0" y="0.0" width="391" height="417"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -48,7 +48,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Select..." bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="721" id="1301">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="720">
                             <items>
                                 <menuItem title="Select..." state="on" id="721"/>
@@ -64,7 +64,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Select..." bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="663" id="1300">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="662">
                             <items>
                                 <menuItem title="Select..." state="on" id="663"/>
@@ -267,11 +267,13 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
+                                    <binding destination="259" name="fontName" keyPath="chineseFontName" id="428"/>
                                     <binding destination="259" name="displayPatternValue1" keyPath="chineseFontName" id="431">
                                         <dictionary key="options">
                                             <string key="NSDisplayPattern">%{value1}@</string>
                                         </dictionary>
                                     </binding>
+                                    <binding destination="259" name="fontSize" keyPath="chineseFontSize" previousBinding="428" id="429"/>
                                     <binding destination="259" name="displayPatternValue2" keyPath="chineseFontSize" previousBinding="431" id="433">
                                         <dictionary key="options">
                                             <string key="NSDisplayPattern">%{value1}@ - %{value2}@</string>
@@ -282,8 +284,6 @@
                                             <integer key="NSRaisesForNotApplicableKeys" value="1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="259" name="fontName" keyPath="chineseFontName" id="428"/>
-                                    <binding destination="259" name="fontSize" keyPath="chineseFontSize" previousBinding="428" id="429"/>
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" imageHugsTitle="YES" id="51">
@@ -378,6 +378,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
+                                    <binding destination="259" name="fontName" keyPath="englishFontName" id="416"/>
                                     <binding destination="259" name="displayPatternValue1" keyPath="englishFontName" id="420">
                                         <dictionary key="options">
                                             <null key="NSDisplayPattern"/>
@@ -388,6 +389,7 @@
                                             <integer key="NSRaisesForNotApplicableKeys" value="1"/>
                                         </dictionary>
                                     </binding>
+                                    <binding destination="259" name="fontSize" keyPath="englishFontSize" previousBinding="416" id="418"/>
                                     <binding destination="259" name="displayPatternValue2" keyPath="englishFontSize" previousBinding="420" id="422">
                                         <dictionary key="options">
                                             <string key="NSDisplayPattern">%{value1}@ - %{value2}@</string>
@@ -398,8 +400,6 @@
                                             <integer key="NSRaisesForNotApplicableKeys" value="1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="259" name="fontName" keyPath="englishFontName" id="416"/>
-                                    <binding destination="259" name="fontSize" keyPath="englishFontSize" previousBinding="416" id="418"/>
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" imageHugsTitle="YES" id="30">
@@ -738,12 +738,12 @@
             </subviews>
         </customView>
         <customObject id="259" userLabel="GlobalConfig" customClass="WLGlobalConfig"/>
-        <customView id="575" userLabel="Connection">
-            <rect key="frame" x="0.0" y="0.0" width="395" height="242"/>
+        <customView misplaced="YES" id="575" userLabel="Connection">
+            <rect key="frame" x="0.0" y="0.0" width="395" height="275"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" id="836">
-                    <rect key="frame" x="46" y="210" width="317" height="19"/>
+                    <rect key="frame" x="46" y="243" width="317" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="沒有在站台設定裡的連線皆會使用這邊的設定值。" id="1347">
                         <font key="font" metaFont="system"/>
@@ -751,10 +751,10 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button imageHugsTitle="YES" id="606">
-                    <rect key="frame" x="47" y="45" width="306" height="26"/>
+                <button misplaced="YES" imageHugsTitle="YES" id="606">
+                    <rect key="frame" x="51" y="18" width="306" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="收到訊息時讓 Welly 在 Dock 上持續跳動" bezelStyle="regularSquare" imagePosition="leading" alignment="left" state="on" inset="2" id="1346">
+                    <buttonCell key="cell" type="check" title="收到訊息時讓 Welly 在 Dock 上持續跳動" bezelStyle="regularSquare" imagePosition="leading" alignment="left" inset="2" id="1346">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -763,7 +763,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="593">
-                    <rect key="frame" x="46" y="133" width="152" height="17"/>
+                    <rect key="frame" x="46" y="166" width="152" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="預設 ANSI 色彩控制碼：" id="1345">
                         <font key="font" metaFont="system"/>
@@ -771,12 +771,30 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField verticalHuggingPriority="750" misplaced="YES" id="qk7-iL-VFE">
+                    <rect key="frame" x="46" y="125" width="152" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="展示推文黑名單方式：" id="Mo0-WZ-Sv6">
+                        <font key="font" size="13" name=".PingFangTC-Regular"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" misplaced="YES" id="IaX-ym-FbA">
+                    <rect key="frame" x="26" y="91" width="172" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="預設處理網址連結方式 ：" id="qO8-Ic-eQR">
+                        <font key="font" size="13" name=".PingFangTC-Regular"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="592">
-                    <rect key="frame" x="208" y="126" width="130" height="26"/>
+                    <rect key="frame" x="208" y="159" width="130" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Ctrl-U" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="598" id="1344">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="596">
                             <items>
                                 <menuItem title="Esc + Esc" id="597"/>
@@ -789,11 +807,11 @@
                     </connections>
                 </popUpButton>
                 <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="578">
-                    <rect key="frame" x="208" y="166" width="130" height="26"/>
+                    <rect key="frame" x="208" y="199" width="130" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="正體中文 (Big5)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="581" id="1343">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="580">
                             <items>
                                 <menuItem title="簡體中文 (GBK)" id="582"/>
@@ -805,10 +823,10 @@
                         <binding destination="259" name="selectedIndex" keyPath="defaultEncoding" id="587"/>
                     </connections>
                 </popUpButton>
-                <button imageHugsTitle="YES" id="577">
-                    <rect key="frame" x="47" y="81" width="258" height="18"/>
+                <button misplaced="YES" imageHugsTitle="YES" id="577">
+                    <rect key="frame" x="51" y="54" width="306" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="程式手動偵測雙位元文字（不建議開啟）" bezelStyle="regularSquare" imagePosition="leading" alignment="left" state="on" inset="2" id="1342">
+                    <buttonCell key="cell" type="check" title="程式手動偵測雙位元文字（不建議開啟）" bezelStyle="regularSquare" imagePosition="leading" alignment="left" inset="2" id="1342">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -817,7 +835,7 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" id="576">
-                    <rect key="frame" x="82" y="173" width="116" height="17"/>
+                    <rect key="frame" x="82" y="206" width="116" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="預設編碼：" id="1341">
                         <font key="font" metaFont="system"/>
@@ -825,7 +843,42 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="b33-zi-FDb">
+                    <rect key="frame" x="208" y="120" width="130" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="眼不見為淨" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="SZ2-zB-h4p" id="bgs-pq-2T2">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="JIf-S5-BdW">
+                            <items>
+                                <menuItem title="眼不見為淨" state="on" id="SZ2-zB-h4p"/>
+                                <menuItem title="淡化即可" id="ym4-zz-gpa"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="259" name="selectedIndex" keyPath="defaultBlockType" id="zbh-wg-eBU"/>
+                    </connections>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" misplaced="YES" id="WC0-aH-KAC">
+                    <rect key="frame" x="208" y="84" width="156" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="內建QuickLook開啟" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ky1-1i-XOS" id="gk5-Hv-csE">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="MIT-uj-0lQ">
+                            <items>
+                                <menuItem title="內建QuickLook開啟" state="on" id="ky1-1i-XOS"/>
+                                <menuItem title="外部瀏覽器" id="apL-QO-gqt"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <binding destination="259" name="selectedIndex" keyPath="defaultOpenUrl" id="9lW-Tq-KF5"/>
+                    </connections>
+                </popUpButton>
             </subviews>
+            <point key="canvasLocation" x="737.5" y="445.5"/>
         </customView>
         <customObject id="wWu-F2-iBL" customClass="SUUpdater"/>
     </objects>
