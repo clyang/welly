@@ -218,46 +218,42 @@
 }
 
 - (void)login {
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
     // telnet; send username
-    if (![addr hasPrefix:@"ssh"]) {
-        char *pe = strchr(account, '@');
-        if (pe) {
-            char *ps = pe;
-            for (; ps >= account; --ps)
-                if (*ps == ' ' || *ps == '/')
-                    break;
-            if (ps != pe) {
-                while ([_feeder cursorY] <= 3)
-                    sleep(1);
-                [self sendBytes:ps+1 length:pe-ps-1];
-                [self sendBytes:"\r" length:1];
-            }
+    char *pe = strchr(account, '@');
+    if (pe) {
+        char *ps = pe;
+        for (; ps >= account; --ps)
+            if (*ps == ' ' || *ps == '/')
+                break;
+        if (ps != pe) {
+            while ([_feeder cursorY] <= 3)
+                sleep(1);
+            [self sendBytes:ps+1 length:pe-ps-1];
+            [self sendBytes:"\r" length:1];
         }
-    } else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
-        [self sendBytes:"yes\r" length:4];
-        sleep(1);
     }
+    
     // send password
     const char *service = "Welly";
     UInt32 len = 0;
     void *pass = 0;
-	
+    
     OSStatus status = SecKeychainFindGenericPassword(nil,
-        strlen(service), service,
-        strlen(account), account,
-        &len, &pass,
-        nil);
+                                                     strlen(service), service,
+                                                     strlen(account), account,
+                                                     &len, &pass,
+                                                     nil);
     if (status == noErr) {
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
-		SecKeychainItemFreeContent(nil, pass);
+        SecKeychainItemFreeContent(nil, pass);
     }
-	
-	[pool release];
+    
+    [pool release];
 }
 
 #pragma mark -

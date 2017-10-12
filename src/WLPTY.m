@@ -68,7 +68,11 @@
     if (ssh) {
         if (port == nil)
             port = @"22";
-        fmt = @"/usr/bin/ssh -o Protocol=2,1 -p %2$@ -x %1$@";
+        range = [addr rangeOfString:@"@"];
+        // remove username for telnet
+        if (range.length > 0)
+            addr = [addr substringFromIndex:range.location + range.length];
+        fmt = @"/usr/bin/ssh -4 -o PubkeyAuthentication=no -o Protocol=2,1 -p %2$@ -x bbs@%1$@";
     } else if (websock) {
         port = [NSString stringWithFormat:@"%d", arc4random_uniform(99999)];
         proxyScript = [[NSBundle mainBundle] pathForResource:@"proxy.sh" ofType:@""];
