@@ -42,6 +42,11 @@
     });
     return shared;
 }
+
+- (void)dealloc {
+    [globalArray release];
+    [super dealloc];
+}
 @end
 
 @interface NSImage(saveAsJpegWithName)
