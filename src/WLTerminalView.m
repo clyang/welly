@@ -442,11 +442,10 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)performChangePage:(NSMutableArray *) screenArray {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     const int sleepTime = 100000, maxAttempt = 500;
-    int i=0, j=0, lineNum1, lineNum2, pageCount=0, fnameCount=0;
+    int i=0, lineNum1, lineNum2, pageCount=0, fnameCount=0;
     NSString *bottomLine, *tmp;
     WLConnection *conn = [[self frontMostTerminal] connection];
     NSDictionary *finalScreenShotDic;
-    NSImage *tmpImage;
     
     [conn sendText:termKeyHome];
     while(i< maxAttempt) {
