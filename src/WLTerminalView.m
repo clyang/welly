@@ -440,10 +440,13 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 
 
 - (void)performChangePage:(NSMutableArray *) screenArray {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     const int sleepTime = 100000, maxAttempt = 500;
-    int i=0, j=0, lineNum1, lineNum2;
+    int i=0, j=0, lineNum1, lineNum2, pageCount=0, fnameCount=0;
     NSString *bottomLine, *tmp;
     WLConnection *conn = [[self frontMostTerminal] connection];
+    NSDictionary *finalScreenShotDic;
+    NSImage *tmpImage;
     
     [conn sendText:termKeyHome];
     while(i< maxAttempt) {
@@ -517,6 +520,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                 lineNum1 = needle.intValue;
                 
                 [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
+                ++pageCount;
             } else if (changePageStatus && [bottomLine containsString:@"頁 (100%)"]) {
                 regex = [NSRegularExpression regularExpressionWithPattern:@"~(\\d+) 行" options:0 error:nil];
                 match = [regex firstMatchInString:[self getTerminalBottomLine] options:NSAnchoredSearch range:NSMakeRange(0, [self getTerminalBottomLine].length)];
@@ -533,18 +537,32 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                 [screenArray removeAllObjects];
                 return;
             }
+            
+            if(pageCount % 20 == 0) {
+                ++fnameCount;
+                regex = [NSRegularExpression regularExpressionWithPattern:@"~(\\d+) 行" options:0 error:nil];
+                match = [regex firstMatchInString:[self getTerminalBottomLine] options:NSAnchoredSearch range:NSMakeRange(0, [self getTerminalBottomLine].length)];
+                needleRange = [match rangeAtIndex: 1];
+                needle = [bottomLine substringWithRange:needleRange];
+                lineNum2 = needle.intValue;
+                finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname", [NSNumber numberWithInt:fnameCount], @"fnamecount", [NSNumber numberWithInt:0], @"status",nil];
+                [self performSelectorOnMainThread:@selector(genFinalScreenShot:) withObject:finalScreenShotDic waitUntilDone:YES];
+                // keep last screenshot as the first screen for new capture
+                [screenArray removeObjectsInRange:NSMakeRange(0, screenArray.count-1)];
+            }
         }
-        
-        NSDictionary *finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname",nil];
+        // for the final round
+        ++fnameCount;
+        finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname", [NSNumber numberWithInt:fnameCount], @"fnamecount", [NSNumber numberWithInt:1], @"status",nil];
         [self performSelectorOnMainThread:@selector(genFinalScreenShot:) withObject:finalScreenShotDic waitUntilDone:NO];
-        
+        [pool release];
     } else {
         // show warn
         [self performSelectorOnMainThread:@selector(showErrorMsg:) withObject:@"Something goes wrong while flipping the page (2)" waitUntilDone:YES];
         [screenArray removeAllObjects];
+        [pool release];
         return;
     }
-    
     
 }
 
@@ -561,8 +579,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *currentDate = [NSDate date];
-    
-    NSString *footerString = [NSString stringWithFormat:@"長截圖由clyang版Welly擷取, 載點: https://github.com/clyang/welly. 截圖時間: %@ (%@)",[formatter stringFromDate:currentDate], [timeZone name]];
+    int fnameCount = [[resultDic objectForKey:@"fnamecount"] intValue];
+    NSString *footerString = [NSString stringWithFormat:@"本圖由clyang版Welly擷取, 安裝:https://github.com/clyang/welly. 截圖時間: %@ (%@)     第%d頁",[formatter stringFromDate:currentDate], [timeZone name], fnameCount];
     
     lineNum1 = [[resultDic objectForKey:@"lineNum1"] intValue];
     lineNum2 = [[resultDic objectForKey:@"lineNum2"] intValue];
@@ -581,6 +599,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         totalHeight = hPerRow * ((22*totalPage-(22-(lineNum2-lineNum1+2)))+1);
         
     }
+    //NSLog(@"totalheight: %d", totalHeight);
+    //NSLog(@"L1:%d L2:%d totalh: %d totalP: %d hPerRow: %d", lineNum1, lineNum2, totalHeight, totalPage, hPerRow);
     
     NSSize newSize = NSMakeSize(w, totalHeight);
     NSImage *finalImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
@@ -636,22 +656,21 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     NSCharacterSet *doNotWant = [NSCharacterSet characterSetWithCharactersInString:@"~!@#$%^&*()+\\|'\"></.,?"];
     fname = [[fname componentsSeparatedByCharactersInSet: doNotWant] componentsJoinedByString: @""];
     [formatter setDateFormat:@"yyyyMMddHHmmss"];
-    fname = [NSString stringWithFormat:@"%@/%@_%@.jpg", dataPath, fname, [formatter stringFromDate:currentDate]];
-    
+    fname = [NSString stringWithFormat:@"%@/%@_%@-%d.jpg", dataPath, fname, [formatter stringFromDate:currentDate], fnameCount];
     // oh yeah~~ write to the disk!!
     [finalImage saveAsJpegWithName:fname];
-    
-    // open in finder
-    //[self showNotificationWindow:@"Long Screenshot DONE!" withSheetMsg:@"The content of the article has been captured successfully"];
-    NSArray *fileURLs = [NSArray arrayWithObjects:[NSURL fileURLWithPath:fname], nil] ;
-    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
-    
-    [screenArray removeAllObjects];
-    [pool release];
-    
-    [_longScreenshotWindow endEditingFor:nil];
-    [NSApp endSheet:_longScreenshotWindow];
-    [_longScreenshotWindow orderOut:self];
+
+    if([[resultDic objectForKey:@"status"] intValue] == 1) {
+        NSArray *fileURLs = [NSArray arrayWithObjects:[NSURL fileURLWithPath:fname], nil] ;
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+        
+        [screenArray removeAllObjects];
+        [pool release];
+        
+        [_longScreenshotWindow endEditingFor:nil];
+        [NSApp endSheet:_longScreenshotWindow];
+        [_longScreenshotWindow orderOut:self];
+    }
     
 }
 
