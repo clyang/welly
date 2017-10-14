@@ -109,6 +109,7 @@
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
 		DFF2CCD11F7825AB00530892 /* qqwry170910.dat in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCD01F7825A800530892 /* qqwry170910.dat */; };
+		DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -311,6 +312,9 @@
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
+		DFFEA07A1F92610D00942F6C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LongScreenshotPanel.xib; sourceTree = "<group>"; };
+		DFFEA07C1F92611300942F6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/LongScreenshotPanel.xib"; sourceTree = "<group>"; };
+		DFFEA07D1F92611400942F6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/LongScreenshotPanel.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -527,6 +531,7 @@
 				5A59F234108C283500F65DEA /* ComposePanel.xib */,
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 				DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */,
+				DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */,
 			);
 			name = "Xib Files";
 			sourceTree = "<group>";
@@ -800,6 +805,7 @@
 				zh_CN,
 				en,
 				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MacBlueTelnet */;
 			projectDirPath = "";
@@ -838,6 +844,7 @@
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
+				DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				DF45920C1F75972200162626 /* proxy.sh in Resources */,
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
@@ -1032,6 +1039,16 @@
 				DF0C695C1F7D23C60007742D /* zh-Hans */,
 			);
 			name = PostPushPanel.xib;
+			sourceTree = "<group>";
+		};
+		DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFFEA07A1F92610D00942F6C /* en */,
+				DFFEA07C1F92611300942F6C /* zh-Hant */,
+				DFFEA07D1F92611400942F6C /* zh-Hans */,
+			);
+			name = LongScreenshotPanel.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -10,6 +10,8 @@
 "Cooment too loooong" = "推文過長";
 "Auto Comment Result" = "自動分段推文結果";
 "You cannot use Long Comment function at current status" = "請在看板看板中或是文章內使用本功能";
+"Long Screenshot Error!" = "長截圖發生錯誤!";
+"Long Screenshot DONE!" = "長截圖成功, kerker!!";
 
 /* Default Button */
 "Close" = "關閉";
@@ -38,6 +40,11 @@
 "Unable to send the comment confirmation" = "無法送出推文確認字元";
 "Something goes wrong during leaving comment process (1)" = "連續推文過程中發生錯誤! (1)";
 "Something goes wrong during leaving comment process (2)" = "連續推文過程中發生錯誤! (2)";
+"You can only use this function while reading the article on PTT." = "本功能僅限在PTT閱讀文章時使用!";
+"Only single page, please use cmd+shift+c" = "只有一頁而已, 請改用cmd+shift+c";
+"Something goes wrong while flipping the page (1)" = "翻頁時發生錯誤, 如果持續發生請回報 (1)";
+"Something goes wrong while flipping the page (2)" = "翻頁時發生錯誤, 如果持續發生請回報 (2)";
+"The content of the article has been captured successfully" = "文章已經完整的截取存為一張長長的圖片了!";
 
 /* Preferences */
 "General" = "一般";

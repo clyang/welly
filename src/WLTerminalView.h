@@ -29,6 +29,7 @@
 	
 	IBOutlet YLMarkedTextView *_textField;
 	IBOutlet WLEffectView *_effectView;
+    IBOutlet NSPanel *_longScreenshotWindow;
     
     int _selectionLocation;
     int _selectionLength;
@@ -44,10 +45,12 @@
 	
 	WLMouseBehaviorManager *_mouseBehaviorDelegate;
 	WLURLManager *_urlManager;
+    
 }
 @property BOOL isInUrlMode;
 @property BOOL isMouseActive;
 @property (readonly) WLEffectView *effectView;
+@property (assign) NSPanel *longScreenshotWindow;
 
 - (BOOL)shouldWarnCompose;
 
@@ -86,4 +89,10 @@
 
 - (int)convertIndexFromPoint:(NSPoint)aPoint;
 - (NSPoint)mouseLocationInView;
+
+@end
+
+@interface Singleton : NSObject
+@property (nonatomic, retain) NSMutableArray * globalArray;
++(Singleton*)singleton;
 @end

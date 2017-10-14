@@ -138,6 +138,12 @@
                                     <action selector="copyImage:" target="-1" id="1650"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="長截圖" keyEquivalent="c" id="5fG-PR-2fh" userLabel="長截圖文章">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="copyLongImage:" target="-1" id="ONq-TU-2mB"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="貼上" keyEquivalent="v" id="171">
                                 <connections>
                                     <action selector="paste:" target="-1" id="176"/>
@@ -545,6 +551,22 @@ ssh://[id@]your.site.org[:port]</string>
                             <action selector="postPush:" target="207" id="lXp-Z6-P3x"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="31138F4A-B45F-48F4-B782-D19E20A6CBBA" label="長截圖" paletteLabel="長截圖" id="jVv-ic-AoF">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="30" height="19"/>
+                        <size key="maxSize" width="30" height="19"/>
+                        <button key="view" verticalHuggingPriority="750" id="8W6-r3-hR5">
+                            <rect key="frame" x="6" y="14" width="30" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundRect" title="截" alternateTitle="截" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qf3-Nj-jWp">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="copyLongImage:" target="-1" id="WOK-vC-SQh"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D8EEE3D2-A136-4BBB-999B-75B01F2CCADA" label="RSS" paletteLabel="RSS" id="1287">
                         <nil key="toolTip"/>
                         <size key="minSize" width="30" height="19"/>
@@ -577,12 +599,12 @@ ssh://[id@]your.site.org[:port]</string>
                             </connections>
                         </button>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="665E2CFD-FAF4-4EDC-A867-5CBD55F9E2F4" label="顯示隱藏文字" paletteLabel="顯示隱藏文字" image="NSQuickLookTemplate" id="436">
+                    <toolbarItem implicitItemIdentifier="665E2CFD-FAF4-4EDC-A867-5CBD55F9E2F4" label="顯示隱藏字" paletteLabel="顯示隱藏字" image="NSQuickLookTemplate" id="436">
                         <nil key="toolTip"/>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="434">
-                            <rect key="frame" x="23" y="14" width="30" height="19"/>
+                            <rect key="frame" x="17" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="435">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -659,8 +681,8 @@ ssh://[id@]your.site.org[:port]</string>
                     <toolbarItem reference="442"/>
                     <toolbarItem reference="436"/>
                     <toolbarItem reference="1188"/>
-                    <toolbarItem reference="415"/>
                     <toolbarItem reference="972"/>
+                    <toolbarItem reference="jVv-ic-AoF"/>
                 </defaultToolbarItems>
                 <connections>
                     <outlet property="delegate" destination="207" id="832"/>
@@ -670,6 +692,7 @@ ssh://[id@]your.site.org[:port]</string>
                 <outlet property="delegate" destination="207" id="318"/>
                 <outlet property="initialFirstResponder" destination="255" id="310"/>
             </connections>
+            <point key="canvasLocation" x="177" y="-100"/>
         </window>
         <window title="訊息視窗" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1089" userLabel="Message Window" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" HUD="YES"/>
@@ -685,7 +708,7 @@ ssh://[id@]your.site.org[:port]</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ax2-cc-Ldg">
                             <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" horizontallyResizable="YES" verticallyResizable="YES" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="1095">
                                     <rect key="frame" x="0.0" y="0.0" width="234" height="425"/>

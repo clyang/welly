@@ -138,6 +138,12 @@
                                     <action selector="copyImage:" target="-1" id="1650"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="长截图" keyEquivalent="c" id="qUC-tH-PYU">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                <connections>
+                                    <action selector="copyLongImage:" target="-1" id="yU6-WB-HZc"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="粘贴" keyEquivalent="v" id="171">
                                 <connections>
                                     <action selector="paste:" target="-1" id="176"/>
@@ -355,6 +361,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="-12" y="-64"/>
         </menu>
         <window title="Welly" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="21" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES"/>
@@ -546,6 +553,22 @@ ssh://[id@]your.site.org[:port]</string>
                             <action selector="postPush:" target="207" id="VzG-1K-vhl"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="80182E29-3FD0-4345-8F26-45E58B3D2120" label="长截图" paletteLabel="长截图" id="N6m-y8-RY5">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="30" height="19"/>
+                        <size key="maxSize" width="30" height="19"/>
+                        <button key="view" verticalHuggingPriority="750" id="MC4-C7-ABN">
+                            <rect key="frame" x="6" y="14" width="30" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundRect" title="截" alternateTitle="截" bezelStyle="roundedRect" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zvo-cF-8YI">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="cellTitle"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="copyLongImage:" target="-1" id="jNd-bN-XZc"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D8EEE3D2-A136-4BBB-999B-75B01F2CCADA" label="RSS" paletteLabel="RSS" id="1287">
                         <nil key="toolTip"/>
                         <size key="minSize" width="30" height="19"/>
@@ -578,12 +601,12 @@ ssh://[id@]your.site.org[:port]</string>
                             </connections>
                         </button>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="665E2CFD-FAF4-4EDC-A867-5CBD55F9E2F4" label="显示隐藏文字" paletteLabel="显示隐藏文字" image="NSQuickLookTemplate" id="436">
+                    <toolbarItem implicitItemIdentifier="665E2CFD-FAF4-4EDC-A867-5CBD55F9E2F4" label="显示隐藏字" paletteLabel="显示隐藏字" image="NSQuickLookTemplate" id="436">
                         <nil key="toolTip"/>
                         <size key="minSize" width="30" height="19"/>
                         <size key="maxSize" width="30" height="19"/>
                         <button key="view" verticalHuggingPriority="750" id="434">
-                            <rect key="frame" x="23" y="14" width="30" height="19"/>
+                            <rect key="frame" x="17" y="14" width="30" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSQuickLookTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="435">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
@@ -660,8 +683,8 @@ ssh://[id@]your.site.org[:port]</string>
                     <toolbarItem reference="442"/>
                     <toolbarItem reference="436"/>
                     <toolbarItem reference="1188"/>
-                    <toolbarItem reference="415"/>
                     <toolbarItem reference="972"/>
+                    <toolbarItem reference="N6m-y8-RY5"/>
                 </defaultToolbarItems>
                 <connections>
                     <outlet property="delegate" destination="207" id="832"/>
@@ -671,6 +694,7 @@ ssh://[id@]your.site.org[:port]</string>
                 <outlet property="delegate" destination="207" id="318"/>
                 <outlet property="initialFirstResponder" destination="255" id="310"/>
             </connections>
+            <point key="canvasLocation" x="127" y="435"/>
         </window>
         <window title="Message Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1089" userLabel="Message Window" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" HUD="YES"/>
