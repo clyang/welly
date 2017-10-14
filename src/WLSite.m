@@ -63,6 +63,8 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     [_name release];
     [_address release];
     [_idBlacklist release];
+    [_proxyAddress release];
+    [_autoReplyString release];
     
     [super dealloc];
 }

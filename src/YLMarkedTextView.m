@@ -26,6 +26,7 @@
 
 - (void)dealloc {
     [_string release];
+    [_defaultFont release];
     
     [super dealloc];
 }
