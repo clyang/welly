@@ -113,9 +113,16 @@
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
+    
     if([[_site address].lowercaseString containsString:@"ptt.cc"]){
         [self setPTT:YES];
-    } else {
+    } else if([[_site address].lowercaseString containsString:@"140.112.172."]) {
+        // Take entire class C as PTT is not an optimal solution
+        // but I can't come out a good idea. Using nslookup to create
+        // a list of ip might be a good idea. But I'm just to lazy to implement it
+        // kerker
+        [self setPTT:YES];
+    }else {
         [self setPTT:NO];
     }
     
