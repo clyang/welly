@@ -61,6 +61,7 @@
 	free(_textBuf);
 	
 	[_observers release];
+    [_blackListArray release];
     [super dealloc];
 }
 

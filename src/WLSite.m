@@ -59,6 +59,14 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     return self;
 }
 
+- (void)dealloc {
+    [_name release];
+    [_address release];
+    [_idBlacklist release];
+    
+    [super dealloc];
+}
+
 + (WLSite *)site {
     return [[WLSite new] autorelease];
 }

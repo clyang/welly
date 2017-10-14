@@ -24,6 +24,12 @@
     return self;
 }
 
+- (void)dealloc {
+    [_string release];
+    
+    [super dealloc];
+}
+
 - (void)drawRect:(NSRect)rect {
 	CGContextRef context = (CGContextRef) [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextSaveGState(context);

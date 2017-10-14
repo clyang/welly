@@ -192,6 +192,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 }
 
 - (void)dealloc {
+    [_chineseFontName release];
+    [_englishFontName release];
 	[super dealloc];
 }
 
