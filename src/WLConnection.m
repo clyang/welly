@@ -113,11 +113,12 @@
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
-    if([[_site address] containsString:@"ptt.cc"]){
+    if([[_site address].lowercaseString containsString:@"ptt.cc"]){
         [self setPTT:YES];
     } else {
         [self setPTT:NO];
     }
+    
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
     //[self login];
 }
