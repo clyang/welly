@@ -40,7 +40,7 @@
 "Unable to send the comment confirmation" = "無法送出推文確認字元";
 "Something goes wrong during leaving comment process (1)" = "連續推文過程中發生錯誤! (1)";
 "Something goes wrong during leaving comment process (2)" = "連續推文過程中發生錯誤! (2)";
-"You can only use this function while reading the article on PTT." = "本功能僅限在PTT閱讀文章時使用!";
+"Please make sure you're in article mode and this BBS uses pmore editor!" = "長截圖只能在閱讀文章時使用, 同時也請確定你的bbs是使用pmore編輯器";
 "Only single page, please use cmd+shift+c" = "只有一頁而已, 請改用cmd+shift+c";
 "Something goes wrong while flipping the page (1)" = "翻頁時發生錯誤, 如果持續發生請回報 (1)";
 "Something goes wrong while flipping the page (2)" = "翻頁時發生錯誤, 如果持續發生請回報 (2)";

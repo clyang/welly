@@ -462,7 +462,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         }
     }
     
-    if(changePageStatus && [[self getTerminalBottomLine] hasPrefix:@"  瀏覽 第 1/1 頁 (100"]){
+    if(changePageStatus && [[self getTerminalBottomLine] containsString:@" 瀏覽 第 1/1 頁 (100"]){
         // single page only
         [self performSelectorOnMainThread:@selector(showErrorMsg:) withObject:@"Only single page, please use cmd+shift+c" waitUntilDone:YES];
         [screenArray removeAllObjects];
@@ -704,7 +704,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (IBAction)copyLongImage:(id)sender {
     if (![self isConnected]) return;
     
-    if([[self getTerminalBottomLine] hasPrefix:@"  瀏覽 第"] && [[[self frontMostTerminal] connection] isPTT]){
+    if([[self getTerminalBottomLine] containsString:@" 瀏覽 第"]){
         // show working panel
         if (!_longScreenshotWindow) {
             [NSBundle loadNibNamed:kLongScreenshotPanelNibFilename owner:self];
@@ -720,7 +720,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                                  toTarget:self withObject:nil];
     } else {
         // show warn
-        [self showNotificationWindow:@"Long Screenshot Error!" withSheetMsg:@"You can only use this function while reading the article on PTT."];
+        [self showNotificationWindow:@"Long Screenshot Error!" withSheetMsg:@"Please make sure you're in article mode and this BBS uses pmore editor!"];
     }
 }
 
@@ -730,7 +730,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                       nil,
                       nil,
                       _longScreenshotWindow, self,
-                      @selector(confirmSheetDidEnd:returnCode:contextInfo:),
+                      nil,
                       nil,
                       nil,
                       NSLocalizedString(sheetMsg, @"Sheet Message"));
