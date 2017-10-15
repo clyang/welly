@@ -1000,9 +1000,31 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     unsigned char buf[10];
     
     WLTerminal *ds = [self frontMostTerminal];
-    
-    if ((theEvent.modifierFlags & NSControlKeyMask) &&
-        ((theEvent.modifierFlags & NSAlternateKeyMask) == 0 )) {
+
+    // bindling option + arrow up/down/left/right to
+    // page up/page down/home/end
+    if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
+       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringRight] ||
+        [[theEvent charactersIgnoringModifiers] isEqualToString:@"'"])){
+        [[self frontMostConnection] sendText:termKeyEnd];
+        return;
+    } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
+       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringLeft] ||
+        [[theEvent charactersIgnoringModifiers] isEqualToString:@"l"])){
+        [[self frontMostConnection] sendText:termKeyHome];
+        return;
+    } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
+       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringUp] ||
+        [[theEvent charactersIgnoringModifiers] isEqualToString:@"p"])){
+        [[self frontMostConnection] sendText:termKeyPageUp];
+        return;
+    } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
+       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringDown] ||
+        [[theEvent charactersIgnoringModifiers] isEqualToString:@";"])){
+        [[self frontMostConnection] sendText:termKeyPageDown];
+        return;
+    } else if ((theEvent.modifierFlags & NSControlKeyMask) &&
+               ((theEvent.modifierFlags & NSAlternateKeyMask) == 0 )) {
         buf[0] = c;
         [[self frontMostConnection] sendBytes:buf length:1];
         return;

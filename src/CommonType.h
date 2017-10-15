@@ -125,6 +125,8 @@ BOOL isSpecialSymbol(unichar ch);
 
 #define keyStringRight @"\uF703"
 #define keyStringLeft @"\uF702"
+#define keyStringUp @"\uF700"
+#define keyStringDown @"\uF701"
 
 #define termKeyUp @"\x1B[A"
 #define termKeyDown @"\x1B[B"
