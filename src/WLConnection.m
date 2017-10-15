@@ -114,9 +114,9 @@
     [self setIsProcessing:NO];
     [self setConnected:YES];
     
-    if([[_site address].lowercaseString containsString:@"ptt.cc"]){
+    if([[_site address].lowercaseString containsString:@"ptt.cc"] || [[_site address].lowercaseString containsString:@"ptt2.cc"] || [[_site address].lowercaseString containsString:@"ptt3.cc"]){
         [self setPTT:YES];
-    } else if([[_site address].lowercaseString containsString:@"140.112.172."]) {
+    } else if([[_site address].lowercaseString containsString:@"140.112.172."] || [[_site address].lowercaseString containsString:@"13.64.244.51"]) {
         // Take entire class C as PTT is not an optimal solution
         // but I can't come out a good idea. Using nslookup to create
         // a list of ip might be a good idea. But I'm just to lazy to implement it
