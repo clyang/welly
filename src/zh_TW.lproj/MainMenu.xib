@@ -138,8 +138,7 @@
                                     <action selector="copyImage:" target="-1" id="1650"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="長截圖" keyEquivalent="c" id="5fG-PR-2fh" userLabel="長截圖文章">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                            <menuItem title="長截圖" keyEquivalent="/" id="5fG-PR-2fh" userLabel="長截圖文章">
                                 <connections>
                                     <action selector="copyLongImage:" target="-1" id="ONq-TU-2mB"/>
                                 </connections>
@@ -692,7 +691,7 @@ ssh://[id@]your.site.org[:port]</string>
                 <outlet property="delegate" destination="207" id="318"/>
                 <outlet property="initialFirstResponder" destination="255" id="310"/>
             </connections>
-            <point key="canvasLocation" x="177" y="-100"/>
+            <point key="canvasLocation" x="375" y="-261"/>
         </window>
         <window title="訊息視窗" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1089" userLabel="Message Window" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" HUD="YES"/>
@@ -2538,7 +2537,7 @@ ssh://[id@]your.site.org[:port]</string>
                     </scrollView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-10" y="133"/>
+            <point key="canvasLocation" x="-294" y="-272"/>
         </window>
         <customObject id="207" userLabel="YLController" customClass="WLMainFrameController">
             <connections>

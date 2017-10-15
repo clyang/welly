@@ -138,8 +138,7 @@
                                     <action selector="copyImage:" target="-1" id="1650"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Copy Long Image" keyEquivalent="c" id="qOr-A5-of3">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                            <menuItem title="Copy Long Image" keyEquivalent="/" id="qOr-A5-of3">
                                 <connections>
                                     <action selector="copyLongImage:" target="-1" id="mKz-Zb-zK5"/>
                                 </connections>
