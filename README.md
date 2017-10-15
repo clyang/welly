@@ -16,7 +16,7 @@ Welly是一套運行在Mac上功能豐富的BBS軟體, 我所維護的版本是�
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.2.9.7](https://github.com/clyang/welly/releases/tag/2.9.7)
+Welly - clyang edition: [v.3.0.0](https://github.com/clyang/welly/releases/tag/3.0.0)
 
 Features / 主要功能
 -------------
@@ -31,10 +31,13 @@ Features / 主要功能
 5. provide "Long Comment" function
    - The user can focus on leaving long comments on specific article without worrying the system limitation.
 6. provide "Comment Blacklist" function, which blocks annoying comments by userid automatically.
-7. Auto update
+7. Article long screenshot (including auto-paging)
+   - Example: [https://i.imgur.com/SnWxprv.jpg](https://i.imgur.com/SnWxprv.jpg)
+   - Screencast entire artile to JPG in just `one key`
+8. Auto update
    - Always get the up-to-date version of Welly!
-8. Support Quick Look image on High Sierra
-9. Support Full Screen mode
+9. Support Quick Look image on High Sierra
+10. Support Full Screen mode
 
 ***
 
@@ -52,10 +55,16 @@ Features / 主要功能
 6. 推文黑名單
    - 以站台為單位, 一旦推文中有您設定的黑名單ID, 該則推文會被暗化處理, 讓您眼不(清楚看)見為淨.
    - ![](https://i.imgur.com/d2HTnPn.png)
-7. 自動更新
+7. 支援文章長截圖 (長文可自動分段截圖)
+   - 範例: [https://i.imgur.com/SnWxprv.jpg](https://i.imgur.com/SnWxprv.jpg)
+   - 自動將多頁的文章完整備份為一張大圖 (快速鍵command+/)
+   - - 提供自動分頁截圖的功能, 每20頁會產生一張圖, 無論多精彩、多激烈討論的文章, 都可以完整備份, 數百頁的文章也是輕鬆搞定!
+   - 再也不會發生類似找不到"排a你真有心"原文的憾事
+   - 好文章按個鍵立刻備份, 不怕作者砍掉, 版主刪除, 系統故障而流失
+8. 自動更新
    - 最即時的取得最新版的Welly
-8. 在High Sierra上支援圖片QuickLook功能
-9. 全螢幕瀏覽BBS
+9. 在High Sierra上支援圖片QuickLook功能
+10. 全螢幕瀏覽BBS
    - 給你滿滿的大螢幕版BBS!
 
 FAQ / 常見問題
