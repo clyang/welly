@@ -1001,26 +1001,23 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     
     WLTerminal *ds = [self frontMostTerminal];
 
-    // bindling option + arrow up/down/left/right to
+    // add new key bindling
+    // option + arrow up/down/left/right mapping to
     // page up/page down/home/end
     if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
-       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringRight] ||
-        [[theEvent charactersIgnoringModifiers] isEqualToString:@"'"])){
+       [[theEvent charactersIgnoringModifiers] isEqualToString:keyStringRight]) {
         [[self frontMostConnection] sendText:termKeyEnd];
         return;
     } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
-       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringLeft] ||
-        [[theEvent charactersIgnoringModifiers] isEqualToString:@"l"])){
+               [[theEvent charactersIgnoringModifiers] isEqualToString:keyStringLeft]) {
         [[self frontMostConnection] sendText:termKeyHome];
         return;
     } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
-       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringUp] ||
-        [[theEvent charactersIgnoringModifiers] isEqualToString:@"p"])){
+               [[theEvent charactersIgnoringModifiers] isEqualToString:keyStringUp]) {
         [[self frontMostConnection] sendText:termKeyPageUp];
         return;
     } else  if((theEvent.modifierFlags & NSAlternateKeyMask) == NSAlternateKeyMask &&
-       ([[theEvent charactersIgnoringModifiers] isEqualToString:keyStringDown] ||
-        [[theEvent charactersIgnoringModifiers] isEqualToString:@";"])){
+               [[theEvent charactersIgnoringModifiers] isEqualToString:keyStringDown]) {
         [[self frontMostConnection] sendText:termKeyPageDown];
         return;
     } else if ((theEvent.modifierFlags & NSControlKeyMask) &&
