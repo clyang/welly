@@ -994,6 +994,8 @@ static unsigned short gEmptyAttr;
                 for(j=3;  _grid[i][j].byte != ':' && j < 15 ; ++j){
                     idBuf[j-3] = _grid[i][j].byte;
                 }
+                // some board force colums ":" to be aligned.
+                // so we need to remove the trailing space
                 commentID = [[NSString stringWithCharacters:idBuf length:j-3] stringByReplacingOccurrencesOfString:@" " withString:@""];
                 if([_blackListArray containsObject:commentID]) {
                     anyBlackID = YES;

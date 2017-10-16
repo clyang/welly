@@ -1,7 +1,15 @@
 Changelog:
-  ver. 3.0.0 (oh~yeah~~~)
-    - 2.9.4版後的user使用內建update功能即可 (左上角welly->檢查更新)
+  ver. 3.0.1
+    a. 擴增文章長截圖功能至使用ptt/Maple-itoc/Formosa系列架設的BBS
+       測試過的站台有:
+           - wss://kod.tw/bbs (Maple-itoc)
+           - telnet://bbs.nsysu.edu.tw (Formosa)
+           - PTT && PTT2
+    b. 新增一組鍵盤對應:
+           ALT +   向上  /    向下    /  向左  /  向右
+         對應 -> Page Up   Page Down     Home     END
 
+  ver. 3.0.0 (oh~yeah~~~)
     a. 獨步其他BBS瀏覽器的功能登場: 文章長截圖! 文章長截圖! 文章長截圖!
         - 截圖範例: https://i.imgur.com/7IUS4Yu.jpg
         - 自動將多頁的文章完整備份為一張大圖 (快速鍵command+/)
