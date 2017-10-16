@@ -975,15 +975,15 @@ static unsigned short gEmptyAttr;
     BOOL anyBlackID = NO, isBlockBlake;
     unichar idBuf[13]; // ptt id max length = 12
     NSMutableArray* changedRow = [[NSMutableArray alloc] init];
-    cell **origGrid = (cell **)malloc(sizeof(cell *) * _row);
-    origGrid = (cell **)malloc(sizeof(cell *) * _row);
+    cell **origGrid;
     
     // First, check if the user is reading article
     // only check when the _state = TP_NOML, this can minimize
     // the verify a lot and relief cpu loading
     if( _state == 0 && _grid[_row-1][2].byte == 0xc2 && _grid[_row-1][3].byte == 0x73) {
-        isBlockBlake = ([[WLGlobalConfig sharedInstance] defaultBlockType] == WLBlockTotalBlack) ? YES : NO;
-        for(i=0; i<_row; ++i){
+        // why row-1? coz last line will never be comment
+        // so we can save 1 step :P
+        for(i=0; i<_row-1; ++i){
             // Now check if current terminal view has comment lines
             if(_grid[i][75].byte == ':' && (
                                             (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
@@ -996,46 +996,54 @@ static unsigned short gEmptyAttr;
                 }
                 commentID = [[NSString stringWithCharacters:idBuf length:j-3] stringByReplacingOccurrencesOfString:@" " withString:@""];
                 if([_blackListArray containsObject:commentID]) {
-                    // Allocate is expensive, only do it when it REALLY needed.
-                    // so we only backup the row that's been changed
-                    origGrid[i] = (cell *)malloc(sizeof(cell) * (_column + 1));
-                    memcpy(origGrid[i], _grid[i], sizeof(cell) * (_column + 1));
-                    
-                    // let's make the world dark a little bit
-                    if(!isBlockBlake) {
-                        for(j=0; j < _column; ++j) {
-                            _grid[i][j].attr.v = 400;
-                        }
-                    } else {
-                        for(j=0; j < _column; ++j) {
-                            _grid[i][j].attr.f.fgColor = 0;
-                        }
-                    }
                     anyBlackID = YES;
+                    // add the row number that needs to be blackout to array
                     [changedRow addObject:[NSNumber numberWithInt:i]];
-                    [_terminal setDirtyForRow:i];
                 }
             }
+        }
+    }
+    
+    if(anyBlackID) {
+        // only allocate the number of grids that really needs backup
+        origGrid = (cell **)malloc(sizeof(cell *) * changedRow.count);
+        for(i=0; i< changedRow.count; ++i) {
+            origGrid[i] = (cell *)malloc(sizeof(cell) * (_column + 1));
+            memcpy(origGrid[i], _grid[[changedRow[i] intValue]], sizeof(cell) * (_column + 1));
+        }
+        
+        // let's make the world dark a little bit
+        isBlockBlake = ([[WLGlobalConfig sharedInstance] defaultBlockType] == WLBlockTotalBlack) ? YES : NO;
+        for(i=0; i< changedRow.count; ++i) {
+            if(!isBlockBlake) {
+                for(j=0; j < _column; ++j) {
+                    _grid[[changedRow[i] intValue]][j].attr.v = 400;
+                }
+            } else {
+                for(j=0; j < _column; ++j) {
+                    _grid[[changedRow[i] intValue]][j].attr.f.fgColor = 0;
+                }
+            }
+            [_terminal setDirtyForRow:[changedRow[i] intValue]];
         }
     }
     
     [_terminal setCursorX:_cursorX Y:_cursorY];
     [_terminal feedGrid:_grid];
     
+    // okay, modified data already fed, now restore those rows
     if(anyBlackID){
         // some rows have been blacked out and been fed to the terminal
         // now restore than back to normal value so we won't mess the screen up
         for(i=0 ; i < changedRow.count ; ++i){
-            memcpy(_grid[[changedRow[i] intValue]], origGrid[[changedRow[i] intValue]] ,sizeof(cell) * (_column + 1));
+            memcpy(_grid[[changedRow[i] intValue]], origGrid[i] ,sizeof(cell) * (_column + 1));
             [_terminal setDirtyForRow:[changedRow[i] intValue]];
             
-            //alreay restore, free memory now
-            free(origGrid[[changedRow[i] intValue]]);
+            //alreay restored, free memory now
+            free(origGrid[i]);
         }
+        free(origGrid);
     }
-    
-    // memory is precious, free them
-    free(origGrid);
     [changedRow release];
     
     if (_hasNewMessage) {
@@ -1059,7 +1067,7 @@ static unsigned short gEmptyAttr;
             [connection didReceiveNewMessage:messageString fromCaller:callerName];
         }
     }
-	
+    
     [pool release];
 }
 
