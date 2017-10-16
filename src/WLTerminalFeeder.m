@@ -258,7 +258,7 @@ static unsigned short gEmptyAttr;
 	   connection:(id)connection {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	
-	int i, x;
+	int i, j, x;
 	unsigned char c;
 	
 	if ([_terminal bbsType] == WLFirebird) {
@@ -968,30 +968,96 @@ static unsigned short gEmptyAttr;
 				break;
 		}
 	}
-	
-	[_terminal setCursorX:_cursorX Y:_cursorY];
-	[_terminal feedGrid:_grid];
-	
-	if (_hasNewMessage) {
-		// new incoming message
-		if ([_terminal bbsType] == WLMaple && _grid[_row - 1][0].attr.f.bgColor != 9 && _grid[_row - 1][_column - 2].attr.f.bgColor == 9) {
-			// for maple bbs (e.g. ptt)
-			for (i = 2; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // split callerName and messageString
-			int splitPoint = i++;
-			for (; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // determine the end of the message
-			NSString *callerName = [_terminal stringAtIndex:((_row - 1) * _column + 2) length:(splitPoint - 2)];
-			NSString *messageString = [_terminal stringAtIndex:((_row - 1) * _column + splitPoint + 1) length:(i - splitPoint - 2)];
-			
-			[connection didReceiveNewMessage:messageString fromCaller:callerName];
-			_hasNewMessage = NO;
-		} else if ([_terminal bbsType] == WLFirebird && _grid[0][0].attr.f.bgColor != 9) {
-			// for firebird bbs (e.g. smth)
-			for (i = 2; i < _row && _grid[i][0].attr.f.bgColor != 9; ++i);	// determine the end of the message
-			NSString *callerName = [_terminal stringAtIndex:0 length:_column];
-			NSString *messageString = [_terminal stringAtIndex:_column length:(i - 1) * _column];
-			
-			[connection didReceiveNewMessage:messageString fromCaller:callerName];
-		}
+    
+    // Process blacklist before send the data to terminal
+    NSArray *_blackListArray = [_terminal getBlackListArray];
+    NSString *commentID = @"";
+    BOOL anyBlackID = NO, isBlockBlake;
+    unichar idBuf[13]; // ptt id max length = 12
+    NSMutableArray* changedRow = [[NSMutableArray alloc] init];
+    cell **origGrid = (cell **)malloc(sizeof(cell *) * _row);
+    origGrid = (cell **)malloc(sizeof(cell *) * _row);
+    
+    // First, check if the user is reading article
+    // only check when the _state = TP_NOML, this can minimize
+    // the verify a lot and relief cpu loading
+    if( _state == 0 && _grid[_row-1][2].byte == 0xc2 && _grid[_row-1][3].byte == 0x73) {
+        isBlockBlake = ([[WLGlobalConfig sharedInstance] defaultBlockType] == WLBlockTotalBlack) ? YES : NO;
+        for(i=0; i<_row; ++i){
+            // Now check if current terminal view has comment lines
+            if(_grid[i][75].byte == ':' && (
+                                            (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
+                                            (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
+                                            (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
+               ){
+                // obtain comment's userid
+                for(j=3;  _grid[i][j].byte != ':' && j < 15 ; ++j){
+                    idBuf[j-3] = _grid[i][j].byte;
+                }
+                commentID = [[NSString stringWithCharacters:idBuf length:j-3] stringByReplacingOccurrencesOfString:@" " withString:@""];
+                if([_blackListArray containsObject:commentID]) {
+                    // Allocate is expensive, only do it when it REALLY needed.
+                    // so we only backup the row that's been changed
+                    origGrid[i] = (cell *)malloc(sizeof(cell) * (_column + 1));
+                    memcpy(origGrid[i], _grid[i], sizeof(cell) * (_column + 1));
+                    
+                    // let's make the world dark a little bit
+                    if(!isBlockBlake) {
+                        for(j=0; j < _column; ++j) {
+                            _grid[i][j].attr.v = 400;
+                        }
+                    } else {
+                        for(j=0; j < _column; ++j) {
+                            _grid[i][j].attr.f.fgColor = 0;
+                        }
+                    }
+                    anyBlackID = YES;
+                    [changedRow addObject:[NSNumber numberWithInt:i]];
+                    [_terminal setDirtyForRow:i];
+                }
+            }
+        }
+    }
+    
+    [_terminal setCursorX:_cursorX Y:_cursorY];
+    [_terminal feedGrid:_grid];
+    
+    if(anyBlackID){
+        // some rows have been blacked out and been fed to the terminal
+        // now restore than back to normal value so we won't mess the screen up
+        for(i=0 ; i < changedRow.count ; ++i){
+            memcpy(_grid[[changedRow[i] intValue]], origGrid[[changedRow[i] intValue]] ,sizeof(cell) * (_column + 1));
+            [_terminal setDirtyForRow:[changedRow[i] intValue]];
+            
+            //alreay restore, free memory now
+            free(origGrid[[changedRow[i] intValue]]);
+        }
+    }
+    
+    // memory is precious, free them
+    free(origGrid);
+    [changedRow release];
+    
+    if (_hasNewMessage) {
+        // new incoming message
+        if ([_terminal bbsType] == WLMaple && _grid[_row - 1][0].attr.f.bgColor != 9 && _grid[_row - 1][_column - 2].attr.f.bgColor == 9) {
+            // for maple bbs (e.g. ptt)
+            for (i = 2; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // split callerName and messageString
+            int splitPoint = i++;
+            for (; i < _column && _grid[_row - 1][i].attr.f.bgColor == _grid[_row - 1][i - 1].attr.f.bgColor; ++i); // determine the end of the message
+            NSString *callerName = [_terminal stringAtIndex:((_row - 1) * _column + 2) length:(splitPoint - 2)];
+            NSString *messageString = [_terminal stringAtIndex:((_row - 1) * _column + splitPoint + 1) length:(i - splitPoint - 2)];
+            
+            [connection didReceiveNewMessage:messageString fromCaller:callerName];
+            _hasNewMessage = NO;
+        } else if ([_terminal bbsType] == WLFirebird && _grid[0][0].attr.f.bgColor != 9) {
+            // for firebird bbs (e.g. smth)
+            for (i = 2; i < _row && _grid[i][0].attr.f.bgColor != 9; ++i);	// determine the end of the message
+            NSString *callerName = [_terminal stringAtIndex:0 length:_column];
+            NSString *messageString = [_terminal stringAtIndex:_column length:(i - 1) * _column];
+            
+            [connection didReceiveNewMessage:messageString fromCaller:callerName];
+        }
     }
 	
     [pool release];

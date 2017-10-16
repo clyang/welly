@@ -75,6 +75,7 @@
 										 length:(NSUInteger)length;
 - (cell *)cellsOfRow:(int)r;
 - (cell)cellAtIndex:(int)index;
+- (NSArray *)getBlackListArray;
 
 /* Update State */
 - (void)updateDoubleByteStateForRow:(int)r;

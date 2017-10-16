@@ -68,55 +68,12 @@
 #pragma mark -
 #pragma mark input interface
 - (void)feedGrid:(cell **)grid {
-    int i,j;
-    NSString *commentID = @"";
-    BOOL anyBlackID = NO, isBlockBlake;
-    unichar idBuf[13]; // ptt id max length = 12
-    
     // Clear the url list
-    for (i = 0; i < _maxRow; i++) {
+    for (int i = 0; i < _maxRow; i++) {
         memcpy(_grid[i], grid[i], sizeof(cell) * (_maxColumn + 1));
     }
     
-    // First, check if the user is reading article
-    if( _grid[_maxRow-1][2].byte == 0xc2 && _grid[_maxRow-1][3].byte == 0x73) {
-        isBlockBlake = ([[WLGlobalConfig sharedInstance] defaultBlockType] == WLBlockTotalBlack) ? YES : NO;
-        for(i=0; i<_maxRow; ++i){
-            // Now check if current terminal view has comment lines
-            if(_grid[i][75].byte == ':' && (
-                                            (_grid[i][0].byte == 0xA1 && _grid[i][1].byte == 0xF7) ||
-                                            (_grid[i][0].byte == 0xB1 && _grid[i][1].byte == 0xC0) ||
-                                            (_grid[i][0].byte == 0xBC && _grid[i][1].byte == 0x4E) )
-               ){
-                // obtain comment's userid
-                for(j=3;  _grid[i][j].byte != ':' && j < 15 ; ++j){
-                    idBuf[j-3] = _grid[i][j].byte;
-                }
-                commentID = [NSString stringWithCharacters:idBuf length:j-3];
-                
-                // let's make the world dark a little bit
-                if([_blackListArray containsObject:commentID]) {
-                    // why two for-loop? reduce if statement to save cpu loading
-                    for(j=0; j < _maxColumn; ++j) {
-                        _grid[i][j].attr.f.fgColor = 0;
-                        
-                    }
-                    if(!isBlockBlake) {
-                        for(j=0; j < _maxColumn; ++j) {
-                            _grid[i][j].attr.v = 400;
-                        }
-                    }
-                    anyBlackID = YES;
-                }
-            }
-        }
-        // ask terminal to redraw
-        if(anyBlackID) {
-            [self setAllDirty];
-        }
-    }
-    
-    for (i = 0; i < _maxRow; i++) {
+    for (int i = 0; i < _maxRow; i++) {
         [self updateDoubleByteStateForRow:i];
     }
     
@@ -124,6 +81,7 @@
     
     [self notifyObservers];
 }
+
 
 - (void)setCursorX:(int)cursorX
 				 Y:(int)cursorY {
@@ -315,6 +273,10 @@
 		}
 		currRow[c].attr.f.doubleByte = db;
 	}
+}
+
+- (NSArray *)getBlackListArray {
+    return _blackListArray;
 }
 
 static NSString *extractString(NSString *row, NSString *start, NSString *end) {
