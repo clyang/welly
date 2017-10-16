@@ -242,7 +242,7 @@ Gw
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button imageHugsTitle="YES" id="187">
-                                                        <rect key="frame" x="122" y="183" width="162" height="18"/>
+                                                        <rect key="frame" x="121" y="183" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="侦测双字节文字" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="188">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -254,7 +254,7 @@ Gw
                                                         </connections>
                                                     </button>
                                                     <button imageHugsTitle="YES" id="186">
-                                                        <rect key="frame" x="122" y="203" width="162" height="18"/>
+                                                        <rect key="frame" x="121" y="203" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="启用鼠标浏览" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="189">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
