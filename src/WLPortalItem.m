@@ -41,7 +41,6 @@ static NSImage *default_image;
 
 - (void)dealloc {
 	[_image release];
-	[_title release];
 	[super dealloc];
 }
 

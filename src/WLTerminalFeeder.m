@@ -9,6 +9,7 @@
 #import "WLTerminalFeeder.h"
 #import "WLIntegerArray.h"
 #import "WLTerminal.h"
+#import "WLSite.h"
 #import "WLGlobalConfig.h"
 #import "WLConnection.h"
 
@@ -286,7 +287,9 @@ static unsigned short gEmptyAttr;
 					[connection sendBytes:cmd length:cmdLength];
 				} else if (c == ASC_ACK) { // FLOW CONTROL? do nothing					
 				} else if (c == ASC_BEL) { // Beep
-					[[NSSound soundNamed:@"Whit.aiff"] play];
+                    if(![[connection site] shouldBeep]){
+                        [[NSSound soundNamed:@"Whit.aiff"] play];
+                    }
 					_hasNewMessage = YES;
 				} else if (c == ASC_BS) { // ^H, Backspace (BS)
 					if (_cursorX > 0) {

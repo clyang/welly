@@ -22,6 +22,7 @@ NSString *const YLSiteAutoReplyStringAttributeName = @"autoreplystring";
 NSString *const WLSiteIdBlackListAttributeName = @"idblacklist";
 NSString *const WLSiteProxyTypeAttributeName = @"proxytype";
 NSString *const WLSiteProxyAddressAttributeName = @"proxyaddress";
+NSString *const WLSiteAlertBeepAttributeName = @"alertbeep";
 
 NSString *const WLDefaultAutoReplyString = @"DefaultAutoReplyString";
 NSString *const WLDefaultSiteName = @"DefaultSiteName";
@@ -38,6 +39,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 @synthesize proxyType = _proxyType;
 @synthesize proxyAddress = _proxyAddress;
 @synthesize idBlacklist = _idBlacklist;
+@synthesize shouldBeep = _shouldBeep;
 
 - (id)init {
 	self = [super init];
@@ -49,6 +51,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
 
         [self setEncoding:[[WLGlobalConfig sharedInstance] defaultEncoding]];
         [self setShouldDetectDoubleByte:[[WLGlobalConfig sharedInstance] shouldDetectDoubleByte]];
+        [self setShouldBeep:YES];
         [self setShouldEnableMouse:[[WLGlobalConfig sharedInstance] shouldEnableMouse]];
         [self setAnsiColorKey:[[WLGlobalConfig sharedInstance] defaultANSIColorKey]];
         [self setShouldAutoReply:NO];
@@ -80,6 +83,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     [s setEncoding:(WLEncoding)[[d valueForKey:YLSiteEncodingAttributeName] unsignedShortValue]];
     [s setAnsiColorKey:(YLANSIColorKey)[[d valueForKey:YLSiteAnsiColorKeyAttributeName] unsignedShortValue]];
     [s setShouldDetectDoubleByte:[[d valueForKey:YLSiteDetectDoubleByteAttributeName] boolValue]];
+    [s setShouldBeep:[[d valueForKey:WLSiteAlertBeepAttributeName] boolValue]];
 	[s setShouldEnableMouse:[[d valueForKey:YLSiteEnableMouseAttributeName] boolValue]];
 	[s setShouldAutoReply:NO];
 	[s setAutoReplyString:[d valueForKey:YLSiteAutoReplyStringAttributeName] ?: NSLocalizedString(WLDefaultAutoReplyString, @"Site")];
@@ -95,6 +99,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
             [NSNumber numberWithUnsignedShort:[self ansiColorKey]], YLSiteAnsiColorKeyAttributeName, 
             [NSNumber numberWithBool:[self shouldDetectDoubleByte]], YLSiteDetectDoubleByteAttributeName,
 			[NSNumber numberWithBool:[self shouldEnableMouse]], YLSiteEnableMouseAttributeName,
+            [NSNumber numberWithBool:[self shouldBeep]], WLSiteAlertBeepAttributeName,
 			[self autoReplyString] ?: @"", YLSiteAutoReplyStringAttributeName,
             [self idBlacklist] ?: @"", WLSiteIdBlackListAttributeName,
             [NSNumber numberWithUnsignedShort:[self proxyType]], WLSiteProxyTypeAttributeName,
@@ -116,6 +121,7 @@ NSString *const WLDefaultSiteName = @"DefaultSiteName";
     [s setEncoding:[self encoding]];
     [s setAnsiColorKey:[self ansiColorKey]];
     [s setShouldDetectDoubleByte:[self shouldDetectDoubleByte]];
+    [s setShouldBeep:[self shouldBeep]];
 	[s setShouldAutoReply:NO];
 	[s setAutoReplyString:[self autoReplyString]];
 	[s setShouldEnableMouse:[self shouldEnableMouse]];

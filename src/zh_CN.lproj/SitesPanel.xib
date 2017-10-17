@@ -100,6 +100,7 @@ Gw
                 <string>proxyType</string>
                 <string>proxyAddress</string>
                 <string>idBlacklist</string>
+                <string>shouldBeep</string>
             </declaredKeys>
             <connections>
                 <binding destination="-2" name="contentArray" keyPath="sites" id="306"/>
@@ -241,8 +242,8 @@ Gw
                                                 <rect key="frame" x="1" y="1" width="321" height="375"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <button imageHugsTitle="YES" id="187">
-                                                        <rect key="frame" x="121" y="183" width="162" height="18"/>
+                                                    <button misplaced="YES" imageHugsTitle="YES" id="187">
+                                                        <rect key="frame" x="117" y="191" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" title="侦测双字节文字" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="188">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -250,13 +251,13 @@ Gw
                                                         </buttonCell>
                                                         <connections>
                                                             <binding destination="135" name="value" keyPath="selection.shouldDetectDoubleByte" id="240"/>
-                                                            <outlet property="nextKeyView" destination="174" id="272"/>
+                                                            <outlet property="nextKeyView" destination="uiI-aR-r59" id="AuB-6u-EqR"/>
                                                         </connections>
                                                     </button>
-                                                    <button imageHugsTitle="YES" id="186">
-                                                        <rect key="frame" x="121" y="203" width="162" height="18"/>
+                                                    <button misplaced="YES" imageHugsTitle="YES" id="186">
+                                                        <rect key="frame" x="117" y="213" width="162" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="check" title="启用鼠标浏览" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" state="on" inset="2" id="189">
+                                                        <buttonCell key="cell" type="check" title="启用鼠标浏览" bezelStyle="regularSquare" imagePosition="leading" alignment="left" controlSize="small" inset="2" id="189">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="smallSystem"/>
                                                         </buttonCell>
@@ -289,8 +290,8 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <outlet property="nextKeyView" destination="172" id="242"/>
                                                         </connections>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" id="183">
-                                                        <rect key="frame" x="30" y="234" width="99" height="14"/>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="183">
+                                                        <rect key="frame" x="30" y="245" width="99" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="ANSI 色彩控制码：" id="192">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -320,8 +321,8 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <textField verticalHuggingPriority="750" id="180">
-                                                        <rect key="frame" x="63" y="267" width="66" height="14"/>
+                                                    <textField verticalHuggingPriority="750" misplaced="YES" id="180">
+                                                        <rect key="frame" x="63" y="278" width="66" height="14"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="编码：" id="195">
                                                             <font key="font" metaFont="smallSystem"/>
@@ -329,8 +330,8 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="179">
-                                                        <rect key="frame" x="131" y="228" width="117" height="22"/>
+                                                    <popUpButton verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="179">
+                                                        <rect key="frame" x="131" y="239" width="117" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="Esc + Esc" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="199" id="196">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -347,8 +348,8 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <outlet property="nextKeyView" destination="186" id="247"/>
                                                         </connections>
                                                     </popUpButton>
-                                                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="178">
-                                                        <rect key="frame" x="131" y="262" width="117" height="22"/>
+                                                    <popUpButton verticalHuggingPriority="750" misplaced="YES" imageHugsTitle="YES" id="178">
+                                                        <rect key="frame" x="131" y="273" width="117" height="22"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <popUpButtonCell key="cell" type="push" title="简体中文 (GBK)" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" selectedItem="203" id="200">
                                                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -504,6 +505,18 @@ ssh://[id@]your.site.org[:port]</string>
                                                             <binding destination="135" name="value" keyPath="selection.idBlacklist" id="d9F-U9-AMj"/>
                                                         </connections>
                                                     </textField>
+                                                    <button misplaced="YES" imageHugsTitle="YES" id="uiI-aR-r59">
+                                                        <rect key="frame" x="117" y="170" width="162" height="18"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="不发出警示声" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="N1y-Y7-K2I">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="smallSystem"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <binding destination="135" name="value" keyPath="selection.shouldBeep" id="6Bb-Mb-7gx"/>
+                                                            <outlet property="nextKeyView" destination="174" id="Ih8-S7-MrY"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                         </box>

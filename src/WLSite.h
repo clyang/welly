@@ -19,6 +19,7 @@
     YLANSIColorKey _ansiColorKey;
     BOOL _shouldDetectDoubleByte;
 	BOOL _shouldAutoReply;
+    BOOL _shouldBeep;
 	BOOL _shouldEnableMouse;
 	NSString *_autoReplyString;
     NSString *_idBlacklist;
@@ -31,6 +32,7 @@
 @property (readwrite, assign) WLEncoding encoding;
 @property (readwrite, assign) YLANSIColorKey ansiColorKey;
 @property (readwrite, assign) BOOL shouldDetectDoubleByte;
+@property (readwrite, assign) BOOL shouldBeep;
 @property (readwrite, assign) BOOL shouldAutoReply;
 @property (readwrite, copy) NSString *autoReplyString;
 @property (readwrite, copy) NSString *idBlacklist;
