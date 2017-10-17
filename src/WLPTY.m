@@ -99,7 +99,19 @@
     
     NSString *r;
     if (websock) {
-        r = [NSString stringWithFormat:@"%@ wss://%@ %@", proxyScript, addr, port];
+        // only needs to escape the command path
+        //proxyScript = [NSRegularExpression escapedPatternForString:proxyScript];
+        NSError *error = nil;
+        NSString *charNeedEsc = @"[\\^\"\!@\\$&\*\(\)'<\ >,\?\\\\]";
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:charNeedEsc options:nil error:&error];
+        NSString *cleanProxyScript = [regex stringByReplacingMatchesInString:proxyScript
+                                                                   options:0
+                                                                     range:NSMakeRange(0, [proxyScript length])
+                                                              withTemplate:@"\\\\$0"];
+
+                
+        r = [NSString stringWithFormat:@"%@ wss://%@ %@", cleanProxyScript, addr, port];
+
     } else {
         r = [NSString stringWithFormat:fmt, addr, port];
     }
@@ -175,15 +187,27 @@
             if (proxyCommand) {
                 a = [[a arrayByAddingObject:@"-o"] arrayByAddingObject:proxyCommand];
             }
+            
+            int n = [a count];
+            char *argv[n+1];
+            for (int i = 0; i < n; ++i){
+                argv[i] = (char *)[[a objectAtIndex:i] UTF8String];
+            }
+            argv[n] = NULL;
+            execvp(argv[0], argv);
+            perror(argv[0]);
+            sleep(-1); // don't bother
+        } else {
+            char *argv[4];
+            argv[0] = (char *)[@"/bin/sh" UTF8String];
+            argv[1] = (char *)[@"-c"  UTF8String];
+            argv[2] = (char *)[[WLPTY parse:addr] UTF8String];
+            argv[3] = NULL;
+            execvp(argv[0], argv);
+            perror(argv[0]);
+            sleep(-1); // don't bother
+            
         }
-        int n = [a count];
-        char *argv[n+1];
-        for (int i = 0; i < n; ++i)
-            argv[i] = (char *)[[a objectAtIndex:i] UTF8String];
-        argv[n] = NULL;
-        execvp(argv[0], argv);
-        perror(argv[0]);
-        sleep(-1); // don't bother
     } else { /* parent */
         int one = 1;
         ioctl(_fd, TIOCPKT, &one);
