@@ -101,21 +101,38 @@
     if (websock) {
         // only needs to escape the command path
         //proxyScript = [NSRegularExpression escapedPatternForString:proxyScript];
-        NSError *error = nil;
-        NSString *charNeedEsc = @"[\\^\"\!@\\$&\*\(\)'<\ >,\?\\\\]";
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:charNeedEsc options:nil error:&error];
-        NSString *cleanProxyScript = [regex stringByReplacingMatchesInString:proxyScript
-                                                                   options:0
-                                                                     range:NSMakeRange(0, [proxyScript length])
-                                                              withTemplate:@"\\\\$0"];
-
-                
-        r = [NSString stringWithFormat:@"%@ wss://%@ %@", cleanProxyScript, addr, port];
-
+        r = [NSString stringWithFormat:@"%@ wss://%@ %@", proxyScript, addr, port];
     } else {
         r = [NSString stringWithFormat:fmt, addr, port];
     }
+    
+    // before return the cmd, we need to take care of strange directory name issue
+    // eg:   "/some/where/app/store/a   b/Welly.app"
+    int bundleCmdPos = 0;
+    if( (bundleCmdPos = [r rangeOfString:@"Welly.app/Contents/Resources/proxy.sh"].location) > 0 || (bundleCmdPos = [r rangeOfString:@"Welly.app/Contents/Resources/telnet"].location) > 0 ){
+        NSError *error = nil;
+        NSString *charNeedEsc = @"[\\^\"\!@\\$&\*\(\)'<\ >,\?\\\\]";
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:charNeedEsc options:nil error:&error];
+        NSString *baseDir = [r substringToIndex:bundleCmdPos];
+        NSString *cleanBaseDir = [regex stringByReplacingMatchesInString:baseDir
+                                                                 options:0
+                                                                   range:NSMakeRange(0, [baseDir length])
+                                                            withTemplate:@"\\\\$0"];
+        NSString *restCmd = [r substringFromIndex:bundleCmdPos];
+        
+        r = [NSString stringWithFormat:@"%@%@", cleanBaseDir, restCmd];
+    }
     return r;
+}
+
++ (void) logConsole: (NSString *) msg {
+    NSError *error = nil;
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents directory
+    
+    [[NSString stringWithFormat:@"%@\n", msg] writeToFile:[documentsDirectory stringByAppendingPathComponent:@"myfile.txt"]
+                                                                       atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
 }
 
 - (id)init {
