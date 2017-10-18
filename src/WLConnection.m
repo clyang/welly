@@ -231,20 +231,30 @@
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
     // telnet; send username
-    char *pe = strchr(account, '@');
-    if (pe) {
-        char *ps = pe;
-        for (; ps >= account; --ps)
-            if (*ps == ' ' || *ps == '/')
-                break;
-        if (ps != pe) {
-            while ([_feeder cursorY] <= 3)
-                sleep(1);
-            [self sendBytes:ps+1 length:pe-ps-1];
-            [self sendBytes:"\r" length:1];
+    if (![addr hasPrefix:@"ssh"]) {
+        char *pe = strchr(account, '@');
+        if (pe) {
+            char *ps = pe;
+            for (; ps >= account; --ps)
+                if (*ps == ' ' || *ps == '/')
+                    break;
+            if (ps != pe) {
+                while ([_feeder cursorY] <= 3)
+                    sleep(1);
+                [self sendBytes:ps+1 length:pe-ps-1];
+                [self sendBytes:"\r" length:1];
+            }
         }
+    } else if([addr hasPrefix:@"ssh://"] && [addr containsString:@"/"]) {
+        // user wants to autologin with shh
+        addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
+        NSString *account = [addr substringFromIndex: [addr rangeOfString:@"/"].location+1];
+        [self sendText:account];
+        [self sendBytes:"\r" length:1];
+    }else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
+        [self sendBytes:"yes\r" length:4];
+        sleep(1);
     }
-    
     // send password
     const char *service = "Welly";
     UInt32 len = 0;
@@ -263,7 +273,6 @@
     
     [pool release];
 }
-
 #pragma mark -
 #pragma mark Message
 - (void)increaseMessageCount:(NSInteger)value {
