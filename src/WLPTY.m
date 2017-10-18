@@ -109,7 +109,7 @@
     // before return the cmd, we need to take care of strange directory name issue
     // eg:   "/some/where/app/store/a   b/Welly.app"
     int bundleCmdPos = 0;
-    if( (bundleCmdPos = [r rangeOfString:@"Welly.app/Contents/Resources/proxy.sh"].location) > 0 || (bundleCmdPos = [r rangeOfString:@"Welly.app/Contents/Resources/telnet"].location) > 0 ){
+    if( (bundleCmdPos = [r rangeOfString:@".app/Contents/Resources/proxy.sh"].location) > 0 || (bundleCmdPos = [r rangeOfString:@".app/Contents/Resources/telnet"].location) > 0 ){
         NSError *error = nil;
         NSString *charNeedEsc = @"[\\^\"\!@\\$&\*\(\)'<\ >,\?\\\\]";
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:charNeedEsc options:nil error:&error];
