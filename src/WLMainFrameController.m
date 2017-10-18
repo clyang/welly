@@ -23,6 +23,7 @@
 #import "WLComposePanelController.h"
 #import "WLPostDownloadDelegate.h"
 #import "WLPostPushDelegate.h"
+#import "WLTrackArticlePanelController.h"
 #import "DBPrefsWindowController.h"
 
 // Full Screen
@@ -460,6 +461,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     [[WLPostDownloadDelegate sharedInstance] beginPostURLDownloadInWindow:_mainWindow
                                                            forTerminal:[_tabView frontMostTerminal]];
 }
+
+- (IBAction)WLShowTrackArticleWindow:(id)sender {
+    [[WLTrackArticlePanelController sharedInstance] openTrackArticleWindow:_mainWindow
+                                                              forTerminal:[_tabView frontMostTerminal]];
+}
+
+
+
 - (IBAction)postPush:(id)sender {
     [[WLPostPushDelegate sharedInstance] beginPostPushInWindow:_mainWindow
                                                            forTerminal:[_tabView frontMostTerminal]];

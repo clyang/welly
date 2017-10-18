@@ -104,7 +104,15 @@
 		DF0C69581F7D23AA0007742D /* PostPushPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */; };
 		DF13FCC21F825EE0005E8D12 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF13FCC11F825EDD005E8D12 /* usock2wsock */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
+		DF3991071F97E32600930396 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3990FC1F97E32500930396 /* FMDatabase.m */; };
+		DF3991081F97E32600930396 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3990FE1F97E32500930396 /* FMDatabaseAdditions.m */; };
+		DF3991091F97E32600930396 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3990FF1F97E32500930396 /* FMDatabaseQueue.m */; };
+		DF39910A1F97E32600930396 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3991001F97E32500930396 /* FMDatabasePool.m */; };
+		DF39910B1F97E32600930396 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3991041F97E32600930396 /* FMResultSet.m */; };
+		DF39910C1F97E35E00930396 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF3990EA1F97E2C700930396 /* libsqlite3.tbd */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
+		DFC762461F97D2AE009BBCCC /* WLTrackArticlePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC762451F97D2AE009BBCCC /* WLTrackArticlePanelController.m */; };
+		DFC762471F97DC04009BBCCC /* TrackArticleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFC762491F97DC04009BBCCC /* TrackArticleWindow.xib */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
@@ -310,7 +318,24 @@
 		DF0C695B1F7D23C10007742D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PostPushPanel.xib; sourceTree = "<group>"; };
 		DF13FCC11F825EDD005E8D12 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
+		DF3990EA1F97E2C700930396 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		DF3990FC1F97E32500930396 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		DF3990FD1F97E32500930396 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		DF3990FE1F97E32500930396 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		DF3990FF1F97E32500930396 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DF3991001F97E32500930396 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		DF3991011F97E32500930396 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DF3991021F97E32500930396 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		DF3991031F97E32600930396 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		DF3991041F97E32600930396 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		DF3991051F97E32600930396 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		DF3991061F97E32600930396 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
+		DFC762441F97CF89009BBCCC /* WLTrackArticlePanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLTrackArticlePanelController.h; sourceTree = "<group>"; };
+		DFC762451F97D2AE009BBCCC /* WLTrackArticlePanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLTrackArticlePanelController.m; sourceTree = "<group>"; };
+		DFC7624B1F97DC18009BBCCC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TrackArticleWindow.xib; sourceTree = "<group>"; };
+		DFDE523C1F97E4B700B6E37D /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/TrackArticleWindow.xib; sourceTree = "<group>"; };
+		DFDE523D1F97E4C400B6E37D /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/TrackArticleWindow.xib; sourceTree = "<group>"; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
@@ -322,6 +347,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF39910C1F97E35E00930396 /* libsqlite3.tbd in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
@@ -394,6 +420,7 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF3990FB1F97E2E900930396 /* fmdb */,
 				DFF2CCC91F78132C00530892 /* Sparkle.framework */,
 				D64A480A11E90350008ACEBD /* Growl.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
@@ -453,6 +480,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF3990EA1F97E2C700930396 /* libsqlite3.tbd */,
 				161DF9B2106DE2D60003E85A /* Third-Party Frameworks */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -532,6 +560,7 @@
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 				DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */,
 				DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */,
+				DFC762491F97DC04009BBCCC /* TrackArticleWindow.xib */,
 			);
 			name = "Xib Files";
 			sourceTree = "<group>";
@@ -670,6 +699,8 @@
 				5AEED2FE107205ED00034E2A /* WLSitesPanelController.m */,
 				DF0C69531F7A9D730007742D /* WLPostPushDelegate.h */,
 				DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */,
+				DFC762441F97CF89009BBCCC /* WLTrackArticlePanelController.h */,
+				DFC762451F97D2AE009BBCCC /* WLTrackArticlePanelController.m */,
 			);
 			name = "Panel Controllers";
 			sourceTree = "<group>";
@@ -760,6 +791,24 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		DF3990FB1F97E2E900930396 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				DF3991031F97E32600930396 /* FMDatabase.h */,
+				DF3990FC1F97E32500930396 /* FMDatabase.m */,
+				DF3991051F97E32600930396 /* FMDatabaseAdditions.h */,
+				DF3990FE1F97E32500930396 /* FMDatabaseAdditions.m */,
+				DF3991061F97E32600930396 /* FMDatabasePool.h */,
+				DF3991001F97E32500930396 /* FMDatabasePool.m */,
+				DF3991011F97E32500930396 /* FMDatabaseQueue.h */,
+				DF3990FF1F97E32500930396 /* FMDatabaseQueue.m */,
+				DF3991021F97E32500930396 /* FMDB.h */,
+				DF3990FD1F97E32500930396 /* FMResultSet.h */,
+				DF3991041F97E32600930396 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -827,6 +876,7 @@
 				DF23C0A01F764362000A472E /* telnet in Resources */,
 				85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */,
 				DFF2CCD11F7825AB00530892 /* qqwry170910.dat in Resources */,
+				DFC762471F97DC04009BBCCC /* TrackArticleWindow.xib in Resources */,
 				85137B330D02192800833909 /* Credits.rtf in Resources */,
 				85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */,
 				6B3128A60DB36757005D6C32 /* Welly.icns in Resources */,
@@ -879,21 +929,26 @@
 				85145AAE0AB40192009FC710 /* WLTerminal.m in Sources */,
 				85F7F2090B06EE36000C4CDF /* WLGlobalConfig.m in Sources */,
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
+				DF3991081F97E32600930396 /* FMDatabaseAdditions.m in Sources */,
 				8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */,
 				859252F50CFD4F860054E3D6 /* WLContextualMenuManager.m in Sources */,
 				DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */,
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
+				DFC762461F97D2AE009BBCCC /* WLTrackArticlePanelController.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
 				85ED53220D092B5F003296D4 /* WLConnection.m in Sources */,
 				18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */,
+				DF3991091F97E32600930396 /* FMDatabaseQueue.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* WLMainFrameController.m in Sources */,
+				DF39910B1F97E32600930396 /* FMResultSet.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
 				5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */,
 				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
+				DF3991071F97E32600930396 /* FMDatabase.m in Sources */,
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
 				16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */,
@@ -915,6 +970,7 @@
 				5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */,
 				5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */,
 				5AA6807D0F45780B004753E2 /* WLEditingCursorMoveHotspotHandler.m in Sources */,
+				DF39910A1F97E32600930396 /* FMDatabasePool.m in Sources */,
 				18F813960F45A93A002FF48C /* WLFeedGenerator.m in Sources */,
 				5A6A7ED90F497FC000DC952F /* WLAuthorAreaHotspotHandler.m in Sources */,
 				5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */,
@@ -1037,6 +1093,16 @@
 				DF07CC351F94FB1000205F6B /* zh_TW */,
 			);
 			name = PostPushPanel.xib;
+			sourceTree = "<group>";
+		};
+		DFC762491F97DC04009BBCCC /* TrackArticleWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFC7624B1F97DC18009BBCCC /* en */,
+				DFDE523C1F97E4B700B6E37D /* zh_CN */,
+				DFDE523D1F97E4C400B6E37D /* zh_TW */,
+			);
+			name = TrackArticleWindow.xib;
 			sourceTree = "<group>";
 		};
 		DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */ = {
