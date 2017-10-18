@@ -245,7 +245,7 @@
                 [self sendBytes:"\r" length:1];
             }
         }
-    } else if([addr hasPrefix:@"ssh://"] && [addr containsString:@"/"]) {
+    } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
         // user wants to autologin with shh
         addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
         NSString *account = [addr substringFromIndex: [addr rangeOfString:@"/"].location+1];
