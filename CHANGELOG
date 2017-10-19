@@ -1,4 +1,20 @@
 Changelog:
+  ver. 3.0.2
+    ** 文章長截圖真的很好用, 快點按cmd + / 試玩看看!!
+    ** github突破100 Star了, 感謝支持, 如果您覺得不錯用, 還請賞顆星
+
+    a. SSH自動登入格式變動, 用以滿足各種需求
+        - 如果你只是單純想用Welly連到工作站, 格式不變, 直接在網址列
+          輸入: ssh://student_id@work.abc.edu.tw
+        - 如果要用SSH+自動登入, 格式為: ssh://bbs@ptt.cc/your_id
+        - 如果只想用SSH連BBS, 帳密自己打, 格式為: ssh://bbs@ptt.cc
+    b. 修復推文黑名單在開啟推文對齊版中失效的問題
+    c. 使用者現在可在站台設定中自行決定要不要聽到BBS的警告音
+        - https://i.imgur.com/Uw2k6tT.png
+    d. 修復在某些情況下, Welly開啟時無法自動恢復連線的問題
+    e. 修復Welly擺在一些包含特殊字元的目錄, 導致wss或是內包telnet失效的問題
+    f. 修復一些多國語言沒翻譯到的地方
+
   ver. 3.0.1
     a. 擴增文章長截圖功能至使用ptt/Maple-itoc/Formosa系列架設的BBS
        測試過的站台有:
