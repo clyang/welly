@@ -218,16 +218,19 @@
 }
 
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
-	NSView *oldView = [tabViewItem view];
-	[super removeTabViewItem:tabViewItem];
-	
-	if ([self numberOfTabViewItems] == 0) {
-		if ([oldView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
-			[(id <WLTabItemContentObserver>)oldView didChangeContent:nil];
-		}
-		// If no active tabs, we should show the coverflow portal if necessary.
-		[self showPortal];
-	}
+    NSView *oldView = [tabViewItem view];
+    @try {
+        [super removeTabViewItem:tabViewItem];
+    }@catch (NSException * e) {
+    }
+    
+    if ([self numberOfTabViewItems] == 0) {
+        if ([oldView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
+            [(id <WLTabItemContentObserver>)oldView didChangeContent:nil];
+        }
+        // If no active tabs, we should show the coverflow portal if necessary.
+        [self showPortal];
+    }
 }
 
 - (void)selectNextTabViewItem:(NSTabViewItem *)tabViewItem {
