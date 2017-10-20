@@ -119,17 +119,22 @@
     // eg:   "/some/where/app/store/a   b/Welly.app"
     int bundleCmdPos = 0;
     if( (bundleCmdPos = [r rangeOfString:@".app/Contents/Resources/proxy.sh"].location) > 0 || (bundleCmdPos = [r rangeOfString:@".app/Contents/Resources/telnet"].location) > 0 ){
-        NSError *error = nil;
-        NSString *charNeedEsc = @"[\\^\"\!@\\$&\*\(\)'<\ >,\?\\\\]";
-        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:charNeedEsc options:nil error:&error];
         NSString *baseDir = [r substringToIndex:bundleCmdPos];
-        NSString *cleanBaseDir = [regex stringByReplacingMatchesInString:baseDir
-                                                                 options:0
-                                                                   range:NSMakeRange(0, [baseDir length])
-                                                            withTemplate:@"\\\\$0"];
         NSString *restCmd = [r substringFromIndex:bundleCmdPos];
+        NSRange sRange = NSMakeRange( 0,[baseDir length] );
+        NSRange cRange;
+        NSCharacterSet *specialCharset = [NSCharacterSet characterSetWithCharactersInString:@"[^\"!\@\\$&*()'< >,?\\]"];
+        //charRange = [baseDir rangeOfCharacterFromSet:escapeSet options:NSBackwardsSearch range:searchRange];
         
-        r = [NSString stringWithFormat:@"%@%@", cleanBaseDir, restCmd];
+        while( (cRange = [baseDir rangeOfCharacterFromSet:specialCharset options:NSBackwardsSearch range:sRange]).length )
+        {
+            // It is allowed to have a 0-length range: Insertion
+            baseDir = [baseDir stringByReplacingCharactersInRange:NSMakeRange(cRange.location, 0) withString:@"\\"];
+            
+            // Shorten the search range
+            sRange = NSMakeRange(0, cRange.location);
+        }
+        r = [NSString stringWithFormat:@"%@%@", baseDir, restCmd];
     }
     return r;
 }
