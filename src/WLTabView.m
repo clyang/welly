@@ -287,7 +287,9 @@
 		// These re-ordering will not reflect when calling
 		//  [self selectTabViewItemAtIndex:index];
 		// We here call method from tabBarControl to choose correct tab
-		[_tabBarControl selectTabViewItemAtIndex:([[event characters] intValue]-1)];
+        if(([[event characters] intValue]-1) < [self numberOfTabViewItems]) {
+            [_tabBarControl selectTabViewItemAtIndex:([[event characters] intValue]-1)];
+        }
 		return YES;
 	} else if (([event modifierFlags] & NSCommandKeyMask) == 0 && 
 			   ([event modifierFlags] & NSAlternateKeyMask) == 0 && 
