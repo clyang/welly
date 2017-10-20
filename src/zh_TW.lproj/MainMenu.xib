@@ -276,6 +276,22 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="推文追蹤" id="nFh-XO-uxX">
+                    <menu key="submenu" title="推文追蹤" id="DJm-d7-6iy">
+                        <items>
+                            <menuItem title="加入推文追蹤…" keyEquivalent="A" id="UJz-D0-3ay">
+                                <connections>
+                                    <action selector="WLAddTrackArticle:" target="207" id="H6N-y3-Fcu"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="顯示追蹤中的文章" keyEquivalent="." id="EMg-8s-pRx">
+                                <connections>
+                                    <action selector="WLShowTrackArticleWindow:" target="207" id="pzi-9U-dMR"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="站台" id="266">
                     <menu key="submenu" title="站台" id="267">
                         <items>
@@ -328,15 +344,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="92">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="推文追蹤" keyEquivalent="." id="WvW-2A-QZe" userLabel="推文追蹤">
-                                <attributedString key="attributedTitle"/>
-                                <connections>
-                                    <action selector="WLShowTrackArticleWindow:" target="207" id="mbN-sw-pcR"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="V8m-iW-Oos">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="附件瀏覽" id="1157">

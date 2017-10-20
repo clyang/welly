@@ -25,6 +25,10 @@
 /* post download actions */
 - (void)openTrackArticleWindow:(NSWindow *)window
                   forTerminal:(WLTerminal *)terminal;
+
+- (void)addTrackArticle:(NSWindow *)window
+                   forTerminal:(WLTerminal *)terminal;
+
 - (IBAction)closeTrackArticleWindow:(id)sender;
 @end
 

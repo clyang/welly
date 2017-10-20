@@ -111,6 +111,7 @@
 		DF39910B1F97E32600930396 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DF3991041F97E32600930396 /* FMResultSet.m */; };
 		DF39910C1F97E35E00930396 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF3990EA1F97E2C700930396 /* libsqlite3.tbd */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
+		DF99687D1F98E49900A89832 /* WLTracDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DF99687C1F98E49900A89832 /* WLTracDB.m */; };
 		DFC762461F97D2AE009BBCCC /* WLTrackArticlePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFC762451F97D2AE009BBCCC /* WLTrackArticlePanelController.m */; };
 		DFC762471F97DC04009BBCCC /* TrackArticleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFC762491F97DC04009BBCCC /* TrackArticleWindow.xib */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
@@ -331,6 +332,8 @@
 		DF3991051F97E32600930396 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		DF3991061F97E32600930396 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
+		DF99687C1F98E49900A89832 /* WLTracDB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLTracDB.m; sourceTree = "<group>"; };
+		DF99687F1F98E67C00A89832 /* WLTracDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLTracDB.h; sourceTree = "<group>"; };
 		DFC762441F97CF89009BBCCC /* WLTrackArticlePanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLTrackArticlePanelController.h; sourceTree = "<group>"; };
 		DFC762451F97D2AE009BBCCC /* WLTrackArticlePanelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLTrackArticlePanelController.m; sourceTree = "<group>"; };
 		DFC7624B1F97DC18009BBCCC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/TrackArticleWindow.xib; sourceTree = "<group>"; };
@@ -774,6 +777,8 @@
 		85F701440C895C8600E27A1E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DF99687F1F98E67C00A89832 /* WLTracDB.h */,
+				DF99687C1F98E49900A89832 /* WLTracDB.m */,
 				85ED53200D092B5F003296D4 /* WLConnection.h */,
 				85ED53210D092B5F003296D4 /* WLConnection.m */,
 				16C0C90A0E294BAA00B576C5 /* WLProtocol.h */,
@@ -946,6 +951,7 @@
 				DF39910B1F97E32600930396 /* FMResultSet.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
+				DF99687D1F98E49900A89832 /* WLTracDB.m in Sources */,
 				5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */,
 				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
 				DF3991071F97E32600930396 /* FMDatabase.m in Sources */,

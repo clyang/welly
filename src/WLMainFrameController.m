@@ -467,6 +467,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
                                                               forTerminal:[_tabView frontMostTerminal]];
 }
 
+- (IBAction)WLAddTrackArticle:(id)sender {
+    [[WLTrackArticlePanelController sharedInstance] addTrackArticle:_mainWindow
+                                                               forTerminal:[_tabView frontMostTerminal]];
+}
+
 
 
 - (IBAction)postPush:(id)sender {
