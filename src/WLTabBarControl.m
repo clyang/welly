@@ -16,6 +16,7 @@
 - (id)cellForPoint:(NSPoint)mousePt 
 		 cellFrame:(NSRect *)cellFrame;
 - (void)closeTabClick:(id)sender;
+
 @end
 
 @implementation WLTabBarControl
@@ -91,4 +92,44 @@
 - (void)setMainController:(WLMainFrameController *)controller {
 	_currMainController = controller;
 }
+
+- (void)tabViewDidChangeNumberOfTabViewItems:(NSTabView *)aTabView
+{
+    NSArray *tabItems = [tabView tabViewItems];
+    // go through cells, remove any whose representedObjects are not in [tabView tabViewItems]
+    NSEnumerator *e = [[[_cells copy] autorelease] objectEnumerator];
+    PSMTabBarCell *cell;
+    while ( (cell = [e nextObject]) ) {
+        //remove the observer binding
+        if ([cell representedObject] && ![tabItems containsObject:[cell representedObject]]) {
+            // see issue #2609
+            // -removeTabForCell: comes first to stop the observing that would be triggered in the delegate's call tree
+            // below and finally caused a crash.
+            [self removeTabForCell:cell];
+            
+            if ([[self delegate] respondsToSelector:@selector(tabView:didCloseTabViewItem:)]) {
+                [[self delegate] tabView:aTabView didCloseTabViewItem:[cell representedObject]];
+            }
+        }
+    }
+    
+    // go through tab view items, add cell for any not present
+    NSMutableArray *cellItems = [self representedTabViewItems];
+    NSEnumerator *ex = [tabItems objectEnumerator];
+    NSTabViewItem *item;
+    while ( (item = [ex nextObject]) ) {
+        if (![cellItems containsObject:item]) {
+            [self addTabViewItem:item];
+        }
+    }
+    
+    // pass along for other delegate responses
+    if ([[self delegate] respondsToSelector:@selector(tabViewDidChangeNumberOfTabViewItems:)]) {
+        [[self delegate] performSelector:@selector(tabViewDidChangeNumberOfTabViewItems:) withObject:aTabView];
+    }
+    
+    // reset cursor tracking for the add tab button if one exists
+    if ([self addTabButton]) [[self addTabButton] resetCursorRects];
+}
+
 @end

@@ -219,10 +219,7 @@
 
 - (void)removeTabViewItem:(NSTabViewItem *)tabViewItem {
     NSView *oldView = [tabViewItem view];
-    @try {
-        [super removeTabViewItem:tabViewItem];
-    }@catch (NSException * e) {
-    }
+    [super removeTabViewItem:tabViewItem];
     
     if ([self numberOfTabViewItems] == 0) {
         if ([oldView conformsToProtocol:@protocol(WLTabItemContentObserver)]) {
