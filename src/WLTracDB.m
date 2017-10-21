@@ -53,6 +53,7 @@
                   "title text,"
                   "url text,"
                   "lastLineHash text,"
+                  "needTrack integer,"
                   "ownTime DATETIME DEFAULT CURRENT_TIMESTAMP"
                   ");"];
         

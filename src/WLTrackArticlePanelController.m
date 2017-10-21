@@ -234,7 +234,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanelController);
     aid = [tmp substringWithRange:needleRange];
     
     tmp = [self getTerminalNthLine:21 forTerminal: terminal];
-    regex = [NSRegularExpression regularExpressionWithPattern:@"文章網址: (https.+html)" options:0 error:nil];
+    regex = [NSRegularExpression regularExpressionWithPattern:@"文章網址: https://www.ptt.cc/bbs/(.+)\\.html" options:0 error:nil];
     match = [regex firstMatchInString:tmp options:NSAnchoredSearch range:NSMakeRange(0, tmp.length)];
     needleRange = [match rangeAtIndex: 1];
     url = [tmp substringWithRange:needleRange];
@@ -263,7 +263,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanelController);
             // add to db and show good
             owner = @"ycl94";
             [[WLTracDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash) VALUES ('%@','%@','%@','%@','%@','%@','%@')", owner, author, aid, board, title, url, lastLineHash];
+                NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d')", owner, author, aid, board, title, url, lastLineHash, 0];
 
 
                 [db executeUpdate: sql];
