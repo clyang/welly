@@ -72,7 +72,7 @@
         // remove username from ssh
         if (range.length > 0 && ![addr containsString:@"/"]) {
             // user don't want auto login
-            fmt = @"/usr/bin/ssh -o Protocol=2,1 -p %2$@ -x %1$@";
+            fmt = @"/usr/bin/ssh -4 -o PubkeyAuthentication=no -o Protocol=2,1 -p %2$@ -x %1$@";
         } else if(range.length > 0 && [addr containsString:@"/"]) {
             // user wants auto-login
             // remove userid "/USERID" from the end
@@ -80,7 +80,7 @@
             addr = [addr substringToIndex:[addr rangeOfString:@"/"].location];
             fmt = @"/usr/bin/ssh -4 -o PubkeyAuthentication=no -o Protocol=2,1 -p %2$@ -x bbs@%1$@";
         } else {
-            fmt = @"/usr/bin/ssh -o Protocol=2,1 -p %2$@ -x %1$@";
+            fmt = @"/usr/bin/ssh -4 -o PubkeyAuthentication=no -o Protocol=2,1 -p %2$@ -x %1$@";
         }
     } else if (websock) {
         port = [NSString stringWithFormat:@"%d", arc4random_uniform(99999)];

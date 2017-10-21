@@ -307,14 +307,14 @@
 		DF07CC371F94FB4200205F6B /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/LongScreenshotPanel.xib; sourceTree = "<group>"; };
 		DF0C69531F7A9D730007742D /* WLPostPushDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLPostPushDelegate.h; sourceTree = "<group>"; };
 		DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLPostPushDelegate.m; sourceTree = "<group>"; };
-		DF0C695B1F7D23C10007742D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PostPushPanel.xib; sourceTree = "<group>"; };
+		DF10C4BE1F9ACBC300EECE13 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostPushPanel.xib; sourceTree = "<group>"; };
+		DF10C4BF1F9ACBD600EECE13 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LongScreenshotPanel.xib; sourceTree = "<group>"; };
 		DF13FCC11F825EDD005E8D12 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
-		DFFEA07A1F92610D00942F6C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LongScreenshotPanel.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -803,7 +803,6 @@
 				German,
 				zh_TW,
 				zh_CN,
-				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* MacBlueTelnet */;
 			projectDirPath = "";
@@ -1032,9 +1031,9 @@
 		DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DF0C695B1F7D23C10007742D /* en */,
 				DF07CC341F94FAFA00205F6B /* zh_CN */,
 				DF07CC351F94FB1000205F6B /* zh_TW */,
+				DF10C4BE1F9ACBC300EECE13 /* English */,
 			);
 			name = PostPushPanel.xib;
 			sourceTree = "<group>";
@@ -1042,9 +1041,9 @@
 		DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				DFFEA07A1F92610D00942F6C /* en */,
 				DF07CC361F94FB2F00205F6B /* zh_CN */,
 				DF07CC371F94FB4200205F6B /* zh_TW */,
+				DF10C4BF1F9ACBD600EECE13 /* English */,
 			);
 			name = LongScreenshotPanel.xib;
 			sourceTree = "<group>";
