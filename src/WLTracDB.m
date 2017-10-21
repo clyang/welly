@@ -50,6 +50,7 @@
                   "author text," // article author
                   "aid text,"
                   "board text,"
+                  "title text,"
                   "url text,"
                   "lastLineHash text,"
                   "ownTime DATETIME DEFAULT CURRENT_TIMESTAMP"
