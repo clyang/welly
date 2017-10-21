@@ -52,7 +52,7 @@
                   "board text,"
                   "url text,"
                   "lastLineHash text,"
-                  "ownTime text"
+                  "ownTime DATETIME DEFAULT CURRENT_TIMESTAMP"
                   ");"];
         
         if (!result) {
