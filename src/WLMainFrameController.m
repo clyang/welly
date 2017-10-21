@@ -367,52 +367,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (IBAction)connectLocation:(id)sender {
 	[sender abortEditing];
 	[[_tabView window] makeFirstResponder:_tabView];
-    BOOL ssh = NO, WSS = NO;
     
     NSString *name = [sender stringValue];
-    if ([[name lowercaseString] hasPrefix:@"ssh://"]) 
-        ssh = YES;
-//        name = [name substringFromIndex: 6];
-    if ([[name lowercaseString] hasPrefix:@"telnet://"])
-        name = [name substringFromIndex: 9];
-    if ([[name lowercaseString] hasPrefix:@"bbs://"])
-        name = [name substringFromIndex: 6];
-    
-    NSMutableArray *matchedSites = [NSMutableArray array];
     WLSite *s;
-	NSArray *sites = [WLSitesPanelController sites];
-        
-    if ([name rangeOfString:@"."].location != NSNotFound) { /* Normal address */
-        for (WLSite *site in sites)
-            if ([[site address] rangeOfString:name].location != NSNotFound && !(ssh ^ [[site address] hasPrefix:@"ssh://"])) 
-                [matchedSites addObject:site];
-        if ([matchedSites count] > 0) {
-            [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
-            s = [[[matchedSites objectAtIndex:0] copy] autorelease];
-        } else {
-            s = [WLSite site];
-            [s setAddress:name];
-            [s setName:name];
-        }
-    } else { /* Short Address? */
-        for (WLSite *site in sites)
-            if ([[site name] rangeOfString:name].location != NSNotFound) 
-                [matchedSites addObject:site];
-        [matchedSites sortUsingDescriptors: [NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"name.length" ascending:YES] autorelease]]];
-        if ([matchedSites count] == 0) {
-            for (WLSite *site in sites) 
-                if ([[site address] rangeOfString:name].location != NSNotFound)
-                    [matchedSites addObject:site];
-            [matchedSites sortUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"address.length" ascending:YES] autorelease]]];
-        } 
-        if ([matchedSites count] > 0) {
-            s = [[[matchedSites objectAtIndex:0] copy] autorelease];
-        } else {
-            s = [WLSite site];
-            [s setAddress:[sender stringValue]];
-            [s setName:name];
-        }
-    }
+    
+    s = [WLSite site];
+    [s setAddress:name];
+    [s setName:name];
+
     [self newConnectionWithSite:s];
     [sender setStringValue:[s address]];
 }
