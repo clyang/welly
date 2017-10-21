@@ -18,6 +18,12 @@ Download latest version / 下載最新版
 -------------
 Welly - clyang edition: [v.3.0.2](https://github.com/clyang/welly/releases/tag/3.0.2)
 
+or install via `homebrew`
+
+> $ brew cask install clyang-welly
+
+(Thanks jackblack@ptt to make brew cask happened!)
+
 Features / 主要功能
 -------------
 1. telnet to BBS via Websocket Secure (wss://)
