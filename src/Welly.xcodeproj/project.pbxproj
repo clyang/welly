@@ -105,6 +105,17 @@
 		DF13FCC21F825EE0005E8D12 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF13FCC11F825EDD005E8D12 /* usock2wsock */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
+		DF59275E1FA07535005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */; };
+		DF5927611FA079A3005C72FF /* WLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927601FA079A2005C72FF /* WLArticle.m */; };
+		DF5927641FA079BA005C72FF /* WLTrackArticlePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927631FA079BA005C72FF /* WLTrackArticlePanel.m */; };
+		DF5927671FA0A81B005C72FF /* WLTrackDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927651FA0A81B005C72FF /* WLTrackDB.m */; };
+		DF5927751FA0A8E5005C72FF /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = DF59276A1FA0A8E5005C72FF /* FMDatabase.m */; };
+		DF5927761FA0A8E5005C72FF /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DF59276C1FA0A8E5005C72FF /* FMDatabaseAdditions.m */; };
+		DF5927771FA0A8E5005C72FF /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DF59276E1FA0A8E5005C72FF /* FMDatabasePool.m */; };
+		DF5927781FA0A8E5005C72FF /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927701FA0A8E5005C72FF /* FMDatabaseQueue.m */; };
+		DF5927791FA0A8E5005C72FF /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927731FA0A8E5005C72FF /* FMResultSet.m */; };
+		DF59277A1FA0A8E5005C72FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF5927741FA0A8E5005C72FF /* Info.plist */; };
+		DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF59277B1FA0A936005C72FF /* libsqlite3.tbd */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
@@ -311,6 +322,26 @@
 		DF13FCC11F825EDD005E8D12 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
+		DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WLTrackArticlePanel.xib; sourceTree = "<group>"; };
+		DF59275F1FA079A2005C72FF /* WLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArticle.h; sourceTree = "<group>"; };
+		DF5927601FA079A2005C72FF /* WLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArticle.m; sourceTree = "<group>"; };
+		DF5927621FA079BA005C72FF /* WLTrackArticlePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTrackArticlePanel.h; sourceTree = "<group>"; };
+		DF5927631FA079BA005C72FF /* WLTrackArticlePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTrackArticlePanel.m; sourceTree = "<group>"; };
+		DF5927651FA0A81B005C72FF /* WLTrackDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTrackDB.m; sourceTree = "<group>"; };
+		DF5927661FA0A81B005C72FF /* WLTrackDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTrackDB.h; sourceTree = "<group>"; };
+		DF5927691FA0A8E5005C72FF /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		DF59276A1FA0A8E5005C72FF /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		DF59276B1FA0A8E5005C72FF /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		DF59276C1FA0A8E5005C72FF /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		DF59276D1FA0A8E5005C72FF /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		DF59276E1FA0A8E5005C72FF /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		DF59276F1FA0A8E5005C72FF /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		DF5927701FA0A8E5005C72FF /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		DF5927711FA0A8E5005C72FF /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		DF5927721FA0A8E5005C72FF /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		DF5927731FA0A8E5005C72FF /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		DF5927741FA0A8E5005C72FF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF59277B1FA0A936005C72FF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
@@ -322,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
@@ -394,6 +426,7 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF5927681FA0A8E5005C72FF /* fmdb */,
 				DFF2CCC91F78132C00530892 /* Sparkle.framework */,
 				D64A480A11E90350008ACEBD /* Growl.framework */,
 				8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */,
@@ -453,6 +486,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF59277B1FA0A936005C72FF /* libsqlite3.tbd */,
 				161DF9B2106DE2D60003E85A /* Third-Party Frameworks */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -532,6 +566,7 @@
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 				DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */,
 				DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */,
+				DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */,
 			);
 			name = "Xib Files";
 			sourceTree = "<group>";
@@ -660,6 +695,8 @@
 		5AF9DE46118B371400E288A9 /* Panel Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DF5927621FA079BA005C72FF /* WLTrackArticlePanel.h */,
+				DF5927631FA079BA005C72FF /* WLTrackArticlePanel.m */,
 				186E810D0F218C10007D73BC /* WLComposePanelController.h */,
 				186E810E0F218C10007D73BC /* WLComposePanelController.m */,
 				5AD6A8A3106F8BC000D4446D /* WLEmoticonsPanelController.h */,
@@ -743,6 +780,10 @@
 		85F701440C895C8600E27A1E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DF5927661FA0A81B005C72FF /* WLTrackDB.h */,
+				DF5927651FA0A81B005C72FF /* WLTrackDB.m */,
+				DF59275F1FA079A2005C72FF /* WLArticle.h */,
+				DF5927601FA079A2005C72FF /* WLArticle.m */,
 				85ED53200D092B5F003296D4 /* WLConnection.h */,
 				85ED53210D092B5F003296D4 /* WLConnection.m */,
 				16C0C90A0E294BAA00B576C5 /* WLProtocol.h */,
@@ -758,6 +799,25 @@
 				85E7825B0D057E8400BDA3FB /* YLEmoticon.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		DF5927681FA0A8E5005C72FF /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				DF5927691FA0A8E5005C72FF /* FMDatabase.h */,
+				DF59276A1FA0A8E5005C72FF /* FMDatabase.m */,
+				DF59276B1FA0A8E5005C72FF /* FMDatabaseAdditions.h */,
+				DF59276C1FA0A8E5005C72FF /* FMDatabaseAdditions.m */,
+				DF59276D1FA0A8E5005C72FF /* FMDatabasePool.h */,
+				DF59276E1FA0A8E5005C72FF /* FMDatabasePool.m */,
+				DF59276F1FA0A8E5005C72FF /* FMDatabaseQueue.h */,
+				DF5927701FA0A8E5005C72FF /* FMDatabaseQueue.m */,
+				DF5927711FA0A8E5005C72FF /* FMDB.h */,
+				DF5927721FA0A8E5005C72FF /* FMResultSet.h */,
+				DF5927731FA0A8E5005C72FF /* FMResultSet.m */,
+				DF5927741FA0A8E5005C72FF /* Info.plist */,
+			);
+			path = fmdb;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -841,6 +901,7 @@
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
+				DF59275E1FA07535005C72FF /* WLTrackArticlePanel.xib in Resources */,
 				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
 				DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
@@ -848,6 +909,7 @@
 				5A59F235108C283500F65DEA /* ComposePanel.xib in Resources */,
 				5A59F2DD108EB9DA00F65DEA /* PostDownloadPanel.xib in Resources */,
 				5ACEAC4A11787FF50028E7BA /* contextualMenuItems.plist in Resources */,
+				DF59277A1FA0A8E5005C72FF /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,8 +938,11 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				8570AD5F0A3923A900838442 /* WLTerminalView.m in Sources */,
+				DF5927771FA0A8E5005C72FF /* FMDatabasePool.m in Sources */,
 				85145AAE0AB40192009FC710 /* WLTerminal.m in Sources */,
+				DF5927751FA0A8E5005C72FF /* FMDatabase.m in Sources */,
 				85F7F2090B06EE36000C4CDF /* WLGlobalConfig.m in Sources */,
+				DF5927671FA0A81B005C72FF /* WLTrackDB.m in Sources */,
 				858A54E60CAE78C8000E1AA7 /* YLMarkedTextView.m in Sources */,
 				8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */,
 				859252F50CFD4F860054E3D6 /* WLContextualMenuManager.m in Sources */,
@@ -906,11 +971,13 @@
 				81F8ECF20E5005190022FA65 /* WLPresentationController.m in Sources */,
 				1600D7AF0E51C2B100496E3E /* WLTerminalFeeder.m in Sources */,
 				5A4A50190E5956EE007E16E6 /* WLEffectView.m in Sources */,
+				DF5927611FA079A3005C72FF /* WLArticle.m in Sources */,
 				81E307220E79031B0024C47E /* WLPopUpMessage.m in Sources */,
 				186E810F0F218C10007D73BC /* WLComposePanelController.m in Sources */,
 				5AD4B7160F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m in Sources */,
 				5AD4B9B20F2DF0BD00BF2F87 /* WLMovingAreaHotspotHandler.m in Sources */,
 				5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */,
+				DF5927781FA0A8E5005C72FF /* FMDatabaseQueue.m in Sources */,
 				5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */,
 				5A43E9C20F2EA8450002116B /* WLIPAddrHotspotHandler.m in Sources */,
 				5AC743FC0F34681100177CA1 /* WLMouseBehaviorManager.m in Sources */,
@@ -926,13 +993,16 @@
 				5AEED2FF107205ED00034E2A /* WLSitesPanelController.m in Sources */,
 				5A596600109E8D2100D33FAC /* WLTermView.m in Sources */,
 				5ACEACF11178D2CE0028E7BA /* WLPortalItem.m in Sources */,
+				DF5927761FA0A8E5005C72FF /* FMDatabaseAdditions.m in Sources */,
 				5ACEAF37117DD1AB0028E7BA /* WLTabView.m in Sources */,
 				5A40C3C6118ADED400487AE9 /* WLTabViewItemController.m in Sources */,
 				5AF9DD85118B29E300E288A9 /* WLMainFrameController+RemoteControl.m in Sources */,
 				5AF9DDC0118B2F0E00E288A9 /* WLMainFrameController+TabControl.m in Sources */,
 				5ADC663311992C5E005A2881 /* WLNewBookmarkPortalItem.m in Sources */,
+				DF5927641FA079BA005C72FF /* WLTrackArticlePanel.m in Sources */,
 				5A8C606911D47D81007F2039 /* WLAsciiArtRender.m in Sources */,
 				5A978DF11701684400C188AC /* WLMainFrameController+FullScreen.m in Sources */,
+				DF5927791FA0A8E5005C72FF /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
