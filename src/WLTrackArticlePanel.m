@@ -345,10 +345,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (IBAction)removeArticleFromDB:(id)sender {
-    if ([idTableView selectedRow] > -1) {
-        [self.nsMutaryDataObj removeObjectAtIndex:[idTableView selectedRow]];
-        [idTableView reloadData];
+    NSIndexSet *indexSet = [idTableView selectedRowIndexes];
+    
+    // remove from db
+    NSUInteger index=[indexSet firstIndex];
+    while(index != NSNotFound) {
+        WLArticle *article = self.nsMutaryDataObj[index];
+        [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+            NSString *owner = @"ycl94";
+            NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
+            [db executeUpdate: sql];
+        }];
+        index=[indexSet indexGreaterThanIndex: index];
     }
+    [self.nsMutaryDataObj removeObjectsAtIndexes:indexSet];
+    [idTableView reloadData];
+    
+    
 }
 
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
@@ -359,6 +372,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
     [self loadArticleFromDB];
     [idTableView reloadData];
+    [idTableView setAllowsMultipleSelection: YES];
     
     [NSApp beginSheet:articleWindow
        modalForWindow:window
@@ -392,7 +406,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 } // end deleteSelectedRow
 
 - (IBAction)closeTrackArticleWindow:(id)sender {
-    [[self nsMutaryDataObj] removeAllObjects];
+    //[[self nsMutaryDataObj] removeAllObjects];
     
     [articleWindow endEditingFor:nil];
     [NSApp endSheet:articleWindow];
