@@ -105,7 +105,6 @@
 		DF13FCC21F825EE0005E8D12 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF13FCC11F825EDD005E8D12 /* usock2wsock */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
-		DF59275E1FA07535005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */; };
 		DF5927611FA079A3005C72FF /* WLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927601FA079A2005C72FF /* WLArticle.m */; };
 		DF5927641FA079BA005C72FF /* WLTrackArticlePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927631FA079BA005C72FF /* WLTrackArticlePanel.m */; };
 		DF5927671FA0A81B005C72FF /* WLTrackDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927651FA0A81B005C72FF /* WLTrackDB.m */; };
@@ -116,6 +115,7 @@
 		DF5927791FA0A8E5005C72FF /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927731FA0A8E5005C72FF /* FMResultSet.m */; };
 		DF59277A1FA0A8E5005C72FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF5927741FA0A8E5005C72FF /* Info.plist */; };
 		DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF59277B1FA0A936005C72FF /* libsqlite3.tbd */; };
+		DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
@@ -322,7 +322,6 @@
 		DF13FCC11F825EDD005E8D12 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
-		DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF59275F1FA079A2005C72FF /* WLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArticle.h; sourceTree = "<group>"; };
 		DF5927601FA079A2005C72FF /* WLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArticle.m; sourceTree = "<group>"; };
 		DF5927621FA079BA005C72FF /* WLTrackArticlePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTrackArticlePanel.h; sourceTree = "<group>"; };
@@ -342,6 +341,9 @@
 		DF5927731FA0A8E5005C72FF /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		DF5927741FA0A8E5005C72FF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF59277B1FA0A936005C72FF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		DF59277E1FA0B723005C72FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
+		DF5927821FA0B7C6005C72FF /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
+		DF5927831FA0B7D4005C72FF /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
@@ -566,7 +568,7 @@
 				5A59F2DC108EB9DA00F65DEA /* PostDownloadPanel.xib */,
 				DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */,
 				DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */,
-				DF59275D1FA07535005C72FF /* WLTrackArticlePanel.xib */,
+				DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */,
 			);
 			name = "Xib Files";
 			sourceTree = "<group>";
@@ -901,7 +903,7 @@
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
-				DF59275E1FA07535005C72FF /* WLTrackArticlePanel.xib in Resources */,
+				DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */,
 				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
 				DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
@@ -1107,6 +1109,16 @@
 				DF07CC351F94FB1000205F6B /* zh_TW */,
 			);
 			name = PostPushPanel.xib;
+			sourceTree = "<group>";
+		};
+		DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DF59277E1FA0B723005C72FF /* en */,
+				DF5927821FA0B7C6005C72FF /* zh_CN */,
+				DF5927831FA0B7D4005C72FF /* zh_TW */,
+			);
+			name = WLTrackArticlePanel.xib;
 			sourceTree = "<group>";
 		};
 		DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */ = {
