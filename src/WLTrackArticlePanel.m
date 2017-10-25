@@ -542,22 +542,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     
     if ([[pTableColumn identifier] isEqualToString:@"Col_ID5"]) {
-        if([zDataObject needTrack] == 0){
-            return @"N";
-        }else {
-            return @"Y";
-        }
+        return [NSNumber numberWithBool:[zDataObject needTrack]];
     }
     
     NSLog(@"***ERROR** dropped through pTableColumn identifiers");
     return NULL;
     
-} // end tableView:objectValueForTableColumn:row:
-
+}
 
 - (void)tableView:(NSTableView *)pTableViewObj setObjectValue:(id)pObject forTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex {
+    WLArticle *article = [self.nsMutaryDataObj objectAtIndex:pRowIndex];
     
-} // end tableView:setObjectValue:forTableColumn:row:
-
+    if([[pTableColumn identifier] isEqualToString:@"Col_ID5"]){
+        article.needTrack = [pObject boolValue] ? 1 : 0;
+        
+        //update db
+        [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+            NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d' WHERE board='%@' AND aid='%@'",([pObject boolValue] ? 1 : 0), article.board, article.aid];
+            [db executeUpdate: sql];
+        }];
+    }
+    
+}
 
 @end
