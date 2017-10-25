@@ -78,28 +78,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             self.nsMutaryDataObj = [[NSMutableArray alloc]init];
             
             while ([set next]) {
-                /*
-                 "arID integer PRIMARY KEY AUTOINCREMENT NOT NULL,"
-                 "owner text," // who wants to track this article
-                 "author text," // article author
-                 "aid text,"
-                 "board text,"
-                 "title text,"
-                 "url text,"
-                 "lastLineHash text,"
-                 "ownTime text"
-                 
-                 self.board = pStr1;
-                 self.title = pStr2;
-                 self.url = pStr3;
-                 self.aid = pStr4;
-                 self.ownTime = pStr5;
-                 self.lastLineHash = pStr6;
-                 self.author = pStr7;
-                 self.needTrack = pStr8;
-                 */
-                //NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
-                 
                 NSInteger needTrack = [set intForColumn:@"needTrack"];
                 NSString *board = [set stringForColumn:@"board"];
                 NSString *author = [set stringForColumn:@"author"];
@@ -123,29 +101,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             [set close];
         }
     }];
-    
-    /*self.nsMutaryDataObj = [[NSMutableArray alloc]init];
-    int i;
-    for (i = 0; i < 10; i ++) {
-        NSString *zStr1 = [[NSString alloc]initWithFormat:@"%d",(i+1)*10];
-        NSString *zStr2 = [[NSString alloc]initWithFormat:@"%d",(i+1)*100];
-        NSString *zStr3 = [[NSString alloc]initWithFormat:@"%d",(i+1)*1000];
-        NSString *zStr4 = [[NSString alloc]initWithFormat:@"%d",(i+1)*10];
-        NSString *zStr5 = [[NSString alloc]initWithFormat:@"%d",(i+1)*10];
-        NSString *zStr6 = [[NSString alloc]initWithFormat:@"%d",(i+1)*100];
-        NSString *zStr7 = [[NSString alloc]initWithFormat:@"%d",(i+1)*1000];
-        int zStr8 = 0;
-        
-        WLArticle * zDataObject = [[WLArticle alloc]initWithString1:zStr1
-                                                         andString2:zStr2
-                                                         andString3:zStr3
-                                                         andString4:zStr4
-                                                         andString5:zStr5
-                                                         andString6:zStr6
-                                                         andString7:zStr7
-                                                         andString8:zStr8];
-        [self.nsMutaryDataObj addObject:zDataObject];
-    } // end for */
 }
 
 - (NSString *)getTerminalBottomLine:(WLTerminal *) terminal {
@@ -408,6 +363,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 - (void)doubleClick:(id)sender {
     if([[self.terminal connection] isConnected]) {
         NSInteger rowNumber = [idTableView clickedRow];
+        if (rowNumber < 0) // double click on header, just ignore it
+            return;
         WLArticle *article = self.nsMutaryDataObj[rowNumber];
         [NSThread detachNewThreadSelector:@selector(enterBoard:)
                                  toTarget:self
@@ -472,9 +429,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 - (void)addRow:(WLArticle *)pDataObj {
     // wont allow user to add article via ui
     return;
-    
-    //[self.nsMutaryDataObj addObject:pDataObj];
-    //[idTableView reloadData];
 } // end addRow
 
 
@@ -521,20 +475,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 
 
 - (void)tableView:(NSTableView *)pTableViewObj setObjectValue:(id)pObject forTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex {
-    
-    /*WLArticle * zDataObject = (WLArticle *) [self.nsMutaryDataObj objectAtIndex:pRowIndex];
-    
-    if ([[pTableColumn identifier] isEqualToString:@"Col_ID1"]) {
-        [zDataObject setNsStrName1:(NSString *)pObject];
-    }
-    
-    if ([[pTableColumn identifier] isEqualToString:@"Col_ID2"]) {
-        [zDataObject setNsStrName2:(NSString *)pObject];
-    }
-    
-    if ([[pTableColumn identifier] isEqualToString:@"Col_ID3"]) {
-        [zDataObject setNsStrName3:(NSString *)pObject];
-    }*/
+
 } // end tableView:setObjectValue:forTableColumn:row:
 
 
