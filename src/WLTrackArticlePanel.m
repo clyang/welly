@@ -370,8 +370,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
                                  toTarget:self
                                withObject:article];
     }
-    
-    
 }
 
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
@@ -387,12 +385,47 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     [idTableView setTarget:self];
     [idTableView setDoubleAction:@selector(doubleClick:)];
     
+    // setting up column sorting
+    NSTableColumn *AuthorColumn = [idTableView tableColumnWithIdentifier:@"Col_ID1"];
+    NSSortDescriptor *AuthorSortDescriptor = [NSSortDescriptor
+                                              sortDescriptorWithKey:@"author"
+                                              ascending:YES
+                                              selector:@selector(caseInsensitiveCompare:)];
+    [AuthorColumn setSortDescriptorPrototype:AuthorSortDescriptor];
+    
+    NSTableColumn *BoardColumn = [idTableView tableColumnWithIdentifier:@"Col_ID2"];
+    NSSortDescriptor *BoardSortDescriptor = [NSSortDescriptor
+                                             sortDescriptorWithKey:@"board"
+                                             ascending:YES
+                                             selector:@selector(caseInsensitiveCompare:)];
+    [BoardColumn setSortDescriptorPrototype:BoardSortDescriptor];
+    
+    NSTableColumn *ownTimeColumn = [idTableView tableColumnWithIdentifier:@"Col_ID4"];
+    NSSortDescriptor *ownTimeSortDescriptor = [NSSortDescriptor
+                                               sortDescriptorWithKey:@"ownTime"
+                                               ascending:YES
+                                               selector:@selector(compare:)];
+    [ownTimeColumn setSortDescriptorPrototype:ownTimeSortDescriptor];
+    
+    NSTableColumn *needTrackColumn = [idTableView tableColumnWithIdentifier:@"Col_ID5"];
+    NSSortDescriptor *needTrackSortDescriptor = [NSSortDescriptor
+                                                 sortDescriptorWithKey:@"needTrack"
+                                                 ascending:YES
+                                                 selector:@selector(compare:)];
+    [needTrackColumn setSortDescriptorPrototype:needTrackSortDescriptor];
+    
     [NSApp beginSheet:articleWindow
        modalForWindow:window
         modalDelegate:nil
        didEndSelector:NULL
           contextInfo:nil];
     
+}
+
+- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+    [self.nsMutaryDataObj sortUsingDescriptors:[idTableView sortDescriptors]];
+    [idTableView reloadData];
 }
 
 - (IBAction)addAtSelectedRow:(id)pId {
@@ -467,7 +500,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             return @"Y";
         }
     }
-
+    
     NSLog(@"***ERROR** dropped through pTableColumn identifiers");
     return NULL;
     
@@ -475,9 +508,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 
 
 - (void)tableView:(NSTableView *)pTableViewObj setObjectValue:(id)pObject forTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex {
-
+    
 } // end tableView:setObjectValue:forTableColumn:row:
-
 
 
 @end
