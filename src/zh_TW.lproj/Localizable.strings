@@ -12,6 +12,8 @@
 "You cannot use Long Comment function at current status" = "請在看板看板中或是文章內使用本功能";
 "Long Screenshot Error!" = "長截圖發生錯誤!";
 "Long Screenshot DONE!" = "長截圖成功, kerker!!";
+"Article Tracking" = "推文追蹤";
+"Are your sure you want to delete selected articles from database?" = "您確定要從資料庫中刪除所選的文章?";
 
 /* Default Button */
 "Close" = "關閉";
@@ -45,6 +47,17 @@
 "Something goes wrong while flipping the page (1)" = "翻頁時發生錯誤, 如果持續發生請回報 (1)";
 "Something goes wrong while flipping the page (2)" = "翻頁時發生錯誤, 如果持續發生請回報 (2)";
 "The content of the article has been captured successfully" = "文章已經完整的截取存為一張長長的圖片了!";
+"Something goes wrong while retrieving article details (1)" = "推文追蹤在取得文章細節時發生錯誤 (1)";
+"Something goes wrong while retrieving article details (2)" = "推文追蹤在取得文章細節時發生錯誤 (2)";
+"Something goes wrong while retrieving article details (3)" = "推文追蹤在取得文章細節時發生錯誤 (3)";
+"Something goes wrong while retrieving article details (4)" = "推文追蹤在取得文章細節時發生錯誤 (4)";
+"Something goes wrong while retrieving article details (5)" = "推文追蹤在取得文章細節時發生錯誤 (5)";
+"This article is already in database!" = "本篇文章已經在資料庫囉!";
+"The articles has been stored successfully!" = "成功將文章加入資料庫了!";
+"Please make sure you're reading article in PTT" = "請確定您正在PTT的看版內閱讀文章";
+"Something goes wrong while navigating to stored article (1)" = "前往文章的過程中發生錯誤 (1)";
+"Something goes wrong while navigating to stored article (2)" = "前往文章的過程中發生錯誤, 也許是文章已經被刪除 (2)";
+"Deleted records cannot be restored." = "被刪除的文章將無法復原喔!";
 
 /* Preferences */
 "General" = "一般";

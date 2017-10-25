@@ -61,8 +61,6 @@
             NSLog(@"Failed to create DB, rollback");
             *rollback = YES;
             return ; // must return
-        } else {
-            NSLog(@"db already there");
         }
     }];
 }

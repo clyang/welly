@@ -11,10 +11,12 @@
     IBOutlet NSTableView *idTableView;
     IBOutlet NSPanel *articleWindow;
     WLTerminal *terminal;
+    NSWindow *mainWindow;
    
 }
 @property (assign) NSMutableArray *nsMutaryDataObj;
 @property (assign) WLTerminal *terminal;
+@property (assign) NSWindow *mainWindow;
 @property (assign) IBOutlet NSTableView *idTableView;
 
 - (IBAction)addAtSelectedRow:(id)pId;

@@ -108,9 +108,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     return [terminal stringAtIndex:linesPerPage * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
 }
 
+- (void) showMsgOnMainWindow:(NSString *) msg {
+    NSBeginAlertSheet(NSLocalizedString(@"Article Tracking", @"Sheet Title"),
+                      NSLocalizedString(@"Confirm", @"Default Button"),
+                      nil,
+                      nil,
+                      mainWindow, self,
+                      //@selector(confirmSheetDidEnd:returnCode:contextInfo:),
+                      nil,
+                      nil,
+                      nil,
+                      NSLocalizedString(msg, @"Sheet Message"));
+}
+
+- (void) showMsgOnArticleWindow:(NSString *) msg {
+    NSBeginAlertSheet(NSLocalizedString(@"Article Tracking", @"Sheet Title"),
+                      NSLocalizedString(@"Confirm", @"Default Button"),
+                      nil,
+                      nil,
+                      articleWindow, self,
+                      //@selector(confirmSheetDidEnd:returnCode:contextInfo:),
+                      nil,
+                      nil,
+                      nil,
+                      NSLocalizedString(msg, @"Sheet Message"));
+}
+
 - (void)getArticleDetail:(WLTerminal *) terminal {
     int i=0;
-    const int sleepTime = 100000, maxAttempt = 500;
+    const int sleepTime = 100000, maxAttempt = 80;
     NSString *owner, *author, *aid, *board, *title, *url, *lastLineHash, *bottomLine, *tmp;
     BOOL changePageStatus;
     WLConnection *conn = [terminal connection];
@@ -133,6 +159,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         }
         if(!changePageStatus) {
             //show warn
+            [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Something goes wrong while retrieving article details (1)" waitUntilDone:NO];
             return;
         }
     } else if ([[self getTerminalBottomLine:terminal] containsString:@"文章選讀"]) {
@@ -153,6 +180,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         }
         if(!changePageStatus) {
             //show warn
+            [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Something goes wrong while retrieving article details (2)" waitUntilDone:NO];
             return;
         }
     }
@@ -189,6 +217,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     if(!changePageStatus) {
         //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Something goes wrong while retrieving article details (3)" waitUntilDone:NO];
         return;
     }
     
@@ -205,7 +234,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         }
     }
     if(!lastLine) {
-        NSLog(@"no match");
         lastLineHash = @"";
     } else {
         lastLineHash = [[self getTerminalNthLine:(lastLine+1) forTerminal: terminal] MD5String];
@@ -229,6 +257,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     if(!changePageStatus) {
         //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Something goes wrong while retrieving article details (4)" waitUntilDone:NO];
         return;
     }
     
@@ -250,6 +279,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     if( [author length] == 0 || [aid length] == 0 || [board length] == 0 || [title length] == 0 || [url length] ==0) {
         // show warn
         NSLog(@"author: %@, aid: %@, board: %@, title: %@, url: %@", author, aid, board, title, url);
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Something goes wrong while retrieving article details (5)" waitUntilDone:NO];
         return;
     } else {
         // check if already in db
@@ -268,9 +298,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                 NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d')", owner, author, aid, board, title, url, lastLineHash, 0];
                 
-                
                 [db executeUpdate: sql];
+                [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"The articles has been stored successfully!" waitUntilDone:NO];
             }];
+        } else {
+            [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"This article is already in database!" waitUntilDone:NO];
         }
     }
 }
@@ -283,6 +315,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 - (void)addTrackArticle:(NSWindow *) window forTerminal:(WLTerminal *) terminal {
     if(![[terminal connection] isPTT] && (![[self getTerminalBottomLine:terminal] containsString:@"文章選讀"] || ![[self getTerminalBottomLine:terminal] containsString:@"目前顯示: 第"])){
         //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
     } else {
         [NSThread detachNewThreadSelector:@selector(getArticleDetail:)
                                  toTarget:self
@@ -293,25 +326,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 - (IBAction)removeArticleFromDB:(id)sender {
     NSIndexSet *indexSet = [idTableView selectedRowIndexes];
     
-    // remove from db
-    NSUInteger index=[indexSet firstIndex];
-    while(index != NSNotFound) {
-        WLArticle *article = self.nsMutaryDataObj[index];
-        [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-            NSString *owner = @"ycl94";
-            NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
-            [db executeUpdate: sql];
-        }];
-        index=[indexSet indexGreaterThanIndex: index];
+    if([indexSet count] > 0){
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:NSLocalizedString(@"Confirm", @"Default Button")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Cancel Button")];
+        [alert setMessageText:NSLocalizedString(@"Are your sure you want to delete selected articles from database?", @"Sheet Title")];
+        [alert setInformativeText:NSLocalizedString(@"Deleted records cannot be restored.", @"Sheet Message")];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        
+        if ([alert runModal] != NSAlertFirstButtonReturn) {
+            [alert release];
+            return;
+        }
+        [alert release];
+        
+        // remove from db
+        NSUInteger index=[indexSet firstIndex];
+        while(index != NSNotFound) {
+            
+            WLArticle *article = self.nsMutaryDataObj[index];
+            [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                NSString *owner = @"ycl94";
+                NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
+                [db executeUpdate: sql];
+            }];
+            index=[indexSet indexGreaterThanIndex: index];
+        }
+        [self.nsMutaryDataObj removeObjectsAtIndexes:indexSet];
+        [idTableView reloadData];
     }
-    [self.nsMutaryDataObj removeObjectsAtIndexes:indexSet];
-    [idTableView reloadData];
     
     
 }
 
 - (void)enterBoard:(WLArticle *) article {
-    const int sleepTime = 100000, maxAttempt = 500;
+    const int sleepTime = 100000, maxAttempt = 80;
     int i=0;
     NSString *bottomLine;
     BOOL changePageStatus=NO;
@@ -334,6 +383,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     if(!changePageStatus) {
         //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnArticleWindow:) withObject:@"Something goes wrong while navigating to stored article (1)" waitUntilDone:NO];
         return;
     }
     
@@ -354,6 +404,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     if(!changePageStatus) {
         //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnArticleWindow:) withObject:@"Something goes wrong while navigating to stored article (2)" waitUntilDone:NO];
         return;
     } else {
         [self performSelectorOnMainThread:@selector(closeTrackArticleWindow:) withObject:[NSObject new] waitUntilDone:NO];
@@ -380,6 +431,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
     [self loadArticleFromDB];
     self.terminal = terminal;
+    self.mainWindow = window;
+    
     [idTableView reloadData];
     [idTableView setAllowsMultipleSelection: YES];
     [idTableView setTarget:self];
