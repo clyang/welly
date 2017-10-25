@@ -313,7 +313,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void)addTrackArticle:(NSWindow *) window forTerminal:(WLTerminal *) terminal {
-    if(![[terminal connection] isPTT] && (![[self getTerminalBottomLine:terminal] containsString:@"文章選讀"] || ![[self getTerminalBottomLine:terminal] containsString:@"目前顯示: 第"])){
+    if(![[terminal connection] isPTT] || ![[self getTerminalBottomLine:terminal] containsString:@"文章選讀"] || ![[self getTerminalBottomLine:terminal] containsString:@"目前顯示: 第"]){
         //show warn
         [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
     } else {
@@ -424,6 +424,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
+    
+    if(![[terminal connection] isPTT]){
+        //show warn
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
+        return;
+    }
     
     if (!articleWindow) {
         [NSBundle loadNibNamed:kTrackArticlePanelNibFilename owner:self];
