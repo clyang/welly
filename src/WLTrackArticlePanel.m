@@ -109,9 +109,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void)getArticleDetail:(WLTerminal *) terminal {
-    int i=0, arID;
+    int i=0;
     const int sleepTime = 100000, maxAttempt = 500;
-    NSString *owner, *author, *aid, *board, *title, *url, *lastLineHash, *ownTime, *bottomLine, *tmp;
+    NSString *owner, *author, *aid, *board, *title, *url, *lastLineHash, *bottomLine, *tmp;
     BOOL changePageStatus;
     WLConnection *conn = [terminal connection];
     
@@ -429,18 +429,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (IBAction)addAtSelectedRow:(id)pId {
-    if ([idTableView selectedRow] > -1) {
-        NSString * zStr1 = @"Text Cell 1";
-        NSString * zStr2 = @"Text Cell 2";
-        NSString * zStr3 = @"Text Cell 3";
-        WLArticle * zDataObject = [[WLArticle alloc]initWithString1:zStr1
-                                                         andString2:zStr2
-                                                         andString3:zStr3];
-        [self.nsMutaryDataObj insertObject:zDataObject
-                                   atIndex:[idTableView selectedRow]];
-        [idTableView reloadData];
-    } // end if
-    
+
 } // end deleteSelectedRow
 
 
