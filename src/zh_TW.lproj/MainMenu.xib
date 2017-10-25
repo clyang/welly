@@ -199,8 +199,8 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="編輯" id="IXY-ly-RK2">
-                    <menu key="submenu" title="編輯" id="94c-eT-gHB">
+                <menuItem title="推文追蹤" id="IXY-ly-RK2">
+                    <menu key="submenu" title="推文追蹤" id="94c-eT-gHB">
                         <items>
                             <menuItem title="加入推文追蹤…" keyEquivalent="A" id="LPJ-Q7-0Bp">
                                 <connections>

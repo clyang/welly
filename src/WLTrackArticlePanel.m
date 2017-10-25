@@ -344,6 +344,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
 }
 
+- (IBAction)removeArticleFromDB:(id)sender {
+    if ([idTableView selectedRow] > -1) {
+        [self.nsMutaryDataObj removeObjectAtIndex:[idTableView selectedRow]];
+        [idTableView reloadData];
+    }
+}
+
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
     
     if (!articleWindow) {
