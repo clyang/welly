@@ -122,13 +122,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             }
             [set close];
         }
-        
-        
-        
-        //self.companyes = arrayM;
-        
-        // 让pickerView更新数据
-        //[self.pickerView reloadAllComponents];
     }];
     
     /*self.nsMutaryDataObj = [[NSMutableArray alloc]init];
@@ -205,6 +198,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         }
         if(!changePageStatus) {
             //show warn
+            NSLog(@"1111");
             return;
         }
     }
@@ -364,6 +358,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
 }
 
+- (void)enterBoard:(WLArticle *) article {
+    const int sleepTime = 100000, maxAttempt = 500;
+    int i=0;
+    NSString *bottomLine;
+    BOOL changePageStatus=NO;
+    WLConnection *conn = [self.terminal connection];
+    
+    // go to the board
+    [conn sendText:[NSString stringWithFormat:@"s%@\r  ", article.board]];
+    while(i< maxAttempt) {
+        // wait for the screen to refresh
+        ++i;
+        usleep(sleepTime);
+        bottomLine = [self getTerminalBottomLine:self.terminal];
+        if([bottomLine containsString:@" 文章選讀 "]){
+            changePageStatus = YES;
+            i = 0;
+            break;
+        } else {
+            changePageStatus = NO;
+        }
+    }
+    if(!changePageStatus) {
+        //show warn
+        return;
+    }
+    
+    // move to aid
+    [conn sendText:[NSString stringWithFormat:@"%@\r\r", article.aid]];
+    while(i< maxAttempt) {
+        // wait for the screen to refresh
+        ++i;
+        usleep(sleepTime);
+        bottomLine = [self getTerminalBottomLine:self.terminal];
+        if([bottomLine containsString:@"目前顯示: 第"]){
+            changePageStatus = YES;
+            i = 0;
+            break;
+        } else {
+            changePageStatus = NO;
+        }
+    }
+    if(!changePageStatus) {
+        //show warn
+        return;
+    } else {
+        [self performSelectorOnMainThread:@selector(closeTrackArticleWindow:) withObject:[NSObject new] waitUntilDone:NO];
+    }
+}
+
+- (void)doubleClick:(id)sender {
+    if([[self.terminal connection] isConnected]) {
+        NSInteger rowNumber = [idTableView clickedRow];
+        WLArticle *article = self.nsMutaryDataObj[rowNumber];
+        [NSThread detachNewThreadSelector:@selector(enterBoard:)
+                                 toTarget:self
+                               withObject:article];
+    }
+    
+    
+}
+
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
     
     if (!articleWindow) {
@@ -371,8 +427,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     
     [self loadArticleFromDB];
+    self.terminal = terminal;
     [idTableView reloadData];
     [idTableView setAllowsMultipleSelection: YES];
+    [idTableView setTarget:self];
+    [idTableView setDoubleAction:@selector(doubleClick:)];
     
     [NSApp beginSheet:articleWindow
        modalForWindow:window

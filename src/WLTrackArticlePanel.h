@@ -3,16 +3,19 @@
 //
 #import <Cocoa/Cocoa.h>
 #import "WLArticle.h"
+#import "WLTerminal.h"
 
 @class WLTerminal;
-@interface WLTrackArticlePanel : NSObject {
+@interface WLTrackArticlePanel : NSObject <NSTableViewDelegate, NSTableViewDataSource>{
     NSMutableArray * nsMutaryDataObj;
     IBOutlet NSTableView *idTableView;
     IBOutlet NSPanel *articleWindow;
+    WLTerminal *terminal;
    
 }
 @property (assign) NSMutableArray *nsMutaryDataObj;
-@property (assign) NSTableView *idTableView;
+@property (assign) WLTerminal *terminal;
+@property (assign) IBOutlet NSTableView *idTableView;
 
 - (IBAction)addAtSelectedRow:(id)pId;
 - (IBAction)deleteSelectedRow:(id)pId;
