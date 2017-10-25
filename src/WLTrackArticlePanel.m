@@ -198,7 +198,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         }
         if(!changePageStatus) {
             //show warn
-            NSLog(@"1111");
             return;
         }
     }
@@ -279,7 +278,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     }
     
     tmp = [self getTerminalNthLine:20 forTerminal: terminal];
-    regex = [NSRegularExpression regularExpressionWithPattern:@"文章代碼\\(AID\\): ([a-zA-Z0-9#]{9})" options:0 error:nil];
+    regex = [NSRegularExpression regularExpressionWithPattern:@"文章代碼\\(AID\\): ([a-zA-Z0-9#\-_]{9})" options:0 error:nil];
     match = [regex firstMatchInString:tmp options:NSAnchoredSearch range:NSMakeRange(0, tmp.length)];
     needleRange = [match rangeAtIndex: 1];
     aid = [tmp substringWithRange:needleRange];
@@ -295,19 +294,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
     if( [author length] == 0 || [aid length] == 0 || [board length] == 0 || [title length] == 0 || [url length] ==0) {
         // show warn
+        NSLog(@"author: %@, aid: %@, board: %@, title: %@, url: %@", author, aid, board, title, url);
         return;
     } else {
         // check if already in db
         __block BOOL alreadyInDB = NO;
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
             NSString *sql = [NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE board='%@' AND aid='%@'", board, aid];
-            //FMResultSet *resultSet = [db executeQuery:sql];
             NSUInteger count = [db intForQuery:sql];
             if(count > 0) {
                 alreadyInDB = YES;
             }
-            //[resultSet close];
-            
         }];
         
         if(!alreadyInDB){
@@ -492,7 +489,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         NSLog(@"tableView: objectAtIndex:%d = NULL",pRowIndex);
         return NULL;
     } // end if
-    //NSLog(@"pTableColumn identifier = %@",[pTableColumn identifier]);
     
     if ([[pTableColumn identifier] isEqualToString:@"Col_ID1"]) {
         return [zDataObject author];
