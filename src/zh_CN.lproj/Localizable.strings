@@ -58,6 +58,7 @@
 "Something goes wrong while navigating to stored article (1)" = "前往文章的过程中发生错误 (1)";
 "Something goes wrong while navigating to stored article (2)" = "前往文章的过程中发生错误, 也许是文章已经被删除 (2)";
 "Deleted records cannot be restored." = "被删除的文章将无法復原喔!";
+"You MUST connect PTT with correct format!!" = "若要使用推文追踪, 您必须使用正确的连线格式!";
 
 /* Preferences */
 "General" = "一般";

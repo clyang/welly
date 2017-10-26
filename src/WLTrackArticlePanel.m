@@ -294,7 +294,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         
         if(!alreadyInDB){
             // add to db and show good
-            owner = @"ycl94";
+            owner = [[terminal connection] loginID];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                 NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d')", owner, author, aid, board, title, url, lastLineHash, 0];
                 
@@ -428,6 +428,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     if(![[terminal connection] isPTT]){
         //show warn
         [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
+        return;
+    } else if([[[terminal connection] loginID] isEqualToString:@""]) {
+        [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"You MUST connect PTT with correct format!!" waitUntilDone:NO];
         return;
     }
     

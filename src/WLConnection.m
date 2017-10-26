@@ -246,8 +246,12 @@
                 [self sendBytes:"\r" length:1];
             }
         }
-        NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
-        [self setLoginID:tmp];
+        if ([addr containsString:@"@"]) {
+            NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
+            [self setLoginID:tmp];
+        } else {
+            [self setLoginID:@""];
+        }
     } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
         // user wants to autologin with shh
         addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
@@ -258,6 +262,9 @@
     }else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
         [self sendBytes:"yes\r" length:4];
         sleep(1);
+        [self setLoginID:@""];
+    } else {
+        [self setLoginID:@""];
     }
     // send password
     const char *service = "Welly";
