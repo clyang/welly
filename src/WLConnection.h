@@ -19,6 +19,7 @@
 // inhert from NSObjectController for PSMTabBarControl
 @interface WLConnection : NSObject <WLTabBarCellContentProvider> {
     NSImage *_icon;
+    NSString *_loginID;
     BOOL _isProcessing;
     NSInteger _objectCount;
 
@@ -43,6 +44,7 @@
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:, nonatomic) BOOL isConnected;
 @property (readwrite, assign, setter=setPTT:, nonatomic) BOOL isPTT;
+@property (readwrite, assign) NSString *loginID;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) NSInteger messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;

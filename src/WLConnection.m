@@ -36,6 +36,7 @@
 @synthesize messageCount = _messageCount;
 @synthesize messageDelegate = _messageDelegate;
 @synthesize tabViewItemController = _tabViewItemController;
+@synthesize loginID = _loginID;
 
 - (id)initWithSite:(WLSite *)site {
 	self = [self init];
@@ -245,12 +246,15 @@
                 [self sendBytes:"\r" length:1];
             }
         }
+        NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
+        [self setLoginID:tmp];
     } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
         // user wants to autologin with shh
         addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
         NSString *account = [addr substringFromIndex: [addr rangeOfString:@"/"].location+1];
         [self sendText:account];
         [self sendBytes:"\r" length:1];
+        [self setLoginID:account];
     }else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
         [self sendBytes:"yes\r" length:4];
         sleep(1);
