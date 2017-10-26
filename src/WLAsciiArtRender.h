@@ -21,8 +21,8 @@
 - (void)drawSpecialSymbol:(unichar)ch 
 				   forRow:(int)r 
 				   column:(int)c 
-			leftAttribute:(attribute)attr1 
-		   rightAttribute:(attribute)attr2;
+			leftAttribute:(attributeWL)attr1 
+		   rightAttribute:(attributeWL)attr2;
 - (void)configure;
 
 @end

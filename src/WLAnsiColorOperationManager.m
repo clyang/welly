@@ -181,7 +181,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	int bufferLength = [ansiColorData length] / sizeof(cell);
 	convertFromUTF8(buffer, bufferLength, encoding);
 	
-	attribute defaultANSI;
+	attributeWL defaultANSI;
 	unsigned int bgColorIndex = [WLGlobalConfig sharedInstance]->_bgColorIndex;
 	unsigned int fgColorIndex = [WLGlobalConfig sharedInstance]->_fgColorIndex;
 	defaultANSI.f.bgColor = bgColorIndex;
@@ -191,7 +191,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 	defaultANSI.f.underline = 0;
 	defaultANSI.f.reverse = 0;
 	
-	attribute previousANSI = defaultANSI;
+	attributeWL previousANSI = defaultANSI;
 	NSMutableData *writeBuffer = [NSMutableData data];
 	
 	int i;
@@ -203,7 +203,7 @@ const cell WLWhiteSpaceCell = {WLWhitespaceCharacter, 0};
 			continue;
 		}
 		
-		attribute currentANSI = buffer[i].attr;
+		attributeWL currentANSI = buffer[i].attr;
 		
 		char tmp[100];
 		tmp[0] = '\0';

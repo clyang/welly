@@ -17,6 +17,8 @@
 #import "WLMessageDelegate.h"
 #import "WLSite.h"
 #import "WLPTY.h"
+#import "STHTTPRequest.h"
+#import "HTMLParser.h"
 
 @interface WLConnection ()
 - (void)login;
@@ -128,7 +130,36 @@
     }
     
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
-    //[self login];
+    
+    // create a thread to monitor article status
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        STHTTPRequest *r = [STHTTPRequest requestWithURLString:@"https://www.ptt.cc/bbs/MAC/M.1508038517.A.7EE.html"];
+        NSError *error = nil;
+        [r addCookieWithName:@"over18" value:@"1"];
+        [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
+        
+        NSString *body = [r startSynchronousWithError:&error];
+        if(r.responseStatus == 200) {
+            HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
+            
+            if (error) {
+                NSLog(@"Error: %@", error);
+                //continue;
+            }
+            HTMLNode *bodyNode = [parser body];
+            NSArray *spanNodes = [bodyNode findChildTags:@"span"];
+            for (HTMLNode *spanNode in spanNodes) {
+                if ([[spanNode getAttributeNamed:@"class"] isEqualToString:@"f3 hl push-userid"]) {
+                    NSLog(@"%@", [spanNode rawContents]); //Answer to second question
+                }
+            }
+            
+            [parser release];            
+        } else {
+            // just skip and see if we can have good luck on next try
+        }
+        
+    });
 }
 
 - (void)protocolDidRecv:(id)protocol 

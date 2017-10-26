@@ -116,6 +116,10 @@
 		DF59277A1FA0A8E5005C72FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF5927741FA0A8E5005C72FF /* Info.plist */; };
 		DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF59277B1FA0A936005C72FF /* libsqlite3.tbd */; };
 		DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */; };
+		DFB599891FA252F700C556B0 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB599871FA252F700C556B0 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998B1FA25B8200C556B0 /* HTMLNode.m */; };
+		DFB599901FA25B8200C556B0 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998D1FA25B8200C556B0 /* HTMLParser.m */; };
+		DFB599921FA25C7200C556B0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB599911FA25C7200C556B0 /* libxml2.tbd */; };
 		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
 		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
@@ -344,6 +348,13 @@
 		DF59277E1FA0B723005C72FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927821FA0B7C6005C72FF /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927831FA0B7D4005C72FF /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
+		DFB599871FA252F700C556B0 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
+		DFB599881FA252F700C556B0 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
+		DFB5998B1FA25B8200C556B0 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		DFB5998C1FA25B8200C556B0 /* HTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLParser.h; sourceTree = "<group>"; };
+		DFB5998D1FA25B8200C556B0 /* HTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLParser.m; sourceTree = "<group>"; };
+		DFB5998E1FA25B8200C556B0 /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		DFB599911FA25C7200C556B0 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		DFF2CCC91F78132C00530892 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		DFF2CCCC1F7814B500530892 /* dsa_pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		DFF2CCD01F7825A800530892 /* qqwry170910.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = qqwry170910.dat; sourceTree = "<group>"; };
@@ -358,6 +369,7 @@
 				DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
+				DFB599921FA25C7200C556B0 /* libxml2.tbd in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
@@ -428,6 +440,8 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFB5998A1FA25B6800C556B0 /* HTMLParser */,
+				DFB599861FA252C400C556B0 /* STHTTPRequest */,
 				DF5927681FA0A8E5005C72FF /* fmdb */,
 				DFF2CCC91F78132C00530892 /* Sparkle.framework */,
 				D64A480A11E90350008ACEBD /* Growl.framework */,
@@ -488,6 +502,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFB599911FA25C7200C556B0 /* libxml2.tbd */,
 				DF59277B1FA0A936005C72FF /* libsqlite3.tbd */,
 				161DF9B2106DE2D60003E85A /* Third-Party Frameworks */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
@@ -822,6 +837,26 @@
 			path = fmdb;
 			sourceTree = "<group>";
 		};
+		DFB599861FA252C400C556B0 /* STHTTPRequest */ = {
+			isa = PBXGroup;
+			children = (
+				DFB599881FA252F700C556B0 /* STHTTPRequest.h */,
+				DFB599871FA252F700C556B0 /* STHTTPRequest.m */,
+			);
+			path = STHTTPRequest;
+			sourceTree = "<group>";
+		};
+		DFB5998A1FA25B6800C556B0 /* HTMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				DFB5998E1FA25B8200C556B0 /* HTMLNode.h */,
+				DFB5998B1FA25B8200C556B0 /* HTMLNode.m */,
+				DFB5998C1FA25B8200C556B0 /* HTMLParser.h */,
+				DFB5998D1FA25B8200C556B0 /* HTMLParser.m */,
+			);
+			path = HTMLParser;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -957,15 +992,18 @@
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* WLMainFrameController.m in Sources */,
+				DFB599901FA25B8200C556B0 /* HTMLParser.m in Sources */,
 				5AB1BFF10E18F3260094C370 /* MultiClickRemoteBehavior.m in Sources */,
 				5AB1BFF20E18F3260094C370 /* RemoteControl.m in Sources */,
 				5AB1BFF30E18F3260094C370 /* HIDRemoteControlDevice.m in Sources */,
+				DFB599891FA252F700C556B0 /* STHTTPRequest.m in Sources */,
 				5AB1BFF40E18F3260094C370 /* AppleRemote.m in Sources */,
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
 				16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */,
 				16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
+				DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
 				1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */,
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
@@ -1147,10 +1185,12 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 					"$(PROJECT_DIR)",
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "/usr/include/libxml2/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
@@ -1175,10 +1215,12 @@
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/ApplicationServices.framework/Frameworks\"",
 					"$(PROJECT_DIR)",
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				HEADER_SEARCH_PATHS = "/usr/include/libxml2/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";

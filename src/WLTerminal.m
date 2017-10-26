@@ -94,7 +94,7 @@
 - (void)clearAll {
     _cursorColumn = _cursorRow = 0;
 	
-    attribute t;
+    attributeWL t;
     t.f.fgColor = [WLGlobalConfig sharedInstance]->_fgColorIndex;
     t.f.bgColor = [WLGlobalConfig sharedInstance]->_bgColorIndex;
     t.f.bold = 0;
@@ -144,7 +144,7 @@
 
 # pragma mark -
 # pragma mark Access Data
-- (attribute)attrAtRow:(int)r 
+- (attributeWL)attrAtRow:(int)r 
 				column:(int)c {
 	return _grid[r][c].attr;
 }
