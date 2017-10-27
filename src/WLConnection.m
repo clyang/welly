@@ -19,6 +19,40 @@
 #import "WLPTY.h"
 #import "STHTTPRequest.h"
 #import "HTMLParser.h"
+#import <CommonCrypto/CommonDigest.h>
+
+@implementation NSString (TrimmingAdditions)
+
+- (NSString *)stringByTrimmingTrailingCharactersInSet:(NSCharacterSet *)characterSet {
+    NSUInteger location = 0;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+    
+    for (length; length > 0; length--) {
+        if (![characterSet characterIsMember:charBuffer[length - 1]]) {
+            break;
+        }
+    }
+    
+    return [self substringWithRange:NSMakeRange(location, length - location)];
+}
+
+- (NSString *)MD5String {
+    const char *cStr = [self UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), result );
+    
+    return [NSString stringWithFormat:
+            @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+            result[0], result[1], result[2], result[3],
+            result[4], result[5], result[6], result[7],
+            result[8], result[9], result[10], result[11],
+            result[12], result[13], result[14], result[15]
+            ];
+}
+
+@end
 
 @interface WLConnection ()
 - (void)login;
@@ -133,7 +167,7 @@
     
     // create a thread to monitor article status
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        STHTTPRequest *r = [STHTTPRequest requestWithURLString:@"https://www.ptt.cc/bbs/MAC/M.1508038517.A.7EE.html"];
+        STHTTPRequest *r = [STHTTPRequest requestWithURLString:@"https://www.ptt.cc/bbs/MobileComm/M.1509029916.A.E89.html"];
         NSError *error = nil;
         [r addCookieWithName:@"over18" value:@"1"];
         [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
@@ -150,7 +184,7 @@
             NSArray *spanNodes = [bodyNode findChildTags:@"span"];
             for (HTMLNode *spanNode in spanNodes) {
                 if ([[spanNode getAttributeNamed:@"class"] isEqualToString:@"f3 hl push-userid"]) {
-                    NSLog(@"%@", [spanNode rawContents]); //Answer to second question
+                    NSLog(@"%d", [spanNode contents].length); //Answer to second question
                 }
             }
             

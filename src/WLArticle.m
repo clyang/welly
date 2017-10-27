@@ -12,6 +12,7 @@
 @synthesize lastLineHash;
 @synthesize author;
 @synthesize needTrack;
+@synthesize astatus;
 
 - (id)initWithString1:(NSString *)pStr1 andString2:(NSString *)pStr2
            andString3:(NSString *)pStr3
@@ -20,6 +21,7 @@
            andString6:(NSString *)pStr6
            andString7:(NSString *)pStr7
            andString8:(int)pStr8
+           andString9:(int)pStr9
 {
     if (! (self = [super init])) {
         NSLog(@"MyDataObject **** ERROR : [super init] failed ***");
@@ -34,6 +36,7 @@
     self.lastLineHash = pStr6;
     self.author = pStr7;
     self.needTrack = pStr8;
+    self.astatus = pStr9;
     
     return self;
     

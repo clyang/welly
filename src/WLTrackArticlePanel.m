@@ -79,6 +79,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             
             while ([set next]) {
                 NSInteger needTrack = [set intForColumn:@"needTrack"];
+                NSInteger astatus = [set intForColumn:@"astatus"];
                 NSString *board = [set stringForColumn:@"board"];
                 NSString *author = [set stringForColumn:@"author"];
                 NSString *title = [set stringForColumn:@"title"];
@@ -94,7 +95,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
                                                                  andString5:ownTime
                                                                  andString6:lastLineHash
                                                                  andString7:author
-                                                                 andString8:(int)needTrack];
+                                                                 andString8:(int)needTrack
+                                                                 andString9:(int)astatus];
                 [self.nsMutaryDataObj addObject:zDataObject];
                 
             }
@@ -237,6 +239,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         lastLineHash = @"";
     } else {
         lastLineHash = [[self getTerminalNthLine:(lastLine+1) forTerminal: terminal] MD5String];
+        
+        tmp = [self getTerminalNthLine:(lastLine+1) forTerminal: terminal];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"^([推噓→]) (\\w{2,12}.+?): (.+) ((?:\\d{1,3}\\.){3}\\d{1,3})? (\\d\\d/\\d\\d \\d\\d:\\d\\d)" options:NSRegularExpressionSearch error:nil];
+        NSTextCheckingResult *result = [regex firstMatchInString:tmp options:0 range:NSMakeRange(0, [tmp length] ) ];
+        //match = [regex firstMatchInString:tmp options:NSAnchoredSearch range:NSMakeRange(0, tmp.length)];
+        
+        if (result) {
+            NSRange group1 = [result rangeAtIndex:1]; // push or dislike
+            NSRange group2 = [result rangeAtIndex:2]; // user id withspace
+            NSRange group3 = [result rangeAtIndex:3]; // comment with space
+            NSRange group4 = [result rangeAtIndex:4]; // user ip (if required by board)
+            NSRange group5 = [result rangeAtIndex:5]; // comment date
+            
+            NSString *combinedString;
+            if(group4.length > 0){
+                combinedString = [NSString stringWithFormat:@"%@%@%@%@ %@", [tmp substringWithRange:group1], [[tmp substringWithRange:group2] stringByTrimmingTrailingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], [[tmp substringWithRange:group3] stringByTrimmingTrailingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], [tmp substringWithRange:group4], [tmp substringWithRange:group5]];
+            } else {
+                combinedString = [NSString stringWithFormat:@"%@%@%@%@", [tmp substringWithRange:group1], [[tmp substringWithRange:group2] stringByTrimmingTrailingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], [[tmp substringWithRange:group3] stringByTrimmingTrailingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]], [tmp substringWithRange:group5]];
+            }
+            lastLineHash = [combinedString MD5String];
+        } else {
+            lastLineHash = @"";
+        }
     }
     
     // get AID/URL
@@ -296,7 +321,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             // add to db and show good
             owner = [[terminal connection] loginID];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d')", owner, author, aid, board, title, url, lastLineHash, 0];
+                NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack, astatus) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d', '%d')", owner, author, aid, board, title, url, lastLineHash, 0, 0];
                 
                 [db executeUpdate: sql];
                 [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"The articles has been stored successfully!" waitUntilDone:NO];

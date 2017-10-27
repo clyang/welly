@@ -54,6 +54,7 @@
                   "url text,"
                   "lastLineHash text,"
                   "needTrack integer,"
+                  "astatus integer,"
                   "ownTime DATETIME DEFAULT CURRENT_TIMESTAMP"
                   ");"];
         

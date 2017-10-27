@@ -12,6 +12,7 @@
     NSString *lastLineHash;
     NSString *author;
     int needTrack;
+    int astatus;
 
 }
 
@@ -23,6 +24,7 @@
 @property (copy) NSString *lastLineHash;
 @property (copy) NSString *author;
 @property(nonatomic, assign) int needTrack;
+@property(nonatomic, assign) int astatus;
 
 - (id)initWithString1:(NSString *)pStr1 andString2:(NSString *)pStr2
            andString3:(NSString *)pStr3
@@ -30,6 +32,7 @@
            andString5:(NSString *)pStr5
            andString6:(NSString *)pStr6
            andString7:(NSString *)pStr7
-           andString8:(int)pStr8;
+           andString8:(int)pStr8
+           andString9:(int)pStr9;
 
 @end
