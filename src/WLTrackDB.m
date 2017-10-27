@@ -34,6 +34,7 @@
         _queue = [[FMDatabaseQueue alloc] initWithPath:dbPath];
         
         [self createTables];
+        _resultArray = [[NSMutableArray alloc]init];
     }
     
     return self;

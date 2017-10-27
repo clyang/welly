@@ -71,10 +71,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 - (void)loadArticleFromDB {
     
     [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-        NSUInteger count = [db intForQuery:@"SELECT COUNT(arID) FROM PttArticle"];
+        NSString *owner = [[terminal connection] loginID];
+        NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", owner]];
         
         if(count > 0) {
-            FMResultSet *set = [db executeQuery:@"SELECT * FROM PttArticle"];
+            FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", owner]];
             self.nsMutaryDataObj = [[NSMutableArray alloc]init];
             
             while ([set next]) {
@@ -88,15 +89,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
                 NSString *lastLineHash = [set stringForColumn:@"lastLineHash"];
                 NSString *ownTime = [set stringForColumn:@"ownTime"];
                 
-                WLArticle * zDataObject = [[WLArticle alloc]initWithString1:board
-                                                                 andString2:title
-                                                                 andString3:url
-                                                                 andString4:aid
-                                                                 andString5:ownTime
-                                                                 andString6:lastLineHash
-                                                                 andString7:author
-                                                                 andString8:(int)needTrack
-                                                                 andString9:(int)astatus];
+                WLArticle * zDataObject = [[[WLArticle alloc]initWithString1:board
+                                                                  andString2:title
+                                                                  andString3:url
+                                                                  andString4:aid
+                                                                  andString5:ownTime
+                                                                  andString6:lastLineHash
+                                                                  andString7:author
+                                                                  andString8:(int)needTrack
+                                                                  andString9:(int)astatus] autorelease];
                 [self.nsMutaryDataObj addObject:zDataObject];
                 
             }
@@ -310,7 +311,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         // check if already in db
         __block BOOL alreadyInDB = NO;
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-            NSString *sql = [NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE board='%@' AND aid='%@'", board, aid];
+            NSString *owner = [[terminal connection] loginID];
+            NSString *sql = [NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE board='%@' AND aid='%@' AND owner='%@'", board, aid, owner];
             NSUInteger count = [db intForQuery:sql];
             if(count > 0) {
                 alreadyInDB = YES;
@@ -371,7 +373,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             
             WLArticle *article = self.nsMutaryDataObj[index];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                NSString *owner = @"ycl94";
+                NSString *owner = [[terminal connection] loginID];
                 NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
                 [db executeUpdate: sql];
             }];
@@ -528,11 +530,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 } // end deleteSelectedRow
 
 - (IBAction)closeTrackArticleWindow:(id)sender {
-    //[[self nsMutaryDataObj] removeAllObjects];
-    
     [articleWindow endEditingFor:nil];
     [NSApp endSheet:articleWindow];
     [articleWindow orderOut:self];
+    //[[self nsMutaryDataObj] removeAllObjects];
+    [self release];
 }
 
 - (void)addRow:(WLArticle *)pDataObj {
@@ -586,11 +588,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         
         //update db
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-            NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d' WHERE board='%@' AND aid='%@'",([pObject boolValue] ? 1 : 0), article.board, article.aid];
+            NSString *owner = [[terminal connection] loginID];
+            NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d' WHERE board='%@' AND aid='%@' AND owner='%@'",([pObject boolValue] ? 1 : 0), article.board, article.aid, owner];
             [db executeUpdate: sql];
         }];
     }
-    
 }
 
 @end
