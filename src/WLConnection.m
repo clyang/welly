@@ -159,11 +159,8 @@
                 __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                     NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", _loginID]];
-                    NSLog(@"%@",[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", _loginID]);
                     if(count > 0) {
                         FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", _loginID]];
-                        NSLog(@"%@",[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", _loginID]);
-                        //self.nsMutaryDataObj = [[NSMutableArray alloc]init];
                         
                         while ([set next]) {
                             NSInteger needTrack = [set intForColumn:@"needTrack"];
@@ -276,6 +273,7 @@
                     [resultArray removeAllObjects];
                 }
                 [NSThread sleepForTimeInterval:300];
+                [resultArray release];
             } // end for inifinte loop
         });
     }

@@ -311,7 +311,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         // check if already in db
         __block BOOL alreadyInDB = NO;
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-            NSString *owner = [[terminal connection] loginID];
+            NSString *owner = [[self.terminal connection] loginID];
             NSString *sql = [NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE board='%@' AND aid='%@' AND owner='%@'", board, aid, owner];
             NSUInteger count = [db intForQuery:sql];
             if(count > 0) {
@@ -373,7 +373,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             
             WLArticle *article = self.nsMutaryDataObj[index];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                NSString *owner = [[terminal connection] loginID];
+                NSString *owner = [[self.terminal connection] loginID];
                 NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
                 [db executeUpdate: sql];
             }];
@@ -587,7 +587,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         
         //update db
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-            NSString *owner = [[terminal connection] loginID];
+            NSString *owner = [[self.terminal connection] loginID];
             NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d' WHERE board='%@' AND aid='%@' AND owner='%@'",([pObject boolValue] ? 1 : 0), article.board, article.aid, owner];
             [db executeUpdate: sql];
         }];
