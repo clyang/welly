@@ -156,10 +156,13 @@
             // wait 10 secs before we start. This also help use to wait login thread to fill-in _loginID
             [NSThread sleepForTimeInterval:10];
             while(_connected){
+                __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                     NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", _loginID]];
+                    NSLog(@"%@",[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", _loginID]);
                     if(count > 0) {
                         FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", _loginID]];
+                        NSLog(@"%@",[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", _loginID]);
                         //self.nsMutaryDataObj = [[NSMutableArray alloc]init];
                         
                         while ([set next]) {
@@ -184,17 +187,18 @@
                                                                              andString8:(int)needTrack
                                                                              andString9:(int)astatus] autorelease];
                                 
-                                [[WLTrackDB sharedDBTools].resultArray addObject:article];
+                                [resultArray addObject:article];
                             }
                         }
+                        [set release];
                     }
                 }];
                 
-                if([[WLTrackDB sharedDBTools].resultArray count] > 0) {
+                if([resultArray count] > 0) {
                     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
                     NSTextCheckingResult *result;
                     NSString *combinedString=@"";
-                    for( WLArticle* article in [WLTrackDB sharedDBTools].resultArray) {
+                    for( WLArticle* article in resultArray) {
                         if(article.needTrack > 0 && article.astatus < 2) { // need track AND article is not delteed
                             STHTTPRequest *r = [STHTTPRequest requestWithURLString:[NSString stringWithFormat:@"https://www.ptt.cc/bbs/%@.html", article.url]];
                             NSError *error = nil;
@@ -269,7 +273,7 @@
                         // sleep 0.5 second before moving to next article
                         [NSThread sleepForTimeInterval:0.5f];
                     }
-                    [[WLTrackDB sharedDBTools].resultArray removeAllObjects];
+                    [resultArray removeAllObjects];
                 }
                 [NSThread sleepForTimeInterval:300];
             } // end for inifinte loop

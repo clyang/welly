@@ -68,15 +68,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
 }
 
-- (void)loadArticleFromDB {
+- (void)loadArticleFromDB: (NSString *)loginID {
     
     [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-        NSString *owner = [[terminal connection] loginID];
-        NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", owner]];
-        
+        NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", loginID]];
         if(count > 0) {
-            FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", owner]];
-            self.nsMutaryDataObj = [[NSMutableArray alloc]init];
+            FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", loginID]];
+            self.nsMutaryDataObj = [[NSMutableArray alloc] init];
             
             while ([set next]) {
                 NSInteger needTrack = [set intForColumn:@"needTrack"];
@@ -102,6 +100,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
                 
             }
             [set close];
+        } else {
+            self.nsMutaryDataObj = [[NSMutableArray alloc] init];
         }
     }];
 }
@@ -460,12 +460,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"You MUST connect PTT with correct format!!" waitUntilDone:NO];
         return;
     }
-    
     if (!articleWindow) {
         [NSBundle loadNibNamed:kTrackArticlePanelNibFilename owner:self];
     }
     
-    [self loadArticleFromDB];
+    [self loadArticleFromDB:[[terminal connection] loginID]];
     self.terminal = terminal;
     self.mainWindow = window;
     

@@ -14,5 +14,4 @@
 + (instancetype)sharedDBTools;
 
 @property (nonatomic, strong) FMDatabaseQueue *queue;
-@property (nonatomic, strong) NSMutableArray *resultArray;
 @end

@@ -33,8 +33,7 @@
         dbPath = [dbPath stringByAppendingPathComponent:@"Welly/PttArticle.db"];
         _queue = [[FMDatabaseQueue alloc] initWithPath:dbPath];
         
-        [self createTables];
-        _resultArray = [[NSMutableArray alloc]init];
+        [self createTables];        
     }
     
     return self;
