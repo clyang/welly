@@ -246,21 +246,28 @@
                                     // need to alert user and update lastLineHash
                                     NSLog(@"Found new comment!!!");
                                     [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                                        [db beginTransaction];
                                         NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET astatus='%d', lastLineHash='%@' WHERE board='%@' AND aid='%@' AND owner='%@'", 1, [combinedString MD5String], article.board, article.aid, _loginID];
                                         [db executeUpdate: sql];
+                                        [db commit];
                                     }];
                                 } else if (doesHashAppears && isHashMatchedAtLast) {
                                     // hash match but it's at the last line
                                     // do nothing
                                     NSLog(@"Found hash, but no NEW one");
+                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                        [self didReceiveNewMessage: @"kerkerkerker" fromCaller:@"GGGG"];
+                                    });
                                 }
                                 [parser release];
                             } else if(r.responseStatus == 404) {
                                 // post deleted
                                 // disable tracking && change article status
                                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                                    [db beginTransaction];
                                     NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d', astatus='%d' WHERE board='%@' AND aid='%@' AND owner='%@'", 0, 2, article.board, article.aid, _loginID];
                                     [db executeUpdate: sql];
+                                    [db commit];
                                 }];
                             } else {
                                 // just skip and see if we can have good luck on next try

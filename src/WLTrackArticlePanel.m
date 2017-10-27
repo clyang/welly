@@ -190,7 +190,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     
     // 2nd step: retrieve author/title/board from 1st page
     tmp = [self getTerminalNthLine:1 forTerminal: terminal];
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"作者[: ]+([a-zA-Z0-9]{2,12}).+看板[ ]+([a-zA-Z0-9]+)" options:0 error:nil];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"作者[: ]+([a-zA-Z0-9]{2,12}).+看板[ ]+([a-zA-Z0-9_\\-]+)" options:0 error:nil];
     NSTextCheckingResult *match = [regex firstMatchInString:tmp options:NSAnchoredSearch range:NSMakeRange(0, tmp.length)];
     author = [tmp substringWithRange:[match rangeAtIndex: 1]];
     board = [tmp substringWithRange:[match rangeAtIndex: 2]];
@@ -323,9 +323,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             // add to db and show good
             owner = [[terminal connection] loginID];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                [db beginTransaction];
                 NSString *sql = [NSString stringWithFormat:@"INSERT INTO PttArticle(owner, author, aid, board, title, url, lastLineHash, needTrack, astatus) VALUES ('%@','%@','%@','%@','%@','%@','%@', '%d', '%d')", owner, author, aid, board, title, url, lastLineHash, 0, 0];
                 
                 [db executeUpdate: sql];
+                [db commit];
                 [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"The articles has been stored successfully!" waitUntilDone:NO];
             }];
         } else {
@@ -374,8 +376,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             WLArticle *article = self.nsMutaryDataObj[index];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                 NSString *owner = [[self.terminal connection] loginID];
+                [db beginTransaction];
                 NSString *sql = [NSString stringWithFormat:@"DELETE FROM PttArticle WHERE owner='%@' AND aid='%@' AND board='%@'", owner, article.aid, article.board];
                 [db executeUpdate: sql];
+                [db commit];
             }];
             index=[indexSet indexGreaterThanIndex: index];
         }
@@ -434,8 +438,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         [self performSelectorOnMainThread:@selector(showMsgOnArticleWindow:) withObject:@"Something goes wrong while navigating to stored article (2)" waitUntilDone:NO];
         return;
     } else {
+        // successfully enter the board by double-clicking so we can clear article status to 0
+        [self performSelectorOnMainThread:@selector(clearArticleStatus:) withObject:article waitUntilDone:YES];
         [self performSelectorOnMainThread:@selector(closeTrackArticleWindow:) withObject:[NSObject new] waitUntilDone:NO];
     }
+}
+
+- (void)clearArticleStatus:(WLArticle *) article {
+    NSString *owner = [[self.terminal connection] loginID];
+    [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+        NSString *owner = [[self.terminal connection] loginID];
+        [db beginTransaction];
+        NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET astatus='%d' WHERE board='%@' AND aid='%@' AND owner='%@'",0, article.board, article.aid, owner];
+        [db executeUpdate: sql];
+        [db commit];
+    }];
 }
 
 - (void)doubleClick:(id)sender {
@@ -516,11 +533,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     [idTableView reloadData];
 }
 
-- (IBAction)addAtSelectedRow:(id)pId {
-
-} // end deleteSelectedRow
-
-
 - (IBAction)deleteSelectedRow:(id)pId {
     if ([idTableView selectedRow] > -1) {
         [self.nsMutaryDataObj removeObjectAtIndex:[idTableView selectedRow]];
@@ -536,12 +548,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     [self release];
 }
 
-- (void)addRow:(WLArticle *)pDataObj {
-    // wont allow user to add article via ui
-    return;
-} // end addRow
-
-
 - (int)numberOfRowsInTableView:(NSTableView *)pTableViewObj {
     return [self.nsMutaryDataObj count];
 } // end numberOfRowsInTableView
@@ -549,6 +555,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 
 - (id) tableView:(NSTableView *)pTableViewObj objectValueForTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex {
     WLArticle * zDataObject = (WLArticle *) [self.nsMutaryDataObj objectAtIndex:pRowIndex];
+    
     if (! zDataObject) {
         NSLog(@"tableView: objectAtIndex:%d = NULL",pRowIndex);
         return NULL;
@@ -588,10 +595,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         //update db
         [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
             NSString *owner = [[self.terminal connection] loginID];
+            [db beginTransaction];
             NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d' WHERE board='%@' AND aid='%@' AND owner='%@'",([pObject boolValue] ? 1 : 0), article.board, article.aid, owner];
             [db executeUpdate: sql];
+            [db commit];
         }];
     }
 }
+
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    NSColor *newCommentColor = [NSColor colorWithCalibratedRed:0.623529 green:0.835294 blue:0.631372 alpha:1.0f];
+    WLArticle *article = self.nsMutaryDataObj[row];
+    
+    [cell setDrawsBackground:YES];
+    if(article.astatus == 1){
+        [cell setBackgroundColor:newCommentColor];
+    } else if (article.astatus == 2) {
+        [cell setBackgroundColor:[NSColor redColor]];
+    } else {
+        [cell setBackgroundColor:[NSColor whiteColor]];
+    }
+}
+
 
 @end
