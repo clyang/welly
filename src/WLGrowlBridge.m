@@ -9,6 +9,7 @@
 //  Extend for convenience.
 
 #import "WLGrowlBridge.h"
+#import "WLConnection.h"
 
 NSString *const WLGrowlNotificationNameFileTransfer = @"File Transfer";
 NSString *const WLGrowlNotificationNameEXIFInformation = @"EXIF Information";
@@ -106,8 +107,11 @@ NSString *const WLGrowlClickObjectKeyName = @"ClickRepresentedObject";
 	id target = [[context objectForKey:WLGrowlClickTargetKeyName] unsignedLongValue];
 	SEL selector = NSSelectorFromString([context objectForKey:WLGrowlClickSelectorKeyName]);
 	id object = [[context objectForKey:WLGrowlClickObjectKeyName] unsignedLongValue];
+    
 	// perform action
-	[target performSelector:selector withObject:object];
+    if([contextId isKindOfClass:[WLConnection class]]){
+        [target performSelector:selector withObject:object];
+    }
 }
 
 - (void)growlNotificationTimedOut:(id)contextId {
