@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CommonType.h"
+#import "WLArticle.h"
 
 @class WLConnection;
 @interface WLMessageDelegate : NSObject {
@@ -22,5 +23,8 @@
 - (void)setConnection:(WLConnection *)connection;
 - (void)connectionDidReceiveNewMessage:(NSString *)message
 							fromCaller:(NSString *)callerName;
+- (void)connectionDidReceiveArticleAlert:(WLArticle *)article
+                              fromCaller:(NSString *)callerName;
+    
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView;
 @end

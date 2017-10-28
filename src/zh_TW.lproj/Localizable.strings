@@ -80,6 +80,9 @@
 "MessageWindowTitle" = "您有 %d 條未讀訊息，請查收";
 "AutoReplyGrowlTipFormat" = "%@\n(已自動應答)";
 
+/* Article Tracking */
+"Tracked article has new comment!" = "追蹤的文章有新推文!";
+
 /* Preview */
 "Connecting" = "連線中";
 "Completed" = "已完成";
