@@ -409,7 +409,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             i = 0;
             break;
         } else if([bottomLine containsString:@"請按任意鍵繼續"] || [bottomLine containsString:@"進入已知板名"]) {
+            usleep(sleepTime);
             [conn sendBytes:"\r" length:1];
+            usleep(sleepTime);
         }else {
             changePageStatus = NO;
         }
