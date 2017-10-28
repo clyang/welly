@@ -22,9 +22,6 @@
 
 - (void)setConnection:(WLConnection *)connection;
 - (void)connectionDidReceiveNewMessage:(NSString *)message
-							fromCaller:(NSString *)callerName;
-- (void)connectionDidReceiveArticleAlert:(WLArticle *)article
-                              fromCaller:(NSString *)callerName;
-    
+							fromCaller:(NSString *)callerName;    
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView;
 @end

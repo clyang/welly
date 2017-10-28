@@ -17,7 +17,7 @@
 
 // modified by boost @ 9#
 // inhert from NSObjectController for PSMTabBarControl
-@interface WLConnection : NSObject <WLTabBarCellContentProvider> {
+@interface WLConnection : NSObject <WLTabBarCellContentProvider, NSUserNotificationCenterDelegate> {
     NSImage *_icon;
     NSString *_loginID;
     BOOL _isProcessing;

@@ -14,7 +14,6 @@
 NSString *const WLGrowlNotificationNameFileTransfer = @"File Transfer";
 NSString *const WLGrowlNotificationNameEXIFInformation = @"EXIF Information";
 NSString *const WLGrowlNotificationNameNewMessageReceived = @"New Message Received";
-NSString *const WLGrowlNotificationNameNewArticleAlertReceived = @"Tracked artcle has new comment";
 
 NSString *const WLGrowlClickTargetKeyName = @"ClickTarget";
 NSString *const WLGrowlClickSelectorKeyName = @"ClickSelector";
@@ -31,7 +30,7 @@ NSString *const WLGrowlClickObjectKeyName = @"ClickRepresentedObject";
 }
 
 - (NSDictionary *)registrationDictionaryForGrowl {
-	NSArray *notifications = [NSArray arrayWithObjects:kGrowlNotificationNameFileTransfer, kGrowlNotificationNameEXIFInformation, kGrowlNotificationNameNewMessageReceived, kGrowlNotificationNameArticleAlertReceived, nil];
+	NSArray *notifications = [NSArray arrayWithObjects:kGrowlNotificationNameFileTransfer, kGrowlNotificationNameEXIFInformation, kGrowlNotificationNameNewMessageReceived, nil];
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	[dict setObject:notifications forKey: GROWL_NOTIFICATIONS_ALL];
 	[dict setObject:notifications forKey: GROWL_NOTIFICATIONS_DEFAULT];

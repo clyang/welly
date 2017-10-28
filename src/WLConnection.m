@@ -23,6 +23,8 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "FMDB.h"
 #import "WLTrackDB.h"
+#import "WLMainFrameController.h"
+#import "WLTrackArticlePanel.h"
 
 @implementation NSString (TrimmingAdditions)
 
@@ -256,7 +258,12 @@
                                     // do nothing
                                     NSLog(@"Found hash, but no NEW one");
                                     dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self alertArticleNewComment: article fromCaller:@"Tracked article has new comment!"];
+                                        NSUserNotification *notification = [[NSUserNotification alloc] init];
+                                        notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
+                                        notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
+                                        //notification.informativeText = @"详细文字说明";
+                                        [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
+                                        [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
                                     });
                                 }
                                 [parser release];
@@ -284,6 +291,20 @@
             } // end for inifinte loop
         });
     }
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
+    if([NSApp isRunning]){
+        [NSApp activateIgnoringOtherApps:YES];
+        
+        WLTabView *view = [[WLMainFrameController sharedInstance] tabView];
+        [[view window] makeKeyAndOrderFront:nil];
+        // select the tab
+        [view selectTabViewItemWithIdentifier:[self tabViewItemController]];
+        [[WLTrackArticlePanel sharedInstance] openTrackArticleWindow:[view window]
+                                                         forTerminal:self.terminal];
+    }
+    
 }
 
 - (void)protocolDidConnect:(id)protocol {

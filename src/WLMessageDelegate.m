@@ -87,25 +87,6 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 	}
 }
 
-- (void)connectionDidReceiveArticleAlert:(WLArticle *)article
-                              fromCaller:(NSString *)callerName {
-    
-    // not in focus
-    [_connection increaseMessageCount:1];
-    
-    NSString *description = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
-    // should invoke growl notification
-    [WLGrowlBridge notifyWithTitle:NSLocalizedString(callerName, @"Article Tracking")
-                       description:description
-                  notificationName:kGrowlNotificationNameArticleAlertReceived
-                          isSticky:NO
-                       clickTarget:self
-                     clickSelector:@selector(didClickGrowlNewMessage:)
-                        identifier:_connection];
-    
-}
-
-
 - (void)showUnreadMessagesOnTextView:(NSTextView *)textView {
 	[[textView window] setTitle:[NSString stringWithFormat:NSLocalizedString(@"MessageWindowTitle", @"Auto Reply"), _unreadCount]];
 	[textView setString:_unreadMessage];
