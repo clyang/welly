@@ -104,6 +104,7 @@
 }
 
 - (void)dealloc {
+    [self setConnected:NO];
     [_lastTouchDate release];
     [_icon release];
     [_terminal release];
@@ -259,8 +260,10 @@
                                         NSUserNotification *notification = [[NSUserNotification alloc] init];
                                         notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
                                         notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
+                                        
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+                                        [notification release];
                                     });
                                 } else if (doesHashAppears && isHashMatchedAtLast) {
                                     // hash match but it's at the last line
@@ -280,6 +283,7 @@
                                     NSUserNotification *notification = [[NSUserNotification alloc] init];
                                     notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
                                     notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
+                                    
                                     [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
                                     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
                                 });
