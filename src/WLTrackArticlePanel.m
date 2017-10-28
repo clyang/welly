@@ -398,17 +398,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     WLConnection *conn = [self.terminal connection];
     
     // go to the board
-    // if the key is sent to quickly, it won't be accepted by bbs
-    // so let's reset a little bit
     [conn sendText:[NSString stringWithFormat:@"s%@\r", article.board]];
-    usleep(sleepTime/2);
-    [conn sendBytes:"\r" length:1];
-    usleep(sleepTime);
-    [conn sendText:termKeyDown];
-    usleep(sleepTime/2);
-    [conn sendText:termKeyUp];
-    usleep(sleepTime/2);
-    [conn sendText:termKeyDown];
     while(i< maxAttempt) {
         // wait for the screen to refresh
         ++i;
@@ -418,7 +408,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
             changePageStatus = YES;
             i = 0;
             break;
-        } else {
+        } else if([bottomLine containsString:@"請按任意鍵繼續"] || [bottomLine containsString:@"進入已知板名"]) {
+            [conn sendBytes:"\r" length:1];
+        }else {
             changePageStatus = NO;
         }
     }
