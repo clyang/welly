@@ -398,7 +398,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     WLConnection *conn = [self.terminal connection];
     
     // go to the board
-    [conn sendText:[NSString stringWithFormat:@"s%@\r  ", article.board]];
+    // if the key is sent to quickly, it won't be accepted by bbs
+    // so let's reset a little bit
+    [conn sendText:[NSString stringWithFormat:@"s%@\r", article.board]];
+    usleep(sleepTime/2);
+    [conn sendBytes:"\r" length:1];
+    usleep(sleepTime);
+    [conn sendText:termKeyDown];
+    usleep(sleepTime/2);
+    [conn sendText:termKeyUp];
+    usleep(sleepTime/2);
+    [conn sendText:termKeyDown];
     while(i< maxAttempt) {
         // wait for the screen to refresh
         ++i;
