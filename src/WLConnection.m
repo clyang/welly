@@ -263,7 +263,6 @@
                                         
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
-                                        [notification release];
                                     });
                                 } else if (doesHashAppears && isHashMatchedAtLast) {
                                     // hash match but it's at the last line
