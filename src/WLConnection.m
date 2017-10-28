@@ -253,18 +253,18 @@
                                         [db executeUpdate: sql];
                                         [db commit];
                                     }];
-                                } else if (doesHashAppears && isHashMatchedAtLast) {
-                                    // hash match but it's at the last line
-                                    // do nothing
-                                    NSLog(@"Found hash, but no NEW one");
+                                    
+                                    // alert user
                                     dispatch_async(dispatch_get_main_queue(), ^{
                                         NSUserNotification *notification = [[NSUserNotification alloc] init];
                                         notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
                                         notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
-                                        //notification.informativeText = @"详细文字说明";
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
                                         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
                                     });
+                                } else if (doesHashAppears && isHashMatchedAtLast) {
+                                    // hash match but it's at the last line
+                                    // do nothing
                                 }
                                 [parser release];
                             } else if(r.responseStatus == 404) {
@@ -276,6 +276,13 @@
                                     [db executeUpdate: sql];
                                     [db commit];
                                 }];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    NSUserNotification *notification = [[NSUserNotification alloc] init];
+                                    notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
+                                    notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
+                                    [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
+                                    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+                                });
                             } else {
                                 // just skip and see if we can have good luck on next try
                                 continue;
@@ -303,6 +310,7 @@
         [view selectTabViewItemWithIdentifier:[self tabViewItemController]];
         [[WLTrackArticlePanel sharedInstance] openTrackArticleWindow:[view window]
                                                          forTerminal:self.terminal];
+        [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
     }
     
 }

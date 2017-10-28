@@ -82,6 +82,7 @@
 
 /* Article Tracking */
 "Tracked article has new comment!" = "追蹤的文章有新推文!";
+"Tracked article has been deleted!" = "追蹤中的文章已經被刪除!";
 
 /* Preview */
 "Connecting" = "連線中";

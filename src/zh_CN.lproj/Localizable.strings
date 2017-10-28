@@ -83,6 +83,7 @@
 
 /* Article Tracking */
 "Tracked article has new comment!" = "追踪的文章有新推文!";
+"Tracked article has been deleted!" = "追踪中的文章已经被删除!";
 
 /* Preview */
 "Connecting" = "连接中";
