@@ -280,6 +280,7 @@
                                     NSUserNotification *notification = [[NSUserNotification alloc] init];
                                     notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
                                     notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
+                                    notification.soundName = NSUserNotificationDefaultSoundName;
                                     identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
                                     notification.identifier = [identifyString MD5String];
                                     
@@ -320,6 +321,7 @@
                                 notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
                                 notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
                                 notification.identifier = [identifyString MD5String];
+                                notification.soundName = NSUserNotificationDefaultSoundName;
                                 
                                 [notification_center deliverNotification:notification];
                                 [notification_center setDelegate:self];
