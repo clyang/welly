@@ -261,19 +261,27 @@
                                     // alert user
                                     dispatch_async(dispatch_get_main_queue(), ^{
                                         // remove old notification (if user hasn't clicked yet)
+                                        NSString *identifyString;
+                                        
+                                        identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
                                         NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
                                         for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
                                             NSString* identifier = [existing_notification valueForKey:@"identifier"];
-                                            if ([identifier isEqualToString:article.lastLineHash]) {
+                                            if ([identifier isEqualToString:[identifyString MD5String]]) {
+#ifdef _DEBUG
+                                                NSLog(@"Found old notifification, remove it!!!");
+#endif
                                                 [notification_center removeDeliveredNotification:existing_notification];
                                                 break;
                                             }
                                         }
+                                        
                                         // create a notification with new lastLineofHash
                                         NSUserNotification *notification = [[NSUserNotification alloc] init];
                                         notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
                                         notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
-                                        notification.identifier = [combinedString MD5String];
+                                        identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
+                                        notification.identifier = [identifyString MD5String];
                                         
                                         [notification_center scheduleNotification:notification];
                                         [notification_center setDelegate:self];
@@ -299,11 +307,13 @@
                                 // alert user
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     // remove old notification (if user hasn't clicked yet)
+                                    NSString *identifyString;
+                                    
+                                    identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
                                     NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
                                     for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
                                         NSString* identifier = [existing_notification valueForKey:@"identifier"];
-                                        if ([identifier isEqualToString:article.lastLineHash]) {
-                                            NSLog(@"old notification removed");
+                                        if ([identifier isEqualToString:[identifyString MD5String]]) {
                                             [notification_center removeDeliveredNotification:existing_notification];
                                             break;
                                         }
@@ -313,7 +323,7 @@
                                     NSUserNotification *notification = [[NSUserNotification alloc] init];
                                     notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
                                     notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
-                                    notification.identifier = article.lastLineHash;
+                                    notification.identifier = [identifyString MD5String];
                                     
                                     [[NSUserNotificationCenter defaultUserNotificationCenter] scheduleNotification:notification];
                                     [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
@@ -328,7 +338,7 @@
                     }
                     [resultArray removeAllObjects];
                 }
-                [NSThread sleepForTimeInterval:120];
+                [NSThread sleepForTimeInterval:300];
                 [resultArray release];
             } // end for inifinte loop
         });
