@@ -160,7 +160,7 @@
             [NSThread sleepForTimeInterval:10];
             NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
-            NSString *identifyString;
+            NSString *identifyString, *lastCommentID;
             NSError *error = nil;
             
             // let's rock'n'roll
@@ -237,6 +237,7 @@
                                             NSRange group3 = [result rangeAtIndex:3]; // comment with space
                                             NSRange group4 = [result rangeAtIndex:4]; // user ip (if required by board) + date
                                             
+                                            lastCommentID = [lastComment substringWithRange:group2];
                                             combinedString = [NSString stringWithFormat:@"%@%@%@%@",[lastComment substringWithRange:group1],[lastComment substringWithRange:group2],[lastComment substringWithRange:group3],[lastComment substringWithRange:group4]];
                                             if([[combinedString MD5String] isEqualToString:article.lastLineHash]) {
                                                 isHashMatchedAtLast = YES;
@@ -249,7 +250,8 @@
                                     }
                                 }
                                 
-                                if(doesHashAppears && !isHashMatchedAtLast) {
+                                // if lastCommentID is user himself, we don't need to notify him.
+                                if(doesHashAppears && !isHashMatchedAtLast && ![lastCommentID isEqualToString:_loginID]) {
                                     // hash matched AND it's not at the last line
                                     // it means that we have new comment
                                     // need to alert user and update lastLineHash
