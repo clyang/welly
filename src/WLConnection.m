@@ -167,9 +167,9 @@
             while(_connected){
                 __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                    NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", _loginID]];
+                    NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
                     if(count > 0) {
-                        FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@'", _loginID]];
+                        FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
                         
                         while ([set next]) {
                             NSInteger needTrack = [set intForColumn:@"needTrack"];
@@ -182,19 +182,18 @@
                             NSString *lastLineHash = [set stringForColumn:@"lastLineHash"];
                             NSString *ownTime = [set stringForColumn:@"ownTime"];
                             
-                            if(needTrack>0) {
-                                WLArticle *article = [[[WLArticle alloc]initWithString1:board
-                                                                             andString2:title
-                                                                             andString3:url
-                                                                             andString4:aid
-                                                                             andString5:ownTime
-                                                                             andString6:lastLineHash
-                                                                             andString7:author
-                                                                             andString8:(int)needTrack
-                                                                             andString9:(int)astatus] autorelease];
-                                
-                                [resultArray addObject:article];
-                            }
+                            
+                            WLArticle *article = [[[WLArticle alloc]initWithString1:board
+                                                                         andString2:title
+                                                                         andString3:url
+                                                                         andString4:aid
+                                                                         andString5:ownTime
+                                                                         andString6:lastLineHash
+                                                                         andString7:author
+                                                                         andString8:(int)needTrack
+                                                                         andString9:(int)astatus] autorelease];
+                            
+                            [resultArray addObject:article];
                         }
                         [set release];
                     }
