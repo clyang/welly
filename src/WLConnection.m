@@ -155,7 +155,7 @@
 
 - (void)monitorArticleAtBackground {
     if([self isPTT] && ![[self loginID] isEqualToString:@""]){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             // wait 10 secs before we start. This also help use to wait login thread to fill-in _loginID
             [NSThread sleepForTimeInterval:10];
             while(_connected){
