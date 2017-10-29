@@ -334,7 +334,7 @@
                             }
                         }
                         // sleep 0.5 second before moving to next article
-                        [NSThread sleepForTimeInterval:0.5f];
+                        [NSThread sleepForTimeInterval:0.8f];
                     }
                     [resultArray removeAllObjects];
                 }
