@@ -472,7 +472,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void)openTrackArticleWindow:(NSWindow *)window forTerminal:(WLTerminal *)terminal {
-    if(![[terminal connection] isPTT] || ![[terminal connection] isConnected]){
+    if(![[terminal connection] isPTT] || ![[terminal connection] isConnected] || ![[[terminal connection] loginID] isKindOfClass:[NSString class]]){
         //show warn
         [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
         return;
