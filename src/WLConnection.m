@@ -283,7 +283,7 @@
                                     identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
                                     notification.identifier = [identifyString MD5String];
                                     
-                                    [notification_center scheduleNotification:notification];
+                                    [notification_center deliverNotification:notification];
                                     [notification_center setDelegate:self];
                                 } else if (doesHashAppears && isHashMatchedAtLast) {
                                     // hash match but it's at the last line
@@ -321,7 +321,7 @@
                                 notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
                                 notification.identifier = [identifyString MD5String];
                                 
-                                [notification_center scheduleNotification:notification];
+                                [notification_center deliverNotification:notification];
                                 [notification_center setDelegate:self];
                             } else {
                                 // just skip and see if we can have good luck on next try
