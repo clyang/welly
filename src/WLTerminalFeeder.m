@@ -1087,7 +1087,7 @@ static unsigned short gEmptyAttr;
 - (void)clearAll {
     _cursorX = _cursorY = 0;
 	
-    attribute t;
+    attributeWL t;
     t.f.fgColor = [WLGlobalConfig sharedInstance]->_fgColorIndex;
     t.f.bgColor = [WLGlobalConfig sharedInstance]->_bgColorIndex;
     t.f.bold = 0;

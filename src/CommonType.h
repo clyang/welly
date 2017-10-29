@@ -22,11 +22,11 @@ typedef union {
         unsigned int url        : 1;
 		unsigned int nothing	: 1;
 	} f;
-} attribute;
+} attributeWL;
 
 typedef struct {
 	unsigned char byte;
-	attribute attr;
+	attributeWL attr;
 } cell;
 
 typedef enum {C0, INTERMEDIATE, ALPHABETIC, DELETE, C1, G1, SPECIAL, ERROR} ASCII_CODE;
@@ -108,12 +108,12 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-	int isHiddenAttribute(attribute a) ;
+	int isHiddenAttribute(attributeWL a) ;
 	int isBlinkCell(cell c) ;
-	int bgColorIndexOfAttribute(attribute a) ;
-	int fgColorIndexOfAttribute(attribute a) ;
-	int bgBoldOfAttribute(attribute a) ;
-	int fgBoldOfAttribute(attribute a) ;
+	int bgColorIndexOfAttribute(attributeWL a) ;
+	int fgColorIndexOfAttribute(attributeWL a) ;
+	int bgBoldOfAttribute(attributeWL a) ;
+	int fgBoldOfAttribute(attributeWL a) ;
 #ifdef __cplusplus
 }
 #endif

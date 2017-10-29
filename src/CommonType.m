@@ -15,7 +15,7 @@
 
 #pragma mark -
 #pragma mark Functions
-inline int isHiddenAttribute(attribute a) {
+inline int isHiddenAttribute(attributeWL a) {
     return (!a.f.bold && ((a.f.fgColor == a.f.bgColor) ||
                           (a.f.fgColor == 0 && a.f.bgColor == 9))); 
 }
@@ -34,19 +34,19 @@ inline BOOL isNumber(unsigned char c) {
 	return (c >= '0' && c <= '9'); 
 }
 
-inline int bgColorIndexOfAttribute(attribute a) {
+inline int bgColorIndexOfAttribute(attributeWL a) {
     return (a.f.reverse ? a.f.fgColor : a.f.bgColor);
 }
 
-inline int fgColorIndexOfAttribute(attribute a) {
+inline int fgColorIndexOfAttribute(attributeWL a) {
     return (a.f.reverse ? a.f.bgColor : a.f.fgColor);
 }
 
-inline int bgBoldOfAttribute(attribute a) {
+inline int bgBoldOfAttribute(attributeWL a) {
     return (a.f.reverse && a.f.bold);
 }
 
-inline int fgBoldOfAttribute(attribute a) {
+inline int fgBoldOfAttribute(attributeWL a) {
     return (!a.f.reverse && a.f.bold);
 }
 

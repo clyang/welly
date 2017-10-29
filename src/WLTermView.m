@@ -21,8 +21,8 @@ static NSImage *gLeftImage;
 - (void)drawSpecialSymbol:(unichar)ch 
 				   forRow:(int)r 
 				   column:(int)c 
-			leftAttribute:(attribute)attr1 
-		   rightAttribute:(attribute)attr2;
+			leftAttribute:(attributeWL)attr1 
+		   rightAttribute:(attributeWL)attr2;
 - (void)updateBackgroundForRow:(int)r 
 						  from:(int)start 
 							to:(int)end;
@@ -472,7 +472,7 @@ static NSImage *gLeftImage;
 		int length = 0;
 		BOOL db = isDoubleByte[c];
 		
-		attribute currAttr, lastAttr = (currRow + bufIndex[c])->attr;
+		attributeWL currAttr, lastAttr = (currRow + bufIndex[c])->attr;
 		for (; c < bufLength; c++) {
 			currAttr = (currRow + bufIndex[c])->attr;
 			if (currAttr.v != lastAttr.v || isDoubleByte[c] != db) break;
@@ -629,7 +629,7 @@ static NSImage *gLeftImage;
 	cell *currRow = [[self frontMostTerminal] cellsOfRow:r];
 	NSRect rowRect = NSMakeRect(start * _fontWidth, (_maxRow - 1 - r) * _fontHeight, (end - start) * _fontWidth, _fontHeight);
 	
-	attribute currAttr, lastAttr = (currRow + start)->attr;
+	attributeWL currAttr, lastAttr = (currRow + start)->attr;
 	int length = 0;
 	unsigned int currentBackgroundColor = 0;
     BOOL currentBold = NO;
@@ -696,8 +696,8 @@ static NSImage *gLeftImage;
 - (void)drawSpecialSymbol:(unichar)ch 
 				   forRow:(int)r 
 				   column:(int)c 
-			leftAttribute:(attribute)attr1 
-		   rightAttribute:(attribute)attr2 {
+			leftAttribute:(attributeWL)attr1 
+		   rightAttribute:(attributeWL)attr2 {
 	[_asciiArtRender drawSpecialSymbol:ch 
 								forRow:r
 								column:c

@@ -13,6 +13,7 @@
 #import "WLTabView.h"
 #import "WLMainFrameController.h"
 #import "WLGrowlBridge.h"
+#import "WLArticle.h"
 
 NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 @interface WLMessageDelegate ()

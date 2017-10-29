@@ -12,6 +12,7 @@
 NSString *const WLGrowlNotificationNameFileTransfer;
 NSString *const WLGrowlNotificationNameEXIFInformation;
 NSString *const WLGrowlNotificationNameNewMessageReceived;
+NSString *const WLGrowlNotificationNameNewArticleAlertReceived;
 
 #define kGrowlNotificationNameFileTransfer			NSLocalizedString(WLGrowlNotificationNameFileTransfer, @"Growl Notification Name")
 #define kGrowlNotificationNameEXIFInformation		NSLocalizedString(WLGrowlNotificationNameEXIFInformation, @"Growl Notification Name")

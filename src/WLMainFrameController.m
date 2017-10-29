@@ -24,6 +24,7 @@
 #import "WLPostDownloadDelegate.h"
 #import "WLPostPushDelegate.h"
 #import "DBPrefsWindowController.h"
+#import "WLTrackArticlePanel.h"
 
 // Full Screen
 #import "WLPresentationController.h"
@@ -425,7 +426,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 - (IBAction)postPush:(id)sender {
     [[WLPostPushDelegate sharedInstance] beginPostPushInWindow:_mainWindow
                                                            forTerminal:[_tabView frontMostTerminal]];
+}
 
+// Tracking article
+- (IBAction)WLAddTrackArticle:(id)sender {
+    [[WLTrackArticlePanel sharedInstance] addTrackArticle:_mainWindow
+                                                        forTerminal:[_tabView frontMostTerminal]];
+}
+
+
+- (IBAction)opneTrackArticleWindow:(id)sender {
+    [[WLTrackArticlePanel sharedInstance] openTrackArticleWindow:_mainWindow
+                                                     forTerminal:[_tabView frontMostTerminal]];
 }
 
 - (BOOL)shouldReconnect {
@@ -567,6 +579,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 				returnCode:(int)returnCode 
 			   contextInfo:(void *)contextInfo {
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    // make sure set each tab's connection to NO state so thread won't alive after app is quite.
+    int tabNumber = [_tabView numberOfTabViewItems];
+    for (int i = 0; i < tabNumber; i++) {
+        id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
+        if ([connection isKindOfClass:[WLConnection class]] && [connection isConnected]) {
+            [connection setConnected:NO];
+        }
+    }
+    
     [NSApp replyToApplicationShouldTerminate:(returnCode == NSAlertDefaultReturn)];
 }
 

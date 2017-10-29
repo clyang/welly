@@ -58,6 +58,7 @@ static BOOL sHasCacheDir = NO;
     sDownloadedURLInfo = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
 
+
 - (IBAction)openPreview:(id)sender {
     [WLQuickLookBridge orderFront];
 }

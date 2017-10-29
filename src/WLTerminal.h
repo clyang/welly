@@ -67,7 +67,7 @@
 - (void)removeAllDirtyMarks;
 
 /* Access Data */
-- (attribute)attrAtRow:(int)r 
+- (attributeWL)attrAtRow:(int)r 
 				column:(int)c ;
 - (NSString *)stringAtIndex:(int)begin 
 					 length:(int)length;

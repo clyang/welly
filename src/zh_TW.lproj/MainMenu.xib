@@ -199,6 +199,22 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="推文追蹤" id="IXY-ly-RK2">
+                    <menu key="submenu" title="推文追蹤" id="94c-eT-gHB">
+                        <items>
+                            <menuItem title="加入推文追蹤…" keyEquivalent="A" id="LPJ-Q7-0Bp">
+                                <connections>
+                                    <action selector="WLAddTrackArticle:" target="207" id="ypy-j0-lIW"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="管理追蹤的文章…" keyEquivalent="." id="E5t-zg-hh5">
+                                <connections>
+                                    <action selector="opneTrackArticleWindow:" target="207" id="JHL-Un-S6Z"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="顯示方式" id="484">
                     <menu key="submenu" title="顯示方式" id="485">
                         <items>
@@ -359,6 +375,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="172" y="188"/>
         </menu>
         <window title="Welly" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="21" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" texturedBackground="YES"/>

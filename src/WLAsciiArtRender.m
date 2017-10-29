@@ -553,8 +553,8 @@ static NSBezierPath *gSymbolLowerLinePath;
 
 - (void)drawSymbol:(NSObject *)symbol 
 	  withSelector:(SEL)selector	   
-	 leftAttribute:(attribute)attrL 
-	rightAttribute:(attribute)attrR {
+	 leftAttribute:(attributeWL)attrL 
+	rightAttribute:(attributeWL)attrR {
 	int colorIndexL = fgColorIndexOfAttribute(attrL);
 	int colorIndexR = fgColorIndexOfAttribute(attrR);
 	NSColor *colorR = [gConfig colorAtIndex:colorIndexR hilite:fgBoldOfAttribute(attrR)];
@@ -581,8 +581,8 @@ static NSBezierPath *gSymbolLowerLinePath;
 }
 
 - (void)drawSingleLineSymbol:(unichar)ch 
-			   leftAttribute:(attribute)attrL 
-			  rightAttribute:(attribute)attrR {
+			   leftAttribute:(attributeWL)attrL 
+			  rightAttribute:(attributeWL)attrR {
 	static const unsigned int singleLineWidth[64][4] = {
 		{1,1,0,0},{2,1,0,0},{1,2,0,0},{2,2,0,0}, // ┌ ┍ ┎ ┏
 		{0,1,1,0},{0,1,2,0},{0,2,1,0},{0,2,2,0}, // ┐ ┑ ┒ ┓
@@ -645,8 +645,8 @@ static NSBezierPath *gSymbolLowerLinePath;
 - (void)drawSpecialSymbol:(unichar)ch 
 				   forRow:(int)r 
 				   column:(int)c 
-			leftAttribute:(attribute)attrL 
-		   rightAttribute:(attribute)attrR {
+			leftAttribute:(attributeWL)attrL 
+		   rightAttribute:(attributeWL)attrR {
 	int colorIndexL = fgColorIndexOfAttribute(attrL);
 	int colorIndexR = fgColorIndexOfAttribute(attrR);
 	NSPoint origin = NSMakePoint(c * _fontWidth, (_maxRow - 1 - r) * _fontHeight);

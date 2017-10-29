@@ -200,6 +200,22 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="推文追踪" id="K1X-tq-hdM">
+                    <menu key="submenu" title="推文追踪" id="1dn-oy-2TE">
+                        <items>
+                            <menuItem title="加入推文追踪…" keyEquivalent="A" id="HlU-qq-7Tc">
+                                <connections>
+                                    <action selector="WLAddTrackArticle:" target="207" id="us2-c5-3nR"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="管理追踪的文章…" keyEquivalent="." id="xui-Na-Clm">
+                                <connections>
+                                    <action selector="opneTrackArticleWindow:" target="207" id="Wqm-R5-7yb"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="显示" id="484">
                     <menu key="submenu" title="显示" id="485">
                         <items>

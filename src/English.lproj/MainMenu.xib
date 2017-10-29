@@ -200,6 +200,22 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Article Tracking" id="pc3-gS-d8f">
+                    <menu key="submenu" title="Article Tracking" id="Jvt-9y-hfG">
+                        <items>
+                            <menuItem title="Add this article…" keyEquivalent="A" id="9R2-no-iSy">
+                                <connections>
+                                    <action selector="WLAddTrackArticle:" target="207" id="Jue-Vx-ziZ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Manage articles…" keyEquivalent="." id="G4Q-tD-de6">
+                                <connections>
+                                    <action selector="opneTrackArticleWindow:" target="207" id="njq-i9-wzO"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
                 <menuItem title="View" id="484">
                     <menu key="submenu" title="View" id="485">
                         <items>
