@@ -160,6 +160,10 @@
             [NSThread sleepForTimeInterval:10];
             NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
+            NSString *identifyString;
+            NSError *error = nil;
+            
+            // let's rock'n'roll
             while(_connected){
                 __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
@@ -202,10 +206,8 @@
                     for( WLArticle* article in resultArray) {
                         if(article.needTrack > 0 && article.astatus < 2) { // need track AND article is not delteed
                             STHTTPRequest *r = [STHTTPRequest requestWithURLString:[NSString stringWithFormat:@"https://www.ptt.cc/bbs/%@.html", article.url]];
-                            NSError *error = nil;
                             [r addCookieWithName:@"over18" value:@"1"];
                             [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
-                            
                             NSString *body = [r startSynchronousWithError:&error];
                             if(r.responseStatus == 200) {
 #ifdef _DEBUG
@@ -261,8 +263,6 @@
                                     
                                     // alert user
                                     // remove old notification (if user hasn't clicked yet)
-                                    NSString *identifyString;
-                                    
                                     identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
                                     
                                     for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
@@ -305,8 +305,6 @@
                                 
                                 // alert user
                                 // remove old notification (if user hasn't clicked yet)
-                                NSString *identifyString;
-                                
                                 identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
                                 //NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
                                 for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
@@ -335,8 +333,8 @@
                     }
                     [resultArray removeAllObjects];
                 }
-                [NSThread sleepForTimeInterval:300];
                 [resultArray release];
+                [NSThread sleepForTimeInterval:300];
             } // end for inifinte loop
         });
     }
