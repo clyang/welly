@@ -335,8 +335,7 @@
                         [NSThread sleepForTimeInterval:0.8f];
                     }
                     [resultArray removeAllObjects];
-                }
-                [resultArray release];
+                } // end of resultArray > 0
                 [NSThread sleepForTimeInterval:300];
             } // end for inifinte loop
         });

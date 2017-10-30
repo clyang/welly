@@ -575,6 +575,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     return NSTerminateLater;
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
+}
+
 - (void)confirmSheetDidEnd:(NSWindow *)sheet 
 				returnCode:(int)returnCode 
 			   contextInfo:(void *)contextInfo {
