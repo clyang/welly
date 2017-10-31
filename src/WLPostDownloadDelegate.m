@@ -11,6 +11,7 @@
 #import "WLConnection.h"
 #import "WLTerminal.h"
 #import "SynthesizeSingleton.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define kPostDownloadPanelNibFilename @"PostDownloadPanel"
 
@@ -206,7 +207,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString *url = [WLPostDownloadDelegate downloadPostURLFromTerminal:terminal];
     if ([url length] != 0) {
+        [Answers logCustomEventWithName:@"URL download" customAttributes:@{@"action" : @"url open successfully"}];
         [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    } else {
+        [Answers logCustomEventWithName:@"URL download" customAttributes:@{@"failed" : @"No url found"}];
     }
     [pool release];
 }
@@ -215,10 +219,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLPostDownloadDelegate);
                       forTerminal:(WLTerminal *)terminal {
     WLConnection *connection = [terminal connection];
     if([connection isPTT] && [connection isConnected]) {
+        [Answers logCustomEventWithName:@"URL download" customAttributes:@{@"action" : @"pressed successfully"}];
         [NSThread detachNewThreadSelector:@selector(preparePostURLDownload:)
                              toTarget:self
                            withObject:terminal];
     } else {
+        [Answers logCustomEventWithName:@"URL download" customAttributes:@{@"failed" : @"PTT only"}];
         NSBeginAlertSheet(NSLocalizedString(@"This function only works on PTT", @"Sheet Title"),
                           nil,
                           nil,

@@ -3,3 +3,5 @@
 *xcodeproj/xcuserdata
 build
 *~
+fabric.buildsecret
+fabric.apikey

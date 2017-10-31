@@ -23,7 +23,7 @@
 #import "WLPopUpMessage.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLEncoder.h"
-
+#import <Crashlytics/Crashlytics.h>
 #import "WLNotifications.h"
 
 #import <Carbon/Carbon.h>
@@ -419,6 +419,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void) showErrorMsg:(NSString *) msg {
+    [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"failed" : msg}];
     NSBeginAlertSheet(NSLocalizedString(@"Long Screenshot Error!", @"Sheet Title"),
                       NSLocalizedString(@"Confirm", @"Default Button"),
                       nil,
@@ -529,6 +530,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                 [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
                 
                 // last page reached, break for infinite while loop
+                [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"pagecount" : [NSNumber numberWithInt: (pageCount+1)]}];
                 break;
             } else {
                 //show warn
@@ -666,6 +668,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         [screenArray removeAllObjects];
         [pool release];
         
+        [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"action" : @"Capture successfully!"}];
         [_longScreenshotWindow endEditingFor:nil];
         [NSApp endSheet:_longScreenshotWindow];
         [_longScreenshotWindow orderOut:self];
@@ -705,6 +708,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     if (![self isConnected]) return;
     
     if([[self getTerminalBottomLine] containsString:@" 瀏覽 第"]){
+        [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"action" : @"pressed ok!"}];
         // show working panel
         if (!_longScreenshotWindow) {
             [NSBundle loadNibNamed:kLongScreenshotPanelNibFilename owner:self];
@@ -725,6 +729,7 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 }
 
 - (void)showNotificationWindow:(NSString *)titleMsg withSheetMsg:(NSString *)sheetMsg{
+    [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"failed" :sheetMsg}];
     NSBeginAlertSheet(NSLocalizedString(titleMsg, @"Sheet Title"),
                       NSLocalizedString(@"Confirm", @"Default Button"),
                       nil,

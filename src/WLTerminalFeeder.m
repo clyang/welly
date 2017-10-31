@@ -12,6 +12,7 @@
 #import "WLSite.h"
 #import "WLGlobalConfig.h"
 #import "WLConnection.h"
+#import <Crashlytics/Crashlytics.h>
 
 #pragma mark -
 #pragma mark Constant Define
@@ -1048,6 +1049,7 @@ static unsigned short gEmptyAttr;
             free(origGrid[i]);
         }
         free(origGrid);
+        [Answers logCustomEventWithName:@"BlackListID" customAttributes:@{@"blocked times" : [NSNumber numberWithInt: (changedRow.count+1)]}];
     }
     [changedRow release];
     

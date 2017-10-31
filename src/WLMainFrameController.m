@@ -43,6 +43,10 @@
 // End
 #import "SynthesizeSingleton.h"
 
+// Fabric
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @interface WLMainFrameController ()
 - (void)loadLastConnections;
 - (void)updateSitesMenuWithSites:(NSArray *)sites;
@@ -576,6 +580,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    // initial fabric for crash report
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions": @YES }];
+    NSURL* resourceURL = [[NSBundle mainBundle] URLForResource:@"fabric.apikey" withExtension:nil];
+    NSStringEncoding usedEncoding;
+    NSString* fabricAPIKey = [NSString stringWithContentsOfURL:resourceURL usedEncoding:&usedEncoding error:NULL];
+    
+    // The string that results from reading the bundle resource contains a trailing
+    // newline character, which we must remove now because Fabric/Crashlytics
+    // can't handle extraneous whitespace.
+    NSCharacterSet* whitespaceToTrim = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSString* fabricAPIKeyTrimmed = [fabricAPIKey stringByTrimmingCharactersInSet:whitespaceToTrim];
+    
+    //[Fabric with:@[[Crashlytics class]]];
+    [Crashlytics startWithAPIKey:fabricAPIKeyTrimmed];
+    
     [[NSUserNotificationCenter defaultUserNotificationCenter] removeAllDeliveredNotifications];
 }
 

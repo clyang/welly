@@ -8,6 +8,7 @@
 #import "WLTrackDB.h"
 #import "SynthesizeSingleton.h"
 #import <CommonCrypto/CommonDigest.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation NSString (TrimmingAdditions)
 
@@ -65,7 +66,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 @synthesize idTableView;
 
 - (void)awakeFromNib {
-    
+
 }
 
 - (void)loadArticleFromDB: (NSString *)loginID {
@@ -112,6 +113,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void) showMsgOnMainWindow:(NSString *) msg {
+    if(![msg isEqualToString:@"The articles has been stored successfully!"] || ![msg isEqualToString:@"This article is already in database!"]) {
+        [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"failed" : msg}];
+    }
     NSBeginAlertSheet(NSLocalizedString(@"Article Tracking", @"Sheet Title"),
                       NSLocalizedString(@"Confirm", @"Default Button"),
                       nil,
@@ -125,6 +129,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void) showMsgOnArticleWindow:(NSString *) msg {
+    [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"failed" : msg}];
     NSBeginAlertSheet(NSLocalizedString(@"Article Tracking", @"Sheet Title"),
                       NSLocalizedString(@"Confirm", @"Default Button"),
                       nil,
@@ -328,9 +333,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
                 
                 [db executeUpdate: sql];
                 [db commit];
+                [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"action" : @"retrieve successfully"}];
                 [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"The articles has been stored successfully!" waitUntilDone:NO];
             }];
         } else {
+            [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"action" : @"open successfully"}];
             [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"This article is already in database!" waitUntilDone:NO];
         }
     }
@@ -342,6 +349,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 }
 
 - (void)addTrackArticle:(NSWindow *) window forTerminal:(WLTerminal *) terminal {
+    [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"action" : @"add"}];
     if(![[terminal connection] isPTT] && (![[self getTerminalBottomLine:terminal] containsString:@"文章選讀"] || ![[self getTerminalBottomLine:terminal] containsString:@"目前顯示: 第"])){
         //show warn
         [self performSelectorOnMainThread:@selector(showMsgOnMainWindow:) withObject:@"Please make sure you're reading article in PTT" waitUntilDone:NO];
@@ -481,6 +489,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         return;
     }
     if (!articleWindow) {
+        [Answers logCustomEventWithName:@"articleTracking window" customAttributes:@{@"action" : @"open successfully"}];
         [NSBundle loadNibNamed:kTrackArticlePanelNibFilename owner:self];
     }
     

@@ -116,6 +116,11 @@
 		DF59277A1FA0A8E5005C72FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF5927741FA0A8E5005C72FF /* Info.plist */; };
 		DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF59277B1FA0A936005C72FF /* libsqlite3.tbd */; };
 		DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */; };
+		DF8ACCE51FA87282009EF52F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE31FA87282009EF52F /* Fabric.framework */; };
+		DF8ACCE61FA87282009EF52F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE41FA87282009EF52F /* Crashlytics.framework */; };
+		DF8ACCE81FA8730D009EF52F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE71FA8730D009EF52F /* libc++.tbd */; };
+		DF8ACCEA1FA87315009EF52F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE91FA87315009EF52F /* libz.tbd */; };
+		DF8ACCEE1FA87524009EF52F /* fabric.apikey in Resources */ = {isa = PBXBuildFile; fileRef = DF8ACCEC1FA87523009EF52F /* fabric.apikey */; };
 		DFB599891FA252F700C556B0 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB599871FA252F700C556B0 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998B1FA25B8200C556B0 /* HTMLNode.m */; };
 		DFB599901FA25B8200C556B0 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998D1FA25B8200C556B0 /* HTMLParser.m */; };
@@ -349,6 +354,11 @@
 		DF59277E1FA0B723005C72FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927821FA0B7C6005C72FF /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927831FA0B7D4005C72FF /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
+		DF8ACCE31FA87282009EF52F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		DF8ACCE41FA87282009EF52F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		DF8ACCE71FA8730D009EF52F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		DF8ACCE91FA87315009EF52F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		DF8ACCEC1FA87523009EF52F /* fabric.apikey */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fabric.apikey; sourceTree = "<group>"; };
 		DFB599871FA252F700C556B0 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
 		DFB599881FA252F700C556B0 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
 		DFB5998B1FA25B8200C556B0 /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
@@ -370,13 +380,17 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
 				DFB599921FA25C7200C556B0 /* libxml2.tbd in Frameworks */,
+				DF8ACCE81FA8730D009EF52F /* libc++.tbd in Frameworks */,
 				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
+				DF8ACCEA1FA87315009EF52F /* libz.tbd in Frameworks */,
 				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
 				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 				DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */,
+				DF8ACCE61FA87282009EF52F /* Crashlytics.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
+				DF8ACCE51FA87282009EF52F /* Fabric.framework in Frameworks */,
 				161DF767106DE2780003E85A /* Quartz.framework in Frameworks */,
 				161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */,
 				D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */,
@@ -440,6 +454,8 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF8ACCE41FA87282009EF52F /* Crashlytics.framework */,
+				DF8ACCE31FA87282009EF52F /* Fabric.framework */,
 				DFB5998A1FA25B6800C556B0 /* HTMLParser */,
 				DFB599861FA252C400C556B0 /* STHTTPRequest */,
 				DF5927681FA0A8E5005C72FF /* fmdb */,
@@ -461,6 +477,7 @@
 		29B97314FDCFA39411CA2CEA /* MacBlueTelnet */ = {
 			isa = PBXGroup;
 			children = (
+				DF8ACCEC1FA87523009EF52F /* fabric.apikey */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -502,6 +519,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF8ACCE91FA87315009EF52F /* libz.tbd */,
+				DF8ACCE71FA8730D009EF52F /* libc++.tbd */,
 				DFB599911FA25C7200C556B0 /* libxml2.tbd */,
 				DF59277B1FA0A936005C72FF /* libsqlite3.tbd */,
 				161DF9B2106DE2D60003E85A /* Third-Party Frameworks */,
@@ -864,11 +883,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Welly" */;
 			buildPhases = (
-				16BA488A0FD657FE00F55D7B /* ShellScript */,
 				8540F7350CEB4435003B17D1 /* CopyFiles */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				16BA488A0FD657FE00F55D7B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -933,6 +952,7 @@
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
 				185680E60F25E23B00A1F4F3 /* password.tif in Resources */,
+				DF8ACCEE1FA87524009EF52F /* fabric.apikey in Resources */,
 				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
@@ -963,7 +983,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "VER=`svnversion | sed -n 's/\\(.*:\\)*\\([0-9]*\\)M/\\2/ p'`\nif [ -n \"$VER\" ]; then\nlet VER=$VER+1\nsed -i '' '\n/<key>CFBundleVersion<\\/key>\\s*/ {\n    n\n    s/\\([^<]*<string>\\)[^<]*/\\1'$VER'/\n}' Info.plist\nfi\n";
+			shellScript = "FABRIC_APIKEY_FILE=\"${SRCROOT}/fabric.apikey\"\nFABRIC_BUILDSECRET_FILE=\"${SRCROOT}/fabric.buildsecret\"\n\nif test ! -f \"$FABRIC_APIKEY_FILE\" -o ! -f \"$FABRIC_BUILDSECRET_FILE\"; then\necho \"This build wants to upload dSYM files to Crashlytics.\"\necho \"Uploading is possible only if a Fabric API key and a Fabric build secret are\"\necho \"available. This build is failing because at least one of these pieces of\"\necho \"information is missing.\"\necho \"\"\necho \"To fix the problem, create the following files and store the API key and\"\necho \"build secret, respectively, within those files:\"\necho \"\"\necho \"  $FABRIC_APIKEY_FILE\"\necho \"  $FABRIC_BUILDSECRET_FILE\"\necho \"\"\necho \"If you forked the project then you must register with Crashlytics and\"\necho \"get your own API key and build secret.\"\n\n# Let the build fail\nexit 1\nfi\n\nFABRIC_APIKEY=$(cat \"$FABRIC_APIKEY_FILE\")\nif test $? -ne 0; then\necho \"Cannot read $FABRIC_APIKEY_FILE\"\nexit 1\nfi\n\nFABRIC_BUILDSECRET=$(cat \"$FABRIC_BUILDSECRET_FILE\")\nif test $? -ne 0; then\necho \"Cannot read $FABRIC_BUILDSECRET_FILE\"\nexit 1\nfi\n\necho \"Uploading dSYM files to Crashlytics\"\n\"${SRCROOT}/Fabric.framework/run\" \"$FABRIC_APIKEY\" \"$FABRIC_BUILDSECRET\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

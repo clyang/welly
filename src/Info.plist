@@ -50,6 +50,18 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>917</string>
+	<key>Fabric</key>
+	<dict>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.7.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>

@@ -25,6 +25,8 @@
 #import "WLTrackDB.h"
 #import "WLMainFrameController.h"
 #import "WLTrackArticlePanel.h"
+#import <Crashlytics/Crashlytics.h>
+
 
 @implementation NSString (TrimmingAdditions)
 
@@ -162,6 +164,7 @@
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
             NSString *identifyString, *lastCommentID;
             NSError *error = nil;
+            int count404, parseError, newCommentCount, httpError;
             
             // let's rock'n'roll
             while(_connected){
@@ -200,6 +203,10 @@
                 }];
                 
                 if([resultArray count] > 0) {
+                    count404 = 0;
+                    parseError = 0;
+                    newCommentCount = 0;
+                    httpError = 0;
                     NSTextCheckingResult *result;
                     NSString *combinedString=@"";
                     for( WLArticle* article in resultArray) {
@@ -216,6 +223,7 @@
                                 
                                 if (error) {
                                     NSLog(@"Error: %@", error);
+                                    ++parseError;
                                     [parser release];
                                     continue;
                                 }
@@ -255,6 +263,7 @@
                                     // it means that we have new comment
                                     // need to alert user and update lastLineHash
                                     NSLog(@"Found new comment!!!");
+                                    ++newCommentCount;
                                     [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                                         [db beginTransaction];
                                         NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET astatus='%d', lastLineHash='%@' WHERE board='%@' AND aid='%@' AND owner='%@'", 1, [combinedString MD5String], article.board, article.aid, _loginID];
@@ -298,6 +307,7 @@
                             } else if(r.responseStatus == 404) {
                                 // post deleted
                                 // disable tracking && change article status
+                                ++count404;
                                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                                     [db beginTransaction];
                                     NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d', astatus='%d' WHERE board='%@' AND aid='%@' AND owner='%@'", 0, 2, article.board, article.aid, _loginID];
@@ -328,10 +338,16 @@
                                 [notification_center setDelegate:self];
                             } else {
                                 // just skip and see if we can have good luck on next try
+                                ++httpError;
                                 continue;
-                            }
+                            } // end of if http code == 200
                         }
                         // sleep 0.5 second before moving to next article
+                        [Answers logCustomEventWithName:@"monitor article" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount],
+                                                                                              @"HTTP parse error": [NSNumber numberWithInt:parseError],
+                                                                                              @"HTTP non-200/404 req": [NSNumber numberWithInt:httpError],
+                                                                                              @"HTTP 404 req": [NSNumber numberWithInt:count404]
+                                                                                              }];
                         [NSThread sleepForTimeInterval:0.8f];
                     }
                     [resultArray removeAllObjects];
@@ -479,7 +495,7 @@
     
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
-    // telnet; send username
+    // telnet or wss; send username
     if (![addr hasPrefix:@"ssh"]) {
         char *pe = strchr(account, '@');
         if (pe) {
@@ -494,11 +510,23 @@
                 [self sendBytes:"\r" length:1];
             }
         }
-        if ([addr containsString:@"@"]) {
-            NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
-            [self setLoginID:tmp];
+        if([addr hasPrefix:@"telnet"] || [addr hasPrefix:@"wss"]){
+            if ([addr containsString:@"@"]) {
+                NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
+                [self setLoginID:tmp];
+                [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
+            } else {
+                [self setLoginID:@""];
+            }
         } else {
-            [self setLoginID:@""];
+            // user use old telnet style id@ptt.cc without "telnet://"
+            if ([addr containsString:@"@"]) {
+                NSString *tmp = [addr substringWithRange:NSMakeRange(0, [addr rangeOfString:@"@"].location)];
+                [self setLoginID:tmp];
+                [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
+            } else {
+                [self setLoginID:@""];
+            }
         }
     } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
         // user wants to autologin with shh
@@ -528,6 +556,7 @@
         [self sendBytes:pass length:len];
         [self sendBytes:"\r" length:1];
         SecKeychainItemFreeContent(nil, pass);
+        [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
     }
     
     [pool release];
