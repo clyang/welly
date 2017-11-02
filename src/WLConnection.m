@@ -637,12 +637,4 @@
 	[_messageDelegate connectionDidReceiveNewMessage:message
 										  fromCaller:caller];
 }
-
-- (void)alertArticleNewComment:(WLArticle *)article
-                  fromCaller:(NSString *)caller {
-    // If there is a new message, we should notify the auto-reply delegate.
-    [_messageDelegate connectionDidReceiveArticleAlert:article
-                                          fromCaller:caller];
-}
-
 @end
