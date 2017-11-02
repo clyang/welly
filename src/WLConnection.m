@@ -495,6 +495,28 @@
     
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
+    const int sleepTime = 100000, maxAttempt = 700;
+    int i=0, j;
+    BOOL onLoginScreen = NO;
+    NSString *textLine;
+    
+    while(i< maxAttempt) {
+        ++i;
+        usleep(sleepTime);
+        // make sure we're on login screen
+        for(j=20; j<24; ++j) {
+            textLine = [self getTerminalNthLine:j];
+            if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"]) {
+                onLoginScreen = YES;
+                break;
+            }
+        }
+        if(onLoginScreen){
+            usleep(sleepTime);
+            break;
+        }
+    }
+    
     // telnet or wss; send username
     if (![addr hasPrefix:@"ssh"]) {
         char *pe = strchr(account, '@');
@@ -542,6 +564,7 @@
     } else {
         [self setLoginID:@""];
     }
+    
     // send password
     const char *service = "Welly";
     UInt32 len = 0;
@@ -553,14 +576,34 @@
                                                      &len, &pass,
                                                      nil);
     if (status == noErr) {
-        [self sendBytes:pass length:len];
-        [self sendBytes:"\r" length:1];
-        SecKeychainItemFreeContent(nil, pass);
-        [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
+        while(i< maxAttempt) {
+            // wait for the screen to refresh
+            ++i;
+            usleep(sleepTime);
+            for(j=21; j<25; ++j) {
+                textLine = [self getTerminalNthLine:j];
+                if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"]) {
+                    [self sendBytes:pass length:len];
+                    [self sendBytes:"\r" length:1];
+                    SecKeychainItemFreeContent(nil, pass);
+                    [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
+                    return;
+                }
+            }
+        }
+        
     }
     
     [pool release];
+    return;
 }
+
+- (NSString *)getTerminalNthLine:(int) i {
+    const int line = i - 1;
+    return [_terminal stringAtIndex:line * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
+}
+
+
 #pragma mark -
 #pragma mark Message
 - (void)increaseMessageCount:(NSInteger)value {
