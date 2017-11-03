@@ -593,7 +593,7 @@
                 usleep(sleepTime);
                 for(j=20; j<25; ++j) {
                     textLine = [self getTerminalNthLine:j];
-                    if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"]) {
+                    if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"] || [textLine containsString:@"密碼]"]) {
                         [self sendBytes:pass length:len];
                         [self sendBytes:"\r" length:1];
                         SecKeychainItemFreeContent(nil, pass);
