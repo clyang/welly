@@ -35,7 +35,7 @@
 	
 	WLMessageDelegate *_messageDelegate;
 	NSInteger _messageCount;
-	
+    	
 	id _tabViewItemController;
 }
 @property (readwrite, retain) WLSite *site;
@@ -44,7 +44,7 @@
 @property (readwrite, retain) NSObject <WLProtocol> *protocol;
 @property (readwrite, assign, setter=setConnected:, nonatomic) BOOL isConnected;
 @property (readwrite, assign, setter=setPTT:, nonatomic) BOOL isPTT;
-@property (readwrite, assign) NSString *loginID;
+@property (readwrite, retain) NSString *loginID;
 @property (readonly) NSDate *lastTouchDate;
 @property (readonly) NSInteger messageCount;
 @property (readonly) WLMessageDelegate *messageDelegate;

@@ -106,7 +106,7 @@
 }
 
 - (void)dealloc {
-    [self setConnected:NO];
+    //[self setConnected:NO];
     [_lastTouchDate release];
     [_icon release];
     [_terminal release];
@@ -114,6 +114,7 @@
     [_protocol release];
     [_messageDelegate release];
     [_site release];
+    [_loginID release];
     [super dealloc];
 }
 
@@ -155,11 +156,14 @@
     [self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
 }
 
-- (void)monitorArticleAtBackground {
-    if([self isPTT] && ![[self loginID] isEqualToString:@""]){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            // wait 10 secs before we start. This also help use to wait login thread to fill-in _loginID
-            [NSThread sleepForTimeInterval:10];
+- (void)monitorArticleAtBackground:(NSTimer *)timer {
+    if(![self isPTT] || [_loginID isEqualToString:@""] || _loginID == nil || !_connected){
+        return;
+    }
+    
+    // create a background thread
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        @autoreleasepool{
             NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
             NSString *identifyString, *lastCommentID;
@@ -167,150 +171,105 @@
             int count404, parseError, newCommentCount, httpError;
             
             // let's rock'n'roll
-            while(_connected){
-                __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
-                [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                    NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
-                    if(count > 0) {
-                        FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
+            NSLog(@"start to monitor articles for user: %@", _loginID);
+            __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+            [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
+                if(count > 0) {
+                    FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
+                    
+                    while ([set next]) {
+                        NSInteger needTrack = [set intForColumn:@"needTrack"];
+                        NSInteger astatus = [set intForColumn:@"astatus"];
+                        NSString *board = [set stringForColumn:@"board"];
+                        NSString *author = [set stringForColumn:@"author"];
+                        NSString *title = [set stringForColumn:@"title"];
+                        NSString *url = [set stringForColumn:@"url"];
+                        NSString *aid = [set stringForColumn:@"aid"];
+                        NSString *lastLineHash = [set stringForColumn:@"lastLineHash"];
+                        NSString *ownTime = [set stringForColumn:@"ownTime"];
                         
-                        while ([set next]) {
-                            NSInteger needTrack = [set intForColumn:@"needTrack"];
-                            NSInteger astatus = [set intForColumn:@"astatus"];
-                            NSString *board = [set stringForColumn:@"board"];
-                            NSString *author = [set stringForColumn:@"author"];
-                            NSString *title = [set stringForColumn:@"title"];
-                            NSString *url = [set stringForColumn:@"url"];
-                            NSString *aid = [set stringForColumn:@"aid"];
-                            NSString *lastLineHash = [set stringForColumn:@"lastLineHash"];
-                            NSString *ownTime = [set stringForColumn:@"ownTime"];
-                            
-                            
-                            WLArticle *article = [[[WLArticle alloc]initWithString1:board
-                                                                         andString2:title
-                                                                         andString3:url
-                                                                         andString4:aid
-                                                                         andString5:ownTime
-                                                                         andString6:lastLineHash
-                                                                         andString7:author
-                                                                         andString8:(int)needTrack
-                                                                         andString9:(int)astatus] autorelease];
-                            
-                            [resultArray addObject:article];
-                        }
-                        [set release];
+                        
+                        WLArticle *article = [[[WLArticle alloc]initWithString1:board
+                                                                     andString2:title
+                                                                     andString3:url
+                                                                     andString4:aid
+                                                                     andString5:ownTime
+                                                                     andString6:lastLineHash
+                                                                     andString7:author
+                                                                     andString8:(int)needTrack
+                                                                     andString9:(int)astatus] autorelease];
+                        [resultArray addObject:article];
                     }
-                }];
-                
-                if([resultArray count] > 0) {
-                    count404 = 0;
-                    parseError = 0;
-                    newCommentCount = 0;
-                    httpError = 0;
-                    NSTextCheckingResult *result;
-                    NSString *combinedString=@"";
-                    for( WLArticle* article in resultArray) {
-                        if(article.needTrack > 0 && article.astatus < 2 && _connected) { // need track AND article is not delteed
-                            STHTTPRequest *r = [STHTTPRequest requestWithURLString:[NSString stringWithFormat:@"https://www.ptt.cc/bbs/%@.html", article.url]];
-                            [r addCookieWithName:@"over18" value:@"1"];
-                            [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
-                            NSString *body = [r startSynchronousWithError:&error];
-                            if(r.responseStatus == 200) {
+                    //[set release];
+                }
+            }];
+            
+            if([resultArray count] > 0) {
+                count404 = 0;
+                parseError = 0;
+                newCommentCount = 0;
+                httpError = 0;
+                NSTextCheckingResult *result;
+                NSString *combinedString=@"";
+                for( WLArticle* article in resultArray) {
+                    if(article.needTrack > 0 && article.astatus < 2 && _connected) { // need track AND article is not delteed
+                        STHTTPRequest *r = [STHTTPRequest requestWithURLString:[NSString stringWithFormat:@"https://www.ptt.cc/bbs/%@.html", article.url]];
+                        [r addCookieWithName:@"over18" value:@"1"];
+                        [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
+                        NSString *body = [r startSynchronousWithError:&error];
+                        if(r.responseStatus == 200) {
 #ifdef _DEBUG
-                                NSLog(@"Checking: %@", article.title);
+                            NSLog(@"Checking: %@", article.title);
 #endif
-                                HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
-                                
-                                if (error) {
-                                    NSLog(@"Error: %@", error);
-                                    ++parseError;
-                                    [parser release];
-                                    continue;
-                                }
-                                
-                                HTMLNode *bodyNode = [parser body];
-                                NSArray *spanNodes = [bodyNode findChildTags:@"div"];
-                                NSString *lastComment;
-                                BOOL isHashMatchedAtLast, doesHashAppears=NO;
-                                for (HTMLNode *spanNode in spanNodes) {
-                                    if ([[spanNode getAttributeNamed:@"class"] isEqualToString:@"push"]) {
-                                        lastComment = [spanNode rawContents];
-                                        result = [regex firstMatchInString:lastComment options:0 range:NSMakeRange(0, [lastComment length])];
-                                        
-                                        if (result) {
-                                            isHashMatchedAtLast = NO;
-                                            NSRange group1 = [result rangeAtIndex:1]; // push or dislike
-                                            NSRange group2 = [result rangeAtIndex:2]; // user id withspace
-                                            NSRange group3 = [result rangeAtIndex:3]; // comment with space
-                                            NSRange group4 = [result rangeAtIndex:4]; // user ip (if required by board) + date
-                                            
-                                            lastCommentID = [lastComment substringWithRange:group2];
-                                            combinedString = [NSString stringWithFormat:@"%@%@%@%@",[lastComment substringWithRange:group1],[lastComment substringWithRange:group2],[lastComment substringWithRange:group3],[lastComment substringWithRange:group4]];
-                                            if([[combinedString MD5String] isEqualToString:article.lastLineHash]) {
-                                                isHashMatchedAtLast = YES;
-                                                doesHashAppears = YES;
-                                            } else if([article.lastLineHash isEqualToString:@""]) {
-                                                // stored last line is empty, but we now found new comment
-                                                doesHashAppears = YES;
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                // if lastCommentID is user himself, we don't need to notify him.
-                                if(doesHashAppears && !isHashMatchedAtLast && ![lastCommentID isEqualToString:_loginID]) {
-                                    // hash matched AND it's not at the last line
-                                    // it means that we have new comment
-                                    // need to alert user and update lastLineHash
-                                    NSLog(@"Found new comment!!!");
-                                    ++newCommentCount;
-                                    [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
-                                        [db beginTransaction];
-                                        NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET astatus='%d', lastLineHash='%@' WHERE board='%@' AND aid='%@' AND owner='%@'", 1, [combinedString MD5String], article.board, article.aid, _loginID];
-                                        [db executeUpdate: sql];
-                                        [db commit];
-                                    }];
-                                    
-                                    // alert user
-                                    // remove old notification (if user hasn't clicked yet)
-                                    identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
-                                    
-                                    for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
-                                        NSString* identifier = [existing_notification valueForKey:@"identifier"];
-                                        if ([identifier isEqualToString:[identifyString MD5String]]) {
-#ifdef _DEBUG
-                                            NSLog(@"Found old notifification, remove it!!!");
-#endif
-                                            [notification_center removeDeliveredNotification:existing_notification];
-                                            break;
-                                        }
-                                    }
-                                    
-                                    // create a notification with new lastLineofHash
-                                    NSUserNotification *notification = [[NSUserNotification alloc] init];
-                                    notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
-                                    notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
-                                    notification.soundName = NSUserNotificationDefaultSoundName;
-                                    identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
-                                    notification.identifier = [identifyString MD5String];
-                                    
-                                    [notification_center deliverNotification:notification];
-                                    [notification_center setDelegate:self];
-                                } else if (doesHashAppears && isHashMatchedAtLast) {
-                                    // hash match but it's at the last line
-                                    // do nothing
-#ifdef _DEBUG
-                                    NSLog(@"%@ nothing new.", article.title);
-#endif
-                                }
+                            HTMLParser *parser = [[HTMLParser alloc] initWithString:body error:&error];
+                            
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                                ++parseError;
                                 [parser release];
-                            } else if(r.responseStatus == 404) {
-                                // post deleted
-                                // disable tracking && change article status
-                                ++count404;
+                                continue;
+                            }
+                            
+                            HTMLNode *bodyNode = [parser body];
+                            NSArray *spanNodes = [bodyNode findChildTags:@"div"];
+                            NSString *lastComment;
+                            BOOL isHashMatchedAtLast, doesHashAppears=NO;
+                            for (HTMLNode *spanNode in spanNodes) {
+                                if ([[spanNode getAttributeNamed:@"class"] isEqualToString:@"push"]) {
+                                    lastComment = [spanNode rawContents];
+                                    result = [regex firstMatchInString:lastComment options:0 range:NSMakeRange(0, [lastComment length])];
+                                    
+                                    if (result) {
+                                        isHashMatchedAtLast = NO;
+                                        NSRange group1 = [result rangeAtIndex:1]; // push or dislike
+                                        NSRange group2 = [result rangeAtIndex:2]; // user id withspace
+                                        NSRange group3 = [result rangeAtIndex:3]; // comment with space
+                                        NSRange group4 = [result rangeAtIndex:4]; // user ip (if required by board) + date
+                                        
+                                        lastCommentID = [lastComment substringWithRange:group2];
+                                        combinedString = [NSString stringWithFormat:@"%@%@%@%@",[lastComment substringWithRange:group1],[lastComment substringWithRange:group2],[lastComment substringWithRange:group3],[lastComment substringWithRange:group4]];
+                                        if([[combinedString MD5String] isEqualToString:article.lastLineHash]) {
+                                            isHashMatchedAtLast = YES;
+                                            doesHashAppears = YES;
+                                        } else if([article.lastLineHash isEqualToString:@""]) {
+                                            // stored last line is empty, but we now found new comment
+                                            doesHashAppears = YES;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // if lastCommentID is user himself, we don't need to notify him.
+                            if(doesHashAppears && !isHashMatchedAtLast && ![lastCommentID isEqualToString:_loginID]) {
+                                // hash matched AND it's not at the last line
+                                // it means that we have new comment
+                                // need to alert user and update lastLineHash
+                                NSLog(@"Found new comment!!!");
+                                ++newCommentCount;
                                 [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                                     [db beginTransaction];
-                                    NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d', astatus='%d' WHERE board='%@' AND aid='%@' AND owner='%@'", 0, 2, article.board, article.aid, _loginID];
+                                    NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET astatus='%d', lastLineHash='%@' WHERE board='%@' AND aid='%@' AND owner='%@'", 1, [combinedString MD5String], article.board, article.aid, _loginID];
                                     [db executeUpdate: sql];
                                     [db commit];
                                 }];
@@ -318,45 +277,88 @@
                                 // alert user
                                 // remove old notification (if user hasn't clicked yet)
                                 identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
-                                //NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
+                                
                                 for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
                                     NSString* identifier = [existing_notification valueForKey:@"identifier"];
                                     if ([identifier isEqualToString:[identifyString MD5String]]) {
+#ifdef _DEBUG
+                                        NSLog(@"Found old notifification, remove it!!!");
+#endif
                                         [notification_center removeDeliveredNotification:existing_notification];
                                         break;
                                     }
                                 }
                                 
-                                // create a new notification
+                                // create a notification with new lastLineofHash
                                 NSUserNotification *notification = [[NSUserNotification alloc] init];
-                                notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
-                                notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
-                                notification.identifier = [identifyString MD5String];
+                                notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
+                                notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
                                 notification.soundName = NSUserNotificationDefaultSoundName;
+                                identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
+                                notification.identifier = [identifyString MD5String];
                                 
                                 [notification_center deliverNotification:notification];
                                 [notification_center setDelegate:self];
-                            } else {
-                                // just skip and see if we can have good luck on next try
-                                ++httpError;
-                                continue;
-                            } // end of if http code == 200
-                        }
-                        // sleep 0.5 second before moving to next article
-                        [Answers logCustomEventWithName:@"monitor article" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount],
-                                                                                              @"HTTP parse error": [NSNumber numberWithInt:parseError],
-                                                                                              @"HTTP non-200/404 req": [NSNumber numberWithInt:httpError],
-                                                                                              @"HTTP 404 req": [NSNumber numberWithInt:count404]
-                                                                                              }];
-                        [NSThread sleepForTimeInterval:0.8f];
+                            } else if (doesHashAppears && isHashMatchedAtLast) {
+                                // hash match but it's at the last line
+                                // do nothing
+#ifdef _DEBUG
+                                //NSLog(@"%@ nothing new.", article.title);
+#endif
+                            }
+                            [parser release];
+                        } else if(r.responseStatus == 404) {
+                            // post deleted
+                            // disable tracking && change article status
+                            ++count404;
+                            [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
+                                [db beginTransaction];
+                                NSString *sql = [NSString stringWithFormat:@"UPDATE PttArticle SET needTrack='%d', astatus='%d' WHERE board='%@' AND aid='%@' AND owner='%@'", 0, 2, article.board, article.aid, _loginID];
+                                [db executeUpdate: sql];
+                                [db commit];
+                            }];
+                            
+                            // alert user
+                            // remove old notification (if user hasn't clicked yet)
+                            identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
+                            //NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
+                            for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
+                                NSString* identifier = [existing_notification valueForKey:@"identifier"];
+                                if ([identifier isEqualToString:[identifyString MD5String]]) {
+                                    [notification_center removeDeliveredNotification:existing_notification];
+                                    break;
+                                }
+                            }
+                            
+                            // create a new notification
+                            NSUserNotification *notification = [[NSUserNotification alloc] init];
+                            notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
+                            notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
+                            notification.identifier = [identifyString MD5String];
+                            notification.soundName = NSUserNotificationDefaultSoundName;
+                            
+                            [notification_center deliverNotification:notification];
+                            [notification_center setDelegate:self];
+                        } else {
+                            // just skip and see if we can have good luck on next try
+                            ++httpError;
+                            continue;
+                        } // end of if http code == 200
                     }
-                    [resultArray removeAllObjects];
-                } // end of resultArray > 0
-                [NSThread sleepForTimeInterval:300];
-            } // end for inifinte loop
+                    // sleep 0.5 second before moving to next article
+                    [Answers logCustomEventWithName:@"monitor article" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount],
+                                                                                          @"HTTP parse error": [NSNumber numberWithInt:parseError],
+                                                                                          @"HTTP non-200/404 req": [NSNumber numberWithInt:httpError],
+                                                                                          @"HTTP 404 req": [NSNumber numberWithInt:count404]
+                                                                                          }];
+                    [NSThread sleepForTimeInterval:0.8f];
+                }
+                [resultArray removeAllObjects];
+            } // end of resultArray > 0
+            [resultArray release];
             return;
-        });
-    }
+        } // end of releasepool
+    });
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
@@ -393,7 +395,12 @@
     [NSThread detachNewThreadSelector:@selector(login) toTarget:self withObject:nil];
     
     // create a thread to monitor article status
-    [self monitorArticleAtBackground];
+    //[self monitorArticleAtBackground];
+    // check just after login
+    [NSTimer scheduledTimerWithTimeInterval:7.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:NO];
+    
+    // now check regularly
+    [NSTimer scheduledTimerWithTimeInterval:600.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
 }
 
 - (void)protocolDidRecv:(id)protocol 
@@ -498,9 +505,10 @@
     const char *account = [addr UTF8String];
     const int sleepTime = 100000, maxAttempt = 700;
     int i=0, j;
-    BOOL onLoginScreen = NO;
+    BOOL onLoginScreen = NO, passSent = NO;
     NSString *textLine;
     
+    [self setLoginID:@""];
     while(i< maxAttempt) {
         ++i;
         usleep(sleepTime);
@@ -509,6 +517,55 @@
             textLine = [self getTerminalNthLine:j];
             if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"]) {
                 onLoginScreen = YES;
+                
+                // telnet or wss; send username
+                if (![addr hasPrefix:@"ssh"]) {
+                    char *pe = strchr(account, '@');
+                    if (pe) {
+                        char *ps = pe;
+                        for (; ps >= account; --ps)
+                            if (*ps == ' ' || *ps == '/')
+                                break;
+                        if (ps != pe) {
+                            while ([_feeder cursorY] <= 3)
+                                sleep(1);
+                            [self sendBytes:ps+1 length:pe-ps-1];
+                            [self sendBytes:"\r" length:1];
+                        }
+                    }
+                    if([addr hasPrefix:@"telnet"] || [addr hasPrefix:@"wss"]){
+                        if ([addr containsString:@"@"]) {
+                            NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
+                            [self setLoginID:tmp];
+                            [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
+                        } else {
+                            [self setLoginID:@""];
+                        }
+                    } else {
+                        // user use old telnet style id@ptt.cc without "telnet://"
+                        if ([addr containsString:@"@"]) {
+                            NSString *tmp = [addr substringWithRange:NSMakeRange(0, [addr rangeOfString:@"@"].location)];
+                            [self setLoginID:tmp];
+                            [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
+                        } else {
+                            [self setLoginID:@""];
+                        }
+                    }
+                } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
+                    // user wants to autologin with shh
+                    addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
+                    NSString *account = [addr substringFromIndex: [addr rangeOfString:@"/"].location+1];
+                    [self sendText:account];
+                    [self sendBytes:"\r" length:1];
+                    [self setLoginID:account];
+                }else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
+                    [self sendBytes:"yes\r" length:4];
+                    sleep(1);
+                    [self setLoginID:@""];
+                } else {
+                    [self setLoginID:@""];
+                }
+                
                 break;
             }
         }
@@ -518,81 +575,38 @@
         }
     }
     
-    // telnet or wss; send username
-    if (![addr hasPrefix:@"ssh"]) {
-        char *pe = strchr(account, '@');
-        if (pe) {
-            char *ps = pe;
-            for (; ps >= account; --ps)
-                if (*ps == ' ' || *ps == '/')
+    if(![_loginID isEqualToString:@""]){
+        // send password
+        const char *service = "Welly";
+        UInt32 len = 0;
+        void *pass = 0;
+        
+        OSStatus status = SecKeychainFindGenericPassword(nil,
+                                                         strlen(service), service,
+                                                         strlen(account), account,
+                                                         &len, &pass,
+                                                         nil);
+        if (status == noErr) {
+            while(i< maxAttempt) {
+                // wait for the screen to refresh
+                ++i;
+                usleep(sleepTime);
+                for(j=20; j<25; ++j) {
+                    textLine = [self getTerminalNthLine:j];
+                    if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"]) {
+                        [self sendBytes:pass length:len];
+                        [self sendBytes:"\r" length:1];
+                        SecKeychainItemFreeContent(nil, pass);
+                        [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
+                        passSent = YES;
+                    }
+                }
+                if(passSent) {
                     break;
-            if (ps != pe) {
-                while ([_feeder cursorY] <= 3)
-                    sleep(1);
-                [self sendBytes:ps+1 length:pe-ps-1];
-                [self sendBytes:"\r" length:1];
-            }
-        }
-        if([addr hasPrefix:@"telnet"] || [addr hasPrefix:@"wss"]){
-            if ([addr containsString:@"@"]) {
-                NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
-                [self setLoginID:tmp];
-                [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
-            } else {
-                [self setLoginID:@""];
-            }
-        } else {
-            // user use old telnet style id@ptt.cc without "telnet://"
-            if ([addr containsString:@"@"]) {
-                NSString *tmp = [addr substringWithRange:NSMakeRange(0, [addr rangeOfString:@"@"].location)];
-                [self setLoginID:tmp];
-                [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
-            } else {
-                [self setLoginID:@""];
-            }
-        }
-    } else if([addr hasPrefix:@"ssh://"] && [addr rangeOfString:@"/" options:NSBackwardsSearch].location > 5) {
-        // user wants to autologin with shh
-        addr = [addr substringFromIndex:[addr rangeOfString:@":"].location+3];
-        NSString *account = [addr substringFromIndex: [addr rangeOfString:@"/"].location+1];
-        [self sendText:account];
-        [self sendBytes:"\r" length:1];
-        [self setLoginID:account];
-    }else if ([_feeder grid][[_feeder cursorY]][[_feeder cursorX] - 2].byte == '?') {
-        [self sendBytes:"yes\r" length:4];
-        sleep(1);
-        [self setLoginID:@""];
-    } else {
-        [self setLoginID:@""];
-    }
-    
-    // send password
-    const char *service = "Welly";
-    UInt32 len = 0;
-    void *pass = 0;
-    
-    OSStatus status = SecKeychainFindGenericPassword(nil,
-                                                     strlen(service), service,
-                                                     strlen(account), account,
-                                                     &len, &pass,
-                                                     nil);
-    if (status == noErr) {
-        while(i< maxAttempt) {
-            // wait for the screen to refresh
-            ++i;
-            usleep(sleepTime);
-            for(j=20; j<25; ++j) {
-                textLine = [self getTerminalNthLine:j];
-                if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"]) {
-                    [self sendBytes:pass length:len];
-                    [self sendBytes:"\r" length:1];
-                    SecKeychainItemFreeContent(nil, pass);
-                    [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
-                    return;
                 }
             }
+            
         }
-        
     }
     
     [pool release];
