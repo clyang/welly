@@ -210,7 +210,7 @@
                     NSTextCheckingResult *result;
                     NSString *combinedString=@"";
                     for( WLArticle* article in resultArray) {
-                        if(article.needTrack > 0 && article.astatus < 2) { // need track AND article is not delteed
+                        if(article.needTrack > 0 && article.astatus < 2 && _connected) { // need track AND article is not delteed
                             STHTTPRequest *r = [STHTTPRequest requestWithURLString:[NSString stringWithFormat:@"https://www.ptt.cc/bbs/%@.html", article.url]];
                             [r addCookieWithName:@"over18" value:@"1"];
                             [r setHeaderWithName:@"User-Agent" value:@"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Safari/604.1.38"];
@@ -354,6 +354,7 @@
                 } // end of resultArray > 0
                 [NSThread sleepForTimeInterval:300];
             } // end for inifinte loop
+            return;
         });
     }
 }
