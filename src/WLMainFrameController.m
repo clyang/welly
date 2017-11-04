@@ -602,16 +602,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
 				returnCode:(int)returnCode 
 			   contextInfo:(void *)contextInfo {
     [[NSUserDefaults standardUserDefaults] synchronize];
-
-    // make sure set each tab's connection to NO state so thread won't alive after app is quite.
-    int tabNumber = [_tabView numberOfTabViewItems];
-    for (int i = 0; i < tabNumber; i++) {
-        id connection = [[[_tabView tabViewItemAtIndex:i] identifier] content];
-        if ([connection isKindOfClass:[WLConnection class]] && [connection isConnected]) {
-            [connection setConnected:NO];
-        }
-    }
-    
     [NSApp replyToApplicationShouldTerminate:(returnCode == NSAlertDefaultReturn)];
 }
 

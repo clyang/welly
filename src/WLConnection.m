@@ -297,7 +297,7 @@
                                 identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
                                 notification.identifier = [identifyString MD5String];
                                 
-                                [notification_center deliverNotification:notification];
+                                [notification_center scheduleNotification:notification];
                                 [notification_center setDelegate:self];
                             } else if (doesHashAppears && isHashMatchedAtLast) {
                                 // hash match but it's at the last line
