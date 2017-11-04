@@ -101,6 +101,9 @@
 		// Setup the message delegate
         _messageDelegate = [[WLMessageDelegate alloc] init];
         [_messageDelegate setConnection: self];
+        
+        // notification center
+        [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate: self];
     }
     return self;
 }
@@ -164,9 +167,9 @@
     // create a background thread
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @autoreleasepool{
-            NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
+            //NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
             NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"tag\">([推噓→]).*userid\">(\\w{2,12}).*content\">: (.+)</span><span.*ipdatetime\"> +(.*)" options:NSRegularExpressionSearch error:nil];
-            NSString *identifyString, *lastCommentID;
+            NSString *lastCommentID;
             NSError *error = nil;
             int count404, parseError, newCommentCount, httpError;
             
@@ -274,31 +277,16 @@
                                     [db commit];
                                 }];
                                 
-                                // alert user
-                                // remove old notification (if user hasn't clicked yet)
-                                identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
-                                
-                                for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
-                                    NSString* identifier = [existing_notification valueForKey:@"identifier"];
-                                    if ([identifier isEqualToString:[identifyString MD5String]]) {
-#ifdef _DEBUG
-                                        NSLog(@"Found old notifification, remove it!!!");
-#endif
-                                        [notification_center removeDeliveredNotification:existing_notification];
-                                        break;
-                                    }
-                                }
-                                
-                                // create a notification with new lastLineofHash
-                                NSUserNotification *notification = [[NSUserNotification alloc] init];
-                                notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
-                                notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
-                                notification.soundName = NSUserNotificationDefaultSoundName;
-                                identifyString = [NSString stringWithFormat:@"%@%@", article.title, [combinedString MD5String]];
-                                notification.identifier = [identifyString MD5String];
-                                
-                                [notification_center scheduleNotification:notification];
-                                [notification_center setDelegate:self];
+                                // create a notification
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    NSUserNotification *notification = [[NSUserNotification alloc] init];
+                                    notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
+                                    notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
+                                    notification.soundName = NSUserNotificationDefaultSoundName;
+                                    
+                                    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+                                    [notification release];
+                                });
                             } else if (doesHashAppears && isHashMatchedAtLast) {
                                 // hash match but it's at the last line
                                 // do nothing
@@ -318,34 +306,23 @@
                                 [db commit];
                             }];
                             
-                            // alert user
-                            // remove old notification (if user hasn't clicked yet)
-                            identifyString = [NSString stringWithFormat:@"%@%@", article.title, article.lastLineHash];
-                            //NSUserNotificationCenter* notification_center = [NSUserNotificationCenter defaultUserNotificationCenter];
-                            for (NSUserNotification* existing_notification in [notification_center deliveredNotifications]) {
-                                NSString* identifier = [existing_notification valueForKey:@"identifier"];
-                                if ([identifier isEqualToString:[identifyString MD5String]]) {
-                                    [notification_center removeDeliveredNotification:existing_notification];
-                                    break;
-                                }
-                            }
-                            
                             // create a new notification
-                            NSUserNotification *notification = [[NSUserNotification alloc] init];
-                            notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
-                            notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
-                            notification.identifier = [identifyString MD5String];
-                            notification.soundName = NSUserNotificationDefaultSoundName;
-                            
-                            [notification_center deliverNotification:notification];
-                            [notification_center setDelegate:self];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                NSUserNotification *notification = [[NSUserNotification alloc] init];
+                                notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
+                                notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
+                                notification.soundName = NSUserNotificationDefaultSoundName;
+                                
+                                [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+                                [notification release];
+                            });
                         } else {
                             // just skip and see if we can have good luck on next try
                             ++httpError;
                             continue;
                         } // end of if http code == 200
                     }
-                    // sleep 0.5 second before moving to next article
+                    // sleep 0.8 second before moving to next article
                     [Answers logCustomEventWithName:@"monitor article" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount],
                                                                                           @"HTTP parse error": [NSNumber numberWithInt:parseError],
                                                                                           @"HTTP non-200/404 req": [NSNumber numberWithInt:httpError],
@@ -376,6 +353,11 @@
     
 }
 
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification {
+    return YES;
+}
+
+
 - (void)protocolDidConnect:(id)protocol {
     [self setIsProcessing:NO];
     [self setConnected:YES];
@@ -400,7 +382,7 @@
     [NSTimer scheduledTimerWithTimeInterval:7.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:NO];
     
     // now check regularly
-    [NSTimer scheduledTimerWithTimeInterval:600.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
 }
 
 - (void)protocolDidRecv:(id)protocol 
