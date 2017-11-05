@@ -20,6 +20,30 @@
 @end
 
 @implementation WLTabBarControl
+
+- (void)closeTabClick:(id)sender
+{
+    NSTabViewItem *item = [sender representedObject];
+    [sender retain];
+    if(([_cells count] == 1) && (![self canCloseOnlyTab]))
+        return;
+    
+    if ([[self delegate] respondsToSelector:@selector(tabView:shouldCloseTabViewItem:)]) {
+        if (![[self delegate] tabView:tabView shouldCloseTabViewItem:item]) {
+            // fix mouse downed close button
+            [sender setCloseButtonPressed:NO];
+            [sender release];
+            return;
+        }
+    }
+    
+    [item retain];
+    
+    [tabView removeTabViewItem:item];
+    [item release];
+    [sender release];
+}
+
 - (void)mouseDown:(NSEvent *)theEvent {
     // double click
     if ([theEvent clickCount] > 1) {
