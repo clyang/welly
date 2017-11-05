@@ -405,7 +405,10 @@
     [NSTimer scheduledTimerWithTimeInterval:7.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:NO];
     
     // now check regularly
+#ifdef _DEBUG
     [NSTimer scheduledTimerWithTimeInterval:120.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
+#endif
+    [NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
 }
 
 - (void)protocolDidRecv:(id)protocol 
