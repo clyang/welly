@@ -277,20 +277,20 @@
                                     [db commit];
                                 }];
                                 
-                                // remove previous notification with same title
-                                for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
-                                    NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
-                                    if ([subtitle isEqualToString:[NSString stringWithFormat:@"%@版 - %@", article.board, article.title]]) {
-#ifdef _DEBUG
-                                        NSLog(@"Found old notifification with same title, remove it!");
-#endif
-                                        [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
-                                        break;
-                                    }
-                                }
-                                
                                 // create a notification
                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                    // remove previous notification with same title
+                                    for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+                                        NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
+                                        if ([subtitle isEqualToString:[NSString stringWithFormat:@"%@版 - %@", article.board, article.title]]) {
+#ifdef _DEBUG
+                                            NSLog(@"Found old notifification with same title, remove it!");
+#endif
+                                            [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
+                                            break;
+                                        }
+                                    }
+                                    
                                     NSUserNotification *notification = [[NSUserNotification alloc] init];
                                     notification.title = NSLocalizedString(@"Tracked article has new comment!", @"Article Tracking");
                                     notification.subtitle = [NSString stringWithFormat:@"%@版 - %@", article.board, article.title];
@@ -317,21 +317,20 @@
                                 [db executeUpdate: sql];
                                 [db commit];
                             }];
-                            
-                            // remove previous notification with same title
-                            for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
-                                NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
-                                if ([subtitle isEqualToString:[NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title]]) {
-#ifdef _DEBUG
-                                    NSLog(@"Found old notifification with same title, remove it!");
-#endif
-                                    [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
-                                    break;
-                                }
-                            }
-                            
                             // create a new notification
                             dispatch_async(dispatch_get_main_queue(), ^{
+                                // remove previous notification with same title
+                                for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+                                    NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
+                                    if ([subtitle isEqualToString:[NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title]]) {
+#ifdef _DEBUG
+                                        NSLog(@"Found old notifification with same title, remove it!");
+#endif
+                                        [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
+                                        break;
+                                    }
+                                }
+                                
                                 NSUserNotification *notification = [[NSUserNotification alloc] init];
                                 notification.title = NSLocalizedString(@"Tracked article has been deleted!", @"Article Tracking");
                                 notification.subtitle = [NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title];
