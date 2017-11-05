@@ -277,6 +277,18 @@
                                     [db commit];
                                 }];
                                 
+                                // remove previous notification with same title
+                                for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+                                    NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
+                                    if ([subtitle isEqualToString:[NSString stringWithFormat:@"%@版 - %@", article.board, article.title]]) {
+#ifdef _DEBUG
+                                        NSLog(@"Found old notifification with same title, remove it!");
+#endif
+                                        [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
+                                        break;
+                                    }
+                                }
+                                
                                 // create a notification
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     NSUserNotification *notification = [[NSUserNotification alloc] init];
@@ -305,6 +317,18 @@
                                 [db executeUpdate: sql];
                                 [db commit];
                             }];
+                            
+                            // remove previous notification with same title
+                            for (NSUserNotification* existing_notification in [[NSUserNotificationCenter defaultUserNotificationCenter] deliveredNotifications]) {
+                                NSString* subtitle = [existing_notification valueForKey:@"subtitle"];
+                                if ([subtitle isEqualToString:[NSString stringWithFormat:@"自動取消追蹤%@版 - %@", article.board, article.title]]) {
+#ifdef _DEBUG
+                                    NSLog(@"Found old notifification with same title, remove it!");
+#endif
+                                    [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:existing_notification];
+                                    break;
+                                }
+                            }
                             
                             // create a new notification
                             dispatch_async(dispatch_get_main_queue(), ^{
@@ -382,7 +406,7 @@
     [NSTimer scheduledTimerWithTimeInterval:7.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:NO];
     
     // now check regularly
-    [NSTimer scheduledTimerWithTimeInterval:300.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:120.0f target:self selector:@selector(monitorArticleAtBackground:) userInfo:nil repeats:YES];
 }
 
 - (void)protocolDidRecv:(id)protocol 
