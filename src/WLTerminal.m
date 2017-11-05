@@ -61,7 +61,6 @@
 	free(_textBuf);
 	
 	[_observers release];
-    [_blackListArray release];
     [super dealloc];
 }
 
@@ -388,7 +387,9 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"  +" options:NSRegularExpressionCaseInsensitive error:&error];
     tmp = [regex stringByReplacingMatchesInString:tmp options:0 range:NSMakeRange(0, [tmp length]) withTemplate:@" "];
     
-    [self setBlackListArray:[tmp componentsSeparatedByString:@" "]];
+    if(tmp.length > 0){
+        [self setBlackListArray:[tmp componentsSeparatedByString:@" "]];
+    }
     
     // FIXME: BBS type is temoprarily determined by the ansi color key.
     // remove #import "YLSite.h" when fixed.
