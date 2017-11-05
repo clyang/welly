@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
     [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
         NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@'", loginID]];
         if(count > 0) {
-            FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM PttArticle WHERE owner='%@' ORDER BY astatus DESC", loginID]];
+            FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT arID, owner, author, aid, board, title, url, lastLineHash, needTrack, astatus, datetime(ownTime, 'localtime') as ownTime FROM PttArticle WHERE owner='%@' ORDER BY astatus DESC", loginID]];
             self.nsMutaryDataObj = [[NSMutableArray alloc] init];
             
             while ([set next]) {
