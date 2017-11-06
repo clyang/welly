@@ -61,7 +61,7 @@
 }
 
 - (void)selectTabViewItemAtIndex:(NSInteger)index {
-    if ([[self cells] count] > 0 && [[self cells] count] < index) {
+    if ([[self cells] count] > 0 && [[self cells] count] > index) {
         NSTabViewItem *tabViewItem = [[[self cells] objectAtIndex:index] representedObject];
         [[self tabView] selectTabViewItem:tabViewItem];
     }
