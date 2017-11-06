@@ -61,8 +61,10 @@
 }
 
 - (void)selectTabViewItemAtIndex:(NSInteger)index {
-    NSTabViewItem *tabViewItem = [[[self cells] objectAtIndex:index] representedObject];
-    [[self tabView] selectTabViewItem:tabViewItem];
+    if ([[self cells] count] > 0 && [[self cells] count] < index) {
+        NSTabViewItem *tabViewItem = [[[self cells] objectAtIndex:index] representedObject];
+        [[self tabView] selectTabViewItem:tabViewItem];
+    }
 }
 
 - (void)selectFirstTabViewItem:(id)sender {
