@@ -382,13 +382,15 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     // Retrive and process blacklist at once,
     // so we don't have to fetch with each operation
     NSString *tmp = [[[_connection site] idBlacklist] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"  +" options:NSRegularExpressionCaseInsensitive error:&error];
-    tmp = [regex stringByReplacingMatchesInString:tmp options:0 range:NSMakeRange(0, [tmp length]) withTemplate:@" "];
     
-    if(tmp.length > 0){
-        [self setBlackListArray:[tmp componentsSeparatedByString:@" "]];
+    if([tmp length] > 0){
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"  +" options:NSRegularExpressionCaseInsensitive error:&error];
+        tmp = [regex stringByReplacingMatchesInString:tmp options:0 range:NSMakeRange(0, [tmp length]) withTemplate:@" "];
+        
+        if(tmp.length > 0){
+            [self setBlackListArray:[tmp componentsSeparatedByString:@" "]];
+        }
     }
     
     // FIXME: BBS type is temoprarily determined by the ansi color key.
