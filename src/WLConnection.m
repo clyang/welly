@@ -381,7 +381,7 @@
         WLTabView *view = [[WLMainFrameController sharedInstance] tabView];
         [[view window] makeKeyAndOrderFront:nil];
         // select the tab
-        [view selectTabViewItemWithIdentifier:[self tabViewItemController]];
+        [view selectTabViewItemSafelyWithIdentifier:[self tabViewItemController]];
         [[WLTrackArticlePanel sharedInstance] openTrackArticleWindow:[view window]
                                                          forTerminal:self.terminal];
         [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
