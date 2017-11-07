@@ -27,6 +27,19 @@
 #import "WLTrackArticlePanel.h"
 #import <Crashlytics/Crashlytics.h>
 
+@implementation NSTabView (Safe)
+
+- (void)selectTabViewItemSafelyWithIdentifier:(NSString*)identifier {
+    NSLog(@"inside safer safer");
+    NSInteger index = [self indexOfTabViewItemWithIdentifier:identifier] ;
+    if (index != NSNotFound) {
+        [self selectTabViewItemAtIndex:index] ;
+    } else {
+        NSLog(@"not safe index got!!!");
+    }
+}
+
+@end
 
 @implementation NSString (TrimmingAdditions)
 
