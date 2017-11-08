@@ -77,19 +77,25 @@
 	[self exitPresentationMode];
 	
 	// TODO: why not put these in WLTabView?
-    if (![[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]] ||
-		![[[tabViewItem identifier] content] isConnected]) 
+    if (![[[tabViewItem identifier] content] isKindOfClass:[WLConnection class]]) {
 		return YES;
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) 
+    } else if(![[[tabViewItem identifier] content] isConnected]){
+        return YES;
+    } else if (![[NSUserDefaults standardUserDefaults] boolForKey:WLConfirmOnCloseEnabledKeyName]) {
+        [[[tabViewItem identifier] content] setConnected:NO];
 		return YES;
+    }
 	
     NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to close this tab?", @"Sheet Title")
 									 defaultButton:NSLocalizedString(@"Close", @"Default Button")
 								   alternateButton:NSLocalizedString(@"Cancel", @"Cancel Button")
 									   otherButton:nil
 						 informativeTextWithFormat:NSLocalizedString(@"The connection is still alive. If you close this tab, the connection will be lost. Do you want to close this tab anyway?", @"Sheet Message")];
-    if ([alert runModal] == NSAlertDefaultReturn)
+    if ([alert runModal] == NSAlertDefaultReturn){
+        [[[tabViewItem identifier] content] setConnected:NO];
         return YES;
+    }
+    
     return NO;
 }
 
