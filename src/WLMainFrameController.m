@@ -396,13 +396,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
     if ([_tabView numberOfTabViewItems] == 0) return;
     NSString *address = [[[_tabView frontMostConnection] site] address];
     
-    for (WLSite *s in [WLSitesPanelController sites])
-        if ([[s address] isEqualToString:address]) 
-            return;
-    
-    WLSite *site = [[_tabView frontMostConnection] site];
-    [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow 
-														 andAddSite:site];
+    if(address){
+        for (WLSite *s in [WLSitesPanelController sites])
+            if ([[s address] isEqualToString:address])
+                return;
+        
+        WLSite *site = [[_tabView frontMostConnection] site];
+        [[WLSitesPanelController sharedInstance] openSitesPanelInWindow:_mainWindow
+                                                             andAddSite:site];
+    }
 }
 
 - (IBAction)openEmoticonsPanel:(id)sender {
