@@ -384,7 +384,7 @@ inline static BOOL hasAnyString(NSString *row, NSArray *array) {
     NSString *tmp = [[[_connection site] idBlacklist] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSError *error = nil;
     
-    if([tmp length] > 0){
+    if(tmp && [tmp length] > 0){
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"  +" options:NSRegularExpressionCaseInsensitive error:&error];
         tmp = [regex stringByReplacingMatchesInString:tmp options:0 range:NSMakeRange(0, [tmp length]) withTemplate:@" "];
         
