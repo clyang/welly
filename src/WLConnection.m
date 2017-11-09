@@ -535,9 +535,9 @@
         ++i;
         usleep(sleepTime);
         // make sure we're on login screen
-        for(j=20; j<24; ++j) {
+        for(j=20; j<25; ++j) {
             textLine = [self getTerminalNthLine:j];
-            if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"]) {
+            if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"] || [textLine containsString:@"代号:"] || [textLine containsString:@"帳號("]) {
                 onLoginScreen = YES;
                 
                 // telnet or wss; send username
@@ -615,7 +615,7 @@
                 usleep(sleepTime);
                 for(j=20; j<25; ++j) {
                     textLine = [self getTerminalNthLine:j];
-                    if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"] || [textLine containsString:@"密碼]"]) {
+                    if([textLine containsString:@"密碼："] || [textLine containsString:@"密碼:"] || [textLine containsString:@"密碼]"] || [textLine containsString:@"密码:"]) {
                         [self sendBytes:pass length:len];
                         [self sendBytes:"\r" length:1];
                         SecKeychainItemFreeContent(nil, pass);
