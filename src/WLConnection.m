@@ -521,8 +521,6 @@
 }
 
 - (void)login {
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    
     NSString *addr = [_site address];
     const char *account = [addr UTF8String];
     const int sleepTime = 100000, maxAttempt = 700;
@@ -537,7 +535,7 @@
         // make sure we're on login screen
         for(j=20; j<25; ++j) {
             textLine = [self getTerminalNthLine:j];
-            if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"] || [textLine containsString:@"代号:"] || [textLine containsString:@"帳號("]) {
+            if([textLine containsString:@"請輸入"] || [textLine containsString:@"您的"] || [textLine containsString:@"代号:"] || [textLine containsString:@""]) {
                 onLoginScreen = YES;
                 
                 // telnet or wss; send username
@@ -630,8 +628,6 @@
             
         }
     }
-    
-    [pool release];
     return;
 }
 
