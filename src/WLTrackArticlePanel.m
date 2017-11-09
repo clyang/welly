@@ -451,9 +451,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         return;
     } else {
         // successfully enter the board by double-clicking so we can clear article status to 0
+        // move to the end of the article
+        [conn sendBytes:"$" length:1];
+        
         [self performSelectorOnMainThread:@selector(clearArticleStatus:) withObject:article waitUntilDone:YES];
         [self performSelectorOnMainThread:@selector(closeTrackArticleWindow:) withObject:[NSObject new] waitUntilDone:NO];
     }
+    
+    
 }
 
 - (void)clearArticleStatus:(WLArticle *) article {
