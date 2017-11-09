@@ -572,7 +572,11 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     int lineNum1, lineNum2, w, h, hPerRow, totalHeight, totalPage, i, startY;
     NSMutableArray *screenArray;
     NSImage *result;
-    NSFont *font = [NSFont fontWithName:@"STHeitiTC-Medium" size:17.0];
+    NSFont *font = [NSFont fontWithName:@"PingFang TC Medium" size:17.0];
+    if(!font) {
+        // older mac version
+        font = [NSFont fontWithName:@"STHeitiTC-Medium" size:17.0];
+    }
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
     
     //footer watermark
