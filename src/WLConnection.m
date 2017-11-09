@@ -30,7 +30,6 @@
 @implementation NSTabView (Safe)
 
 - (void)selectTabViewItemSafelyWithIdentifier:(NSString*)identifier {
-    NSLog(@"inside safer safer");
     NSInteger index = [self indexOfTabViewItemWithIdentifier:identifier] ;
     if (index != NSNotFound) {
         [self selectTabViewItemAtIndex:index] ;
@@ -187,7 +186,9 @@
             int count404, parseError, newCommentCount, httpError;
             
             // let's rock'n'roll
+#ifdef _DEBUG
             NSLog(@"start to monitor articles for user: %@", _loginID);
+#endif
             __block NSMutableArray *resultArray = [[NSMutableArray alloc] init];
             [[WLTrackDB sharedDBTools].queue inDatabase:^(FMDatabase *db) {
                 NSUInteger count = [db intForQuery:[NSString stringWithFormat:@"SELECT COUNT(arID) FROM PttArticle WHERE owner='%@' AND needTrack=1", _loginID]];
@@ -359,13 +360,25 @@
                         } // end of if http code == 200
                     }
                     // sleep 0.8 second before moving to next article
-                    [Answers logCustomEventWithName:@"monitor article" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount],
-                                                                                          @"HTTP parse error": [NSNumber numberWithInt:parseError],
-                                                                                          @"HTTP non-200/404 req": [NSNumber numberWithInt:httpError],
-                                                                                          @"HTTP 404 req": [NSNumber numberWithInt:count404]
-                                                                                          }];
                     [NSThread sleepForTimeInterval:0.8f];
                 }
+                
+                if(newCommentCount > 0 ) {
+                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount]}];
+                }
+                
+                if(parseError > 0 ) {
+                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP parse error": [NSNumber numberWithInt:parseError]}];
+                }
+                
+                if(httpError > 0 ) {
+                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP non-200/404 req": [NSNumber numberWithInt:httpError]}];
+                }
+                
+                if(count404 > 0 ) {
+                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP 404 req": [NSNumber numberWithInt:count404]}];
+                }
+                
                 [resultArray removeAllObjects];
             } // end of resultArray > 0
             [resultArray release];
