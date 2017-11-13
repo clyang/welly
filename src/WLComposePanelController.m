@@ -147,7 +147,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 	// get the underline style attribute of the first character in the text view
 	id underlineStyle = [storage attribute:NSUnderlineStyleAttributeName atIndex:selectedRange.location effectiveRange:nil];
 	// if already underlined, then the user is meant to remove the line.
-	if ([underlineStyle intValue] == NSUnderlineStyleNone) {
+	if (underlineStyle && [underlineStyle intValue] == NSUnderlineStyleNone) {
 		[storage addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInt:NSUnderlineStyleThick] range:selectedRange];
 	}
 	else
@@ -160,7 +160,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLComposePanelController);
 	
 	NSShadow *shadowAttribute = [storage attribute:NSShadowAttributeName atIndex:selectedRange.location effectiveRange:nil];
 	
-	if (shadowAttribute == nil) {
+	if (!shadowAttribute || shadowAttribute == nil) {
 		[storage addAttribute:NSShadowAttributeName value:_shadowForBlink range:selectedRange];
 	} else {
 		[storage removeAttribute:NSShadowAttributeName range:selectedRange];
