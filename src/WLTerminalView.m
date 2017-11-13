@@ -515,23 +515,27 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
             if(changePageStatus && ![bottomLine containsString:@"頁 (100%)"]) {
                 regex = [NSRegularExpression regularExpressionWithPattern:@"~(\\d+) 行" options:0 error:nil];
                 match = [regex firstMatchInString:[self getTerminalBottomLine] options:NSAnchoredSearch range:NSMakeRange(0, [self getTerminalBottomLine].length)];
-                needleRange = [match rangeAtIndex: 1];
-                needle = [bottomLine substringWithRange:needleRange];
-                lineNum1 = needle.intValue;
-                
-                [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
-                ++pageCount;
+                if(match){
+                    needleRange = [match rangeAtIndex: 1];
+                    needle = [bottomLine substringWithRange:needleRange];
+                    lineNum1 = needle.intValue;
+                    
+                    [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
+                    ++pageCount;
+                }
             } else if (changePageStatus && [bottomLine containsString:@"頁 (100%)"]) {
                 regex = [NSRegularExpression regularExpressionWithPattern:@"~(\\d+) 行" options:0 error:nil];
                 match = [regex firstMatchInString:[self getTerminalBottomLine] options:NSAnchoredSearch range:NSMakeRange(0, [self getTerminalBottomLine].length)];
-                needleRange = [match rangeAtIndex: 1];
-                needle = [bottomLine substringWithRange:needleRange];
-                lineNum2 = needle.intValue;
-                [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
-                
-                // last page reached, break for infinite while loop
-                [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"pagecount" : [NSNumber numberWithInt: (pageCount+1)]}];
-                break;
+                if(match){
+                    needleRange = [match rangeAtIndex: 1];
+                    needle = [bottomLine substringWithRange:needleRange];
+                    lineNum2 = needle.intValue;
+                    [self performSelectorOnMainThread:@selector(takeScreenShot:) withObject:screenArray waitUntilDone:YES];
+                    
+                    // last page reached, break for infinite while loop
+                    [Answers logCustomEventWithName:@"Long Screenshot" customAttributes:@{@"pagecount" : [NSNumber numberWithInt: (pageCount+1)]}];
+                    break;
+                }
             } else {
                 //show warn
                 [self performSelectorOnMainThread:@selector(showErrorMsg:) withObject:@"Something goes wrong while flipping the page (1)" waitUntilDone:YES];
@@ -543,15 +547,18 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
                 ++fnameCount;
                 regex = [NSRegularExpression regularExpressionWithPattern:@"~(\\d+) 行" options:0 error:nil];
                 match = [regex firstMatchInString:[self getTerminalBottomLine] options:NSAnchoredSearch range:NSMakeRange(0, [self getTerminalBottomLine].length)];
-                needleRange = [match rangeAtIndex: 1];
-                needle = [bottomLine substringWithRange:needleRange];
-                lineNum2 = needle.intValue;
-                finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname", [NSNumber numberWithInt:fnameCount], @"fnamecount", [NSNumber numberWithInt:0], @"status",nil];
-                [self performSelectorOnMainThread:@selector(genFinalScreenShot:) withObject:finalScreenShotDic waitUntilDone:YES];
-                // keep last screenshot as the first screen for new capture
-                [screenArray removeObjectsInRange:NSMakeRange(0, screenArray.count-1)];
+                if(match){
+                    needleRange = [match rangeAtIndex: 1];
+                    needle = [bottomLine substringWithRange:needleRange];
+                    lineNum2 = needle.intValue;
+                    finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname", [NSNumber numberWithInt:fnameCount], @"fnamecount", [NSNumber numberWithInt:0], @"status",nil];
+                    [self performSelectorOnMainThread:@selector(genFinalScreenShot:) withObject:finalScreenShotDic waitUntilDone:YES];
+                    // keep last screenshot as the first screen for new capture
+                    [screenArray removeObjectsInRange:NSMakeRange(0, screenArray.count-1)];
+                }
             }
-        }
+        } // end of while(yes)
+        
         // for the final round
         ++fnameCount;
         finalScreenShotDic = [NSDictionary dictionaryWithObjectsAndKeys:screenArray,@"screenArr",[NSNumber numberWithInt:lineNum1], @"lineNum1", [NSNumber numberWithInt:lineNum2], @"lineNum2", [NSString stringWithFormat:@"%@_%@", aTitle, aAuthor], @"fname", [NSNumber numberWithInt:fnameCount], @"fnamecount", [NSNumber numberWithInt:1], @"status",nil];
