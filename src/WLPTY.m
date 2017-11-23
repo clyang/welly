@@ -24,6 +24,7 @@
 #import "WLGlobalConfig.h"
 #import "WLPTY.h"
 #import "WLProxy.h"
+#import "WLConnection.h"
 
 #define CTRLKEY(c)   ((c)-'A'+1)
 
@@ -252,7 +253,7 @@
 }
 
 - (void)recv:(NSData *)data {
-    if (_connecting) {
+    if (_connecting && [_delegate isKindOfClass: [WLConnection class]]) {
         _connecting = NO;
         [_delegate protocolDidConnect:self];
     }
