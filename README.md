@@ -16,7 +16,7 @@ Special Thanks to: @ElvisChiang, @sunghau and @terces
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.3.1.0](https://github.com/clyang/welly/releases/tag/3.1.0)
+Welly - clyang edition: [v.3.1.1](https://github.com/clyang/welly/releases/tag/3.1.1)
 
 or install via `homebrew`
 
@@ -94,8 +94,13 @@ Q1: 連上後都是亂碼怎麼辦?
 A1: 點選上方menubar的 "顯示方式" -> "編碼" -> "正體中文"
 
 Q2: Welly該不會是偷偷記錄我的密碼, 然後在背景幫我登入偷偷檢查吧?
-A2: 程式是檢查PTT網頁版的文章, 所以您的密碼是不會被記錄的.Q3: 每五分鐘檢查一次好久啊, 我希望檢查能更頻繁些, 可以嗎?
-A3: 為了避免DoS PTT, 5分鐘是寫死在程式中不能更改的, 同時, 每次都是單線程抓取網頁, 降低對PTT Web frontend的影響.Q4: 我要換電腦了, 但是我一堆追蹤的文章該怎麼備份啊?A4: 把 `/Users/你mac帳號/Library/Application Support/Welly` 中的 `PttArticle.db` 備份起來, 換到新電腦後, 把檔案放回去即可.
+A2: 程式是檢查PTT網頁版的文章, 所以您的密碼是不會被記錄的.
+
+Q3: 每五分鐘檢查一次好久啊, 我希望檢查能更頻繁些, 可以嗎?
+A3: 為了避免DoS PTT, 5分鐘是寫死在程式中不能更改的, 同時, 每次都是單線程抓取網頁, 降低對PTT Web frontend的影響.
+
+Q4: 我要換電腦了, 但是我一堆追蹤的文章該怎麼備份啊?
+A4: 把 `/Users/你mac帳號/Library/Application Support/Welly` 中的 `PttArticle.db` 備份起來, 換到新電腦後, 把檔案放回去即可.
 
 Project Dependency / 程式相依性
 -------------
