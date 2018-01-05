@@ -68,7 +68,8 @@
 		
 	// Back up the original frame of _targetView
 	_originalFrame = [_tabView frame];
-	
+	_originalMainFrame = [_mainWindow frame];
+
 	// Get the fittest ratio for the expansion
 	NSRect screenRect = [[NSScreen mainScreen] frame];
 	
@@ -106,6 +107,7 @@
 	
 	[_mainWindow setOpaque:NO];
 	// Move view back
+	[_mainWindow setFrame:_originalMainFrame display:YES];
 	[_tabView setFrame:_originalFrame];
 	[_mainWindow setBackgroundColor:_originalWindowBackgroundColor];
 }
