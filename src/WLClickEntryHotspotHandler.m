@@ -233,9 +233,9 @@ NSString *const WLCommandSequenceSameAuthorReading = @"\025";	// ^U
 BOOL isPostTitleStarter(unichar c) {
 	// smth: 0x25cf (solid circle "●"), 0x251c ("├"), 0x2514 ("└"), 0x2605("★")
 	// free/sjtu: 0x25c6 (solid diamond "◆")
-	// ptt: 0x25a1 (hollow square "□")
+	// ptt: 0x25a1 (hollow square "□"), 0x8f49 (traditional chinese word "轉")
 	return (c == 0x25cf || c == 0x251c || c == 0x2514 || c == 0x2605 
-			|| c == 0x25c6 || c == 0x25a1);
+			|| c == 0x25c6 || c == 0x25a1 || c == 0x8f49);
 }
 
 - (void)updatePostClickEntry {
