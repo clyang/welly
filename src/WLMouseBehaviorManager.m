@@ -261,10 +261,6 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
     _backgroundTrackingAreaUserInfo = nil;
     for (NSObject *obj in _handlers) {
         if ([obj conformsToProtocol:@protocol(WLUpdatable)]) {
-            if([(NSObject <WLUpdatable> *)obj isKindOfClass:[WLCommentHotspotHandler class]] && [[_view frontMostTerminal] cursorRow] != 23) {
-                // comment rects only need to be updated when the entire page is rendered
-                continue;
-            }
             [(NSObject <WLUpdatable> *)obj update];
         }
     }
