@@ -242,6 +242,22 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     }
 }
 
+- (NSMutableArray *)getCommentTooltipsArray {
+    if(!_commentTooltipsSet) {
+        _commentTooltipsSet = [[NSMutableArray alloc] init];
+    }
+    
+    return _commentTooltipsSet;
+}
+
+- (NSMutableArray *)getCommentHashTableArray {
+    if(!_commentHashTable) {
+        _commentHashTable = [[NSMutableArray alloc] init];
+    }
+    
+    return _commentHashTable;
+}
+
 - (void)performPaste {
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
     NSArray *types = [pb types];

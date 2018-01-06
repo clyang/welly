@@ -9,7 +9,6 @@
 #import "WLMouseHotspotHandler.h"
 
 @interface WLCommentHotspotHandler : WLMouseHotspotHandler <WLUpdatable> {
-    NSMutableArray *_commentTooltipsSet;
-    NSMutableArray *_commentHashTable;
+    
 }
 @end

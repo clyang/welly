@@ -63,6 +63,7 @@
     NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
     NSString *tooltip = [NSString stringWithFormat:@"%d F", thisFloor];
     NSToolTipTag tipTag = [_view addToolTipRect:rect owner:_manager userData:tooltip];
+    NSMutableArray *_commentTooltipsSet = [_view getCommentTooltipsArray];
     [_commentTooltipsSet addObject:tipTag];
     
     NSDictionary *userInfo = [self userInfo];
@@ -93,6 +94,9 @@
 
 - (int)getCommentFloor:(int)r {
     int i=0;
+    
+    NSMutableArray *_commentHashTable = [_view getCommentHashTableArray];
+    
     NSString* row = [[_view frontMostTerminal] stringAtIndex:r * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
     if([_commentHashTable count] == 0) {
         [_commentHashTable addObject: [row MD5String]];
@@ -112,6 +116,8 @@
 }
 
 - (void)clearTooltipsAndTrackingAreas {
+    NSMutableArray *_commentTooltipsSet = [_view getCommentTooltipsArray];
+    
     for(id tipTag in _commentTooltipsSet){
         [_view removeToolTip:(NSToolTipTag)tipTag];
     }
@@ -130,10 +136,10 @@
         return;
     }
 
-    if(!_commentTooltipsSet) {
-        _commentTooltipsSet = [[NSMutableArray alloc] init];
-        _commentHashTable = [[NSMutableArray alloc] init];
-    }
+
+    NSMutableArray *_commentTooltipsSet = [_view getCommentTooltipsArray];
+    NSMutableArray *_commentHashTable = [_view getCommentHashTableArray];
+    
     NSString *lastLine = [[_view frontMostTerminal] stringAtIndex:23 * [[WLGlobalConfig sharedInstance] column] length:[[WLGlobalConfig sharedInstance] column]] ?: @"";
     
     [self clearTooltipsAndTrackingAreas];
