@@ -10,5 +10,6 @@
 #import "WLMouseHotspotHandler.h"
 
 @interface WLIPAddrHotspotHandler : WLMouseHotspotHandler <WLUpdatable> {
+    NSMutableArray *_ipTooltipsSet;
 }
 @end

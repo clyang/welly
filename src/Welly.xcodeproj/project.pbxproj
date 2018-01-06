@@ -104,6 +104,7 @@
 		DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */; };
 		DF0C69581F7D23AA0007742D /* PostPushPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */; };
 		DF13FCC21F825EE0005E8D12 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF13FCC11F825EDD005E8D12 /* usock2wsock */; };
+		DF2086471FFFE34B00F8084F /* WLCommentHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2086461FFFE34B00F8084F /* WLCommentHotspotHandler.m */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
 		DF5927611FA079A3005C72FF /* WLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927601FA079A2005C72FF /* WLArticle.m */; };
@@ -332,6 +333,8 @@
 		DF10C4BE1F9ACBC300EECE13 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostPushPanel.xib; sourceTree = "<group>"; };
 		DF10C4BF1F9ACBD600EECE13 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/LongScreenshotPanel.xib; sourceTree = "<group>"; };
 		DF13FCC11F825EDD005E8D12 /* usock2wsock */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = usock2wsock; sourceTree = "<group>"; };
+		DF2086461FFFE34B00F8084F /* WLCommentHotspotHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLCommentHotspotHandler.m; sourceTree = "<group>"; };
+		DF2086481FFFE36600F8084F /* WLCommentHotspotHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLCommentHotspotHandler.h; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 		DF59275F1FA079A2005C72FF /* WLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArticle.h; sourceTree = "<group>"; };
@@ -684,6 +687,7 @@
 		5AD4B7120F2D8F5900BF2F87 /* Mouse Hotspot Handler */ = {
 			isa = PBXGroup;
 			children = (
+				DF2086451FFFE2C900F8084F /* Commentator Seeker */,
 				5AF9DE48118B379600E288A9 /* IP Seeker */,
 				5AD4B7130F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.h */,
 				5AD4B7140F2D8F8200BF2F87 /* WLClickEntryHotspotHandler.m */,
@@ -838,6 +842,15 @@
 				85E7825B0D057E8400BDA3FB /* YLEmoticon.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		DF2086451FFFE2C900F8084F /* Commentator Seeker */ = {
+			isa = PBXGroup;
+			children = (
+				DF2086481FFFE36600F8084F /* WLCommentHotspotHandler.h */,
+				DF2086461FFFE34B00F8084F /* WLCommentHotspotHandler.m */,
+			);
+			path = "Commentator Seeker";
 			sourceTree = "<group>";
 		};
 		DF5927681FA0A8E5005C72FF /* fmdb */ = {
@@ -1010,6 +1023,7 @@
 				85F702680D033FF90035F600 /* DBPrefsWindowController.m in Sources */,
 				85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */,
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
+				DF2086471FFFE34B00F8084F /* WLCommentHotspotHandler.m in Sources */,
 				85ED53220D092B5F003296D4 /* WLConnection.m in Sources */,
 				18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
