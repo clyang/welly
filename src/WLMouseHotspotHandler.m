@@ -54,4 +54,5 @@
 - (void)clear {
 	[self removeAllTrackingAreas];
 }
+
 @end

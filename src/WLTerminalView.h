@@ -40,6 +40,8 @@
 	BOOL _isNotCancelingSelection;
 	BOOL _isKeying;
 	BOOL _isMouseActive;
+    NSMutableArray *_commentTooltipsSet;
+    NSMutableArray *_commentHashTable;
 	
 	NSTimer *_activityCheckingTimer;
 	
@@ -89,6 +91,9 @@
 
 - (int)convertIndexFromPoint:(NSPoint)aPoint;
 - (NSPoint)mouseLocationInView;
+
+- (NSMutableArray *)getCommentTooltipsArray;
+- (NSMutableArray *)getCommentHashTableArray;
 
 @end
 

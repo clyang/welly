@@ -44,6 +44,7 @@
 - (void)dealloc {
 	[_mainLayer release];
 	[_ipAddrLayer release];
+    [_commentFloorLayer release];
 	if (_popUpLayer) {
 		[_popUpLayer release];
 	}
@@ -79,6 +80,7 @@
 
 - (void)clear {
 	[self clearIPAddrBox];
+    [self clearCommentBox];
 	[self clearClickEntry];
 	[self clearButton];
 }
@@ -132,6 +134,44 @@
 - (void)clearIPAddrBox {
 	[_ipAddrLayer setOpacity:0.0f];
 }
+
+- (void)setCommentBox {
+    _commentFloorLayer = [CALayer layer];
+    
+    // Set up the box
+    CGColorRef ipAddrLayerBGColor = CGColorCreateGenericRGB(0.0, 0.95, 0.95, 0.1f);
+    CGColorRef ipAddrLayerBorderColor = CGColorCreateGenericRGB(1.0, 1.0, 1.0, 1.0f);
+    [_commentFloorLayer setBackgroundColor:ipAddrLayerBGColor];
+    [_commentFloorLayer setBorderColor:ipAddrLayerBorderColor];
+    CGColorRelease(ipAddrLayerBGColor);
+    CGColorRelease(ipAddrLayerBorderColor);
+    [_commentFloorLayer setBorderWidth:1.4];
+    [_commentFloorLayer setCornerRadius:6.0];
+    
+    // Insert the layer into the root layer
+    [_mainLayer addSublayer:[_commentFloorLayer retain]];
+}
+
+- (void)drawCommentBox:(NSRect)rect {
+    if (!_commentFloorLayer)
+        [self setCommentBox];
+    
+    rect.origin.x -= 1.0;
+    rect.origin.y -= 0.0;
+    rect.size.width += 2.0;
+    rect.size.height += 0.0;
+    
+    // Set the layer frame to the rect
+    [_commentFloorLayer setFrame:NSRectToCGRect(rect)];
+    
+    // Set the opacity to make the layer appear
+    [_commentFloorLayer setOpacity:1.0f];
+}
+
+- (void)clearCommentBox {
+    [_commentFloorLayer setOpacity:0.0f];
+}
+
 
 #pragma mark Click Entry
 - (void)setupClickEntry {

@@ -44,7 +44,8 @@
 	/* ip tooltip */
 	NSRect rect = [_view rectAtRow:r column:c height:1 width:length];
 	NSString *tooltip = [[IPSeeker shared] getLocation:ip];
-	[_view addToolTipRect:rect owner:_manager userData:tooltip];
+    NSToolTipTag tipTag = [_view addToolTipRect:rect owner:_manager userData:tooltip];
+    [_ipTooltipsSet addObject:tipTag];
 	
 	NSDictionary *userInfo = [self userInfo];
 	[_trackingAreas addObject:[_manager addTrackingAreaWithRect:rect userInfo:userInfo]];
@@ -120,9 +121,18 @@
 
 - (void)clear {
 	// Since only IP use tooltips, remove all should be okay. Change this when adding new tooltips to the view!
-	[_view removeAllToolTips];
-	
-	[self removeAllTrackingAreas];
+	//[_view removeAllToolTips];
+    for(id tipTag in _ipTooltipsSet){
+        [_view removeToolTip:tipTag];
+    }
+    
+    [self removeAllTrackingAreas];
+    [_ipTooltipsSet removeAllObjects];
+}
+
+- (void)dealloc {
+    [_ipTooltipsSet release];
+    [super dealloc];
 }
 
 - (BOOL)shouldUpdate {
@@ -135,6 +145,10 @@
 	if (![_view isConnected]) {
 		return;	
 	}
+    
+    if(!_ipTooltipsSet) {
+        _ipTooltipsSet = [[NSMutableArray alloc] init];
+    }
 	
 	for (int r = 0; r < _maxRow; ++r) {
 		[self updateIPStateForRow:r];

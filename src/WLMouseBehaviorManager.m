@@ -8,6 +8,7 @@
 
 #import "WLMouseBehaviorManager.h"
 #import "WLIPAddrHotspotHandler.h"
+#import "WLCommentHotspotHandler.h"
 #import "WLMovingAreaHotspotHandler.h"
 #import "WLClickEntryHotspotHandler.h"
 #import "WLButtonAreaHotspotHandler.h"
@@ -51,6 +52,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 		
 		_handlers = [[NSMutableArray alloc] initWithObjects:
 					 [[[WLIPAddrHotspotHandler alloc] initWithManager:self] autorelease],
+                     [[[WLCommentHotspotHandler alloc] initWithManager:self] autorelease],
 					 [[[WLClickEntryHotspotHandler alloc] initWithManager:self] autorelease],
 					 [[[WLButtonAreaHotspotHandler alloc] initWithManager:self] autorelease],
 					 [[[WLMovingAreaHotspotHandler alloc] initWithManager:self] autorelease],
@@ -94,7 +96,7 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 		if (!userInfo)
 			return;
 		WLMouseHotspotHandler *handler = [userInfo valueForKey:WLMouseHandlerUserInfoName];
-		[handler mouseEntered:theEvent];		
+		[handler mouseEntered:theEvent];
 	}
 }
 
@@ -255,14 +257,15 @@ const float WLHorizontalScrollReactivateTimeInteval = 1.0;
 }
 
 - (void)forceUpdate {
-	_activeTrackingAreaUserInfo = nil;
-	_backgroundTrackingAreaUserInfo = nil;
-	for (NSObject *obj in _handlers) {
-		if ([obj conformsToProtocol:@protocol(WLUpdatable)])
-			[(NSObject <WLUpdatable> *)obj update];
-	}
-	_lastBBSState = [[_view frontMostTerminal] bbsState];
-	_lastCursorRow = [[_view frontMostTerminal] cursorRow];
+    _activeTrackingAreaUserInfo = nil;
+    _backgroundTrackingAreaUserInfo = nil;
+    for (NSObject *obj in _handlers) {
+        if ([obj conformsToProtocol:@protocol(WLUpdatable)]) {
+            [(NSObject <WLUpdatable> *)obj update];
+        }
+    }
+    _lastBBSState = [[_view frontMostTerminal] bbsState];
+    _lastCursorRow = [[_view frontMostTerminal] cursorRow];
 }
 
 #pragma mark -

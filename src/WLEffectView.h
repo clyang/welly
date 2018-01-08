@@ -20,6 +20,7 @@
 	IBOutlet WLTerminalView *_mainView;
 	
 	CALayer *_ipAddrLayer;
+    CALayer *_commentFloorLayer;
 	CALayer *_clickEntryLayer;
 	CALayer *_popUpLayer;
 	CALayer *_buttonLayer;
@@ -36,6 +37,10 @@
 // for ip seeker
 - (void)drawIPAddrBox:(NSRect)rect;
 - (void)clearIPAddrBox;
+
+// for comment floor counting
+- (void)drawCommentBox:(NSRect)rect;
+- (void)clearCommentBox;
 
 // for post view
 - (void)drawClickEntry:(NSRect)rect;
