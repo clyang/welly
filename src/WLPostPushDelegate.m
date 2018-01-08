@@ -63,6 +63,17 @@ NSString *finalPushResult;
     if (!_pushWindow) {
         [NSBundle loadNibNamed:kPostPushPanelNibFilename owner:self];
     }
+    
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyUpMask handler:^NSEvent * (NSEvent * event){
+        NSWindow *targetWindow = event.window;
+        if (targetWindow != _pushWindow) {
+            return event;
+        }
+        if ([event keyCode] == 53) {
+            [self cancelPush:self];
+        }
+        return event;
+    }];
 }
 
 - (void)awakeFromNib {
