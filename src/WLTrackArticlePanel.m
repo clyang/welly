@@ -66,7 +66,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
 @synthesize idTableView;
 
 - (void)awakeFromNib {
-
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyUpMask handler:^NSEvent *(NSEvent *event) {
+        NSWindow *targetWindow = event.window;
+        if (targetWindow != articleWindow) {
+            return event;
+        }
+        if ([event keyCode] == 53) {
+            [self closeTrackArticleWindow:self];
+        }
+        if ([event keyCode] == 51 || [shitevent keyCode] == 117) {
+            [self removeArticleFromDB:self];
+        }
+        return event;
+    }];
 }
 
 - (void)loadArticleFromDB: (NSString *)loginID {
