@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLTrackArticlePanel);
         if ([event keyCode] == 53) {
             [self closeTrackArticleWindow:self];
         }
-        if ([event keyCode] == 51 || [shitevent keyCode] == 117) {
+        if ([event keyCode] == 51 || [event keyCode] == 117) {
             [self removeArticleFromDB:self];
         }
         return event;
