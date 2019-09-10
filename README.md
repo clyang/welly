@@ -23,6 +23,7 @@ or install via `homebrew`
 > $ brew cask install welly
 
 (Thanks jackblack@ptt to make brew cask happened!)
+(Thanks ericj@ to update cask to lastest version!)
 
 Features / 主要功能
 -------------
