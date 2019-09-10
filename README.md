@@ -20,7 +20,7 @@ Welly - clyang edition: [v.3.1.1](https://github.com/clyang/welly/releases/tag/3
 
 or install via `homebrew`
 
-> $ brew cask install clyang-welly
+> $ brew cask install welly
 
 (Thanks jackblack@ptt to make brew cask happened!)
 
