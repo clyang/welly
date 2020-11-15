@@ -88,7 +88,6 @@ NSString *finalPushResult;
 }
 
 - (void)showNotificationWindow:(NSString *)titleMsg withSheetMsg:(NSString *)sheetMsg{
-    [Answers logCustomEventWithName:@"Long Push window" customAttributes:@{@"failed" : sheetMsg}];
     NSBeginAlertSheet(NSLocalizedString(titleMsg, @"Sheet Title"),
                       nil,
                       nil,
@@ -140,7 +139,6 @@ NSString *finalPushResult;
     if([finalPushResult isEqualToString:@"DONE"]){
         //[self showNotificationWindow:@"Auto Comment Result" withSheetMsg:@"Successfully leave the comment!"];
         [_pushText setString:@""];
-        [Answers logCustomEventWithName:@"Long Push window" customAttributes:@{@"action" : @"Successfully leave the comment!"}];
         NSBeginAlertSheet(NSLocalizedString(@"Auto Comment Result", @"Sheet Title"),
                           nil,
                           nil,
@@ -394,7 +392,6 @@ NSString *finalPushResult;
         
         // check if user is in a board or article
         if([WLPostPushDelegate checkPushable]){
-            [Answers logCustomEventWithName:@"Long Push window" customAttributes:@{@"action" : @"open successfully"}];
             // Open panel in window
             [NSApp beginSheet:_pushWindow
                modalForWindow:window
@@ -402,7 +399,6 @@ NSString *finalPushResult;
                didEndSelector:nil
                   contextInfo:nil];
         } else {
-            [Answers logCustomEventWithName:@"Long Push window" customAttributes:@{@"failed" : @"You cannot use Long Comment function at current status"}];
             NSBeginAlertSheet(NSLocalizedString(@"You cannot use Long Comment function at current status", @"Sheet Title"),
                               nil,
                               nil,
@@ -415,7 +411,6 @@ NSString *finalPushResult;
                               NSLocalizedString(@"", @"Sheet Message"));
         }
     } else {
-        [Answers logCustomEventWithName:@"Long Push window" customAttributes:@{@"failed" : @"This function only works on PTT"}];
         NSBeginAlertSheet(NSLocalizedString(@"This function only works on PTT", @"Sheet Title"),
                           nil,
                           nil,

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <WLMouseHotspotHandler.h>
+#import "WLMouseHotspotHandler.h"
 
 @interface WLURLManager : WLMouseHotspotHandler <WLUpdatable, WLMouseUpHandler, WLContextualMenuHandler> {
 	NSMutableArray *_currentURLList;

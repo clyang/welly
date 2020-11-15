@@ -122,7 +122,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
         modalDelegate:nil
        didEndSelector:NULL
           contextInfo:nil];
-    [Answers logCustomEventWithName:@"Site panel" customAttributes:@{@"action" : @"open successfully"}];
 	[_sitesPanel setLevel:floatWindowLevel];
 }
 
@@ -142,7 +141,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
     [self closeSitesPanel:sender];
     
     if ([a count] == 1) {
-        [Answers logCustomEventWithName:@"Site panel" customAttributes:@{@"action" : @"Connect using sitepanl"}];
         WLSite *s = [a objectAtIndex:0];
         [[WLMainFrameController sharedInstance] newConnectionWithSite:[[s copy] autorelease]];
     }
@@ -184,7 +182,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLSitesPanelController);
         modalDelegate:nil
        didEndSelector:nil
           contextInfo:nil];
-    [Answers logCustomEventWithName:@"Site panel" customAttributes:@{@"action" : @"password panel open successfully"}];
 }
 
 - (IBAction)confirmPassword:(id)sender {

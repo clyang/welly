@@ -363,21 +363,6 @@
                     [NSThread sleepForTimeInterval:0.8f];
                 }
                 
-                if(newCommentCount > 0 ) {
-                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"new comments sent": [NSNumber numberWithInt:newCommentCount]}];
-                }
-                
-                if(parseError > 0 ) {
-                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP parse error": [NSNumber numberWithInt:parseError]}];
-                }
-                
-                if(httpError > 0 ) {
-                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP non-200/404 req": [NSNumber numberWithInt:httpError]}];
-                }
-                
-                if(count404 > 0 ) {
-                    [Answers logCustomEventWithName:@"Background Article Monitor Metric" customAttributes:@{@"HTTP 404 req": [NSNumber numberWithInt:count404]}];
-                }
                 
                 [resultArray removeAllObjects];
             } // end of resultArray > 0
@@ -570,7 +555,6 @@
                         if ([addr containsString:@"@"]) {
                             NSString *tmp = [addr substringWithRange:NSMakeRange([addr rangeOfString:@"/"].location+2, [addr rangeOfString:@"@"].location-[addr rangeOfString:@"/"].location-2)];
                             [self setLoginID:tmp];
-                            [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
                         } else {
                             [self setLoginID:@""];
                         }
@@ -579,7 +563,6 @@
                         if ([addr containsString:@"@"]) {
                             NSString *tmp = [addr substringWithRange:NSMakeRange(0, [addr rangeOfString:@"@"].location)];
                             [self setLoginID:tmp];
-                            [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"with id format"}];
                         } else {
                             [self setLoginID:@""];
                         }
@@ -630,7 +613,6 @@
                         [self sendBytes:pass length:len];
                         [self sendBytes:"\r" length:1];
                         SecKeychainItemFreeContent(nil, pass);
-                        [Answers logCustomEventWithName:@"Connection" customAttributes:@{@"Login Type" : @"auto"}];
                         passSent = YES;
                     }
                 }

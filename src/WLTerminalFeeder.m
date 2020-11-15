@@ -1049,7 +1049,6 @@ static unsigned short gEmptyAttr;
             free(origGrid[i]);
         }
         free(origGrid);
-        [Answers logCustomEventWithName:@"BlackListID" customAttributes:@{@"blocked times" : [NSNumber numberWithInt: (changedRow.count+1)]}];
     }
     [changedRow release];
     
