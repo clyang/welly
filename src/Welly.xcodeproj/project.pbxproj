@@ -28,7 +28,6 @@
 		18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* WLGrowlBridge.m */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
 		18F813960F45A93A002FF48C /* WLFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* WLFeedGenerator.m */; };
-		468438321FFF6836007B9D22 /* fabric.buildsecret in Resources */ = {isa = PBXBuildFile; fileRef = 468438311FFF6836007B9D22 /* fabric.buildsecret */; };
 		5A09016D0DBCDD1600AC08F4 /* WLMainFrameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* WLMainFrameController.m */; };
 		5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */; };
 		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
@@ -119,7 +118,6 @@
 		DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */; };
 		DF8ACCE81FA8730D009EF52F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE71FA8730D009EF52F /* libc++.tbd */; };
 		DF8ACCEA1FA87315009EF52F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE91FA87315009EF52F /* libz.tbd */; };
-		DF8ACCEE1FA87524009EF52F /* fabric.apikey in Resources */ = {isa = PBXBuildFile; fileRef = DF8ACCEC1FA87523009EF52F /* fabric.apikey */; };
 		DF98AC4725612C6200F36B19 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF98AC4625612C6200F36B19 /* Quartz.framework */; };
 		DFB599891FA252F700C556B0 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB599871FA252F700C556B0 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998B1FA25B8200C556B0 /* HTMLNode.m */; };
@@ -195,7 +193,6 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Welly_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Welly_Prefix.pch; sourceTree = "<group>"; };
-		468438311FFF6836007B9D22 /* fabric.buildsecret */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fabric.buildsecret; sourceTree = "<group>"; };
 		5A09016C0DBCDD1600AC08F4 /* WLMainFrameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMainFrameController.m; sourceTree = "<group>"; };
 		5A1BA6F40F6EA8BA003489CF /* WLURLManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLURLManager.h; sourceTree = "<group>"; };
 		5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLURLManager.m; sourceTree = "<group>"; };
@@ -361,7 +358,6 @@
 		DF8ACCE41FA87282009EF52F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		DF8ACCE71FA8730D009EF52F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		DF8ACCE91FA87315009EF52F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		DF8ACCEC1FA87523009EF52F /* fabric.apikey */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fabric.apikey; sourceTree = "<group>"; };
 		DF98AC4625612C6200F36B19 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		DFB599871FA252F700C556B0 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
 		DFB599881FA252F700C556B0 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
@@ -479,8 +475,6 @@
 		29B97314FDCFA39411CA2CEA /* MacBlueTelnet */ = {
 			isa = PBXGroup;
 			children = (
-				DF8ACCEC1FA87523009EF52F /* fabric.apikey */,
-				468438311FFF6836007B9D22 /* fabric.buildsecret */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -901,7 +895,6 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
-				16BA488A0FD657FE00F55D7B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -967,14 +960,12 @@
 				81208EBE0EF8D94D005FD459 /* default_site.png in Resources */,
 				81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */,
 				185680E60F25E23B00A1F4F3 /* password.tif in Resources */,
-				DF8ACCEE1FA87524009EF52F /* fabric.apikey in Resources */,
 				5AB748170F6FC69100CE5F4C /* indicator.png in Resources */,
 				161DF4A5106DD53C0003E85A /* MainMenu.xib in Resources */,
 				161DF4AD106DD58E0003E85A /* Preferences.xib in Resources */,
 				5A76586F1082D3470052C2BA /* SitesPanel.xib in Resources */,
 				DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */,
 				DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */,
-				468438321FFF6836007B9D22 /* fabric.buildsecret in Resources */,
 				DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */,
 				5A765A01108579E10052C2BA /* EmoticonsPanel.xib in Resources */,
 				DF45920C1F75972200162626 /* proxy.sh in Resources */,
@@ -986,22 +977,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		16BA488A0FD657FE00F55D7B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "FABRIC_APIKEY_FILE=\"${SRCROOT}/fabric.apikey\"\nFABRIC_BUILDSECRET_FILE=\"${SRCROOT}/fabric.buildsecret\"\n\nif test ! -f \"$FABRIC_APIKEY_FILE\" -o ! -f \"$FABRIC_BUILDSECRET_FILE\"; then\necho \"This build wants to upload dSYM files to Crashlytics.\"\necho \"Uploading is possible only if a Fabric API key and a Fabric build secret are\"\necho \"available. This build is failing because at least one of these pieces of\"\necho \"information is missing.\"\necho \"\"\necho \"To fix the problem, create the following files and store the API key and\"\necho \"build secret, respectively, within those files:\"\necho \"\"\necho \"  $FABRIC_APIKEY_FILE\"\necho \"  $FABRIC_BUILDSECRET_FILE\"\necho \"\"\necho \"If you forked the project then you must register with Crashlytics and\"\necho \"get your own API key and build secret.\"\n\n# Let the build fail\nexit 1\nfi\n\nFABRIC_APIKEY=$(cat \"$FABRIC_APIKEY_FILE\")\nif test $? -ne 0; then\necho \"Cannot read $FABRIC_APIKEY_FILE\"\nexit 1\nfi\n\nFABRIC_BUILDSECRET=$(cat \"$FABRIC_BUILDSECRET_FILE\")\nif test $? -ne 0; then\necho \"Cannot read $FABRIC_BUILDSECRET_FILE\"\nexit 1\nfi\n\necho \"Uploading dSYM files to Crashlytics\"\n\"${SRCROOT}/Fabric.framework/run\" \"$FABRIC_APIKEY\" \"$FABRIC_BUILDSECRET\"";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
