@@ -11,7 +11,6 @@
 #import "WLMainFrameController.h"
 #import "WLGlobalConfig.h"
 #import "SynthesizeSingleton.h"
-#import <Crashlytics/Crashlytics.h>
 
 #define SiteTableViewDataType @"SiteTableViewDataType"
 #define kSitePanelNibFilename @"SitesPanel"

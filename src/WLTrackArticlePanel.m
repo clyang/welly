@@ -8,7 +8,6 @@
 #import "WLTrackDB.h"
 #import "SynthesizeSingleton.h"
 #import <CommonCrypto/CommonDigest.h>
-#import <Crashlytics/Crashlytics.h>
 
 @implementation NSString (TrimmingAdditions)
 

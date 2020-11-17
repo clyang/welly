@@ -25,7 +25,6 @@
 #import "WLTrackDB.h"
 #import "WLMainFrameController.h"
 #import "WLTrackArticlePanel.h"
-#import <Crashlytics/Crashlytics.h>
 
 @implementation NSTabView (Safe)
 

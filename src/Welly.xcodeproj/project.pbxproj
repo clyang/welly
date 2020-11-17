@@ -354,8 +354,6 @@
 		DF59277E1FA0B723005C72FF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927821FA0B7C6005C72FF /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
 		DF5927831FA0B7D4005C72FF /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_TW; path = zh_TW.lproj/WLTrackArticlePanel.xib; sourceTree = "<group>"; };
-		DF8ACCE31FA87282009EF52F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		DF8ACCE41FA87282009EF52F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		DF8ACCE71FA8730D009EF52F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		DF8ACCE91FA87315009EF52F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		DF98AC4625612C6200F36B19 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -452,8 +450,6 @@
 		161DF9B2106DE2D60003E85A /* Third-Party Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DF8ACCE41FA87282009EF52F /* Crashlytics.framework */,
-				DF8ACCE31FA87282009EF52F /* Fabric.framework */,
 				DFB5998A1FA25B6800C556B0 /* HTMLParser */,
 				DFB599861FA252C400C556B0 /* STHTTPRequest */,
 				DF5927681FA0A8E5005C72FF /* fmdb */,

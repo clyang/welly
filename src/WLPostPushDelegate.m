@@ -11,7 +11,6 @@
 #import "WLConnection.h"
 #import "WLTerminal.h"
 #import "SynthesizeSingleton.h"
-#import <Crashlytics/Crashlytics.h>
 
 #define kPostPushPanelNibFilename @"PostPushPanel"
 

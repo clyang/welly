@@ -23,7 +23,6 @@
 #import "WLPopUpMessage.h"
 #import "WLAnsiColorOperationManager.h"
 #import "WLEncoder.h"
-#import <Crashlytics/Crashlytics.h>
 #import "WLNotifications.h"
 
 #import <Carbon/Carbon.h>
