@@ -25,13 +25,10 @@
 		1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* WLProxy.m */; };
 		185680E60F25E23B00A1F4F3 /* password.tif in Resources */ = {isa = PBXBuildFile; fileRef = 185680E50F25E23B00A1F4F3 /* password.tif */; };
 		186E810F0F218C10007D73BC /* WLComposePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E810E0F218C10007D73BC /* WLComposePanelController.m */; };
-		18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A685A70D9414D900CA423A /* WLGrowlBridge.m */; };
 		18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BB9B860D98ECE500387145 /* IPSeeker.m */; };
 		18F813960F45A93A002FF48C /* WLFeedGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F813950F45A93A002FF48C /* WLFeedGenerator.m */; };
 		5A09016D0DBCDD1600AC08F4 /* WLMainFrameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A09016C0DBCDD1600AC08F4 /* WLMainFrameController.m */; };
 		5A1BA6F60F6EA8BA003489CF /* WLURLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1BA6F50F6EA8BA003489CF /* WLURLManager.m */; };
-		5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
-		5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		5A40C3C6118ADED400487AE9 /* WLTabViewItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A40C3C5118ADED400487AE9 /* WLTabViewItemController.m */; };
 		5A43E8750F2E9B570002116B /* WLButtonAreaHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E8740F2E9B570002116B /* WLButtonAreaHotspotHandler.m */; };
 		5A43E87F0F2E9D270002116B /* WLMouseHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A43E87E0F2E9D270002116B /* WLMouseHotspotHandler.m */; };
@@ -77,8 +74,6 @@
 		81FEAD320EFE91BD0051C867 /* waiting.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 81FEAD310EFE91BD0051C867 /* waiting.pdf */; };
 		85137B330D02192800833909 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 85137B320D02192800833909 /* Credits.rtf */; };
 		85145AAE0AB40192009FC710 /* WLTerminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 85145AAD0AB40192009FC710 /* WLTerminal.m */; };
-		8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
-		8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
 		8570AD5F0A3923A900838442 /* WLTerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8570AD5E0A3923A900838442 /* WLTerminalView.m */; };
 		8579CA2A0CF21D3D005A8353 /* WLSite.m in Sources */ = {isa = PBXBuildFile; fileRef = 8579CA290CF21D3D005A8353 /* WLSite.m */; };
 		857EAE4F0CF1D89300777C15 /* offline.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 857EAE4E0CF1D89300777C15 /* offline.pdf */; };
@@ -88,7 +83,6 @@
 		85957EAF0CFF1176006E5E08 /* sleep.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85957EAE0CFF1176006E5E08 /* sleep.pdf */; };
 		85A0E73D0D06B72900ACA26F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A0E73B0D06B72900ACA26F /* Localizable.strings */; };
 		85AE9DAE0CB15D220045317F /* bookmark.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 85AE9DAD0CB15D220045317F /* bookmark.pdf */; };
-		85D259470D21039D002BD294 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85D259460D21039D002BD294 /* IOKit.framework */; };
 		85E7825C0D057E8400BDA3FB /* YLEmoticon.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E7825B0D057E8400BDA3FB /* YLEmoticon.m */; };
 		85ED52290D0920E6003296D4 /* CommonType.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ED52280D0920E6003296D4 /* CommonType.m */; };
 		85ED53220D092B5F003296D4 /* WLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 85ED53210D092B5F003296D4 /* WLConnection.m */; };
@@ -97,13 +91,19 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
-		D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
-		D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D64A480A11E90350008ACEBD /* Growl.framework */; };
 		DF0C69551F7A9D730007742D /* WLPostPushDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF0C69541F7A9D730007742D /* WLPostPushDelegate.m */; };
 		DF0C69581F7D23AA0007742D /* PostPushPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF0C695A1F7D23AA0007742D /* PostPushPanel.xib */; };
 		DF13FCC21F825EE0005E8D12 /* usock2wsock in Resources */ = {isa = PBXBuildFile; fileRef = DF13FCC11F825EDD005E8D12 /* usock2wsock */; };
 		DF2086471FFFE34B00F8084F /* WLCommentHotspotHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2086461FFFE34B00F8084F /* WLCommentHotspotHandler.m */; };
 		DF23C0A01F764362000A472E /* telnet in Resources */ = {isa = PBXBuildFile; fileRef = DF23C09F1F764358000A472E /* telnet */; };
+		DF267C0525E60CDB006A800A /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF98AC4625612C6200F36B19 /* Quartz.framework */; };
+		DF267C0725E60CEF006A800A /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF267C0625E60CEF006A800A /* AppKit.framework */; };
+		DF267C0925E60D49006A800A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF267C0825E60D49006A800A /* Foundation.framework */; };
+		DF267C0B25E60D51006A800A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF267C0A25E60D51006A800A /* IOKit.framework */; };
+		DF267C0C25E60DC0006A800A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
+		DF267C0D25E60DC0006A800A /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DF267C1225E61104006A800A /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; };
+		DF267C1325E61104006A800A /* PSMTabBarControl.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8540F7240CEB43FF003B17D1 /* PSMTabBarControl.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DF45920C1F75972200162626 /* proxy.sh in Resources */ = {isa = PBXBuildFile; fileRef = DF45920B1F75972200162626 /* proxy.sh */; };
 		DF5927611FA079A3005C72FF /* WLArticle.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927601FA079A2005C72FF /* WLArticle.m */; };
 		DF5927641FA079BA005C72FF /* WLTrackArticlePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5927631FA079BA005C72FF /* WLTrackArticlePanel.m */; };
@@ -118,29 +118,26 @@
 		DF59277D1FA0B723005C72FF /* WLTrackArticlePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF59277F1FA0B723005C72FF /* WLTrackArticlePanel.xib */; };
 		DF8ACCE81FA8730D009EF52F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE71FA8730D009EF52F /* libc++.tbd */; };
 		DF8ACCEA1FA87315009EF52F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8ACCE91FA87315009EF52F /* libz.tbd */; };
-		DF98AC4725612C6200F36B19 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF98AC4625612C6200F36B19 /* Quartz.framework */; };
 		DFB599891FA252F700C556B0 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB599871FA252F700C556B0 /* STHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998B1FA25B8200C556B0 /* HTMLNode.m */; };
 		DFB599901FA25B8200C556B0 /* HTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DFB5998D1FA25B8200C556B0 /* HTMLParser.m */; };
 		DFB599921FA25C7200C556B0 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DFB599911FA25C7200C556B0 /* libxml2.tbd */; };
-		DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; };
-		DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DFF2CCC91F78132C00530892 /* Sparkle.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DFF2CCCD1F7814BF00530892 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCCC1F7814B500530892 /* dsa_pub.pem */; };
 		DFF2CCD11F7825AB00530892 /* qqwry170910.dat in Resources */ = {isa = PBXBuildFile; fileRef = DFF2CCD01F7825A800530892 /* qqwry170910.dat */; };
 		DFFEA0791F92610D00942F6C /* LongScreenshotPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFFEA07B1F92610D00942F6C /* LongScreenshotPanel.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		8540F7350CEB4435003B17D1 /* CopyFiles */ = {
+		DF267C0425E60BF3006A800A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D64A480E11E90356008ACEBD /* Growl.framework in CopyFiles */,
-				8540F7310CEB4428003B17D1 /* PSMTabBarControl.framework in CopyFiles */,
-				DFF2CCCB1F78135000530892 /* Sparkle.framework in CopyFiles */,
+				DF267C0D25E60DC0006A800A /* Sparkle.framework in Embed Frameworks */,
+				DF267C1325E61104006A800A /* PSMTabBarControl.framework in Embed Frameworks */,
 			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -183,8 +180,6 @@
 		185680E50F25E23B00A1F4F3 /* password.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = password.tif; sourceTree = "<group>"; };
 		186E810D0F218C10007D73BC /* WLComposePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLComposePanelController.h; sourceTree = "<group>"; };
 		186E810E0F218C10007D73BC /* WLComposePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLComposePanelController.m; sourceTree = "<group>"; };
-		18A685A60D9414D900CA423A /* WLGrowlBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGrowlBridge.h; sourceTree = "<group>"; };
-		18A685A70D9414D900CA423A /* WLGrowlBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLGrowlBridge.m; sourceTree = "<group>"; };
 		18BB9B850D98ECE500387145 /* IPSeeker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPSeeker.h; sourceTree = "<group>"; };
 		18BB9B860D98ECE500387145 /* IPSeeker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPSeeker.m; sourceTree = "<group>"; };
 		18F813940F45A93A002FF48C /* WLFeedGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLFeedGenerator.h; sourceTree = "<group>"; };
@@ -331,6 +326,9 @@
 		DF2086461FFFE34B00F8084F /* WLCommentHotspotHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLCommentHotspotHandler.m; sourceTree = "<group>"; };
 		DF2086481FFFE36600F8084F /* WLCommentHotspotHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLCommentHotspotHandler.h; sourceTree = "<group>"; };
 		DF23C09F1F764358000A472E /* telnet */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = telnet; sourceTree = "<group>"; };
+		DF267C0625E60CEF006A800A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DF267C0825E60D49006A800A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DF267C0A25E60D51006A800A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		DF45920B1F75972200162626 /* proxy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = proxy.sh; sourceTree = "<group>"; };
 		DF59275F1FA079A2005C72FF /* WLArticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArticle.h; sourceTree = "<group>"; };
 		DF5927601FA079A2005C72FF /* WLArticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLArticle.m; sourceTree = "<group>"; };
@@ -376,20 +374,19 @@
 			files = (
 				DF59277C1FA0A945005C72FF /* libsqlite3.tbd in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				8540F7250CEB43FF003B17D1 /* PSMTabBarControl.framework in Frameworks */,
-				DF98AC4725612C6200F36B19 /* Quartz.framework in Frameworks */,
 				DFB599921FA25C7200C556B0 /* libxml2.tbd in Frameworks */,
 				DF8ACCE81FA8730D009EF52F /* libc++.tbd in Frameworks */,
-				85D259470D21039D002BD294 /* IOKit.framework in Frameworks */,
 				5AB1BDBF0E18F26C0094C370 /* System.framework in Frameworks */,
+				DF267C0925E60D49006A800A /* Foundation.framework in Frameworks */,
 				DF8ACCEA1FA87315009EF52F /* libz.tbd in Frameworks */,
-				5A38820C0E1D44E50098FA04 /* Foundation.framework in Frameworks */,
-				5A38820D0E1D44E60098FA04 /* AppKit.framework in Frameworks */,
+				DF267C0C25E60DC0006A800A /* Sparkle.framework in Frameworks */,
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
-				DFF2CCCA1F78133B00530892 /* Sparkle.framework in Frameworks */,
+				DF267C0B25E60D51006A800A /* IOKit.framework in Frameworks */,
+				DF267C0525E60CDB006A800A /* Quartz.framework in Frameworks */,
+				DF267C0725E60CEF006A800A /* AppKit.framework in Frameworks */,
+				DF267C1225E61104006A800A /* PSMTabBarControl.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
 				161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */,
-				D64A480B11E90350008ACEBD /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +509,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF267C0A25E60D51006A800A /* IOKit.framework */,
+				DF267C0825E60D49006A800A /* Foundation.framework */,
+				DF267C0625E60CEF006A800A /* AppKit.framework */,
 				DF98AC4625612C6200F36B19 /* Quartz.framework */,
 				DF8ACCE91FA87315009EF52F /* libz.tbd */,
 				DF8ACCE71FA8730D009EF52F /* libc++.tbd */,
@@ -715,8 +715,6 @@
 		5AF9DE45118B365A00E288A9 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				18A685A60D9414D900CA423A /* WLGrowlBridge.h */,
-				18A685A70D9414D900CA423A /* WLGrowlBridge.m */,
 				5AF8CA5B0D9CDB0000DFB5AB /* WLMessageDelegate.h */,
 				5AF8CA5C0D9CDB0000DFB5AB /* WLMessageDelegate.m */,
 			);
@@ -887,10 +885,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Welly" */;
 			buildPhases = (
-				8540F7350CEB4435003B17D1 /* CopyFiles */,
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				DF267C0425E60BF3006A800A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -908,7 +906,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "Welly Group";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Welly" */;
@@ -995,7 +993,6 @@
 				85ED52290D0920E6003296D4 /* CommonType.m in Sources */,
 				DF2086471FFFE34B00F8084F /* WLCommentHotspotHandler.m in Sources */,
 				85ED53220D092B5F003296D4 /* WLConnection.m in Sources */,
-				18A685A80D9414D900CA423A /* WLGrowlBridge.m in Sources */,
 				18BB9B870D98ECE500387145 /* IPSeeker.m in Sources */,
 				5AF8CA5D0D9CDB0000DFB5AB /* WLMessageDelegate.m in Sources */,
 				5A09016D0DBCDD1600AC08F4 /* WLMainFrameController.m in Sources */,
@@ -1204,7 +1201,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MARKETING_VERSION = 3.1.2;
 				OTHER_CFLAGS = "-D__DUMPPACKET__";
@@ -1242,7 +1239,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Applications;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MARKETING_VERSION = 3.1.2;
 				OTHER_CODE_SIGN_FLAGS = "--deep";
@@ -1270,14 +1267,14 @@
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SDKROOT = "";
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -1291,7 +1288,7 @@
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = "";
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = "arm64 x86_64";
 			};
 			name = Release;
 		};

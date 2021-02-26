@@ -12,7 +12,6 @@
 #import "WLSite.h"
 #import "WLTabView.h"
 #import "WLMainFrameController.h"
-#import "WLGrowlBridge.h"
 #import "WLArticle.h"
 
 NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
@@ -73,17 +72,7 @@ NSString *const WLAutoReplyGrowlTipFormat = @"AutoReplyGrowlTipFormat";
 			description = [NSString stringWithFormat:NSLocalizedString(WLAutoReplyGrowlTipFormat, @"Auto Reply"), message];
 		} else {
 			description = message;
-		}
-		
-		// should invoke growl notification
-		[WLGrowlBridge notifyWithTitle:callerName
-						   description:description 
-					  notificationName:kGrowlNotificationNameNewMessageReceived
-							  isSticky:NO
-						   clickTarget:self
-						 clickSelector:@selector(didClickGrowlNewMessage:)
-							identifier:_connection];
-		
+		}		
 	}
 }
 

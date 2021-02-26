@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <QuartzCore/CoreAnimation.h>
+//#import <QuartzCore/CoreAnimation.h>
 
 #define DEFAULT_POPUP_BOX_FONT @"Helvetica"
 #define DEFAULT_POPUP_MENU_FONT @"Lucida Grande"

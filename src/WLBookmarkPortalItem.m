@@ -6,7 +6,7 @@
 //  Copyright 2009 Xi Wang. All rights reserved.
 //
 
-#import <Quartz/Quartz.h>
+//#import <Quartz/Quartz.h>
 #import "WLBookmarkPortalItem.h"
 #import "WLSite.h"
 #import "WLMainFrameController.h"
