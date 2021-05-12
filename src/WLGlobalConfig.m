@@ -339,8 +339,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLGlobalConfig);
 }
 
 - (void)setDefaultEncoding:(WLEncoding)value {
-    //force big-5 as default encoding
-    _defaultEncoding = 1;
+    _defaultEncoding = value;
     [[NSUserDefaults standardUserDefaults] setInteger:(NSInteger)value forKey:@"DefaultEncoding"];
 }
 
