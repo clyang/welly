@@ -182,9 +182,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
             [connection isConnected] &&
             [connection lastTouchDate] &&
             [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
-//            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
-            unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-            [connection sendBytes:msg length:6];
+            // PTT's global NUL binding now opens the mailbox (2026).
+            // Ctrl-L redraws without moving the cursor or editing input, and
+            // works through SSH as well as telnet/WebSocket. Send twice so
+            // PTT's activity hook sees consecutive keys within three seconds.
+            const unsigned char msg[] = {0x0C, 0x0C};
+            [connection sendBytes:msg length:sizeof(msg)];
         }
     }
 }
